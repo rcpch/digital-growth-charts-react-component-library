@@ -1,3 +1,3 @@
-import TestComponent from "./TestComponent";
+import RCPCHChart from "./RCPCHChart";
 
-export { TestComponent };
+export { RCPCHChart };

@@ -1,5 +1,5 @@
 {
-  "name": "react-component-library",
+  "name": "@rcpch/digital-growth-charts-react-component-library",
   "version": "1.0.0",
   "main": "build/index.js",
   "module": "build/index.esm.js",
@@ -7,7 +7,7 @@
     "build"
   ],
   "types": "build/index.d.ts",
-  "description": "A skeleton to create your own React component library using Rollup, TypeScript, Sass and Storybook",
+  "description": "A React component library for the RCPCH digital growth charts using Rollup, TypeScript, Sass and Storybook",
   "scripts": {
     "build": "rollup -c",
     "test": "jest",
@@ -19,9 +19,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/HarveyD/react-component-library.git"
+    "url": "https://github.com/RCPCH/digital-growth-charts-react-component-library.git"
   },
   "keywords": [
+    "Growth",
+    "Charts",
     "React",
     "Component",
     "Library",
@@ -30,12 +32,12 @@
     "Sass",
     "Storybook"
   ],
-  "author": "Harvey Delaney",
-  "license": "MIT",
+  "author": "Simon Chapman",
+  "license": "GNU Affero GPL 3.0",
   "bugs": {
-    "url": "https://github.com/HarveyD/react-component-library/issues"
+    "url": "https://github.com/RCPCH/digital-growth-charts-react-component-library/issues"
   },
-  "homepage": "https://github.com/HarveyD/react-component-library#readme",
+  "homepage": "https://github.com/RCPCH/digital-growth-charts-react-component-library#readme",
   "peerDependencies": {
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0"
@@ -65,5 +67,9 @@
     "sass-loader": "^8.0.0",
     "ts-jest": "^24.2.0",
     "typescript": "^3.7.2"
+  },
+  "dependencies": {
+    "@types/victory": "^33.1.4",
+    "victory": "^35.4.3"
   }
 }
