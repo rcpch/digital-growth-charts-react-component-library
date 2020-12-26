@@ -7,7 +7,7 @@ export interface RCPCHChartProps {
     measurementMethod: 'height' | 'weight' | 'ofc' | 'bmi',
     sex: 'male' | 'female',
     measurementsArray: [PlottableMeasurement][],
-    measurementsSDSArray: [PlottableMeasurement][],
+    MeasurementsSDSArray: [PlottableMeasurement][],
     reference: 'uk-who' | 'turner' | 'trisomy-21',
     width: number,
     height: number,

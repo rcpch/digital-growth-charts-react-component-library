@@ -5,7 +5,7 @@ export interface TRISOMY21ChartProps {
     title: string,
     subtitle: string,
     allMeasurementPairs: [PlottableMeasurement][]
-    allSDSMeasurementPairs: []
+    allSDSMeasurementPairs: [PlottableMeasurement][]
     measurementMethod: 'height' | 'weight' | 'ofc' | 'bmi',
     sex: 'male' | 'female',
     width: number,

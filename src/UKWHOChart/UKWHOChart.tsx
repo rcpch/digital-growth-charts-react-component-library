@@ -1,15 +1,17 @@
 // Generated with util/create-component.js
 import React from "react";
-import { VictoryChart, VictoryGroup, VictoryLine, VictoryScatter, VictoryVoronoiContainer, VictoryTooltip, VictoryAxis, VictoryLegend, VictoryLabel } from 'victory'
+import { VictoryChart, VictoryGroup, VictoryLine, VictoryScatter, VictoryVoronoiContainer, VictoryTooltip, VictoryAxis, VictoryLegend, VictoryLabel, VictoryTheme } from 'victory'
 import ukwhoData from '../../chartdata/uk_who_chart_data'
 // import PlotPoint from '../PlotPoint'
 import { stndth } from '../functions/suffix'
+// import { trial } from '../functions/measurements'
 
 import { UKWHOChartProps } from "./UKWHOChart.types";
 
 import "./UKWHOChart.scss";
 
-const UKWHOChart: React.FC<UKWHOChartProps> = ({ title,
+const UKWHOChart: React.FC<UKWHOChartProps> = ({ 
+    title,
     subtitle,
     measurementMethod,
     sex,
@@ -21,7 +23,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({ title,
     centileColour,
     measurementDataPointColour,
  }) => (
-    <div data-testid="UKWHOChart" className="foo-bar">
+    <div data-testid="UKWHOChart" className="centred">
       <VictoryChart
         containerComponent={
           <VictoryVoronoiContainer 
@@ -52,27 +54,35 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({ title,
         style={{ data: { fill: "transparent" } }}
         data={[]}
       />
-      <VictoryAxis dependentAxis />
-        <VictoryAxis
-          label="Age (y)"
-          tickLabelComponent={
-            <VictoryLabel 
-              dy={0}
-              style={[
-                { fill: "black", fontSize: 8 },
-              ]}
-            />
-          }
-          style={{
-            axis: {stroke: "#756f6a"},
-            axisLabel: {fontSize: 10, padding: 20},
-            grid: {stroke: ({ tick }) => "grey"},
-            ticks: {stroke: "grey"},
-            tickLabels: {fontSize: 15, padding: 5}
-          }}
-        />
+      <VictoryAxis
+        style= {{
+          axis: {stroke: "#756f6a"},
+          axisLabel: {fontSize: 10, padding: 20},
+          ticks: {stroke: "grey"},
+          tickLabels: {fontSize: 15, padding: 5},
+          grid: { stroke: "#818e99", strokeWidth: 0.5, strokeDasharray: '5 5' }}}
+        dependentAxis />
+      <VictoryAxis
+        label="Age (y)"
+        theme={VictoryTheme.material}
+        tickLabelComponent={
+          <VictoryLabel 
+            dy={0}
+            style={[
+              { fill: "black", fontSize: 10 },
+            ]}
+          />
+        }
+        style={{
+          axis: {stroke: "#756f6a"},
+          axisLabel: {fontSize: 10, padding: 20},
+          ticks: {stroke: "grey"},
+          tickLabels: {fontSize: 15, padding: 5},
+          grid: { stroke: "#818e99", strokeWidth: 0.5, strokeDasharray: '5 5' }
+        }}
+      />    
         {/* Render the centiles - loop through the data set, create a line for each centile */}  
-        
+
         <VictoryGroup
           name="uk90_preterm"
         >
@@ -225,13 +235,17 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({ title,
             }
           })}
         </VictoryGroup>
-        {/* create a series for each datapoint */}
-        {allMeasurementPairs.length > 0 && <VictoryGroup>
-          { allMeasurementPairs.map((measurementPair, index) => {
-            { measurementPair.length > 1 ? (
+        {/* create a series for each child measurements datapoint */}
+        { allMeasurementPairs.map((measurementPair, index) => {
+           return (
               <VictoryGroup
                 key={'measurement'+index}
               >
+                <VictoryScatter
+                  data={measurementPair}
+                  symbol={({datum})=> datum.age_type==="chronological_age" ? "circle" : "plus"}
+                  style={{ data: { fill: measurementDataPointColour } }}
+                />
                 <VictoryLine
                   name="linkLine"
                   style={{ 
@@ -240,27 +254,9 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({ title,
                   }}
                   data={measurementPair}
                 />
-                <VictoryScatter
-                  data={measurementPair}
-                  dataComponent={<Cross />}
-                  style={{ data: { fill: measurementDataPointColour } }}
-                />
-              </VictoryGroup>
-            ) : (
-              <VictoryGroup
-                key={'measurement'+index}
-              >
-                <VictoryScatter
-                  data={measurementPair}
-                  dataComponent={<Circle/>}
-                  style={{ data: { fill: measurementDataPointColour } }}
-                />
               </VictoryGroup>
             )
-            }
-            return 
-          })}
-        </VictoryGroup>}
+           })}
       </VictoryChart>
     </div>
 

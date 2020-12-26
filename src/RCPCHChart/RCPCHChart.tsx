@@ -8,7 +8,7 @@ import UKWHOChart from "../UKWHOChart";
 import TurnerChart from '../TURNERChart';
 import Trisomy21Chart from '../TRISOMY21Chart';
 
-import { returnChildMeasurementPairs } from '../functions/measurements'
+// import { trial } from '../functions/measurements'
 
 const RCPCHChart: React.FC<RCPCHChartProps> = ({ 
                                                 title,
@@ -16,13 +16,13 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
                                                 measurementMethod,
                                                 reference,
                                                 sex,
+                                                measurementsArray,
+                                                MeasurementsSDSArray,
                                                 height,
                                                 width,
                                                 chartBackground,
                                                 centileColour,
                                                 measurementDataPointColour,
-                                                measurementsArray,
-                                                measurementsSDSArray 
                                               }) => (
     <div
       data-testid="RCPCHChart"
@@ -53,8 +53,8 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
           <Trisomy21Chart
             title={title}
             subtitle={subtitle}
-            allMeasurementPairs={returnChildMeasurementPairs(measurementsArray)}
-            allSDSMeasurementPairs={[]}
+            allMeasurementPairs={measurementsArray}
+            allSDSMeasurementPairs={MeasurementsSDSArray}
             centileColour={centileColour}
             measurementMethod={measurementMethod}
             sex={sex}
@@ -70,7 +70,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
            (<TurnerChart
               title={title}
               subtitle={subtitle}
-              allMeasurementPairs={returnChildMeasurementPairs(measurementsArray)}
+              allMeasurementPairs={measurementsArray}
               allSDSMeasurementPairs={[]}
               centileColour={centileColour}
               measurementMethod={measurementMethod}
@@ -87,7 +87,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
           <UKWHOChart
             title={title}
             subtitle={subtitle}
-            allMeasurementPairs={returnChildMeasurementPairs(measurementsArray)}
+            allMeasurementPairs={measurementsArray}
             allSDSMeasurementPairs={[]}
             centileColour={centileColour}
             measurementMethod={measurementMethod}

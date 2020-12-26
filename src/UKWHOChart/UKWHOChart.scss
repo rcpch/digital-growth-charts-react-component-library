@@ -2,8 +2,9 @@
 @import "../variables.scss";
 @import "../typography.scss";
 
-.foo-bar {
+.centred {
   @include font-defaults;
 
   color: $rcpch-darkgrey;
+  text-align: center;
 }
