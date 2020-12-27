@@ -32,24 +32,4 @@ export function returnChildMeasurementPairs(measurementsArray){
     }
   
     return allMeasurementPairs
-  
-    // This section works out the earliest and latest dates which are going to need to be plotted
-    const minAge = measurementsArray[0][0].x
-    let maxAge = 0.0
-    const finalItemInMeasurementsArray = measurementsArray[
-      measurementsArray.length - 1
-    ]
-    if (finalItemInMeasurementsArray.length > 1) {
-      // any ages where chronological and corrected are the same, will have the corrected age removed
-      // and therefore array of pairs will only have a single measurement in it to plot.
-      // This method assumes measurements are provide in order - this could be a vulnerability that needs testing
-      maxAge = finalItemInMeasurementsArray[1].x
-    } else {
-      maxAge = finalItemInMeasurementsArray[0].x
-    }
   }
-
-  // export function trial(data){
-  //   console.log(data)
-  //   return data
-  // }

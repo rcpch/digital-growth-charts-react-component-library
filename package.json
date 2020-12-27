@@ -1,6 +1,6 @@
 {
   "name": "@rcpch/digital-growth-charts-react-component-library",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "main": "build/index.js",
   "module": "build/index.esm.js",
   "files": [
@@ -20,6 +20,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/RCPCH/digital-growth-charts-react-component-library.git"
+  },
+  "publishConfig": {
+    "registry":"https://registry.npmjs.org/"
   },
   "keywords": [
     "Growth",

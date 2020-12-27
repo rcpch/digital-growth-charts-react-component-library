@@ -1,14 +1,18 @@
 // Generated with util/create-component.js
 import React from "react";
-import { VictoryChart, VictoryGroup, VictoryLine, VictoryScatter, VictoryVoronoiContainer, VictoryTooltip, VictoryAxis, VictoryLegend, VictoryLabel, VictoryTheme } from 'victory'
+import { VictoryChart, VictoryGroup, VictoryLine, VictoryScatter, VictoryVoronoiContainer, VictoryTooltip, VictoryAxis, VictoryLegend, VictoryLabel, VictoryTheme, LineSegment } from 'victory'
 import ukwhoData from '../../chartdata/uk_who_chart_data'
 // import PlotPoint from '../PlotPoint'
 import { stndth } from '../functions/suffix'
 // import { trial } from '../functions/measurements'
 
 import { UKWHOChartProps } from "./UKWHOChart.types";
+import { showChart} from '../functions/showChart'
+import { showAxis} from '../functions/showAxis'
+import { axisLineColour } from '../functions/axisLineColour'
 
 import "./UKWHOChart.scss";
+import { returnAxis } from "../functions/axis";
 
 const UKWHOChart: React.FC<UKWHOChartProps> = ({ 
     title,
@@ -48,7 +52,6 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
       <VictoryLegend
         title={[title, subtitle]}
         centerTitle
-        gutter={20}
         titleOrientation="top"
         orientation="horizontal"
         style={{ data: { fill: "transparent" } }}
@@ -61,66 +64,76 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
           ticks: {stroke: "grey"},
           tickLabels: {fontSize: 15, padding: 5},
           grid: { stroke: "#818e99", strokeWidth: 0.5, strokeDasharray: '5 5' }}}
-        dependentAxis />
-      <VictoryAxis
-        label="Age (y)"
-        theme={VictoryTheme.material}
-        tickLabelComponent={
-          <VictoryLabel 
-            dy={0}
-            style={[
-              { fill: "black", fontSize: 10 },
-            ]}
-          />
-        }
-        style={{
-          axis: {stroke: "#756f6a"},
-          axisLabel: {fontSize: 10, padding: 20},
-          ticks: {stroke: "grey"},
-          tickLabels: {fontSize: 15, padding: 5},
-          grid: { stroke: "#818e99", strokeWidth: 0.5, strokeDasharray: '5 5' }
-        }}
-      />    
-        {/* Render the centiles - loop through the data set, create a line for each centile */}  
+        dependentAxis />   
+      {/* Render the centiles - loop through the data set, create a line for each centile */}  
 
-        <VictoryGroup
-          name="uk90_preterm"
-        >
-          { measurementMethod!=="bmi" && ukwhoData.uk90_preterm[sex][measurementMethod].map((centile, index) => {
-            if (index % 2 === 0) {
-              return (
-                <VictoryLine
-                  key={centile.data[0].l + '-' + index}
-                  padding={{ top: 20, bottom: 60 }}
-                  data={centile.data}
-                  style={{
-                    data: {
-                      stroke: centileColour,
-                      strokeWidth: 0.5,
-                      strokeLinecap: 'round',
-                      strokeDasharray: '5 5'
-                    }
-                  }}
-                />
-              )
-            } else {
-              return (
-                <VictoryLine
-                  key={centile.data[0].l + '-' + index}
-                  padding={{ top: 20, bottom: 60 }}
-                  data={centile.data}
-                  style={{
-                    data: {
-                      stroke: centileColour,
-                      strokeWidth: 0.5,
-                      strokeLinecap: 'round'
-                    }
-                  }}
-                />
-              )
+      { showChart(allMeasurementPairs, "uk90Preterm") && // only renders if preterm
+
+          <VictoryGroup
+            name="uk90_preterm"
+          >
+            { measurementMethod!=="bmi" && ukwhoData.uk90_preterm[sex][measurementMethod].map((centile, index) => {
+              if (index % 2 === 0) {
+                return (
+                  <VictoryLine
+                    key={centile.data[0].l + '-' + index}
+                    padding={{ top: 20, bottom: 60 }}
+                    data={centile.data}
+                    style={{
+                      data: {
+                        stroke: centileColour,
+                        strokeWidth: 0.5,
+                        strokeLinecap: 'round',
+                        strokeDasharray: '5 5'
+                      }
+                    }}
+                  />
+                )
+              } else {
+                return (
+                  <VictoryLine
+                    key={centile.data[0].l + '-' + index}
+                    padding={{ top: 20, bottom: 60 }}
+                    data={centile.data}
+                    style={{
+                      data: {
+                        stroke: centileColour,
+                        strokeWidth: 0.5,
+                        strokeLinecap: 'round'
+                      }
+                    }}
+                  />
+                )
+              }
+            })}
+            
+            { showAxis(allMeasurementPairs, "uk90Preterm") &&
+              <VictoryAxis
+                label="Age (weeks)"
+                style={{
+                  axis: {stroke: "#756f6a"},
+                  axisLabel: {fontSize: 5, padding: 20},
+                  ticks: {stroke: "#818e99" },
+                  tickLabels: {fontSize: 15, padding: 5},
+                  grid: { stroke: ({ticks})=> axisLineColour(ticks, "pretermWeeks") }
+                }}
+                tickLabelComponent={
+                  <VictoryLabel 
+                    dy={-10}
+                    style={[
+                      { fill: "black", fontSize: 15 },
+                    ]}
+                  />
+                }
+                tickCount={19}
+                tickFormat={(t)=> `${returnAxis(t, "pretermWeeks")}`}
+              /> 
             }
-          })}
-        </VictoryGroup>
+
+          </VictoryGroup>
+      }
+
+      { showChart(allMeasurementPairs, "ukwhoInfant") &&
         <VictoryGroup
           name="uk_who_infant"
         >
@@ -158,7 +171,56 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
               )
             }
           })}
+
+        { showAxis(allMeasurementPairs, "ukwhoInfant") &&
+        <VictoryGroup>
+          <VictoryAxis
+              label="Age (mths)"
+              theme={VictoryTheme.material}
+              tickLabelComponent={
+                <VictoryLabel 
+                  dy={0}
+                  style={[
+                    { fill: "black", fontSize: 15 },
+                  ]}
+                />
+              }
+              tickFormat={(t)=> `${returnAxis(t, "months")}`}
+              style={{
+                axis: {stroke: "#756f6a"},
+                axisLabel: {fontSize: 10, padding: 20},
+                ticks: {stroke: "grey"},
+                tickLabels: {fontSize: 15, padding: 5},
+                grid: { stroke: "#818e99", strokeWidth: 0.5, strokeDasharray: '5 5' }
+              }}
+            /> 
+          <VictoryAxis
+              // label="Age (y)"
+              theme={VictoryTheme.material}
+              tickCount={102}
+              tickLabelComponent={
+                <VictoryLabel 
+                  dy={-10}
+                  style={[
+                    { fill: "black", fontSize: 5 },
+                  ]}
+                />
+              }
+              tickFormat={(t)=> `${returnAxis(t, "weeks")}`}
+              style={{
+                axis: {stroke: "#756f6a"},
+                axisLabel: {fontSize: 10, padding: 20},
+                ticks: {stroke: "grey"},
+                tickLabels: {fontSize: 15, padding: 5}
+              }}
+            /> 
+            </VictoryGroup>
+        }
+
         </VictoryGroup>
+      }
+
+      { showChart(allMeasurementPairs, "ukwhoChild") && 
         <VictoryGroup
           name="uk_who_child"
         >
@@ -196,7 +258,57 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
               )
             }
           })}
+
+        { showAxis(allMeasurementPairs, "ukwhoChild") &&
+          <VictoryGroup>
+            <VictoryAxis
+              // label="Age (mths)"
+              theme={VictoryTheme.material}
+              tickLabelComponent={
+                <VictoryLabel 
+                  dy={-30}
+                  style={[
+                    { fill: "black", fontSize: 15 },
+                  ]}
+                />
+              }
+              tickFormat={(t)=> `${returnAxis(t, "years")} y`}
+              style={{
+                axis: {stroke: "#756f6a"},
+                axisLabel: {fontSize: 10, padding: 20},
+                ticks: {stroke: "grey"},
+                tickLabels: {fontSize: 15, padding: 5},
+                grid: { stroke: "#818e99", strokeWidth: 0.5, strokeDasharray: '5 5' }
+              }}
+            />
+            <VictoryAxis
+              label="Age (mths)"
+              theme={VictoryTheme.material}
+              orientation="bottom"
+              tickLabelComponent={
+                <VictoryLabel 
+                  dy={0}
+                  style={[
+                    { fill: "black", fontSize: 15 },
+                  ]}
+                />
+              }
+              tickFormat={(t)=> `${returnAxis(t, "months")}`}
+              style={{
+                axis: {stroke: "#756f6a"},
+                axisLabel: {fontSize: 10, padding: 20},
+                ticks: {stroke: "grey"},
+                tickLabels: {fontSize: 15, padding: 5},
+                grid: { stroke: "#818e99", strokeWidth: 0.5, strokeDasharray: '5 5' }
+              }}
+            />
+          </VictoryGroup>
+        }
+
         </VictoryGroup>
+      }
+
+      { showChart(allMeasurementPairs, "uk90Child") && 
         <VictoryGroup
           name="uk90_child"
         >
@@ -210,7 +322,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
                   style={{
                     data: {
                       stroke: centileColour,
-                      strokeWidth: 0.5,
+                      strokeWidth: 0.25,
                       strokeLinecap: 'round',
                       strokeDasharray: '5 5'
                     }
@@ -226,7 +338,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
                   style={{
                     data: {
                       stroke: centileColour,
-                      strokeWidth: 0.5,
+                      strokeWidth: 0.25,
                       strokeLinecap: 'round'
                     }
                   }}
@@ -234,9 +346,35 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
               )
             }
           })}
+
+          { showAxis(allMeasurementPairs, "uk90Child") &&
+            <VictoryAxis
+              label="Age (y)"
+              theme={VictoryTheme.material}
+              tickLabelComponent={
+                <VictoryLabel 
+                  dy={0}
+                  style={[
+                    { fill: "black", fontSize: 15 },
+                  ]}
+                />
+              }
+              tickFormat={(t)=> `${returnAxis(t, "years")}`}
+              style={{
+                axis: {stroke: "#756f6a"},
+                axisLabel: {fontSize: 10, padding: 20},
+                ticks: {stroke: "grey"},
+                tickLabels: {fontSize: 15, padding: 5},
+                grid: { stroke: "#818e99", strokeWidth: 0.5, strokeDasharray: '5 5' }
+              }}
+            /> 
+          }
+
         </VictoryGroup>
+      }
+
         {/* create a series for each child measurements datapoint */}
-        { allMeasurementPairs.map((measurementPair, index) => {
+      { allMeasurementPairs.map((measurementPair, index) => {
            return (
               <VictoryGroup
                 key={'measurement'+index}
@@ -256,7 +394,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
                 />
               </VictoryGroup>
             )
-           })}
+        })}
       </VictoryChart>
     </div>
 
