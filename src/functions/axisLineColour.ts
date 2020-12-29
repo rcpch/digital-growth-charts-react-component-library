@@ -1,4 +1,5 @@
 export function axisLineColour(tick, interval){
+    
     if (interval === "pretermWeeks"){
         if (tick < 0){
             return "#818e99"
@@ -19,6 +20,8 @@ export function axisLineColour(tick, interval){
         }
     }
     if (interval === "years"){
+        console.log("years are called" + tick.tickValue);
+        
         if (tick%1==0){
             return "#818e99"
         }

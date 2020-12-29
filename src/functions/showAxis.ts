@@ -22,10 +22,11 @@ export function showAxis(measurementsArray, chartType: string){
             return false
         }
         if(chartType === "ukwhoInfant"){
+            
             if (minAge < ukwhoInfant.UpperLimit && minAge >= ukwhoInfant.LowerLimit){
                 return true
             }
-            if ((maxAge < ukwhoInfant.UpperLimit && maxAge >= ukwhoInfant.LowerLimit)){
+            if ((maxAge < ukwhoInfant.UpperLimit && maxAge >= ukwhoInfant.LowerLimit )){
                 return true
             }
             return false          
@@ -34,7 +35,7 @@ export function showAxis(measurementsArray, chartType: string){
             if (minAge < ukwhoChild.UpperLimit && minAge >= ukwhoChild.LowerLimit){
                 return true
             }
-            if ((maxAge <= ukwhoChild.UpperLimit && maxAge > ukwhoChild.LowerLimit) ){
+            if ((maxAge <= ukwhoChild.UpperLimit && maxAge >= ukwhoChild.LowerLimit) ){
                 return true
             }
             return false  

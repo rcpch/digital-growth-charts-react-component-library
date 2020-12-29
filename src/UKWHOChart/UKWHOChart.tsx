@@ -57,15 +57,172 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
         style={{ data: { fill: "transparent" } }}
         data={[]}
       />
+      
+      {/* Render the x axes */}
+
+      { showAxis(allMeasurementPairs, "uk90Preterm") && // preterm x axis reporting gestation
+              <VictoryAxis
+                label="Age (weeks)"
+                style={{
+                  axis: {stroke: "#756f6a"},
+                  axisLabel: {fontSize: 5, padding: 20},
+                  ticks: {stroke: "#818e99" },
+                  tickLabels: {fontSize: 15, padding: 5},
+                  grid: { stroke: ({ticks})=> axisLineColour(ticks, "pretermWeeks") }
+                }}
+                tickLabelComponent={
+                  <VictoryLabel 
+                    dy={-10}
+                    style={[
+                      { fill: "black", fontSize: 15 },
+                    ]}
+                  />
+                }
+                tickCount={19}
+                tickFormat={(t)=> `${returnAxis(t, "pretermWeeks")}`}
+              /> 
+      }
+
+      { showAxis(allMeasurementPairs, "ukwhoInfant") && // x axis reporting months
+          <VictoryAxis
+              label="Age (mths)"
+              theme={VictoryTheme.material}
+              tickLabelComponent={
+                <VictoryLabel 
+                  dy={0}
+                  style={[
+                    { fill: "black", fontSize: 15 },
+                  ]}
+                />
+              }
+              tickCount={5}
+              tickFormat={(t)=> `${returnAxis(t, "months")}`}
+              style={{
+                axis: {stroke: "#756f6a"},
+                axisLabel: {fontSize: 10, padding: 20},
+                ticks: {stroke: "#818e99"},
+                tickLabels: {fontSize: 15, padding: 5},
+                grid: { 
+                  stroke: t => (t.tickValue*12)%6===0 && "#818e99",
+                  strokeWidth: 0.25 
+                }
+              }}
+              
+            /> 
+      }
+
+      { showAxis(allMeasurementPairs, "ukwhoInfant") && //x axis reporting weeks
+           <VictoryAxis
+           theme={VictoryTheme.material}
+           tickCount={96}
+           tickLabelComponent={
+             <VictoryLabel 
+               dy={0}
+               style={[
+                 { fill: "black", fontSize: 5 },
+               ]}
+             />
+           }
+           tickFormat={(t)=> returnAxis(t, "weeks")} //`${returnAxis(t, "weeks")}`
+           style={{
+             axis: {stroke: "#756f6a"},
+             axisLabel: {fontSize: 10, padding: 20},
+             ticks: {stroke: "#818e99"},
+             tickLabels: {fontSize: 10, padding: 5},
+             grid: {
+               stroke: t=>Math.round(t.tickValue*52)%2===0 && "#c8cacc",
+               strokeWidth: 0.25
+             }
+           }}
+         /> 
+      }
+
+      { showAxis(allMeasurementPairs, "ukwhoChild") && //x axis reporting months
+            <VictoryAxis
+              // label="Age (mths)"
+              theme={VictoryTheme.material}
+              tickLabelComponent={
+                <VictoryLabel 
+                  dy={-30}
+                  style={[
+                    { fill: "black", fontSize: 15 },
+                  ]}
+                />
+              }
+              tickFormat={(t)=> `${returnAxis(t, "years")} y`}
+              style={{
+                axis: {stroke: "#756f6a"},
+                axisLabel: {fontSize: 10, padding: 20},
+                ticks: {stroke: "grey"},
+                tickLabels: {fontSize: 15, padding: 5},
+                grid: { stroke: "#818e99", strokeWidth: 0.25 }
+              }}
+            />
+      }
+
+      { showAxis(allMeasurementPairs, "ukwhoChild") && //x axis reporting months
+          <VictoryAxis
+          label="Age (mths)"
+          theme={VictoryTheme.material}
+          orientation="bottom"
+          tickLabelComponent={
+            <VictoryLabel 
+              dy={0}
+              style={[
+                { fill: "black", fontSize: 15 },
+              ]}
+            />
+          }
+          tickFormat={(t)=> `${returnAxis(t, "months")}`}
+          style={{
+            axis: {stroke: "#756f6a"},
+            axisLabel: {fontSize: 10, padding: 20},
+            ticks: {stroke: "grey"},
+            tickLabels: {fontSize: 15, padding: 5},
+            grid: { stroke: "#c8cacc", strokeWidth: 0.25 }
+          }}
+        />
+      }
+
+      { showAxis(allMeasurementPairs, "uk90Child") &&
+            <VictoryAxis
+              label="Age (y)"
+              theme={VictoryTheme.material}
+              tickLabelComponent={
+                <VictoryLabel 
+                  dy={0}
+                  style={[
+                    { fill: centileColour, fontSize: 15 },
+                  ]}
+                />
+              }
+              // tickFormat={(t)=> `${returnAxis(t, "years")}`}
+              tickCount = {20}
+
+              style={{
+                axis: {stroke: "#756f6a"},
+                axisLabel: {fontSize: 10, padding: 20},
+                ticks: {stroke: "#818e99"},
+                tickLabels: {fontSize: 10, padding: 5},
+                grid: { 
+                  stroke: t => t.tickValue%5===0 ? '#818e99' : "#c8cacc",
+                  strokeWidth: 0.25,
+                }
+              }}
+            /> 
+      }
+
       <VictoryAxis
         style= {{
           axis: {stroke: "#756f6a"},
           axisLabel: {fontSize: 10, padding: 20},
           ticks: {stroke: "grey"},
           tickLabels: {fontSize: 15, padding: 5},
-          grid: { stroke: "#818e99", strokeWidth: 0.5, strokeDasharray: '5 5' }}}
+          grid: { stroke: "#818e99", strokeWidth: 0.25 }}}
         dependentAxis />   
+
       {/* Render the centiles - loop through the data set, create a line for each centile */}  
+
 
       { showChart(allMeasurementPairs, "uk90Preterm") && // only renders if preterm
 
@@ -107,29 +264,6 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
               }
             })}
             
-            { showAxis(allMeasurementPairs, "uk90Preterm") &&
-              <VictoryAxis
-                label="Age (weeks)"
-                style={{
-                  axis: {stroke: "#756f6a"},
-                  axisLabel: {fontSize: 5, padding: 20},
-                  ticks: {stroke: "#818e99" },
-                  tickLabels: {fontSize: 15, padding: 5},
-                  grid: { stroke: ({ticks})=> axisLineColour(ticks, "pretermWeeks") }
-                }}
-                tickLabelComponent={
-                  <VictoryLabel 
-                    dy={-10}
-                    style={[
-                      { fill: "black", fontSize: 15 },
-                    ]}
-                  />
-                }
-                tickCount={19}
-                tickFormat={(t)=> `${returnAxis(t, "pretermWeeks")}`}
-              /> 
-            }
-
           </VictoryGroup>
       }
 
@@ -171,51 +305,6 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
               )
             }
           })}
-
-        { showAxis(allMeasurementPairs, "ukwhoInfant") &&
-        <VictoryGroup>
-          <VictoryAxis
-              label="Age (mths)"
-              theme={VictoryTheme.material}
-              tickLabelComponent={
-                <VictoryLabel 
-                  dy={0}
-                  style={[
-                    { fill: "black", fontSize: 15 },
-                  ]}
-                />
-              }
-              tickFormat={(t)=> `${returnAxis(t, "months")}`}
-              style={{
-                axis: {stroke: "#756f6a"},
-                axisLabel: {fontSize: 10, padding: 20},
-                ticks: {stroke: "grey"},
-                tickLabels: {fontSize: 15, padding: 5},
-                grid: { stroke: "#818e99", strokeWidth: 0.5, strokeDasharray: '5 5' }
-              }}
-            /> 
-          <VictoryAxis
-              // label="Age (y)"
-              theme={VictoryTheme.material}
-              tickCount={102}
-              tickLabelComponent={
-                <VictoryLabel 
-                  dy={-10}
-                  style={[
-                    { fill: "black", fontSize: 5 },
-                  ]}
-                />
-              }
-              tickFormat={(t)=> `${returnAxis(t, "weeks")}`}
-              style={{
-                axis: {stroke: "#756f6a"},
-                axisLabel: {fontSize: 10, padding: 20},
-                ticks: {stroke: "grey"},
-                tickLabels: {fontSize: 15, padding: 5}
-              }}
-            /> 
-            </VictoryGroup>
-        }
 
         </VictoryGroup>
       }
@@ -259,52 +348,6 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
             }
           })}
 
-        { showAxis(allMeasurementPairs, "ukwhoChild") &&
-          <VictoryGroup>
-            <VictoryAxis
-              // label="Age (mths)"
-              theme={VictoryTheme.material}
-              tickLabelComponent={
-                <VictoryLabel 
-                  dy={-30}
-                  style={[
-                    { fill: "black", fontSize: 15 },
-                  ]}
-                />
-              }
-              tickFormat={(t)=> `${returnAxis(t, "years")} y`}
-              style={{
-                axis: {stroke: "#756f6a"},
-                axisLabel: {fontSize: 10, padding: 20},
-                ticks: {stroke: "grey"},
-                tickLabels: {fontSize: 15, padding: 5},
-                grid: { stroke: "#818e99", strokeWidth: 0.5, strokeDasharray: '5 5' }
-              }}
-            />
-            <VictoryAxis
-              label="Age (mths)"
-              theme={VictoryTheme.material}
-              orientation="bottom"
-              tickLabelComponent={
-                <VictoryLabel 
-                  dy={0}
-                  style={[
-                    { fill: "black", fontSize: 15 },
-                  ]}
-                />
-              }
-              tickFormat={(t)=> `${returnAxis(t, "months")}`}
-              style={{
-                axis: {stroke: "#756f6a"},
-                axisLabel: {fontSize: 10, padding: 20},
-                ticks: {stroke: "grey"},
-                tickLabels: {fontSize: 15, padding: 5},
-                grid: { stroke: "#818e99", strokeWidth: 0.5, strokeDasharray: '5 5' }
-              }}
-            />
-          </VictoryGroup>
-        }
-
         </VictoryGroup>
       }
 
@@ -346,30 +389,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
               )
             }
           })}
-
-          { showAxis(allMeasurementPairs, "uk90Child") &&
-            <VictoryAxis
-              label="Age (y)"
-              theme={VictoryTheme.material}
-              tickLabelComponent={
-                <VictoryLabel 
-                  dy={0}
-                  style={[
-                    { fill: "black", fontSize: 15 },
-                  ]}
-                />
-              }
-              tickFormat={(t)=> `${returnAxis(t, "years")}`}
-              style={{
-                axis: {stroke: "#756f6a"},
-                axisLabel: {fontSize: 10, padding: 20},
-                ticks: {stroke: "grey"},
-                tickLabels: {fontSize: 15, padding: 5},
-                grid: { stroke: "#818e99", strokeWidth: 0.5, strokeDasharray: '5 5' }
-              }}
-            /> 
-          }
-
+          
         </VictoryGroup>
       }
 

@@ -7,9 +7,9 @@ export function returnAxis(tick: number, interval: string){
         }
     }
     if (interval === "weeks"){
-        const weeks = tick*52          
-        if (Math.floor(weeks)%2===0){
-            return Math.floor(weeks)
+        const weeks = Math.round(tick*52)
+        if (weeks % 2 === 0){
+            return weeks
         } else {
             return ''
         }
