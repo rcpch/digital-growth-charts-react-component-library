@@ -1,6 +1,6 @@
 // Generated with util/create-component.js
 import React from "react";
-import { VictoryChart, VictoryGroup, VictoryLine, VictoryScatter, VictoryVoronoiContainer, VictoryTooltip, VictoryAxis, VictoryLegend, VictoryLabel, VictoryTheme, LineSegment } from 'victory'
+import { VictoryChart, VictoryGroup, VictoryLine, VictoryScatter, VictoryVoronoiContainer, VictoryTooltip, VictoryAxis, VictoryLegend, VictoryLabel, VictoryTheme } from 'victory'
 import ukwhoData from '../../chartdata/uk_who_chart_data'
 // import PlotPoint from '../PlotPoint'
 import { stndth } from '../functions/suffix'
@@ -9,10 +9,11 @@ import { stndth } from '../functions/suffix'
 import { UKWHOChartProps } from "./UKWHOChart.types";
 import { showChart} from '../functions/showChart'
 import { showAxis} from '../functions/showAxis'
-import { axisLineColour } from '../functions/axisLineColour'
 
 import "./UKWHOChart.scss";
 import { returnAxis } from "../functions/axis";
+import { getWeeks } from '../functions/getWeeks'
+import { removeCorrectedAge } from "../functions/removeCorrectedAge";
 
 const UKWHOChart: React.FC<UKWHOChartProps> = ({ 
     title,
@@ -36,6 +37,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
                return `${stndth(datum.l)} centile`
               } 
               if (datum.centile_band) {
+                // this is a measurement
                 return datum.centile_band
               }
             }
@@ -55,6 +57,8 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
         titleOrientation="top"
         orientation="horizontal"
         style={{ data: { fill: "transparent" } }}
+        x={175}
+        y={0}
         data={[]}
       />
       
@@ -68,7 +72,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
                   axisLabel: {fontSize: 5, padding: 20},
                   ticks: {stroke: "#818e99" },
                   tickLabels: {fontSize: 15, padding: 5},
-                  grid: { stroke: ({ticks})=> axisLineColour(ticks, "pretermWeeks") }
+                  grid: { stroke: ({ticks})=> "#756f6a" }
                 }}
                 tickLabelComponent={
                   <VictoryLabel 
@@ -88,12 +92,17 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
               label="Age (mths)"
               theme={VictoryTheme.material}
               tickLabelComponent={
-                <VictoryLabel 
-                  dy={0}
-                  style={[
-                    { fill: "black", fontSize: 15 },
-                  ]}
-                />
+                // <VictoryLabel 
+                //   dy={0}
+                //   style={[
+                //     { fill: "black", fontSize: 15 },
+                //   ]}
+                // />
+          
+                  <ChartCircle style={{
+                    stroke: centileColour
+                  }}/>
+          
               }
               tickCount={5}
               tickFormat={(t)=> `${returnAxis(t, "months")}`}
@@ -114,7 +123,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
       { showAxis(allMeasurementPairs, "ukwhoInfant") && //x axis reporting weeks
            <VictoryAxis
            theme={VictoryTheme.material}
-           tickCount={96}
+           tickValues={getWeeks()}
            tickLabelComponent={
              <VictoryLabel 
                dy={0}
@@ -122,12 +131,13 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
                  { fill: "black", fontSize: 5 },
                ]}
              />
+            
            }
            tickFormat={(t)=> returnAxis(t, "weeks")} //`${returnAxis(t, "weeks")}`
            style={{
              axis: {stroke: "#756f6a"},
              axisLabel: {fontSize: 10, padding: 20},
-             ticks: {stroke: "#818e99"},
+            
              tickLabels: {fontSize: 10, padding: 5},
              grid: {
                stroke: t=>Math.round(t.tickValue*52)%2===0 && "#c8cacc",
@@ -139,17 +149,14 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
 
       { showAxis(allMeasurementPairs, "ukwhoChild") && //x axis reporting months
             <VictoryAxis
-              // label="Age (mths)"
               theme={VictoryTheme.material}
               tickLabelComponent={
-                <VictoryLabel 
-                  dy={-30}
-                  style={[
-                    { fill: "black", fontSize: 15 },
-                  ]}
-                />
+                <ChartCircle style={{
+                  stroke: centileColour
+                }}/>
               }
-              tickFormat={(t)=> `${returnAxis(t, "years")} y`}
+              fixLabelOverlap
+              tickFormat={(t)=> `${returnAxis(t, "years")}`}
               style={{
                 axis: {stroke: "#756f6a"},
                 axisLabel: {fontSize: 10, padding: 20},
@@ -173,6 +180,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
               ]}
             />
           }
+          tickCount={16}
           tickFormat={(t)=> `${returnAxis(t, "months")}`}
           style={{
             axis: {stroke: "#756f6a"},
@@ -365,7 +373,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
                   style={{
                     data: {
                       stroke: centileColour,
-                      strokeWidth: 0.25,
+                      strokeWidth: 0.5,
                       strokeLinecap: 'round',
                       strokeDasharray: '5 5'
                     }
@@ -381,7 +389,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
                   style={{
                     data: {
                       stroke: centileColour,
-                      strokeWidth: 0.25,
+                      strokeWidth: 0.5,
                       strokeLinecap: 'round'
                     }
                   }}
@@ -395,15 +403,29 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
 
         {/* create a series for each child measurements datapoint */}
       { allMeasurementPairs.map((measurementPair, index) => {
+        const first = measurementPair[0]
+        const second = measurementPair[1]
+        const match = first['x']===second['x']
+        
            return (
               <VictoryGroup
                 key={'measurement'+index}
               >
-                <VictoryScatter
-                  data={measurementPair}
-                  symbol={({datum})=> datum.age_type==="chronological_age" ? "circle" : "plus"}
-                  style={{ data: { fill: measurementDataPointColour } }}
-                />
+                { match  ? 
+                    <VictoryScatter
+                      data={removeCorrectedAge(measurementPair)}
+                      symbol={({datum})=> "circle"}
+                      style={{ data: { fill: measurementDataPointColour } }}
+                      name='same_age' 
+                    />
+                :
+                     <VictoryScatter
+                      data={measurementPair}
+                      symbol={({datum})=> datum.age_type==="corrected_age" ? 'plus' : "circle"}
+                      style={{ data: { fill: measurementDataPointColour } }}
+                      name= 'split_age'
+                    />
+                }
                 <VictoryLine
                   name="linkLine"
                   style={{ 
@@ -420,31 +442,34 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
 
 );
 
-const Circle = (props) =>{
+const ChartCircle = (props) =>{
+  const {x, y, style, text} = props
   return (<svg>
-    <circle cx={props.x} cy={props.y} r={1.25} stroke='red' />
+    <text x={props.text.length < 2 ?x-5 : x-10} y={y-25} fill={style.stroke}>{text}</text>
+    <circle cx={props.x} cy={y-30} r={10} stroke={style.stroke} fill="transparent" />
+    <line x1={props.x} x2={x} y1={y} y2={y-20} stroke={style.stroke}/>
   </svg>)
 }
 
-const Cross = (props) => {
-  return (<svg>
-    <line
-      x1={props.x - 1.25}
-      y1={props.y - 1.25}
-      x2={props.x + 1.25}
-      y2={props.y + 1.25}
-      stroke='red'
-      strokeWidth={2}
-    />
-    <line
-      x1={props.x + 1.25}
-      y1={props.y - 1.25}
-      x2={props.x - 1.25}
-      y2={props.y + 1.25}
-      stroke='red'
-      strokeWidth={2}
-    />
-  </svg>)
-}
+// const Cross = (props) => {
+//   return (<svg>
+//     <line
+//       x1={props.x - 1.25}
+//       y1={props.y - 1.25}
+//       x2={props.x + 1.25}
+//       y2={props.y + 1.25}
+//       stroke='red'
+//       strokeWidth={2}
+//     />
+//     <line
+//       x1={props.x + 1.25}
+//       y1={props.y - 1.25}
+//       x2={props.x - 1.25}
+//       y2={props.y + 1.25}
+//       stroke='red'
+//       strokeWidth={2}
+//     />
+//   </svg>)
+// }
 
 export default UKWHOChart;

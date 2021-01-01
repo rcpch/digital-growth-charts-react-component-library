@@ -18,11 +18,16 @@ export function returnAxis(tick: number, interval: string){
     if (interval === "months"){
         if (tick*12%2==0){
             return tick*12
+        } else {
+            return ''
         }
     }
     if (interval === "years"){
-        if (tick%1==0){
+        if (tick%1===0){
             return tick
+        }
+        if (tick%1===0.5){
+            return Math.floor(tick) + "½"
         }
     }
 }

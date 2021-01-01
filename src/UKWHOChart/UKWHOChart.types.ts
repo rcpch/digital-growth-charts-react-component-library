@@ -3,8 +3,8 @@ import { PlottableMeasurement } from '../interfaces/RCPCHMeasurementObject'
 export interface UKWHOChartProps {
     title: string,
     subtitle: string,
-    allMeasurementPairs: [PlottableMeasurement][],
-    allSDSMeasurementPairs: [PlottableMeasurement][],
+    allMeasurementPairs: [],
+    allSDSMeasurementPairs: [],
     measurementMethod: 'height' | 'weight' | 'ofc' | 'bmi',
     sex: 'male' | 'female',
     width: number,

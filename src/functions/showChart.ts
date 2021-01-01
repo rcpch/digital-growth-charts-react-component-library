@@ -5,7 +5,7 @@ export function showChart(measurementsArray, chartType: string){
     const ukwhoChild = {LowerLimit: 2, UpperLimit: 4}
     const uk90Child = {LowerLimit: 4, UpperLimit: 20}
 
-    if (measurementsArray.length ==0 ){
+    if (measurementsArray.length ===0 ){
         return true //show chart if no child measurements to plot
     } else {
         const minAge = measurementsArray[0][0].x
@@ -21,7 +21,7 @@ export function showChart(measurementsArray, chartType: string){
             if (minAge < ukwhoInfant.UpperLimit && minAge >= ukwhoInfant.LowerLimit){
                 return true
             }
-            if ((maxAge < ukwhoInfant.UpperLimit && maxAge >= ukwhoInfant.LowerLimit)|| maxAge > ukwhoInfant.UpperLimit){
+            if ((maxAge < ukwhoInfant.UpperLimit && maxAge >= ukwhoInfant.LowerLimit)|| (maxAge !== minAge && maxAge > ukwhoInfant.UpperLimit)){
                 return true
             }
             return false          
@@ -30,7 +30,7 @@ export function showChart(measurementsArray, chartType: string){
             if (minAge < ukwhoChild.UpperLimit && minAge >= ukwhoChild.LowerLimit){
                 return true
             }
-            if ((maxAge <= ukwhoChild.UpperLimit && maxAge > ukwhoChild.LowerLimit) || (maxAge > ukwhoChild.UpperLimit)){
+            if ((maxAge <= ukwhoChild.UpperLimit && maxAge > ukwhoChild.LowerLimit) || (maxAge !== minAge && maxAge > ukwhoChild.UpperLimit)){
                 return true
             }
             return false  
