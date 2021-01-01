@@ -1,13 +1,14 @@
 // Generated with util/create-component.js
 import React from "react";
 import RCPCHChart from "./RCPCHChart";
-import { PlottableMeasurement } from '../interfaces/RCPCHMeasurementObject'
 
 export default {
     title: "RCPCHChart"
 };
 
-export const WithBar = () => <RCPCHChart 
+export const WithBar = () => <RCPCHChart
+                                title="UK-WHO"
+                                subtitle="Length/Height - Boys"
                                 measurementMethod="height"
                                 reference='uk-who'
                                 sex='male'
@@ -21,6 +22,8 @@ export const WithBar = () => <RCPCHChart
                             />;
 
 export const WithBaz = () => <RCPCHChart 
+                                title="UK-WHO"
+                                subtitle="Length/Height - Boys"
                                 measurementMethod="height"
                                 reference='uk-who'
                                 sex='female'

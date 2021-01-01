@@ -1,5 +1,3 @@
-import { PlottableMeasurement } from '../interfaces/RCPCHMeasurementObject'
-
 export interface UKWHOChartProps {
     title: string,
     subtitle: string,

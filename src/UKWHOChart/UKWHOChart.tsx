@@ -14,6 +14,7 @@ import "./UKWHOChart.scss";
 import { returnAxis } from "../functions/axis";
 import { getWeeks } from '../functions/getWeeks'
 import { removeCorrectedAge } from "../functions/removeCorrectedAge";
+import { measurementSuffix } from "../functions/measurementSuffix";
 
 const UKWHOChart: React.FC<UKWHOChartProps> = ({ 
     title,
@@ -38,7 +39,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
               } 
               if (datum.centile_band) {
                 // this is a measurement
-                return datum.centile_band
+                return datum.calendar_age +'\n' + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
               }
             }
           }
@@ -414,18 +415,19 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
                 { match  ? 
                     <VictoryScatter
                       data={removeCorrectedAge(measurementPair)}
-                      symbol={({datum})=> "circle"}
+                      symbol={"circle"}
                       style={{ data: { fill: measurementDataPointColour } }}
                       name='same_age' 
                     />
                 :
                      <VictoryScatter
                       data={measurementPair}
-                      symbol={({datum})=> datum.age_type==="corrected_age" ? 'plus' : "circle"}
+                      symbol={({datum})=> datum.age_type==="chronological_age" ? 'circle' : "plus"}
                       style={{ data: { fill: measurementDataPointColour } }}
                       name= 'split_age'
                     />
                 }
+
                 <VictoryLine
                   name="linkLine"
                   style={{ 

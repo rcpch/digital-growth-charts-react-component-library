@@ -17,7 +17,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
                                                 reference,
                                                 sex,
                                                 measurementsArray,
-                                                MeasurementsSDSArray,
+                                                measurementsSDSArray,
                                                 height,
                                                 width,
                                                 chartBackground,
@@ -54,7 +54,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
             title={title}
             subtitle={subtitle}
             allMeasurementPairs={measurementsArray}
-            allSDSMeasurementPairs={MeasurementsSDSArray}
+            allSDSMeasurementPairs={measurementsSDSArray}
             centileColour={centileColour}
             measurementMethod={measurementMethod}
             sex={sex}

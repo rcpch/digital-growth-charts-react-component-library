@@ -12,8 +12,14 @@ export function showAxis(measurementsArray, chartType: string){
         return false //show axis if no child measurements to plot
     } else {
         
+        
         const minAge = measurementsArray[0][0].x
         const maxAge = measurementsArray[measurementsArray.length - 1][1].x
+        // if (measurementsArray[measurementsArray.length - 1].length > 1){ //uncorrected ages are 
+        //     maxAge = measurementsArray[measurementsArray.length - 1][1].x
+        // } else {
+        //     maxAge = minAge
+        // }
         
         if(chartType === "uk90Preterm"){
             if (minAge < uk90Preterm.UpperLimit || maxAge <uk90Preterm.UpperLimit){
