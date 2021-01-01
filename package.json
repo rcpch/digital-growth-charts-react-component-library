@@ -22,7 +22,7 @@
     "url": "https://github.com/RCPCH/digital-growth-charts-react-component-library.git"
   },
   "publishConfig": {
-    "registry":"https://registry.npmjs.org/"
+    "registry": "https://registry.npmjs.org/"
   },
   "keywords": [
     "Growth",
@@ -36,7 +36,7 @@
     "Storybook"
   ],
   "author": "Simon Chapman",
-  "license": "GNU Affero GPL 3.0",
+  "license": "AGPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/RCPCH/digital-growth-charts-react-component-library/issues"
   },
