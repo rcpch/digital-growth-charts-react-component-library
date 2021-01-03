@@ -92,6 +92,12 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
           <VictoryVoronoiContainer 
             labels={({ datum }) => {
               if (datum.l){
+                if (datum.x === 2){
+                  return "Transit point from UK-WHO to UK90 data."
+                }
+                if (datum.x === 4){
+                  return "Measure length until age 2;\nMeasure height after age 2.\nA child’s height is usually slightly less than their length.\n"
+                }
                 if(datum.l === "For all Children plotted in this shaded area see instructions."){
                   return datum.l
                 } else return `${stndth(datum.l)} centile`
@@ -102,7 +108,20 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
               }
             }
           }
-            labelComponent={<VictoryTooltip cornerRadius={0} constrainToVisibleArea/>}
+            labelComponent={
+              <VictoryTooltip
+                cornerRadius={0} 
+                constrainToVisibleArea
+                labelComponent={
+                  <VictoryLabel
+                    style={{
+                      fontSize: 10,
+                      font: axisLabelFont
+                    }}
+                  />
+                }
+              />
+            }
             voronoiBlacklist={["linkLine"]}
             // voronoiBlacklist hides the duplicate tooltip text from the line joining the dots
           /> 
@@ -367,7 +386,12 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
               <VictoryAxis dependentAxis
                 key={index}
                 label={data.label}
-                axisLabelComponent = {<VictoryLabel dy={30} dx={-60}/>}
+                axisLabelComponent = {
+                  <VictoryLabel 
+                    dy={30} 
+                    dx={-50}
+                    textAnchor="start"
+                  />}
                 style={{ 
                   axis: {
                     stroke: axisStroke
