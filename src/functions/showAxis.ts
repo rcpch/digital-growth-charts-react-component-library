@@ -1,6 +1,6 @@
 export function showAxis(measurementsArray, chartType: string){
 
-    const uk90Preterm = {LowerLimit: -0.038, UpperLimit: 0.038}
+    const uk90Preterm = {LowerLimit: -0.038, UpperLimit: 0.0383}
     const ukwhoInfant = {LowerLimit: 0.038, UpperLimit: 2}
     const ukwhoChild = {LowerLimit: 2, UpperLimit: 4}
     const uk90Child = {LowerLimit: 4, UpperLimit: 20}
@@ -15,21 +15,16 @@ export function showAxis(measurementsArray, chartType: string){
         
         const minAge = measurementsArray[0][0].x
         const maxAge = measurementsArray[measurementsArray.length - 1][1].x
-        // if (measurementsArray[measurementsArray.length - 1].length > 1){ //uncorrected ages are 
-        //     maxAge = measurementsArray[measurementsArray.length - 1][1].x
-        // } else {
-        //     maxAge = minAge
-        // }
         
         if(chartType === "uk90Preterm"){
-            if (minAge < uk90Preterm.UpperLimit || maxAge <uk90Preterm.UpperLimit){
+            if (minAge < uk90Preterm.UpperLimit && maxAge <uk90Preterm.UpperLimit){
                 return true
             }
             return false
         }
         if(chartType === "ukwhoInfant"){
             
-            if ((maxAge < ukwhoInfant.UpperLimit && maxAge >= uk90Preterm.LowerLimit )){
+            if ((maxAge < ukwhoInfant.UpperLimit && maxAge >= uk90Preterm.UpperLimit )){
                 return true
             } else {
                 return false

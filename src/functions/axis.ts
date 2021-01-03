@@ -9,6 +9,10 @@ export function returnAxis(tick: number, interval: string){
     if (interval === "weeks"){
         const weeks = Math.round(tick*52)
         if (weeks % 2 === 0){
+            if(weeks<0){
+                console.log(weeks);
+                
+            }
             return weeks
         } else {
             return ''

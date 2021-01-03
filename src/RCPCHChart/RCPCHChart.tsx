@@ -17,12 +17,19 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
                                                 reference,
                                                 sex,
                                                 measurementsArray,
-                                                measurementsSDSArray,
-                                                height,
-                                                width,
                                                 chartBackground,
-                                                centileColour,
-                                                measurementDataPointColour,
+                                                gridlineStroke,
+                                                gridlineStrokeWidth,
+                                                gridlineDashed,
+                                                gridlines,
+                                                centileStroke,
+                                                centileStrokeWidth,
+                                                axisStroke,
+                                                axisLabelFont,
+                                                axisLabelColour,
+                                                measurementFill,
+                                                measurementSize,
+                                                measurementShape,
                                               }) => (
     <div
       data-testid="RCPCHChart"
@@ -54,16 +61,21 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
             title={title}
             subtitle={subtitle}
             allMeasurementPairs={measurementsArray}
-            allSDSMeasurementPairs={measurementsSDSArray}
-            centileColour={centileColour}
             measurementMethod={measurementMethod}
             sex={sex}
-            width={width} 
-            height={height}
-            // measurementsArray = {measurementsArray}
-            // measurementsSDSArray = {measurementsSDSArray}
-            measurementDataPointColour = {measurementDataPointColour}
-            chartBackground = {chartBackground}
+            chartBackground={chartBackground}
+            gridlineStroke={gridlineStroke}
+            gridlineStrokeWidth={gridlineStrokeWidth}
+            gridlineDashed={gridlineDashed}
+            gridlines={gridlines}
+            centileStroke={centileStroke}
+            centileStrokeWidth={centileStrokeWidth}
+            axisStroke={axisStroke}
+            axisLabelFont={axisLabelFont}
+            axisLabelColour={axisLabelColour}
+            measurementFill={measurementFill}
+            measurementSize={measurementSize}
+            measurementShape={measurementShape}
           />
       }
       { reference === 'turner' && sex === "female" && measurementMethod === "height" &&
@@ -71,16 +83,21 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
               title={title}
               subtitle={subtitle}
               allMeasurementPairs={measurementsArray}
-              allSDSMeasurementPairs={[]}
-              centileColour={centileColour}
               measurementMethod={measurementMethod}
               sex={sex}
-              width={width} 
-              height={height}
-              // measurementsArray = {measurementsArray}
-              // measurementsSDSArray = {measurementsSDSArray}
-              measurementDataPointColour = {measurementDataPointColour}
-              chartBackground = {chartBackground}
+              chartBackground={chartBackground}
+              gridlineStroke={gridlineStroke}
+              gridlineStrokeWidth={gridlineStrokeWidth}
+              gridlineDashed={gridlineDashed}
+              gridlines={gridlines}
+              centileStroke={centileStroke}
+              centileStrokeWidth={centileStrokeWidth}
+              axisStroke={axisStroke}
+              axisLabelFont={axisLabelFont}
+              axisLabelColour={axisLabelColour}
+              measurementFill={measurementFill}
+              measurementSize={measurementSize}
+              measurementShape={measurementShape}
           />) 
       }
       { reference === 'uk-who' &&
@@ -88,16 +105,21 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
             title={title}
             subtitle={subtitle}
             allMeasurementPairs={measurementsArray}
-            allSDSMeasurementPairs={[]}
-            centileColour={centileColour}
             measurementMethod={measurementMethod}
             sex={sex}
-            width={width} 
-            height={height}
-            // measurementsArray = {measurementsArray}
-            // measurementsSDSArray = {measurementsSDSArray}
-            measurementDataPointColour = {measurementDataPointColour}
-            chartBackground = {chartBackground}
+            chartBackground={chartBackground}
+            gridlineStroke={gridlineStroke}
+            gridlineStrokeWidth={gridlineStrokeWidth}
+            gridlineDashed={gridlineDashed}
+            gridlines={gridlines}
+            centileStroke={centileStroke}
+            centileStrokeWidth={centileStrokeWidth}
+            axisStroke={axisStroke}
+            axisLabelFont={axisLabelFont}
+            axisLabelColour={axisLabelColour}
+            measurementFill={measurementFill}
+            measurementSize={measurementSize}
+            measurementShape={measurementShape}
           />
       }
       

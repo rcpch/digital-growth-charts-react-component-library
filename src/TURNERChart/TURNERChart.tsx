@@ -9,17 +9,24 @@ import "./TURNERChart.scss";
 import { retrieveTurnerData } from "../functions/retrieveTurnerData";
 
 const TURNERChart: React.FC<TURNERChartProps> = ({
-    title,
-    subtitle,
-    measurementMethod,
-    sex,
-    allMeasurementPairs,
-    allSDSMeasurementPairs,
-    height,
-    width,
-    chartBackground,
-    measurementDataPointColour,
-    centileColour,
+                title,
+                subtitle,
+                measurementMethod,
+                sex,
+                allMeasurementPairs,
+                chartBackground,
+                gridlineStroke,
+                gridlineStrokeWidth,
+                gridlineDashed,
+                gridlines,
+                centileStroke,
+                centileStrokeWidth,
+                axisStroke,
+                axisLabelFont,
+                axisLabelColour,
+                measurementFill,
+                measurementSize,
+                measurementShape,
   }) => (
     <div data-testid="TURNERChart" className="foo-bar">
       <VictoryChart
@@ -50,15 +57,15 @@ const TURNERChart: React.FC<TURNERChartProps> = ({
           <VictoryLabel 
             dy={0}
             style={[
-              { fill: "black", fontSize: 8 },
+              { fill: axisLabelColour, fontSize: 8 },
             ]}
           />
         }
         style={{
-          axis: {stroke: "#756f6a"},
+          axis: {stroke: axisStroke},
           axisLabel: {fontSize: 10, padding: 20},
-          grid: {stroke: ({ tick }) => "grey"},
-          ticks: {stroke: "grey"},
+          grid: {stroke: ({ tick }) => gridlines ? gridlineStroke : 'transparent'},
+          ticks: {stroke: axisStroke},
           tickLabels: {fontSize: 15, padding: 5}
         }}
       />
@@ -74,8 +81,8 @@ const TURNERChart: React.FC<TURNERChartProps> = ({
                 data={centile.data}
                 style={{
                   data: {
-                    stroke: centileColour,
-                    strokeWidth: 1,
+                    stroke: centileStroke,
+                    strokeWidth: centileStrokeWidth,
                     strokeLinecap: 'round',
                     strokeDasharray: '5 5'
                   }
@@ -90,8 +97,8 @@ const TURNERChart: React.FC<TURNERChartProps> = ({
                   data={centile.data}
                   style={{
                     data: {
-                      stroke: centileColour,
-                      strokeWidth: 1,
+                      stroke: centileStroke,
+                      strokeWidth: centileStrokeWidth,
                       strokeLinecap: 'round'
                     }
                   }}
@@ -110,15 +117,18 @@ const TURNERChart: React.FC<TURNERChartProps> = ({
                 <VictoryLine
                   name="linkLine"
                   style={{ 
-                    data: { stroke: measurementDataPointColour },
-                    parent: { border: "1px solid red"}
+                    data: { stroke: measurementFill },
+                    parent: { 
+                      border: "1px solid", 
+                      color: measurementFill
+                    }
                   }}
                   data={measurementPair}
                 />
                 <VictoryScatter
                   data={measurementPair}
                   dataComponent={<Cross />}
-                  style={{ data: { fill: measurementDataPointColour } }}
+                  style={{ data: { fill: measurementFill } }}
                 />
               </VictoryGroup>
             ) : (
@@ -128,7 +138,7 @@ const TURNERChart: React.FC<TURNERChartProps> = ({
                 <VictoryScatter
                   data={measurementPair}
                   dataComponent={<Circle/>}
-                  style={{ data: { fill: measurementDataPointColour } }}
+                  style={{ data: { fill: measurementFill } }}
                 />
               </VictoryGroup>
             )

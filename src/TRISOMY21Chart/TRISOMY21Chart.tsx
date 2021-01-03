@@ -8,17 +8,24 @@ import "./TRISOMY21Chart.scss";
 import { retrieveTurnerData } from "../functions/retrieveTurnerData";
 
 const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({ 
-    title,
-    subtitle,
-    measurementMethod,
-    sex,
-    allMeasurementPairs,
-    allSDSMeasurementPairs,
-    height,
-    width,
-    chartBackground,
-    measurementDataPointColour,
-    centileColour,
+                title,
+                subtitle,
+                measurementMethod,
+                sex,
+                allMeasurementPairs,
+                chartBackground,
+                gridlineStroke,
+                gridlineStrokeWidth,
+                gridlineDashed,
+                gridlines,
+                centileStroke,
+                centileStrokeWidth,
+                axisStroke,
+                axisLabelFont,
+                axisLabelColour,
+                measurementFill,
+                measurementSize,
+                measurementShape,
  }) => (
     <div data-testid="TRISOMY21Chart" className="foo-bar">
       <VictoryChart
@@ -58,16 +65,25 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
             <VictoryLabel 
               dy={0}
               style={[
-                { fill: "black", fontSize: 8 },
+                { fill: axisLabelColour, fontSize: 8 },
               ]}
             />
           }
           style={{
             axis: {stroke: "#756f6a"},
             axisLabel: {fontSize: 10, padding: 20},
-            grid: {stroke: ({ tick }) => "grey"},
-            ticks: {stroke: "grey"},
-            tickLabels: {fontSize: 15, padding: 5}
+            grid: {
+              stroke: ({ tick }) => gridlines ? gridlineStroke : 'transparent',
+              strokeWidth: gridlineStrokeWidth,
+              strokeDasharray: gridlineDashed ? '5 5' : ''
+            },
+            ticks: {stroke: axisStroke},
+            tickLabels: {
+              fontSize: 15, 
+              padding: 5,
+              color: axisLabelColour,
+              font: axisLabelFont
+            }
           }}
         />
         {/* Render the centiles - loop through the data set, create a line for each centile */}  
@@ -81,15 +97,24 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
                 <VictoryLine
                   name="linkLine"
                   style={{ 
-                    data: { stroke: measurementDataPointColour },
-                    parent: { border: "1px solid red"}
+                    data: { 
+                      stroke: measurementFill,
+                    },
+                    parent: {
+                      border: "1px solid",
+                      color: measurementFill
+                    }
                   }}
                   data={measurementPair}
                 />
                 <VictoryScatter
                   data={measurementPair}
-                  dataComponent={<Cross />}
-                  style={{ data: { fill: measurementDataPointColour } }}
+                  symbol={measurementShape}
+                  style={{ 
+                    data: { 
+                      fill: measurementFill 
+                    } 
+                  }}
                 />
               </VictoryGroup>
             ) : (
@@ -98,8 +123,11 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
               >
                 <VictoryScatter
                   data={measurementPair}
-                  dataComponent={<Circle/>}
-                  style={{ data: { fill: measurementDataPointColour } }}
+                  style={{ 
+                    data: { 
+                      fill: measurementFill
+                    } 
+                  }}
                 />
               </VictoryGroup>
             )
@@ -111,12 +139,6 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
       </VictoryChart>
     </div>
 );
-
-const Circle = (props) =>{
-  return (<svg>
-    <circle cx={props.x} cy={props.y} r={1.25} stroke='red' />
-  </svg>)
-}
 
 const Cross = (props) => {
   return (<svg>
