@@ -92,10 +92,10 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
           <VictoryVoronoiContainer 
             labels={({ datum }) => {
               if (datum.l){
-                if (datum.x === 2){
+                if (datum.x === 4 && (measurementMethod==="height" || measurementMethod==="ofc")){
                   return "Transit point from UK-WHO to UK90 data."
                 }
-                if (datum.x === 4){
+                if (datum.x === 2 && measurementMethod==="height"){
                   return "Measure length until age 2;\nMeasure height after age 2.\nA child’s height is usually slightly less than their length.\n"
                 }
                 if(datum.l === "For all Children plotted in this shaded area see instructions."){
@@ -380,7 +380,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
             /> 
       }
 
-      { showAxis(allMeasurementPairs, "uk90Child") && sex==="male" && // puberty threshold lines boys UK90
+      { showAxis(allMeasurementPairs, "uk90Child") && sex==="male" && measurementMethod==="height" && // puberty threshold lines boys UK90
           pubertyThresholdBoys.map((data, index)=> {
             return (
               <VictoryAxis dependentAxis
@@ -412,7 +412,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
           })
       }
 
-      { showAxis(allMeasurementPairs, "uk90Child") && sex==="female" && // puberty threshold lines uk90 girls
+      { showAxis(allMeasurementPairs, "uk90Child") && sex==="female" && measurementMethod==="height" && // puberty threshold lines uk90 girls
         pubertyThresholdGirls.map((data, index)=> {
           return (
             <VictoryAxis dependentAxis
@@ -780,27 +780,31 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
               <VictoryGroup
                 key={'measurement'+index}
               >
-                { match  ? 
+                { match  ?
+                
                     <VictoryScatter
                       data={removeCorrectedAge(measurementPair)}
-                      symbol={measurementShape}
+                      symbol={({datum})=> measurementShape}
                       style={{ data: { fill: measurementFill } }}
                       name='same_age' 
                     />
-                :
-                     <VictoryScatter
-                      data={measurementPair}
-                      symbol={({datum})=> datum.age_type==="chronological_age" ? measurementShape : "plus"}
-                      style={{ data: { fill: measurementFill } }}
-                      name= 'split_age'
-                    />
-                }
+
+                  :
+      
+                   <VictoryScatter 
+                    data={measurementPair}
+                     symbol={({datum})=>datum.age_type==="chronological_age" ? measurementShape : 'plus'}
+                     style={{ data: 
+                       { fill: measurementFill } 
+                     }}
+                     name= 'split_age'
+                   />
+                    }
 
                 <VictoryLine
                   name="linkLine"
                   style={{ 
-                    data: { stroke: measurementFill },
-                    parent: { border: "1px solid", color: measurementFill}
+                    data: { stroke: measurementFill, strokeWidth: 1.25 },
                   }}
                   data={measurementPair}
                 />
@@ -821,25 +825,42 @@ const ChartCircle = (props) =>{
   </svg>)
 }
 
-// const Cross = (props) => {
-//   return (<svg>
-//     <line
-//       x1={props.x - 1.25}
-//       y1={props.y - 1.25}
-//       x2={props.x + 1.25}
-//       y2={props.y + 1.25}
-//       stroke='red'
-//       strokeWidth={2}
-//     />
-//     <line
-//       x1={props.x + 1.25}
-//       y1={props.y - 1.25}
-//       x2={props.x - 1.25}
-//       y2={props.y + 1.25}
-//       stroke='red'
-//       strokeWidth={2}
-//     />
-//   </svg>)
+// const DataShape = (props) => {
+//   const {x, y, datum }= props
+  
+//   if (datum.age_type==="corrected_age"){
+  
+//         return (<svg>
+//           <line
+//             x1={x - 1.25}
+//             y1={y - 1.25}
+//             x2={x + 1.25}
+//             y2={y + 1.25}
+//             stroke={'red'}
+//             strokeWidth={1.25}
+//           />
+//           <line
+//             x1={x + 1.25}
+//             y1={y - 1.25}
+//             x2={x - 1.25}
+//             y2={y + 1.25}
+//             stroke='red'
+//             strokeWidth={1.25}
+//           />
+//         </svg>)
+//   } else {
+
+//     return (
+//       <circle
+//         x={x}
+//         y={y}
+//         r={2.0}
+//         fill={'red'}
+//         stroke={'red'}
+//         strokeWidth={1.25}
+//       />
+//     )
+//   }
 // }
 
 export default UKWHOChart;

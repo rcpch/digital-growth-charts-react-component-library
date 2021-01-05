@@ -126,104 +126,31 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
       
     </div>
 
-
-
-
-  
-    {/* This is an example payload, triggered by the onMouseOver event crossing a child
-    data point or a centile data point - this relates to the active flag.
-    The first example array is on mouseover of the 99.6th centile
-
-      [
-        {
-          "name": "Decimal Age",
-          "unit": "",
-          "value": 3.833333333,
-          "payload": {
-            "label": 99.6,
-            "x": 3.833333333,
-            "y": 113.17839846133332
-          },
-          "dataKey": "x"
-        },
-        {
-          "name": "height",
-          "unit": " cm",
-          "value": 113.17839846133332,
-          "payload": {
-            "label": 99.6,
-            "x": 3.833333333,
-            "y": 113.17839846133332
-          },
-          "dataKey": "y"
-        },
-        {
-          "name": "Centile",
-          "unit": "centile",
-          "value": 99.6,
-          "payload": {
-            "label": 99.6,
-            "x": 3.833333333,
-            "y": 113.17839846133332
-          },
-          "dataKey": "label"
-        }
-      ]
-
-      This example array is of a child measurement
-
-      [
-        {
-          "name": "Decimal Age",
-          "unit": "",
-          "value": 3.7180013689253935,
-          "payload": {
-            "calendar_age": "3 years, 8 months, 2 weeks and 6 days",
-            "centile_band": "This height measurement is above the normal range.",
-            "centile_value": 100,
-            "corrected_gestation_days": null,
-            "corrected_gestation_weeks": null,
-            "age_type": "chronological_age",
-            "x": 3.7180013689253935,
-            "y": 125
-          },
-          "dataKey": "x"
-        },
-        {
-          "name": "height",
-          "unit": " cm",
-          "value": 125,
-          "payload": {
-            "calendar_age": "3 years, 8 months, 2 weeks and 6 days",
-            "centile_band": "This height measurement is above the normal range.",
-            "centile_value": 100,
-            "corrected_gestation_days": null,
-            "corrected_gestation_weeks": null,
-            "age_type": "chronological_age",
-            "x": 3.7180013689253935,
-            "y": 125
-          },
-          "dataKey": "y"
-        },
-        {
-          "name": "Centile",
-          "unit": "centile",
-          "value": "chronological_age",
-          "payload": {
-            "calendar_age": "3 years, 8 months, 2 weeks and 6 days",
-            "centile_band": "This height measurement is above the normal range.",
-            "centile_value": 100,
-            "corrected_gestation_days": null,
-            "corrected_gestation_weeks": null,
-            "age_type": "chronological_age",
-            "x": 3.7180013689253935,
-            "y": 125
-          },
-          "dataKey": "label"
-        }
-      ] */}
-
     </div>
   );
 
 export default RCPCHChart;
+
+/*
+measurementPair
+[
+age_type: "corrected_age"
+calendar_age: "2 months, 2 weeks and 5 days"
+centile_band: "This height measurement is between the 25th and 50th centiles."
+centile_value: 42
+corrected_gestation_days: null
+corrected_gestation_weeks: null
+x: 0.2190280629705681
+y: 60
+
+age_type: "chronological_age"
+calendar_age: "4 months and 4 weeks"
+centile_band: "This height measurement is between the 25th and 50th centiles."
+centile_value: 42
+corrected_gestation_days: null
+corrected_gestation_weeks: null
+x: 0.4106776180698152
+y: 60
+]
+
+*/
