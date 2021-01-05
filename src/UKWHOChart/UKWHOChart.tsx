@@ -1,6 +1,6 @@
 // Generated with util/create-component.js
 import React from "react";
-import { VictoryChart, VictoryGroup, VictoryLine, VictoryScatter, VictoryVoronoiContainer, VictoryTooltip, VictoryAxis, VictoryLegend, VictoryLabel, VictoryTheme, VictoryArea } from 'victory'
+import { VictoryChart, VictoryGroup, VictoryLine, VictoryScatter, VictoryVoronoiContainer, VictoryTooltip, VictoryAxis, VictoryLegend, VictoryLabel, VictoryTheme, VictoryArea, Point } from 'victory'
 import ukwhoData from '../../chartdata/uk_who_chart_data'
 import { stndth } from '../functions/suffix'
 
@@ -784,7 +784,8 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
                 
                     <VictoryScatter
                       data={removeCorrectedAge(measurementPair)}
-                      symbol={({datum})=> measurementShape}
+                      symbol={ measurementShape}
+                      // dataComponent={<XPoint/>}
                       style={{ data: { fill: measurementFill } }}
                       name='same_age' 
                     />
@@ -792,8 +793,9 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
                   :
       
                    <VictoryScatter 
-                    data={measurementPair}
-                     symbol={({datum})=>datum.age_type==="chronological_age" ? measurementShape : 'plus'}
+                      data={measurementPair}
+                    //  symbol={({datum})=>datum.age_type==="chronological_age" ? measurementShape : 'plus'}
+                      dataComponent={<XPoint/>}
                      style={{ data: 
                        { fill: measurementFill } 
                      }}
@@ -816,6 +818,16 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
 
 );
 
+const XPoint = (props) => {
+  const transform = `rotate(45, ${props.x}, ${props.y})`;
+  if(props.datum.age_type==="chronological_age"){
+    return <Point {...props} symbol="circle" />
+  } else {
+    return <Point {...props} symbol="plus" transform={transform} />
+  }
+  
+};
+
 const ChartCircle = (props) =>{
   const {x, y, style, text} = props
   return (<svg>
@@ -824,43 +836,5 @@ const ChartCircle = (props) =>{
     <line x1={props.x} x2={x} y1={y} y2={y-20} stroke={style.stroke}/>
   </svg>)
 }
-
-// const DataShape = (props) => {
-//   const {x, y, datum }= props
-  
-//   if (datum.age_type==="corrected_age"){
-  
-//         return (<svg>
-//           <line
-//             x1={x - 1.25}
-//             y1={y - 1.25}
-//             x2={x + 1.25}
-//             y2={y + 1.25}
-//             stroke={'red'}
-//             strokeWidth={1.25}
-//           />
-//           <line
-//             x1={x + 1.25}
-//             y1={y - 1.25}
-//             x2={x - 1.25}
-//             y2={y + 1.25}
-//             stroke='red'
-//             strokeWidth={1.25}
-//           />
-//         </svg>)
-//   } else {
-
-//     return (
-//       <circle
-//         x={x}
-//         y={y}
-//         r={2.0}
-//         fill={'red'}
-//         stroke={'red'}
-//         strokeWidth={1.25}
-//       />
-//     )
-//   }
-// }
 
 export default UKWHOChart;
