@@ -1,6 +1,6 @@
 // Generated with util/create-component.js
 import React from "react";
-import { VictoryChart, VictoryGroup, VictoryLine, VictoryScatter, VictoryVoronoiContainer, VictoryTooltip, VictoryAxis, VictoryLegend, VictoryLabel, VictoryTheme, VictoryArea, Point } from 'victory'
+import { VictoryChart, VictoryGroup, VictoryLine, VictoryScatter, VictoryVoronoiContainer, VictoryTooltip, VictoryAxis, VictoryLegend, VictoryLabel, VictoryTheme, VictoryArea, Point, LineSegment } from 'victory'
 import ukwhoData from '../../chartdata/uk_who_chart_data'
 import { stndth } from '../functions/suffix'
 
@@ -89,6 +89,10 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
  }) => (
     <div data-testid="UKWHOChart" className="centred">
       <VictoryChart
+        animate={{
+          duration: 500,
+          onLoad: { duration: 500 }
+        }}
         containerComponent={
           <VictoryVoronoiContainer 
             labels={({ datum }) => {
@@ -166,9 +170,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
                     color: axisLabelColour
                   },
                   grid: { 
-                    stroke: ()=> gridlines ? gridlineStroke : 'transparent',
-                    strokeWidth: ({t})=> t % 5 ? gridlineStrokeWidth + 0.5 : gridlineStrokeWidth,
-                    strokeDasharray: gridlineDashed ? '5 5' : ''
+                    stroke: ()=> gridlines ? gridlineStroke : null,
                   }
                 }}
                 tickLabelComponent={
@@ -189,7 +191,6 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
 
       { showAxis(allMeasurementPairs, "ukwhoInfant") && // uk-who infants x axis reporting months
           <VictoryAxis
-              label="Age (mths)"
               theme={VictoryTheme.material}
               tickLabelComponent={
                   <ChartCircle style={{
@@ -201,11 +202,6 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
               tickFormat={(t)=> `${returnAxis(t, "months")}`}
               style={{
                 axis: {stroke: axisStroke},
-                axisLabel: {
-                  color: axisLabelColour,
-                  fontSize: 10, 
-                  padding: 20
-                },
                 ticks: {stroke: axisStroke},
                 tickLabels: {
                   fontSize: 6, 
@@ -214,8 +210,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
                   font: axisLabelFont
                 },
                 grid: { 
-                  stroke: t => gridlines ? ( (t.tickValue*12)%6===0 ? LightenDarkenColour(gridlineStroke, -40) : gridlineStroke ) : 'transparent',
-                  strokeWidth: ({t})=> t % 5 === 0 ? gridlineStrokeWidth + 0.5 : gridlineStrokeWidth
+                  stroke: gridlines ? gridlineStroke : null
                 }
               }}
               
@@ -232,7 +227,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
                dy={0}
                style={[
                  { 
-                   fill: axisStroke, 
+                   fill: axisLabelColour, 
                    fontSize: 5 
                   },
                ]}
@@ -253,8 +248,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
             
              tickLabels: {fontSize: 6, padding: 5},
              grid: {
-               stroke: t=>gridlines ? (Math.round(t.tickValue*52)%2===0 ? LightenDarkenColour(gridlineStroke, -40) : gridlineStroke): 'transparent',
-               strokeWidth: ({t})=> t % 5 === 0 ? gridlineStrokeWidth + 0.5 : gridlineStrokeWidth
+              stroke: gridlines ? gridlineStroke : null
              }
            }}
          /> 
@@ -262,7 +256,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
 
       { showAxis(allMeasurementPairs, "ukwhoChild") && // uk-who child x axis reporting months
             <VictoryAxis
-            label="Age (years)"
+            // label="Age (years)"
               theme={VictoryTheme.material}
               tickLabelComponent={
                 <ChartCircle style={{
@@ -271,13 +265,18 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
               }
               fixLabelOverlap
               tickFormat={(t)=> `${returnAxis(t, "years")}`}
+              axisLabelComponent={
+                  <VictoryLabel 
+                    style={{
+                      fontSize: 10,
+                      padding: 20, 
+                      color: axisLabelColour,
+                      font: axisLabelFont
+                    }}
+                  />
+              }
               style={{
-                axis: {stroke: "#756f6a"},
-                axisLabel: {
-                  fontSize: 10, 
-                  padding: 20, 
-                  color: axisLabelColour,
-                },
+                axis: {stroke: axisStroke},
                 ticks: {
                   stroke: axisStroke
                 },
@@ -287,7 +286,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
                   color: axisLabelColour
                 },
                 grid: { 
-                  stroke: ({t})=> gridlines ? (t % 5 === 0 ? LightenDarkenColour(gridlineStroke, 50) : gridlineStroke) : 'transparent', 
+                  stroke: gridlines ? gridlineStroke : null
                 }
               }}
             />
@@ -331,7 +330,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
               font: axisLabelColour
             },
             grid: { 
-              stroke: ({t})=> gridlines ? (t % 5 === 0 ? LightenDarkenColour(gridlineStroke, 50) : gridlineStroke) : 'transparent', 
+              stroke: gridlines ? gridlineStroke : null
             }
           }}
         />
@@ -374,8 +373,16 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
                   font: axisLabelFont
                 },
                 grid: {
-                  stroke: (tick)=> returnGridlineColour(gridlines, gridlineStroke, tick, sex, "uk90Child"),
-                  strokeWidth: ({t})=> t % 5 === 0 ? gridlineStrokeWidth + 0.5 : gridlineStrokeWidth
+                  stroke: ({tick})=> {
+                    if(!gridlines){
+                      return null
+                    }
+                    if (tick % 5 === 0) {
+                      return LightenDarkenColour(gridlineStroke, -10)
+                    }
+                    return gridlineStroke
+                  }
+                  // strokeWidth: ({t})=> t % 5 === 0 ? gridlineStrokeWidth + 0.5 : gridlineStrokeWidth
                 }
               }}
             /> 
@@ -395,7 +402,8 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
                   />}
                 style={{ 
                   axis: {
-                    stroke: axisStroke
+                    stroke: 'black',
+                    strokeWidth: 1.0
                   },
                   tickLabels: 
                   { 
@@ -422,7 +430,8 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
               axisLabelComponent = {<VictoryLabel dy={30} dx={-60}/>}
               style={{ 
                 axis: {
-                  stroke: axisStroke
+                  stroke: 'black',
+                  strokeWidth: 1.0
                 },
                 tickLabels: 
                 { 
@@ -442,17 +451,18 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
 
       {/* render the y axis  - there is one for each reference*/}
 
-     { showAxis(allMeasurementPairs, "uk90Preterm") && // y axis for uk-who child
+     { showAxis(allMeasurementPairs, "uk90Preterm") && // y axis for uk90 preterm
         <VictoryAxis // this is the y axis
           label={yAxisLabel(measurementMethod)}
           tickCount={yAxisTickNumber("ukwhoPreterm", measurementMethod)}
           tickFormat={(t)=> t%5==0? t : null}
           style= {{
             axis: {
-              stroke: axisStroke
+              stroke: axisStroke,
+              strokeWidth: 1.0
             },
             axisLabel: {
-              fontSize: 6, 
+              fontSize: 10, 
               padding: 20,
               color: axisLabelColour,
               font: axisLabelFont
@@ -467,13 +477,13 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
               font: axisLabelFont
             },
             grid: { 
-              stroke: gridlines ? gridlineStroke : 'transparent', 
+              stroke: gridlines ? gridlineStroke : null, 
               strokeWidth: ({t})=> t % 5 === 0 ? gridlineStrokeWidth + 0.5 : gridlineStrokeWidth,
               strokeDasharray: gridlineDashed ? '5 5' : ''
             }}}
           dependentAxis />   
       }
-     { showAxis(allMeasurementPairs, "ukwhoInfant") && // y axis for uk-who child
+     { showAxis(allMeasurementPairs, "ukwhoInfant") && // y axis for uk-who infant
         <VictoryAxis // this is the y axis
           label={yAxisLabel(measurementMethod)}
           tickCount={yAxisTickNumber("ukwhoInfant", measurementMethod)}
@@ -483,7 +493,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
               stroke: axisStroke
             },
             axisLabel: {
-              fontSize: 6, 
+              fontSize: 10, 
               padding: 20,
               color: axisLabelColour,
               font: axisLabelFont
@@ -498,9 +508,15 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
               font: axisLabelFont
             },
             grid: { 
-              stroke: gridlines ? gridlineStroke : 'transparent', 
-              strokeWidth: ({t})=> t % 5 === 0 ? gridlineStrokeWidth + 0.5 : gridlineStrokeWidth,
-              strokeDasharray: gridlineDashed ? '5 5' : ''
+              stroke: ({tick})=> {
+                if(!gridlines){
+                  return null
+                }
+                if (tick % 10 === 0) {
+                  return LightenDarkenColour(gridlineStroke, -10)
+                }
+                return gridlineStroke
+              }
             }}}
           dependentAxis />   
       }
@@ -515,7 +531,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
               stroke: axisStroke
             },
             axisLabel: {
-              fontSize: 6, 
+              fontSize: 10, 
               padding: 20,
               color: axisLabelColour,
               font: axisLabelFont
@@ -530,7 +546,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
               font: axisLabelFont
             },
             grid: { 
-              stroke: gridlines ? gridlineStroke : 'transparent', 
+              stroke: gridlines ? gridlineStroke : null, 
               strokeWidth: ({t})=> t % 5 === 0 ? gridlineStrokeWidth + 0.5 : gridlineStrokeWidth,
               strokeDasharray: gridlineDashed ? '5 5' : ''
             }}}
@@ -562,10 +578,10 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
               font: axisLabelFont
             },
             grid: { 
-              stroke: gridlines ? gridlineStroke : 'transparent', 
-              strokeWidth: ({t})=> t % 5 === 0 ? gridlineStrokeWidth + 0.5 : gridlineStrokeWidth,
-              strokeDasharray: gridlineDashed ? '5 5' : ''
-            }}}
+              stroke: (t)=> gridlines ? gridlineStroke : null,
+              strokeWidth: (t)=> t % 5 === 0 ? gridlineStrokeWidth + 0.5 : gridlineStrokeWidth,
+            }
+          }}
           dependentAxis />   
       }
 
