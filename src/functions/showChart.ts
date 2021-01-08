@@ -6,7 +6,11 @@ export function showChart(measurementsArray, chartType: string){
     const uk90Child = {LowerLimit: 4, UpperLimit: 20}
 
     if (measurementsArray.length ===0 ){
-        return true //show chart if no child measurements to plot
+        if (chartType==="uk90Child" || chartType==="ukwhoInfant" || chartType==="ukwhoChild"){
+            return true //show all charts if no child measurements to plot, except preterm data
+        } else {
+            return false
+        }
     } else {
         const minAge = measurementsArray[0][0].x
         const maxAge = measurementsArray[measurementsArray.length - 1][1].x

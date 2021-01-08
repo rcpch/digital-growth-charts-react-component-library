@@ -352,7 +352,6 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
                 />
               }
               tickCount = {20}
-
               style={{
                 axis: {
                   stroke: axisStroke
@@ -723,6 +722,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
             if (index % 2 === 0) {
               return (
                 <VictoryLine
+                  domain={{x:[0,20]}}
                   key={centile.data[0].l + '-' + index}
                   padding={{ top: 20, bottom: 60 }}
                   data={centile.data}
@@ -740,6 +740,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
               return (
                 <VictoryLine
                   key={centile.data[0].l + '-' + index}
+                  domain={{x:[0,20]}}
                   padding={{ top: 20, bottom: 60 }}
                   data={centile.data}
                   style={{
