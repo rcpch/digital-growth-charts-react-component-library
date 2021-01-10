@@ -9,10 +9,6 @@ export function returnAxis(tick: number, interval: string){
     if (interval === "weeks"){
         const weeks = Math.round(tick*52)
         if (weeks % 2 === 0){
-            if(weeks<0){
-                console.log(weeks);
-                
-            }
             return weeks
         } else {
             return ''
@@ -20,6 +16,8 @@ export function returnAxis(tick: number, interval: string){
     }
 
     if (interval === "months"){
+        console.log(tick*12);
+        
         if (tick*12%2==0){
             return tick*12
         } else {
@@ -33,5 +31,14 @@ export function returnAxis(tick: number, interval: string){
         if (tick%1===0.5){
             return Math.floor(tick) + "½"
         }
+    }
+}
+
+export function equalIntervals(intervalNumber: number, intervalType: string){
+    if (intervalType==="weeks"){
+        return intervalNumber / 52
+    }
+    if (intervalType==="months"){
+        return intervalNumber / 12
     }
 }

@@ -9,17 +9,17 @@ import { showChart} from '../functions/showChart'
 import { showAxis} from '../functions/showAxis'
 
 import "./UKWHOChart.scss";
-import { returnAxis } from "../functions/axis";
+import { equalIntervals, returnAxis } from "../functions/axis";
 import { getWeeks } from '../functions/getWeeks'
 import { removeCorrectedAge } from "../functions/removeCorrectedAge";
 import { measurementSuffix } from "../functions/measurementSuffix";
 import { LightenDarkenColour } from "../functions/lightenDarken";
-import { returnGridlineColour } from '../functions/gridLineColour';
-import { returnGridlineStrokeWidth } from '../functions/gridlineStrokeWidth';
 import { testParam } from "../functions/test";
 import { addAlpha } from "../functions/addAlpha";
 import { yAxisTickNumber } from "../functions/yAxisTickNumber";
 import { yAxisLabel } from "../functions/yAxisLabel";
+import { ageThresholds } from "../functions/ageThresholds";
+import { ageTickNumber } from '../functions/ageTick'
 
 const pubertyThresholdBoys = [
   {
@@ -93,6 +93,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
           duration: 500,
           onLoad: { duration: 500 }
         }}
+        domain={ageThresholds(allMeasurementPairs)}
         containerComponent={
           <VictoryVoronoiContainer 
             labels={({ datum }) => {
@@ -147,8 +148,171 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
       />
       
       {/* Render the x axes */}
+          {/* X axis in Years  - rendered if there are  plotted child measurements and the max value is > 2y, or no measurements supplied */}
+          { ((allMeasurementPairs.length > 0 && ageThresholds(allMeasurementPairs).x[1] > 2) || (allMeasurementPairs.length< 1)) && 
+              <VictoryAxis
+                label="Age (years)"
+                style={{
+                  axis: {
+                    stroke: axisStroke,
+                  },
+                  axisLabel: {
+                    fontSize: 10, 
+                    padding: 20,
+                    color: axisLabelColour,
+                    font: axisLabelFont
+                  },
+                  ticks: {
+                    stroke: axisStroke 
+                  },
+                  tickLabels: {
+                    fontSize: 6, 
+                    padding: 5,
+                    color: axisLabelColour
+                  },
+                  grid: { 
+                    stroke: ()=> gridlines ? gridlineStroke : null,
+                  }
+                }}
+                tickLabelComponent={
+                  <VictoryLabel 
+                    dy={0}
+                    style={[
+                      { fill: axisLabelColour, 
+                        fontSize: 6,
+                        font: axisLabelFont
+                      },
+                    ]}
+                  />
+                }
+                tickValues={ageTickNumber(allMeasurementPairs, "years")}
+                tickFormat={(t)=> `${returnAxis(t, "years")}`}
+              /> 
+        }
 
-      { showAxis(allMeasurementPairs, "uk90Preterm") && // preterm x axis reporting gestation
+      {/* X axis in Months - rendered if child measurements exist and the max age < 2 but > 2 weeks */}
+
+      { (allMeasurementPairs.length > 0 && (ageThresholds(allMeasurementPairs).x[1] <= 2 && ageThresholds(allMeasurementPairs).x[1] > 0.0383)) &&
+            <VictoryAxis
+                label="months"
+                axisLabelComponent={<MonthsLabel />}
+                style={{
+                  axis: {
+                    stroke: axisStroke,
+                  },
+                  axisLabel: { 
+                    fontSize: 10, 
+                    padding: 20,
+                    color: axisLabelColour,
+                    font: axisLabelFont
+                  },
+                  ticks: {
+                    stroke: axisStroke 
+                  },
+                  tickLabels: {
+                    fontSize: 6, 
+                    padding: 5,
+                    color: axisLabelColour
+                  },
+                  grid: { 
+                    stroke: ()=> gridlines ? gridlineStroke : null,
+                  }
+                }}
+                tickLabelComponent={
+                  <ChartCircle style={{
+                    stroke: axisStroke
+                  }}/>
+                }
+                tickValues={ageTickNumber(allMeasurementPairs, "months")}
+                tickFormat={(t)=> t * 12}
+              /> }
+
+      {/* X axis in Weeks only: rendered if there are child measurements and  < 2 years and > 2 weeks */}
+          { allMeasurementPairs.length > 0 && (ageThresholds(allMeasurementPairs).x[1] < 2 && ageThresholds(allMeasurementPairs).x[1] > 0.0383) &&
+              <VictoryAxis
+                label="Age (weeks)"
+                minDomain={0}
+                style={{
+                  axis: {
+                    stroke: axisStroke,
+                  },
+                  axisLabel: {
+                    fontSize: 10, 
+                    padding: 20,
+                    color: axisLabelColour,
+                    font: axisLabelFont
+                  },
+                  ticks: {
+                    stroke: axisStroke 
+                  },
+                  tickLabels: {
+                    fontSize: 6, 
+                    padding: 5,
+                    color: axisLabelColour
+                  },
+                  grid: { 
+                    stroke: ()=> gridlines ? gridlineStroke : null,
+                  }
+                }}
+                tickLabelComponent={
+                  <VictoryLabel 
+                    dy={0}
+                    style={[
+                      { fill: axisLabelColour, 
+                        fontSize: 6,
+                        font: axisLabelFont
+                      },
+                    ]}
+                  />
+                }
+                tickValues={ageTickNumber(allMeasurementPairs, "weeks")}
+                tickFormat={(t)=> `${returnAxis(t, "weeks")}`}
+              /> 
+          }
+        {/* X axis in Weeks only - preterm focus: rendered if there are child measurements and the first decimal age < 2 weeks */}
+      { allMeasurementPairs.length > 0 && (ageThresholds(allMeasurementPairs).x[0] < 0.0383) && 
+
+          <VictoryAxis
+            label="Gestation (weeks)"
+            style={{
+              axis: {
+                stroke: axisStroke,
+              },
+              axisLabel: {
+                fontSize: 10, 
+                padding: 20,
+                color: axisLabelColour,
+                font: axisLabelFont
+              },
+              ticks: {
+                stroke: axisStroke 
+              },
+              tickLabels: {
+                fontSize: 6, 
+                padding: 5,
+                color: axisLabelColour
+              },
+              grid: { 
+                stroke: ()=> gridlines ? gridlineStroke : null,
+              }
+            }}
+            tickLabelComponent={
+              <VictoryLabel 
+                dy={0}
+                style={[
+                  { fill: axisLabelColour, 
+                    fontSize: 6,
+                    font: axisLabelFont
+                  },
+                ]}
+              />
+            }
+            tickValues={ageTickNumber(allMeasurementPairs, "pretermWeeks")}
+            tickFormat={(t)=> `${returnAxis(t, "pretermWeeks")}`}
+        />
+      }
+        
+     {/* { showAxis(allMeasurementPairs, "uk90Preterm") && // preterm x axis reporting gestation
               <VictoryAxis
                 label="Age (weeks)"
                 style={{
@@ -198,7 +362,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
                   }}/>
           
               }
-              tickCount={5}
+              tickCount={ageTickNumber(allMeasurementPairs, "months")}
               tickFormat={(t)=> `${returnAxis(t, "months")}`}
               style={{
                 axis: {stroke: axisStroke},
@@ -232,8 +396,8 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
                   },
                ]}
              />
-            
            }
+           tickCount={ageTickNumber(allMeasurementPairs, "weeks")}
            tickFormat={(t)=> returnAxis(t, "weeks")} 
            style={{
              axis: {
@@ -308,7 +472,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
               ]}
             />
           }
-          tickCount={16}
+          tickCount={ageTickNumber(allMeasurementPairs, "months")}
           tickFormat={(t)=> `${returnAxis(t, "months")}`}
           style={{
             axis: {
@@ -338,7 +502,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
 
       { showAxis(allMeasurementPairs, "uk90Child") && // uk90 child axis reporting years
             <VictoryAxis
-              label="Age (y)"
+              label="Age (years)"
               theme={VictoryTheme.material}
               tickLabelComponent={
                 <VictoryLabel 
@@ -351,7 +515,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
                   ]}
                 />
               }
-              tickCount = {20}
+              tickCount = {ageTickNumber(allMeasurementPairs, "years")} //alway have yearly intervals
               style={{
                 axis: {
                   stroke: axisStroke
@@ -385,7 +549,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
                 }
               }}
             /> 
-      }
+      } */ }
 
       { showAxis(allMeasurementPairs, "uk90Child") && sex==="male" && measurementMethod==="height" && // puberty threshold lines boys UK90
           pubertyThresholdBoys.map((data, index)=> {
@@ -722,7 +886,6 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
             if (index % 2 === 0) {
               return (
                 <VictoryLine
-                  domain={{x:[0,20]}}
                   key={centile.data[0].l + '-' + index}
                   padding={{ top: 20, bottom: 60 }}
                   data={centile.data}
@@ -740,7 +903,6 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
               return (
                 <VictoryLine
                   key={centile.data[0].l + '-' + index}
-                  domain={{x:[0,20]}}
                   padding={{ top: 20, bottom: 60 }}
                   data={centile.data}
                   style={{
@@ -840,7 +1002,16 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
 
 );
 
-const XPoint = (props) => {
+const MonthsLabel = (props) => { // lollipop tick for months as axis label
+  const {x, y, text, style} = props
+  return (<svg>
+    <text x={x+50} y={y+7.5} textAnchor="left" fontSize={10}>{text}</text>
+    <circle cx={x+40} cy={y+5} r={5} stroke="black" fill="transparent" />
+    <line x1={x+40} x2={x+40} y1={y+17.5} y2={y+10} stroke="black" />
+  </svg>)
+}
+
+const XPoint = (props) => { // the x for the corrected age, circle for the chronological age
   const transform = `rotate(45, ${props.x}, ${props.y})`;
   if(props.datum.age_type==="chronological_age"){
     return <Point {...props} symbol="circle" />
@@ -853,9 +1024,9 @@ const XPoint = (props) => {
 const ChartCircle = (props) =>{
   const {x, y, style, text} = props
   return (<svg>
-    <text x={props.text.length < 2 ?x-5 : x-10} y={y-25} fill={style.stroke}>{text}</text>
-    <circle cx={props.x} cy={y-30} r={10} stroke={style.stroke} fill="transparent" />
-    <line x1={props.x} x2={x} y1={y} y2={y-20} stroke={style.stroke}/>
+    <text x={x} y={y-12.5} textAnchor="middle" fill={style.stroke} fontSize={6}>{text}</text>
+    <circle cx={props.x} cy={y-15} r={5} stroke={style.stroke} fill="transparent" />
+    <line x1={props.x} x2={x} y1={y} y2={y-10} stroke={style.stroke}/>
   </svg>)
 }
 
