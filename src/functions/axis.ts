@@ -1,18 +1,10 @@
 export function returnAxis(tick: number, interval: string){
     if (interval === "pretermWeeks"){
-        if (tick < 0){
-            return (Math.round(tick*52))+40
-        } else {
-            return 40+(Math.round(tick*52))
-        }
+        return 40+(tick*52)
     }
     if (interval === "weeks"){
         const weeks = Math.round(tick*52)
         if (weeks % 2 === 0){
-            if(weeks<0){
-                console.log(weeks);
-                
-            }
             return weeks
         } else {
             return ''
@@ -20,6 +12,8 @@ export function returnAxis(tick: number, interval: string){
     }
 
     if (interval === "months"){
+        console.log(tick*12);
+        
         if (tick*12%2==0){
             return tick*12
         } else {
@@ -34,4 +28,20 @@ export function returnAxis(tick: number, interval: string){
             return Math.floor(tick) + "½"
         }
     }
+}
+
+export function yAxisTickInterval(ticks, measurementMethod: string){
+    if(measurementMethod==="height"){
+        return ticks%10===0 ? ticks : null
+    }
+    if(measurementMethod==="weight"){
+        return ticks%10===0 ? ticks : null
+    }
+    if(measurementMethod==="ofc"){
+        return ticks%5===0 ? ticks : null
+    }
+    if(measurementMethod==="bmi"){
+        return ticks%5===0 ? ticks : null
+    }
+
 }

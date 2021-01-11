@@ -1,6 +1,8 @@
 export function showAxis(measurementsArray, chartType: string){
 
-    const uk90Preterm = {LowerLimit: -0.038, UpperLimit: 0.0383}
+    // selects x axis based on ages supplied
+
+    const uk90Preterm = {LowerLimit: -0.383, UpperLimit: 0.0383}
     const ukwhoInfant = {LowerLimit: 0.038, UpperLimit: 2}
     const ukwhoChild = {LowerLimit: 2, UpperLimit: 4}
     const uk90Child = {LowerLimit: 4, UpperLimit: 20}
@@ -23,8 +25,8 @@ export function showAxis(measurementsArray, chartType: string){
             return false
         }
         if(chartType === "ukwhoInfant"){
-            
             if ((maxAge < ukwhoInfant.UpperLimit && maxAge >= uk90Preterm.UpperLimit )){
+
                 return true
             } else {
                 return false
