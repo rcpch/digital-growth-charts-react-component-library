@@ -3,7 +3,7 @@ export function yAxisLabel(measurement_method: string){
         return "Height/Length (cm)"
     }
     if(measurement_method==="weight"){
-        return "Weight (cm)"
+        return "Weight (kg)"
     }
     if(measurement_method==="bmi"){
         return "Body Mass Index (kg/m²)"

@@ -14,8 +14,8 @@ export function showChart(measurementsArray, chartType: string){
     const uk90Child = {LowerLimit: 4, UpperLimit: 20}
 
     const ageThreshold = ageThresholds(measurementsArray)
-    const lowerThreshold = ageThreshold.x[0]
-    const upperThreshold = ageThreshold.x[1]
+    const lowerThreshold = ageThreshold[0]
+    const upperThreshold = ageThreshold[1]
 
 
 

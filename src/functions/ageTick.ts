@@ -2,29 +2,29 @@ import { ageThresholds } from './ageThresholds'
 
 export function ageTickNumber(measurementsArray, interval: string):number[]{
     const ageLimits = ageThresholds(measurementsArray)
-    let ageDifference = ageLimits.x[1]-ageLimits.x[0] //difference in years
+    let ageDifference = ageLimits[1]-ageLimits[0] //difference in years
     if (interval==="months"){
-        const monthsUpper = ageLimits.x[1]*12
-        const monthsLower = ageLimits.x[0]*12
+        const monthsUpper = ageLimits[1]*12
+        const monthsLower = ageLimits[0]*12
         ageDifference = monthsUpper - monthsLower        
         return createValues(monthsLower, monthsUpper, interval)
     }
     if (interval == "weeks"){
-        const weeksUpper = ageLimits.x[1]*52
-        const weeksLower = ageLimits.x[0]*52
+        const weeksUpper = ageLimits[1]*52
+        const weeksLower = ageLimits[0]*52
         ageDifference = weeksUpper - weeksLower
         
         return createValues(weeksLower, weeksUpper, interval)
     }
     if (interval == "pretermWeeks"){
-        const weeksLower = ageLimits.x[0]
-        const weeksUpper = ageLimits.x[1]
+        const weeksLower = ageLimits[0]
+        const weeksUpper = ageLimits[1]
         ageDifference = weeksUpper - weeksLower
         return createValues(weeksLower, weeksUpper, interval)
     }
     if (interval=="years"){
-        const yearsUpper = ageLimits.x[1]
-        const yearsLower = ageLimits.x[0]
+        const yearsUpper = ageLimits[1]
+        const yearsLower = ageLimits[0]
         ageDifference = yearsUpper - yearsLower
               
         return createValues(yearsLower, yearsUpper, interval)   

@@ -16,10 +16,10 @@ import { measurementSuffix } from "../functions/measurementSuffix";
 import { LightenDarkenColour } from "../functions/lightenDarken";
 import { testParam } from "../functions/test";
 import { addAlpha } from "../functions/addAlpha";
-import { yAxisTickNumber } from "../functions/yAxisTickNumber";
 import { yAxisLabel } from "../functions/yAxisLabel";
 import { ageThresholds } from "../functions/ageThresholds";
 import { ageTickNumber } from '../functions/ageTick'
+import { measurementThresholds } from "../functions/measurementThresholds";
 
 const pubertyThresholdBoys = [
   {
@@ -96,12 +96,12 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
           duration: 500,
           onLoad: { duration: 500 }
         }}
-        domain={ageThresholds(allMeasurementPairs)}
+        domain={{x: ageThresholds(allMeasurementPairs), y: measurementThresholds(allMeasurementPairs, measurementMethod)}}
         containerComponent={
           <VictoryVoronoiContainer 
             labels={({ datum }) => {
               if (datum.l){
-                if (datum.x === 4 && (measurementMethod==="height" || measurementMethod==="ofc")){
+                if (datum.x === 4 ){
                   return "Transit point from UK-WHO to UK90 data."
                 }
                 if (datum.x === 2 && measurementMethod==="height"){
@@ -162,7 +162,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
       {/* This is calculated in the function ageThresholds and ageTicks */}
 
           {/* X axis in Years  - rendered if there are  plotted child measurements and the max value is > 2y, or no measurements supplied */}
-          { ((allMeasurementPairs.length > 0 && ageThresholds(allMeasurementPairs).x[1] > 2) || (allMeasurementPairs.length< 1)) && 
+          { ((allMeasurementPairs.length > 0 && ageThresholds(allMeasurementPairs)[1] > 2) || (allMeasurementPairs.length< 1)) && 
               <VictoryAxis
                 label="Age (years)"
                 style={{
@@ -205,7 +205,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
 
       {/* X axis in Months - rendered if child measurements exist and the max age < 2 but > 2 weeks */}
 
-      { (allMeasurementPairs.length > 0 && (ageThresholds(allMeasurementPairs).x[1] <= 2 && ageThresholds(allMeasurementPairs).x[1] > 0.0383)) &&
+      { (allMeasurementPairs.length > 0 && (ageThresholds(allMeasurementPairs)[1] <= 2 && ageThresholds(allMeasurementPairs)[1] > 0.0383)) &&
             <VictoryAxis
                 label="months"
                 axisLabelComponent={<MonthsLabel />}
@@ -241,7 +241,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
               /> }
 
       {/* X axis in Weeks only: rendered if there are child measurements and  < 2 years and > 2 weeks */}
-          { allMeasurementPairs.length > 0 && (ageThresholds(allMeasurementPairs).x[1] < 2 && ageThresholds(allMeasurementPairs).x[1] > 0.0383) &&
+          { allMeasurementPairs.length > 0 && (ageThresholds(allMeasurementPairs)[1] < 2 && ageThresholds(allMeasurementPairs)[1] > 0.0383) &&
               <VictoryAxis
                 label="Age (weeks)"
                 minDomain={0}
@@ -283,7 +283,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
               /> 
           }
         {/* X axis in Weeks only - preterm focus: rendered if there are child measurements and the first decimal age < 2 weeks */}
-      { allMeasurementPairs.length > 0 && (ageThresholds(allMeasurementPairs).x[0] < 0.0383) && 
+      { allMeasurementPairs.length > 0 && (ageThresholds(allMeasurementPairs)[0] < 0.0383) && 
 
           <VictoryAxis
             label="Gestation (weeks)"
@@ -393,8 +393,6 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
      { showAxis(allMeasurementPairs, "uk90Preterm") && // y axis for uk90 preterm
         <VictoryAxis // this is the y axis
           label={yAxisLabel(measurementMethod)}
-          tickCount={yAxisTickNumber("ukwhoPreterm", measurementMethod)}
-          tickFormat={(t)=> t%5==0? t : null}
           style= {{
             axis: {
               stroke: axisStroke,
@@ -425,8 +423,6 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
      { showAxis(allMeasurementPairs, "ukwhoInfant") && // y axis for uk-who infant
         <VictoryAxis // this is the y axis
           label={yAxisLabel(measurementMethod)}
-          tickCount={yAxisTickNumber("ukwhoInfant", measurementMethod)}
-          tickFormat={(t)=> t%5==0? t : null}
           style= {{
             axis: {
               stroke: axisStroke
@@ -463,8 +459,6 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
      { showAxis(allMeasurementPairs, "ukwhoChild") && // y axis for uk-who child
         <VictoryAxis // this is the y axis
           label={yAxisLabel(measurementMethod)}
-          tickCount={yAxisTickNumber("ukwhoChild", measurementMethod)}
-          tickFormat={(t)=> t%5==0? t : null}
           style= {{
             axis: {
               stroke: axisStroke
@@ -495,8 +489,6 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
      { showAxis(allMeasurementPairs, "uk90Child") && // y axis for uk90 child
         <VictoryAxis // this is the y axis
           label={yAxisLabel(measurementMethod)}
-          tickCount={yAxisTickNumber("uk90Child", measurementMethod)}
-          tickFormat={(t)=> yAxisTickInterval(t, measurementMethod)}
           style= {{
             axis: {
               stroke: axisStroke
