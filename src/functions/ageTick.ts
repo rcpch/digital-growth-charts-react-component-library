@@ -17,15 +17,16 @@ export function ageTickNumber(measurementsArray, interval: string):number[]{
         return createValues(weeksLower, weeksUpper, interval)
     }
     if (interval == "pretermWeeks"){
-        const weeksUpper = 40 + (ageLimits.x[0]*52)
-        const weeksLower = ageLimits.x[1]*52
+        const weeksLower = ageLimits.x[0]
+        const weeksUpper = ageLimits.x[1]
         ageDifference = weeksUpper - weeksLower
         return createValues(weeksLower, weeksUpper, interval)
     }
     if (interval=="years"){
         const yearsUpper = ageLimits.x[1]
         const yearsLower = ageLimits.x[0]
-        ageDifference = yearsUpper - yearsLower        
+        ageDifference = yearsUpper - yearsLower
+              
         return createValues(yearsLower, yearsUpper, interval)   
     }
     
@@ -42,18 +43,23 @@ function createValues(lowerValue, upperValue, interval):number[]{
             if(i%6===0){
                 finalArray.push(i/12)
             }
+            i++
         }
         if (interval==="weeks"){
             if(i%2===0){
                 finalArray.push(i/52)
             }
+            i++
         }
         if (interval==="years"){
             finalArray.push(i)
+            i++
         }
-        i++
+        if (interval==="pretermWeeks"){
+            finalArray.push(i)
+            i++
+        }
     }
-    
     return finalArray
 
 }

@@ -1,10 +1,6 @@
 export function returnAxis(tick: number, interval: string){
     if (interval === "pretermWeeks"){
-        if (tick < 0){
-            return (Math.round(tick*52))+40
-        } else {
-            return 40+(Math.round(tick*52))
-        }
+        return 40+(tick*52)
     }
     if (interval === "weeks"){
         const weeks = Math.round(tick*52)

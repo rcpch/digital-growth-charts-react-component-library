@@ -20,7 +20,7 @@ export function ageThresholds(measurementPairArray):{x:[number, number]}{
                     newMinAge = -0.383
                 }
                 
-                return {x:[newMinAge, newMaxAge]}
+                return {x:[-0.383, 0.0383]}
             }
             if (minAge < 2){ // show 6 mths either side
                 let newMinAge = minAge-0.5
@@ -32,13 +32,15 @@ export function ageThresholds(measurementPairArray):{x:[number, number]}{
             if (minAge < 4){ // show 2 years either side
                 let newMaxAge = minAge+2
                 let newMinAge = minAge-2
-                
+                newMinAge = findNearestInt(newMinAge)
+                newMaxAge=findNearestInt(newMaxAge)
                 return {x:[newMinAge, newMaxAge]}
             }
             if (minAge <20){ // show 4 years either side
                 let newMaxAge = minAge+4
                 let newMinAge = minAge-4
-                
+                newMinAge = findNearestInt(newMinAge)
+                newMaxAge=findNearestInt(newMaxAge)
                 return {x: [newMinAge, newMaxAge] }
             }
         } else { // more than one measurement
