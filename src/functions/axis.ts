@@ -30,11 +30,18 @@ export function returnAxis(tick: number, interval: string){
     }
 }
 
-export function equalIntervals(intervalNumber: number, intervalType: string){
-    if (intervalType==="weeks"){
-        return intervalNumber / 52
+export function yAxisTickInterval(ticks, measurementMethod: string){
+    if(measurementMethod==="height"){
+        return ticks%10===0 ? ticks : null
     }
-    if (intervalType==="months"){
-        return intervalNumber / 12
+    if(measurementMethod==="weight"){
+        return ticks%10===0 ? ticks : null
     }
+    if(measurementMethod==="ofc"){
+        return ticks%5===0 ? ticks : null
+    }
+    if(measurementMethod==="bmi"){
+        return ticks%5===0 ? ticks : null
+    }
+
 }

@@ -6,7 +6,7 @@ export function yAxisLabel(measurement_method: string){
         return "Weight (cm)"
     }
     if(measurement_method==="bmi"){
-        return "Body Mass Index (kg/m²))"
+        return "Body Mass Index (kg/m²)"
     }
     if(measurement_method==="ofc"){
         return "Head Circumference (cm)"

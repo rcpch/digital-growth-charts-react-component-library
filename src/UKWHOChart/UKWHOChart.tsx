@@ -9,7 +9,7 @@ import { showChart} from '../functions/showChart'
 import { showAxis} from '../functions/showAxis'
 
 import "./UKWHOChart.scss";
-import { equalIntervals, returnAxis } from "../functions/axis";
+import { returnAxis, yAxisTickInterval } from "../functions/axis";
 import { getWeeks } from '../functions/getWeeks'
 import { removeCorrectedAge } from "../functions/removeCorrectedAge";
 import { measurementSuffix } from "../functions/measurementSuffix";
@@ -496,7 +496,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
         <VictoryAxis // this is the y axis
           label={yAxisLabel(measurementMethod)}
           tickCount={yAxisTickNumber("uk90Child", measurementMethod)}
-          tickFormat={(t)=> t%10==0? t : null}
+          tickFormat={(t)=> yAxisTickInterval(t, measurementMethod)}
           style= {{
             axis: {
               stroke: axisStroke
@@ -742,7 +742,9 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
 
       }
 
-        {/* create a series for each child measurements datapoint */}
+        {/* create a series for each child measurements datapoint: a circle for chronological age, a cross for corrected - if the chronological and corrected age are the same, */}
+        {/* the removeCorrectedAge function removes the corrected age to prevent plotting a circle on a cross, and having duplicate */}
+        {/* text in the tool tip */}
       { allMeasurementPairs.map((measurementPair, index) => {
         const first = measurementPair[0]
         const second = measurementPair[1]
@@ -757,7 +759,6 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
                     <VictoryScatter
                       data={removeCorrectedAge(measurementPair)}
                       symbol={ measurementShape}
-                      // dataComponent={<XPoint/>}
                       style={{ data: { fill: measurementFill } }}
                       name='same_age' 
                     />
@@ -766,7 +767,6 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
       
                    <VictoryScatter 
                       data={measurementPair}
-                    //  symbol={({datum})=>datum.age_type==="chronological_age" ? measurementShape : 'plus'}
                       dataComponent={<XPoint/>}
                      style={{ data: 
                        { fill: measurementFill } 
@@ -790,7 +790,7 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
 
 );
 
-const MonthsLabel = (props) => { // lollipop tick for months as axis label
+const MonthsLabel = (props) => { // the same ChartCircle but smaller for use in axis label
   const {x, y, text, style} = props
   return (<svg>
     <text x={x+50} y={y+7.5} textAnchor="left" fontSize={10}>{text}</text>
@@ -809,7 +809,7 @@ const XPoint = (props) => { // the x for the corrected age, circle for the chron
   
 };
 
-const ChartCircle = (props) =>{
+const ChartCircle = (props) =>{ // lollipop tick for months as axis label
   const {x, y, style, text} = props
   return (<svg>
     <text x={x} y={y-12.5} textAnchor="middle" fill={style.stroke} fontSize={6}>{text}</text>
