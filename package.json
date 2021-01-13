@@ -1,6 +1,6 @@
 {
   "name": "@rcpch/digital-growth-charts-react-component-library",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "main": "build/index.js",
   "module": "build/index.esm.js",
   "files": [
@@ -73,6 +73,6 @@
   },
   "dependencies": {
     "@types/victory": "^33.1.4",
-    "victory": "^35.4.3"
+    "victory": "^35.4.6"
   }
 }

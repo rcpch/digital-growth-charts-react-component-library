@@ -1,6 +1,6 @@
 // Generated with util/create-component.js
 import React from "react";
-import { VictoryChart, VictoryGroup, VictoryLine, VictoryScatter, VictoryVoronoiContainer, VictoryTooltip, VictoryAxis, VictoryLegend, VictoryLabel, VictoryTheme, VictoryArea, Point, LineSegment } from 'victory'
+import { VictoryChart, VictoryGroup, VictoryLine, VictoryScatter, VictoryZoomContainerProps, VictoryVoronoiContainerProps, VictoryTooltip, VictoryAxis, VictoryLegend, VictoryLabel, VictoryArea, Point, createContainer } from 'victory'
 import ukwhoData from '../../chartdata/uk_who_chart_data'
 import { stndth } from '../functions/suffix'
 
@@ -9,8 +9,7 @@ import { showChart} from '../functions/showChart'
 import { showAxis} from '../functions/showAxis'
 
 import "./UKWHOChart.scss";
-import { returnAxis, yAxisTickInterval } from "../functions/axis";
-import { getWeeks } from '../functions/getWeeks'
+import { returnAxis} from "../functions/axis"
 import { removeCorrectedAge } from "../functions/removeCorrectedAge";
 import { measurementSuffix } from "../functions/measurementSuffix";
 import { LightenDarkenColour } from "../functions/lightenDarken";
@@ -51,7 +50,7 @@ const pubertyThresholdGirls = [
 ]
 
 const delayedPubertyThreshold = (data, sex) => {
-  // generates the shaded area where puberty is delayed, and adds information for the tool tip
+  // generates the data for the shaded area (VictoryArea) where puberty is delayed, and adds information for the tool tip
   return data.map(dataItem =>{
     if (sex==="male"){
       if(dataItem.x >=9 && dataItem.x <=14){
@@ -66,6 +65,8 @@ const delayedPubertyThreshold = (data, sex) => {
   }
   });
 }
+
+const VictoryZoomVoronoiContainer = createContainer<VictoryZoomContainerProps, VictoryVoronoiContainerProps>("zoom","voronoi");// allows two top level containers: zoom and voronoi
 
 const UKWHOChart: React.FC<UKWHOChartProps> = ({ 
           title,
@@ -89,55 +90,55 @@ const UKWHOChart: React.FC<UKWHOChartProps> = ({
  }) => (
     <div data-testid="UKWHOChart" className="centred">
       {/* The VictoryChart is the parent component. It contains a Voronoi container, which groups data sets together for the purposes of tooltips */}
-      {/* It has an animation object and the domains are the threshold of ages rendered. This is calculated from the child data supplied by the user. */}
+      {/* It has an animation object and the domains are the thresholds of ages rendered. This is calculated from the child data supplied by the user. */}
       {/* Tooltips are here as it is the parent component. More information of tooltips in centiles below. */}
+
       <VictoryChart
         animate={{
           duration: 500,
           onLoad: { duration: 500 }
         }}
         domain={{x: ageThresholds(allMeasurementPairs), y: measurementThresholds(allMeasurementPairs, measurementMethod)}}
-        containerComponent={
-          <VictoryVoronoiContainer 
-            labels={({ datum }) => {
-              if (datum.l){
-                if (datum.x === 4 ){
-                  return "Transit point from UK-WHO to UK90 data."
-                }
-                if (datum.x === 2 && measurementMethod==="height"){
-                  return "Measure length until age 2;\nMeasure height after age 2.\nA child’s height is usually slightly less than their length.\n"
-                }
-                if(datum.l === "For all Children plotted in this shaded area see instructions."){
-                  return datum.l
-                } else return `${stndth(datum.l)} centile`
-              } 
-              if (datum.centile_band) {
-                // this is a measurement
-                return datum.calendar_age +'\n' + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
-              }
-            }
-          }
-            labelComponent={
-              <VictoryTooltip
-                cornerRadius={0} 
-                constrainToVisibleArea
-                labelComponent={
-                  <VictoryLabel
-                    style={{
-                      fontSize: 10,
-                      font: axisLabelFont
-                    }}
-                  />
-                }
-              />
-            }
-            voronoiBlacklist={["linkLine"]}
-            // voronoiBlacklist hides the duplicate tooltip text from the line joining the dots
-          /> 
-        }
         style={{
           background: { fill: chartBackground }
         }}
+        containerComponent={
+            <VictoryZoomVoronoiContainer 
+              labels={({ datum }) => { // tooltip labels
+                if (datum.l){
+                  if (datum.x === 4 ){ // move from UK-WHO data to UK90 data at 4y
+                    return "Transit point from UK-WHO to UK90 data."
+                  }
+                  if (datum.x === 2 && measurementMethod==="height"){ // step down at 2 y where children measured standing (height), not lying (length)
+                    return "Measure length until age 2;\nMeasure height after age 2.\nA child’s height is usually slightly less than their length.\n"
+                  }
+                  if(datum.l === "For all Children plotted in this shaded area see instructions."){ // delayed puberty if plotted in this area
+                    return datum.l
+                  } else return `${stndth(datum.l)} centile`
+                } 
+                if (datum.centile_band) { // these are the measurement points
+                  // this is a measurement
+                  return datum.calendar_age +'\n' + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
+                }
+              }}
+              labelComponent={
+                <VictoryTooltip
+                  cornerRadius={0} 
+                  constrainToVisibleArea
+                  labelComponent={
+                    <VictoryLabel
+                      style={{
+                        fontSize: 10,
+                        font: axisLabelFont
+                      }}
+                    />
+                  }
+                />
+              }
+              voronoiBlacklist={["linkLine"]}
+              // voronoiBlacklist hides the duplicate tooltip text from the line joining the dots
+            />
+        }
       >
         {/* the legend postion must be hard coded. It automatically reproduces and labels each series - this is hidden with data: fill: "transparent" */}
       <VictoryLegend
