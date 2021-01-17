@@ -5,6 +5,7 @@ import ukwhoData from '../../chartdata/uk_who_chart_data'
 import { stndth } from '../functions/suffix'
 
 import { UKWHOChartProps } from "./UKWHOChart.types";
+import { CentilesObject, ICentile } from "../interfaces/CentilesObject"
 import { showChart} from '../functions/showChart'
 import { showAxis} from '../functions/showAxis'
 
@@ -543,174 +544,46 @@ function UKWHOChart({
               {/* 1 for each centile, 1 for the shaded area, 1 at 2years to indicate children are measured standing leading */}
               {/* to a step down in the data set. There is another tool tip at 4 years to indicate transition from datasets. */}
 
-
-              { showChart(allMeasurementPairs, "uk90Preterm") && // only renders if preterm
-
-                <VictoryGroup
-                  name="uk90_preterm"
-                >
-                  { measurementMethod!=="bmi" && ukwhoData.uk90_preterm[sex][measurementMethod].map((centile, index) => {
-                    if (index % 2 === 0) {
-                      return (
-                        <VictoryLine
-                          key={centile.data[0].l + '-' + index}
-                          padding={{ top: 20, bottom: 60 }}
-                          data={centile.data}
-                          style={{
-                            data: {
-                              stroke: centileStroke,
-                              strokeWidth: centileStrokeWidth,
-                              strokeLinecap: 'round',
-                              strokeDasharray: '5 5'
-                            }
-                          }}
-                        />
-                      )
-                    } else {
-                      return (
-                        <VictoryLine
-                          key={centile.data[0].l + '-' + index}
-                          padding={{ top: 20, bottom: 60 }}
-                          data={centile.data}
-                          style={{
-                            data: {
-                              stroke: centileStroke,
-                              strokeWidth: centileStrokeWidth,
-                              strokeLinecap: 'round'
-                            }
-                          }}
-                        />
-                      )
-                    }
-                  })}
-                  
-                </VictoryGroup>
-              }
-
-              { showChart(allMeasurementPairs, "ukwhoInfant") &&
-              <VictoryGroup
-                name="uk_who_infant"
-              >
-                {ukwhoData.uk_who_infant[sex][measurementMethod].map((centile, index) => {
-                  if (index % 2 === 0) {
-                    return (
-                      <VictoryLine
-                        key={centile.data[0].l + '-' + index}
-                        padding={{ top: 20, bottom: 60 }}
-                        data={centile.data}
-                        style={{
-                          data: {
-                            stroke: centileStroke,
-                            strokeWidth: centileStrokeWidth,
-                            strokeLinecap: 'round',
-                            strokeDasharray: '5 5'
-                          }
-                        }}
-                      />
-                    )
-                  } else {
-                    return (
-                      <VictoryLine
-                        key={centile.data[0].l + '-' + index}
-                        padding={{ top: 20, bottom: 60 }}
-                        data={centile.data}
-                        style={{
-                          data: {
-                            stroke: centileStroke,
-                            strokeWidth: centileStrokeWidth,
-                            strokeLinecap: 'round'
-                          }
-                        }}
-                      />
-                    )
+              { data.map((reference, index)=>{
+                  return (<VictoryGroup key={index}>
+                    {reference.map((centile:ICentile, centileIndex: number)=>{
+                       if (centileIndex % 2 === 0) {
+                        return (
+                          <VictoryLine
+                            key={centile.data[0].l + '-' + index}
+                            padding={{ top: 20, bottom: 60 } }
+                            data={centile.data}
+                            style={{
+                              data: {
+                                stroke: centileStroke,
+                                strokeWidth: centileStrokeWidth,
+                                strokeLinecap: 'round',
+                                strokeDasharray: '5 5'
+                              }
+                            }}
+                          />
+                        )
+                      } else {
+                        return (
+                          <VictoryLine
+                            key={centile.data[0].l + '-' + index}
+                            padding={{ top: 20, bottom: 60 }}
+                            data={centile.data}
+                            style={{
+                              data: {
+                                stroke: centileStroke,
+                                strokeWidth: centileStrokeWidth,
+                                strokeLinecap: 'round'
+                              }
+                            }}
+                          />
+                        )
+                      }
+                    })
                   }
-                })}
-
-              </VictoryGroup>
-              }
-
-              { showChart(allMeasurementPairs, "ukwhoChild") && 
-              <VictoryGroup
-                name="uk_who_child"
-              >
-                {ukwhoData.uk_who_child[sex][measurementMethod].map((centile, index) => {
-                  if (index % 2 === 0) {
-                    return (
-                      <VictoryLine
-                        key={centile.data[0].l + '-' + index}
-                        padding={{ top: 20, bottom: 60 }}
-                        data={centile.data}
-                        style={{
-                          data: {
-                            stroke: centileStroke,
-                            strokeWidth: centileStrokeWidth,
-                            strokeLinecap: 'round',
-                            strokeDasharray: '5 5'
-                          }
-                        }}
-                      />
-                    )
-                  } else {
-                    return (
-                      <VictoryLine
-                        key={centile.data[0].l + '-' + index}
-                        padding={{ top: 20, bottom: 60 }}
-                        data={centile.data}
-                        style={{
-                          data: {
-                            stroke: centileStroke,
-                            strokeWidth: centileStrokeWidth,
-                            strokeLinecap: 'round'
-                          }
-                        }}
-                      />
-                    )
-                  }
-                })}
-
-              </VictoryGroup>
-              }
-
-              { showChart(allMeasurementPairs, "uk90Child") && 
-              <VictoryGroup
-                name="uk90_child"
-              >
-                {ukwhoData.uk90_child[sex][measurementMethod].map((centile, index) => {
-                  if (index % 2 === 0) {
-                    return (
-                      <VictoryLine
-                        key={centile.data[0].l + '-' + index}
-                        padding={{ top: 20, bottom: 60 }}
-                        data={centile.data}
-                        style={{
-                          data: {
-                            stroke: centileStroke,
-                            strokeWidth: centileStrokeWidth,
-                            strokeLinecap: 'round',
-                            strokeDasharray: '5 5'
-                          }
-                        }}
-                      />
-                    )
-                  } else {
-                    return (
-                      <VictoryLine
-                        key={centile.data[0].l + '-' + index}
-                        padding={{ top: 20, bottom: 60 }}
-                        data={centile.data}
-                        style={{
-                          data: {
-                            stroke: centileStroke,
-                            strokeWidth: centileStrokeWidth,
-                            strokeLinecap: 'round'
-                          }
-                        }}
-                      />
-                    )
-                  }
-                })}
-                
-              </VictoryGroup>
+                  </VictoryGroup>
+                  )
+                })
               }
 
               { showChart(allMeasurementPairs, "uk90Child") && sex==="male" && measurementMethod=="height" && //puberty delay shaded area boys
