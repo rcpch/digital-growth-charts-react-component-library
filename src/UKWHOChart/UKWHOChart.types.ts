@@ -1,3 +1,5 @@
+import { Reference, UKWHOReferences } from "../interfaces/CentilesObject";
+
 export interface UKWHOChartProps {
     title: string,
     subtitle: string,
@@ -16,5 +18,7 @@ export interface UKWHOChartProps {
     axisLabelColour: string,
     measurementFill: string,
     measurementSize: number,
-    measurementShape: 'circle' | 'square' | 'star' | 'diamond' | 'triangleUp' | 'triangleDown'
+    measurementShape: 'circle' | 'square' | 'star' | 'diamond' | 'triangleUp' | 'triangleDown',
+    setUKWHOXDomains(lowerXDomain:number, upperXDomain:number): void
+    centileData: [][]
 }

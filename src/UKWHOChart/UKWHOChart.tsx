@@ -1,11 +1,11 @@
 // Generated with util/create-component.js
-import React, { useState } from "react";
+import React from "react";
 import { VictoryChart, VictoryGroup, VictoryLine, VictoryScatter, VictoryZoomContainerProps, VictoryVoronoiContainerProps, VictoryTooltip, VictoryAxis, VictoryLegend, VictoryLabel, VictoryArea, Point, createContainer } from 'victory'
 import ukwhoData from '../../chartdata/uk_who_chart_data'
 import { stndth } from '../functions/suffix'
-
+import { ICentile } from "../interfaces/CentilesObject";
 import { UKWHOChartProps } from "./UKWHOChart.types";
-import { CentilesObject, ICentile } from "../interfaces/CentilesObject"
+
 import { showChart} from '../functions/showChart'
 import { showAxis} from '../functions/showAxis'
 
@@ -89,21 +89,20 @@ function UKWHOChart({
   measurementFill,
   measurementSize,
   measurementShape,
+  centileData,
+  setUKWHOXDomains
 }: UKWHOChartProps) {
   
-  const [xDomains, setXDomains] = useState([0,20])
-  const [data, setData] = useState(fetchData(sex, measurementMethod, xDomains))
-
   return ( 
     <div data-testid="UKWHOChart" className="centred">
       {/* The VictoryChart is the parent component. It contains a Voronoi container, which groups data sets together for the purposes of tooltips */}
       {/* It has an animation object and the domains are the thresholds of ages rendered. This is calculated from the child data supplied by the user. */}
       {/* Tooltips are here as it is the parent component. More information of tooltips in centiles below. */}
           <VictoryChart
-              animate={{
-                duration: 500,
-                onLoad: { duration: 500 }
-              }}
+              // animate={{
+              //   duration: 500,
+              //   onLoad: { duration: 500 }
+              // }}
               style={{
                 background: {
                   fill: chartBackground
@@ -144,10 +143,12 @@ function UKWHOChart({
                     }
                     voronoiBlacklist={["linkLine"]}
                     // voronoiBlacklist hides the duplicate tooltip text from the line joining the dots
-
+                    zoomDimension='x'
                     onZoomDomainChange={
                       (domain, props)=> {
-                        console.log(domain);
+                        const upperXDomain = domain.x[1] as number
+                        const lowerXDomain = domain.x[0] as number
+                        setUKWHOXDomains(lowerXDomain, upperXDomain) // this is a callback function to the parent RCPCHChart component which holds state
                       }
                     }
                   />
@@ -544,13 +545,16 @@ function UKWHOChart({
               {/* 1 for each centile, 1 for the shaded area, 1 at 2years to indicate children are measured standing leading */}
               {/* to a step down in the data set. There is another tool tip at 4 years to indicate transition from datasets. */}
 
-              { data.map((reference, index)=>{
+              { centileData.map((reference, index)=>{ 
+                if (reference.length > 0){
+                  console.log(reference.length);
+                  
                   return (<VictoryGroup key={index}>
                     {reference.map((centile:ICentile, centileIndex: number)=>{
-                       if (centileIndex % 2 === 0) {
+                       if (centileIndex % 2 === 0) { // even index - centile is dashed
                         return (
                           <VictoryLine
-                            key={centile.data[0].l + '-' + index}
+                            key={centile.centile + '-' + index}
                             padding={{ top: 20, bottom: 60 } }
                             data={centile.data}
                             style={{
@@ -563,10 +567,10 @@ function UKWHOChart({
                             }}
                           />
                         )
-                      } else {
+                      } else { // uneven index - centile is continuous
                         return (
                           <VictoryLine
-                            key={centile.data[0].l + '-' + index}
+                            key={centile.centile + '-' + index}
                             padding={{ top: 20, bottom: 60 }}
                             data={centile.data}
                             style={{
@@ -583,8 +587,9 @@ function UKWHOChart({
                   }
                   </VictoryGroup>
                   )
-                })
+                }})
               }
+            
 
               { showChart(allMeasurementPairs, "uk90Child") && sex==="male" && measurementMethod=="height" && //puberty delay shaded area boys
 

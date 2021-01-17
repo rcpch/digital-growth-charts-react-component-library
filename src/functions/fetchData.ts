@@ -1,7 +1,6 @@
 import ukwhoData from '../../chartdata/uk_who_chart_data'
-import { CentilesObject } from '../interfaces/CentilesObject';
 
-export function fetchData(sex, measurementMethod, xDomains): [][] {
+export function fetchData(sex: string, measurementMethod:string, xDomains:[number, number]): [][] {
 
     // Fetches the data to render based on the domain thresholds
 
@@ -88,9 +87,6 @@ export function fetchData(sex, measurementMethod, xDomains): [][] {
             })
         }
         dataSetsToRender.push(truncatedDataSet)
-        console.log(lowerThreshold + " " + upperThreshold);
-        console.log(dataSetsToRender);
-        
         return dataSetsToRender
     }
 }

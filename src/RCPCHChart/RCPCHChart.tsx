@@ -1,59 +1,66 @@
 // Generated with util/create-component.js
-import React from "react";
+import React, { useState } from "react";
 
 import { RCPCHChartProps } from "./RCPCHChart.types";
+import { XDomains } from "../interfaces/Domains";
 
 import "./RCPCHChart.scss";
 import UKWHOChart from "../UKWHOChart";
 import TurnerChart from '../TURNERChart';
 import Trisomy21Chart from '../TRISOMY21Chart';
-
-// import { trial } from '../functions/measurements'
+import { fetchData } from '../functions/fetchData'
 
 const RCPCHChart: React.FC<RCPCHChartProps> = ({ 
-                                                title,
-                                                subtitle,
-                                                measurementMethod,
-                                                reference,
-                                                sex,
-                                                measurementsArray,
-                                                chartBackground,
-                                                gridlineStroke,
-                                                gridlineStrokeWidth,
-                                                gridlineDashed,
-                                                gridlines,
-                                                centileStroke,
-                                                centileStrokeWidth,
-                                                axisStroke,
-                                                axisLabelFont,
-                                                axisLabelColour,
-                                                measurementFill,
-                                                measurementSize,
-                                                measurementShape,
-                                              }) => (
+        title,
+        subtitle,
+        measurementMethod,
+        reference,
+        sex,
+        measurementsArray,
+        chartBackground,
+        gridlineStroke,
+        gridlineStrokeWidth,
+        gridlineDashed,
+        gridlines,
+        centileStroke,
+        centileStrokeWidth,
+        axisStroke,
+        axisLabelFont,
+        axisLabelColour,
+        measurementFill,
+        measurementSize,
+        measurementShape,
+}) => {
+    const [xDomains, setXDomains] = useState<XDomains | undefined>({x:[0,20]})
+    const [ukwhoCentileData, setUKWHOCentileData] = useState(fetchData(sex, measurementMethod, xDomains.x))
+    const setUKWHOXDomains = (lowerXDomain: number, upperXDomain: number) => {
+      setXDomains({x:[lowerXDomain, upperXDomain]})
+      setUKWHOCentileData(fetchData(sex, measurementMethod, [lowerXDomain, upperXDomain]))
+    }
+    
+    
+  return (
     <div
       data-testid="RCPCHChart"
     //   className={`test-component test-component-${theme}`}
     >
       
-{/*       
-      The RCPCH chart component renders a single chart
-      Essential props include:
-      reference
-      measurement_method
-      sex
-      measurementsArray (this is an array of measurement objects received from the dGC API)
+                  {/*       
+                    The RCPCH chart component renders a single chart
+                    Essential props include:
+                    reference
+                    measurement_method
+                    sex
+                    measurementsArray (this is an array of measurement objects received from the dGC API)
 
-      
-      growth data point color
-      line color
-      axis color
-      label font
-      label size
-      chart background color
-       */}
-
-    
+                    
+                    growth data point color
+                    line color
+                    axis color
+                    label font
+                    label size
+                    chart background color
+                  */}
       
     <div >
       { reference === 'trisomy-21' &&
@@ -120,6 +127,8 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
             measurementFill={measurementFill}
             measurementSize={measurementSize}
             measurementShape={measurementShape}
+            centileData={ukwhoCentileData}
+            setUKWHOXDomains={setUKWHOXDomains}
           />
       }
       
@@ -127,7 +136,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     </div>
 
     </div>
-  );
+  )};
 
 export default RCPCHChart;
 
