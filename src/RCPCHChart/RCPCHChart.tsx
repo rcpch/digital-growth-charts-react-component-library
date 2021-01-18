@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 
 import { RCPCHChartProps } from "./RCPCHChart.types";
-import { XDomains } from "../interfaces/Domains";
+import { Domains } from "../interfaces/Domains";
 
 import "./RCPCHChart.scss";
 import UKWHOChart from "../UKWHOChart";
@@ -31,11 +31,12 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
         measurementSize,
         measurementShape,
 }) => {
-    const [xDomains, setXDomains] = useState<XDomains | undefined>({x:[0,20]})
-    const [ukwhoCentileData, setUKWHOCentileData] = useState(fetchData(sex, measurementMethod, xDomains.x))
-    const setUKWHOXDomains = (lowerXDomain: number, upperXDomain: number) => {
-      setXDomains({x:[lowerXDomain, upperXDomain]})
-      setUKWHOCentileData(fetchData(sex, measurementMethod, [lowerXDomain, upperXDomain]))
+    const [domains, setDomains] = useState<Domains | undefined>({x:[0,20], y:[0,200]})
+    const [ukwhoCentileData, setUKWHOCentileData] = useState(fetchData(sex, measurementMethod, domains))
+    const setUKWHODomains = ([lowerXDomain, upperXDomain], [lowerYDomain, upperYDomain]) => {
+      setDomains({x:[lowerXDomain, upperXDomain], y:[lowerYDomain, upperYDomain]})
+      const newData = fetchData(sex, measurementMethod, {x:[lowerXDomain, upperXDomain], y:[lowerYDomain, upperYDomain]})
+      setUKWHOCentileData(newData)
     }
     
     
@@ -128,7 +129,8 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
             measurementSize={measurementSize}
             measurementShape={measurementShape}
             centileData={ukwhoCentileData}
-            setUKWHOXDomains={setUKWHOXDomains}
+            setUKWHODomains={setUKWHODomains}
+            domains={domains}
           />
       }
       

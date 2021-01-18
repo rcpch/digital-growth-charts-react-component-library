@@ -20,7 +20,6 @@ import { yAxisLabel } from "../functions/yAxisLabel";
 import { ageThresholds } from "../functions/ageThresholds";
 import { ageTickNumber } from '../functions/ageTick'
 import { measurementThresholds } from "../functions/measurementThresholds";
-import { fetchData } from "../functions/fetchData";
 
 const pubertyThresholdBoys = [
   {
@@ -89,8 +88,9 @@ function UKWHOChart({
   measurementFill,
   measurementSize,
   measurementShape,
+  domains,
   centileData,
-  setUKWHOXDomains
+  setUKWHODomains
 }: UKWHOChartProps) {
   
   return ( 
@@ -143,27 +143,29 @@ function UKWHOChart({
                     }
                     voronoiBlacklist={["linkLine"]}
                     // voronoiBlacklist hides the duplicate tooltip text from the line joining the dots
-                    zoomDimension='x'
                     onZoomDomainChange={
                       (domain, props)=> {
                         const upperXDomain = domain.x[1] as number
                         const lowerXDomain = domain.x[0] as number
-                        setUKWHOXDomains(lowerXDomain, upperXDomain) // this is a callback function to the parent RCPCHChart component which holds state
+                        const upperYDomain = domain.y[1] as number
+                        const lowerYDomain = domain.y[0] as number
+                        setUKWHODomains([lowerXDomain, upperXDomain], [lowerYDomain, upperYDomain]) // this is a callback function to the parent RCPCHChart component which holds state
                       }
                     }
+                    allowPan={false}
                   />
               }
               >
               {/* the legend postion must be hard coded. It automatically reproduces and labels each series - this is hidden with data: fill: "transparent" */}
               <VictoryLegend
-              title={[title, subtitle]}
-              centerTitle
-              titleOrientation="top"
-              orientation="horizontal"
-              style={{ data: { fill: "transparent" } }}
-              x={175}
-              y={0}
-              data={[]}
+                title={[title, subtitle]}
+                centerTitle
+                titleOrientation="top"
+                orientation="horizontal"
+                style={{ data: { fill: "transparent" } }}
+                x={175}
+                y={0}
+                data={[]}
               />
 
               {/* Render the x axes - there are 4: one for years, one for months, one for weeks, and one for weeks of gestation  */}
@@ -177,7 +179,8 @@ function UKWHOChart({
               {/* This is calculated in the function ageThresholds and ageTicks */}
 
                 {/* X axis in Years  - rendered if there are  plotted child measurements and the max value is > 2y, or no measurements supplied */}
-                { ((allMeasurementPairs.length > 0 && ageThresholds(allMeasurementPairs)[1] > 2) || (allMeasurementPairs.length< 1)) && 
+                {/* { ((allMeasurementPairs.length > 0 && ageThresholds(allMeasurementPairs)[1] > 2) || (allMeasurementPairs.length< 1)) &&  */}
+                {  (domains.x[0] >=0  || domains.x[1] > 2) &&
                     <VictoryAxis
                       label="Age (years)"
                       style={{
@@ -220,7 +223,8 @@ function UKWHOChart({
 
               {/* X axis in Months - rendered if child measurements exist and the max age < 2 but > 2 weeks */}
 
-              { (allMeasurementPairs.length > 0 && (ageThresholds(allMeasurementPairs)[1] <= 2 && ageThresholds(allMeasurementPairs)[1] > 0.0383)) &&
+              {/* { (allMeasurementPairs.length > 0 && (ageThresholds(allMeasurementPairs)[1] <= 2 && ageThresholds(allMeasurementPairs)[1] > 0.0383)) && */}
+              {  (domains.x[1] > 0 && domains.x[1] < 2) &&
                   <VictoryAxis
                       label="months"
                       axisLabelComponent={<MonthsLabel />}
@@ -253,10 +257,11 @@ function UKWHOChart({
                       }
                       tickValues={ageTickNumber(allMeasurementPairs, "months")}
                       tickFormat={(t)=> t * 12}
-                    /> }
+                  /> }
 
               {/* X axis in Weeks only: rendered if there are child measurements and  < 2 years and > 2 weeks */}
-                { allMeasurementPairs.length > 0 && (ageThresholds(allMeasurementPairs)[1] < 2 && ageThresholds(allMeasurementPairs)[1] > 0.0383) &&
+                {/* { allMeasurementPairs.length > 0 && (ageThresholds(allMeasurementPairs)[1] < 2 && ageThresholds(allMeasurementPairs)[1] > 0.0383) && */}
+                {  (domains.x[0] > 0 && domains.x[1] < 2) &&
                     <VictoryAxis
                       label="Age (weeks)"
                       minDomain={0}
@@ -298,8 +303,8 @@ function UKWHOChart({
                     /> 
                 }
               {/* X axis in Weeks only - preterm focus: rendered if there are child measurements and the first decimal age < 2 weeks */}
-              { allMeasurementPairs.length > 0 && (ageThresholds(allMeasurementPairs)[0] < 0.0383) && 
-
+              {/* { allMeasurementPairs.length > 0 && (ageThresholds(allMeasurementPairs)[0] < 0.0383) &&  */}
+              {  (domains.x[0] < 0 || domains.x[1] < 0) &&
                 <VictoryAxis
                   label="Gestation (weeks)"
                   style={{
@@ -376,159 +381,159 @@ function UKWHOChart({
               }
 
               { showAxis(allMeasurementPairs, "uk90Child") && sex==="female" && measurementMethod==="height" && // puberty threshold lines uk90 girls
-              pubertyThresholdGirls.map((data, index)=> {
-                return (
-                  <VictoryAxis dependentAxis
-                    key={index}
-                    label={data.label}
-                    axisLabelComponent = {<VictoryLabel dy={30} dx={-60}/>}
-                    style={{ 
-                      axis: {
-                        stroke: 'black',
-                        strokeWidth: 1.0
-                      },
-                      tickLabels: 
-                      { 
-                        fill: "none", 
-                      },
-                      axisLabel: {
-                        fontSize: 4,
-                        color: axisLabelColour,
-                        font: axisLabelFont
-                      }
-                    }}
-                    axisValue={data.x}
-                  />
-                );
-              })
+                pubertyThresholdGirls.map((data, index)=> {
+                  return (
+                    <VictoryAxis dependentAxis
+                      key={index}
+                      label={data.label}
+                      axisLabelComponent = {<VictoryLabel dy={30} dx={-60}/>}
+                      style={{ 
+                        axis: {
+                          stroke: 'black',
+                          strokeWidth: 1.0
+                        },
+                        tickLabels: 
+                        { 
+                          fill: "none", 
+                        },
+                        axisLabel: {
+                          fontSize: 4,
+                          color: axisLabelColour,
+                          font: axisLabelFont
+                        }
+                      }}
+                      axisValue={data.x}
+                    />
+                  );
+                })
               }
 
               {/* render the y axis  - there is one for each reference*/}
 
               { showAxis(allMeasurementPairs, "uk90Preterm") && // y axis for uk90 preterm
-              <VictoryAxis // this is the y axis
-                label={yAxisLabel(measurementMethod)}
-                style= {{
-                  axis: {
-                    stroke: axisStroke,
-                    strokeWidth: 1.0
-                  },
-                  axisLabel: {
-                    fontSize: 10, 
-                    padding: 20,
-                    color: axisLabelColour,
-                    font: axisLabelFont
-                  },
-                  ticks: {
-                    stroke: axisStroke
-                  },
-                  tickLabels: {
-                    fontSize: 6, 
-                    padding: 5,
-                    color: axisLabelColour,
-                    font: axisLabelFont
-                  },
-                  grid: { 
-                    stroke: gridlines ? gridlineStroke : null, 
-                    strokeWidth: ({t})=> t % 5 === 0 ? gridlineStrokeWidth + 0.5 : gridlineStrokeWidth,
-                    strokeDasharray: gridlineDashed ? '5 5' : ''
-                  }}}
-                dependentAxis />   
+                <VictoryAxis // this is the y axis
+                  label={yAxisLabel(measurementMethod)}
+                  style= {{
+                    axis: {
+                      stroke: axisStroke,
+                      strokeWidth: 1.0
+                    },
+                    axisLabel: {
+                      fontSize: 10, 
+                      padding: 20,
+                      color: axisLabelColour,
+                      font: axisLabelFont
+                    },
+                    ticks: {
+                      stroke: axisStroke
+                    },
+                    tickLabels: {
+                      fontSize: 6, 
+                      padding: 5,
+                      color: axisLabelColour,
+                      font: axisLabelFont
+                    },
+                    grid: { 
+                      stroke: gridlines ? gridlineStroke : null, 
+                      strokeWidth: ({t})=> t % 5 === 0 ? gridlineStrokeWidth + 0.5 : gridlineStrokeWidth,
+                      strokeDasharray: gridlineDashed ? '5 5' : ''
+                    }}}
+                  dependentAxis />   
               }
               { showAxis(allMeasurementPairs, "ukwhoInfant") && // y axis for uk-who infant
-              <VictoryAxis // this is the y axis
-                label={yAxisLabel(measurementMethod)}
-                style= {{
-                  axis: {
-                    stroke: axisStroke
-                  },
-                  axisLabel: {
-                    fontSize: 10, 
-                    padding: 20,
-                    color: axisLabelColour,
-                    font: axisLabelFont
-                  },
-                  ticks: {
-                    stroke: axisStroke
-                  },
-                  tickLabels: {
-                    fontSize: 6, 
-                    padding: 5,
-                    color: axisLabelColour,
-                    font: axisLabelFont
-                  },
-                  grid: { 
-                    stroke: ({tick})=> {
-                      if(!gridlines){
-                        return null
+                <VictoryAxis // this is the y axis
+                  label={yAxisLabel(measurementMethod)}
+                  style= {{
+                    axis: {
+                      stroke: axisStroke
+                    },
+                    axisLabel: {
+                      fontSize: 10, 
+                      padding: 20,
+                      color: axisLabelColour,
+                      font: axisLabelFont
+                    },
+                    ticks: {
+                      stroke: axisStroke
+                    },
+                    tickLabels: {
+                      fontSize: 6, 
+                      padding: 5,
+                      color: axisLabelColour,
+                      font: axisLabelFont
+                    },
+                    grid: { 
+                      stroke: ({tick})=> {
+                        if(!gridlines){
+                          return null
+                        }
+                        if (tick % 10 === 0) {
+                          return LightenDarkenColour(gridlineStroke, -10)
+                        }
+                        return gridlineStroke
                       }
-                      if (tick % 10 === 0) {
-                        return LightenDarkenColour(gridlineStroke, -10)
-                      }
-                      return gridlineStroke
-                    }
-                  }}}
-                dependentAxis />   
+                    }}}
+                  dependentAxis />   
               }
 
               { showAxis(allMeasurementPairs, "ukwhoChild") && // y axis for uk-who child
-              <VictoryAxis // this is the y axis
-                label={yAxisLabel(measurementMethod)}
-                style= {{
-                  axis: {
-                    stroke: axisStroke
-                  },
-                  axisLabel: {
-                    fontSize: 10, 
-                    padding: 20,
-                    color: axisLabelColour,
-                    font: axisLabelFont
-                  },
-                  ticks: {
-                    stroke: axisStroke
-                  },
-                  tickLabels: {
-                    fontSize: 6, 
-                    padding: 5,
-                    color: axisLabelColour,
-                    font: axisLabelFont
-                  },
-                  grid: { 
-                    stroke: gridlines ? gridlineStroke : null, 
-                    strokeWidth: ({t})=> t % 5 === 0 ? gridlineStrokeWidth + 0.5 : gridlineStrokeWidth,
-                    strokeDasharray: gridlineDashed ? '5 5' : ''
-                  }}}
-                dependentAxis />   
+                <VictoryAxis // this is the y axis
+                  label={yAxisLabel(measurementMethod)}
+                  style= {{
+                    axis: {
+                      stroke: axisStroke
+                    },
+                    axisLabel: {
+                      fontSize: 10, 
+                      padding: 20,
+                      color: axisLabelColour,
+                      font: axisLabelFont
+                    },
+                    ticks: {
+                      stroke: axisStroke
+                    },
+                    tickLabels: {
+                      fontSize: 6, 
+                      padding: 5,
+                      color: axisLabelColour,
+                      font: axisLabelFont
+                    },
+                    grid: { 
+                      stroke: gridlines ? gridlineStroke : null, 
+                      strokeWidth: ({t})=> t % 5 === 0 ? gridlineStrokeWidth + 0.5 : gridlineStrokeWidth,
+                      strokeDasharray: gridlineDashed ? '5 5' : ''
+                    }}}
+                  dependentAxis />   
               }
 
               { showAxis(allMeasurementPairs, "uk90Child") && // y axis for uk90 child
-              <VictoryAxis // this is the y axis
-                label={yAxisLabel(measurementMethod)}
-                style= {{
-                  axis: {
-                    stroke: axisStroke
-                  },
-                  axisLabel: {
-                    fontSize: 10, 
-                    padding: 20,
-                    color: axisLabelColour,
-                    font: axisLabelFont
-                  },
-                  ticks: {
-                    stroke: axisStroke
-                  },
-                  tickLabels: {
-                    fontSize: 6, 
-                    padding: 5,
-                    color: axisLabelColour,
-                    font: axisLabelFont
-                  },
-                  grid: { 
-                    stroke: (t)=> gridlines ? gridlineStroke : null,
-                    strokeWidth: (t)=> t % 5 === 0 ? gridlineStrokeWidth + 0.5 : gridlineStrokeWidth,
-                  }
-                }}
-                dependentAxis />   
+                <VictoryAxis // this is the y axis
+                  label={yAxisLabel(measurementMethod)}
+                  style= {{
+                    axis: {
+                      stroke: axisStroke
+                    },
+                    axisLabel: {
+                      fontSize: 10, 
+                      padding: 20,
+                      color: axisLabelColour,
+                      font: axisLabelFont
+                    },
+                    ticks: {
+                      stroke: axisStroke
+                    },
+                    tickLabels: {
+                      fontSize: 6, 
+                      padding: 5,
+                      color: axisLabelColour,
+                      font: axisLabelFont
+                    },
+                    grid: { 
+                      stroke: (t)=> gridlines ? gridlineStroke : null,
+                      strokeWidth: (t)=> t % 5 === 0 ? gridlineStrokeWidth + 0.5 : gridlineStrokeWidth,
+                    }
+                  }}
+                  dependentAxis />   
               }
 
               {/* Render the centiles - loop through the data set, create a line for each centile */}  
@@ -543,45 +548,43 @@ function UKWHOChart({
               {/* will have delayed puberty. */}
               {/* Tooltips are found in the parent element (VictoryChart). Tooltips included: */}
               {/* 1 for each centile, 1 for the shaded area, 1 at 2years to indicate children are measured standing leading */}
-              {/* to a step down in the data set. There is another tool tip at 4 years to indicate transition from datasets. */}
+              {/* to a step down in height weight and bmi in the data set. There is another tool tip at 4 years to indicate transition from datasets. */}
 
               { centileData.map((reference, index)=>{ 
                 if (reference.length > 0){
-                  console.log(reference.length);
-                  
                   return (<VictoryGroup key={index}>
                     {reference.map((centile:ICentile, centileIndex: number)=>{
-                       if (centileIndex % 2 === 0) { // even index - centile is dashed
+                      if (centileIndex % 2 === 0) { // even index - centile is dashed
                         return (
-                          <VictoryLine
-                            key={centile.centile + '-' + index}
+                        <VictoryLine
+                            key={centile.centile + '-' + centileIndex}
                             padding={{ top: 20, bottom: 60 } }
                             data={centile.data}
                             style={{
-                              data: {
+                            data: {
                                 stroke: centileStroke,
                                 strokeWidth: centileStrokeWidth,
                                 strokeLinecap: 'round',
                                 strokeDasharray: '5 5'
-                              }
+                            }
                             }}
-                          />
+                        />
                         )
                       } else { // uneven index - centile is continuous
-                        return (
+                          return (
                           <VictoryLine
-                            key={centile.centile + '-' + index}
-                            padding={{ top: 20, bottom: 60 }}
-                            data={centile.data}
-                            style={{
+                              key={centile.centile + '-' + centileIndex}
+                              padding={{ top: 20, bottom: 60 }}
+                              data={centile.data}
+                              style={{
                               data: {
-                                stroke: centileStroke,
-                                strokeWidth: centileStrokeWidth,
-                                strokeLinecap: 'round'
+                                  stroke: centileStroke,
+                                  strokeWidth: centileStrokeWidth,
+                                  strokeLinecap: 'round'
                               }
-                            }}
+                              }}
                           />
-                        )
+                          )
                       }
                     })
                   }
