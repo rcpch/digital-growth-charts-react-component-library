@@ -152,7 +152,7 @@ function UKWHOChart({
                         setUKWHODomains([lowerXDomain, upperXDomain], [lowerYDomain, upperYDomain]) // this is a callback function to the parent RCPCHChart component which holds state
                       }
                     }
-                    allowPan={false}
+                    allowPan={true}
                   />
               }
               >
@@ -180,7 +180,7 @@ function UKWHOChart({
 
                 {/* X axis in Years  - rendered if there are  plotted child measurements and the max value is > 2y, or no measurements supplied */}
                 {/* { ((allMeasurementPairs.length > 0 && ageThresholds(allMeasurementPairs)[1] > 2) || (allMeasurementPairs.length< 1)) &&  */}
-                {  (domains.x[0] >=0  || domains.x[1] > 2) &&
+                {  ( domains.x[1] > 2) &&
                     <VictoryAxis
                       label="Age (years)"
                       style={{
@@ -191,7 +191,7 @@ function UKWHOChart({
                           fontSize: 10, 
                           padding: 20,
                           color: axisLabelColour,
-                          font: axisLabelFont
+                          // font: axisLabelFont
                         },
                         ticks: {
                           stroke: axisStroke 
@@ -211,7 +211,7 @@ function UKWHOChart({
                           style={[
                             { fill: axisLabelColour, 
                               fontSize: 6,
-                              font: axisLabelFont
+                              // font: axisLabelFont
                             },
                           ]}
                         />
@@ -232,19 +232,8 @@ function UKWHOChart({
                         axis: {
                           stroke: axisStroke,
                         },
-                        axisLabel: { 
-                          fontSize: 10, 
-                          padding: 20,
-                          color: axisLabelColour,
-                          font: axisLabelFont
-                        },
                         ticks: {
                           stroke: axisStroke 
-                        },
-                        tickLabels: {
-                          fontSize: 6, 
-                          padding: 5,
-                          color: axisLabelColour
                         },
                         grid: { 
                           stroke: ()=> gridlines ? gridlineStroke : null,
@@ -273,12 +262,13 @@ function UKWHOChart({
                           fontSize: 10, 
                           padding: 20,
                           color: axisLabelColour,
-                          font: axisLabelFont
+                          fontFamily: axisLabelFont,
                         },
                         ticks: {
                           stroke: axisStroke 
                         },
                         tickLabels: {
+
                           fontSize: 6, 
                           padding: 5,
                           color: axisLabelColour
@@ -293,7 +283,8 @@ function UKWHOChart({
                           style={[
                             { fill: axisLabelColour, 
                               fontSize: 6,
-                              font: axisLabelFont
+                              // font: axisLabelFont,
+                              fontFamily: axisLabelFont
                             },
                           ]}
                         />

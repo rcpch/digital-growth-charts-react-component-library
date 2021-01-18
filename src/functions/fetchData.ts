@@ -4,6 +4,7 @@ import { Domains } from "../interfaces/Domains"
 export function fetchData(sex: string, measurementMethod:string, domains:Domains): [][] {
 
     // Fetches the data to render based on the domain thresholds
+    // truncates arrays based on visible data.
 
     const upperX = domains.x[1]
     const lowerX = domains.x[0]
