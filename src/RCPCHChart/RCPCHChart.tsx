@@ -40,19 +40,47 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
         measurementShape,
 }) => {
     const measurementScope = measurementThresholds(measurementMethod) // fetch the y axis limits baed on measurement method
-    const [domains, setDomains] = useState<Domains | undefined>({x:[0,20], y:measurementScope}) // set the limits of the chart
-    const [ukwhoCentileData, setUKWHOCentileData] = useState(fetchData(sex, measurementMethod, domains)) //fetch the centille data
     
     let upperMeasurementY = measurementScope[1] // this is the chart y upper domain
     let lowerMeasurementY = measurementScope[0] // this is the chart y lower domain
+    let lowerAgeX = 0
+    let upperAgeX = 20
     const pairs = measurementsArray as PlottableMeasurement[]
     let premature = false
+    
     if (pairs.length > 0){
       premature = pairs[0][0].x < 0
       lowerMeasurementY = pairs[0][0].y
       upperMeasurementY = pairs[pairs.length-1][0].y
+      lowerAgeX = pairs[0][0].x
+      upperAgeX = pairs[pairs.length-1][0].x
+
+      if (lowerAgeX < 0){
+        lowerAgeX = -0.383
+        upperAgeX = 0.25
+      }
+      if (lowerAgeX >= 0 && lowerAgeX < 2){
+        lowerAgeX = 0
+      }
+      if (lowerAgeX >= 2 && lowerAgeX <4){
+        lowerAgeX = 2
+      }
+      if(upperAgeX >=4){
+        upperAgeX = upperAgeX + 4
+        if (upperAgeX > 20){
+          upperAgeX=20
+        }
+      }
+      if (upperAgeX >=2 && upperAgeX< 4){
+        upperAgeX= 4
+      }
+      if (upperAgeX>=0 && upperAgeX <2){
+        upperAgeX = 2
+      }
     }
     const [isPreterm, setPreterm] = useState(premature) // prematurity flag
+    const [domains, setDomains] = useState<Domains | undefined>({x:[lowerAgeX,upperAgeX], y:measurementScope}) // set the limits of the chart
+    const [ukwhoCentileData, setUKWHOCentileData] = useState(fetchData(sex, measurementMethod, domains)) //fetch the centille data
     
     const setUKWHODomains = ([lowerXDomain, upperXDomain], [lowerYDomain, upperYDomain]) => { // call back from chart.tsx on domain change
       let newUpperY = upperYDomain

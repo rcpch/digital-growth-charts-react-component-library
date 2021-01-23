@@ -1,4 +1,5 @@
 export function measurementThresholds(measurementMethod):[number, number]{
+    /* Return y axis thresholds for given measurement method*/
     if (measurementMethod==="height"){
         return [30, 200]
     }
@@ -6,9 +7,9 @@ export function measurementThresholds(measurementMethod):[number, number]{
         return [0, 200]
     }
     if (measurementMethod=="bmi"){
-        [0, 40]
+        return [0, 40]
     }
     if (measurementMethod==="ofc"){
-        return [30, 80]
+        return [20, 65]
     }
 }
