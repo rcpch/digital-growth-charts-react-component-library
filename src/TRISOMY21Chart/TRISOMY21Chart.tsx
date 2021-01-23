@@ -1,11 +1,19 @@
-// Generated with util/create-component.js
+// libraries/frameworks
 import React from "react";
 import { VictoryChart, VictoryGroup, VictoryLine, VictoryScatter, VictoryVoronoiContainer, VictoryTooltip, VictoryAxis, VictoryLegend, VictoryLabel } from 'victory'
+
+// props / interfaces
 import { TRISOMY21ChartProps } from "./TRISOMY21Chart.types";
+import { PlottableMeasurement } from "../interfaces/RCPCHMeasurementObject";
+import { ICentile } from '../interfaces/CentilesObject';
+
+// helper functions
 import { stndth } from '../functions/suffix';
 import { retrieveTrisomy21Data } from '../functions/retrieveTrisomy21Data';
+
+// style sheets
 import "./TRISOMY21Chart.scss";
-import { retrieveTurnerData } from "../functions/retrieveTurnerData";
+
 
 const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({ 
                 title,
@@ -87,9 +95,51 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
           }}
         />
         {/* Render the centiles - loop through the data set, create a line for each centile */}  
-        
-        {allMeasurementPairs.length > 0 && <VictoryGroup>
-          { retrieveTrisomy21Data(measurementMethod, sex).map((measurementPair, index) => {
+          {
+            retrieveTrisomy21Data(measurementMethod, sex).map((centile:ICentile, centileIndex: number) =>{
+              return ( <VictoryGroup > 
+                { centileIndex % 2 === 0 ? // even index - centile is dashed
+                     (
+                    <VictoryLine
+                        key={centile.centile + '-' + centileIndex}
+                        padding={{ top: 20, bottom: 60 } }
+                        data={centile.data}
+                        style={{
+                        data: {
+                            stroke: centileStroke,
+                            strokeWidth: centileStrokeWidth,
+                            strokeLinecap: 'round',
+                            strokeDasharray: '5 5'
+                        }
+                        }}
+                    />
+                    )
+                  : // uneven index - centile is continuous
+                       (
+                      <VictoryLine
+                          key={centile.centile + '-' + centileIndex}
+                          padding={{ top: 20, bottom: 60 }}
+                          data={centile.data}
+                          style={{
+                          data: {
+                              stroke: centileStroke,
+                              strokeWidth: centileStrokeWidth,
+                              strokeLinecap: 'round'
+                          }
+                          }}
+                      />
+                      )
+                  }
+                
+              </VictoryGroup>
+              )
+            })
+          }
+
+
+        {/* Render the measurements */}
+        { <VictoryGroup>
+          { allMeasurementPairs.map((measurementPair: PlottableMeasurement[], index) => {
             { measurementPair.length > 1 ? (
               <VictoryGroup
                 key={'measurement'+index}
@@ -139,27 +189,6 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
       </VictoryChart>
     </div>
 );
-
-const Cross = (props) => {
-  return (<svg>
-    <line
-      x1={props.x - 1.25}
-      y1={props.y - 1.25}
-      x2={props.x + 1.25}
-      y2={props.y + 1.25}
-      stroke='red'
-      strokeWidth={2}
-    />
-    <line
-      x1={props.x + 1.25}
-      y1={props.y - 1.25}
-      x2={props.x - 1.25}
-      y2={props.y + 1.25}
-      stroke='red'
-      strokeWidth={2}
-    />
-  </svg>)
-}
 
 export default TRISOMY21Chart;
 

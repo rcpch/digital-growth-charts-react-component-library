@@ -39,6 +39,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
         measurementSize,
         measurementShape,
 }) => {
+  
     
   let lowerAgeX = 0
     let upperAgeX = 20
