@@ -12,8 +12,6 @@ export function returnAxis(tick: number, interval: string){
     }
 
     if (interval === "months"){
-        console.log(tick*12);
-        
         if (tick*12%2==0){
             return tick*12
         } else {

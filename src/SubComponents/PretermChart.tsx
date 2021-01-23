@@ -10,7 +10,6 @@ import { stndth } from '../functions/suffix';
 import { measurementSuffix } from '../functions/measurementSuffix';
 import { removeCorrectedAge } from '../functions/removeCorrectedAge';
 import { yAxisLabel } from '../functions/yAxisLabel';
-import { ageTickNumber } from '../functions/ageTick';
 import { setPretermDomainForMeasurementMethod } from '../functions/setPretermDomainForMeasurementMethod';
 
 // interfaces

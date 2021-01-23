@@ -14,9 +14,8 @@ import { measurementSuffix } from "../functions/measurementSuffix";
 import { returnAxis} from "../functions/axis"
 import { addAlpha } from "../functions/addAlpha";
 import { yAxisLabel } from "../functions/yAxisLabel";
-import { ageThresholds } from "../functions/ageThresholds";
 import { ageTickNumber } from '../functions/ageTick'
-import { measurementThresholds } from "../functions/measurementThresholds";
+import { setTermDomainsForMeasurementMethod } from "../functions/setTermDomainsForMeasurementMethod";
 
 // interfaces & props
 import { ICentile } from "../interfaces/CentilesObject";
@@ -65,18 +64,19 @@ function UKWHOChart({
 }: UKWHOChartProps) {
 
   const [showPretermChart, setShowPretermChart] = useState(false);
-  const props = {title, subtitle,measurementMethod,sex,allMeasurementPairs,chartBackground,gridlineStroke,gridlineStrokeWidth,gridlineDashed,gridlines,centileStroke,centileStrokeWidth,axisStroke,axisLabelFont,axisLabelColour,measurementFill,measurementSize,measurementShape,domains,centileData,setUKWHODomains,isPreterm}
-
+  
   const onClickShowPretermChartHandler=(event)=>{
     setShowPretermChart(!showPretermChart)
   }
+
+  const getEntireYDomain = setTermDomainsForMeasurementMethod(measurementMethod)
 
   return ( 
     <div data-testid="UKWHOChart" className="centred">
       {/* The VictoryChart is the parent component. It contains a Voronoi container, which groups data sets together for the purposes of tooltips */}
       {/* It has an animation object and the domains are the thresholds of ages rendered. This is calculated from the child data supplied by the user. */}
       {/* Tooltips are here as it is the parent component. More information of tooltips in centiles below. */}
-      
+
           {showPretermChart ?
           <PretermChart 
               title={title}
@@ -104,16 +104,12 @@ function UKWHOChart({
           />
           : 
           <VictoryChart
-              // animate={{
-              //   duration: 500,
-              //   onLoad: { duration: 500 }
-              // }}
               style={{
                 background: {
                   fill: chartBackground
                 }
               }}
-              // domain={{x: ageThresholds(allMeasurementPairs), y: measurementThresholds(allMeasurementPairs, measurementMethod)}}
+              domain={{x:[0,20], y:getEntireYDomain}}
               containerComponent={
                   <VictoryZoomVoronoiContainer 
                     labels={({ datum }) => { // tooltip labels
@@ -186,6 +182,7 @@ function UKWHOChart({
                 {/* X axis in Years  - rendered if there are  plotted child measurements and the max value is > 2y, or no measurements supplied */}
                 {  (domains.x[1] > 2 || (allMeasurementPairs.length > 0 ? allMeasurementPairs[allMeasurementPairs.length-1][0]["x"]> 2 : false)) && //render years x axis only if upper domain > 2 or highest supplied measurement > 2y
                     <VictoryAxis
+                      minDomain={0}
                       label="Age (years)"
                       style={{
                         axis: {
@@ -220,15 +217,16 @@ function UKWHOChart({
                           ]}
                         />
                       }
-                      tickValues={ageTickNumber(allMeasurementPairs, "years")}
-                      tickFormat={(t)=> `${returnAxis(t, "years")}`}
+                      tickCount={20}
+                      tickFormat={(t)=> t%1===0 ? t : ''}
                     /> 
               }
 
               {/* X axis in Months - rendered if child measurements exist and the max age < 2 but > 2 weeks */}
 
-              {  (domains.x[1] > 0 && domains.x[1] < 2) &&
+              {  (domains.x[1] <= 2) &&
                   <VictoryAxis
+                      minDomain={0}
                       label="months"
                       axisLabelComponent={<MonthsLabel />}
                       style={{
@@ -247,8 +245,8 @@ function UKWHOChart({
                           stroke: axisStroke
                         }}/>
                       }
-                      tickValues={ageTickNumber(allMeasurementPairs, "months")}
-                      tickFormat={(t)=> t * 12}
+                      tickCount={48}
+                      tickFormat={(t)=> Math.round(t * 12)}
                   /> }
 
               {/* X axis in Weeks only: rendered if there are child measurements and  < 2 years and > 2 weeks */}
@@ -295,52 +293,10 @@ function UKWHOChart({
                       tickFormat={(t)=> `${returnAxis(t, "weeks")}`}
                     /> 
                 }
-              {/* X axis in Weeks only - preterm focus: rendered if there are child measurements and the first decimal age < 2 weeks */}
-              {  showPretermChart &&
-                <VictoryAxis
-                  domain={{x:[-0.383, 0]}}
-                  label="Gestation (weeks)"
-                  style={{
-                    axis: {
-                      stroke: axisStroke,
-                    },
-                    axisLabel: {
-                      fontSize: 10, 
-                      padding: 20,
-                      color: axisLabelColour,
-                      font: axisLabelFont
-                    },
-                    ticks: {
-                      stroke: axisStroke 
-                    },
-                    tickLabels: {
-                      fontSize: 6, 
-                      padding: 5,
-                      color: axisLabelColour
-                    },
-                    grid: { 
-                      stroke: ()=> gridlines ? gridlineStroke : null,
-                    }
-                  }}
-                  tickLabelComponent={
-                    <VictoryLabel 
-                      dy={0}
-                      style={[
-                        { fill: axisLabelColour, 
-                          fontSize: 6,
-                          font: axisLabelFont
-                        },
-                      ]}
-                    />
-                  }
-                  tickCount={18}
-                  tickFormat={(t)=> Math.round(t*52+40)}
-              />
-              }
 
               {/* These are the puberty threshold lines - the boys are a year above the girls */}
 
-              { showAxis(allMeasurementPairs, "uk90Child") && sex==="male" && measurementMethod==="height" && // puberty threshold lines boys UK90
+              { domains.x[1]> 7.5 && sex==="male" && measurementMethod==="height" && // puberty threshold lines boys UK90
                 pubertyThresholdBoys.map((data, index)=> {
                   return (
                     <VictoryAxis dependentAxis
@@ -373,7 +329,7 @@ function UKWHOChart({
                 })
               }
 
-              { showAxis(allMeasurementPairs, "uk90Child") && sex==="female" && measurementMethod==="height" && // puberty threshold lines uk90 girls
+              { domains.x[1] > 12.5 && sex==="female" && measurementMethod==="height" && // puberty threshold lines uk90 girls
                 pubertyThresholdGirls.map((data, index)=> {
                   return (
                     <VictoryAxis dependentAxis
@@ -403,7 +359,7 @@ function UKWHOChart({
 
               {/* render the y axis  - there is one for each reference*/}
 
-              { //showAxis(allMeasurementPairs, "uk90Preterm") && // y axis for uk90 preterm
+              {  // y axis for uk90 preterm
                 <VictoryAxis // this is the y axis
                   label={yAxisLabel(measurementMethod)}
                   style= {{
@@ -543,7 +499,11 @@ function UKWHOChart({
               {/* 1 for each centile, 1 for the shaded area, 1 at 2years to indicate children are measured standing leading */}
               {/* to a step down in height weight and bmi in the data set. There is another tool tip at 4 years to indicate transition from datasets. */}
 
-              { centileData.map((reference, index)=>{ 
+              { centileData.map((reference, index)=>{
+                if (index===0){ // this is a hack. Domain should remove preterm data but is nt doing so
+                  return
+                }
+                
                 if (reference.length > 0){
                   return (<VictoryGroup key={index}>
                     {reference.map((centile:ICentile, centileIndex: number)=>{
@@ -678,34 +638,5 @@ function UKWHOChart({
       </div>
   );
 }
-
-
-// const MonthsLabel = (props) => { // the same ChartCircle but smaller for use in axis label
-//   const {x, y, text, style} = props
-//   return (<svg>
-//     <text x={x+50} y={y+7.5} textAnchor="left" fontSize={10}>{text}</text>
-//     <circle cx={x+40} cy={y+5} r={5} stroke="black" fill="transparent" />
-//     <line x1={x+40} x2={x+40} y1={y+17.5} y2={y+10} stroke="black" />
-//   </svg>)
-// }
-
-// const XPoint = (props) => { // the x for the corrected age, circle for the chronological age
-//   const transform = `rotate(45, ${props.x}, ${props.y})`;
-//   if(props.datum.age_type==="chronological_age"){
-//     return <Point {...props} symbol="circle" />
-//   } else {
-//     return <Point {...props} symbol="plus" transform={transform} />
-//   }
-  
-// };
-
-// const ChartCircle = (props) =>{ // lollipop tick for months as axis label
-//   const {x, y, style, text} = props
-//   return (<svg>
-//     <text x={x} y={y-12.5} textAnchor="middle" fill={style.stroke} fontSize={6}>{text}</text>
-//     <circle cx={props.x} cy={y-15} r={5} stroke={style.stroke} fill="transparent" />
-//     <line x1={props.x} x2={x} y1={y} y2={y-10} stroke={style.stroke}/>
-//   </svg>)
-// }
 
 export default UKWHOChart;
