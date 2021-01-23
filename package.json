@@ -12,8 +12,6 @@
     "build": "rollup -c",
     "test": "jest",
     "test:watch": "jest --watch",
-    "storybook": "start-storybook -p 6006",
-    "storybook:export": "build-storybook",
     "generate": "node ./util/create-component",
     "prepublishOnly": "npm run build"
   },
@@ -32,8 +30,7 @@
     "Library",
     "Rollup",
     "Typescript",
-    "Sass",
-    "Storybook"
+    "Sass"
   ],
   "author": "Simon Chapman",
   "license": "AGPL-3.0-or-later",
@@ -42,14 +39,13 @@
   },
   "homepage": "https://github.com/RCPCH/digital-growth-charts-react-component-library#readme",
   "peerDependencies": {
-    "react": ">=16.8.0",
-    "react-dom": ">=16.8.0"
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0"
   },
   "devDependencies": {
     "@babel/core": "^7.10.3",
     "@rollup/plugin-commonjs": "^11.1.0",
     "@rollup/plugin-node-resolve": "^7.1.3",
-    "@storybook/react": "^5.3.19",
     "@testing-library/jest-dom": "^5.5.0",
     "@testing-library/react": "^10.0.2",
     "@types/jest": "^24.0.24",
@@ -60,8 +56,6 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^24.9.0",
     "node-sass": "^4.14.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
     "rollup": "^1.27.4",
     "rollup-plugin-copy": "^3.3.0",
     "rollup-plugin-peer-deps-external": "^2.2.0",
@@ -73,6 +67,7 @@
   },
   "dependencies": {
     "@types/victory": "^33.1.4",
+    "tslib": "^2.1.0",
     "victory": "^35.4.6"
   }
 }

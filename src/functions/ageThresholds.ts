@@ -6,9 +6,15 @@ export function ageThresholds(measurementPairArray):[number, number]{
         // there are no measurements yet - return a chart aged 0-20y
         return [0, 20]
     } else {
+        // return [0,20]
+        let maxAge
         const minAge = measurementPairArray[0][0].x
         const maxAgeDecimalAge = measurementPairArray[measurementPairArray.length-1][0].x
-        const maxAge = measurementPairArray[measurementPairArray.length-1][1].x
+        if (measurementPairArray[measurementPairArray.length-1].length > 1){
+            maxAge = measurementPairArray[measurementPairArray.length-1][1].x
+        } else {
+            maxAge = measurementPairArray[measurementPairArray.length-1][0].x
+        }
         
         if (minAge===maxAgeDecimalAge){ //there is only one measurement min=max
             if (minAge < 0.038){ // show 2 weeks either side

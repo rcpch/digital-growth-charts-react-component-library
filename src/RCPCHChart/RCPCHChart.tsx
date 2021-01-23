@@ -1,59 +1,130 @@
-// Generated with util/create-component.js
-import React from "react";
+// packages/libraries
+import React, { useState } from "react";
 
+// props and interfaces
 import { RCPCHChartProps } from "./RCPCHChart.types";
+import { Domains } from "../interfaces/Domains";
+import { PlottableMeasurement } from '../interfaces/RCPCHMeasurementObject';
 
+// style sheets
 import "./RCPCHChart.scss";
+
+// components
 import UKWHOChart from "../UKWHOChart";
 import TurnerChart from '../TURNERChart';
 import Trisomy21Chart from '../TRISOMY21Chart';
 
-// import { trial } from '../functions/measurements'
+// helper functions
+import { fetchData } from '../functions/fetchData';
+import { setTermDomainsForMeasurementMethod } from "../functions/setTermDomainsForMeasurementMethod";
 
 const RCPCHChart: React.FC<RCPCHChartProps> = ({ 
-                                                title,
-                                                subtitle,
-                                                measurementMethod,
-                                                reference,
-                                                sex,
-                                                measurementsArray,
-                                                chartBackground,
-                                                gridlineStroke,
-                                                gridlineStrokeWidth,
-                                                gridlineDashed,
-                                                gridlines,
-                                                centileStroke,
-                                                centileStrokeWidth,
-                                                axisStroke,
-                                                axisLabelFont,
-                                                axisLabelColour,
-                                                measurementFill,
-                                                measurementSize,
-                                                measurementShape,
-                                              }) => (
+        title,
+        subtitle,
+        measurementMethod,
+        reference,
+        sex,
+        measurementsArray,
+        chartBackground,
+        gridlineStroke,
+        gridlineStrokeWidth,
+        gridlineDashed,
+        gridlines,
+        centileStroke,
+        centileStrokeWidth,
+        axisStroke,
+        axisLabelFont,
+        axisLabelColour,
+        measurementFill,
+        measurementSize,
+        measurementShape,
+}) => {
+    
+  let lowerAgeX = 0
+    let upperAgeX = 20
+    const measurementScope = setTermDomainsForMeasurementMethod(measurementMethod,upperAgeX) // fetch the y axis limits baed on measurement method
+    
+    let upperMeasurementY = measurementScope[1] // this is the chart y upper domain
+    let lowerMeasurementY = measurementScope[0] // this is the chart y lower domain
+    const pairs = measurementsArray as PlottableMeasurement[]
+    let premature = false
+    
+    if (pairs.length > 0){
+      premature = pairs[0][0].x < 0
+      lowerMeasurementY = pairs[0][0].y
+      upperMeasurementY = pairs[pairs.length-1][0].y
+      lowerAgeX = pairs[0][0].x
+      upperAgeX = pairs[pairs.length-1][0].x
+
+      if (lowerAgeX < 0){
+        lowerAgeX = -0.383
+        upperAgeX = 0.25
+      }
+      if (lowerAgeX >= 0 && lowerAgeX < 2){
+        lowerAgeX = 0
+      }
+      if (lowerAgeX >= 2 && lowerAgeX <4){
+        lowerAgeX = 2
+      }
+      if(upperAgeX >=4){
+        upperAgeX = upperAgeX + 4
+        if (upperAgeX > 20){
+          upperAgeX=20
+        }
+      }
+      if (upperAgeX >=2 && upperAgeX< 4){
+        upperAgeX= 4
+      }
+      if (upperAgeX>=0 && upperAgeX <2){
+        upperAgeX = 2
+      }
+    }
+    const [isPreterm, setPreterm] = useState(premature) // prematurity flag
+    const [domains, setDomains] = useState<Domains | undefined>({x:[lowerAgeX,upperAgeX], y:measurementScope}) // set the limits of the chart
+    const [ukwhoCentileData, setUKWHOCentileData] = useState(fetchData(sex, measurementMethod, domains)) //fetch the centille data
+    
+    const setUKWHODomains = ([lowerXDomain, upperXDomain], [lowerYDomain, upperYDomain]) => { // call back from chart.tsx on domain change
+      let newUpperY = upperYDomain
+      let newLowerY = lowerYDomain
+      
+      if (lowerYDomain >= upperMeasurementY){ // the measurement is not visible
+        newUpperY = upperYDomain
+        newLowerY = lowerMeasurementY
+      } 
+      if (upperYDomain < upperMeasurementY){
+        newLowerY=lowerYDomain
+        newUpperY= upperMeasurementY-10
+      }
+
+      setDomains({x:[lowerXDomain, upperXDomain], y:[newLowerY, newUpperY]}) // update the state with new domains
+
+      const newData = fetchData(sex, measurementMethod, {x:[lowerXDomain, upperXDomain], y:[newLowerY, newUpperY]}) //refresh chart data based on new domains
+      setUKWHOCentileData(newData) // update the state with new centile data (tailored to visible area of chart)
+    }
+    
+    
+  return (
     <div
       data-testid="RCPCHChart"
     //   className={`test-component test-component-${theme}`}
     >
       
-{/*       
-      The RCPCH chart component renders a single chart
-      Essential props include:
-      reference
-      measurement_method
-      sex
-      measurementsArray (this is an array of measurement objects received from the dGC API)
+                  {/*       
+                    The RCPCH chart component renders a single chart
+                    Essential props include:
+                    reference
+                    measurement_method
+                    sex
+                    measurementsArray (this is an array of measurement objects received from the dGC API)
 
-      
-      growth data point color
-      line color
-      axis color
-      label font
-      label size
-      chart background color
-       */}
-
-    
+                    
+                    growth data point color
+                    line color
+                    axis color
+                    label font
+                    label size
+                    chart background color
+                  */}
       
     <div >
       { reference === 'trisomy-21' &&
@@ -120,6 +191,10 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
             measurementFill={measurementFill}
             measurementSize={measurementSize}
             measurementShape={measurementShape}
+            centileData={ukwhoCentileData}
+            setUKWHODomains={setUKWHODomains}
+            domains={domains}
+            isPreterm={isPreterm}
           />
       }
       
@@ -127,7 +202,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     </div>
 
     </div>
-  );
+  )};
 
 export default RCPCHChart;
 
