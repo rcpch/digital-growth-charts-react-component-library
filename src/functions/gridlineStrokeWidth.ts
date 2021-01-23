@@ -4,9 +4,6 @@ export function returnGridlineStrokeWidth(viewGridlines, gridlineStrokeWidth, ti
         return 0
     }
 
-    console.log();
-    
-    
     returnGridlineStrokeWidth = gridlineStrokeWidth
     if(tick.ticks % 5 === 0) {
         returnGridlineStrokeWidth = gridlineStrokeWidth + 0.5

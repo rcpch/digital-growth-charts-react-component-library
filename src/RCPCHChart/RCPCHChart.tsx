@@ -16,7 +16,7 @@ import Trisomy21Chart from '../TRISOMY21Chart';
 
 // helper functions
 import { fetchData } from '../functions/fetchData';
-import { measurementThresholds } from '../functions/measurementThreshold';
+import { setTermDomainsForMeasurementMethod } from "../functions/setTermDomainsForMeasurementMethod";
 
 const RCPCHChart: React.FC<RCPCHChartProps> = ({ 
         title,
@@ -39,12 +39,13 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
         measurementSize,
         measurementShape,
 }) => {
-    const measurementScope = measurementThresholds(measurementMethod) // fetch the y axis limits baed on measurement method
+    
+  let lowerAgeX = 0
+    let upperAgeX = 20
+    const measurementScope = setTermDomainsForMeasurementMethod(measurementMethod,upperAgeX) // fetch the y axis limits baed on measurement method
     
     let upperMeasurementY = measurementScope[1] // this is the chart y upper domain
     let lowerMeasurementY = measurementScope[0] // this is the chart y lower domain
-    let lowerAgeX = 0
-    let upperAgeX = 20
     const pairs = measurementsArray as PlottableMeasurement[]
     let premature = false
     
