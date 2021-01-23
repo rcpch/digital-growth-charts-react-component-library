@@ -1,71 +1,41 @@
-// Generated with util/create-component.js
-import React from "react";
+// libraries
+import React, { useState } from "react";
 import { VictoryChart, VictoryGroup, VictoryLine, VictoryScatter, VictoryZoomContainerProps, VictoryVoronoiContainerProps, VictoryTooltip, VictoryAxis, VictoryLegend, VictoryLabel, VictoryArea, Point, createContainer } from 'victory'
-import ukwhoData from '../../chartdata/uk_who_chart_data'
-import { stndth } from '../functions/suffix'
-import { ICentile } from "../interfaces/CentilesObject";
-import { UKWHOChartProps } from "./UKWHOChart.types";
 
+// data
+import ukwhoData from '../../chartdata/uk_who_chart_data'
+
+// helper functions
+import { stndth } from '../functions/suffix'
 import { showChart} from '../functions/showChart'
 import { showAxis} from '../functions/showAxis'
-
-import "./UKWHOChart.scss";
-import { returnAxis} from "../functions/axis"
 import { removeCorrectedAge } from "../functions/removeCorrectedAge";
 import { measurementSuffix } from "../functions/measurementSuffix";
-import { LightenDarkenColour } from "../functions/lightenDarken";
-import { testParam } from "../functions/test";
+import { returnAxis} from "../functions/axis"
 import { addAlpha } from "../functions/addAlpha";
 import { yAxisLabel } from "../functions/yAxisLabel";
 import { ageThresholds } from "../functions/ageThresholds";
 import { ageTickNumber } from '../functions/ageTick'
 import { measurementThresholds } from "../functions/measurementThresholds";
 
-const pubertyThresholdBoys = [
-  {
-    x: 9,
-    label: "Puberty starting before 9 years is precocious."
-  },
-  {
-    x: 14,
-    label: "Puberty is delayed if no signs are present by 14y."
-  },
-  {
-    x: 17,
-    label: "Puberty completing after 17y is delayed."
-  }
-]
-const pubertyThresholdGirls = [
-  {
-    x: 8,
-    label: "Puberty starting before 8 years is precocious."
-  },
-  {
-    x: 13,
-    label: "Puberty is delayed if no signs are present by 13y."
-  },
-  {
-    x: 16,
-    label: "Puberty completing after 16y is delayed."
-  }
-]
+// interfaces & props
+import { ICentile } from "../interfaces/CentilesObject";
+import { PretermChart } from '../SubComponents/PretermChart'
+import { UKWHOChartProps } from "./UKWHOChart.types";
+import { PlottableMeasurement } from "../interfaces/RCPCHMeasurementObject";
 
-const delayedPubertyThreshold = (data, sex) => {
-  // generates the data for the shaded area (VictoryArea) where puberty is delayed, and adds information for the tool tip
-  return data.map(dataItem =>{
-    if (sex==="male"){
-      if(dataItem.x >=9 && dataItem.x <=14){
-        return ({...dataItem, y0: 117+(3*(dataItem.x-9)), l: "For all Children plotted in this shaded area see instructions."})
-      }
-      return dataItem
-  } else {
-    if(dataItem.x >=8.6 && dataItem.x <=13){
-      return ({...dataItem, y0: 116+(3*(dataItem.x-8.6)), l: "For all Children plotted in this shaded area see instructions."})
-    }
-    return dataItem
-  }
-  });
-}
+// subcomponents
+import { XPoint } from '../SubComponents/XPoint';
+import { ChartCircle } from '../SubComponents/ChartCircle';
+import { MonthsLabel } from '../SubComponents/MonthsLabel';
+
+// style sheets
+import "./UKWHOChart.scss";
+
+
+// definitions
+
+import { delayedPubertyThreshold, pubertyThresholdBoys, pubertyThresholdGirls } from '../SubComponents/DelayedPuberty'
 
 const VictoryZoomVoronoiContainer = createContainer<VictoryZoomContainerProps, VictoryVoronoiContainerProps>("zoom","voronoi");// allows two top level containers: zoom and voronoi
 
@@ -90,14 +60,49 @@ function UKWHOChart({
   measurementShape,
   domains,
   centileData,
-  setUKWHODomains
+  setUKWHODomains,
+  isPreterm
 }: UKWHOChartProps) {
-  
+
+  const [showPretermChart, setShowPretermChart] = useState(false);
+  const props = {title, subtitle,measurementMethod,sex,allMeasurementPairs,chartBackground,gridlineStroke,gridlineStrokeWidth,gridlineDashed,gridlines,centileStroke,centileStrokeWidth,axisStroke,axisLabelFont,axisLabelColour,measurementFill,measurementSize,measurementShape,domains,centileData,setUKWHODomains,isPreterm}
+
+  const onClickShowPretermChartHandler=(event)=>{
+    setShowPretermChart(!showPretermChart)
+  }
+
   return ( 
     <div data-testid="UKWHOChart" className="centred">
       {/* The VictoryChart is the parent component. It contains a Voronoi container, which groups data sets together for the purposes of tooltips */}
       {/* It has an animation object and the domains are the thresholds of ages rendered. This is calculated from the child data supplied by the user. */}
       {/* Tooltips are here as it is the parent component. More information of tooltips in centiles below. */}
+      
+          {showPretermChart ?
+          <PretermChart 
+              title={title}
+              subtitle={subtitle}
+              measurementMethod={measurementMethod}
+              sex={sex}
+              allMeasurementPairs={allMeasurementPairs}
+              chartBackground={chartBackground}
+              gridlineStroke={gridlineStroke}
+              gridlineStrokeWidth={gridlineStrokeWidth}
+              gridlineDashed={gridlineDashed}
+              gridlines={gridlines}
+              centileStroke={centileStroke}
+              centileStrokeWidth={centileStrokeWidth}
+              axisStroke={axisStroke}
+              axisLabelFont={axisLabelFont}
+              axisLabelColour={axisLabelColour}
+              measurementFill={measurementFill}
+              measurementSize={measurementSize}
+              measurementShape={measurementShape}
+              domains={domains}
+              centileData={centileData}
+              setUKWHODomains={setUKWHODomains}
+              isPreterm={isPreterm}
+          />
+          : 
           <VictoryChart
               // animate={{
               //   duration: 500,
@@ -108,7 +113,7 @@ function UKWHOChart({
                   fill: chartBackground
                 }
               }}
-              domain={{x: ageThresholds(allMeasurementPairs), y: measurementThresholds(allMeasurementPairs, measurementMethod)}}
+              // domain={{x: ageThresholds(allMeasurementPairs), y: measurementThresholds(allMeasurementPairs, measurementMethod)}}
               containerComponent={
                   <VictoryZoomVoronoiContainer 
                     labels={({ datum }) => { // tooltip labels
@@ -179,8 +184,7 @@ function UKWHOChart({
               {/* This is calculated in the function ageThresholds and ageTicks */}
 
                 {/* X axis in Years  - rendered if there are  plotted child measurements and the max value is > 2y, or no measurements supplied */}
-                {/* { ((allMeasurementPairs.length > 0 && ageThresholds(allMeasurementPairs)[1] > 2) || (allMeasurementPairs.length< 1)) &&  */}
-                {  ( domains.x[1] > 2) &&
+                {  (domains.x[1] > 2 || (allMeasurementPairs.length > 0 ? allMeasurementPairs[allMeasurementPairs.length-1][0]["x"]> 2 : false)) && //render years x axis only if upper domain > 2 or highest supplied measurement > 2y
                     <VictoryAxis
                       label="Age (years)"
                       style={{
@@ -223,7 +227,6 @@ function UKWHOChart({
 
               {/* X axis in Months - rendered if child measurements exist and the max age < 2 but > 2 weeks */}
 
-              {/* { (allMeasurementPairs.length > 0 && (ageThresholds(allMeasurementPairs)[1] <= 2 && ageThresholds(allMeasurementPairs)[1] > 0.0383)) && */}
               {  (domains.x[1] > 0 && domains.x[1] < 2) &&
                   <VictoryAxis
                       label="months"
@@ -249,7 +252,6 @@ function UKWHOChart({
                   /> }
 
               {/* X axis in Weeks only: rendered if there are child measurements and  < 2 years and > 2 weeks */}
-                {/* { allMeasurementPairs.length > 0 && (ageThresholds(allMeasurementPairs)[1] < 2 && ageThresholds(allMeasurementPairs)[1] > 0.0383) && */}
                 {  (domains.x[0] > 0 && domains.x[1] < 2) &&
                     <VictoryAxis
                       label="Age (weeks)"
@@ -294,9 +296,9 @@ function UKWHOChart({
                     /> 
                 }
               {/* X axis in Weeks only - preterm focus: rendered if there are child measurements and the first decimal age < 2 weeks */}
-              {/* { allMeasurementPairs.length > 0 && (ageThresholds(allMeasurementPairs)[0] < 0.0383) &&  */}
-              {  (domains.x[0] < 0 || domains.x[1] < 0) &&
+              {  showPretermChart &&
                 <VictoryAxis
+                  domain={{x:[-0.383, 0]}}
                   label="Gestation (weeks)"
                   style={{
                     axis: {
@@ -401,7 +403,7 @@ function UKWHOChart({
 
               {/* render the y axis  - there is one for each reference*/}
 
-              { showAxis(allMeasurementPairs, "uk90Preterm") && // y axis for uk90 preterm
+              { //showAxis(allMeasurementPairs, "uk90Preterm") && // y axis for uk90 preterm
                 <VictoryAxis // this is the y axis
                   label={yAxisLabel(measurementMethod)}
                   style= {{
@@ -431,7 +433,7 @@ function UKWHOChart({
                     }}}
                   dependentAxis />   
               }
-              { showAxis(allMeasurementPairs, "ukwhoInfant") && // y axis for uk-who infant
+              {/* { showAxis(allMeasurementPairs, "ukwhoInfant") && // y axis for uk-who infant
                 <VictoryAxis // this is the y axis
                   label={yAxisLabel(measurementMethod)}
                   style= {{
@@ -525,7 +527,7 @@ function UKWHOChart({
                     }
                   }}
                   dependentAxis />   
-              }
+              } */}
 
               {/* Render the centiles - loop through the data set, create a line for each centile */}  
               {/* On the old charts the 50th centile was thicker and darker and this lead parents to believe it was therefore */}
@@ -586,6 +588,7 @@ function UKWHOChart({
             
 
               { showChart(allMeasurementPairs, "uk90Child") && sex==="male" && measurementMethod=="height" && //puberty delay shaded area boys
+              // { domains.x[1] > 7 && // show delayed puberty line if upper age is > 7
 
               <VictoryArea          
                 data={delayedPubertyThreshold(ukwhoData.uk90_child[sex][measurementMethod][0].data, sex)}
@@ -602,7 +605,7 @@ function UKWHOChart({
 
               }
 
-              { showChart(allMeasurementPairs, "uk90Child") && sex==="female" && measurementMethod=="height" && //puberty delay shaded area girls
+              { showChart(allMeasurementPairs, "uk90Child") && sex==="female" && measurementMethod=="height" && 
 
               <VictoryArea          
                 data={delayedPubertyThreshold(ukwhoData.uk90_child[sex][measurementMethod][0].data, sex)}
@@ -622,11 +625,17 @@ function UKWHOChart({
               {/* create a series for each child measurements datapoint: a circle for chronological age, a cross for corrected - if the chronological and corrected age are the same, */}
               {/* the removeCorrectedAge function removes the corrected age to prevent plotting a circle on a cross, and having duplicate */}
               {/* text in the tool tip */}
-              { allMeasurementPairs.map((measurementPair, index) => {
-              const first = measurementPair[0]
-              const second = measurementPair[1]
-              const match = first['x']===second['x']
-
+              { allMeasurementPairs.map((measurementPair: PlottableMeasurement[], index) => {
+                
+                let match=false
+                if(measurementPair.length > 1){
+                  
+                  const first = measurementPair[0]
+                  const second = measurementPair[1]
+                  match = first.x===second.x
+                } else {
+                  match=true
+                }
                 return (
                     <VictoryGroup
                       key={'measurement'+index}
@@ -634,7 +643,7 @@ function UKWHOChart({
                       { match  ?
                       
                           <VictoryScatter
-                            data={removeCorrectedAge(measurementPair)}
+                            data={measurementPair.length > 1 ? removeCorrectedAge(measurementPair) : measurementPair}
                             symbol={ measurementShape}
                             style={{ data: { fill: measurementFill } }}
                             name='same_age' 
@@ -662,38 +671,41 @@ function UKWHOChart({
                     </VictoryGroup>
                   )
               })}
-              </VictoryChart>
+              </VictoryChart>}
+              { isPreterm &&
+                <button onClick={onClickShowPretermChartHandler}>View Preterm Chart</button>
+              }
       </div>
   );
 }
 
 
-const MonthsLabel = (props) => { // the same ChartCircle but smaller for use in axis label
-  const {x, y, text, style} = props
-  return (<svg>
-    <text x={x+50} y={y+7.5} textAnchor="left" fontSize={10}>{text}</text>
-    <circle cx={x+40} cy={y+5} r={5} stroke="black" fill="transparent" />
-    <line x1={x+40} x2={x+40} y1={y+17.5} y2={y+10} stroke="black" />
-  </svg>)
-}
+// const MonthsLabel = (props) => { // the same ChartCircle but smaller for use in axis label
+//   const {x, y, text, style} = props
+//   return (<svg>
+//     <text x={x+50} y={y+7.5} textAnchor="left" fontSize={10}>{text}</text>
+//     <circle cx={x+40} cy={y+5} r={5} stroke="black" fill="transparent" />
+//     <line x1={x+40} x2={x+40} y1={y+17.5} y2={y+10} stroke="black" />
+//   </svg>)
+// }
 
-const XPoint = (props) => { // the x for the corrected age, circle for the chronological age
-  const transform = `rotate(45, ${props.x}, ${props.y})`;
-  if(props.datum.age_type==="chronological_age"){
-    return <Point {...props} symbol="circle" />
-  } else {
-    return <Point {...props} symbol="plus" transform={transform} />
-  }
+// const XPoint = (props) => { // the x for the corrected age, circle for the chronological age
+//   const transform = `rotate(45, ${props.x}, ${props.y})`;
+//   if(props.datum.age_type==="chronological_age"){
+//     return <Point {...props} symbol="circle" />
+//   } else {
+//     return <Point {...props} symbol="plus" transform={transform} />
+//   }
   
-};
+// };
 
-const ChartCircle = (props) =>{ // lollipop tick for months as axis label
-  const {x, y, style, text} = props
-  return (<svg>
-    <text x={x} y={y-12.5} textAnchor="middle" fill={style.stroke} fontSize={6}>{text}</text>
-    <circle cx={props.x} cy={y-15} r={5} stroke={style.stroke} fill="transparent" />
-    <line x1={props.x} x2={x} y1={y} y2={y-10} stroke={style.stroke}/>
-  </svg>)
-}
+// const ChartCircle = (props) =>{ // lollipop tick for months as axis label
+//   const {x, y, style, text} = props
+//   return (<svg>
+//     <text x={x} y={y-12.5} textAnchor="middle" fill={style.stroke} fontSize={6}>{text}</text>
+//     <circle cx={props.x} cy={y-15} r={5} stroke={style.stroke} fill="transparent" />
+//     <line x1={props.x} x2={x} y1={y} y2={y-10} stroke={style.stroke}/>
+//   </svg>)
+// }
 
 export default UKWHOChart;

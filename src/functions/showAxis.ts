@@ -16,7 +16,12 @@ export function showAxis(measurementsArray, chartType: string){
         
         
         const minAge = measurementsArray[0][0].x
-        const maxAge = measurementsArray[measurementsArray.length - 1][1].x
+        let maxAge
+        if (measurementsArray[measurementsArray.length - 1].length > 1){ // uncorrected ages have the corrected_decimal_age removed
+            maxAge = measurementsArray[measurementsArray.length - 1][1].x
+        } else {
+            maxAge = measurementsArray[measurementsArray.length - 1][0].x
+        }
         
         if(chartType === "uk90Preterm"){
             if (minAge < uk90Preterm.UpperLimit && maxAge <uk90Preterm.UpperLimit){

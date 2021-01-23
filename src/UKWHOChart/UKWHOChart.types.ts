@@ -1,4 +1,5 @@
 import { Domains } from "../interfaces/Domains";
+import { PlottableMeasurement } from "../interfaces/RCPCHMeasurementObject";
 
 export interface UKWHOChartProps {
     title: string,
@@ -21,5 +22,6 @@ export interface UKWHOChartProps {
     measurementShape?: 'circle' | 'square' | 'star' | 'diamond' | 'triangleUp' | 'triangleDown',
     domains: Domains
     setUKWHODomains([lowerXDomain, upperXDomain], [lowerYDomain, upperYDomain]): void
-    centileData: [][]
+    centileData: [][],
+    isPreterm: boolean
 }

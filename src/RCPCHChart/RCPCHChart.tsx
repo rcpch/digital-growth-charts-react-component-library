@@ -3,12 +3,14 @@ import React, { useState } from "react";
 
 import { RCPCHChartProps } from "./RCPCHChart.types";
 import { Domains } from "../interfaces/Domains";
+import { measurementThresholds } from '../functions/measurementThresholds'
 
 import "./RCPCHChart.scss";
 import UKWHOChart from "../UKWHOChart";
 import TurnerChart from '../TURNERChart';
 import Trisomy21Chart from '../TRISOMY21Chart';
-import { fetchData } from '../functions/fetchData'
+import { fetchData } from '../functions/fetchData';
+import { PlottableMeasurement } from '../interfaces/RCPCHMeasurementObject';
 
 const RCPCHChart: React.FC<RCPCHChartProps> = ({ 
         title,
@@ -31,12 +33,25 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
         measurementSize,
         measurementShape,
 }) => {
-    const [domains, setDomains] = useState<Domains | undefined>({x:[0,20], y:[0,200]})
-    const [ukwhoCentileData, setUKWHOCentileData] = useState(fetchData(sex, measurementMethod, domains))
-    const setUKWHODomains = ([lowerXDomain, upperXDomain], [lowerYDomain, upperYDomain]) => {
-      setDomains({x:[lowerXDomain, upperXDomain], y:[lowerYDomain, upperYDomain]})
-      const newData = fetchData(sex, measurementMethod, {x:[lowerXDomain, upperXDomain], y:[lowerYDomain, upperYDomain]})
-      setUKWHOCentileData(newData)
+    const measurementScope = measurementThresholds(measurementsArray, measurementMethod) // fetch the y axis limits baed on measurement method
+    const [domains, setDomains] = useState<Domains | undefined>({x:[0,20], y:measurementScope}) // set the limits of the chart
+    const [ukwhoCentileData, setUKWHOCentileData] = useState(fetchData(sex, measurementMethod, domains)) //fetch the centille data
+    const [measurementPairs, setMeasurementPairs] = useState(measurementsArray)
+    const pairs = measurementPairs as PlottableMeasurement[]
+    let premature = false
+    if (pairs.length > 0){
+      premature = pairs[0][0].x < 0
+    }
+    const [isPreterm, setPreterm] = useState(premature)
+    
+    const setUKWHODomains = ([lowerXDomain, upperXDomain], [lowerYDomain, upperYDomain]) => { // call back from chart.tsx on domain change
+      setDomains({x:[lowerXDomain, upperXDomain], y:[lowerYDomain, upperYDomain]}) // update the state with new domains
+      const newData = fetchData(sex, measurementMethod, {x:[lowerXDomain, upperXDomain], y:[lowerYDomain, upperYDomain]}) //refresh chart data based on new domains
+      setUKWHOCentileData(newData) // update the state with new centile data (tailored to visible area of chart)
+    }
+
+    const setPrematurity = () => {
+      setPreterm(!isPreterm)
     }
     
     
@@ -131,6 +146,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
             centileData={ukwhoCentileData}
             setUKWHODomains={setUKWHODomains}
             domains={domains}
+            isPreterm={isPreterm}
           />
       }
       

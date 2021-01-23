@@ -2,7 +2,7 @@ export function measurementThresholds(measurementPairArray, measurementMethod: s
     if(measurementPairArray.length < 1){
         //no measurements supplied
         if(measurementMethod === "height"){
-            return [0, 200]
+            return [20, 200]
         }
         if(measurementMethod === "weight"){
             return [0, 110]
@@ -14,10 +14,19 @@ export function measurementThresholds(measurementPairArray, measurementMethod: s
             return [10, 40]
         }
     }
-    const minMeasurement = measurementPairArray[0][0].y
-    const maxMeasurement = measurementPairArray[measurementPairArray.length-1][1].y
-    if (measurementMethod==="bmi" || measurementMethod==="ofc" || measurementMethod==="weight"){
-        return [minMeasurement-5, maxMeasurement+5]
+    if (measurementPairArray[0].length > 1){ // uncorrected ages have the corrected_decimal_age removed
+        const minMeasurement = measurementPairArray[0][0].y
+        const maxMeasurement = measurementPairArray[measurementPairArray.length-1][1].y
+        if (measurementMethod==="bmi" || measurementMethod==="ofc" || measurementMethod==="weight"){
+            return [minMeasurement-20, maxMeasurement+20]
+        }
+        return [minMeasurement - 50, maxMeasurement+50]
+    } else {
+        const minMeasurement = measurementPairArray[0][0].y
+        const maxMeasurement = measurementPairArray[measurementPairArray.length-1][0].y
+        if (measurementMethod==="bmi" || measurementMethod==="ofc" || measurementMethod==="weight"){
+            return [minMeasurement-20, maxMeasurement+20]
+        }
+        return [minMeasurement - 50, maxMeasurement+50]
     }
-    return [minMeasurement - 10, maxMeasurement+10]
 }
