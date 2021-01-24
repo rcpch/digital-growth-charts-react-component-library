@@ -25,19 +25,24 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
         reference,
         sex,
         measurementsArray,
-        chartBackground,
-        gridlineStroke,
-        gridlineStrokeWidth,
-        gridlineDashed,
-        gridlines,
-        centileStroke,
-        centileStrokeWidth,
-        axisStroke,
-        axisLabelFont,
-        axisLabelColour,
-        measurementFill,
-        measurementSize,
-        measurementShape,
+        chartStyle,
+        axisStyle,
+        gridlineStyle,
+        centileStyle,
+        measurementStyle
+        // chartBackground,
+        // gridlineStroke,
+        // gridlineStrokeWidth,
+        // gridlineDashed,
+        // gridlines,
+        // centileStroke,
+        // centileStrokeWidth,
+        // axisStroke,
+        // axisLabelFont,
+        // axisLabelColour,
+        // measurementFill,
+        // measurementSize,
+        // measurementShape,
 }) => {
   
     
@@ -135,19 +140,19 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
             allMeasurementPairs={measurementsArray}
             measurementMethod={measurementMethod}
             sex={sex}
-            chartBackground={chartBackground}
-            gridlineStroke={gridlineStroke}
-            gridlineStrokeWidth={gridlineStrokeWidth}
-            gridlineDashed={gridlineDashed}
-            gridlines={gridlines}
-            centileStroke={centileStroke}
-            centileStrokeWidth={centileStrokeWidth}
-            axisStroke={axisStroke}
-            axisLabelFont={axisLabelFont}
-            axisLabelColour={axisLabelColour}
-            measurementFill={measurementFill}
-            measurementSize={measurementSize}
-            measurementShape={measurementShape}
+            chartBackground={chartStyle.backgroundColour}
+            gridlineStroke={gridlineStyle.stroke}
+            gridlineStrokeWidth={gridlineStyle.strokeWidth}
+            gridlineDashed={gridlineStyle.dashed}
+            gridlines={gridlineStyle.gridlines}
+            centileStroke={centileStyle.centileStroke}
+            centileStrokeWidth={centileStyle.centileStrokeWidth}
+            axisStroke={axisStyle.axisStroke}
+            axisLabelFont={axisStyle.axisLabelFont}
+            axisLabelColour={axisStyle.axisLabelColour}
+            measurementFill={measurementStyle.measurementFill}
+            measurementSize={measurementStyle.measurementSize}
+            measurementShape={measurementStyle.measurementShape}
           />
       }
       { reference === 'turner' && sex === "female" && measurementMethod === "height" &&
@@ -157,19 +162,19 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
               allMeasurementPairs={measurementsArray}
               measurementMethod={measurementMethod}
               sex={sex}
-              chartBackground={chartBackground}
-              gridlineStroke={gridlineStroke}
-              gridlineStrokeWidth={gridlineStrokeWidth}
-              gridlineDashed={gridlineDashed}
-              gridlines={gridlines}
-              centileStroke={centileStroke}
-              centileStrokeWidth={centileStrokeWidth}
-              axisStroke={axisStroke}
-              axisLabelFont={axisLabelFont}
-              axisLabelColour={axisLabelColour}
-              measurementFill={measurementFill}
-              measurementSize={measurementSize}
-              measurementShape={measurementShape}
+              chartBackground={chartStyle.backgroundColour}
+              gridlineStroke={gridlineStyle.stroke}
+              gridlineStrokeWidth={gridlineStyle.strokeWidth}
+              gridlineDashed={gridlineStyle.dashed}
+              gridlines={gridlineStyle.gridlines}
+              centileStroke={centileStyle.centileStroke}
+              centileStrokeWidth={centileStyle.centileStrokeWidth}
+              axisStroke={axisStyle.axisStroke}
+              axisLabelFont={axisStyle.axisLabelFont}
+              axisLabelColour={axisStyle.axisLabelColour}
+              measurementFill={measurementStyle.measurementFill}
+              measurementSize={measurementStyle.measurementSize}
+              measurementShape={measurementStyle.measurementShape}
           />) 
       }
       { reference === 'uk-who' &&
@@ -179,19 +184,19 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
             allMeasurementPairs={measurementsArray}
             measurementMethod={measurementMethod}
             sex={sex}
-            chartBackground={chartBackground}
-            gridlineStroke={gridlineStroke}
-            gridlineStrokeWidth={gridlineStrokeWidth}
-            gridlineDashed={gridlineDashed}
-            gridlines={gridlines}
-            centileStroke={centileStroke}
-            centileStrokeWidth={centileStrokeWidth}
-            axisStroke={axisStroke}
-            axisLabelFont={axisLabelFont}
-            axisLabelColour={axisLabelColour}
-            measurementFill={measurementFill}
-            measurementSize={measurementSize}
-            measurementShape={measurementShape}
+            chartBackground={chartStyle.backgroundColour}
+            gridlineStroke={gridlineStyle.stroke}
+            gridlineStrokeWidth={gridlineStyle.strokeWidth}
+            gridlineDashed={gridlineStyle.dashed}
+            gridlines={gridlineStyle.gridlines}
+            centileStroke={centileStyle.centileStroke}
+            centileStrokeWidth={centileStyle.centileStrokeWidth}
+            axisStroke={axisStyle.axisStroke}
+            axisLabelFont={axisStyle.axisLabelFont}
+            axisLabelColour={axisStyle.axisLabelColour}
+            measurementFill={measurementStyle.measurementFill}
+            measurementSize={measurementStyle.measurementSize}
+            measurementShape={measurementStyle.measurementShape}
             centileData={ukwhoCentileData}
             setUKWHODomains={setUKWHODomains}
             domains={domains}

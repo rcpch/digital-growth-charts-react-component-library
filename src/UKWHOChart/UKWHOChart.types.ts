@@ -19,7 +19,7 @@ export interface UKWHOChartProps {
     axisLabelColour?: string,
     measurementFill?: string,
     measurementSize?: number,
-    measurementShape?: 'circle' | 'square' | 'star' | 'diamond' | 'triangleUp' | 'triangleDown',
+    measurementShape: 'circle' | 'cross' | 'triangleUp' | 'triangleDown' | 'square' | 'star' | 'diamond'
     domains: Domains
     setUKWHODomains([lowerXDomain, upperXDomain], [lowerYDomain, upperYDomain]): void
     centileData: [][],

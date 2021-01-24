@@ -1,3 +1,4 @@
+import { AxisStyle, CentileStyle, ChartStyle, GridlineStyle, MeasurementStyle } from "../interfaces/StyleObjects";
 export interface RCPCHChartProps {
     title: string,
     subtitle: string,
@@ -5,17 +6,9 @@ export interface RCPCHChartProps {
     sex: 'male' | 'female',
     measurementsArray: [],
     reference: 'uk-who' | 'turner' | 'trisomy-21',
-    chartBackground: string,
-    gridlineStroke: string,
-    gridlineStrokeWidth: number,
-    gridlineDashed: boolean,
-    gridlines: boolean,
-    centileStroke: string,
-    centileStrokeWidth: number,
-    axisStroke: string,
-    axisLabelFont: string,
-    axisLabelColour: string,
-    measurementFill: string,
-    measurementSize: number,
-    measurementShape: 'circle' | 'square' | 'star' | 'diamond' | 'triangleUp' | 'triangleDown'
+    chartStyle: ChartStyle,
+    axisStyle: AxisStyle,
+    gridlineStyle: GridlineStyle,
+    centileStyle: CentileStyle,
+    measurementStyle: MeasurementStyle
 }

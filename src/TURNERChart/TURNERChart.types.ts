@@ -19,5 +19,5 @@ export interface TURNERChartProps {
     axisLabelColour: string,
     measurementFill: string,
     measurementSize: number,
-    measurementShape: 'circle' | 'square' | 'star' | 'diamond' | 'triangleUp' | 'triangleDown'
+    measurementShape: 'circle' | 'cross' | 'triangleUp' | 'triangleDown' | 'square' | 'star' | 'diamond'
 }
