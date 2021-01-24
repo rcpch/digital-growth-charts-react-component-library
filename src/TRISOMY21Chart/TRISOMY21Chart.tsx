@@ -7,9 +7,14 @@ import { TRISOMY21ChartProps } from "./TRISOMY21Chart.types";
 import { PlottableMeasurement } from "../interfaces/RCPCHMeasurementObject";
 import { ICentile } from '../interfaces/CentilesObject';
 
+// components
+import { XPoint } from '../SubComponents/XPoint';
+import { ChartCircle } from '../SubComponents/ChartCircle';
+
 // helper functions
 import { stndth } from '../functions/suffix';
 import { retrieveTrisomy21Data } from '../functions/retrieveTrisomy21Data';
+import { removeCorrectedAge } from '../functions/removeCorrectedAge';
 
 // style sheets
 import "./TRISOMY21Chart.scss";
@@ -57,14 +62,16 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
           background: { fill: chartBackground }
         }}
       >
+        {/* the legend postion must be hard coded. It automatically reproduces and labels each series - this is hidden with data: fill: "transparent" */}
         <VictoryLegend
-          title={[title, subtitle]}
-          centerTitle
-          gutter={20}
-          titleOrientation="top"
-          orientation="horizontal"
-          style={{ data: { fill: "transparent" } }}
-          data={[]}
+                title={[title, subtitle]}
+                centerTitle
+                titleOrientation="top"
+                orientation="horizontal"
+                style={{ data: { fill: "transparent" } }}
+                x={175}
+                y={0}
+                data={[]}
         />
         <VictoryAxis dependentAxis />
         <VictoryAxis
@@ -97,7 +104,7 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
         {/* Render the centiles - loop through the data set, create a line for each centile */}  
           {
             retrieveTrisomy21Data(measurementMethod, sex).map((centile:ICentile, centileIndex: number) =>{
-              return ( <VictoryGroup > 
+              return ( <VictoryGroup key={centile.centile+"-"+centileIndex}> 
                 { centileIndex % 2 === 0 ? // even index - centile is dashed
                      (
                     <VictoryLine
@@ -137,54 +144,55 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
           }
 
 
-        {/* Render the measurements */}
-        { <VictoryGroup>
-          { allMeasurementPairs.map((measurementPair: PlottableMeasurement[], index) => {
-            { measurementPair.length > 1 ? (
-              <VictoryGroup
-                key={'measurement'+index}
-              >
-                <VictoryLine
-                  name="linkLine"
-                  style={{ 
-                    data: { 
-                      stroke: measurementFill,
-                    },
-                    parent: {
-                      border: "1px solid",
-                      color: measurementFill
-                    }
-                  }}
-                  data={measurementPair}
-                />
-                <VictoryScatter
-                  data={measurementPair}
-                  symbol={measurementShape}
-                  style={{ 
-                    data: { 
-                      fill: measurementFill 
-                    } 
-                  }}
-                />
-              </VictoryGroup>
-            ) : (
-              <VictoryGroup
-                key={'measurement'+index}
-              >
-                <VictoryScatter
-                  data={measurementPair}
-                  style={{ 
-                    data: { 
-                      fill: measurementFill
-                    } 
-                  }}
-                />
-              </VictoryGroup>
-            )
-            }
-            return 
-          })}
-        </VictoryGroup>}
+        {/* create a series for each child measurements datapoint: a circle for chronological age, a cross for corrected - if the chronological and corrected age are the same, */}
+              {/* the removeCorrectedAge function removes the corrected age to prevent plotting a circle on a cross, and having duplicate */}
+              {/* text in the tool tip */}
+              { allMeasurementPairs.map((measurementPair: PlottableMeasurement[], index) => {
+                
+                let match=false
+                if(measurementPair.length > 1){
+                  
+                  const first = measurementPair[0]
+                  const second = measurementPair[1]
+                  match = first.x===second.x
+                } else {
+                  match=true
+                }
+                return (
+                    <VictoryGroup
+                      key={'measurement'+index}
+                    >
+                      { match  ?
+                      
+                          <VictoryScatter
+                            data={measurementPair.length > 1 ? removeCorrectedAge(measurementPair) : measurementPair}
+                            symbol={ measurementShape}
+                            style={{ data: { fill: measurementFill } }}
+                            name='same_age' 
+                          />
+
+                        :
+
+                        <VictoryScatter 
+                            data={measurementPair}
+                            dataComponent={<XPoint/>}
+                          style={{ data: 
+                            { fill: measurementFill } 
+                          }}
+                          name= 'split_age'
+                        />
+                          }
+
+                      <VictoryLine
+                        name="linkLine"
+                        style={{ 
+                          data: { stroke: measurementFill, strokeWidth: 1.25 },
+                        }}
+                        data={measurementPair}
+                      />
+                    </VictoryGroup>
+                  )
+              })}
 
       </VictoryChart>
     </div>
