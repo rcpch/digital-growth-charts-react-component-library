@@ -2,7 +2,8 @@ export interface ChartStyle{
     backgroundColour: string, 
     width: number, 
     height: number, 
-    tooltipColour: string
+    tooltipBackgroundColour: string,
+    tooltipTextColour: string
 }
 export interface MeasurementStyle{
     measurementFill: string, 

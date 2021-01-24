@@ -30,19 +30,6 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
         gridlineStyle,
         centileStyle,
         measurementStyle
-        // chartBackground,
-        // gridlineStroke,
-        // gridlineStrokeWidth,
-        // gridlineDashed,
-        // gridlines,
-        // centileStroke,
-        // centileStrokeWidth,
-        // axisStroke,
-        // axisLabelFont,
-        // axisLabelColour,
-        // measurementFill,
-        // measurementSize,
-        // measurementShape,
 }) => {
   
     
@@ -140,19 +127,11 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
             allMeasurementPairs={measurementsArray}
             measurementMethod={measurementMethod}
             sex={sex}
-            chartBackground={chartStyle.backgroundColour}
-            gridlineStroke={gridlineStyle.stroke}
-            gridlineStrokeWidth={gridlineStyle.strokeWidth}
-            gridlineDashed={gridlineStyle.dashed}
-            gridlines={gridlineStyle.gridlines}
-            centileStroke={centileStyle.centileStroke}
-            centileStrokeWidth={centileStyle.centileStrokeWidth}
-            axisStroke={axisStyle.axisStroke}
-            axisLabelFont={axisStyle.axisLabelFont}
-            axisLabelColour={axisStyle.axisLabelColour}
-            measurementFill={measurementStyle.measurementFill}
-            measurementSize={measurementStyle.measurementSize}
-            measurementShape={measurementStyle.measurementShape}
+            chartStyle={chartStyle}
+            axisStyle={axisStyle}
+            gridlineStyle={gridlineStyle}
+            centileStyle={centileStyle}
+            measurementStyle={measurementStyle}
           />
       }
       { reference === 'turner' && sex === "female" && measurementMethod === "height" &&
@@ -162,19 +141,11 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
               allMeasurementPairs={measurementsArray}
               measurementMethod={measurementMethod}
               sex={sex}
-              chartBackground={chartStyle.backgroundColour}
-              gridlineStroke={gridlineStyle.stroke}
-              gridlineStrokeWidth={gridlineStyle.strokeWidth}
-              gridlineDashed={gridlineStyle.dashed}
-              gridlines={gridlineStyle.gridlines}
-              centileStroke={centileStyle.centileStroke}
-              centileStrokeWidth={centileStyle.centileStrokeWidth}
-              axisStroke={axisStyle.axisStroke}
-              axisLabelFont={axisStyle.axisLabelFont}
-              axisLabelColour={axisStyle.axisLabelColour}
-              measurementFill={measurementStyle.measurementFill}
-              measurementSize={measurementStyle.measurementSize}
-              measurementShape={measurementStyle.measurementShape}
+              chartStyle={chartStyle}
+              axisStyle={axisStyle}
+              gridlineStyle={gridlineStyle}
+              centileStyle={centileStyle}
+              measurementStyle={measurementStyle}
           />) 
       }
       { reference === 'uk-who' &&
@@ -184,19 +155,11 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
             allMeasurementPairs={measurementsArray}
             measurementMethod={measurementMethod}
             sex={sex}
-            chartBackground={chartStyle.backgroundColour}
-            gridlineStroke={gridlineStyle.stroke}
-            gridlineStrokeWidth={gridlineStyle.strokeWidth}
-            gridlineDashed={gridlineStyle.dashed}
-            gridlines={gridlineStyle.gridlines}
-            centileStroke={centileStyle.centileStroke}
-            centileStrokeWidth={centileStyle.centileStrokeWidth}
-            axisStroke={axisStyle.axisStroke}
-            axisLabelFont={axisStyle.axisLabelFont}
-            axisLabelColour={axisStyle.axisLabelColour}
-            measurementFill={measurementStyle.measurementFill}
-            measurementSize={measurementStyle.measurementSize}
-            measurementShape={measurementStyle.measurementShape}
+            chartStyle={chartStyle}
+            axisStyle={axisStyle}
+            gridlineStyle={gridlineStyle}
+            centileStyle={centileStyle}
+            measurementStyle={measurementStyle}
             centileData={ukwhoCentileData}
             setUKWHODomains={setUKWHODomains}
             domains={domains}

@@ -26,19 +26,11 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
                 measurementMethod,
                 sex,
                 allMeasurementPairs,
-                chartBackground,
-                gridlineStroke,
-                gridlineStrokeWidth,
-                gridlineDashed,
-                gridlines,
-                centileStroke,
-                centileStrokeWidth,
-                axisStroke,
-                axisLabelFont,
-                axisLabelColour,
-                measurementFill,
-                measurementSize,
-                measurementShape,
+                chartStyle,
+                axisStyle,
+                gridlineStyle,
+                centileStyle,
+                measurementStyle,
  }) => (
     <div data-testid="TRISOMY21Chart" className="foo-bar">
       <VictoryChart
@@ -59,7 +51,7 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
           />
         }
         style={{
-          background: { fill: chartBackground }
+          background: { fill: chartStyle.backgroundColour }
         }}
       >
         {/* the legend postion must be hard coded. It automatically reproduces and labels each series - this is hidden with data: fill: "transparent" */}
@@ -80,7 +72,7 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
             <VictoryLabel 
               dy={0}
               style={[
-                { fill: axisLabelColour, fontSize: 8 },
+                { fill: axisStyle.axisLabelColour, fontSize: axisStyle.axisLabelSize },
               ]}
             />
           }
@@ -88,16 +80,16 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
             axis: {stroke: "#756f6a"},
             axisLabel: {fontSize: 10, padding: 20},
             grid: {
-              stroke: ({ tick }) => gridlines ? gridlineStroke : 'transparent',
-              strokeWidth: gridlineStrokeWidth,
-              strokeDasharray: gridlineDashed ? '5 5' : ''
+              stroke: ({ tick }) => gridlineStyle.gridlines ? gridlineStyle.stroke : 'transparent',
+              strokeWidth: gridlineStyle.strokeWidth,
+              strokeDasharray: gridlineStyle.dashed ? '5 5' : ''
             },
-            ticks: {stroke: axisStroke},
+            ticks: {stroke: axisStyle.axisStroke},
             tickLabels: {
               fontSize: 15, 
               padding: 5,
-              color: axisLabelColour,
-              font: axisLabelFont
+              color: axisStyle.axisLabelColour,
+              font: axisStyle.axisLabelFont
             }
           }}
         />
@@ -113,8 +105,8 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
                         data={centile.data}
                         style={{
                         data: {
-                            stroke: centileStroke,
-                            strokeWidth: centileStrokeWidth,
+                            stroke: centileStyle.centileStroke,
+                            strokeWidth: centileStyle.centileStrokeWidth,
                             strokeLinecap: 'round',
                             strokeDasharray: '5 5'
                         }
@@ -129,8 +121,8 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
                           data={centile.data}
                           style={{
                           data: {
-                              stroke: centileStroke,
-                              strokeWidth: centileStrokeWidth,
+                              stroke: centileStyle.centileStroke,
+                              strokeWidth: centileStyle.centileStrokeWidth,
                               strokeLinecap: 'round'
                           }
                           }}
@@ -166,8 +158,8 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
                       
                           <VictoryScatter
                             data={measurementPair.length > 1 ? removeCorrectedAge(measurementPair) : measurementPair}
-                            symbol={ measurementShape}
-                            style={{ data: { fill: measurementFill } }}
+                            symbol={ measurementStyle.measurementShape }
+                            style={{ data: { fill: measurementStyle.measurementFill } }}
                             name='same_age' 
                           />
 
@@ -177,7 +169,7 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
                             data={measurementPair}
                             dataComponent={<XPoint/>}
                           style={{ data: 
-                            { fill: measurementFill } 
+                            { fill: measurementStyle.measurementFill } 
                           }}
                           name= 'split_age'
                         />
@@ -186,7 +178,7 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
                       <VictoryLine
                         name="linkLine"
                         style={{ 
-                          data: { stroke: measurementFill, strokeWidth: 1.25 },
+                          data: { stroke: measurementStyle.measurementFill, strokeWidth: 1.25 },
                         }}
                         data={measurementPair}
                       />
