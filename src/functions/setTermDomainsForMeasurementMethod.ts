@@ -5,12 +5,12 @@ export function setTermDomainsForMeasurementMethod(measurementMethod: string, ma
      if (reference==="uk-who"){
         if(measurementMethod === "height"){
             if (maxAge <= 2){
-                return [20, 100]
+                return [40, 100]
             }
             if(maxAge >2 && maxAge<4){
                 return [50,120]
             }
-            return [20, 200]
+            return [40, 200]
         }
         if(measurementMethod === "weight"){
             if (maxAge <= 2){

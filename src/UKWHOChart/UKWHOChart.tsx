@@ -158,7 +158,14 @@ function UKWHOChart({
                 centerTitle
                 titleOrientation="top"
                 orientation="horizontal"
-                style={{ data: { fill: "transparent" } }}
+                style={{ 
+                  data: { 
+                    fill: "transparent" 
+                  },
+                  title: {
+                    fontFamily: "Arial"
+                  }
+                }}
                 x={chartStyle.width/2-50}
                 y={0}
                 data={[]}
