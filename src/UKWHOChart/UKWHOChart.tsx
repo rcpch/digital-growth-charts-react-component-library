@@ -60,7 +60,7 @@ function UKWHOChart({
     setShowPretermChart(!showPretermChart)
   }
 
-  const getEntireYDomain = setTermDomainsForMeasurementMethod(measurementMethod, domains.x[1])
+  const getEntireYDomain = setTermDomainsForMeasurementMethod(measurementMethod, domains.x[1], 'uk-who')
 
   const getEntireXDomain= setTermXDomainsByMeasurementAges(allMeasurementPairs)
   
@@ -89,6 +89,8 @@ function UKWHOChart({
           />
           : 
           <VictoryChart
+              width={chartStyle.width}
+              height={chartStyle.height}
               style={{
                 background: {
                   fill: chartStyle.backgroundColour
@@ -157,7 +159,7 @@ function UKWHOChart({
                 titleOrientation="top"
                 orientation="horizontal"
                 style={{ data: { fill: "transparent" } }}
-                x={175}
+                x={chartStyle.width/2-50}
                 y={0}
                 data={[]}
               />

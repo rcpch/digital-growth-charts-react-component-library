@@ -11,5 +11,9 @@ export interface TRISOMY21ChartProps {
     gridlineStyle: GridlineStyle
     centileStyle: CentileStyle
     measurementStyle: MeasurementStyle
+    domains: Domains
+    setTrisomy21Domains([lowerXDomain, upperXDomain], [lowerYDomain, upperYDomain]): void
+    centileData: [][],
+    isPreterm: boolean
 }
 

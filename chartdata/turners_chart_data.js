@@ -1,5 +1,5 @@
 export const turnerData = {
-  turnerssyndrome: {
+  turner: {
     female: {
       bmi: [
         { centile: 0.4, data: [], sds: -2.67 },
