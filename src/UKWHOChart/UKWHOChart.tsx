@@ -43,19 +43,11 @@ function UKWHOChart({
   measurementMethod,
   sex,
   allMeasurementPairs,
-  chartBackground,
-  gridlineStroke,
-  gridlineStrokeWidth,
-  gridlineDashed,
-  gridlines,
-  centileStroke,
-  centileStrokeWidth,
-  axisStroke,
-  axisLabelFont,
-  axisLabelColour,
-  measurementFill,
-  measurementSize,
-  measurementShape,
+  chartStyle,
+  axisStyle,
+  gridlineStyle,
+  centileStyle,
+  measurementStyle,
   domains,
   centileData,
   setUKWHODomains,
@@ -68,7 +60,7 @@ function UKWHOChart({
     setShowPretermChart(!showPretermChart)
   }
 
-  const getEntireYDomain = setTermDomainsForMeasurementMethod(measurementMethod, domains.x[1])
+  const getEntireYDomain = setTermDomainsForMeasurementMethod(measurementMethod, domains.x[1], 'uk-who')
 
   const getEntireXDomain= setTermXDomainsByMeasurementAges(allMeasurementPairs)
   
@@ -85,19 +77,11 @@ function UKWHOChart({
               measurementMethod={measurementMethod}
               sex={sex}
               allMeasurementPairs={allMeasurementPairs}
-              chartBackground={chartBackground}
-              gridlineStroke={gridlineStroke}
-              gridlineStrokeWidth={gridlineStrokeWidth}
-              gridlineDashed={gridlineDashed}
-              gridlines={gridlines}
-              centileStroke={centileStroke}
-              centileStrokeWidth={centileStrokeWidth}
-              axisStroke={axisStroke}
-              axisLabelFont={axisLabelFont}
-              axisLabelColour={axisLabelColour}
-              measurementFill={measurementFill}
-              measurementSize={measurementSize}
-              measurementShape={measurementShape}
+              chartStyle={chartStyle}
+              axisStyle={axisStyle}
+              gridlineStyle={gridlineStyle}
+              centileStyle={centileStyle}
+              measurementStyle={measurementStyle}
               domains={domains}
               centileData={centileData}
               setUKWHODomains={setUKWHODomains}
@@ -105,9 +89,11 @@ function UKWHOChart({
           />
           : 
           <VictoryChart
+              width={chartStyle.width}
+              height={chartStyle.height}
               style={{
                 background: {
-                  fill: chartBackground
+                  fill: chartStyle.backgroundColour
                 }
               }}
               domain={{x:getEntireXDomain, y:getEntireYDomain}}
@@ -116,13 +102,13 @@ function UKWHOChart({
                     labels={({ datum }) => { // tooltip labels
                       if (datum.l){
                         if (datum.x === 4 ){ // move from UK-WHO data to UK90 data at 4y
-                          return "Transit point from UK-WHO to UK90 data."
+                          return "Transit point from\nUK-WHO to UK90 data."
                         }
                         if (datum.x === 2 && measurementMethod==="height"){ // step down at 2 y where children measured standing (height), not lying (length)
-                          return "Measure length until age 2;\nMeasure height after age 2.\nA child’s height is usually slightly less than their length.\n"
+                          return "Measure length until age 2;\nMeasure height after age 2.\nA child’s height is usually\nslightly less than their length."
                         }
                         if(datum.l === "For all Children plotted in this shaded area see instructions."){ // delayed puberty if plotted in this area
-                          return datum.l
+                          return "For all Children plotted\nin this shaded area\nsee instructions."
                         } else return `${stndth(datum.l)} centile`
                       } 
                       if (datum.centile_band) { // these are the measurement points
@@ -132,13 +118,21 @@ function UKWHOChart({
                     }}
                     labelComponent={
                       <VictoryTooltip
-                        cornerRadius={0} 
+                        pointerLength={5}
+                        cornerRadius={0}
+                        flyoutStyle={{
+                          stroke: chartStyle.tooltipBackgroundColour,
+                          fill: chartStyle.tooltipBackgroundColour,
+                        }}
                         labelComponent={
                           <VictoryLabel
-                            style={{
-                              fontSize: 10,
-                              font: axisLabelFont
-                            }}
+                            // textAnchor={"start"}
+                            backgroundPadding={[{left:10, right: 10},{left:10, right: 10},{left:10, right: 10}]}
+                            style={[
+                              {fill: chartStyle.tooltipTextColour, fontSize: 10},
+                              // {fill: chartStyle.tooltipTextColour, fontSize: 8},
+                              // {fill: chartStyle.tooltipTextColour, fontSize: 8}
+                            ]}
                           />
                         }
                       />
@@ -164,21 +158,22 @@ function UKWHOChart({
                 centerTitle
                 titleOrientation="top"
                 orientation="horizontal"
-                style={{ data: { fill: "transparent" } }}
-                x={175}
+                style={{ 
+                  data: { 
+                    fill: "transparent" 
+                  },
+                  title: {
+                    fontFamily: "Arial"
+                  }
+                }}
+                x={chartStyle.width/2-50}
                 y={0}
                 data={[]}
               />
 
-              {/* Render the x axes - there are 4: one for years, one for months, one for weeks, and one for weeks of gestation  */}
-              {/* Gestation weeks are only rendered for children born preterm */}
-              {/* From 2 weeks to 2 years, weeks and months (as lollipops) are rendered */}
-              {/* From 2 years onwards only years are plotted */}
-              {/* If no measurements are plotted, the preterm data is ignored and only centiles from 2 weeks */}
-              {/* to 20 years are rendered. */}
-              {/* Some space either side of a measurement is calculated to create domains for the chart (upper and lower ages) */}
-              {/* If more than one measurement is plotted the domain is some space below the lower measurement and some space above the upper measurement*/}
-              {/* This is calculated in the function ageThresholds and ageTicks */}
+              {/* Render the x axes - there are 3: one for years, one for months, one for weeks*/}
+              {/* Preterm babies are plotted in a separate chart. */}
+              {/* Months are rendered with lollipop ticks, a custom component */}
 
                 {/* X axis in Years  - rendered if there are  plotted child measurements and the max value is > 2y, or no measurements supplied */}
                 {  (domains.x[1] > 2 || (allMeasurementPairs.length > 0 ? allMeasurementPairs[allMeasurementPairs.length-1][0]["x"]> 2 : false)) && //render years x axis only if upper domain > 2 or highest supplied measurement > 2y
@@ -187,33 +182,35 @@ function UKWHOChart({
                       label="Age (years)"
                       style={{
                         axis: {
-                          stroke: axisStroke,
+                          stroke: axisStyle.axisStroke,
                         },
                         axisLabel: {
-                          fontSize: 10, 
+                          fontSize: axisStyle.axisLabelSize, 
                           padding: 20,
-                          color: axisLabelColour,
-                          // font: axisLabelFont
+                          color: axisStyle.axisStroke,
+                          font: axisStyle.axisLabelFont
                         },
                         ticks: {
-                          stroke: axisStroke 
+                          stroke: axisStyle.axisStroke 
                         },
                         tickLabels: {
-                          fontSize: 6, 
+                          fontSize: axisStyle.tickLabelSize, 
                           padding: 5,
-                          color: axisLabelColour
+                          color: axisStyle.axisLabelColour
                         },
                         grid: { 
-                          stroke: ()=> gridlines ? gridlineStroke : null,
+                          stroke: ()=> gridlineStyle.gridlines ? gridlineStyle.stroke : null,
+                          strokeWidth: gridlineStyle.strokeWidth,
+                          strokeDasharray: gridlineStyle.dashed ? '5 5' : null
                         }
                       }}
                       tickLabelComponent={
                         <VictoryLabel 
                           dy={0}
                           style={[
-                            { fill: axisLabelColour, 
-                              fontSize: 6,
-                              // font: axisLabelFont
+                            { fill: axisStyle.axisStroke, 
+                              fontSize: axisStyle.axisLabelSize,
+                              font: axisStyle.axisLabelFont
                             },
                           ]}
                         />
@@ -232,18 +229,31 @@ function UKWHOChart({
                       axisLabelComponent={<MonthsLabel />}
                       style={{
                         axis: {
-                          stroke: axisStroke,
+                          stroke: axisStyle.axisStroke,
+                        },
+                        axisLabel: {
+                          fontSize: axisStyle.axisLabelSize, 
+                          padding: 20,
+                          color: axisStyle.axisStroke,
+                          font: axisStyle.axisLabelFont
                         },
                         ticks: {
-                          stroke: axisStroke 
+                          stroke: axisStyle.axisStroke,
+                        },
+                        tickLabels: {
+                          fontSize: axisStyle.tickLabelSize, 
+                          padding: 5,
+                          color: axisStyle.axisLabelColour
                         },
                         grid: { 
-                          stroke: ()=> gridlines ? gridlineStroke : null,
+                          stroke: ()=> gridlineStyle.gridlines ? gridlineStyle.stroke : null,
+                          strokeWidth: gridlineStyle.strokeWidth,
+                          strokeDasharray: gridlineStyle.dashed ? '5 5' : null
                         }
                       }}
                       tickLabelComponent={
                         <ChartCircle style={{
-                          stroke: axisStroke
+                          stroke: axisStyle.axisLabelColour
                         }}/>
                       }
                       tickValues={[0, 0.083333, 0.166666, 0.249999, 0.333332, 0.416665, 0.499998, 0.583331, 0.666664, 0.749997, 0.83333, 0.916663, 0.999996, 1.083329, 1.166662, 1.249995, 1.333328, 1.416661, 1.499994, 1.583327, 1.66666, 1.749993, 1.833326, 1.916659, 1.999992]}
@@ -263,36 +273,35 @@ function UKWHOChart({
                       minDomain={0}
                       style={{
                         axis: {
-                          stroke: axisStroke,
+                          stroke: axisStyle.axisStroke,
                         },
                         axisLabel: {
-                          fontSize: 10, 
+                          fontSize: axisStyle.axisLabelSize, 
                           padding: 20,
-                          color: axisLabelColour,
-                          fontFamily: axisLabelFont,
+                          color: axisStyle.axisStroke,
+                          font: axisStyle.axisLabelFont
                         },
                         ticks: {
-                          stroke: axisStroke,
-                          fontSize: 4
+                          stroke: axisStyle.axisStroke 
                         },
                         tickLabels: {
-
-                          fontSize: 6, 
+                          fontSize: axisStyle.tickLabelSize, 
                           padding: 5,
-                          color: axisLabelColour
+                          color: axisStyle.axisLabelColour
                         },
                         grid: { 
-                          stroke: ()=> gridlines ? gridlineStroke : null,
+                          stroke: ()=> gridlineStyle.gridlines ? gridlineStyle.stroke : null,
+                          strokeWidth: gridlineStyle.strokeWidth,
+                          strokeDasharray: gridlineStyle.dashed ? '5 5' : null
                         }
                       }}
                       tickLabelComponent={
                         <VictoryLabel 
                           dy={0}
                           style={[
-                            { fill: axisLabelColour, 
-                              fontSize: 6,
-                              // font: axisLabelFont,
-                              fontFamily: axisLabelFont
+                            { fill: axisStyle.axisLabelColour, 
+                              fontSize: axisStyle.tickLabelSize,
+                              font: axisStyle.axisLabelFont
                             },
                           ]}
                         />
@@ -327,8 +336,8 @@ function UKWHOChart({
                         },
                         axisLabel: {
                           fontSize: 4,
-                          color: axisLabelColour,
-                          font: axisLabelFont
+                          color: axisStyle.axisLabelColour,
+                          font: axisStyle.axisLabelFont
                         }
                       }}
                       axisValue={data.x}
@@ -355,8 +364,8 @@ function UKWHOChart({
                         },
                         axisLabel: {
                           fontSize: 4,
-                          color: axisLabelColour,
-                          font: axisLabelFont
+                          color: axisStyle.axisLabelColour,
+                          font: axisStyle.axisLabelFont
                         }
                       }}
                       axisValue={data.x}
@@ -372,30 +381,68 @@ function UKWHOChart({
                   label={yAxisLabel(measurementMethod)}
                   style= {{
                     axis: {
-                      stroke: axisStroke,
+                      stroke: axisStyle.axisStroke,
                       strokeWidth: 1.0
                     },
                     axisLabel: {
-                      fontSize: 10, 
+                      fontSize: axisStyle.axisLabelSize, 
                       padding: 20,
-                      color: axisLabelColour,
-                      font: axisLabelFont
+                      color: axisStyle.axisLabelColour,
+                      font: axisStyle.axisLabelFont
                     },
                     ticks: {
-                      stroke: axisStroke
+                      stroke: axisStyle.axisLabelColour
                     },
                     tickLabels: {
-                      fontSize: 6, 
+                      fontSize: axisStyle.tickLabelSize, 
                       padding: 5,
-                      color: axisLabelColour,
-                      font: axisLabelFont
+                      color: axisStyle.axisLabelColour,
+                      font: axisStyle.axisLabelColour
                     },
                     grid: { 
-                      stroke: gridlines ? gridlineStroke : null, 
-                      strokeWidth: ({t})=> t % 5 === 0 ? gridlineStrokeWidth + 0.5 : gridlineStrokeWidth,
-                      strokeDasharray: gridlineDashed ? '5 5' : ''
+                      stroke: gridlineStyle.gridlines ? gridlineStyle.stroke : null, 
+                      strokeWidth: ({t})=> t % 5 === 0 ? gridlineStyle.strokeWidth + 0.5 : gridlineStyle.strokeWidth,
+                      strokeDasharray: gridlineStyle.dashed ? '5 5' : ''
                     }}}
                   dependentAxis />   
+              }
+
+              {/* This is the shaded area below the 0.4th centile in late childhood/early adolescence */}
+              {/* Any measurements plotting here are likely due to delayed puberty */}
+              {/* The upper border is the 0.4th centile so this must come before the centiles */}
+
+              { domains.x[1] > 7 && sex==="male" && measurementMethod=="height" && //puberty delay shaded area boys
+
+              <VictoryArea          
+                data={delayedPubertyThreshold(ukwhoData.uk90_child[sex][measurementMethod][0].data, sex)}
+                y0={(d)=> (d.x >= 9 && d.x <=14) ? d.y0 : null}
+                style={{
+                  data: {
+                    stroke: centileStyle.delayedPubertyAreaFill,
+                    fill: centileStyle.delayedPubertyAreaFill,
+                    strokeWidth: centileStyle.centileStrokeWidth
+                  }
+                }}
+                name="delayed"
+              />
+
+              }
+
+              { domains.x[1] > 7 && sex==="female" && measurementMethod=="height" && //puberty delay shaded area boys
+
+              <VictoryArea          
+                data={delayedPubertyThreshold(ukwhoData.uk90_child[sex][measurementMethod][0].data, sex)}
+                y0={(d)=> (d.x >= 8.6 && d.x <=13) ? d.y0 : null}
+                style={{
+                  data: {
+                    stroke: centileStyle.delayedPubertyAreaFill,
+                    fill: centileStyle.delayedPubertyAreaFill,
+                    strokeWidth: centileStyle.centileStrokeWidth
+                  }
+                }}
+                name="delayed"
+              />
+
               }
              
 
@@ -428,8 +475,8 @@ function UKWHOChart({
                             data={centile.data}
                             style={{
                             data: {
-                                stroke: centileStroke,
-                                strokeWidth: centileStrokeWidth,
+                                stroke: centileStyle.centileStroke,
+                                strokeWidth: centileStyle.centileStrokeWidth,
                                 strokeLinecap: 'round',
                                 strokeDasharray: '5 5'
                             }
@@ -444,8 +491,8 @@ function UKWHOChart({
                               data={centile.data}
                               style={{
                               data: {
-                                  stroke: centileStroke,
-                                  strokeWidth: centileStrokeWidth,
+                                  stroke: centileStyle.centileStroke,
+                                  strokeWidth: centileStyle.centileStrokeWidth,
                                   strokeLinecap: 'round'
                               }
                               }}
@@ -457,41 +504,6 @@ function UKWHOChart({
                   </VictoryGroup>
                   )
                 }})
-              }
-            
-
-              { domains.x[1] > 7 && sex==="male" && measurementMethod=="height" && //puberty delay shaded area boys
-
-              <VictoryArea          
-                data={delayedPubertyThreshold(ukwhoData.uk90_child[sex][measurementMethod][0].data, sex)}
-                y0={(d)=> (d.x >= 9 && d.x <=14) ? d.y0 : null}
-                style={{
-                  data: {
-                    stroke: addAlpha(centileStroke, 0.25),
-                    fill: addAlpha(centileStroke, 0.25),
-                    strokeWidth: centileStrokeWidth
-                  }
-                }}
-                name="delayed"
-              />
-
-              }
-
-              { domains.x[1] > 7 && sex==="female" && measurementMethod=="height" && //puberty delay shaded area boys
-
-              <VictoryArea          
-                data={delayedPubertyThreshold(ukwhoData.uk90_child[sex][measurementMethod][0].data, sex)}
-                y0={(d)=> (d.x >= 8.6 && d.x <=13) ? d.y0 : null}
-                style={{
-                  data: {
-                    stroke: addAlpha(centileStroke, 0.25),
-                    fill: addAlpha(centileStroke, 0.25),
-                    strokeWidth: centileStrokeWidth
-                  }
-                }}
-                name="delayed"
-              />
-
               }
 
               {/* create a series for each child measurements datapoint: a circle for chronological age, a cross for corrected - if the chronological and corrected age are the same, */}
@@ -516,8 +528,8 @@ function UKWHOChart({
                       
                           <VictoryScatter
                             data={measurementPair.length > 1 ? removeCorrectedAge(measurementPair) : measurementPair}
-                            symbol={ measurementShape}
-                            style={{ data: { fill: measurementFill } }}
+                            symbol={ measurementStyle.measurementShape }
+                            style={{ data: { fill: measurementStyle.measurementFill } }}
                             name='same_age' 
                           />
 
@@ -527,7 +539,7 @@ function UKWHOChart({
                             data={measurementPair}
                             dataComponent={<XPoint/>}
                           style={{ data: 
-                            { fill: measurementFill } 
+                            { fill: measurementStyle.measurementFill } 
                           }}
                           name= 'split_age'
                         />
@@ -536,7 +548,7 @@ function UKWHOChart({
                       <VictoryLine
                         name="linkLine"
                         style={{ 
-                          data: { stroke: measurementFill, strokeWidth: 1.25 },
+                          data: { stroke: measurementStyle.measurementFill, strokeWidth: 1.25 },
                         }}
                         data={measurementPair}
                       />

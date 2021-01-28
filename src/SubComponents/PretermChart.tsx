@@ -22,35 +22,27 @@ import { ChartCircle } from '../SubComponents/ChartCircle';
 import { MonthsLabel } from '../SubComponents/MonthsLabel';
 
 export const PretermChart: React.FC<UKWHOChartProps>=(
-    {title,
-    subtitle,
-    measurementMethod,
-    sex,
-    allMeasurementPairs,
-    chartBackground,
-    gridlineStroke,
-    gridlineStrokeWidth,
-    gridlineDashed,
-    gridlines,
-    centileStroke,
-    centileStrokeWidth,
-    axisStroke,
-    axisLabelFont,
-    axisLabelColour,
-    measurementFill,
-    measurementSize,
-    measurementShape,
-    domains,
-    centileData,
-    setUKWHODomains,
-    isPreterm}
+    { title,
+      subtitle,
+      measurementMethod,
+      sex,
+      allMeasurementPairs,
+      chartStyle,
+      axisStyle,
+      gridlineStyle,
+      centileStyle,
+      measurementStyle,
+      domains,
+      centileData,
+      setUKWHODomains,
+      isPreterm}
 )=>{
     return (
         <VictoryChart
               domain={setPretermDomainForMeasurementMethod(measurementMethod)}
               style={{
                 background: {
-                  fill: chartBackground
+                  fill: chartStyle.backgroundColour
                 }
               }}
               // domain={{x: ageThresholds(allMeasurementPairs), y: measurementThresholds(allMeasurementPairs, measurementMethod)}}
@@ -71,8 +63,8 @@ export const PretermChart: React.FC<UKWHOChartProps>=(
                         labelComponent={
                           <VictoryLabel
                             style={{
-                              fontSize: 10,
-                              font: axisLabelFont
+                              fontSize: 8,
+                              font: axisStyle.axisLabelFont
                             }}
                           />
                         }
@@ -114,18 +106,18 @@ export const PretermChart: React.FC<UKWHOChartProps>=(
                       domain={{x:[0.0383, 0.25]}}
                       style={{
                         axis: {
-                          stroke: axisStroke,
+                          stroke: axisStyle.axisStroke,
                         },
                         ticks: {
-                          stroke: axisStroke 
+                          stroke: axisStyle.axisStroke 
                         },
                         grid: { 
-                          stroke: ()=> gridlines ? gridlineStroke : null,
+                          stroke: ()=> gridlineStyle.gridlines ? gridlineStyle.stroke : null,
                         }
                       }}
                       tickLabelComponent={
                         <ChartCircle style={{
-                            stroke: axisStroke
+                            stroke: axisStyle.axisStroke
                           }}/>
                       }
                       tickFormat={(t)=> t > 0.0383 ? Math.round(t * 12) : ''}
@@ -138,33 +130,33 @@ export const PretermChart: React.FC<UKWHOChartProps>=(
                   label="Gestation or postnatal weeks"
                   style={{
                     axis: {
-                      stroke: axisStroke,
+                      stroke: axisStyle.axisStroke,
                     },
                     axisLabel: {
-                      fontSize: 10, 
+                      fontSize: axisStyle.axisLabelSize, 
                       padding: 20,
-                      color: axisLabelColour,
-                      font: axisLabelFont
+                      color: axisStyle.axisLabelColour,
+                      font: axisStyle.axisLabelFont
                     },
                     ticks: {
-                      stroke: axisStroke 
+                      stroke: axisStyle.axisStroke 
                     },
                     tickLabels: {
-                      fontSize: 6, 
+                      fontSize: axisStyle.tickLabelSize, 
                       padding: 5,
-                      color: axisLabelColour
+                      color: axisStyle.axisLabelColour
                     },
                     grid: { 
-                      stroke: ()=> gridlines ? gridlineStroke : null,
+                      stroke: ()=> gridlineStyle.gridlines ? gridlineStyle.stroke : null,
                     }
                   }}
                   tickLabelComponent={
                     <VictoryLabel 
                       dy={0}
                       style={[
-                        { fill: axisLabelColour, 
-                          fontSize: 6,
-                          font: axisLabelFont
+                        { fill: axisStyle.axisLabelColour, 
+                          fontSize: axisStyle.axisLabelSize,
+                          font: axisStyle.axisLabelFont
                         },
                       ]}
                     />
@@ -182,28 +174,28 @@ export const PretermChart: React.FC<UKWHOChartProps>=(
                   label={yAxisLabel(measurementMethod)}
                   style= {{
                     axis: {
-                      stroke: axisStroke,
+                      stroke: axisStyle.axisStroke,
                       strokeWidth: 1.0
                     },
                     axisLabel: {
-                      fontSize: 10, 
+                      fontSize: axisStyle.axisLabelSize, 
                       padding: 20,
-                      color: axisLabelColour,
-                      font: axisLabelFont
+                      color: axisStyle.axisLabelColour,
+                      font: axisStyle.axisLabelFont
                     },
                     ticks: {
-                      stroke: axisStroke
+                      stroke: axisStyle.axisLabelColour
                     },
                     tickLabels: {
-                      fontSize: 6, 
+                      fontSize: axisStyle.tickLabelSize, 
                       padding: 5,
-                      color: axisLabelColour,
-                      font: axisLabelFont
+                      color: axisStyle.axisStroke,
+                      font: axisStyle.axisLabelFont
                     },
                     grid: { 
-                      stroke: gridlines ? gridlineStroke : null, 
-                      strokeWidth: ({t})=> t % 5 === 0 ? gridlineStrokeWidth + 0.5 : gridlineStrokeWidth,
-                      strokeDasharray: gridlineDashed ? '5 5' : ''
+                      stroke: gridlineStyle.gridlines ? gridlineStyle.stroke : null, 
+                      strokeWidth: ({t})=> t % 5 === 0 ? gridlineStyle.strokeWidth + 0.5 : gridlineStyle.strokeWidth,
+                      strokeDasharray: gridlineStyle.dashed ? '5 5' : ''
                     }}}
                   dependentAxis />   
               }
@@ -234,8 +226,8 @@ export const PretermChart: React.FC<UKWHOChartProps>=(
                             data={centile.data}
                             style={{
                             data: {
-                                stroke: centileStroke,
-                                strokeWidth: centileStrokeWidth,
+                                stroke: centileStyle.centileStroke,
+                                strokeWidth: centileStyle.centileStrokeWidth,
                                 strokeLinecap: 'round',
                                 strokeDasharray: '5 5'
                             }
@@ -250,9 +242,9 @@ export const PretermChart: React.FC<UKWHOChartProps>=(
                               data={centile.data}
                               style={{
                               data: {
-                                  stroke: centileStroke,
-                                  strokeWidth: centileStrokeWidth,
-                                  strokeLinecap: 'round'
+                                stroke: centileStyle.centileStroke,
+                                strokeWidth: centileStyle.centileStrokeWidth,
+                                strokeLinecap: 'round',
                               }
                               }}
                           />
@@ -287,8 +279,8 @@ export const PretermChart: React.FC<UKWHOChartProps>=(
                       
                           <VictoryScatter
                             data={measurementPair.length > 1 ? removeCorrectedAge(measurementPair) : measurementPair}
-                            symbol={ measurementShape}
-                            style={{ data: { fill: measurementFill } }}
+                            symbol={ measurementStyle.measurementShape }
+                            style={{ data: { fill: measurementStyle.measurementFill } }}
                             name='same_age' 
                           />
 
@@ -298,7 +290,7 @@ export const PretermChart: React.FC<UKWHOChartProps>=(
                             data={measurementPair}
                             dataComponent={<XPoint/>}
                           style={{ data: 
-                            { fill: measurementFill } 
+                            { fill: measurementStyle.measurementFill } 
                           }}
                           name= 'split_age'
                         />
@@ -307,7 +299,7 @@ export const PretermChart: React.FC<UKWHOChartProps>=(
                       <VictoryLine
                         name="linkLine"
                         style={{ 
-                          data: { stroke: measurementFill, strokeWidth: 1.25 },
+                          data: { stroke: measurementStyle.measurementFill, strokeWidth: 1.25 },
                         }}
                         data={measurementPair}
                       />

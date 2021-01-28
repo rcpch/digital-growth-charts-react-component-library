@@ -1,10 +1,11 @@
 // libraries/frameworks
 import React from "react";
-import { VictoryChart, VictoryGroup, VictoryLine, VictoryScatter, VictoryVoronoiContainer, VictoryTooltip, VictoryLegend, VictoryAxis, VictoryLabel } from 'victory'
+import { VictoryChart, VictoryGroup, VictoryLine, VictoryScatter, VictoryVoronoiContainer, VictoryTooltip, VictoryAxis, VictoryLegend, VictoryLabel, createContainer, VictoryZoomContainerProps, VictoryVoronoiContainerProps } from 'victory';
 
 // props/interfaces
 import { TURNERChartProps } from "./TURNERChart.types";
 import { PlottableMeasurement } from '../interfaces/RCPCHMeasurementObject';
+import { ICentile } from '../interfaces/CentilesObject';
 
 // components
 import { XPoint } from '../SubComponents/XPoint';
@@ -13,11 +14,15 @@ import { ChartCircle } from '../SubComponents/ChartCircle';
 // helper functions
 import { stndth } from '../functions/suffix'
 import { removeCorrectedAge } from '../functions/removeCorrectedAge';
-import { retrieveTurnerData } from "../functions/retrieveTurnerData";
 
 // style sheets
 import "./TURNERChart.scss";
 import { yAxisLabel } from "../functions/yAxisLabel";
+import { measurementSuffix } from '../functions/measurementSuffix';
+import { setTermDomainsForMeasurementMethod } from '../functions/setTermDomainsForMeasurementMethod';
+import { setTermXDomainsByMeasurementAges } from '../functions/setTermXDomainsByMeasurementAges';
+
+const VictoryZoomVoronoiContainer = createContainer<VictoryZoomContainerProps, VictoryVoronoiContainerProps>("zoom","voronoi");// allows two top level containers: zoom and voronoi
 
 const TURNERChart: React.FC<TURNERChartProps> = ({
                 title,
@@ -25,42 +30,79 @@ const TURNERChart: React.FC<TURNERChartProps> = ({
                 measurementMethod,
                 sex,
                 allMeasurementPairs,
-                chartBackground,
-                gridlineStroke,
-                gridlineStrokeWidth,
-                gridlineDashed,
-                gridlines,
-                centileStroke,
-                centileStrokeWidth,
-                axisStroke,
-                axisLabelFont,
-                axisLabelColour,
-                measurementFill,
-                measurementSize,
-                measurementShape,
-  }) => (
+                chartStyle,
+                axisStyle,
+                gridlineStyle,
+                centileStyle,
+                measurementStyle,
+                domains,
+                centileData,
+                setTurnerDomains
+  }) => { 
+
+  const getEntireYDomain = setTermDomainsForMeasurementMethod(measurementMethod, domains.x[1], 'trisomy-21')
+
+  const getEntireXDomain= setTermXDomainsByMeasurementAges(allMeasurementPairs)
+
+    return(
+
     <div data-testid="TURNERChart" className="foo-bar">
       <VictoryChart
-        containerComponent={
-          <VictoryVoronoiContainer 
-            labels={({ datum }) => {
-              if (datum.l){
-               return `${stndth(datum.l)} centile`
-              } 
-              if (datum.centile_band) {
-                return datum.centile_band
-              }
-            }
-          }
-            labelComponent={<VictoryTooltip cornerRadius={0} constrainToVisibleArea/>}
-            voronoiBlacklist={["linkLine"]}
-            // voronoiBlacklist hides the duplicate tooltip text from the line joining the dots
-          /> 
-        }
+        width={chartStyle.width}
+        height={chartStyle.height}
         style={{
-          background: { fill: chartBackground }
+          background: {
+            fill: chartStyle.backgroundColour
+          }
         }}
-      >
+        domain={{x:getEntireXDomain, y:getEntireYDomain}}
+        containerComponent={
+            <VictoryZoomVoronoiContainer 
+              labels={({ datum }) => { // tooltip labels
+                if (datum.l){
+                  return `${stndth(datum.l)} centile`
+                } 
+                if (datum.centile_band) { // these are the measurement points
+                  // this is a measurement
+                  return datum.calendar_age +'\n' + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
+                }
+              }}
+              labelComponent={
+                <VictoryTooltip
+                  pointerLength={5}
+                  cornerRadius={0}
+                  flyoutStyle={{
+                    stroke: chartStyle.tooltipBackgroundColour,
+                    fill: chartStyle.tooltipBackgroundColour,
+                  }}
+                  labelComponent={
+                    <VictoryLabel
+                      // textAnchor={"start"}
+                      backgroundPadding={[{left:10, right: 10},{left:10, right: 10},{left:10, right: 10}]}
+                      style={[
+                        {fill: chartStyle.tooltipTextColour, fontSize: 10},
+                      ]}
+                    />
+                  }
+                />
+              }
+              voronoiBlacklist={["linkLine"]}
+              // voronoiBlacklist hides the duplicate tooltip text from the line joining the dots
+              onZoomDomainChange={
+                (domain, props)=> {
+                  const upperXDomain = domain.x[1] as number
+                  const lowerXDomain = domain.x[0] as number
+                  const upperYDomain = domain.y[1] as number
+                  const lowerYDomain = domain.y[0] as number
+                  console.log(upperXDomain, lowerXDomain, upperYDomain, lowerYDomain);
+                  
+                  // setTurnerDomains([lowerXDomain, upperXDomain], [lowerYDomain, upperYDomain]) // this is a callback function to the parent RCPCHChart component which holds state
+                }
+              }
+              allowPan={true}
+            />
+        }
+        >
       {/* the legend postion must be hard coded. It automatically reproduces and labels each series - this is hidden with data: fill: "transparent" */}
       <VictoryLegend
         title={[title, subtitle]}
@@ -68,7 +110,7 @@ const TURNERChart: React.FC<TURNERChartProps> = ({
         titleOrientation="top"
         orientation="horizontal"
         style={{ data: { fill: "transparent" } }}
-        x={175}
+        x={chartStyle.width/2-50}
         y={0}
         data={[]}
       />
@@ -78,16 +120,16 @@ const TURNERChart: React.FC<TURNERChartProps> = ({
           <VictoryLabel 
             dy={0}
             style={[
-              { fill: axisLabelColour, fontSize: 8 },
+              { fill: axisStyle.axisLabelColour, fontSize: axisStyle.axisLabelSize },
             ]}
           />
         }
         style={{
-          axis: {stroke: axisStroke},
+          axis: {stroke: axisStyle.axisStroke},
           axisLabel: {fontSize: 10, padding: 20},
-          grid: {stroke: ({ tick }) => gridlines ? gridlineStroke : 'transparent'},
-          ticks: {stroke: axisStroke},
-          tickLabels: {fontSize: 15, padding: 5}
+          grid: {stroke: ({ tick }) => gridlineStyle.gridlines ? gridlineStyle.stroke : 'transparent'},
+          ticks: {stroke: axisStyle.axisLabelColour},
+          tickLabels: {fontSize: axisStyle.tickLabelSize, padding: 5}
         }}
         dependentAxis 
       />
@@ -97,58 +139,64 @@ const TURNERChart: React.FC<TURNERChartProps> = ({
           <VictoryLabel 
             dy={0}
             style={[
-              { fill: axisLabelColour, fontSize: 8 },
+              { fill: axisStyle.axisLabelColour, fontSize: axisStyle.axisLabelSize },
             ]}
           />
         }
         style={{
-          axis: {stroke: axisStroke},
+          axis: {stroke: axisStyle.axisStroke},
           axisLabel: {fontSize: 10, padding: 20},
-          grid: {stroke: ({ tick }) => gridlines ? gridlineStroke : 'transparent'},
-          ticks: {stroke: axisStroke},
-          tickLabels: {fontSize: 15, padding: 5}
+          grid: {stroke: ({ tick }) => gridlineStyle.gridlines ? gridlineStyle.stroke : 'transparent'},
+          ticks: {stroke: axisStyle.axisLabelColour},
+          tickLabels: {fontSize: axisStyle.tickLabelSize, padding: 5}
         }}
       />
         {/* Render the centiles - loop through the data set, create a line for each centile */}  
         
-        <VictoryGroup>
-          {retrieveTurnerData(measurementMethod, sex).map((centile, index) => {
-            if (index % 2 === 0) {
-              return (
-                <VictoryLine
-                key={centile.data[0].l + '-' + index}
-                padding={{ top: 20, bottom: 60 }}
-                data={centile.data}
-                style={{
-                  data: {
-                    stroke: centileStroke,
-                    strokeWidth: centileStrokeWidth,
-                    strokeLinecap: 'round',
-                    strokeDasharray: '5 5'
+        { centileData.map((reference, index)=>{
+                if (reference.length > 0){
+                  return (<VictoryGroup key={index}>
+                    {reference.map((centile:ICentile, centileIndex: number)=>{
+                      if (centileIndex % 2 === 0) { // even index - centile is dashed
+                        return (
+                        <VictoryLine
+                            key={centile.centile + '-' + centileIndex}
+                            padding={{ top: 20, bottom: 60 } }
+                            data={centile.data}
+                            style={{
+                            data: {
+                                stroke: centileStyle.centileStroke,
+                                strokeWidth: centileStyle.centileStrokeWidth,
+                                strokeLinecap: 'round',
+                                strokeDasharray: '5 5'
+                            }
+                            }}
+                        />
+                        )
+                      } else { // uneven index - centile is continuous
+                          return (
+                          <VictoryLine
+                              key={centile.centile + '-' + centileIndex}
+                              padding={{ top: 20, bottom: 60 }}
+                              data={centile.data}
+                              style={{
+                              data: {
+                                  stroke: centileStyle.centileStroke,
+                                  strokeWidth: centileStyle.centileStrokeWidth,
+                                  strokeLinecap: 'round'
+                              }
+                              }}
+                          />
+                          )
+                      }
+                    })
                   }
-                }}
-                />
-                )
-              } else {
-                return (
-                  <VictoryLine
-                  key={centile.data[0].l + '-' + index}
-                  padding={{ top: 20, bottom: 60 }}
-                  data={centile.data}
-                  style={{
-                    data: {
-                      stroke: centileStroke,
-                      strokeWidth: centileStrokeWidth,
-                      strokeLinecap: 'round'
-                    }
-                  }}
-                  />
+                  </VictoryGroup>
                   )
-                }
-              })}
-        </VictoryGroup>
-        
-        {/* create a series for each child measurements datapoint: a circle for chronological age, a cross for corrected - if the chronological and corrected age are the same, */}
+                }})
+              }
+
+              {/* create a series for each child measurements datapoint: a circle for chronological age, a cross for corrected - if the chronological and corrected age are the same, */}
               {/* the removeCorrectedAge function removes the corrected age to prevent plotting a circle on a cross, and having duplicate */}
               {/* text in the tool tip */}
               { allMeasurementPairs.map((measurementPair: PlottableMeasurement[], index) => {
@@ -170,8 +218,8 @@ const TURNERChart: React.FC<TURNERChartProps> = ({
                       
                           <VictoryScatter
                             data={measurementPair.length > 1 ? removeCorrectedAge(measurementPair) : measurementPair}
-                            symbol={ measurementShape}
-                            style={{ data: { fill: measurementFill } }}
+                            symbol={ measurementStyle.measurementShape }
+                            style={{ data: { fill: measurementStyle.measurementFill } }}
                             name='same_age' 
                           />
 
@@ -181,7 +229,7 @@ const TURNERChart: React.FC<TURNERChartProps> = ({
                             data={measurementPair}
                             dataComponent={<XPoint/>}
                           style={{ data: 
-                            { fill: measurementFill } 
+                            { fill: measurementStyle.measurementFill } 
                           }}
                           name= 'split_age'
                         />
@@ -190,18 +238,17 @@ const TURNERChart: React.FC<TURNERChartProps> = ({
                       <VictoryLine
                         name="linkLine"
                         style={{ 
-                          data: { stroke: measurementFill, strokeWidth: 1.25 },
+                          data: { stroke: measurementStyle.measurementFill, strokeWidth: 1.25 },
                         }}
                         data={measurementPair}
                       />
                     </VictoryGroup>
                   )
               })}
-        
-      </VictoryChart>
+              </VictoryChart>
     
     </div>
-);
+)};
 
 export default TURNERChart;
 
