@@ -86,15 +86,18 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
       }
     }
     
+    const emptyArray: [PlottableMeasurement,PlottableMeasurement][] = []
     const [isPreterm, setPreterm] = useState(premature) // prematurity flag
     const [domains, setDomains] = useState<Domains | undefined>({x:[lowerAgeX,upperAgeX], y:measurementScope}) // set the limits of the chart
     const [centileData, setCentileData]=useState([])
+    const [measurementPairs, setMeasurementpairs] = useState(emptyArray)
 
   useEffect(()=>{
     let newData //initialise the chart state
     if (reference==="uk-who"){
       newData = fetchUKWHOData(sex, measurementMethod, domains) //refresh chart data based on new domains
       setCentileData(newData) // update the state with new centile data (tailored to visible area of chart)
+      
     }
     if (reference==="turner"){
       newData = fetchTurnerData(sex, measurementMethod, domains) //refresh chart data based on new domains
@@ -104,9 +107,9 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
       newData = fetchTrisomy21Data(sex, measurementMethod, domains) //refresh chart data based on new domains
       setCentileData(newData) // update the state with new centile data (tailored to visible area of chart)
     }
-  },[])
-    
-    
+    setMeasurementpairs(measurementsArray)
+  },[measurementsArray])
+
     const updateDomains = ([lowerXDomain, upperXDomain], [lowerYDomain, upperYDomain]) => { // call back from chart.tsx on domain change
       let newUpperY = upperYDomain
       let newLowerY = lowerYDomain
@@ -119,29 +122,28 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
         newLowerY=lowerYDomain
         newUpperY= upperMeasurementY-10
       }
-        let newData
-          if (reference==="uk-who"){
-            newData = fetchUKWHOData(sex, measurementMethod, {x:[lowerXDomain, upperXDomain], y:[newLowerY, newUpperY]}) //refresh chart data based on new domains
-            // update the state with new centile data (tailored to visible area of chart)
-            setCentileData(newData)
-          }
-          if (reference==="turner"){
-            newData = fetchTurnerData(sex, measurementMethod, {x:[lowerXDomain, upperXDomain], y:[newLowerY, newUpperY]}) //refresh chart data based on new domains
-            console.log(newData[0]);
-            
-            setCentileData(newData) // update the state with new centile data (tailored to visible area of chart)
-          }
-          if (reference==="trisomy-21"){
-            newData = fetchTrisomy21Data(sex, measurementMethod, {x:[lowerXDomain, upperXDomain], y:[newLowerY, newUpperY]}) //refresh chart data based on new domains
-            setCentileData(newData) // update the state with new centile data (tailored to visible area of chart)
-          }
+      
+      let newData
+      if (reference==="uk-who"){
+        newData = fetchUKWHOData(sex, measurementMethod, {x:[lowerXDomain, upperXDomain], y:[newLowerY, newUpperY]}) //refresh chart data based on new domains
+        // update the state with new centile data (tailored to visible area of chart)
+        setCentileData(newData)
+      }
+      if (reference==="turner"){
+        newData = fetchTurnerData(sex, measurementMethod, {x:[lowerXDomain, upperXDomain], y:[newLowerY, newUpperY]}) //refresh chart data based on new domains
+        console.log(newData[0]);
+        
+        setCentileData(newData) // update the state with new centile data (tailored to visible area of chart)
+      }
+      if (reference==="trisomy-21"){
+        newData = fetchTrisomy21Data(sex, measurementMethod, {x:[lowerXDomain, upperXDomain], y:[newLowerY, newUpperY]}) //refresh chart data based on new domains
+        setCentileData(newData) // update the state with new centile data (tailored to visible area of chart)
+      }
 
       setDomains({x:[lowerXDomain, upperXDomain], y:[newLowerY, newUpperY]}) // update the state with new domains
 
     }
   
-    
-    
   return (
     <div
       data-testid="RCPCHChart"
@@ -169,7 +171,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
           <Trisomy21Chart
             title={title}
             subtitle={subtitle}
-            allMeasurementPairs={measurementsArray}
+            allMeasurementPairs={measurementPairs}
             measurementMethod={measurementMethod}
             sex={sex}
             chartStyle={chartStyle}
@@ -187,7 +189,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
            (<TurnerChart
               title={title}
               subtitle={subtitle}
-              allMeasurementPairs={measurementsArray}
+              allMeasurementPairs={measurementPairs}
               measurementMethod={measurementMethod}
               sex={sex}
               chartStyle={chartStyle}
@@ -204,7 +206,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
           <UKWHOChart
             title={title}
             subtitle={subtitle}
-            allMeasurementPairs={measurementsArray}
+            allMeasurementPairs={measurementPairs}
             measurementMethod={measurementMethod}
             sex={sex}
             chartStyle={chartStyle}

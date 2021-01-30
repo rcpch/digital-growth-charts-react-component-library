@@ -1,6 +1,6 @@
 import { PlottableMeasurement } from "../interfaces/RCPCHMeasurementObject";
 
-export function setTermXDomainsByMeasurementAges(measurementsArray: PlottableMeasurement[]):[number, number]{
+export function setTermXDomainsByMeasurementAges(measurementsArray: [PlottableMeasurement,PlottableMeasurement][]):[number, number]{
     const pairs = measurementsArray
     let lowerAgeX, upperAgeX
 

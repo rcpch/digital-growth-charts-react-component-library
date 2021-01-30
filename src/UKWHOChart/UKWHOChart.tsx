@@ -9,9 +9,7 @@ import ukwhoData from '../../chartdata/uk_who_chart_data'
 import { stndth } from '../functions/suffix'
 import { removeCorrectedAge } from "../functions/removeCorrectedAge";
 import { measurementSuffix } from "../functions/measurementSuffix";
-import { addAlpha } from "../functions/addAlpha";
 import { yAxisLabel } from "../functions/yAxisLabel";
-import { ageTickNumber } from '../functions/ageTick'
 import { setTermDomainsForMeasurementMethod } from "../functions/setTermDomainsForMeasurementMethod";
 
 // interfaces & props
@@ -98,7 +96,17 @@ function UKWHOChart({
               }}
               domain={{x:getEntireXDomain, y:getEntireYDomain}}
               containerComponent={
-                  <VictoryZoomVoronoiContainer 
+                  <VictoryZoomVoronoiContainer
+                    onZoomDomainChange={
+                      (domain, props)=> {
+                        const upperXDomain = domain.x[1] as number
+                        const lowerXDomain = domain.x[0] as number
+                        const upperYDomain = domain.y[1] as number
+                        const lowerYDomain = domain.y[0] as number
+                      setUKWHODomains([lowerXDomain, upperXDomain], [lowerYDomain, upperYDomain]) // this is a callback function to the parent RCPCHChart component which holds state
+                      }
+                    }
+                    allowPan={true}
                     labels={({ datum }) => { // tooltip labels
                       if (datum.l){
                         if (datum.x === 4 ){ // move from UK-WHO data to UK90 data at 4y
@@ -113,7 +121,7 @@ function UKWHOChart({
                       } 
                       if (datum.centile_band) { // these are the measurement points
                         // this is a measurement
-                        return datum.calendar_age +'\n' + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
+                          return datum.calendar_age +'\n' + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
                       }
                     }}
                     labelComponent={
@@ -124,34 +132,21 @@ function UKWHOChart({
                           stroke: chartStyle.tooltipBackgroundColour,
                           fill: chartStyle.tooltipBackgroundColour,
                         }}
+                        flyoutPadding={{top: 0, bottom: 0, left: 0, right: 0}}
+                        constrainToVisibleArea
                         labelComponent={
                           <VictoryLabel
-                            // textAnchor={"start"}
-                            backgroundPadding={[{left:10, right: 10},{left:10, right: 10},{left:10, right: 10}]}
                             style={[
-                              {fill: chartStyle.tooltipTextColour, fontSize: 10},
-                              // {fill: chartStyle.tooltipTextColour, fontSize: 8},
-                              // {fill: chartStyle.tooltipTextColour, fontSize: 8}
+                              {fill: chartStyle.tooltipTextColour, fontSize: 10}
                             ]}
                           />
                         }
                       />
                     }
-                    voronoiBlacklist={["linkLine"]}
-                    // voronoiBlacklist hides the duplicate tooltip text from the line joining the dots
-                    onZoomDomainChange={
-                      (domain, props)=> {
-                        const upperXDomain = domain.x[1] as number
-                        const lowerXDomain = domain.x[0] as number
-                        const upperYDomain = domain.y[1] as number
-                        const lowerYDomain = domain.y[0] as number
-                        setUKWHODomains([lowerXDomain, upperXDomain], [lowerYDomain, upperYDomain]) // this is a callback function to the parent RCPCHChart component which holds state
-                      }
-                    }
-                    allowPan={true}
+                    voronoiBlacklist={['linkLine']}
                   />
               }
-              >
+          >
               {/* the legend postion must be hard coded. It automatically reproduces and labels each series - this is hidden with data: fill: "transparent" */}
               <VictoryLegend
                 title={[title, subtitle]}
@@ -226,7 +221,14 @@ function UKWHOChart({
                   <VictoryAxis
                       minDomain={0}
                       label="months"
-                      axisLabelComponent={<MonthsLabel />}
+                      axisLabelComponent={
+                        <MonthsLabel 
+                          style={{
+                            fontFamily: axisStyle.axisLabelFont,
+                            fontSize: axisStyle.axisLabelSize
+                          }}
+                        />
+                      }
                       style={{
                         axis: {
                           stroke: axisStyle.axisStroke,
@@ -509,7 +511,7 @@ function UKWHOChart({
               {/* create a series for each child measurements datapoint: a circle for chronological age, a cross for corrected - if the chronological and corrected age are the same, */}
               {/* the removeCorrectedAge function removes the corrected age to prevent plotting a circle on a cross, and having duplicate */}
               {/* text in the tool tip */}
-              { allMeasurementPairs.map((measurementPair: PlottableMeasurement[], index) => {
+              { allMeasurementPairs.map((measurementPair: [PlottableMeasurement, PlottableMeasurement], index) => {
                 
                 let match=false
                 if(measurementPair.length > 1){
@@ -526,7 +528,7 @@ function UKWHOChart({
                     >
                       { match  ?
                       
-                          <VictoryScatter
+                          <VictoryScatter // chronological age
                             data={measurementPair.length > 1 ? removeCorrectedAge(measurementPair) : measurementPair}
                             symbol={ measurementStyle.measurementShape }
                             style={{ data: { fill: measurementStyle.measurementFill } }}
@@ -535,7 +537,7 @@ function UKWHOChart({
 
                         :
 
-                        <VictoryScatter 
+                        <VictoryScatter // corrected age
                             data={measurementPair}
                             dataComponent={<XPoint/>}
                           style={{ data: 

@@ -1,11 +1,7 @@
 @font-face {
   font-family: "Montserrat";
-  src: url("./fonts/Montserrat/Montserrat-Medium.ttf");
+  src: url("./fonts/Montserrat/Montserrat-Medium.ttf") format("truetype");
   }
-@font-face {
-  font-family: "Arial";
-  src: url("./fonts/Arial/ARI.ttf")
-}
 
 $font-family: "Montserrat", Helvetica, Arial, sans-serif;
 

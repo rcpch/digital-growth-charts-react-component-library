@@ -7,8 +7,8 @@ export function setTermDomainsForMeasurementMethod(measurementMethod: string, ma
             if (maxAge <= 2){
                 return [40, 100]
             }
-            if(maxAge >2 && maxAge<4){
-                return [50,120]
+            if(maxAge >=2 && maxAge<4){
+                return [50,105]
             }
             return [40, 200]
         }

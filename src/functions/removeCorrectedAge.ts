@@ -1,4 +1,6 @@
-export function removeCorrectedAge(agesArray){
+import { PlottableMeasurement } from "../interfaces/RCPCHMeasurementObject";
+
+export function removeCorrectedAge(agesArray:[PlottableMeasurement,PlottableMeasurement]){
 
     // The RCPCHGrowth API returns 2 objects for every measurement (a measurementPair) - one for a chronological age, one for a corrected age
     // In future it is likely that all measurements will be corrected across the life course but for now, correction

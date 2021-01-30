@@ -1,4 +1,5 @@
 import { Domains } from "../interfaces/Domains";
+import { PlottableMeasurement } from "../interfaces/RCPCHMeasurementObject";
 import { MeasurementStyle, CentileStyle, AxisStyle, GridlineStyle, ChartStyle } from "../interfaces/StyleObjects"
 
 export interface UKWHOChartProps {
@@ -6,7 +7,7 @@ export interface UKWHOChartProps {
     subtitle: string,
     measurementMethod: 'height' | 'weight' | 'ofc' | 'bmi',
     sex: 'male' | 'female',
-    allMeasurementPairs: []
+    allMeasurementPairs: [PlottableMeasurement, PlottableMeasurement][]
     chartStyle: ChartStyle
     axisStyle: AxisStyle
     gridlineStyle: GridlineStyle
