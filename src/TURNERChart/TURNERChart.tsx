@@ -69,24 +69,25 @@ const TURNERChart: React.FC<TURNERChartProps> = ({
               }}
               labelComponent={
                 <VictoryTooltip
+                  constrainToVisibleArea
+                  
                   pointerLength={5}
                   cornerRadius={0}
                   flyoutStyle={{
                     stroke: chartStyle.tooltipBackgroundColour,
                     fill: chartStyle.tooltipBackgroundColour,
                   }}
-                  labelComponent={
-                    <VictoryLabel
-                      // textAnchor={"start"}
-                      backgroundPadding={[{left:10, right: 10},{left:10, right: 10},{left:10, right: 10}]}
-                      style={[
-                        {fill: chartStyle.tooltipTextColour, fontSize: 10},
-                      ]}
-                    />
-                  }
+                  style={{
+                    textAnchor:"start",
+                    stroke: chartStyle.tooltipTextColour,
+                    fill: chartStyle.tooltipTextColour,
+                    fontFamily: 'Montserrat',
+                    fontWeight: 200,
+                    // fontSize: 8
+                  }}
                 />
               }
-              voronoiBlacklist={["linkLine"]}
+              voronoiBlacklist={['linkLine']}
               // voronoiBlacklist hides the duplicate tooltip text from the line joining the dots
               onZoomDomainChange={
                 (domain, props)=> {
@@ -94,9 +95,7 @@ const TURNERChart: React.FC<TURNERChartProps> = ({
                   const lowerXDomain = domain.x[0] as number
                   const upperYDomain = domain.y[1] as number
                   const lowerYDomain = domain.y[0] as number
-                  console.log(upperXDomain, lowerXDomain, upperYDomain, lowerYDomain);
-                  
-                  // setTurnerDomains([lowerXDomain, upperXDomain], [lowerYDomain, upperYDomain]) // this is a callback function to the parent RCPCHChart component which holds state
+                  setTurnerDomains([lowerXDomain, upperXDomain], [lowerYDomain, upperYDomain]) // this is a callback function to the parent RCPCHChart component which holds state
                 }
               }
               allowPan={true}
@@ -199,7 +198,7 @@ const TURNERChart: React.FC<TURNERChartProps> = ({
               {/* create a series for each child measurements datapoint: a circle for chronological age, a cross for corrected - if the chronological and corrected age are the same, */}
               {/* the removeCorrectedAge function removes the corrected age to prevent plotting a circle on a cross, and having duplicate */}
               {/* text in the tool tip */}
-              { allMeasurementPairs.map((measurementPair: PlottableMeasurement[], index) => {
+              { allMeasurementPairs && allMeasurementPairs.map((measurementPair: [PlottableMeasurement, PlottableMeasurement], index) => {
                 
                 let match=false
                 if(measurementPair.length > 1){

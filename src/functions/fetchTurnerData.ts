@@ -23,8 +23,6 @@ export function fetchTurnerData(sex: string, measurementMethod:string, domains:D
     let turnerDataSet = turnerData.turner["female"]["height"]
     
     const truncatedTurnerDataSet = turnerDataSet.filter(centile=>{
-        console.log(centile.data);
-        
         return  filterData(centile.data, lowerX, upperX, lowerY, upperY)
     })
 

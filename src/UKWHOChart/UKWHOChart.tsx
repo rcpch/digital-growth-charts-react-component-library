@@ -121,26 +121,30 @@ function UKWHOChart({
                       } 
                       if (datum.centile_band) { // these are the measurement points
                         // this is a measurement
-                          return datum.calendar_age +'\n' + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
+                        if (datum.x <= 0.038 && datum.age_type==="corrected_age"){
+                          return "Corrected gestational age: "+ datum.corrected_gestation_weeks + '+'+ datum.corrected_gestation_days + ' weeks\n' + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
+                        }
+                          return "Actual age:" +datum.calendar_age +'\n' + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
                       }
                     }}
                     labelComponent={
                       <VictoryTooltip
+                        constrainToVisibleArea
+                        
                         pointerLength={5}
                         cornerRadius={0}
                         flyoutStyle={{
                           stroke: chartStyle.tooltipBackgroundColour,
                           fill: chartStyle.tooltipBackgroundColour,
                         }}
-                        flyoutPadding={{top: 0, bottom: 0, left: 0, right: 0}}
-                        constrainToVisibleArea
-                        labelComponent={
-                          <VictoryLabel
-                            style={[
-                              {fill: chartStyle.tooltipTextColour, fontSize: 10}
-                            ]}
-                          />
-                        }
+                        style={{
+                          textAnchor:"start",
+                          stroke: chartStyle.tooltipTextColour,
+                          fill: chartStyle.tooltipTextColour,
+                          fontFamily: 'Montserrat',
+                          fontWeight: 200,
+                          // fontSize: 8
+                        }}
                       />
                     }
                     voronoiBlacklist={['linkLine']}
@@ -511,7 +515,7 @@ function UKWHOChart({
               {/* create a series for each child measurements datapoint: a circle for chronological age, a cross for corrected - if the chronological and corrected age are the same, */}
               {/* the removeCorrectedAge function removes the corrected age to prevent plotting a circle on a cross, and having duplicate */}
               {/* text in the tool tip */}
-              { allMeasurementPairs.map((measurementPair: [PlottableMeasurement, PlottableMeasurement], index) => {
+              { allMeasurementPairs && allMeasurementPairs.map((measurementPair: [PlottableMeasurement, PlottableMeasurement], index) => {
                 
                 let match=false
                 if(measurementPair.length > 1){

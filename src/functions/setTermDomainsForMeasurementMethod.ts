@@ -7,8 +7,8 @@ export function setTermDomainsForMeasurementMethod(measurementMethod: string, ma
             if (maxAge <= 2){
                 return [40, 100]
             }
-            if(maxAge >=2 && maxAge<4){
-                return [50,105]
+            if(maxAge >=2 && maxAge<=4){
+                return [70,130]
             }
             return [40, 200]
         }
@@ -46,9 +46,9 @@ export function setTermDomainsForMeasurementMethod(measurementMethod: string, ma
                 return [50, 100]
             }
             if(maxAge >2 && maxAge<4){
-                return [60,120]
+                return [60,185]
             }
-            return [50, 200]
+            return [50, 185]
         }
         if(measurementMethod === "weight"){
             if (maxAge <= 2){
@@ -79,12 +79,13 @@ export function setTermDomainsForMeasurementMethod(measurementMethod: string, ma
         }
     }
     if (reference==="turner"){
+        
         if(measurementMethod === "height"){
             if (maxAge <= 2){
                 return [70, 100]
             }
-            if(maxAge >2 && maxAge<4){
-                return [70,120]
+            if(maxAge >=2 && maxAge<=4){
+                return [60,105]
             }
             return [70, 165]
         }

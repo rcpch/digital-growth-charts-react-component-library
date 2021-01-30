@@ -74,26 +74,25 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
               }}
               labelComponent={
                 <VictoryTooltip
+                  constrainToVisibleArea
+                  
                   pointerLength={5}
                   cornerRadius={0}
                   flyoutStyle={{
                     stroke: chartStyle.tooltipBackgroundColour,
                     fill: chartStyle.tooltipBackgroundColour,
                   }}
-                  labelComponent={
-                    <VictoryLabel
-                      // textAnchor={"start"}
-                      backgroundPadding={[{left:10, right: 10},{left:10, right: 10},{left:10, right: 10}]}
-                      style={[
-                        {fill: chartStyle.tooltipTextColour, fontSize: 10},
-                        // {fill: chartStyle.tooltipTextColour, fontSize: 8},
-                        // {fill: chartStyle.tooltipTextColour, fontSize: 8}
-                      ]}
-                    />
-                  }
+                  style={{
+                    textAnchor:"start",
+                    stroke: chartStyle.tooltipTextColour,
+                    fill: chartStyle.tooltipTextColour,
+                    fontFamily: 'Montserrat',
+                    fontWeight: 200,
+                    // fontSize: 8
+                  }}
                 />
               }
-              voronoiBlacklist={["linkLine"]}
+              voronoiBlacklist={['linkLine']}
               // voronoiBlacklist hides the duplicate tooltip text from the line joining the dots
               onZoomDomainChange={
                 (domain, props)=> {
@@ -225,7 +224,7 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
               {/* create a series for each child measurements datapoint: a circle for chronological age, a cross for corrected - if the chronological and corrected age are the same, */}
               {/* the removeCorrectedAge function removes the corrected age to prevent plotting a circle on a cross, and having duplicate */}
               {/* text in the tool tip */}
-              { allMeasurementPairs.map((measurementPair: PlottableMeasurement[], index) => {
+              { allMeasurementPairs && allMeasurementPairs.map((measurementPair: [PlottableMeasurement,PlottableMeasurement], index) => {
                 
                 let match=false
                 if(measurementPair.length > 1){
