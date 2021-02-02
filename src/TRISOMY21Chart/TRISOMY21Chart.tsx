@@ -147,7 +147,7 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
               strokeDasharray: gridlineStyle.dashed ? '5 5' : ''
             }}}
         />
-        <VictoryAxis
+        <VictoryAxis // x axis (years)
           label="Age (y)"
           tickLabelComponent={
             <VictoryLabel 
@@ -224,7 +224,7 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
               {/* create a series for each child measurements datapoint: a circle for chronological age, a cross for corrected - if the chronological and corrected age are the same, */}
               {/* the removeCorrectedAge function removes the corrected age to prevent plotting a circle on a cross, and having duplicate */}
               {/* text in the tool tip */}
-              { allMeasurementPairs && allMeasurementPairs.map((measurementPair: [PlottableMeasurement,PlottableMeasurement], index) => {
+              { allMeasurementPairs !== null && allMeasurementPairs.map((measurementPair: [PlottableMeasurement,PlottableMeasurement], index) => {
                 
                 let match=false
                 if(measurementPair.length > 1){
