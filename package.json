@@ -68,6 +68,6 @@
   "dependencies": {
     "@types/victory": "^33.1.4",
     "tslib": "^2.1.0",
-    "victory": "^35.4.6"
+    "victory": "^35.4.8"
   }
 }
