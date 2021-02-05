@@ -14,5 +14,5 @@ export interface TURNERChartProps {
     measurementStyle?: MeasurementStyle
     domains: Domains
     setTurnerDomains([lowerXDomain, upperXDomain], [lowerYDomain, upperYDomain]): void
-    centileData: [][],
+    centileData: [][]
 }

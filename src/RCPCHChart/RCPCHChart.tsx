@@ -38,27 +38,13 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     let upperAgeX = 20
     let upperMeasurementY
     let lowerMeasurementY
-    // let measurementScope
-    // if (reference==="uk-who"){
-    //   measurementScope = setTermDomainsForMeasurementMethod(measurementMethod,upperAgeX, "uk-who") // fetch the y axis limits baed on measurement method
-    // }
-    // if (reference==="trisomy-21"){
-    //   measurementScope = setTermDomainsForMeasurementMethod(measurementMethod,upperAgeX, "trisomy-21") // fetch the y axis limits baed on measurement method
-    // }
-    // if (reference==="turner"){
-    //   measurementScope = setTermDomainsForMeasurementMethod(measurementMethod,upperAgeX, "turner") // fetch the y axis limits baed on measurement method
-    // }
     
     let premature = false
     
-    //upperMeasurementY //= measurementScope[1] // this is the chart y upper domain
-    //lowerMeasurementY //= measurementScope[0] // this is the chart y lower domain
     const pairs = measurementsArray as PlottableMeasurement[]
     
     if (pairs.length > 0){
       premature = pairs[0][0].x < 0
-      // lowerMeasurementY = pairs[0][0].y
-      // upperMeasurementY = pairs[pairs.length-1][0].y
       lowerAgeX = pairs[0][0].x
       upperAgeX = pairs[pairs.length-1][0].x
 
@@ -91,6 +77,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     const [domains, setDomains] = useState<Domains | undefined>({x:[lowerAgeX,upperAgeX], y:setTermDomainsForMeasurementMethod(measurementMethod, upperAgeX, reference)}) // set the limits of the chart
     const [centileData, setCentileData]=useState([])
     const [measurementPairs, setMeasurementpairs] = useState(emptyArray)
+    const [isLoading, setLoading] = useState(true)
 
   useEffect(()=>{
     let newData //initialise the chart state
@@ -108,6 +95,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
       setCentileData(newData) // update the state with new centile data (tailored to visible area of chart)
     }
     setMeasurementpairs(measurementsArray)
+    setLoading(false)
   },[measurementsArray])
 
     const updateDomains = ([lowerXDomain, upperXDomain], [lowerYDomain, upperYDomain]) => { // call back from chart.tsx on domain change
@@ -165,7 +153,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
                     chart background color
                   */}
       
-      { reference === 'trisomy-21' &&
+      { !isLoading && reference === 'trisomy-21' &&
           <Trisomy21Chart
             title={title}
             subtitle={subtitle}
@@ -183,7 +171,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
             isPreterm={isPreterm}
           />
       }
-      { reference === 'turner' && sex === "female" && measurementMethod === "height" &&
+      { !isLoading && reference === 'turner' && sex === "female" && measurementMethod === "height" &&
            (<TurnerChart
               title={title}
               subtitle={subtitle}
@@ -200,7 +188,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
               domains={domains}
           />) 
       }
-      { reference === 'uk-who' &&
+      { !isLoading && reference === 'uk-who' &&
           <UKWHOChart
             title={title}
             subtitle={subtitle}
@@ -219,7 +207,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
           />
       }
     </div >
-  )};
+  )}
 
 export default RCPCHChart;
 

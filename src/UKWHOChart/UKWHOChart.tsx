@@ -124,7 +124,7 @@ function UKWHOChart({
                         if (datum.x <= 0.038 && datum.age_type==="corrected_age"){
                           return "Corrected gestational age: "+ datum.corrected_gestation_weeks + '+'+ datum.corrected_gestation_days + ' weeks\n' + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
                         }
-                          return "Actual age:" +datum.calendar_age +'\n' + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
+                          return "Actual age: " +datum.calendar_age +'\n' + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
                       }
                     }}
                     labelComponent={
@@ -515,7 +515,8 @@ function UKWHOChart({
               {/* create a series for each child measurements datapoint: a circle for chronological age, a cross for corrected - if the chronological and corrected age are the same, */}
               {/* the removeCorrectedAge function removes the corrected age to prevent plotting a circle on a cross, and having duplicate */}
               {/* text in the tool tip */}
-              { allMeasurementPairs && allMeasurementPairs.map((measurementPair: [PlottableMeasurement, PlottableMeasurement], index) => {
+              
+              { allMeasurementPairs.map((measurementPair: [PlottableMeasurement, PlottableMeasurement], index) => {
                 
                 let match=false
                 if(measurementPair.length > 1){
@@ -560,7 +561,9 @@ function UKWHOChart({
                       />
                     </VictoryGroup>
                   )
-              })}
+              })
+              
+            }
               </VictoryChart>}
               { isPreterm &&
                 <button onClick={onClickShowPretermChartHandler}>View Preterm Chart</button>
