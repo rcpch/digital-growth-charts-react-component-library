@@ -1,6 +1,6 @@
 // libraries
 import React from "react"
-import { VictoryChart, VictoryVoronoiContainer, VictoryTooltip,VictoryLabel, VictoryLegend, VictoryAxis, VictoryGroup, VictoryLine, VictoryScatter, } from 'victory';
+import { VictoryChart, VictoryVoronoiContainer, VictoryTooltip,VictoryLabel, VictoryVoronoiContainerProps, VictoryZoomContainerProps, createContainer, VictoryLegend, VictoryAxis, VictoryGroup, VictoryLine, VictoryScatter, } from 'victory';
 
 // props
 import { UKWHOChartProps } from "../UKWHOChart/UKWHOChart.types"
@@ -20,6 +20,8 @@ import { PlottableMeasurement } from '../interfaces/RCPCHMeasurementObject';
 import { XPoint } from '../SubComponents/XPoint';
 import { ChartCircle } from '../SubComponents/ChartCircle';
 import { MonthsLabel } from '../SubComponents/MonthsLabel';
+
+const VictoryZoomVoronoiContainer = createContainer<VictoryZoomContainerProps, VictoryVoronoiContainerProps>("zoom","voronoi");// allows two top level containers: zoom and voronoi
 
 export const PretermChart: React.FC<UKWHOChartProps>=(
     { title,
@@ -47,28 +49,44 @@ export const PretermChart: React.FC<UKWHOChartProps>=(
               }}
               // domain={{x: ageThresholds(allMeasurementPairs), y: measurementThresholds(allMeasurementPairs, measurementMethod)}}
               containerComponent={
-                  <VictoryVoronoiContainer 
+                  <VictoryZoomVoronoiContainer 
                     labels={({ datum }) => { // tooltip labels
                       if (datum.l){
                         return `${stndth(datum.l)} centile`
                       } 
                       if (datum.centile_band) { // these are the measurement points
                         // this is a measurement
-                        return datum.calendar_age +'\n' + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
+                        return datum.corrected_gestation_weeks + "+" + datum.corrected_gestation_days +'weeks gestation\n' + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
                       }
                     }}
                     labelComponent={
                       <VictoryTooltip
-                        cornerRadius={0} 
-                        labelComponent={
-                          <VictoryLabel
-                            style={{
-                              fontSize: 8,
-                              font: axisStyle.axisLabelFont
-                            }}
-                          />
-                        }
+                        constrainToVisibleArea
+                        
+                        pointerLength={5}
+                        cornerRadius={0}
+                        flyoutStyle={{
+                          stroke: chartStyle.tooltipBackgroundColour,
+                          fill: chartStyle.tooltipBackgroundColour,
+                        }}
+                        style={{
+                          textAnchor:"start",
+                          stroke: chartStyle.tooltipTextColour,
+                          fill: chartStyle.tooltipTextColour,
+                          fontFamily: 'Montserrat',
+                          fontWeight: 200,
+                          // fontSize: 8
+                        }}
                       />
+                    }
+                    onZoomDomainChange={
+                      (domain, props)=> {
+                        const upperXDomain = domain.x[1] as number
+                        const lowerXDomain = domain.x[0] as number
+                        const upperYDomain = domain.y[1] as number
+                        const lowerYDomain = domain.y[0] as number
+                      setUKWHODomains([lowerXDomain, upperXDomain], [lowerYDomain, upperYDomain]) // this is a callback function to the parent RCPCHChart component which holds state
+                      }
                     }
                     voronoiBlacklist={["linkLine"]}
                     // voronoiBlacklist hides the duplicate tooltip text from the line joining the dots
@@ -113,6 +131,7 @@ export const PretermChart: React.FC<UKWHOChartProps>=(
                         },
                         grid: { 
                           stroke: ()=> gridlineStyle.gridlines ? gridlineStyle.stroke : null,
+                          strokeWidth: ({t})=> t % 5 === 0 ? gridlineStyle.strokeWidth + 0.5 : gridlineStyle.strokeWidth,
                         }
                       }}
                       tickLabelComponent={
@@ -136,7 +155,7 @@ export const PretermChart: React.FC<UKWHOChartProps>=(
                       fontSize: axisStyle.axisLabelSize, 
                       padding: 20,
                       color: axisStyle.axisLabelColour,
-                      font: axisStyle.axisLabelFont
+                      fontFamily: axisStyle.axisLabelFont
                     },
                     ticks: {
                       stroke: axisStyle.axisStroke 
@@ -148,6 +167,7 @@ export const PretermChart: React.FC<UKWHOChartProps>=(
                     },
                     grid: { 
                       stroke: ()=> gridlineStyle.gridlines ? gridlineStyle.stroke : null,
+                      strokeWidth: ({t})=> t % 5 === 0 ? gridlineStyle.strokeWidth + 0.5 : gridlineStyle.strokeWidth,
                     }
                   }}
                   tickLabelComponent={
@@ -260,7 +280,7 @@ export const PretermChart: React.FC<UKWHOChartProps>=(
               {/* create a series for each child measurements datapoint: a circle for chronological age, a cross for corrected - if the chronological and corrected age are the same, */}
               {/* the removeCorrectedAge function removes the corrected age to prevent plotting a circle on a cross, and having duplicate */}
               {/* text in the tool tip */}
-              { allMeasurementPairs.map((measurementPair: PlottableMeasurement[], index) => {
+              { allMeasurementPairs.map((measurementPair: [PlottableMeasurement, PlottableMeasurement], index) => {
                 
                 let match=false
                 if(measurementPair.length > 1){
@@ -268,6 +288,7 @@ export const PretermChart: React.FC<UKWHOChartProps>=(
                   const first = measurementPair[0]
                   const second = measurementPair[1]
                   match = first.x===second.x
+                
                 } else {
                   match=true
                 }
@@ -294,6 +315,7 @@ export const PretermChart: React.FC<UKWHOChartProps>=(
                           }}
                           name= 'split_age'
                         />
+
                           }
 
                       <VictoryLine

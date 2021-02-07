@@ -52,15 +52,13 @@ function UKWHOChart({
   isPreterm
 }: UKWHOChartProps) {
 
-  const [showPretermChart, setShowPretermChart] = useState(false);
+  const [showPretermChart, setShowPretermChart] = useState(isPreterm);
   
   const onClickShowPretermChartHandler=(event)=>{
     setShowPretermChart(!showPretermChart)
   }
 
-  const getEntireYDomain = setTermDomainsForMeasurementMethod(measurementMethod, domains.x[1], 'uk-who')
-
-  const getEntireXDomain= setTermXDomainsByMeasurementAges(allMeasurementPairs)
+  const getEntireYDomain = setTermDomainsForMeasurementMethod(measurementMethod, 20, 'uk-who') // sets max y value for measurement
   
   return ( 
     <div data-testid="UKWHOChart" className="centred">
@@ -94,15 +92,23 @@ function UKWHOChart({
                   fill: chartStyle.backgroundColour
                 }
               }}
-              domain={{x:getEntireXDomain, y:getEntireYDomain}}
+              domain={{x: [domains.x[0]-1,domains.x[1]+1], y: getEntireYDomain}}
+              minDomain={0}
+              maxDomain={20}
               containerComponent={
                   <VictoryZoomVoronoiContainer
                     onZoomDomainChange={
                       (domain, props)=> {
-                        const upperXDomain = domain.x[1] as number
-                        const lowerXDomain = domain.x[0] as number
-                        const upperYDomain = domain.y[1] as number
-                        const lowerYDomain = domain.y[0] as number
+                        let upperXDomain = domain.x[1] as number
+                        let lowerXDomain = domain.x[0] as number
+                        let upperYDomain = domain.y[1] as number
+                        let lowerYDomain = domain.y[0] as number
+                        if (lowerXDomain < 0){
+                          lowerXDomain=0
+                        }
+                        if (upperXDomain > 20){
+                          upperXDomain = 20
+                        }
                       setUKWHODomains([lowerXDomain, upperXDomain], [lowerYDomain, upperYDomain]) // this is a callback function to the parent RCPCHChart component which holds state
                       }
                     }
@@ -141,7 +147,7 @@ function UKWHOChart({
                           textAnchor:"start",
                           stroke: chartStyle.tooltipTextColour,
                           fill: chartStyle.tooltipTextColour,
-                          fontFamily: 'Montserrat',
+                          fontFamily: "Montserrat",
                           fontWeight: 200,
                           // fontSize: 8
                         }}
@@ -187,7 +193,7 @@ function UKWHOChart({
                           fontSize: axisStyle.axisLabelSize, 
                           padding: 20,
                           color: axisStyle.axisStroke,
-                          font: axisStyle.axisLabelFont
+                          fontFamily: axisStyle.axisLabelFont
                         },
                         ticks: {
                           stroke: axisStyle.axisStroke 
@@ -209,7 +215,7 @@ function UKWHOChart({
                           style={[
                             { fill: axisStyle.axisStroke, 
                               fontSize: axisStyle.axisLabelSize,
-                              font: axisStyle.axisLabelFont
+                              fontFamily: axisStyle.axisLabelFont
                             },
                           ]}
                         />
@@ -241,7 +247,7 @@ function UKWHOChart({
                           fontSize: axisStyle.axisLabelSize, 
                           padding: 20,
                           color: axisStyle.axisStroke,
-                          font: axisStyle.axisLabelFont
+                          fontFamily: axisStyle.axisLabelFont
                         },
                         ticks: {
                           stroke: axisStyle.axisStroke,
@@ -285,7 +291,7 @@ function UKWHOChart({
                           fontSize: axisStyle.axisLabelSize, 
                           padding: 20,
                           color: axisStyle.axisStroke,
-                          font: axisStyle.axisLabelFont
+                          fontFamily: axisStyle.axisLabelFont
                         },
                         ticks: {
                           stroke: axisStyle.axisStroke 
@@ -307,7 +313,7 @@ function UKWHOChart({
                           style={[
                             { fill: axisStyle.axisLabelColour, 
                               fontSize: axisStyle.tickLabelSize,
-                              font: axisStyle.axisLabelFont
+                              fontFamily: axisStyle.axisLabelFont
                             },
                           ]}
                         />
@@ -343,7 +349,7 @@ function UKWHOChart({
                         axisLabel: {
                           fontSize: 4,
                           color: axisStyle.axisLabelColour,
-                          font: axisStyle.axisLabelFont
+                          fontFamily: axisStyle.axisLabelFont
                         }
                       }}
                       axisValue={data.x}
@@ -371,7 +377,7 @@ function UKWHOChart({
                         axisLabel: {
                           fontSize: 4,
                           color: axisStyle.axisLabelColour,
-                          font: axisStyle.axisLabelFont
+                          fontFamily: axisStyle.axisLabelFont
                         }
                       }}
                       axisValue={data.x}
@@ -394,7 +400,7 @@ function UKWHOChart({
                       fontSize: axisStyle.axisLabelSize, 
                       padding: 20,
                       color: axisStyle.axisLabelColour,
-                      font: axisStyle.axisLabelFont
+                      fontFamily: axisStyle.axisLabelFont
                     },
                     ticks: {
                       stroke: axisStyle.axisLabelColour
@@ -403,7 +409,7 @@ function UKWHOChart({
                       fontSize: axisStyle.tickLabelSize, 
                       padding: 5,
                       color: axisStyle.axisLabelColour,
-                      font: axisStyle.axisLabelColour
+                      fontFamily: axisStyle.axisLabelColour
                     },
                     grid: { 
                       stroke: gridlineStyle.gridlines ? gridlineStyle.stroke : null, 
@@ -566,7 +572,7 @@ function UKWHOChart({
             }
               </VictoryChart>}
               { isPreterm &&
-                <button onClick={onClickShowPretermChartHandler}>View Preterm Chart</button>
+                <button onClick={onClickShowPretermChartHandler}>{showPretermChart ? <>View Childhood Chart</> : <>View Preterm Chart</>}</button>
               }
       </div>
   );

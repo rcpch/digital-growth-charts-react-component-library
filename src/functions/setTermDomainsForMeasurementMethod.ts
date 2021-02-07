@@ -10,6 +10,9 @@ export function setTermDomainsForMeasurementMethod(measurementMethod: string, ma
             if(maxAge >=2 && maxAge<=4){
                 return [70,130]
             }
+            if(maxAge > 4 && maxAge <=8){
+                return [75, 150]
+            }
             return [40, 200]
         }
         if(measurementMethod === "weight"){

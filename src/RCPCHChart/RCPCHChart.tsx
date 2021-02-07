@@ -1,5 +1,5 @@
 // packages/libraries
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 // props and interfaces
 import { RCPCHChartProps } from "./RCPCHChart.types";
@@ -19,6 +19,7 @@ import { fetchUKWHOData } from '../functions/fetchUKWHOData';
 import { setTermDomainsForMeasurementMethod } from "../functions/setTermDomainsForMeasurementMethod";
 import { fetchTrisomy21Data } from '../functions/fetchTrisomy21Data';
 import { fetchTurnerData } from '../functions/fetchTurnerData';
+import { setPretermDomainForMeasurementMethod } from "../functions/setPretermDomainForMeasurementMethod";
 
 const RCPCHChart: React.FC<RCPCHChartProps> = ({ 
         title,
@@ -40,44 +41,45 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     let lowerMeasurementY
     
     let premature = false
-    
-    const pairs = measurementsArray as PlottableMeasurement[]
-    
-    if (pairs.length > 0){
-      premature = pairs[0][0].x < 0
-      lowerAgeX = pairs[0][0].x
-      upperAgeX = pairs[pairs.length-1][0].x
 
-      if (lowerAgeX < 0){
-        lowerAgeX = -0.383
-        upperAgeX = 0.25
-      }
-      if (lowerAgeX >= 0 && lowerAgeX < 2){
-        lowerAgeX = 0
-      }
-      if (lowerAgeX >= 2 && lowerAgeX <4){
-        lowerAgeX = 2
-      }
-      if(upperAgeX >=4){
-        upperAgeX = upperAgeX + 4
-        if (upperAgeX > 20){
-          upperAgeX=20
-        }
-      }
-      if (upperAgeX >=2 && upperAgeX< 4){
-        upperAgeX= 4
-      }
-      if (upperAgeX>=0 && upperAgeX <2){
-        upperAgeX = 2
-      }
-    }
-    
     const emptyArray: [PlottableMeasurement,PlottableMeasurement][] = []
-    const [isPreterm, setPreterm] = useState(premature) // prematurity flag
-    const [domains, setDomains] = useState<Domains | undefined>({x:[lowerAgeX,upperAgeX], y:setTermDomainsForMeasurementMethod(measurementMethod, upperAgeX, reference)}) // set the limits of the chart
     const [centileData, setCentileData]=useState([])
     const [measurementPairs, setMeasurementpairs] = useState(emptyArray)
     const [isLoading, setLoading] = useState(true)
+
+    if (measurementsArray){
+      // there are plottable measurements - this sets the domains of the chart as it is initially rendered
+      // the chart is rendered 2 years above the upper measurements and 2 years below the lowest.
+      // this is overridden if zoom is used and the upper limits are set in the chart to updateDomains()
+      const pairs = measurementsArray as [PlottableMeasurement, PlottableMeasurement][]   
+      if (pairs.length > 0){
+        premature = pairs[0][0].x < 0
+        lowerAgeX = pairs[0][0].x
+        upperAgeX = pairs[pairs.length-1][0].x
+        lowerMeasurementY = pairs[0][0].y
+        upperMeasurementY = pairs[pairs.length-1][0].y
+        if (premature){
+          lowerAgeX=0 // in the Prematurity chart x domains are hard coded in the chart to 23 weeks 42 weeks. Switching to childhood 0-20y are shown
+          upperAgeX=20
+        } else {
+          lowerAgeX -= 2
+          upperAgeX +=2
+          if (lowerAgeX < 0){
+            lowerAgeX = 0
+          }
+          if (upperAgeX > 20){
+            upperAgeX = 20
+          }
+          const yDomains = setTermDomainsForMeasurementMethod(measurementMethod, upperAgeX, reference)
+          lowerMeasurementY = yDomains[0]
+          upperMeasurementY = yDomains[1]
+        }
+      }
+      
+    }
+    
+    const [domains, setDomains] = useState<Domains | undefined>({x:[lowerAgeX,upperAgeX], y:setTermDomainsForMeasurementMethod(measurementMethod, upperAgeX, reference)}) // set the limits of the chart
+    const [isPreterm, setPreterm] = useState(premature) // prematurity flag
 
   useEffect(()=>{
     let newData //initialise the chart state
@@ -102,14 +104,14 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
       let newUpperY = upperYDomain
       let newLowerY = lowerYDomain
       
-      if (lowerYDomain >= upperMeasurementY){ // the measurement is not visible
-        newUpperY = upperYDomain
-        newLowerY = lowerMeasurementY
-      } 
-      if (upperYDomain < upperMeasurementY){
-        newLowerY=lowerYDomain
-        newUpperY= upperMeasurementY-10
-      }
+      // if (lowerYDomain >= upperMeasurementY){ // the measurement is not visible
+      //   newUpperY = upperYDomain
+      //   newLowerY = lowerMeasurementY
+      // } 
+      // if (upperYDomain < upperMeasurementY){
+      //   newLowerY=lowerYDomain
+      //   newUpperY= upperMeasurementY-10
+      // }
       
       let newData
       if (reference==="uk-who"){
@@ -126,8 +128,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
         setCentileData(newData) // update the state with new centile data (tailored to visible area of chart)
       }
 
-      setDomains({x:[lowerXDomain, upperXDomain], y:setTermDomainsForMeasurementMethod(measurementMethod, upperXDomain, reference)}) // update the state with new domains
-
+      setDomains({x:[lowerXDomain, upperXDomain], y:setTermDomainsForMeasurementMethod(measurementMethod, upperXDomain, reference)}) // update the state with new domains 
     }
   
   return (

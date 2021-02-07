@@ -8,29 +8,38 @@ export function setTermXDomainsByMeasurementAges(measurementsArray: [PlottableMe
       lowerAgeX = pairs[0][0].x
       upperAgeX = pairs[pairs.length-1][0].x
 
-      if (lowerAgeX < 0){
-        lowerAgeX = -0.383
-        upperAgeX = 0.25
-      }
-      if (lowerAgeX >= 0 && lowerAgeX < 2){
-        lowerAgeX = 0
-      }
-      if (lowerAgeX >= 2 && lowerAgeX <4){
-        lowerAgeX = 2
-      }
-      if (upperAgeX>=0 && upperAgeX <2){
-        return [lowerAgeX, 2]
-      }
-      if (upperAgeX >=2 && upperAgeX< 4){
-        return [lowerAgeX, 4]
-      }
-      if(upperAgeX >=4){
-        upperAgeX = upperAgeX + 4
-        if (upperAgeX > 20){
-          upperAgeX=20
+      if (lowerAgeX===upperAgeX){
+        // only a single measurement
+        if (lowerAgeX < 0){
+          lowerAgeX = -0.383
+          upperAgeX = 0.25
+        } else {
+          lowerAgeX = lowerAgeX - 1
+          upperAgeX = upperAgeX + 1
+          if (lowerAgeX < 0){
+            lowerAgeX = 0
+          }
+          if (upperAgeX > 20){
+            upperAgeX = 20
+          }
+        }
+        return [lowerAgeX, upperAgeX]
+      } else {
+        if (lowerAgeX < 0){
+          lowerAgeX = -0.383
+        } else {
+          lowerAgeX = lowerAgeX - 1
+          if (lowerAgeX < 0){
+            lowerAgeX = 0
+          }
+          upperAgeX = upperAgeX + 1
+          if (upperAgeX > 20){
+            upperAgeX = 20
+          }
         }
         return [lowerAgeX, upperAgeX]
       }
+    } else {
+      return [0,20]
     }
-    return [0,20]
 }
