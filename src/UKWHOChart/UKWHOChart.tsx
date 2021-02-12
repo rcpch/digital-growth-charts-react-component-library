@@ -130,6 +130,12 @@ function UKWHOChart({
                         if (datum.x <= 0.038 && datum.age_type==="corrected_age"){
                           return "Corrected gestational age: "+ datum.corrected_gestation_weeks + '+'+ datum.corrected_gestation_days + ' weeks\n' + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
                         }
+                          if (datum.age_type==="corrected_age"){
+                            // the datum.lay_decimal_age_comment and datum.clinician_decimal_age_comment are long strings
+                            // this adds new lines to ends of sentences or commas.
+                            let finalString = datum.lay_decimal_age_comment.replace(', ', ',\n').replace('. ', '.\n')
+                            return "Corrected age: " +datum.calendar_age +'\n' + finalString + '\n' + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
+                          }
                           return "Actual age: " +datum.calendar_age +'\n' + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
                       }
                     }}
