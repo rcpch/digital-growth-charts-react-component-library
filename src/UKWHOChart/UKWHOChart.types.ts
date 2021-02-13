@@ -16,5 +16,6 @@ export interface UKWHOChartProps {
     domains: Domains
     setUKWHODomains([lowerXDomain, upperXDomain], [lowerYDomain, upperYDomain]): void
     centileData: [][],
-    isPreterm: boolean
+    isPreterm: boolean,
+    termUnderThreeMonths: boolean
 }

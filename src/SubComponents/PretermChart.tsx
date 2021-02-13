@@ -1,9 +1,12 @@
 // libraries
 import React from "react"
-import { VictoryChart, VictoryVoronoiContainer, VictoryTooltip,VictoryLabel, VictoryVoronoiContainerProps, VictoryZoomContainerProps, createContainer, VictoryLegend, VictoryAxis, VictoryGroup, VictoryLine, VictoryScatter, } from 'victory';
+import { VictoryChart, VictoryVoronoiContainer, VictoryTooltip,VictoryLabel, VictoryVoronoiContainerProps, VictoryZoomContainerProps, createContainer, VictoryLegend, VictoryAxis, VictoryGroup, VictoryLine, VictoryScatter, VictoryArea, Rect} from 'victory';
 
 // props
 import { UKWHOChartProps } from "../UKWHOChart/UKWHOChart.types"
+
+// data
+import ukwhoData from '../../chartdata/uk_who_chart_data'
 
 // helper functions
 import { stndth } from '../functions/suffix';
@@ -20,6 +23,7 @@ import { PlottableMeasurement } from '../interfaces/RCPCHMeasurementObject';
 import { XPoint } from '../SubComponents/XPoint';
 import { ChartCircle } from '../SubComponents/ChartCircle';
 import { MonthsLabel } from '../SubComponents/MonthsLabel';
+import { loadPartialConfig } from "@babel/core";
 
 const VictoryZoomVoronoiContainer = createContainer<VictoryZoomContainerProps, VictoryVoronoiContainerProps>("zoom","voronoi");// allows two top level containers: zoom and voronoi
 
@@ -37,8 +41,51 @@ export const PretermChart: React.FC<UKWHOChartProps>=(
       domains,
       centileData,
       setUKWHODomains,
-      isPreterm}
+      isPreterm,
+      termUnderThreeMonths
+    }
 )=>{
+
+    const Term = (props) => {
+      
+       return (<svg>
+            <rect 
+              x={props.x1} 
+              width={55}
+              y={props.y1}
+              height={200}
+              fill={gridlineStyle.stroke}
+              stroke={gridlineStyle.stroke}
+            />
+            <g>
+            <rect 
+              x={props.x1 + 60} 
+              width={130}
+              y={props.y1 + 100}
+              height={85}
+              fill={chartStyle.tooltipBackgroundColour}
+              stroke={chartStyle.tooltipBackgroundColour}
+            />
+            <text
+              x={props.x1 + 65}
+              y={props.y1 + 100}
+              fill={chartStyle.tooltipTextColour}
+              fontSize={6}
+              fontFamily={axisStyle.axisLabelFont}
+            >
+              <tspan dy="1.6em" x={props.x1 + 65}>Babies born in the shaded area are term.</tspan>
+              <tspan dy="1.6em" x={props.x1 + 65}>It is normal for babies to lose weight</tspan>
+              <tspan dy="1.6em" x={props.x1 + 65}>over the first two weeks of life.</tspan>
+              <tspan dy="1.6em" x={props.x1 + 65}>Medical review should be sought</tspan>
+              <tspan dy="1.6em" x={props.x1 + 65}>if weight has dropped by more than 10%</tspan>
+              <tspan dy="1.6em" x={props.x1 + 65}>of birth weight or weight is</tspan>
+              <tspan dy="1.6em" x={props.x1 + 65}>still below birth weight</tspan>
+              <tspan dy="1.6em" x={props.x1 + 65}>three weeks after birth.</tspan>
+            </text>
+            </g>
+        </svg>)
+    }
+
     return (
         <VictoryChart
               domain={setPretermDomainForMeasurementMethod(measurementMethod)}
@@ -47,22 +94,36 @@ export const PretermChart: React.FC<UKWHOChartProps>=(
                   fill: chartStyle.backgroundColour
                 }
               }}
-              // domain={{x: ageThresholds(allMeasurementPairs), y: measurementThresholds(allMeasurementPairs, measurementMethod)}}
               containerComponent={
-                  <VictoryZoomVoronoiContainer 
+                  <VictoryVoronoiContainer 
                     labels={({ datum }) => { // tooltip labels
                       if (datum.l){
                         return `${stndth(datum.l)} centile`
                       } 
                       if (datum.centile_band) { // these are the measurement points
                         // this is a measurement
-                        return datum.corrected_gestation_weeks + "+" + datum.corrected_gestation_days +'weeks gestation\n' + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
+                        
+                        // the datum.lay_decimal_age_comment and datum.clinician_decimal_age_comment are long strings
+                        // this adds new lines to ends of sentences or commas.
+                        const finalString = datum.lay_decimal_age_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n')
+                        
+                        if (datum.x <= 0.0383){ // <= 42 weeks
+                          if (datum.age_type==="corrected_age"){
+                            return "Corrected age: " + datum.corrected_gestation_weeks + "+" + datum.corrected_gestation_days +' weeks gestation\n' + finalString + "\n" + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
+                          } else {
+                            return "Actual age: " + datum.calendar_age + "\n" + finalString + "\n" + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
+                          }
+                        } else {
+                          if (datum.age_type==="corrected_age"){
+                            return "Corrected age: " + datum.calendar_age +'\n' + finalString + '\n' + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
+                          }
+                          return "Actual age: " + datum.calendar_age +'\n' + finalString + "\n" + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
+                        }
                       }
                     }}
                     labelComponent={
                       <VictoryTooltip
                         constrainToVisibleArea
-                        
                         pointerLength={5}
                         cornerRadius={0}
                         flyoutStyle={{
@@ -75,18 +136,9 @@ export const PretermChart: React.FC<UKWHOChartProps>=(
                           fill: chartStyle.tooltipTextColour,
                           fontFamily: 'Montserrat',
                           fontWeight: 200,
-                          // fontSize: 8
+                          fontSize: 8
                         }}
                       />
-                    }
-                    onZoomDomainChange={
-                      (domain, props)=> {
-                        const upperXDomain = domain.x[1] as number
-                        const lowerXDomain = domain.x[0] as number
-                        const upperYDomain = domain.y[1] as number
-                        const lowerYDomain = domain.y[0] as number
-                      setUKWHODomains([lowerXDomain, upperXDomain], [lowerYDomain, upperYDomain]) // this is a callback function to the parent RCPCHChart component which holds state
-                      }
                     }
                     voronoiBlacklist={["linkLine"]}
                     // voronoiBlacklist hides the duplicate tooltip text from the line joining the dots
@@ -100,10 +152,27 @@ export const PretermChart: React.FC<UKWHOChartProps>=(
                 titleOrientation="top"
                 orientation="horizontal"
                 style={{ data: { fill: "transparent" } }}
-                x={175}
+                x={chartStyle.width - 50 / 2}
                 y={0}
                 data={[]}
               />
+
+              {/* Term background area */}
+              { termUnderThreeMonths && 
+                <VictoryAxis 
+                  axisComponent={<Term/>}
+                  dependentAxis
+                  axisValue={-0.06} // 37 weeks
+                  style={{
+                    tickLabels: {
+                      fill: 'transparent'
+                    },
+                    ticks: {
+                      stroke: 'transparent'
+                    }
+                  }}
+                />
+              }
 
               {/* Render the x axes - there are 4: one for years, one for months, one for weeks, and one for weeks of gestation  */}
               {/* Gestation weeks are only rendered for children born preterm */}
@@ -145,7 +214,7 @@ export const PretermChart: React.FC<UKWHOChartProps>=(
               {/* X axis in Weeks only - preterm focus: rendered if there are child measurements and the first decimal age < 2 weeks */}
               { 
                 <VictoryAxis
-                  domain={{x:[-0.383, 0.0383]}}
+                  domain={{x:[-0.325, 0.0383]}}
                   label="Gestation or postnatal weeks"
                   style={{
                     axis: {
@@ -210,7 +279,7 @@ export const PretermChart: React.FC<UKWHOChartProps>=(
                       fontSize: axisStyle.tickLabelSize, 
                       padding: 5,
                       color: axisStyle.axisStroke,
-                      font: axisStyle.axisLabelFont
+                      fontFamily: axisStyle.axisLabelFont
                     },
                     grid: { 
                       stroke: gridlineStyle.gridlines ? gridlineStyle.stroke : null, 
@@ -247,7 +316,7 @@ export const PretermChart: React.FC<UKWHOChartProps>=(
                             style={{
                             data: {
                                 stroke: centileStyle.centileStroke,
-                                strokeWidth: centileStyle.centileStrokeWidth,
+                                strokeWidth: centileStyle.centileStrokeWidth-0.25,
                                 strokeLinecap: 'round',
                                 strokeDasharray: '5 5'
                             }
@@ -263,7 +332,7 @@ export const PretermChart: React.FC<UKWHOChartProps>=(
                               style={{
                               data: {
                                 stroke: centileStyle.centileStroke,
-                                strokeWidth: centileStyle.centileStrokeWidth,
+                                strokeWidth: centileStyle.centileStrokeWidth-0.25,
                                 strokeLinecap: 'round',
                               }
                               }}

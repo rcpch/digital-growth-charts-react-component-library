@@ -49,10 +49,11 @@ function UKWHOChart({
   domains,
   centileData,
   setUKWHODomains,
-  isPreterm
+  isPreterm,
+  termUnderThreeMonths
 }: UKWHOChartProps) {
 
-  const [showPretermChart, setShowPretermChart] = useState(isPreterm);
+  const [showPretermChart, setShowPretermChart] = useState(isPreterm || termUnderThreeMonths); // show preterm chart if preterm or <3/12
   
   const onClickShowPretermChartHandler=(event)=>{
     setShowPretermChart(!showPretermChart)
@@ -82,6 +83,7 @@ function UKWHOChart({
               centileData={centileData}
               setUKWHODomains={setUKWHODomains}
               isPreterm={isPreterm}
+              termUnderThreeMonths={termUnderThreeMonths}
           />
           : 
           <VictoryChart
@@ -127,7 +129,7 @@ function UKWHOChart({
                       } 
                       if (datum.centile_band) { // these are the measurement points
                         // this is a measurement
-                        if (datum.x <= 0.038 && datum.age_type==="corrected_age"){
+                        if (datum.x <= 0.0383 && datum.age_type==="corrected_age"){
                           return "Corrected gestational age: "+ datum.corrected_gestation_weeks + '+'+ datum.corrected_gestation_days + ' weeks\n' + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
                         }
                           if (datum.age_type==="corrected_age"){

@@ -41,6 +41,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     let lowerMeasurementY
     
     let premature = false
+    let termUnderThreeMonths = false;
 
     const emptyArray: [PlottableMeasurement,PlottableMeasurement][] = []
     const [centileData, setCentileData]=useState([])
@@ -53,7 +54,8 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
       // this is overridden if zoom is used and the upper limits are set in the chart to updateDomains()
       const pairs = measurementsArray as [PlottableMeasurement, PlottableMeasurement][]   
       if (pairs.length > 0){
-        premature = pairs[0][0].x < 0
+        premature = pairs[0][0].x < (((37 * 7) - (40*7)) / 365.25) // 37 weeks gestation
+        termUnderThreeMonths = pairs[0][0].x < 0.25 // 3 months
         lowerAgeX = pairs[0][0].x
         upperAgeX = pairs[pairs.length-1][0].x
         lowerMeasurementY = pairs[0][0].y
@@ -205,6 +207,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
             setUKWHODomains={updateDomains}
             domains={domains}
             isPreterm={isPreterm}
+            termUnderThreeMonths={termUnderThreeMonths}
           />
       }
     </div >
