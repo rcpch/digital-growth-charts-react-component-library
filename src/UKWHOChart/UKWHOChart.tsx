@@ -115,6 +115,25 @@ function UKWHOChart({
                       }
                     }
                     allowPan={true}
+                    labelComponent={
+                      <VictoryTooltip
+                        constrainToVisibleArea
+                        pointerLength={5}
+                        cornerRadius={0}
+                        flyoutStyle={{
+                          stroke: chartStyle.tooltipBackgroundColour,
+                          fill: chartStyle.tooltipBackgroundColour,
+                        }}
+                        style={{
+                          textAnchor:"start",
+                          stroke: chartStyle.tooltipTextColour,
+                          strokeWidth: 0.25,
+                          fill: chartStyle.tooltipTextColour,
+                          fontFamily: 'Montserrat',
+                          fontSize: 10
+                        }}
+                      />
+                    }
                     labels={({ datum }) => { // tooltip labels
                       if (datum.l){
                         if (datum.x === 4 ){ // move from UK-WHO data to UK90 data at 4y
@@ -135,32 +154,13 @@ function UKWHOChart({
                           if (datum.age_type==="corrected_age"){
                             // the datum.lay_decimal_age_comment and datum.clinician_decimal_age_comment are long strings
                             // this adds new lines to ends of sentences or commas.
-                            let finalString = datum.lay_decimal_age_comment.replace(', ', ',\n').replace('. ', '.\n')
-                            return "Corrected age: " +datum.calendar_age +'\n' + finalString + '\n' + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
+                            let finalCorrectedString = datum.lay_corrected_decimal_age_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n')
+                            return "Corrected age: " +datum.calendar_age +'\n' + finalCorrectedString + '\n' + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
                           }
-                          return "Actual age: " +datum.calendar_age +'\n' + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
+                          let finalChronologicalString = datum.lay_chronological_decimal_age_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n')
+                          return "Actual age: " +datum.calendar_age +'\n' + finalChronologicalString + '\n' + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
                       }
                     }}
-                    labelComponent={
-                      <VictoryTooltip
-                        constrainToVisibleArea
-                        
-                        pointerLength={5}
-                        cornerRadius={0}
-                        flyoutStyle={{
-                          stroke: chartStyle.tooltipBackgroundColour,
-                          fill: chartStyle.tooltipBackgroundColour,
-                        }}
-                        style={{
-                          textAnchor:"start",
-                          stroke: chartStyle.tooltipTextColour,
-                          fill: chartStyle.tooltipTextColour,
-                          fontFamily: "Montserrat",
-                          fontWeight: 200,
-                          // fontSize: 8
-                        }}
-                      />
-                    }
                     voronoiBlacklist={['linkLine']}
                   />
               }

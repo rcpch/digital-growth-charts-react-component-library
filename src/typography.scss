@@ -7,12 +7,4 @@ $font-family: "Montserrat", Helvetica, Arial, sans-serif;
 
 @mixin font-defaults {
   font-family: $font-family;
-  font-weight: 200
-}
-
-@mixin heading {
-  @include font-defaults;
-
-  font-size: 40px;
-  font-weight: bold;
 }

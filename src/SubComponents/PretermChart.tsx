@@ -25,7 +25,7 @@ import { ChartCircle } from '../SubComponents/ChartCircle';
 import { MonthsLabel } from '../SubComponents/MonthsLabel';
 import { loadPartialConfig } from "@babel/core";
 
-const VictoryZoomVoronoiContainer = createContainer<VictoryZoomContainerProps, VictoryVoronoiContainerProps>("zoom","voronoi");// allows two top level containers: zoom and voronoi
+// const VictoryZoomVoronoiContainer = createContainer<VictoryZoomContainerProps, VictoryVoronoiContainerProps>("zoom","voronoi");// allows two top level containers: zoom and voronoi
 
 export const PretermChart: React.FC<UKWHOChartProps>=(
     { title,
@@ -51,39 +51,44 @@ export const PretermChart: React.FC<UKWHOChartProps>=(
        return (<svg>
             <rect 
               x={props.x1} 
-              width={55}
+              width={60}
               y={props.y1}
               height={200}
               fill={gridlineStyle.stroke}
               stroke={gridlineStyle.stroke}
             />
-            <g>
+        </svg>)
+    }
+
+    const TermInfo = (props) => {
+      return (<svg>
+         <g>
             <rect 
-              x={props.x1 + 60} 
+              x={props.x1 + 65} 
               width={130}
               y={props.y1 + 100}
-              height={85}
+              height={82.5}
               fill={chartStyle.tooltipBackgroundColour}
               stroke={chartStyle.tooltipBackgroundColour}
             />
             <text
-              x={props.x1 + 65}
+              x={props.x1 + 70}
               y={props.y1 + 100}
               fill={chartStyle.tooltipTextColour}
               fontSize={6}
               fontFamily={axisStyle.axisLabelFont}
             >
-              <tspan dy="1.6em" x={props.x1 + 65}>Babies born in the shaded area are term.</tspan>
-              <tspan dy="1.6em" x={props.x1 + 65}>It is normal for babies to lose weight</tspan>
-              <tspan dy="1.6em" x={props.x1 + 65}>over the first two weeks of life.</tspan>
-              <tspan dy="1.6em" x={props.x1 + 65}>Medical review should be sought</tspan>
-              <tspan dy="1.6em" x={props.x1 + 65}>if weight has dropped by more than 10%</tspan>
-              <tspan dy="1.6em" x={props.x1 + 65}>of birth weight or weight is</tspan>
-              <tspan dy="1.6em" x={props.x1 + 65}>still below birth weight</tspan>
-              <tspan dy="1.6em" x={props.x1 + 65}>three weeks after birth.</tspan>
+              <tspan dy="1.6em" x={props.x1 + 70}>Babies born in the shaded area are term.</tspan>
+              <tspan dy="1.6em" x={props.x1 + 70}>It is normal for babies to lose weight</tspan>
+              <tspan dy="1.6em" x={props.x1 + 70}>over the first two weeks of life.</tspan>
+              <tspan dy="1.6em" x={props.x1 + 70}>Medical review should be sought</tspan>
+              <tspan dy="1.6em" x={props.x1 + 70}>if weight has dropped by more than 10%</tspan>
+              <tspan dy="1.6em" x={props.x1 + 70}>of birth weight or weight is</tspan>
+              <tspan dy="1.6em" x={props.x1 + 70}>still below birth weight</tspan>
+              <tspan dy="1.6em" x={props.x1 + 70}>three weeks after birth.</tspan>
             </text>
-            </g>
-        </svg>)
+          </g>
+      </svg>)
     }
 
     return (
@@ -105,19 +110,22 @@ export const PretermChart: React.FC<UKWHOChartProps>=(
                         
                         // the datum.lay_decimal_age_comment and datum.clinician_decimal_age_comment are long strings
                         // this adds new lines to ends of sentences or commas.
-                        const finalString = datum.lay_decimal_age_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n')
                         
                         if (datum.x <= 0.0383){ // <= 42 weeks
                           if (datum.age_type==="corrected_age"){
-                            return "Corrected age: " + datum.corrected_gestation_weeks + "+" + datum.corrected_gestation_days +' weeks gestation\n' + finalString + "\n" + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
+                            const finalCorrectedString = datum.lay_corrected_decimal_age_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n')
+                            return "Corrected age: " + datum.corrected_gestation_weeks + "+" + datum.corrected_gestation_days +' weeks gestation\n' + finalCorrectedString + "\n" + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
                           } else {
-                            return "Actual age: " + datum.calendar_age + "\n" + finalString + "\n" + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
+                            let finalChronologicalString = datum.lay_chronological_decimal_age_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n')
+                            return "Actual age: " + datum.calendar_age + "\n" + finalChronologicalString + "\n" + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
                           }
                         } else {
                           if (datum.age_type==="corrected_age"){
-                            return "Corrected age: " + datum.calendar_age +'\n' + finalString + '\n' + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
+                            const finalCorrectedString = datum.lay_corrected_decimal_age_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n')
+                            return "Corrected age: " + datum.calendar_age +'\n' + finalCorrectedString + '\n' + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
                           }
-                          return "Actual age: " + datum.calendar_age +'\n' + finalString + "\n" + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
+                          let finalChronologicalString = datum.lay_chronological_decimal_age_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n')
+                          return "Actual age: " + datum.calendar_age +'\n' + finalChronologicalString + "\n" + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
                         }
                       }
                     }}
@@ -134,9 +142,9 @@ export const PretermChart: React.FC<UKWHOChartProps>=(
                           textAnchor:"start",
                           stroke: chartStyle.tooltipTextColour,
                           fill: chartStyle.tooltipTextColour,
+                          strokeWidth: 0.25,
                           fontFamily: 'Montserrat',
-                          fontWeight: 200,
-                          fontSize: 8
+                          fontSize: 6
                         }}
                       />
                     }
@@ -189,7 +197,15 @@ export const PretermChart: React.FC<UKWHOChartProps>=(
               {  
                   <VictoryAxis
                       label="months"
-                      axisLabelComponent={<MonthsLabel />}
+                      axisLabelComponent={
+                        <MonthsLabel
+                          style={{
+                            fontSize: axisStyle.axisLabelSize,
+                            fontFamily: axisStyle.axisLabelFont,
+                            fill: axisStyle.axisLabelColour
+                          }}
+                        />
+                      }
                       domain={{x:[0.0383, 0.25]}}
                       style={{
                         axis: {
@@ -288,6 +304,25 @@ export const PretermChart: React.FC<UKWHOChartProps>=(
                     }}}
                   dependentAxis />   
               }
+
+              {/* Render the message box - rendered as an axis */}
+              {/* Term background area */}
+              { termUnderThreeMonths && 
+                <VictoryAxis 
+                  axisComponent={<TermInfo/>}
+                  dependentAxis
+                  axisValue={-0.06} // 37 weeks
+                  style={{
+                    tickLabels: {
+                      fill: 'transparent'
+                    },
+                    ticks: {
+                      stroke: 'transparent'
+                    }
+                  }}
+                />
+              }
+
 
               {/* Render the centiles - loop through the data set, create a line for each centile */}  
               {/* On the old charts the 50th centile was thicker and darker and this lead parents to believe it was therefore */}
