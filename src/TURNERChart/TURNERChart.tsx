@@ -1,6 +1,6 @@
 // libraries/frameworks
 import React from "react";
-import { VictoryChart, VictoryGroup, VictoryLine, VictoryScatter, VictoryVoronoiContainer, VictoryTooltip, VictoryAxis, VictoryLegend, VictoryLabel, createContainer, VictoryZoomContainerProps, VictoryVoronoiContainerProps } from 'victory';
+import { VictoryChart, VictoryGroup, VictoryLine, VictoryScatter, VictoryTooltip, VictoryAxis, VictoryLegend, VictoryLabel, createContainer, VictoryZoomContainerProps, VictoryVoronoiContainerProps } from 'victory';
 
 // props/interfaces
 import { TURNERChartProps } from "./TURNERChart.types";
@@ -9,7 +9,6 @@ import { ICentile } from '../interfaces/CentilesObject';
 
 // components
 import { XPoint } from '../SubComponents/XPoint';
-import { ChartCircle } from '../SubComponents/ChartCircle';
  
 // helper functions
 import { stndth } from '../functions/suffix'
@@ -69,8 +68,7 @@ const TURNERChart: React.FC<TURNERChartProps> = ({
               }}
               labelComponent={
                 <VictoryTooltip
-                  constrainToVisibleArea
-                  
+                  constrainToVisibleArea    
                   pointerLength={5}
                   cornerRadius={0}
                   flyoutStyle={{
@@ -81,9 +79,9 @@ const TURNERChart: React.FC<TURNERChartProps> = ({
                     textAnchor:"start",
                     stroke: chartStyle.tooltipTextColour,
                     fill: chartStyle.tooltipTextColour,
-                    fontFamily: 'Montserrat',
-                    fontWeight: 200,
-                    // fontSize: 8
+                    fontFamily: axisStyle.axisLabelFont,
+                    strokeWidth: 0.25,
+                    fontSize: 10
                   }}
                 />
               }

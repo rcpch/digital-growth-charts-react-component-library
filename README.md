@@ -35,20 +35,68 @@ This library has been written in Typescript. The main component is ```RCPCHChart
   measurementMethod: 'height' | 'weight' | 'ofc' | 'bmi',
   sex: 'male' | 'female',
   measurementsArray: [PlottableMeasurement][],
-  measurementsSDSArray: [PlottableMeasurement][],
   reference: 'uk-who' | 'turner' | 'trisomy-21',
   width: number,
   height: number,
-  measurementDataPointColour: string,
-  centileColour: string,
-  chartBackground: string
+  chartStyle: ChartStyle,
+  axisStyle: AxisStyle,
+  gridlineStyle: GridlineStyle,
+  centileStyle: CentileStyle,
+  measurementStyle: MeasurementStyle
 }
 ```
 The ```PlottableMeasurement``` interface is structured to reflect the JSON ```PlottableChild``` object which is returned by the API. The ```RCPCHChart``` component uses the ```reference``` prop to determine which chart to render. So far, 3 references are supported: UK-WHO, Turner's Syndrome and Trisomy 21 (Down's Syndrome). The reference data for the centiles are included in the library in plottable format in the ```chartdata``` folder.
 
-At the moment, only standard centile measurement plots are supported, but the ```measurementSDSArray``` is added (currently empty) with a view to implementing SDS charts in the near future.
+The styling components allow the user to customise elements of the chart:
+Chart styles control the chart and the tooltips
+```
+interface ChartStyle{
+    backgroundColour: string, 
+    width: number, 
+    height: number, 
+    tooltipBackgroundColour: string,
+    tooltipTextColour: string
+}
+```
+Axis styles control axes and axis labels
+```
+interface AxisStyle{
+    axisStroke: string, 
+    axisLabelColour: string, 
+    axisLabelFont: string, 
+    axisLabelSize: number, 
+    tickLabelSize: number
+}
+```
+Gridline styles allow/hide gridlines and control line width, presence of dashes, colour.
+```
+interface GridlineStyle{
+    gridlines: boolean, 
+    stroke: string, 
+    strokeWidth: number, 
+    dashed: boolean
+}
+```
+Centile styles control the width and colour.
+```
+interface CentileStyle{
+    centileStroke: string, 
+    centileStrokeWidth: number, 
+    delayedPubertyAreaFill: string 
+}
+```
+Measurement styles control the plotted data points - colour, size and shape. Corrected ages are always rendered as crosses. Circles for chronological ages are preferred.
+```
+interface MeasurementStyle{
+    measurementFill: string, 
+    measurementSize: number, 
+    measurementShape: 'circle' | 'cross' | 'triangleUp' | 'triangleDown' | 'square' | 'star' | 'diamond'
+}
+```
 
-Currently centile colour, child measurement plot colour and chart background colour are customisable. In time more props can be added. If you have requests, please post issues on our [github](https://github.com/rcpch/digital-growth-charts-react-component-library/issues) or contribute.
+At the moment, only standard centile measurement plots are supported, but in future it is expected SDS charts will be added for all references.
+
+In time more props can be added if users request them. If you have requests, please post issues on our [github](https://github.com/rcpch/digital-growth-charts-react-component-library/issues) or contribute.
 
 
 ### Acknowledgements
