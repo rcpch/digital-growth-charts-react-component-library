@@ -55,49 +55,55 @@ const TURNERChart: React.FC<TURNERChartProps> = ({
         minDomain={0}
         maxDomain={20}
         containerComponent={
-            <VictoryZoomVoronoiContainer 
-              labels={({ datum }) => { // tooltip labels
-                if (datum.l){
-                  return `${stndth(datum.l)} centile`
-                } 
-                if (datum.centile_band) { // these are the measurement points
-                  // this is a measurement
-                  return datum.calendar_age +'\n' + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
-                }
-              }}
-              labelComponent={
-                <VictoryTooltip
-                  constrainToVisibleArea
-                  
-                  pointerLength={5}
-                  cornerRadius={0}
-                  flyoutStyle={{
-                    stroke: chartStyle.tooltipBackgroundColour,
-                    fill: chartStyle.tooltipBackgroundColour,
-                  }}
-                  style={{
-                    textAnchor:"start",
-                    stroke: chartStyle.tooltipTextColour,
-                    fill: chartStyle.tooltipTextColour,
-                    fontFamily: 'Montserrat',
-                    fontSize:10,
-                    strokeWidth: 0.25
-                  }}
-                />
+          <VictoryZoomVoronoiContainer 
+            labels={({ datum }) => { // tooltip labels
+              if (datum.l){
+                return `${stndth(datum.l)} centile`
+              } 
+              if (datum.centile_band) { // these are the measurement points
+                // this is a measurement
+                return datum.calendar_age +'\n' + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
               }
-              voronoiBlacklist={['linkLine']}
-              // voronoiBlacklist hides the duplicate tooltip text from the line joining the dots
-              onZoomDomainChange={
-                (domain, props)=> {
-                  const upperXDomain = domain.x[1] as number
-                  const lowerXDomain = domain.x[0] as number
-                  const upperYDomain = domain.y[1] as number
-                  const lowerYDomain = domain.y[0] as number
-                  setTurnerDomains([lowerXDomain, upperXDomain], [lowerYDomain, upperYDomain]) // this is a callback function to the parent RCPCHChart component which holds state
-                }
+            }}
+            labelComponent={
+              <VictoryTooltip
+                constrainToVisibleArea
+                
+                pointerLength={5}
+                cornerRadius={0}
+                flyoutStyle={{
+                  stroke: chartStyle.tooltipBackgroundColour,
+                  fill: chartStyle.tooltipBackgroundColour,
+                }}
+                style={{
+                  textAnchor:"start",
+                  stroke: chartStyle.tooltipTextColour,
+                  fill: chartStyle.tooltipTextColour,
+                  fontFamily: 'Montserrat',
+                  fontSize:10,
+                  strokeWidth: 0.25
+                }}
+              />
+            }
+            voronoiBlacklist={['linkLine']}
+            // voronoiBlacklist hides the duplicate tooltip text from the line joining the dots
+            onZoomDomainChange={
+              (domain, props)=> {
+                let upperXDomain = domain.x[1] as number
+                        let lowerXDomain = domain.x[0] as number
+                        let upperYDomain = domain.y[1] as number
+                        let lowerYDomain = domain.y[0] as number
+                        if (lowerXDomain < 0){
+                          lowerXDomain=0
+                        }
+                        if (upperXDomain > 20){
+                          upperXDomain = 20
+                        }
+                      setTurnerDomains([lowerXDomain, upperXDomain], [lowerYDomain, upperYDomain]) // this is a callback function to the parent RCPCHChart component which holds state
               }
-              allowPan={true}
-            />
+            }
+            allowPan={true}
+          />
         }
         >
         {/* the legend postion must be hard coded. It automatically reproduces and labels each series - this is hidden with data: fill: "transparent" */}

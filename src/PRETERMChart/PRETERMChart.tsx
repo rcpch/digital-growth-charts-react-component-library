@@ -1,9 +1,15 @@
+// Generated with util/create-component.js
+import React from "react";
+
+
+import "./PRETERMChart.scss";
+
 // libraries
-import React from "react"
 import { VictoryChart, VictoryVoronoiContainer, VictoryTooltip,VictoryLabel, VictoryVoronoiContainerProps, VictoryZoomContainerProps, createContainer, VictoryLegend, VictoryAxis, VictoryGroup, VictoryLine, VictoryScatter, VictoryArea, Rect} from 'victory';
 
 // props
-import { UKWHOChartProps } from "../UKWHOChart/UKWHOChart.types"
+// import { UKWHOChartProps } from "../UKWHOChart/UKWHOChart.types"
+import { PRETERMChartProps } from "./PRETERMChart.types";
 
 // data
 import ukwhoData from '../../chartdata/uk_who_chart_data'
@@ -23,11 +29,10 @@ import { PlottableMeasurement } from '../interfaces/RCPCHMeasurementObject';
 import { XPoint } from '../SubComponents/XPoint';
 import { ChartCircle } from '../SubComponents/ChartCircle';
 import { MonthsLabel } from '../SubComponents/MonthsLabel';
-import { loadPartialConfig } from "@babel/core";
 
 // const VictoryZoomVoronoiContainer = createContainer<VictoryZoomContainerProps, VictoryVoronoiContainerProps>("zoom","voronoi");// allows two top level containers: zoom and voronoi
 
-export const PretermChart: React.FC<UKWHOChartProps>=(
+const PRETERMChart: React.FC<PRETERMChartProps>=(
     { title,
       subtitle,
       measurementMethod,
@@ -40,8 +45,6 @@ export const PretermChart: React.FC<UKWHOChartProps>=(
       measurementStyle,
       domains,
       centileData,
-      setUKWHODomains,
-      isPreterm,
       termUnderThreeMonths
     }
 )=>{
@@ -107,6 +110,7 @@ export const PretermChart: React.FC<UKWHOChartProps>=(
                       } 
                       if (datum.centile_band) { // these are the measurement points
                         // this is a measurement
+                        console.log();
                         
                         // the datum.lay_decimal_age_comment and datum.clinician_decimal_age_comment are long strings
                         // this adds new lines to ends of sentences or commas.
@@ -435,3 +439,5 @@ export const PretermChart: React.FC<UKWHOChartProps>=(
               </VictoryChart>
     )
 }
+
+export default PRETERMChart

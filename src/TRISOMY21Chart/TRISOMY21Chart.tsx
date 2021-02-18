@@ -9,8 +9,7 @@ import { ICentile } from '../interfaces/CentilesObject';
 
 // components
 import { XPoint } from '../SubComponents/XPoint';
-import { ChartCircle } from '../SubComponents/ChartCircle';
-
+import PRETERMChart from '../PRETERMChart/PRETERMChart';
 // helper functions
 import { stndth } from '../functions/suffix';
 import { removeCorrectedAge } from '../functions/removeCorrectedAge';
@@ -38,20 +37,48 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
                 centileData,
                 setTrisomy21Domains,
                 domains,
-                isPreterm
+                isPreterm,
+                termUnderThreeMonths
  }) => {
 
   const getEntireYDomain = setTermDomainsForMeasurementMethod(measurementMethod, domains.x[1], 'trisomy-21')
 
-  const getEntireXDomain= setTermXDomainsByMeasurementAges(allMeasurementPairs)
-
-  const [showPretermChart, setShowPretermChart] = useState(false);
+  const [showPretermChart, setShowPretermChart] = useState(termUnderThreeMonths || isPreterm);
+  let label = "Show Preterm Chart";
+  if (termUnderThreeMonths || isPreterm){
+    label = "Show Child Chart"
+  }
+  const [pretermLabel, setPretermLabel] = useState(label)
   
   const onClickShowPretermChartHandler=(event)=>{
     setShowPretermChart(!showPretermChart)
+    if (showPretermChart){
+      setPretermLabel("Show Preterm Chart")
+    } else {
+      setPretermLabel("Show Child Chart")
+    }
+
   }
    return (
     <div data-testid="TRISOMY21Chart" className="foo-bar">
+      {showPretermChart ?
+          <PRETERMChart
+              title={title}
+              subtitle={subtitle}
+              measurementMethod={measurementMethod}
+              sex={sex}
+              allMeasurementPairs={allMeasurementPairs}
+              chartStyle={chartStyle}
+              axisStyle={axisStyle}
+              gridlineStyle={gridlineStyle}
+              centileStyle={centileStyle}
+              measurementStyle={measurementStyle}
+              domains={domains}
+              centileData={centileData}
+              termUnderThreeMonths={termUnderThreeMonths}
+          />
+      :
+
       <VictoryChart
         width={chartStyle.width}
         height={chartStyle.height}
@@ -89,8 +116,8 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
                     stroke: chartStyle.tooltipTextColour,
                     fill: chartStyle.tooltipTextColour,
                     fontFamily: 'Montserrat',
-                    fontWeight: 200,
-                    // fontSize: 8
+                    fontSize:10,
+                    strokeWidth: 0.25
                   }}
                 />
               }
@@ -98,11 +125,17 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
               // voronoiBlacklist hides the duplicate tooltip text from the line joining the dots
               onZoomDomainChange={
                 (domain, props)=> {
-                  const upperXDomain = domain.x[1] as number
-                  const lowerXDomain = domain.x[0] as number
-                  const upperYDomain = domain.y[1] as number
-                  const lowerYDomain = domain.y[0] as number
-                  setTrisomy21Domains([lowerXDomain, upperXDomain], [lowerYDomain, upperYDomain]) // this is a callback function to the parent RCPCHChart component which holds state
+                  let upperXDomain = domain.x[1] as number
+                          let lowerXDomain = domain.x[0] as number
+                          let upperYDomain = domain.y[1] as number
+                          let lowerYDomain = domain.y[0] as number
+                          if (lowerXDomain < 0){
+                            lowerXDomain=0
+                          }
+                          if (upperXDomain > 20){
+                            upperXDomain = 20
+                          }
+                        setTrisomy21Domains([lowerXDomain, upperXDomain], [lowerYDomain, upperYDomain]) // this is a callback function to the parent RCPCHChart component which holds state
                 }
               }
               allowPan={true}
@@ -270,10 +303,11 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
                   )
               })}
               </VictoryChart>
+            }
               
-              { isPreterm &&
-                <button onClick={onClickShowPretermChartHandler}>View Preterm Chart</button>
-              }
+            { isPreterm &&
+              <button onClick={onClickShowPretermChartHandler}>{pretermLabel}</button>
+            }
     </div>)};
 
 export default TRISOMY21Chart;

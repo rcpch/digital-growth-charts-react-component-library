@@ -164,6 +164,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
             setTrisomy21Domains={updateDomains}
             domains={domains}
             isPreterm={isPreterm}
+            termUnderThreeMonths={termUnderThreeMonths}
           />
       }
       { !isLoading && reference === 'turner' &&  sex === "female" && measurementMethod === "height" &&

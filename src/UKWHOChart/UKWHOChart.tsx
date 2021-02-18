@@ -14,11 +14,11 @@ import { setTermDomainsForMeasurementMethod } from "../functions/setTermDomainsF
 
 // interfaces & props
 import { ICentile } from "../interfaces/CentilesObject";
-import { PretermChart } from '../SubComponents/PretermChart'
 import { UKWHOChartProps } from "./UKWHOChart.types";
 import { PlottableMeasurement } from "../interfaces/RCPCHMeasurementObject";
 
-// subcomponents
+// components/subcomponents
+import PRETERMChart from '../PRETERMChart/PRETERMChart'
 import { XPoint } from '../SubComponents/XPoint';
 import { ChartCircle } from '../SubComponents/ChartCircle';
 import { MonthsLabel } from '../SubComponents/MonthsLabel';
@@ -52,10 +52,21 @@ function UKWHOChart({
   termUnderThreeMonths
 }: UKWHOChartProps) {
 
+  let label = "Show Preterm Chart";
+  if (termUnderThreeMonths){
+    label = "Show Child Chart"
+  }
+  const [pretermLabel, setPretermLabel] = useState(label)
   const [showPretermChart, setShowPretermChart] = useState(isPreterm || termUnderThreeMonths); // show preterm chart if preterm or <3/12
   
   const onClickShowPretermChartHandler=(event)=>{
     setShowPretermChart(!showPretermChart)
+    if (showPretermChart){
+      setPretermLabel("Show Preterm Chart")
+    } else {
+      setPretermLabel("Show Child Chart")
+    }
+
   }
 
   const getEntireYDomain = setTermDomainsForMeasurementMethod(measurementMethod, 20, 'uk-who') // sets max y value for measurement
@@ -67,7 +78,7 @@ function UKWHOChart({
       {/* Tooltips are here as it is the parent component. More information of tooltips in centiles below. */}
 
           {showPretermChart ?
-          <PretermChart 
+          <PRETERMChart
               title={title}
               subtitle={subtitle}
               measurementMethod={measurementMethod}
@@ -80,8 +91,6 @@ function UKWHOChart({
               measurementStyle={measurementStyle}
               domains={domains}
               centileData={centileData}
-              setUKWHODomains={setUKWHODomains}
-              isPreterm={isPreterm}
               termUnderThreeMonths={termUnderThreeMonths}
           />
           : 
@@ -579,7 +588,7 @@ function UKWHOChart({
             }
               </VictoryChart>}
               { isPreterm &&
-                <button onClick={onClickShowPretermChartHandler}>{showPretermChart ? <>View Childhood Chart</> : <>View Preterm Chart</>}</button>
+                <button onClick={onClickShowPretermChartHandler}>{pretermLabel}</button>
               }
       </div>
   );
