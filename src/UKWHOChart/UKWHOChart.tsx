@@ -349,9 +349,15 @@ function UKWHOChart({
                       label={data.label}
                       axisLabelComponent = {
                         <VictoryLabel 
-                          dy={30} 
-                          dx={-70}
+                          dy={20} 
+                          dx={-190}
                           textAnchor="start"
+                          style={{
+                            fontSize: 8,
+                            color: axisStyle.axisLabelColour,
+                            fontFamily: axisStyle.axisLabelFont,
+                            textAlign: "start"
+                          }}
                         />}
                       style={{ 
                         axis: {
@@ -361,12 +367,6 @@ function UKWHOChart({
                         tickLabels: 
                         { 
                           fill: "none", 
-                        },
-                        axisLabel: {
-                          fontSize: 8,
-                          color: axisStyle.axisLabelColour,
-                          fontFamily: axisStyle.axisLabelFont,
-                          textAlign: "start"
                         }
                       }}
                       axisValue={data.x}
@@ -381,7 +381,18 @@ function UKWHOChart({
                     <VictoryAxis dependentAxis
                       key={index}
                       label={data.label}
-                      axisLabelComponent = {<VictoryLabel dy={30} dx={-70}/>}
+                      axisLabelComponent = {
+                        <VictoryLabel 
+                          dy={20} 
+                          dx={-190}
+                          style={{
+                            fontSize: 8,
+                            color: axisStyle.axisLabelColour,
+                            fontFamily: axisStyle.axisLabelFont,
+                            textAlign: "start"
+                          }}
+                        />
+                      }
                       style={{ 
                         axis: {
                           stroke: 'black',
@@ -392,10 +403,7 @@ function UKWHOChart({
                           fill: "none", 
                         },
                         axisLabel: {
-                          fontSize: 8,
-                          color: axisStyle.axisLabelColour,
-                          fontFamily: axisStyle.axisLabelFont,
-                          textAlign: "start"
+                          
                         }
                       }}
                       axisValue={data.x}
