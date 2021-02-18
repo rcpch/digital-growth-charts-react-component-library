@@ -67,28 +67,28 @@ const PRETERMChart: React.FC<PRETERMChartProps>=(
       return (<svg>
          <g>
             <rect 
-              x={props.x1 + 65} 
+              x={props.x1 - 200} 
               width={130}
-              y={props.y1 + 100}
-              height={82.5}
+              y={props.y1}
+              height={85}
               fill={chartStyle.tooltipBackgroundColour}
               stroke={chartStyle.tooltipBackgroundColour}
             />
             <text
-              x={props.x1 + 70}
-              y={props.y1 + 100}
+              x={props.x1 - 195}
+              y={props.y1+2.5}
               fill={chartStyle.tooltipTextColour}
               fontSize={6}
               fontFamily={axisStyle.axisLabelFont}
             >
-              <tspan dy="1.6em" x={props.x1 + 70}>Babies born in the shaded area are term.</tspan>
-              <tspan dy="1.6em" x={props.x1 + 70}>It is normal for babies to lose weight</tspan>
-              <tspan dy="1.6em" x={props.x1 + 70}>over the first two weeks of life.</tspan>
-              <tspan dy="1.6em" x={props.x1 + 70}>Medical review should be sought</tspan>
-              <tspan dy="1.6em" x={props.x1 + 70}>if weight has dropped by more than 10%</tspan>
-              <tspan dy="1.6em" x={props.x1 + 70}>of birth weight or weight is</tspan>
-              <tspan dy="1.6em" x={props.x1 + 70}>still below birth weight</tspan>
-              <tspan dy="1.6em" x={props.x1 + 70}>three weeks after birth.</tspan>
+              <tspan dy="1.6em" x={props.x1 - 195}>Babies born in the shaded area are term.</tspan>
+              <tspan dy="1.6em" x={props.x1 - 195}>It is normal for babies to lose weight</tspan>
+              <tspan dy="1.6em" x={props.x1 - 195}>over the first two weeks of life.</tspan>
+              <tspan dy="1.6em" x={props.x1 - 195}>Medical review should be sought</tspan>
+              <tspan dy="1.6em" x={props.x1 - 195}>if weight has dropped by more than 10%</tspan>
+              <tspan dy="1.6em" x={props.x1 - 195}>of birth weight or weight is</tspan>
+              <tspan dy="1.6em" x={props.x1 - 195}>still below birth weight</tspan>
+              <tspan dy="1.6em" x={props.x1 - 195}>three weeks after birth.</tspan>
             </text>
           </g>
       </svg>)
@@ -110,12 +110,12 @@ const PRETERMChart: React.FC<PRETERMChartProps>=(
                       } 
                       if (datum.centile_band) { // these are the measurement points
                         // this is a measurement
-                        console.log();
-                        
-                        // the datum.lay_decimal_age_comment and datum.clinician_decimal_age_comment are long strings
-                        // this adds new lines to ends of sentences or commas.
                         
                         if (datum.x <= 0.0383){ // <= 42 weeks
+                          
+                          // the datum.lay_decimal_age_comment and datum.clinician_decimal_age_comment are long strings
+                          // this adds new lines to ends of sentences or commas.
+                          
                           if (datum.age_type==="corrected_age"){
                             const finalCorrectedString = datum.lay_corrected_decimal_age_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n')
                             return "Corrected age: " + datum.corrected_gestation_weeks + "+" + datum.corrected_gestation_days +' weeks gestation\n' + finalCorrectedString + "\n" + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
@@ -173,7 +173,19 @@ const PRETERMChart: React.FC<PRETERMChartProps>=(
               { termUnderThreeMonths && 
                 <VictoryAxis 
                   axisComponent={<Term/>}
+                  label="Term (37-42 weeks gestation)"
                   dependentAxis
+                  axisLabelComponent={
+                    <VictoryLabel 
+                      angle={0}
+                      textAnchor="middle"
+                      dx={54}
+                      y={240}
+                      style={{
+                        fontSize: 6
+                      }}
+                    />
+                  }
                   axisValue={-0.06} // 37 weeks
                   style={{
                     tickLabels: {
@@ -311,11 +323,10 @@ const PRETERMChart: React.FC<PRETERMChartProps>=(
 
               {/* Render the message box - rendered as an axis */}
               {/* Term background area */}
-              { termUnderThreeMonths && 
+              { termUnderThreeMonths && measurementMethod=="weight" &&
                 <VictoryAxis 
                   axisComponent={<TermInfo/>}
                   dependentAxis
-                  axisValue={-0.06} // 37 weeks
                   style={{
                     tickLabels: {
                       fill: 'transparent'
