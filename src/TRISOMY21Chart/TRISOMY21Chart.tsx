@@ -35,9 +35,9 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
                 gridlineStyle,
                 centileStyle,
                 measurementStyle,
-                domains,
                 centileData,
                 setTrisomy21Domains,
+                domains,
                 isPreterm
  }) => {
 
@@ -60,7 +60,9 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
             fill: chartStyle.backgroundColour
           }
         }}
-        domain={{x:getEntireXDomain, y:getEntireYDomain}}
+        domain={{x: [domains.x[0]-1,domains.x[1]+1], y: getEntireYDomain}}
+        minDomain={0}
+        maxDomain={20}
         containerComponent={
             <VictoryZoomVoronoiContainer 
               labels={({ datum }) => { // tooltip labels
@@ -100,7 +102,7 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
                   const lowerXDomain = domain.x[0] as number
                   const upperYDomain = domain.y[1] as number
                   const lowerYDomain = domain.y[0] as number
-                  // setTrisomy21Domains([lowerXDomain, upperXDomain], [lowerYDomain, upperYDomain]) // this is a callback function to the parent RCPCHChart component which holds state
+                  setTrisomy21Domains([lowerXDomain, upperXDomain], [lowerYDomain, upperYDomain]) // this is a callback function to the parent RCPCHChart component which holds state
                 }
               }
               allowPan={true}
@@ -176,9 +178,6 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
         />
         {/* Render the centiles - loop through the data set, create a line for each centile */}  
         { centileData.map((reference, index)=>{
-                if (index===0 && !isPreterm){ // do not want to render preterm data if this is not a preterm child - this will leave a 2 week gap from 0 to 2 weeks
-                  return
-                }
                 if (reference.length > 0){
                   return (<VictoryGroup key={index}>
                     {reference.map((centile:ICentile, centileIndex: number)=>{
@@ -189,12 +188,12 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
                             padding={{ top: 20, bottom: 60 } }
                             data={centile.data}
                             style={{
-                            data: {
-                                stroke: centileStyle.centileStroke,
-                                strokeWidth: centileStyle.centileStrokeWidth,
-                                strokeLinecap: 'round',
-                                strokeDasharray: '5 5'
-                            }
+                              data: {
+                                  stroke: centileStyle.centileStroke,
+                                  strokeWidth: centileStyle.centileStrokeWidth,
+                                  strokeLinecap: 'round',
+                                  strokeDasharray: '5 5'
+                              }
                             }}
                         />
                         )
@@ -205,11 +204,11 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
                               padding={{ top: 20, bottom: 60 }}
                               data={centile.data}
                               style={{
-                              data: {
-                                  stroke: centileStyle.centileStroke,
-                                  strokeWidth: centileStyle.centileStrokeWidth,
-                                  strokeLinecap: 'round'
-                              }
+                                data: {
+                                    stroke: centileStyle.centileStroke,
+                                    strokeWidth: centileStyle.centileStrokeWidth,
+                                    strokeLinecap: 'round'
+                                }
                               }}
                           />
                           )
@@ -224,7 +223,7 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
               {/* create a series for each child measurements datapoint: a circle for chronological age, a cross for corrected - if the chronological and corrected age are the same, */}
               {/* the removeCorrectedAge function removes the corrected age to prevent plotting a circle on a cross, and having duplicate */}
               {/* text in the tool tip */}
-              { allMeasurementPairs !== null && allMeasurementPairs.map((measurementPair: [PlottableMeasurement,PlottableMeasurement], index) => {
+              { allMeasurementPairs.map((measurementPair: [PlottableMeasurement,PlottableMeasurement], index) => {
                 
                 let match=false
                 if(measurementPair.length > 1){

@@ -34,18 +34,15 @@ const TURNERChart: React.FC<TURNERChartProps> = ({
                 gridlineStyle,
                 centileStyle,
                 measurementStyle,
-                domains,
                 centileData,
-                setTurnerDomains
+                setTurnerDomains,
+                domains
   }) => { 
 
-  const getEntireYDomain = setTermDomainsForMeasurementMethod(measurementMethod, domains.x[1], 'trisomy-21')
+  const getEntireYDomain = setTermDomainsForMeasurementMethod(measurementMethod, domains.x[1], 'turner')
 
-  const getEntireXDomain= setTermXDomainsByMeasurementAges(allMeasurementPairs)
-
-    return(
-
-    <div data-testid="TURNERChart" className="foo-bar">
+  return(
+    <div data-testid="TURNERChart" >
       <VictoryChart
         width={chartStyle.width}
         height={chartStyle.height}
@@ -54,7 +51,9 @@ const TURNERChart: React.FC<TURNERChartProps> = ({
             fill: chartStyle.backgroundColour
           }
         }}
-        domain={{x:getEntireXDomain, y:getEntireYDomain}}
+        domain={{x: [domains.x[0]-1,domains.x[1]+1], y: getEntireYDomain}}
+        minDomain={0}
+        maxDomain={20}
         containerComponent={
             <VictoryZoomVoronoiContainer 
               labels={({ datum }) => { // tooltip labels
@@ -68,7 +67,8 @@ const TURNERChart: React.FC<TURNERChartProps> = ({
               }}
               labelComponent={
                 <VictoryTooltip
-                  constrainToVisibleArea    
+                  constrainToVisibleArea
+                  
                   pointerLength={5}
                   cornerRadius={0}
                   flyoutStyle={{
@@ -79,9 +79,9 @@ const TURNERChart: React.FC<TURNERChartProps> = ({
                     textAnchor:"start",
                     stroke: chartStyle.tooltipTextColour,
                     fill: chartStyle.tooltipTextColour,
-                    fontFamily: axisStyle.axisLabelFont,
-                    strokeWidth: 0.25,
-                    fontSize: 10
+                    fontFamily: 'Montserrat',
+                    fontSize:10,
+                    strokeWidth: 0.25
                   }}
                 />
               }
@@ -100,149 +100,159 @@ const TURNERChart: React.FC<TURNERChartProps> = ({
             />
         }
         >
-      {/* the legend postion must be hard coded. It automatically reproduces and labels each series - this is hidden with data: fill: "transparent" */}
-      <VictoryLegend
-        title={[title, subtitle]}
-        centerTitle
-        titleOrientation="top"
-        orientation="horizontal"
-        style={{ data: { fill: "transparent" } }}
-        x={chartStyle.width/2-50}
-        y={0}
-        data={[]}
-      />
-      <VictoryAxis
-        label={yAxisLabel(measurementMethod)}
-        tickLabelComponent={
-          <VictoryLabel 
-            dy={0}
-            style={[
-              { fill: axisStyle.axisLabelColour, fontSize: axisStyle.axisLabelSize },
-            ]}
-          />
-        }
-        style={{
-          axis: {stroke: axisStyle.axisStroke},
-          axisLabel: {fontSize: 10, padding: 20},
-          grid: {stroke: ({ tick }) => gridlineStyle.gridlines ? gridlineStyle.stroke : 'transparent'},
-          ticks: {stroke: axisStyle.axisLabelColour},
-          tickLabels: {fontSize: axisStyle.tickLabelSize, padding: 5}
-        }}
-        dependentAxis 
-      />
-      <VictoryAxis
-        label="Age (y)"
-        tickLabelComponent={
-          <VictoryLabel 
-            dy={0}
-            style={[
-              { fill: axisStyle.axisLabelColour, fontSize: axisStyle.axisLabelSize },
-            ]}
-          />
-        }
-        style={{
-          axis: {stroke: axisStyle.axisStroke},
-          axisLabel: {fontSize: 10, padding: 20},
-          grid: {stroke: ({ tick }) => gridlineStyle.gridlines ? gridlineStyle.stroke : 'transparent'},
-          ticks: {stroke: axisStyle.axisLabelColour},
-          tickLabels: {fontSize: axisStyle.tickLabelSize, padding: 5}
-        }}
-      />
-        {/* Render the centiles - loop through the data set, create a line for each centile */}  
-        
-        { centileData.map((reference, index)=>{
-                if (reference.length > 0){
-                  return (<VictoryGroup key={index}>
-                    {reference.map((centile:ICentile, centileIndex: number)=>{
-                      if (centileIndex % 2 === 0) { // even index - centile is dashed
-                        return (
-                        <VictoryLine
-                            key={centile.centile + '-' + centileIndex}
-                            padding={{ top: 20, bottom: 60 } }
-                            data={centile.data}
-                            style={{
-                            data: {
-                                stroke: centileStyle.centileStroke,
-                                strokeWidth: centileStyle.centileStrokeWidth,
-                                strokeLinecap: 'round',
-                                strokeDasharray: '5 5'
-                            }
-                            }}
-                        />
-                        )
-                      } else { // uneven index - centile is continuous
-                          return (
-                          <VictoryLine
-                              key={centile.centile + '-' + centileIndex}
-                              padding={{ top: 20, bottom: 60 }}
-                              data={centile.data}
-                              style={{
-                              data: {
-                                  stroke: centileStyle.centileStroke,
-                                  strokeWidth: centileStyle.centileStrokeWidth,
-                                  strokeLinecap: 'round'
-                              }
-                              }}
-                          />
-                          )
-                      }
-                    })
-                  }
-                  </VictoryGroup>
-                  )
-                }})
-              }
+        {/* the legend postion must be hard coded. It automatically reproduces and labels each series - this is hidden with data: fill: "transparent" */}
+        <VictoryLegend
+                title={[title, subtitle]}
+                centerTitle
+                titleOrientation="top"
+                orientation="horizontal"
+                style={{ data: { fill: "transparent" } }}
+                x={chartStyle.width/2-50}
+                y={0}
+                data={[]}
+        />
+        <VictoryAxis // y axis
+          dependentAxis
+          label={yAxisLabel(measurementMethod)}
+          style= {{
+            axis: {
+              stroke: axisStyle.axisStroke,
+              strokeWidth: 1.0
+            },
+            axisLabel: {
+              fontSize: axisStyle.axisLabelSize, 
+              padding: 20,
+              color: axisStyle.axisLabelColour,
+              font: axisStyle.axisLabelFont
+            },
+            ticks: {
+              stroke: axisStyle.axisLabelColour
+            },
+            tickLabels: {
+              fontSize: axisStyle.tickLabelSize, 
+              padding: 5,
+              color: axisStyle.axisLabelColour,
+              font: axisStyle.axisLabelColour
+            },
+            grid: { 
+              stroke: gridlineStyle.gridlines ? gridlineStyle.stroke : null, 
+              strokeWidth: ({t})=> t % 5 === 0 ? gridlineStyle.strokeWidth + 0.5 : gridlineStyle.strokeWidth,
+              strokeDasharray: gridlineStyle.dashed ? '5 5' : ''
+            }}}
+        />
+        <VictoryAxis // x axis (years)
+          label="Age (y)"
+          tickLabelComponent={
+            <VictoryLabel 
+              dy={0}
+              style={[
+                { fill: axisStyle.axisLabelColour, fontSize: axisStyle.axisLabelSize },
+              ]}
+            />
+          }
+          style={{
+            axis: {stroke: "#756f6a"},
+            axisLabel: {fontSize: 10, padding: 20},
+            grid: {
+              stroke: ({ tick }) => gridlineStyle.gridlines ? gridlineStyle.stroke : 'transparent',
+              strokeWidth: gridlineStyle.strokeWidth,
+              strokeDasharray: gridlineStyle.dashed ? '5 5' : ''
+            },
+            ticks: {stroke: axisStyle.axisStroke},
+            tickLabels: {
+              fontSize: 15, 
+              padding: 5,
+              color: axisStyle.axisLabelColour,
+              font: axisStyle.axisLabelFont
+            }
+          }}
+        />
 
-              {/* create a series for each child measurements datapoint: a circle for chronological age, a cross for corrected - if the chronological and corrected age are the same, */}
-              {/* the removeCorrectedAge function removes the corrected age to prevent plotting a circle on a cross, and having duplicate */}
-              {/* text in the tool tip */}
-              { allMeasurementPairs !== null && allMeasurementPairs.map((measurementPair: [PlottableMeasurement, PlottableMeasurement], index) => {
+        {/* Render the centiles - loop through the data set, create a line for each centile */}
+        { centileData.map((centile:ICentile, centileIndex: number)=>{
+          if (centileIndex %2 === 0){
+            return ( //even centile index - dashed centile
+                <VictoryLine
+                  key={centile.centile + '-' + centileIndex}
+                  data={centile.data}
+                  style={{
+                    data: {
+                        stroke: centileStyle.centileStroke,
+                        strokeWidth: centileStyle.centileStrokeWidth,
+                        strokeLinecap: 'round',
+                        strokeDasharray: '5 5'
+                    }
+                  }}
+                />)
+              
+          } else { // uneven index - centile is continuous
+              return  (
                 
-                let match=false
-                if(measurementPair.length > 1){
-                  
-                  const first = measurementPair[0]
-                  const second = measurementPair[1]
-                  match = first.x===second.x
-                } else {
-                  match=true
-                }
-                return (
-                    <VictoryGroup
-                      key={'measurement'+index}
-                    >
-                      { match  ?
-                      
-                          <VictoryScatter
-                            data={measurementPair.length > 1 ? removeCorrectedAge(measurementPair) : measurementPair}
-                            symbol={ measurementStyle.measurementShape }
-                            style={{ data: { fill: measurementStyle.measurementFill } }}
-                            name='same_age' 
-                          />
+                <VictoryLine
+                    key={centile.centile + '-' + centileIndex}
+                    data={centile.data}
+                    style={{
+                      data: {
+                          stroke: centileStyle.centileStroke,
+                          strokeWidth: centileStyle.centileStrokeWidth,
+                          strokeLinecap: 'round'
+                      }
+                    }}
+                />)
+          }
+        })}
 
-                        :
+        {/* create a series for each child measurements datapoint: a circle for chronological age, a cross for corrected - if the chronological and corrected age are the same, */}
+        {/* the removeCorrectedAge function removes the corrected age to prevent plotting a circle on a cross, and having duplicate */}
+        {/* text in the tool tip */}
 
-                        <VictoryScatter 
-                            data={measurementPair}
-                            dataComponent={<XPoint/>}
-                          style={{ data: 
-                            { fill: measurementStyle.measurementFill } 
-                          }}
-                          name= 'split_age'
-                        />
-                          }
+        { allMeasurementPairs.map((measurementPair: [PlottableMeasurement,PlottableMeasurement], index) => {
+          
+          let match=false
+          if(measurementPair.length > 1){
+            
+            const first = measurementPair[0]
+            const second = measurementPair[1]
+            match = first.x===second.x
+          } else {
+            match=true
+          }
+          return (
+              <VictoryGroup
+                key={'measurement'+index}
+              >
+                { match  ?
+                
+                    <VictoryScatter
+                      data={measurementPair.length > 1 ? removeCorrectedAge(measurementPair) : measurementPair}
+                      symbol={ measurementStyle.measurementShape }
+                      style={{ data: { fill: measurementStyle.measurementFill } }}
+                      name='same_age' 
+                    />
 
-                      <VictoryLine
-                        name="linkLine"
-                        style={{ 
-                          data: { stroke: measurementStyle.measurementFill, strokeWidth: 1.25 },
-                        }}
-                        data={measurementPair}
-                      />
-                    </VictoryGroup>
-                  )
-              })}
-              </VictoryChart>
+                  :
+
+                  <VictoryScatter 
+                      data={measurementPair}
+                      dataComponent={<XPoint/>}
+                    style={{ data: 
+                      { fill: measurementStyle.measurementFill } 
+                    }}
+                    name= 'split_age'
+                  />
+                    }
+
+                <VictoryLine
+                  name="linkLine"
+                  style={{ 
+                    data: { stroke: measurementStyle.measurementFill, strokeWidth: 1.25 },
+                  }}
+                  data={measurementPair}
+                />
+              </VictoryGroup>
+            )
+        })}
+        </VictoryChart>
     
     </div>
 )};

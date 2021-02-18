@@ -26,5 +26,5 @@ export function fetchTurnerData(sex: string, measurementMethod:string, domains:D
         return  filterData(centile.data, lowerX, upperX, lowerY, upperY)
     })
 
-    return [truncatedTurnerDataSet];
+    return truncatedTurnerDataSet;
 }

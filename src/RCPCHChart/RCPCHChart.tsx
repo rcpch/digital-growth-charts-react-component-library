@@ -19,7 +19,6 @@ import { fetchUKWHOData } from '../functions/fetchUKWHOData';
 import { setTermDomainsForMeasurementMethod } from "../functions/setTermDomainsForMeasurementMethod";
 import { fetchTrisomy21Data } from '../functions/fetchTrisomy21Data';
 import { fetchTurnerData } from '../functions/fetchTurnerData';
-import { setPretermDomainForMeasurementMethod } from "../functions/setPretermDomainForMeasurementMethod";
 
 const RCPCHChart: React.FC<RCPCHChartProps> = ({ 
         title,
@@ -37,14 +36,13 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
   
     let lowerAgeX = 0
     let upperAgeX = 20
-    let upperMeasurementY
-    let lowerMeasurementY
+    let upperMeasurementY = 0
+    let lowerMeasurementY = 200
     
     let premature = false
     let termUnderThreeMonths = false;
 
     const emptyArray: [PlottableMeasurement,PlottableMeasurement][] = []
-    const [centileData, setCentileData]=useState([])
     const [measurementPairs, setMeasurementpairs] = useState(emptyArray)
     const [isLoading, setLoading] = useState(true)
 
@@ -82,24 +80,26 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     
     const [domains, setDomains] = useState<Domains | undefined>({x:[lowerAgeX,upperAgeX], y:setTermDomainsForMeasurementMethod(measurementMethod, upperAgeX, reference)}) // set the limits of the chart
     const [isPreterm, setPreterm] = useState(premature) // prematurity flag
+    const [centileData, setCentileData] = useState([])
 
   useEffect(()=>{
+
     let newData //initialise the chart state
-    if (reference==="uk-who"){
-      newData = fetchUKWHOData(sex, measurementMethod, domains) //refresh chart data based on new domains
-      setCentileData(newData) // update the state with new centile data (tailored to visible area of chart)
-      
+    if (reference==="trisomy-21"){
+      newData = fetchTrisomy21Data(sex, measurementMethod, domains) //refresh chart data based on new domains
+      setCentileData(newData); // update the state with new centile data (tailored to visible area of chart)
     }
     if (reference==="turner"){
       newData = fetchTurnerData(sex, measurementMethod, domains) //refresh chart data based on new domains
       setCentileData(newData) // update the state with new centile data (tailored to visible area of chart)
     }
-    if (reference==="trisomy-21"){
-      newData = fetchTrisomy21Data(sex, measurementMethod, domains) //refresh chart data based on new domains
+    if (reference==="uk-who"){
+      newData = fetchUKWHOData(sex, measurementMethod, domains) //refresh chart data based on new domains
       setCentileData(newData) // update the state with new centile data (tailored to visible area of chart)
     }
     setMeasurementpairs(measurementsArray)
     setLoading(false)
+    
   },[measurementsArray])
 
     const updateDomains = ([lowerXDomain, upperXDomain], [lowerYDomain, upperYDomain]) => { // call back from chart.tsx on domain change
@@ -114,20 +114,20 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
       //   newLowerY=lowerYDomain
       //   newUpperY= upperMeasurementY-10
       // }
-      
+
       let newData
-      if (reference==="uk-who"){
-        newData = fetchUKWHOData(sex, measurementMethod, {x:[lowerXDomain, upperXDomain], y:[newLowerY, newUpperY]}) //refresh chart data based on new domains
-        // update the state with new centile data (tailored to visible area of chart)
-        setCentileData(newData)
+      if (reference==="trisomy-21"){
+        newData = fetchTrisomy21Data(sex, measurementMethod, {x:[lowerXDomain, upperXDomain], y:[newLowerY, newUpperY]}) //refresh chart data based on new domains
+        setCentileData(newData) // update the state with new centile data (tailored to visible area of chart)
       }
       if (reference==="turner"){
         newData = fetchTurnerData(sex, measurementMethod, {x:[lowerXDomain, upperXDomain], y:[newUpperY, newLowerY]}) //refresh chart data based on new domains
         setCentileData(newData) // update the state with new centile data (tailored to visible area of chart)
       }
-      if (reference==="trisomy-21"){
-        newData = fetchTrisomy21Data(sex, measurementMethod, {x:[lowerXDomain, upperXDomain], y:[newLowerY, newUpperY]}) //refresh chart data based on new domains
-        setCentileData(newData) // update the state with new centile data (tailored to visible area of chart)
+      if (reference==="uk-who"){
+        newData = fetchUKWHOData(sex, measurementMethod, {x:[lowerXDomain, upperXDomain], y:[newLowerY, newUpperY]}) //refresh chart data based on new domains
+        // update the state with new centile data (tailored to visible area of chart)
+        setCentileData(newData)
       }
 
       setDomains({x:[lowerXDomain, upperXDomain], y:setTermDomainsForMeasurementMethod(measurementMethod, upperXDomain, reference)}) // update the state with new domains 
@@ -136,7 +136,6 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
   return (
     <div
       data-testid="RCPCHChart"
-    //   className={`test-component test-component-${theme}`}
     >
       
                   {/*       
@@ -146,17 +145,10 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
                     measurement_method
                     sex
                     measurementsArray (this is an array of measurement objects received from the dGC API)
-
-                    
-                    growth data point color
-                    line color
-                    axis color
-                    label font
-                    label size
-                    chart background color
+                    styles - there is one each for the chart, centiles, axes, gridlines and measurement points
                   */}
       
-      { !isLoading && reference === 'trisomy-21' &&
+      { !isLoading && centileData != null && reference === 'trisomy-21' &&
           <Trisomy21Chart
             title={title}
             subtitle={subtitle}
@@ -174,8 +166,8 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
             isPreterm={isPreterm}
           />
       }
-      { !isLoading && reference === 'turner' && sex === "female" && measurementMethod === "height" &&
-           (<TurnerChart
+      { !isLoading && reference === 'turner' &&  sex === "female" && measurementMethod === "height" &&
+           <TurnerChart
               title={title}
               subtitle={subtitle}
               allMeasurementPairs={measurementPairs}
@@ -189,7 +181,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
               centileData={centileData}
               setTurnerDomains={updateDomains}
               domains={domains}
-          />) 
+          />
       }
       { !isLoading && reference === 'uk-who' &&
           <UKWHOChart

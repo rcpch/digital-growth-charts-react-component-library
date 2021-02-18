@@ -1,6 +1,7 @@
 import { AxisStyle, CentileStyle, ChartStyle, GridlineStyle, MeasurementStyle } from "../interfaces/StyleObjects";
 import { Domains } from '../interfaces/Domains';
 import { PlottableMeasurement } from "../interfaces/RCPCHMeasurementObject";
+import { ICentile } from "../interfaces/CentilesObject";
 export interface TURNERChartProps {
     title: string,
     subtitle: string,
@@ -12,7 +13,7 @@ export interface TURNERChartProps {
     gridlineStyle?: GridlineStyle
     centileStyle?: CentileStyle
     measurementStyle?: MeasurementStyle
-    domains: Domains
     setTurnerDomains([lowerXDomain, upperXDomain], [lowerYDomain, upperYDomain]): void
-    centileData: [][]
+    centileData: ICentile[]
+    domains: Domains
 }

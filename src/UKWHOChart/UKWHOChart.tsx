@@ -30,7 +30,6 @@ import "./UKWHOChart.scss";
 // definitions
 
 import { delayedPubertyThreshold, pubertyThresholdBoys, pubertyThresholdGirls } from '../SubComponents/DelayedPuberty'
-import { setTermXDomainsByMeasurementAges } from "../functions/setTermXDomainsByMeasurementAges";
 import { xTickCount } from "../functions/xTickCount";
 
 const VictoryZoomVoronoiContainer = createContainer<VictoryZoomContainerProps, VictoryVoronoiContainerProps>("zoom","voronoi");// allows two top level containers: zoom and voronoi
