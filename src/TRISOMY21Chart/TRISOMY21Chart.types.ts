@@ -8,11 +8,11 @@ export interface TRISOMY21ChartProps {
     measurementMethod: 'height' | 'weight' | 'ofc' | 'bmi',
     sex: 'male' | 'female',
     allMeasurementPairs: [PlottableMeasurement,PlottableMeasurement][]
-    chartStyle: ChartStyle
-    axisStyle: AxisStyle
-    gridlineStyle: GridlineStyle
-    centileStyle: CentileStyle
-    measurementStyle: MeasurementStyle
+    chartStyle?: ChartStyle
+    axisStyle?: AxisStyle
+    gridlineStyle?: GridlineStyle
+    centileStyle?: CentileStyle
+    measurementStyle?: MeasurementStyle
     centileData: ICentile[],
     setTrisomy21Domains([lowerXDomain, upperXDomain], [lowerYDomain, upperYDomain]): void
     domains: Domains

@@ -9,10 +9,10 @@ export interface UKWHOChartProps {
     sex: 'male' | 'female',
     allMeasurementPairs: [PlottableMeasurement, PlottableMeasurement][]
     chartStyle: ChartStyle
-    axisStyle: AxisStyle
-    gridlineStyle: GridlineStyle
-    centileStyle: CentileStyle
-    measurementStyle: MeasurementStyle
+    axisStyle?: AxisStyle
+    gridlineStyle?: GridlineStyle
+    centileStyle?: CentileStyle
+    measurementStyle?: MeasurementStyle
     domains: Domains
     setUKWHODomains([lowerXDomain, upperXDomain], [lowerYDomain, upperYDomain]): void
     centileData: [][],

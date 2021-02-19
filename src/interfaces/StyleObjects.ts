@@ -1,30 +1,30 @@
 export interface ChartStyle{
-    backgroundColour: string, 
-    width: number, 
-    height: number, 
-    tooltipBackgroundColour: string,
-    tooltipTextColour: string
+    backgroundColour?: string, 
+    width?: number, 
+    height?: number, 
+    tooltipBackgroundColour?: string,
+    tooltipTextColour?: string
 }
 export interface MeasurementStyle{
-    measurementFill: string, 
-    measurementSize: number, 
-    measurementShape: 'circle' | 'cross' | 'triangleUp' | 'triangleDown' | 'square' | 'star' | 'diamond'
+    measurementFill?: string, 
+    measurementSize?: number, 
+    measurementShape?: 'circle' | 'cross' | 'triangleUp' | 'triangleDown' | 'square' | 'star' | 'diamond'
 }
 export interface CentileStyle{
-    centileStroke: string, 
-    centileStrokeWidth: number, 
-    delayedPubertyAreaFill: string 
+    centileStroke?: string, 
+    centileStrokeWidth?: number, 
+    delayedPubertyAreaFill?: string 
 }
 export interface GridlineStyle{
-    gridlines: boolean, 
-    stroke: string, 
-    strokeWidth: number, 
-    dashed: boolean
+    gridlines?: boolean, 
+    stroke?: string, 
+    strokeWidth?: number, 
+    dashed?: boolean
 }
 export interface AxisStyle{
-    axisStroke: string, 
-    axisLabelColour: string, 
-    axisLabelFont: string, 
-    axisLabelSize: number, 
-    tickLabelSize: number
+    axisStroke?: string, 
+    axisLabelColour?: string, 
+    axisLabelFont?: string, 
+    axisLabelSize?: number, 
+    tickLabelSize?: number
 }
