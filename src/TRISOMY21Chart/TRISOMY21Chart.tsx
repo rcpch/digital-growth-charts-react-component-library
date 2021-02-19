@@ -9,14 +9,16 @@ import { ICentile } from '../interfaces/CentilesObject';
 
 // components
 import { XPoint } from '../SubComponents/XPoint';
-import PRETERMChart from '../PRETERMChart/PRETERMChart';
+import { ChartCircle } from '../SubComponents/ChartCircle';
+import { MonthsLabel } from '../SubComponents/MonthsLabel'
+
 // helper functions
 import { stndth } from '../functions/suffix';
 import { removeCorrectedAge } from '../functions/removeCorrectedAge';
 import { yAxisLabel } from '../functions/yAxisLabel';
 import { measurementSuffix } from '../functions/measurementSuffix';
 import { setTermDomainsForMeasurementMethod } from '../functions/setTermDomainsForMeasurementMethod';
-import { setTermXDomainsByMeasurementAges } from '../functions/setTermXDomainsByMeasurementAges';
+import { xTickCount } from '../functions/xTickCount';
 
 // style sheets
 import "./TRISOMY21Chart.scss";
@@ -36,49 +38,14 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
                 measurementStyle,
                 centileData,
                 setTrisomy21Domains,
-                domains,
-                isPreterm,
-                termUnderThreeMonths
+                domains
  }) => {
 
   const getEntireYDomain = setTermDomainsForMeasurementMethod(measurementMethod, domains.x[1], 'trisomy-21')
 
-  const [showPretermChart, setShowPretermChart] = useState(termUnderThreeMonths || isPreterm);
-  let label = "Show Preterm Chart";
-  if (termUnderThreeMonths || isPreterm){
-    label = "Show Child Chart"
-  }
-  const [pretermLabel, setPretermLabel] = useState(label)
-  
-  const onClickShowPretermChartHandler=(event)=>{
-    setShowPretermChart(!showPretermChart)
-    if (showPretermChart){
-      setPretermLabel("Show Preterm Chart")
-    } else {
-      setPretermLabel("Show Child Chart")
-    }
-
-  }
    return (
     <div data-testid="TRISOMY21Chart" className="foo-bar">
-      {showPretermChart ?
-          <PRETERMChart
-              title={title}
-              subtitle={subtitle}
-              measurementMethod={measurementMethod}
-              sex={sex}
-              allMeasurementPairs={allMeasurementPairs}
-              chartStyle={chartStyle}
-              axisStyle={axisStyle}
-              gridlineStyle={gridlineStyle}
-              centileStyle={centileStyle}
-              measurementStyle={measurementStyle}
-              domains={domains}
-              centileData={centileData}
-              termUnderThreeMonths={termUnderThreeMonths}
-          />
-      :
-
+      
       <VictoryChart
         width={chartStyle.width}
         height={chartStyle.height}
@@ -153,105 +120,217 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
                 y={0}
                 data={[]}
         />
-        <VictoryAxis // y axis
-          dependentAxis
-          label={yAxisLabel(measurementMethod)}
-          style= {{
-            axis: {
-              stroke: axisStyle.axisStroke,
-              strokeWidth: 1.0
-            },
-            axisLabel: {
-              fontSize: axisStyle.axisLabelSize, 
-              padding: 20,
-              color: axisStyle.axisLabelColour,
-              font: axisStyle.axisLabelFont
-            },
-            ticks: {
-              stroke: axisStyle.axisLabelColour
-            },
-            tickLabels: {
-              fontSize: axisStyle.tickLabelSize, 
-              padding: 5,
-              color: axisStyle.axisLabelColour,
-              font: axisStyle.axisLabelColour
-            },
-            grid: { 
-              stroke: gridlineStyle.gridlines ? gridlineStyle.stroke : null, 
-              strokeWidth: ({t})=> t % 5 === 0 ? gridlineStyle.strokeWidth + 0.5 : gridlineStyle.strokeWidth,
-              strokeDasharray: gridlineStyle.dashed ? '5 5' : ''
-            }}}
-        />
-        <VictoryAxis // x axis (years)
-          label="Age (y)"
-          tickLabelComponent={
-            <VictoryLabel 
-              dy={0}
-              style={[
-                { fill: axisStyle.axisLabelColour, fontSize: axisStyle.axisLabelSize },
-              ]}
-            />
-          }
-          style={{
-            axis: {stroke: "#756f6a"},
-            axisLabel: {fontSize: 10, padding: 20},
-            grid: {
-              stroke: ({ tick }) => gridlineStyle.gridlines ? gridlineStyle.stroke : 'transparent',
-              strokeWidth: gridlineStyle.strokeWidth,
-              strokeDasharray: gridlineStyle.dashed ? '5 5' : ''
-            },
-            ticks: {stroke: axisStyle.axisStroke},
-            tickLabels: {
-              fontSize: 15, 
-              padding: 5,
-              color: axisStyle.axisLabelColour,
-              font: axisStyle.axisLabelFont
-            }
-          }}
-        />
-        {/* Render the centiles - loop through the data set, create a line for each centile */}  
-        { centileData.map((reference, index)=>{
-                if (reference.length > 0){
-                  return (<VictoryGroup key={index}>
-                    {reference.map((centile:ICentile, centileIndex: number)=>{
-                      if (centileIndex % 2 === 0) { // even index - centile is dashed
-                        return (
-                        <VictoryLine
-                            key={centile.centile + '-' + centileIndex}
-                            padding={{ top: 20, bottom: 60 } }
-                            data={centile.data}
-                            style={{
-                              data: {
-                                  stroke: centileStyle.centileStroke,
-                                  strokeWidth: centileStyle.centileStrokeWidth,
-                                  strokeLinecap: 'round',
-                                  strokeDasharray: '5 5'
-                              }
-                            }}
+        {  
+          <VictoryAxis // this is the y axis
+            label={yAxisLabel(measurementMethod)}
+            style= {{
+              axis: {
+                stroke: axisStyle.axisStroke,
+                strokeWidth: 1.0
+              },
+              axisLabel: {
+                fontSize: axisStyle.axisLabelSize, 
+                padding: 20,
+                color: axisStyle.axisLabelColour,
+                fontFamily: axisStyle.axisLabelFont
+              },
+              ticks: {
+                stroke: axisStyle.axisLabelColour
+              },
+              tickLabels: {
+                fontSize: axisStyle.tickLabelSize, 
+                padding: 5,
+                color: axisStyle.axisLabelColour,
+                fontFamily: axisStyle.axisLabelColour
+              },
+              grid: { 
+                stroke: gridlineStyle.gridlines ? gridlineStyle.stroke : null, 
+                strokeWidth: ({t})=> t % 5 === 0 ? gridlineStyle.strokeWidth + 0.5 : gridlineStyle.strokeWidth,
+                strokeDasharray: gridlineStyle.dashed ? '5 5' : ''
+              }}}
+            dependentAxis />   
+        }
+
+        {/* Render the x axes - there are 3: one for years, one for months, one for weeks*/}
+              {/* Preterm babies are plotted in a separate chart. */}
+              {/* Months are rendered with lollipop ticks, a custom component */}
+
+                {/* X axis in Years  - rendered if there are  plotted child measurements and the max value is > 2y, or no measurements supplied */}
+                {  (domains.x[1] > 2 || (allMeasurementPairs.length > 0 ? allMeasurementPairs[allMeasurementPairs.length-1][0]["x"]> 2 : false)) && //render years x axis only if upper domain > 2 or highest supplied measurement > 2y
+                    <VictoryAxis
+                      minDomain={0}
+                      label="Age (years)"
+                      style={{
+                        axis: {
+                          stroke: axisStyle.axisStroke,
+                        },
+                        axisLabel: {
+                          fontSize: axisStyle.axisLabelSize, 
+                          padding: 20,
+                          color: axisStyle.axisStroke,
+                          fontFamily: axisStyle.axisLabelFont
+                        },
+                        ticks: {
+                          stroke: axisStyle.axisStroke 
+                        },
+                        tickLabels: {
+                          fontSize: axisStyle.tickLabelSize, 
+                          padding: 5,
+                          color: axisStyle.axisLabelColour
+                        },
+                        grid: { 
+                          stroke: ()=> gridlineStyle.gridlines ? gridlineStyle.stroke : null,
+                          strokeWidth: gridlineStyle.strokeWidth,
+                          strokeDasharray: gridlineStyle.dashed ? '5 5' : null
+                        }
+                      }}
+                      tickLabelComponent={
+                        <VictoryLabel 
+                          dy={0}
+                          style={[
+                            { fill: axisStyle.axisStroke, 
+                              fontSize: axisStyle.axisLabelSize,
+                              fontFamily: axisStyle.axisLabelFont
+                            },
+                          ]}
                         />
-                        )
-                      } else { // uneven index - centile is continuous
-                          return (
-                          <VictoryLine
-                              key={centile.centile + '-' + centileIndex}
-                              padding={{ top: 20, bottom: 60 }}
-                              data={centile.data}
-                              style={{
-                                data: {
-                                    stroke: centileStyle.centileStroke,
-                                    strokeWidth: centileStyle.centileStrokeWidth,
-                                    strokeLinecap: 'round'
-                                }
-                              }}
-                          />
-                          )
                       }
-                    })
-                  }
-                  </VictoryGroup>
-                  )
-                }})
+                      tickCount={xTickCount(domains.x[0], domains.x[1], "years")}
+                      tickFormat={(t)=> Math.round(t)}
+                    /> 
               }
+
+              {/* X axis in Months - rendered if child measurements exist and the max age < 2 but > 2 weeks */}
+
+              {  (domains.x[1] <= 2) &&
+                  <VictoryAxis
+                      minDomain={0}
+                      label="months"
+                      axisLabelComponent={
+                        <MonthsLabel 
+                          style={{
+                            fontFamily: axisStyle.axisLabelFont,
+                            fontSize: axisStyle.axisLabelSize
+                          }}
+                        />
+                      }
+                      style={{
+                        axis: {
+                          stroke: axisStyle.axisStroke,
+                        },
+                        axisLabel: {
+                          fontSize: axisStyle.axisLabelSize, 
+                          padding: 20,
+                          color: axisStyle.axisStroke,
+                          fontFamily: axisStyle.axisLabelFont
+                        },
+                        ticks: {
+                          stroke: axisStyle.axisStroke,
+                        },
+                        tickLabels: {
+                          fontSize: axisStyle.tickLabelSize, 
+                          padding: 5,
+                          color: axisStyle.axisLabelColour
+                        },
+                        grid: { 
+                          stroke: ()=> gridlineStyle.gridlines ? gridlineStyle.stroke : null,
+                          strokeWidth: gridlineStyle.strokeWidth,
+                          strokeDasharray: gridlineStyle.dashed ? '5 5' : null
+                        }
+                      }}
+                      tickLabelComponent={
+                        <ChartCircle style={{
+                          stroke: axisStyle.axisLabelColour
+                        }}/>
+                      }
+                      tickValues={[0, 0.083333, 0.166666, 0.249999, 0.333332, 0.416665, 0.499998, 0.583331, 0.666664, 0.749997, 0.83333, 0.916663, 0.999996, 1.083329, 1.166662, 1.249995, 1.333328, 1.416661, 1.499994, 1.583327, 1.66666, 1.749993, 1.833326, 1.916659, 1.999992]}
+                      tickCount={12}
+                      tickFormat={(t)=> {
+                        if(Math.round(t*12)%2===0){
+                          return Math.round(t*12)
+                        } else {
+                          return ''
+                        } }}
+                  /> }
+
+              {/* X axis in Weeks only: rendered if upper x domain of chart is <=2y */}
+                {  (domains.x[0] >= 0 && domains.x[1] <= 2) &&
+                    <VictoryAxis
+                      label="Age (weeks)"
+                      minDomain={0}
+                      style={{
+                        axis: {
+                          stroke: axisStyle.axisStroke,
+                        },
+                        axisLabel: {
+                          fontSize: axisStyle.axisLabelSize, 
+                          padding: 20,
+                          color: axisStyle.axisStroke,
+                          fontFamily: axisStyle.axisLabelFont
+                        },
+                        ticks: {
+                          stroke: axisStyle.axisStroke 
+                        },
+                        tickLabels: {
+                          fontSize: axisStyle.tickLabelSize, 
+                          padding: 5,
+                          color: axisStyle.axisLabelColour
+                        },
+                        grid: { 
+                          stroke: ()=> gridlineStyle.gridlines ? gridlineStyle.stroke : null,
+                          strokeWidth: gridlineStyle.strokeWidth,
+                          strokeDasharray: gridlineStyle.dashed ? '5 5' : null
+                        }
+                      }}
+                      tickLabelComponent={
+                        <VictoryLabel 
+                          dy={0}
+                          style={[
+                            { fill: axisStyle.axisLabelColour, 
+                              fontSize: axisStyle.tickLabelSize,
+                              fontFamily: axisStyle.axisLabelFont
+                            },
+                          ]}
+                        />
+                      }
+                      tickValues={[0, 0.03846, 0.07692, 0.11538, 0.15384, 0.1923, 0.23076, 0.26922, 0.30768, 0.34614, 0.3846, 0.42306, 0.46152, 0.49998, 0.53844, 0.5769, 0.61536, 0.65382, 0.69228, 0.73074, 0.7692, 0.80766, 0.84612, 0.88458, 0.92304, 0.9615, 0.99996, 1.03842, 1.07688, 1.11534, 1.1538, 1.19226, 1.23072, 1.26918, 1.30764, 1.3461, 1.38456, 1.42302, 1.46148, 1.49994, 1.5384, 1.57686, 1.61532, 1.65378, 1.69224, 1.7307, 1.76916, 1.80762, 1.84608, 1.88454, 1.923, 1.96146, 1.99992]}
+                      tickFormat={(t)=> Math.round(t*52)%2===0 ? Math.round(t*52) : ''}
+                    /> 
+                }
+
+        {/* Render the centiles - loop through the data set, create a line for each centile */}  
+        { centileData.map((centile:ICentile, centileIndex: number)=>{
+          if (centileIndex %2 === 0){
+            return ( //even centile index - dashed centile
+                <VictoryLine
+                  key={centile.centile + '-' + centileIndex}
+                  data={centile.data}
+                  style={{
+                    data: {
+                        stroke: centileStyle.centileStroke,
+                        strokeWidth: centileStyle.centileStrokeWidth,
+                        strokeLinecap: 'round',
+                        strokeDasharray: '5 5'
+                    }
+                  }}
+                />)
+              
+          } else { // uneven index - centile is continuous
+              return  (
+                
+                <VictoryLine
+                    key={centile.centile + '-' + centileIndex}
+                    data={centile.data}
+                    style={{
+                      data: {
+                          stroke: centileStyle.centileStroke,
+                          strokeWidth: centileStyle.centileStrokeWidth,
+                          strokeLinecap: 'round'
+                      }
+                    }}
+                />)
+          }
+        })}
 
               {/* create a series for each child measurements datapoint: a circle for chronological age, a cross for corrected - if the chronological and corrected age are the same, */}
               {/* the removeCorrectedAge function removes the corrected age to prevent plotting a circle on a cross, and having duplicate */}
@@ -303,11 +382,6 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
                   )
               })}
               </VictoryChart>
-            }
-              
-            { isPreterm &&
-              <button onClick={onClickShowPretermChartHandler}>{pretermLabel}</button>
-            }
     </div>)};
 
 export default TRISOMY21Chart;

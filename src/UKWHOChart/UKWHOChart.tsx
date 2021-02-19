@@ -152,10 +152,18 @@ function UKWHOChart({
                         }
                         if(datum.l === "For all Children plotted in this shaded area see instructions."){ // delayed puberty if plotted in this area
                           return "For all Children plotted\nin this shaded area\nsee instructions."
-                        } else return `${stndth(datum.l)} centile`
+                        } else{ 
+                          return `${stndth(datum.l)} centile`}
                       } 
                       if (datum.centile_band) { // these are the measurement points
                         // this is a measurement
+
+                        // handle the errors
+                        if (datum.observation_value_error !== null){
+                          return `${datum.observation_value_error}`
+                        }
+
+                        // handle the rest
                         if (datum.x <= 0.0383 && datum.age_type==="corrected_age"){
                           return "Corrected gestational age: "+ datum.corrected_gestation_weeks + '+'+ datum.corrected_gestation_days + ' weeks\n' + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
                         }

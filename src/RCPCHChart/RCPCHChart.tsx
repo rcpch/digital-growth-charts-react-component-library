@@ -47,6 +47,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     const [isLoading, setLoading] = useState(true)
 
     if (measurementsArray){
+      
       // there are plottable measurements - this sets the domains of the chart as it is initially rendered
       // the chart is rendered 2 years above the upper measurements and 2 years below the lowest.
       // this is overridden if zoom is used and the upper limits are set in the chart to updateDomains()
@@ -62,8 +63,13 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
           lowerAgeX=0 // in the Prematurity chart x domains are hard coded in the chart to 23 weeks 42 weeks. Switching to childhood 0-20y are shown
           upperAgeX=20
         } else {
-          lowerAgeX -= 2
-          upperAgeX +=2
+          if (lowerAgeX < 1 && lowerAgeX > 0){
+            lowerAgeX -=0.5
+            upperAgeX += 0.5
+          } else {
+            lowerAgeX -= 2
+            upperAgeX +=2
+          }
           if (lowerAgeX < 0){
             lowerAgeX = 0
           }
@@ -163,8 +169,6 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
             centileData={centileData}
             setTrisomy21Domains={updateDomains}
             domains={domains}
-            isPreterm={isPreterm}
-            termUnderThreeMonths={termUnderThreeMonths}
           />
       }
       { !isLoading && reference === 'turner' &&  sex === "female" && measurementMethod === "height" &&

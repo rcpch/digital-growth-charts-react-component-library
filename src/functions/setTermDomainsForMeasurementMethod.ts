@@ -46,12 +46,12 @@ export function setTermDomainsForMeasurementMethod(measurementMethod: string, ma
     if (reference==="trisomy-21"){
         if(measurementMethod === "height"){
             if (maxAge <= 2){
-                return [50, 100]
+                return [40, 100]
             }
             if(maxAge >2 && maxAge<4){
-                return [60,185]
+                return [30,115]
             }
-            return [50, 185]
+            return [40, 185]
         }
         if(measurementMethod === "weight"){
             if (maxAge <= 2){

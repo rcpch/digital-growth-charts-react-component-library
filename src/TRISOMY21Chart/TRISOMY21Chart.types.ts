@@ -1,6 +1,7 @@
 import { AxisStyle, CentileStyle, ChartStyle, GridlineStyle, MeasurementStyle } from "../interfaces/StyleObjects";
 import { Domains } from '../interfaces/Domains';
 import { PlottableMeasurement } from "../interfaces/RCPCHMeasurementObject";
+import { ICentile } from "../interfaces/CentilesObject";
 export interface TRISOMY21ChartProps {
     title: string,
     subtitle: string,
@@ -12,10 +13,8 @@ export interface TRISOMY21ChartProps {
     gridlineStyle: GridlineStyle
     centileStyle: CentileStyle
     measurementStyle: MeasurementStyle
-    centileData: [][],
+    centileData: ICentile[],
     setTrisomy21Domains([lowerXDomain, upperXDomain], [lowerYDomain, upperYDomain]): void
     domains: Domains
-    isPreterm: boolean
-    termUnderThreeMonths: boolean
 }
 
