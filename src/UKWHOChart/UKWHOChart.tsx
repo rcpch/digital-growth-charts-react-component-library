@@ -52,25 +52,70 @@ function UKWHOChart({
   termUnderThreeMonths
 }: UKWHOChartProps) {
 
-  let label = "Show Preterm Chart";
-  if (termUnderThreeMonths){
-    label = "Show Child Chart"
-  }
-  const [pretermLabel, setPretermLabel] = useState(label)
-  const [showPretermChart, setShowPretermChart] = useState(isPreterm || termUnderThreeMonths); // show preterm chart if preterm or <3/12
-  
-  const onClickShowPretermChartHandler=(event)=>{
-    setShowPretermChart(!showPretermChart)
-    if (showPretermChart){
-      setPretermLabel("Show Preterm Chart")
-    } else {
-      setPretermLabel("Show Child Chart")
-    }
-
-  }
-
+  // set variables
   const getEntireYDomain = setTermDomainsForMeasurementMethod(measurementMethod, 20, 'uk-who') // sets max y value for measurement
   
+  /*
+  if measurements are provided to plot, test if corrected and chronological ages are different
+  if they differ then both chronological and corrected ages need plotting, so the radiobuttons must be visible
+  If there is plottable data preterm or < 3/12 of age then only render the preterm chart
+  if ther is plottable data preterm/term, but also plottabled data that is older, show the child chart
+  */
+
+  let agesDiffer = false
+  let showChronologicalAge = true
+  let showCorrectedAge = true
+  let upperAge = 0
+  if (allMeasurementPairs.length > 0){ //test if there are measurements to plot
+    if (allMeasurementPairs[0].length > 1){ // test if chronological === decimal age (if the same corrected is removed)
+      if (allMeasurementPairs[0][0].x === allMeasurementPairs[0][1].x){
+        agesDiffer = false
+        upperAge = allMeasurementPairs[allMeasurementPairs.length-1][0].x
+      } else {
+        agesDiffer = true
+        upperAge = allMeasurementPairs[allMeasurementPairs.length-1][1].x
+      }
+    } else {
+      // the chronological and corrected ages are the same, so one has been removed
+      showChronologicalAge=true
+      showCorrectedAge=false
+      upperAge = allMeasurementPairs[allMeasurementPairs.length-1][0].x
+    }
+  }
+
+  // set state
+  const [showPretermChart, setShowPretermChart] = useState((isPreterm || termUnderThreeMonths) && (upperAge < 0.25)); // show preterm chart if preterm or <3/12
+  const [showToggle, setShowToggle] = useState(agesDiffer)
+  const [chronologicalAge, setChronologicalAge] = useState(showChronologicalAge)
+  const [correctedAge, setCorrectedAge] = useState(showCorrectedAge)
+
+  // event callbacks
+  const onClickShowPretermChartHandler=(event)=>{
+    setShowPretermChart(!showPretermChart)
+  }
+
+  const onSelectRadioButton = (event) => {
+    switch (event.target.value){
+      case "unadjusted":
+        setChronologicalAge(true)
+        setCorrectedAge(false)
+        break
+      case "adjusted":
+        setChronologicalAge(false)
+        setCorrectedAge(true)
+        break
+      case "both":
+        setChronologicalAge(true)
+        setCorrectedAge(true)
+        break
+      default:
+        setChronologicalAge(true)
+        setCorrectedAge(false)
+        break
+    }
+    
+  }
+
   return ( 
     <div data-testid="UKWHOChart" className="centred">
       {/* The VictoryChart is the parent component. It contains a Voronoi container, which groups data sets together for the purposes of tooltips */}
@@ -92,6 +137,8 @@ function UKWHOChart({
               domains={domains}
               centileData={centileData}
               termUnderThreeMonths={termUnderThreeMonths}
+              showChronologicalAge={chronologicalAge}
+              showCorrectedAge={correctedAge}
           />
           : 
           <VictoryChart
@@ -113,13 +160,16 @@ function UKWHOChart({
                         let lowerXDomain = domain.x[0] as number
                         let upperYDomain = domain.y[1] as number
                         let lowerYDomain = domain.y[0] as number
+                        
+                        // these prevent overzooming
                         if (lowerXDomain < 0){
                           lowerXDomain=0
                         }
                         if (upperXDomain > 20){
                           upperXDomain = 20
                         }
-                      setUKWHODomains([lowerXDomain, upperXDomain], [lowerYDomain, upperYDomain]) // this is a callback function to the parent RCPCHChart component which holds state
+
+                        setUKWHODomains([lowerXDomain, upperXDomain], [lowerYDomain, upperYDomain]) // this is a callback function to the parent RCPCHChart component which holds state
                       }
                     }
                     allowPan={true}
@@ -618,41 +668,70 @@ function UKWHOChart({
                     >
                       { match  ?
                       
-                          <VictoryScatter // chronological age
-                            data={measurementPair.length > 1 ? removeCorrectedAge(measurementPair) : measurementPair}
-                            symbol={ measurementStyle.measurementShape }
-                            style={{ data: { fill: measurementStyle.measurementFill } }}
-                            name='same_age' 
-                          />
+                      
+                      <VictoryScatter // chronological age
+                          data={measurementPair.length > 1 ? removeCorrectedAge(measurementPair) : measurementPair}
+                          symbol={ measurementStyle.measurementShape }
+                          style={{ data: { fill: measurementStyle.measurementFill } }}
+                          name='same_age' 
+                      />
 
-                        :
-
-                        <VictoryScatter // corrected age
-                            data={measurementPair}
-                            dataComponent={<XPoint/>}
-                          style={{ data: 
-                            { fill: measurementStyle.measurementFill } 
-                          }}
-                          name= 'split_age'
-                        />
+                      :
+                      
+                      <VictoryScatter // corrected age - a custom component that renders a dot or a cross
+                          data={measurementPair}
+                          dataComponent={
+                            <XPoint 
+                              showChronologicalAge={chronologicalAge}
+                              showCorrectedAge={correctedAge}
+                            />
                           }
-
+                        style={{ data: 
+                          { fill: measurementStyle.measurementFill } 
+                        }}
+                        name= 'split_age'
+                      />
+                      
+                    }
+                    { chronologicalAge && correctedAge && // only show the line if both cross and dot are rendered
                       <VictoryLine
                         name="linkLine"
                         style={{ 
                           data: { stroke: measurementStyle.measurementFill, strokeWidth: 1.25 },
                         }}
                         data={measurementPair}
-                      />
-                    </VictoryGroup>
+                      /> 
+                    }
+                     </VictoryGroup> 
                   )
               })
               
             }
               </VictoryChart>}
-              { isPreterm &&
-                <button onClick={onClickShowPretermChartHandler}>{pretermLabel}</button>
+              <span style={{display: "inline-block"}}>
+              { (isPreterm || termUnderThreeMonths) &&
+                <button 
+                  onClick={onClickShowPretermChartHandler}
+                  style={{
+                    backgroundColor: "#cb3083",
+                    border: "none",
+                    padding: 5,
+                    margin: 5,
+                    color: "white"
+                  }}
+                >{showPretermChart ? "Show Child Chart" : "Show Preterm Chart"}</button>
               }
+              { showToggle &&
+                <div className="radio-toolbar" onChange={onSelectRadioButton}>
+                  <input type="radio" id="adjusted" value="adjusted" name="adjustments"  checked={correctedAge && chronologicalAge===false}/>
+                  <label htmlFor="adjusted">Adjusted Age</label>
+                  <input type="radio" id="unadjusted"value="unadjusted" name="adjustments" checked={chronologicalAge && correctedAge===false} />
+                  <label htmlFor="unadjusted">Unadjusted Age</label>
+                  <input type="radio" id="both" value="both" name="adjustments" checked={correctedAge === chronologicalAge}/>
+                  <label htmlFor="both">Both Ages</label>
+                </div>
+              }
+              </span>
       </div>
   );
 }

@@ -44,7 +44,9 @@ const PRETERMChart: React.FC<PRETERMChartProps>=(
       measurementStyle,
       domains,
       centileData,
-      termUnderThreeMonths
+      termUnderThreeMonths,
+      showChronologicalAge,
+      showCorrectedAge
     }
 )=>{
 
@@ -450,39 +452,48 @@ const PRETERMChart: React.FC<PRETERMChartProps>=(
                 } else {
                   match=true
                 }
+                
                 return (
                     <VictoryGroup
                       key={'measurement'+index}
                     >
                       { match  ?
                       
-                          <VictoryScatter
+                      
+                        <VictoryScatter // chronological age
                             data={measurementPair.length > 1 ? removeCorrectedAge(measurementPair) : measurementPair}
                             symbol={ measurementStyle.measurementShape }
                             style={{ data: { fill: measurementStyle.measurementFill } }}
                             name='same_age' 
-                          />
+                        />
 
                         :
-
-                        <VictoryScatter 
+                        
+                        <VictoryScatter // corrected age
                             data={measurementPair}
-                            dataComponent={<XPoint/>}
+                            dataComponent={
+                              <XPoint 
+                                showChronologicalAge={showChronologicalAge}
+                                showCorrectedAge={showCorrectedAge}
+                              />
+                            }
                           style={{ data: 
                             { fill: measurementStyle.measurementFill } 
                           }}
                           name= 'split_age'
                         />
-
-                          }
-
-                      <VictoryLine
-                        name="linkLine"
-                        style={{ 
-                          data: { stroke: measurementStyle.measurementFill, strokeWidth: 1.25 },
-                        }}
-                        data={measurementPair}
-                      />
+                        
+                      }
+                      { showChronologicalAge && showCorrectedAge && // only show the line if both cross and dot are rendered
+                        <VictoryLine
+                          name="linkLine"
+                          style={{ 
+                            data: { stroke: measurementStyle.measurementFill, strokeWidth: 1.25 },
+                          }}
+                          data={measurementPair}
+                        /> 
+                      }
+                      
                     </VictoryGroup>
                   )
               })}

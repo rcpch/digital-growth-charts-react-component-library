@@ -15,5 +15,7 @@ export interface PRETERMChartProps {
     measurementStyle: MeasurementStyle
     domains: Domains
     centileData: [][],
-    termUnderThreeMonths: boolean
+    termUnderThreeMonths: boolean,
+    showChronologicalAge: boolean,
+    showCorrectedAge: boolean
 }

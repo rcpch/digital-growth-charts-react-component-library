@@ -2,11 +2,20 @@
 @import "../variables.scss";
 @import "../typography.scss";
 
-// .centred {
-//   @include font-defaults;
+.radio-toolbar input[type="radio"] {
+    display: none;
+  }
+  
+.radio-toolbar label {
+    display: inline-block;
+    padding: 4px 11px;
+    font-family: Arial;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #E497C1;
+    color: white;
+}
 
-//   color: $rcpch-darkgrey;
-//   text-align: center;
-//   margin: auto 0;
-//   display: block;
-// }
+.radio-toolbar input[type="radio"]:checked + label{
+    background-color: #cb3083;
+}
