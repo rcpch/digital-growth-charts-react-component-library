@@ -41,7 +41,7 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
                 domains
  }) => {
 
-  const getEntireYDomain = setTermDomainsForMeasurementMethod(measurementMethod, domains.x[1], 'trisomy-21')
+  const getEntireYDomain = setTermDomainsForMeasurementMethod(measurementMethod, domains.x[0], domains.x[1], 'trisomy-21')
 
    return (
     <div data-testid="TRISOMY21Chart" className="foo-bar">

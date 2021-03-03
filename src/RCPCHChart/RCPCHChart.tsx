@@ -17,6 +17,7 @@ import Trisomy21Chart from '../TRISOMY21Chart';
 // helper functions
 import { fetchUKWHOData } from '../functions/fetchUKWHOData';
 import { setTermDomainsForMeasurementMethod } from "../functions/setTermDomainsForMeasurementMethod";
+import { setYDomainsForMeasurement } from "../functions/setYDomainsForMeasurement";
 import { fetchTrisomy21Data } from '../functions/fetchTrisomy21Data';
 import { fetchTurnerData } from '../functions/fetchTurnerData';
 
@@ -36,8 +37,9 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
   
     let lowerAgeX = 0
     let upperAgeX = 20
-    let upperMeasurementY = 0
-    let lowerMeasurementY = 200
+    const yDomains = setTermDomainsForMeasurementMethod(measurementMethod, lowerAgeX, upperAgeX, reference)
+    let upperMeasurementY = yDomains[1]
+    let lowerMeasurementY = yDomains[0]
     
     let premature = false
     let termUnderThreeMonths = false;
@@ -45,6 +47,9 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     const emptyArray: [PlottableMeasurement,PlottableMeasurement][] = []
     const [measurementPairs, setMeasurementpairs] = useState(emptyArray)
     const [isLoading, setLoading] = useState(true)
+
+    console.log(measurementMethod + " " + reference + " " + sex);
+    
 
     if (measurementsArray){
       
@@ -59,6 +64,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
         upperAgeX = pairs[pairs.length-1][0].x
         lowerMeasurementY = pairs[0][0].y
         upperMeasurementY = pairs[pairs.length-1][0].y
+
         if (premature){
           lowerAgeX=0 // in the Prematurity chart x domains are hard coded in the chart to 23 weeks 42 weeks. Switching to childhood 0-20y are shown
           upperAgeX=20
@@ -76,15 +82,16 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
           if (upperAgeX > 20){
             upperAgeX = 20
           }
-          const yDomains = setTermDomainsForMeasurementMethod(measurementMethod, upperAgeX, reference)
-          lowerMeasurementY = yDomains[0]
-          upperMeasurementY = yDomains[1]
         }
+        const newYDomains = setYDomainsForMeasurement(reference, measurementMethod, lowerMeasurementY, upperMeasurementY)
+
+        lowerMeasurementY = newYDomains[0]
+        upperMeasurementY = newYDomains[1]
       }
       
     }
     
-    const [domains, setDomains] = useState<Domains | undefined>({x:[lowerAgeX,upperAgeX], y:setTermDomainsForMeasurementMethod(measurementMethod, upperAgeX, reference)}) // set the limits of the chart
+    const [domains, setDomains] = useState<Domains | undefined>({x:[lowerAgeX,upperAgeX], y:[lowerMeasurementY, upperMeasurementY]}) // set the limits of the chart
     const [isPreterm, setPreterm] = useState(premature) // prematurity flag
     const [centileData, setCentileData] = useState([])
 
@@ -136,7 +143,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
         setCentileData(newData)
       }
 
-      setDomains({x:[lowerXDomain, upperXDomain], y:setTermDomainsForMeasurementMethod(measurementMethod, upperXDomain, reference)}) // update the state with new domains 
+      setDomains({x:[lowerXDomain, upperXDomain], y:setTermDomainsForMeasurementMethod(measurementMethod, lowerXDomain, upperXDomain, reference)}) // update the state with new domains 
     }
   
   return (
@@ -146,7 +153,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
       
                   {/*       
                     The RCPCH chart component renders a single chart
-                    Essential props include:
+                    Props include:
                     reference
                     measurement_method
                     sex

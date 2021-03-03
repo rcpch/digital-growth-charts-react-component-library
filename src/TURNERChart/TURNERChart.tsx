@@ -41,7 +41,7 @@ const TURNERChart: React.FC<TURNERChartProps> = ({
                 domains
   }) => { 
 
-  const getEntireYDomain = setTermDomainsForMeasurementMethod(measurementMethod, domains.x[1], 'turner')
+  const getEntireYDomain = setTermDomainsForMeasurementMethod(measurementMethod, domains.x[0], domains.x[1], 'turner')
 
   return(
     <div data-testid="TURNERChart" >

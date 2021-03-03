@@ -2,7 +2,6 @@
 import { Domains } from '../interfaces/Domains'
 
 // data
-import ukwhoData from '../../chartdata/uk_who_chart_data'
 import trisomy21Data from '../../chartdata/trisomy21Data'
 
 // functions

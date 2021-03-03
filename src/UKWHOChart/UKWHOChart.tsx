@@ -10,7 +10,6 @@ import { stndth } from '../functions/suffix'
 import { removeCorrectedAge } from "../functions/removeCorrectedAge";
 import { measurementSuffix } from "../functions/measurementSuffix";
 import { yAxisLabel } from "../functions/yAxisLabel";
-import { setTermDomainsForMeasurementMethod } from "../functions/setTermDomainsForMeasurementMethod";
 
 // interfaces & props
 import { ICentile } from "../interfaces/CentilesObject";
@@ -51,9 +50,6 @@ function UKWHOChart({
   isPreterm,
   termUnderThreeMonths
 }: UKWHOChartProps) {
-
-  // set variables
-  const getEntireYDomain = setTermDomainsForMeasurementMethod(measurementMethod, 20, 'uk-who') // sets max y value for measurement
   
   /*
   if measurements are provided to plot, test if corrected and chronological ages are different
@@ -149,7 +145,7 @@ function UKWHOChart({
                   fill: chartStyle.backgroundColour
                 }
               }}
-              domain={{x: [domains.x[0]-1,domains.x[1]+1], y: getEntireYDomain}}
+              domain={{x: [domains.x[0]-1,domains.x[1]+1], y: [domains.y[0], domains.y[1]]}}
               minDomain={0}
               maxDomain={20}
               containerComponent={
