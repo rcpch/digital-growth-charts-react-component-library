@@ -219,6 +219,9 @@ function UKWHOChart({
 
                       if (datum.observation_value_error !== null){
                         // usually errors where impossible weights/heights etc
+                        
+                        // the datum.lay_decimal_age_comment and datum.clinician_decimal_age_comment are long strings
+                          // this adds new lines to ends of sentences or commas.
                         if (datum.age_type==="corrected_age"){
                           const finalCorrectedString = datum.lay_corrected_decimal_age_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n')
                           return "Corrected age: " + datum.corrected_gestation_weeks + "+" + datum.corrected_gestation_days +' weeks gestation\n' + finalCorrectedString + "\n" + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.observation_value_error
@@ -229,9 +232,6 @@ function UKWHOChart({
                       }
                         // measurement data points
                         if (datum.x <= 0.0383){ // <= 42 weeks
-                          
-                          // the datum.lay_decimal_age_comment and datum.clinician_decimal_age_comment are long strings
-                          // this adds new lines to ends of sentences or commas.
                           
                           if (datum.age_type==="corrected_age"){
                             
@@ -296,7 +296,7 @@ function UKWHOChart({
               {/* Months are rendered with lollipop ticks, a custom component */}
 
                 {/* X axis in Years  - rendered if there are  plotted child measurements and the max value is > 2y, or no measurements supplied */}
-                {  (domains.x[1] > 2 || (allMeasurementPairs.length > 0 ? allMeasurementPairs[allMeasurementPairs.length-1][0]["x"]> 2 : false)) && //render years x axis only if upper domain > 2 or highest supplied measurement > 2y
+                {  domains.x[1] > 2 && //render years x axis only if upper domain > 2 or highest supplied measurement > 2y //|| (allMeasurementPairs.length > 0 ? allMeasurementPairs[allMeasurementPairs.length-1][0]["x"]> 2 : false)
                     <VictoryAxis
                       minDomain={0}
                       label="Age (years)"
@@ -342,7 +342,7 @@ function UKWHOChart({
 
               {/* X axis in Months - rendered if child measurements exist and the max age < 2 but > 2 weeks */}
 
-              {  (domains.x[1] <= 2) &&
+              {  domains.x[1] <= 2 &&
                   <VictoryAxis
                       minDomain={0}
                       label="months"
@@ -394,7 +394,7 @@ function UKWHOChart({
                   /> }
 
               {/* X axis in Weeks only: rendered if upper x domain of chart is <=2y */}
-                {  (domains.x[0] >= 0 && domains.x[1] <= 2) &&
+                {  (domains.x[1] <= 2) &&
                     <VictoryAxis
                       label="Age (weeks)"
                       minDomain={0}
@@ -433,7 +433,7 @@ function UKWHOChart({
                           ]}
                         />
                       }
-                      tickValues={[0, 0.03846, 0.07692, 0.11538, 0.15384, 0.1923, 0.23076, 0.26922, 0.30768, 0.34614, 0.3846, 0.42306, 0.46152, 0.49998, 0.53844, 0.5769, 0.61536, 0.65382, 0.69228, 0.73074, 0.7692, 0.80766, 0.84612, 0.88458, 0.92304, 0.9615, 0.99996, 1.03842, 1.07688, 1.11534, 1.1538, 1.19226, 1.23072, 1.26918, 1.30764, 1.3461, 1.38456, 1.42302, 1.46148, 1.49994, 1.5384, 1.57686, 1.61532, 1.65378, 1.69224, 1.7307, 1.76916, 1.80762, 1.84608, 1.88454, 1.923, 1.96146, 1.99992]}
+                      tickValues={[0,0.03846,0.11538,0.1923,0.26922,0.34614,0.42306,0.49998,0.5769,0.65382,0.73074,0.80766,0.88458,0.9615,1.03842,1.11534,1.19226,1.26918,1.3461,1.42302,1.49994,1.57686,1.65378,1.7307,1.80762,1.88454,1.96146,2.03838,2.07684,2.1153,2.15376,2.19222,2.23068,2.26914,2.3076,2.34606,2.38452,2.42298,2.46144,2.4999,2.53836,2.57682,2.61528,2.65374,2.6922,2.73066,2.76912,2.80758,2.84604,2.8845,2.92296,2.96142,2.99988,3.03834,3.0768,3.11526,3.15372,3.19218,3.23064,3.2691,3.30756,3.34602,3.38448,3.42294,3.4614,3.49986,3.53832,3.57678,3.61524,3.6537,3.69216,3.73062,3.76908,3.80754,3.846,3.88446,3.92292,3.96138,3.99984]}
                       tickFormat={(t)=> Math.round(t*52)%2===0 ? Math.round(t*52) : ''}
                     /> 
                 }
@@ -515,6 +515,8 @@ function UKWHOChart({
 
               {  
                 <VictoryAxis // this is the y axis
+                  minDomain={0}
+                  orientation="left"
                   label={yAxisLabel(measurementMethod)}
                   style= {{
                     axis: {
@@ -598,7 +600,7 @@ function UKWHOChart({
               {/* to a step down in height weight and bmi in the data set. There is another tool tip at 4 years to indicate transition from datasets. */}
 
               { centileData.map((reference, index)=>{
-                if (index===0 && !isPreterm){ // do not want to render preterm data if this is not a preterm child - this will leave a 2 week gap from 0 to 2 weeks
+                if (index===0){ // do not want to render preterm data - this will leave a 2 week gap from 0 to 2 weeks
                   return
                 }
                 if (reference.length > 0){

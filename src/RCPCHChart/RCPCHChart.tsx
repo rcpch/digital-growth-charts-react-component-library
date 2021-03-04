@@ -48,9 +48,6 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     const [measurementPairs, setMeasurementpairs] = useState(emptyArray)
     const [isLoading, setLoading] = useState(true)
 
-    console.log(measurementMethod + " " + reference + " " + sex);
-    
-
     if (measurementsArray){
       
       // there are plottable measurements - this sets the domains of the chart as it is initially rendered
