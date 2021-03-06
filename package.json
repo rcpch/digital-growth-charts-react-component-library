@@ -1,6 +1,6 @@
 {
   "name": "@rcpch/digital-growth-charts-react-component-library",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "main": "build/index.js",
   "module": "build/index.esm.js",
   "files": [
@@ -38,10 +38,6 @@
     "url": "https://github.com/RCPCH/digital-growth-charts-react-component-library/issues"
   },
   "homepage": "https://github.com/RCPCH/digital-growth-charts-react-component-library#readme",
-  "peerDependencies": {
-    "react": "^16.14.0",
-    "react-dom": "^16.14.0"
-  },
   "devDependencies": {
     "@babel/core": "^7.10.3",
     "@rollup/plugin-commonjs": "^11.1.0",

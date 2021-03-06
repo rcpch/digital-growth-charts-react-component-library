@@ -27,10 +27,28 @@ We're happy to consider building components in other languages/frameworks, or to
 ## Getting started
 
 ```javascript
-npm i --save digital-growth-charts-react-component-library
+npm i --save @rcph/digital-growth-charts-react-component-library
 ```
 
 Victory Charts are a dependency (see below), themselves built on top of D3.js. On build it is likely you will get an error relating to circular dependencies for some files in the d3-interpolate module. The is an issue logged [here](https://github.com/d3/d3-interpolate/issues/58).
+
+If you want to run the package locally alongside the react client, there are some extra steps to go through. Since the chart library and the react client both use react, the charts will throw an error if you import them in the ```package.json``` of your app from a folder on your local machine. For example in your react app:
+```json
+"dependencies": {
+    "@rcpch/digital-growth-charts-react-component-library": "file:/Users/SimonChapman/Development/react/component-libraries/digital-growth-charts-react-component-library",
+}
+```
+The problem with this is that there are then 2 versions of react running. To overcome this, in your application:
+```
+cd node_modules/react
+npm link
+```
+In the root folder of your chart library:
+```
+npm link react
+```
+Repeat the same for ```react-dom``` ensuring all the package versions are the same for your app and the library.
+In this way, you can make changes to the chart package and they will appear in your app after ```npm run build``` and refresh your app.
 
 ## Structure
 
