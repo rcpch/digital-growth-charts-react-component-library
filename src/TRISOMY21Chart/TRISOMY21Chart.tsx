@@ -4,7 +4,7 @@ import { VictoryChart, VictoryGroup, VictoryLine, VictoryScatter, VictoryVoronoi
 
 // props / interfaces
 import { TRISOMY21ChartProps } from "./TRISOMY21Chart.types";
-import { PlottableMeasurement } from "../interfaces/RCPCHMeasurementObject";
+import { Measurement } from "../interfaces/RCPCHMeasurementObject";
 import { ICentile } from '../interfaces/CentilesObject';
 
 // components
@@ -30,7 +30,7 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
                 subtitle,
                 measurementMethod,
                 sex,
-                allMeasurementPairs,
+                childMeasurements,
                 chartStyle,
                 axisStyle,
                 gridlineStyle,
@@ -218,7 +218,7 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
               {/* Months are rendered with lollipop ticks, a custom component */}
 
                 {/* X axis in Years  - rendered if there are  plotted child measurements and the max value is > 2y, or no measurements supplied */}
-                {  (domains.x[1] > 2 || (allMeasurementPairs.length > 0 ? allMeasurementPairs[allMeasurementPairs.length-1][0]["x"]> 2 : false)) && //render years x axis only if upper domain > 2 or highest supplied measurement > 2y
+                { domains.x[1] > 2 && //render years x axis only if upper domain > 2 or highest supplied measurement > 2y
                     <VictoryAxis
                       minDomain={0}
                       label="Age (years)"
@@ -397,52 +397,43 @@ const TRISOMY21Chart: React.FC<TRISOMY21ChartProps> = ({
               {/* create a series for each child measurements datapoint: a circle for chronological age, a cross for corrected - if the chronological and corrected age are the same, */}
               {/* the removeCorrectedAge function removes the corrected age to prevent plotting a circle on a cross, and having duplicate */}
               {/* text in the tool tip */}
-              { allMeasurementPairs.map((measurementPair: [PlottableMeasurement,PlottableMeasurement], index) => {
+              { childMeasurements.map((childMeasurement: Measurement, index) => {
+          
+          
+          return (
+              <VictoryGroup
+                key={'measurement'+index}
+              >
+                { 
                 
-                let match=false
-                if(measurementPair.length > 1){
-                  
-                  const first = measurementPair[0]
-                  const second = measurementPair[1]
-                  match = first.x===second.x
-                } else {
-                  match=true
+                    <VictoryScatter
+                      data={[childMeasurement]}
+                      symbol={ measurementStyle.measurementShape }
+                      style={{ data: { fill: measurementStyle.measurementFill } }}
+                      name='same_age' 
+                    />
+
                 }
-                return (
-                    <VictoryGroup
-                      key={'measurement'+index}
-                    >
-                      { match  ?
-                      
-                          <VictoryScatter
-                            data={measurementPair.length > 1 ? removeCorrectedAge(measurementPair) : measurementPair}
-                            symbol={ measurementStyle.measurementShape }
-                            style={{ data: { fill: measurementStyle.measurementFill } }}
-                            name='same_age' 
-                          />
 
-                        :
+                  <VictoryScatter 
+                      data={[childMeasurement]}
+                      dataComponent={<XPoint/>}
+                    style={{ data: 
+                      { fill: measurementStyle.measurementFill } 
+                    }}
+                    name= 'split_age'
+                  />
 
-                        <VictoryScatter 
-                            data={measurementPair}
-                            dataComponent={<XPoint/>}
-                          style={{ data: 
-                            { fill: measurementStyle.measurementFill } 
-                          }}
-                          name= 'split_age'
-                        />
-                          }
-
-                      <VictoryLine
-                        name="linkLine"
-                        style={{ 
-                          data: { stroke: measurementStyle.measurementFill, strokeWidth: 1.25 },
-                        }}
-                        data={measurementPair}
-                      />
-                    </VictoryGroup>
-                  )
-              })}
+                <VictoryLine
+                  name="linkLine"
+                  style={{ 
+                    data: { stroke: measurementStyle.measurementFill, strokeWidth: 1.25 },
+                  }}
+                  data={[childMeasurement]}
+                />
+              </VictoryGroup>
+            )
+        })}
               </VictoryChart>
     </div>)};
 

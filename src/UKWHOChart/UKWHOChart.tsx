@@ -14,7 +14,7 @@ import { yAxisLabel } from "../functions/yAxisLabel";
 // interfaces & props
 import { ICentile } from "../interfaces/CentilesObject";
 import { UKWHOChartProps } from "./UKWHOChart.types";
-import { PlottableMeasurement } from "../interfaces/RCPCHMeasurementObject";
+import { Measurement } from "../interfaces/RCPCHMeasurementObject";
 
 // components/subcomponents
 import PRETERMChart from '../PRETERMChart/PRETERMChart'
@@ -38,7 +38,7 @@ function UKWHOChart({
   subtitle,
   measurementMethod,
   sex,
-  allMeasurementPairs,
+  childMeasurements,
   chartStyle,
   axisStyle,
   gridlineStyle,
@@ -51,6 +51,12 @@ function UKWHOChart({
   termUnderThreeMonths
 }: UKWHOChartProps) {
   
+  // set state
+  const [showPretermChart, setShowPretermChart] = useState(isPreterm || termUnderThreeMonths); // show preterm chart if preterm or <3/12
+  const [showToggle, setShowToggle] = useState(false)
+  const [chronologicalAge, setChronologicalAge] = useState(true)
+  const [correctedAge, setCorrectedAge] = useState(true)
+  
   /*
   if measurements are provided to plot, test if corrected and chronological ages are different
   if they differ then both chronological and corrected ages need plotting, so the radiobuttons must be visible
@@ -58,32 +64,18 @@ function UKWHOChart({
   if ther is plottable data preterm/term, but also plottabled data that is older, show the child chart
   */
 
-  let agesDiffer = false
-  let showChronologicalAge = true
-  let showCorrectedAge = true
-  let upperAge = 0
-  if (allMeasurementPairs.length > 0){ //test if there are measurements to plot
-    if (allMeasurementPairs[0].length > 1){ // test if chronological === decimal age (if the same corrected is removed)
-      if (allMeasurementPairs[0][0].x === allMeasurementPairs[0][1].x){
-        agesDiffer = false
-        upperAge = allMeasurementPairs[allMeasurementPairs.length-1][0].x
-      } else {
-        agesDiffer = true
-        upperAge = allMeasurementPairs[allMeasurementPairs.length-1][1].x
-      }
+  if (childMeasurements.length > 0){ //test if there are measurements to plot
+    
+    if (childMeasurements[0].measurement_dates.corrected_decimal_age === childMeasurements[0].measurement_dates.chronological_decimal_age){
+      setShowToggle(false)
     } else {
-      // the chronological and corrected ages are the same, so one has been removed
-      showChronologicalAge=true
-      showCorrectedAge=false
-      upperAge = allMeasurementPairs[allMeasurementPairs.length-1][0].x
+      setShowToggle(true)
+      setChronologicalAge(true)
+      setCorrectedAge(false)
     }
+    
   }
 
-  // set state
-  const [showPretermChart, setShowPretermChart] = useState((isPreterm || termUnderThreeMonths) && (upperAge < 0.25)); // show preterm chart if preterm or <3/12
-  const [showToggle, setShowToggle] = useState(agesDiffer)
-  const [chronologicalAge, setChronologicalAge] = useState(showChronologicalAge)
-  const [correctedAge, setCorrectedAge] = useState(showCorrectedAge)
 
   // event callbacks
   const onClickShowPretermChartHandler=(event)=>{
@@ -124,7 +116,7 @@ function UKWHOChart({
               subtitle={subtitle}
               measurementMethod={measurementMethod}
               sex={sex}
-              allMeasurementPairs={allMeasurementPairs}
+              childMeasurements={childMeasurements}
               chartStyle={chartStyle}
               axisStyle={axisStyle}
               gridlineStyle={gridlineStyle}
@@ -649,55 +641,45 @@ function UKWHOChart({
               {/* the removeCorrectedAge function removes the corrected age to prevent plotting a circle on a cross, and having duplicate */}
               {/* text in the tool tip */}
               
-              { allMeasurementPairs.map((measurementPair: [PlottableMeasurement, PlottableMeasurement], index) => {
+              { childMeasurements.map((childMeasurement: Measurement, index) => {
                 
-                let match=false
-                if(measurementPair.length > 1){
-                  
-                  const first = measurementPair[0]
-                  const second = measurementPair[1]
-                  match = first.x===second.x
-                } else {
-                  match=true
-                }
                 return (
                     <VictoryGroup
                       key={'measurement'+index}
                     >
-                      { match  ?
+                    { correctedAge  &&
                       
+                        <VictoryScatter // corrected age - a custom component that renders a dot or a cross
+                            data={[childMeasurement.plottable_data.centile_data.corrected_decimal_age_data]}
+                            dataComponent={
+                              <XPoint 
+                                showChronologicalAge={chronologicalAge}
+                                showCorrectedAge={correctedAge}
+                              />
+                            }
+                          style={{ data: 
+                            { fill: measurementStyle.measurementFill } 
+                          }}
+                          // name= 'split_age'
+                        />
                       
-                      <VictoryScatter // chronological age
-                          data={measurementPair.length > 1 ? removeCorrectedAge(measurementPair) : measurementPair}
+                      }
+                      
+                      { chronologicalAge && <VictoryScatter // chronological age
+                          data={[childMeasurement.plottable_data.centile_data.chronological_decimal_age_data]}
                           symbol={ measurementStyle.measurementShape }
                           style={{ data: { fill: measurementStyle.measurementFill } }}
-                          name='same_age' 
+                          // name='same_age' 
                       />
-
-                      :
-                      
-                      <VictoryScatter // corrected age - a custom component that renders a dot or a cross
-                          data={measurementPair}
-                          dataComponent={
-                            <XPoint 
-                              showChronologicalAge={chronologicalAge}
-                              showCorrectedAge={correctedAge}
-                            />
-                          }
-                        style={{ data: 
-                          { fill: measurementStyle.measurementFill } 
-                        }}
-                        name= 'split_age'
-                      />
-                      
                     }
+                      
                     { chronologicalAge && correctedAge && // only show the line if both cross and dot are rendered
                       <VictoryLine
                         name="linkLine"
                         style={{ 
                           data: { stroke: measurementStyle.measurementFill, strokeWidth: 1.25 },
                         }}
-                        data={measurementPair}
+                        data={[childMeasurement]}
                       /> 
                     }
                      </VictoryGroup> 

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 // props and interfaces
 import { RCPCHChartProps } from "./RCPCHChart.types";
 import { Domains } from "../interfaces/Domains";
-import { PlottableMeasurement } from '../interfaces/RCPCHMeasurementObject';
+import { Measurement } from '../interfaces/RCPCHMeasurementObject';
 
 // style sheets
 import "./RCPCHChart.scss";
@@ -20,6 +20,7 @@ import { setTermDomainsForMeasurementMethod } from "../functions/setTermDomainsF
 import { setYDomainsForMeasurement } from "../functions/setYDomainsForMeasurement";
 import { fetchTrisomy21Data } from '../functions/fetchTrisomy21Data';
 import { fetchTurnerData } from '../functions/fetchTurnerData';
+import { loadPartialConfig } from "@babel/core";
 
 const RCPCHChart: React.FC<RCPCHChartProps> = ({ 
         title,
@@ -34,34 +35,44 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
         centileStyle,
         measurementStyle
 }) => {
-  
+    
+    // set state
+    const [childMeasurements, setChildMeasurements] = useState(measurementsArray)
+    const yDomains = setTermDomainsForMeasurementMethod(measurementMethod, 0, 20, reference)
+    const [isLoading, setLoading] = useState(true)
+    const [domains, setDomains] = useState<Domains | undefined>({x:[0,20], y:yDomains}) // set the limits of the chart
+    const [isPreterm, setPreterm] = useState(false) 
+    const [centileData, setCentileData] = useState([])
+    
+    // set domain thresholds and flags
     let lowerAgeX = 0
     let upperAgeX = 20
-    const yDomains = setTermDomainsForMeasurementMethod(measurementMethod, lowerAgeX, upperAgeX, reference)
     let upperMeasurementY = yDomains[1]
     let lowerMeasurementY = yDomains[0]
     
     let premature = false
     let termUnderThreeMonths = false;
+    console.log(measurementsArray);
+    
+    if (measurementsArray.length > 0){ // if there are child measurements
 
-    const emptyArray: [PlottableMeasurement,PlottableMeasurement][] = []
-    const [measurementPairs, setMeasurementpairs] = useState(emptyArray)
-    const [isLoading, setLoading] = useState(true)
-
-    if (measurementsArray){
+      // sort the measuremnents by corrected age
+      const measurements: Measurement[] = measurementsArray.sort((a,b)=> a.measurement_dates.corrected_decimal_age < b.measurement_dates.corrected_decimal_age ? 1 : -1)
       
-      // there are plottable measurements - this sets the domains of the chart as it is initially rendered
+      // if there are child measurements - this sets the domains of the chart as it is initially rendered
       // the chart is rendered 2 years above the upper measurements and 2 years below the lowest.
       // this is overridden if zoom is used and the upper limits are set in the chart to updateDomains()
-      const pairs = measurementsArray as [PlottableMeasurement, PlottableMeasurement][]   
-      if (pairs.length > 0){
-        premature = pairs[0][0].x < (((37 * 7) - (40*7)) / 365.25) // 37 weeks gestation
-        termUnderThreeMonths = pairs[0][0].x < 0.25 // 3 months
-        lowerAgeX = pairs[0][0].x
-        upperAgeX = pairs[pairs.length-1][0].x
-        lowerMeasurementY = pairs[0][0].y
-        upperMeasurementY = pairs[pairs.length-1][0].y
 
+      
+        lowerAgeX = measurements[0].measurement_dates.corrected_decimal_age
+        upperAgeX = measurements[measurements.length-1].measurement_dates.corrected_decimal_age
+        lowerMeasurementY = measurements[0].child_observation_value.measurement_value
+        upperMeasurementY = measurements[measurements.length-1].child_observation_value.measurement_value
+
+        premature = lowerAgeX < (((37 * 7) - (40*7)) / 365.25) // baby is premature as first measurement in array is below 37 weeks gestation
+        termUnderThreeMonths = upperAgeX <= 0.25 // infant is under 3 months
+
+      
         if (premature){
           lowerAgeX=0 // in the Prematurity chart x domains are hard coded in the chart to 23 weeks 42 weeks. Switching to childhood 0-20y are shown
           upperAgeX=20
@@ -84,16 +95,16 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
 
         lowerMeasurementY = newYDomains[0]
         upperMeasurementY = newYDomains[1]
-      }
       
+        setPreterm(premature)
+        setDomains({x:[lowerAgeX, upperAgeX], y: [lowerMeasurementY, upperMeasurementY]})
+
+        setChildMeasurements(measurements)
     }
-    
-    const [domains, setDomains] = useState<Domains | undefined>({x:[lowerAgeX,upperAgeX], y:[lowerMeasurementY, upperMeasurementY]}) // set the limits of the chart
-    const [isPreterm, setPreterm] = useState(premature) // prematurity flag
-    const [centileData, setCentileData] = useState([])
+
 
   useEffect(()=>{
-
+    
     let newData //initialise the chart state
     if (reference==="trisomy-21"){
       newData = fetchTrisomy21Data(sex, measurementMethod, domains) //refresh chart data based on new domains
@@ -107,7 +118,6 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
       newData = fetchUKWHOData(sex, measurementMethod, domains) //refresh chart data based on new domains
       setCentileData(newData) // update the state with new centile data (tailored to visible area of chart)
     }
-    setMeasurementpairs(measurementsArray)
     setLoading(false)
     
   },[measurementsArray])
@@ -158,11 +168,11 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
                     styles - there is one each for the chart, centiles, axes, gridlines and measurement points
                   */}
       
-      { !isLoading && centileData != null && reference === 'trisomy-21' &&
+      {/* { !isLoading && centileData != null && reference === 'trisomy-21' &&
           <Trisomy21Chart
             title={title}
             subtitle={subtitle}
-            allMeasurementPairs={measurementPairs}
+            allMeasurementPairs={childMeasurements}
             measurementMethod={measurementMethod}
             sex={sex}
             chartStyle={chartStyle}
@@ -179,7 +189,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
            <TurnerChart
               title={title}
               subtitle={subtitle}
-              allMeasurementPairs={measurementPairs}
+              allMeasurementPairs={childMeasurements}
               measurementMethod={measurementMethod}
               sex={sex}
               chartStyle={chartStyle}
@@ -191,12 +201,12 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
               setTurnerDomains={updateDomains}
               domains={domains}
           />
-      }
+      } */}
       { !isLoading && reference === 'uk-who' &&
           <UKWHOChart
             title={title}
             subtitle={subtitle}
-            allMeasurementPairs={measurementPairs}
+            childMeasurements={childMeasurements}
             measurementMethod={measurementMethod}
             sex={sex}
             chartStyle={chartStyle}
@@ -211,31 +221,86 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
             termUnderThreeMonths={termUnderThreeMonths}
           />
       }
+      {
+        isLoading &&
+        <h1> Loading ...</h1>
+      }
     </div >
   )}
 
 export default RCPCHChart;
 
 /*
-measurementPair
-[
-age_type: "corrected_age"
-calendar_age: "2 months, 2 weeks and 5 days"
-centile_band: "This height measurement is between the 25th and 50th centiles."
-centile_value: 42
-corrected_gestation_days: null
-corrected_gestation_weeks: null
-x: 0.2190280629705681
-y: 60
 
-age_type: "chronological_age"
-calendar_age: "4 months and 4 weeks"
-centile_band: "This height measurement is between the 25th and 50th centiles."
-centile_value: 42
-corrected_gestation_days: null
-corrected_gestation_weeks: null
-x: 0.4106776180698152
-y: 60
-]
+    return object structure from API
+    [
+      {
+    "birth_data": {
+        "birth_date": "Sun, 12 Apr 2020 00:00:00 GMT",
+        "estimated_date_delivery": "Sat, 06 Jun 2020 00:00:00 GMT",
+        "estimated_date_delivery_string": "Sat 06 June, 2020",
+        "gestation_days": 1,
+        "gestation_weeks": 32,
+        "sex": "male"
+    },
+    "child_observation_value": {
+        "measurement_method": "height",
+        "observation_value": 59.0,
+        "observation_value_error": null
+    },
+    "measurement_calculated_values": {
+        "chronological_centile": 61,
+        "chronological_centile_band": "This height measurement is between the 50th and 75th centiles.",
+        "chronological_measurement_error": null,
+        "chronological_sds": 0.28069095352196843,
+        "corrected_centile": 100.0,
+        "corrected_centile_band": "This height measurement is above the normal range.",
+        "corrected_measurement_error": null,
+        "corrected_sds": 3.5133513940394825
+    },
+    "measurement_dates": {
+        "chronological_calendar_age": "2 months",
+        "chronological_decimal_age": 0.16700889801505817,
+        "chronological_decimal_age_error": null,
+        "comments": {
+            "clinician_chronological_decimal_age_comment": "No correction has been made for gestational age.",
+            "clinician_corrected_decimal_age_comment": "Correction for gestational age has been made.",
+            "lay_chronological_decimal_age_comment": "This is your child's age without taking into account their gestation at birth.",
+            "lay_corrected_decimal_age_comment": "Because your child was born at 32+1 weeks gestation, an adjustment has been made to take this into account."
+        },
+        "corrected_calendar_age": "6 days",
+        "corrected_decimal_age": 0.01642710472279261,
+        "corrected_decimal_age_error": null,
+        "corrected_gestational_age": {
+            "corrected_gestation_days": 6,
+            "corrected_gestation_weeks": 40
+        },
+        "observation_date": "Fri, 12 Jun 2020 00:00:00 GMT"
+    },
+    "plottable_data": {
+        "centile_data": {
+            "chronological_decimal_age_data": {
+                "x": 0.16700889801505817,
+                "y": 59.0
+            },
+            "corrected_decimal_age_data": {
+                "x": 0.01642710472279261,
+                "y": 59.0
+            }
+        },
+        "sds_data": {
+            "chronological_decimal_age_data": {
+                "x": 0.16700889801505817,
+                "y": 0.28069095352196843
+            },
+            "corrected_decimal_age_data": {
+                "x": 0.01642710472279261,
+                "y": 3.5133513940394825
+            }
+        }
+    }
+}
+    ]
+    
 
 */
