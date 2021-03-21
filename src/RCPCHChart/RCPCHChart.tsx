@@ -20,7 +20,6 @@ import { setTermDomainsForMeasurementMethod } from "../functions/setTermDomainsF
 import { setYDomainsForMeasurement } from "../functions/setYDomainsForMeasurement";
 import { fetchTrisomy21Data } from '../functions/fetchTrisomy21Data';
 import { fetchTurnerData } from '../functions/fetchTurnerData';
-import { loadPartialConfig } from "@babel/core";
 
 const RCPCHChart: React.FC<RCPCHChartProps> = ({ 
         title,
@@ -57,12 +56,11 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     if (measurementsArray.length > 0){ // if there are child measurements
 
       // sort the measuremnents by corrected age
-      const measurements: Measurement[] = measurementsArray.sort((a,b)=> a.measurement_dates.corrected_decimal_age < b.measurement_dates.corrected_decimal_age ? 1 : -1)
+      const measurements = measurementsArray.sort((a,b)=> a.measurement_dates.corrected_decimal_age < b.measurement_dates.corrected_decimal_age ? 1 : -1)
       
       // if there are child measurements - this sets the domains of the chart as it is initially rendered
       // the chart is rendered 2 years above the upper measurements and 2 years below the lowest.
       // this is overridden if zoom is used and the upper limits are set in the chart to updateDomains()
-
       
         lowerAgeX = measurements[0].measurement_dates.corrected_decimal_age
         upperAgeX = measurements[measurements.length-1].measurement_dates.corrected_decimal_age
