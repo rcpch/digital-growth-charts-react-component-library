@@ -36,7 +36,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
 }) => {
     
     // set state
-    const [childMeasurements, setChildMeasurements] = useState(measurementsArray)
+    const [childMeasurements, setChildMeasurements] = useState([])
     const yDomains = setTermDomainsForMeasurementMethod(measurementMethod, 0, 20, reference)
     const [isLoading, setLoading] = useState(true)
     const [domains, setDomains] = useState<Domains | undefined>({x:[0,20], y:yDomains}) // set the limits of the chart
@@ -53,19 +53,19 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     let termUnderThreeMonths = false;
     console.log(measurementsArray);
     
-    if (measurementsArray.length > 0){ // if there are child measurements
+    if (measurementsArray?.length > 0){ // if there are child measurements
 
       // sort the measuremnents by corrected age
-      const measurements = measurementsArray.sort((a,b)=> a.measurement_dates.corrected_decimal_age < b.measurement_dates.corrected_decimal_age ? 1 : -1)
+      // const measurements = apiResult.result.sort((a,b)=> a.measurement_dates.corrected_decimal_age < b.measurement_dates.corrected_decimal_age ? 1 : -1)
       
       // if there are child measurements - this sets the domains of the chart as it is initially rendered
       // the chart is rendered 2 years above the upper measurements and 2 years below the lowest.
       // this is overridden if zoom is used and the upper limits are set in the chart to updateDomains()
       
-        lowerAgeX = measurements[0].measurement_dates.corrected_decimal_age
-        upperAgeX = measurements[measurements.length-1].measurement_dates.corrected_decimal_age
-        lowerMeasurementY = measurements[0].child_observation_value.measurement_value
-        upperMeasurementY = measurements[measurements.length-1].child_observation_value.measurement_value
+        lowerAgeX = measurementsArray[0].measurement_dates.corrected_decimal_age
+        upperAgeX = measurementsArray[measurementsArray.length-1].measurement_dates.corrected_decimal_age
+        lowerMeasurementY = measurementsArray[0].child_observation_value.measurement_value
+        upperMeasurementY = measurementsArray[measurementsArray.length-1].child_observation_value.measurement_value
 
         premature = lowerAgeX < (((37 * 7) - (40*7)) / 365.25) // baby is premature as first measurement in array is below 37 weeks gestation
         termUnderThreeMonths = upperAgeX <= 0.25 // infant is under 3 months
@@ -97,7 +97,9 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
         setPreterm(premature)
         setDomains({x:[lowerAgeX, upperAgeX], y: [lowerMeasurementY, upperMeasurementY]})
 
-        setChildMeasurements(measurements)
+        // setAPIResult(oldState=>{
+        //   return {...oldState, ...{result: measurements}
+        // }})
     }
 
 
@@ -204,7 +206,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
           <UKWHOChart
             title={title}
             subtitle={subtitle}
-            childMeasurements={childMeasurements}
+            childMeasurements={measurementsArray || []}
             measurementMethod={measurementMethod}
             sex={sex}
             chartStyle={chartStyle}
