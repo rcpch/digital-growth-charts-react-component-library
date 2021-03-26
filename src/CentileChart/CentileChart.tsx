@@ -103,9 +103,6 @@ function CentileChart({
     }
   }, [childMeasurements]);
 
-  console.log(childMeasurements);
-  
-
   // event callbacks
   const onClickShowPretermChartHandler = (event) => {
     setShowPretermChart(!showPretermChart);
@@ -213,6 +210,7 @@ function CentileChart({
                 />
               }
               labels={({ datum }) => {
+                
                 // tooltip labels
                 if (datum.l) {
                   if (datum.x === 4) {
@@ -230,39 +228,37 @@ function CentileChart({
                     // delayed puberty if plotted in this area
                     return 'For all Children plotted\nin this shaded area\nsee instructions.';
                   } else {
+                    // these are the centile labels
                     return `${stndth(datum.l)} centile`;
                   }
-                }
+                } 
                 if (
                   datum.centile_band ||
                   datum.observation_value_error ||
-                  datum.measurement_error
+                  datum.observation_value_error
                 ) {
                   // these are the measurement points
                   // this is a measurement
-
+                  
                   /// errors
-                  if (datum.measurement_error !== null) {
+                  if (datum.observation_value_error !== null) {
                     // usually requests where there is no reference data
                     if (datum.age_type === 'corrected_age') {
-                      const finalCorrectedString = datum.lay_corrected_decimal_age_comment
+                      const finalCorrectedString = datum.lay_comment
                         .replaceAll(', ', ',\n')
                         .replaceAll('. ', '.\n');
                       return (
                         'Corrected age: ' +
-                        datum.corrected_gestation_weeks +
-                        '+' +
-                        datum.corrected_gestation_days +
-                        ' weeks gestation\n' +
+                        datum.corrected_gestational_age + '\n' +
                         finalCorrectedString +
                         '\n' +
                         datum.y +
                         measurementSuffix(measurementMethod) +
                         '\n' +
-                        datum.measurement_error
+                        datum.observation_value_error
                       );
                     } else {
-                      let finalChronologicalString = datum.lay_chronological_decimal_age_comment
+                      let finalChronologicalString = datum.lay_comment
                         .replaceAll(', ', ',\n')
                         .replaceAll('. ', '.\n');
                       return (
@@ -274,7 +270,7 @@ function CentileChart({
                         datum.y +
                         measurementSuffix(measurementMethod) +
                         '\n' +
-                        datum.measurement_error
+                        datum.observation_value_error
                       );
                     }
                   }
@@ -284,16 +280,15 @@ function CentileChart({
 
                     // the datum.lay_decimal_age_comment and datum.clinician_decimal_age_comment are long strings
                     // this adds new lines to ends of sentences or commas.
-                    if (datum.age_type === 'corrected_age') {
-                      const finalCorrectedString = datum.lay_corrected_decimal_age_comment
+                    if (datum.age_type === 'corrected_age' && correctedAge!==chronologicalAge ) {
+                      console.log(datum.age_type);
+                      
+                      const finalCorrectedString = datum.lay_comment
                         .replaceAll(', ', ',\n')
                         .replaceAll('. ', '.\n');
                       return (
-                        'Corrected age: ' +
-                        datum.corrected_gestation_weeks +
-                        '+' +
-                        datum.corrected_gestation_days +
-                        ' weeks gestation\n' +
+                        'Corrected age: ' + datum.corrected_gestational_age
+                        + '\n' +
                         finalCorrectedString +
                         '\n' +
                         datum.y +
@@ -302,7 +297,8 @@ function CentileChart({
                         datum.observation_value_error
                       );
                     } else {
-                      let finalChronologicalString = datum.lay_chronological_decimal_age_comment
+                      
+                      let finalChronologicalString = datum.lay_comment
                         .replaceAll(', ', ',\n')
                         .replaceAll('. ', '.\n');
                       return (
@@ -323,11 +319,11 @@ function CentileChart({
                     // <= 42 weeks
 
                     if (datum.age_type === 'corrected_age') {
-                      if (datum.measurement_error != null) {
-                        return `${datum.corrected_measurement_error}`;
+                      if (datum.observation_value_error != null) {
+                        return `${datum.observation_value_error}`;
                       }
 
-                      const finalCorrectedString = datum.lay_corrected_decimal_age_comment
+                      const finalCorrectedString = datum.lay_comment
                         .replaceAll(', ', ',\n')
                         .replaceAll('. ', '.\n');
                       return (
@@ -344,11 +340,11 @@ function CentileChart({
                         datum.centile_band
                       );
                     } else {
-                      if (datum.measurement_error != null) {
-                        return `${datum.chronological_measurement_error}`;
+                      if (datum.observation_value_error != null) {
+                        return `${datum.observation_value_error}`;
                       }
 
-                      let finalChronologicalString = datum.lay_chronological_decimal_age_comment
+                      let finalChronologicalString = datum.lay_comment
                         .replaceAll(', ', ',\n')
                         .replaceAll('. ', '.\n');
                       return (
@@ -364,12 +360,12 @@ function CentileChart({
                       );
                     }
                   } else {
-                    if (datum.corrected_measurement_error) {
-                      return `${datum.chronological_measurement_error}`;
+                    if (datum.observation_value_error) {
+                      return `${datum.observation_value_error}`;
                     }
 
                     if (datum.age_type === 'corrected_age') {
-                      const finalCorrectedString = datum.lay_corrected_decimal_age_comment
+                      const finalCorrectedString = datum.lay_comment
                         .replaceAll(', ', ',\n')
                         .replaceAll('. ', '.\n');
                       return (
@@ -384,7 +380,7 @@ function CentileChart({
                         datum.centile_band
                       );
                     }
-                    let finalChronologicalString = datum.lay_chronological_decimal_age_comment
+                    let finalChronologicalString = datum.lay_comment
                       .replaceAll(', ', ',\n')
                       .replaceAll('. ', '.\n');
                     return (
@@ -995,7 +991,7 @@ function CentileChart({
               id="adjusted"
               value="adjusted"
               name="adjustments"
-              checked={correctedAge && chronologicalAge === false}
+              defaultChecked={correctedAge && chronologicalAge === false}
             />
             <label htmlFor="adjusted">Adjusted Age</label>
             <input
@@ -1003,7 +999,7 @@ function CentileChart({
               id="unadjusted"
               value="unadjusted"
               name="adjustments"
-              checked={chronologicalAge && correctedAge === false}
+              defaultChecked={chronologicalAge && correctedAge === false}
             />
             <label htmlFor="unadjusted">Unadjusted Age</label>
             <input
@@ -1011,7 +1007,7 @@ function CentileChart({
               id="both"
               value="both"
               name="adjustments"
-              checked={correctedAge === chronologicalAge}
+              defaultChecked={correctedAge === chronologicalAge}
             />
             <label htmlFor="both">Both Ages</label>
           </div>

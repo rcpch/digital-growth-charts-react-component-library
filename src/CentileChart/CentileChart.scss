@@ -2,8 +2,20 @@
 @import "../variables.scss";
 @import "../typography.scss";
 
-.foo-bar {
-  @include font-defaults;
+.radio-toolbar input[type="radio"] {
+  display: none;
+}
 
-  color: red;
+.radio-toolbar label {
+  display: inline-block;
+  padding: 4px 11px;
+  font-family: Arial;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #E497C1;
+  color: white;
+}
+
+.radio-toolbar input[type="radio"]:checked + label{
+  background-color: #cb3083;
 }
