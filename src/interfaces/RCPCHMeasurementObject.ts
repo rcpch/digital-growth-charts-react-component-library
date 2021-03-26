@@ -9,7 +9,7 @@ export interface Measurement {
     },
     child_observation_value: {
       measurement_method: 'height' | 'weight' | 'bmi' | 'bmi',
-      measurement_value: number,
+      observation_value: number,
       observation_value_error: string
     },
     measurement_dates: {

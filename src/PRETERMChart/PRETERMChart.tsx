@@ -16,13 +16,12 @@ import ukwhoData from '../../chartdata/uk_who_chart_data'
 // helper functions
 import { stndth } from '../functions/suffix';
 import { measurementSuffix } from '../functions/measurementSuffix';
-import { removeCorrectedAge } from '../functions/removeCorrectedAge';
 import { yAxisLabel } from '../functions/yAxisLabel';
 import { setPretermDomainForMeasurementMethod } from '../functions/setPretermDomainForMeasurementMethod';
 
 // interfaces
 import { ICentile } from '../interfaces/CentilesObject';
-import { PlottableMeasurement } from '../interfaces/RCPCHMeasurementObject';
+import { Measurement } from '../interfaces/RCPCHMeasurementObject';
 
 // subcomponents
 import { XPoint } from '../SubComponents/XPoint';
@@ -36,7 +35,7 @@ const PRETERMChart: React.FC<PRETERMChartProps>=(
       subtitle,
       measurementMethod,
       sex,
-      allMeasurementPairs,
+      childMeasurements,
       chartStyle,
       axisStyle,
       gridlineStyle,
@@ -440,37 +439,16 @@ const PRETERMChart: React.FC<PRETERMChartProps>=(
               {/* create a series for each child measurements datapoint: a circle for chronological age, a cross for corrected - if the chronological and corrected age are the same, */}
               {/* the removeCorrectedAge function removes the corrected age to prevent plotting a circle on a cross, and having duplicate */}
               {/* text in the tool tip */}
-              { allMeasurementPairs.map((measurementPair: [PlottableMeasurement, PlottableMeasurement], index) => {
-                
-                let match=false
-                if(measurementPair.length > 1){
-                  
-                  const first = measurementPair[0]
-                  const second = measurementPair[1]
-                  match = first.x===second.x
-                
-                } else {
-                  match=true
-                }
+              { childMeasurements.map((childMeasurement: Measurement, index) => {
                 
                 return (
                     <VictoryGroup
                       key={'measurement'+index}
                     >
-                      { match  ?
+                    { showCorrectedAge  &&
                       
-                      
-                        <VictoryScatter // chronological age
-                            data={measurementPair.length > 1 ? removeCorrectedAge(measurementPair) : measurementPair}
-                            symbol={ measurementStyle.measurementShape }
-                            style={{ data: { fill: measurementStyle.measurementFill } }}
-                            name='same_age' 
-                        />
-
-                        :
-                        
-                        <VictoryScatter // corrected age
-                            data={measurementPair}
+                        <VictoryScatter // corrected age - a custom component that renders a dot or a cross
+                            data={[childMeasurement.plottable_data.centile_data.corrected_decimal_age_data]}
                             dataComponent={
                               <XPoint 
                                 showChronologicalAge={showChronologicalAge}
@@ -480,23 +458,33 @@ const PRETERMChart: React.FC<PRETERMChartProps>=(
                           style={{ data: 
                             { fill: measurementStyle.measurementFill } 
                           }}
-                          name= 'split_age'
+                          // name= 'split_age'
                         />
-                        
-                      }
-                      { showChronologicalAge && showCorrectedAge && // only show the line if both cross and dot are rendered
-                        <VictoryLine
-                          name="linkLine"
-                          style={{ 
-                            data: { stroke: measurementStyle.measurementFill, strokeWidth: 1.25 },
-                          }}
-                          data={measurementPair}
-                        /> 
+                      
                       }
                       
-                    </VictoryGroup>
+                      { showChronologicalAge && <VictoryScatter // chronological age
+                          data={[childMeasurement.plottable_data.centile_data.chronological_decimal_age_data]}
+                          symbol={ measurementStyle.measurementShape }
+                          style={{ data: { fill: measurementStyle.measurementFill } }}
+                          // name='same_age' 
+                      />
+                    }
+                      
+                    { showChronologicalAge && showCorrectedAge && // only show the line if both cross and dot are rendered
+                      <VictoryLine
+                        name="linkLine"
+                        style={{ 
+                          data: { stroke: measurementStyle.measurementFill, strokeWidth: 1.25 },
+                        }}
+                        data={[childMeasurement]}
+                      /> 
+                    }
+                     </VictoryGroup> 
                   )
-              })}
+              })
+              
+            }
               </VictoryChart>
     )
 }

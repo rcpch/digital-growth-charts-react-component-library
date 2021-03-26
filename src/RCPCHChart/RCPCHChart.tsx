@@ -13,6 +13,7 @@ import "./RCPCHChart.scss";
 import UKWHOChart from "../UKWHOChart";
 import TurnerChart from '../TURNERChart';
 import Trisomy21Chart from '../TRISOMY21Chart';
+import CentileChart from "../CentileChart";
 
 // helper functions
 import { fetchUKWHOData } from '../functions/fetchUKWHOData';
@@ -35,123 +36,162 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
         measurementStyle
 }) => {
     
-    // set state
-    const [childMeasurements, setChildMeasurements] = useState([])
-    const yDomains = setTermDomainsForMeasurementMethod(measurementMethod, 0, 20, reference)
-    const [isLoading, setLoading] = useState(true)
-    const [domains, setDomains] = useState<Domains | undefined>({x:[0,20], y:yDomains}) // set the limits of the chart
-    const [isPreterm, setPreterm] = useState(false) 
-    const [centileData, setCentileData] = useState([])
-    
-    // set domain thresholds and flags
-    let lowerAgeX = 0
-    let upperAgeX = 20
-    let upperMeasurementY = yDomains[1]
-    let lowerMeasurementY = yDomains[0]
-    
-    let premature = false
-    let termUnderThreeMonths = false;
-    console.log(measurementsArray);
-    
-    if (measurementsArray?.length > 0){ // if there are child measurements
+  // set state
+  const yDomains = setTermDomainsForMeasurementMethod(
+    measurementMethod,
+    0,
+    20,
+    reference
+  );
+  const [isLoading, setLoading] = useState(true);
+  const [domains, setDomains] = useState<Domains | undefined>({
+    x: [0, 20],
+    y: yDomains,
+  }); // set the limits of the chart
+  const [isPreterm, setPreterm] = useState(false);
+  const [centileData, setCentileData] = useState([]);
+  const [termUnderThreeMonths, setTermUnderThreeMonths] = useState(false);
+
+  // set domain thresholds and flags
+  let lowerAgeX = 0;
+  let upperAgeX = 20;
+  let upperMeasurementY = yDomains[1];
+  let lowerMeasurementY = yDomains[0];
+
+  console.log(measurementsArray);
+  
+
+  useEffect(() => {
+    if (measurementsArray?.length > 0) {
+      let premature = false;
+      // if there are child measurements
 
       // sort the measuremnents by corrected age
       // const measurements = apiResult.result.sort((a,b)=> a.measurement_dates.corrected_decimal_age < b.measurement_dates.corrected_decimal_age ? 1 : -1)
-      
+
       // if there are child measurements - this sets the domains of the chart as it is initially rendered
       // the chart is rendered 2 years above the upper measurements and 2 years below the lowest.
       // this is overridden if zoom is used and the upper limits are set in the chart to updateDomains()
-      
-        lowerAgeX = measurementsArray[0].measurement_dates.corrected_decimal_age
-        upperAgeX = measurementsArray[measurementsArray.length-1].measurement_dates.corrected_decimal_age
-        lowerMeasurementY = measurementsArray[0].child_observation_value.measurement_value
-        upperMeasurementY = measurementsArray[measurementsArray.length-1].child_observation_value.measurement_value
 
-        premature = lowerAgeX < (((37 * 7) - (40*7)) / 365.25) // baby is premature as first measurement in array is below 37 weeks gestation
-        termUnderThreeMonths = upperAgeX <= 0.25 // infant is under 3 months
+      lowerAgeX = measurementsArray[0].measurement_dates.corrected_decimal_age;
+      upperAgeX =
+        measurementsArray[measurementsArray.length - 1].measurement_dates
+          .corrected_decimal_age;
+      lowerMeasurementY =
+        measurementsArray[0].child_observation_value.observation_value;
+      upperMeasurementY =
+        measurementsArray[measurementsArray.length - 1].child_observation_value
+          .observation_value;
 
-      
-        if (premature){
-          lowerAgeX=0 // in the Prematurity chart x domains are hard coded in the chart to 23 weeks 42 weeks. Switching to childhood 0-20y are shown
-          upperAgeX=20
+      premature = lowerAgeX < (37 * 7 - 40 * 7) / 365.25; // baby is premature as first measurement in array is below 37 weeks gestation
+      setTermUnderThreeMonths(upperAgeX <= 0.25); // infant is under 3 months
+
+      if (premature) {
+        lowerAgeX = 0; // in the Prematurity chart x domains are hard coded in the chart to 23 weeks 42 weeks. Switching to childhood 0-20y are shown
+        upperAgeX = 20;
+      } else {
+        if (lowerAgeX < 1 && lowerAgeX > 0) {
+          lowerAgeX -= 0.5;
+          upperAgeX += 0.5;
         } else {
-          if (lowerAgeX < 1 && lowerAgeX > 0){
-            lowerAgeX -=0.5
-            upperAgeX += 0.5
-          } else {
-            lowerAgeX -= 2
-            upperAgeX +=2
-          }
-          if (lowerAgeX < 0){
-            lowerAgeX = 0
-          }
-          if (upperAgeX > 20){
-            upperAgeX = 20
-          }
+          lowerAgeX -= 2;
+          upperAgeX += 2;
         }
-        const newYDomains = setYDomainsForMeasurement(reference, measurementMethod, lowerMeasurementY, upperMeasurementY)
+        if (lowerAgeX < 0) {
+          lowerAgeX = 0;
+        }
+        if (upperAgeX > 20) {
+          upperAgeX = 20;
+        }
+      }
+      const newYDomains = setYDomainsForMeasurement(
+        reference,
+        measurementMethod,
+        lowerMeasurementY,
+        upperMeasurementY
+      );
 
-        lowerMeasurementY = newYDomains[0]
-        upperMeasurementY = newYDomains[1]
-      
-        setPreterm(premature)
-        setDomains({x:[lowerAgeX, upperAgeX], y: [lowerMeasurementY, upperMeasurementY]})
+      lowerMeasurementY = newYDomains[0];
+      upperMeasurementY = newYDomains[1];
 
-        // setAPIResult(oldState=>{
-        //   return {...oldState, ...{result: measurements}
-        // }})
+      setPreterm(premature);
+      setDomains({
+        x: [lowerAgeX, upperAgeX],
+        y: [lowerMeasurementY, upperMeasurementY],
+      });
     }
+  }, [measurementsArray]);
 
-
-  useEffect(()=>{
-    
-    let newData //initialise the chart state
-    if (reference==="trisomy-21"){
-      newData = fetchTrisomy21Data(sex, measurementMethod, domains) //refresh chart data based on new domains
+  useEffect(() => {
+    let newData; //initialise the chart state
+    if (reference === 'trisomy-21') {
+      newData = fetchTrisomy21Data(sex, measurementMethod, domains); //refresh chart data based on new domains
       setCentileData(newData); // update the state with new centile data (tailored to visible area of chart)
     }
-    if (reference==="turner"){
-      newData = fetchTurnerData(sex, measurementMethod, domains) //refresh chart data based on new domains
-      setCentileData(newData) // update the state with new centile data (tailored to visible area of chart)
+    if (reference === 'turner') {
+      newData = fetchTurnerData(sex, measurementMethod, domains); //refresh chart data based on new domains
+      setCentileData(newData); // update the state with new centile data (tailored to visible area of chart)
     }
-    if (reference==="uk-who"){
-      newData = fetchUKWHOData(sex, measurementMethod, domains) //refresh chart data based on new domains
-      setCentileData(newData) // update the state with new centile data (tailored to visible area of chart)
+    if (reference === 'uk-who') {
+      newData = fetchUKWHOData(sex, measurementMethod, domains); //refresh chart data based on new domains
+      setCentileData(newData); // update the state with new centile data (tailored to visible area of chart)
     }
-    setLoading(false)
-    
-  },[measurementsArray])
+    setLoading(false);
+  }, [measurementsArray]);
 
-    const updateDomains = ([lowerXDomain, upperXDomain], [lowerYDomain, upperYDomain]) => { // call back from chart.tsx on domain change
-      let newUpperY = upperYDomain
-      let newLowerY = lowerYDomain
-      
-      // if (lowerYDomain >= upperMeasurementY){ // the measurement is not visible
-      //   newUpperY = upperYDomain
-      //   newLowerY = lowerMeasurementY
-      // } 
-      // if (upperYDomain < upperMeasurementY){
-      //   newLowerY=lowerYDomain
-      //   newUpperY= upperMeasurementY-10
-      // }
+  const updateDomains = (
+    [lowerXDomain, upperXDomain],
+    [lowerYDomain, upperYDomain]
+  ) => {
+    // call back from chart.tsx on domain change
+    let newUpperY = upperYDomain;
+    let newLowerY = lowerYDomain;
 
-      let newData
-      if (reference==="trisomy-21"){
-        newData = fetchTrisomy21Data(sex, measurementMethod, {x:[lowerXDomain, upperXDomain], y:[newLowerY, newUpperY]}) //refresh chart data based on new domains
-        setCentileData(newData) // update the state with new centile data (tailored to visible area of chart)
-      }
-      if (reference==="turner"){
-        newData = fetchTurnerData(sex, measurementMethod, {x:[lowerXDomain, upperXDomain], y:[newUpperY, newLowerY]}) //refresh chart data based on new domains
-        setCentileData(newData) // update the state with new centile data (tailored to visible area of chart)
-      }
-      if (reference==="uk-who"){
-        newData = fetchUKWHOData(sex, measurementMethod, {x:[lowerXDomain, upperXDomain], y:[newLowerY, newUpperY]}) //refresh chart data based on new domains
-        // update the state with new centile data (tailored to visible area of chart)
-        setCentileData(newData)
-      }
+    // if (lowerYDomain >= upperMeasurementY){ // the measurement is not visible
+    //   newUpperY = upperYDomain
+    //   newLowerY = lowerMeasurementY
+    // }
+    // if (upperYDomain < upperMeasurementY){npm
+    //   newLowerY=lowerYDomain
+    //   newUpperY= upperMeasurementY-10
+    // }
 
-      setDomains({x:[lowerXDomain, upperXDomain], y:setTermDomainsForMeasurementMethod(measurementMethod, lowerXDomain, upperXDomain, reference)}) // update the state with new domains 
+    let newData;
+    if (reference === 'trisomy-21') {
+      newData = fetchTrisomy21Data(sex, measurementMethod, {
+        x: [lowerXDomain, upperXDomain],
+        y: [newLowerY, newUpperY],
+      }); //refresh chart data based on new domains
+      setCentileData(newData); // update the state with new centile data (tailored to visible area of chart)
     }
+    if (reference === 'turner') {
+      newData = fetchTurnerData(sex, measurementMethod, {
+        x: [lowerXDomain, upperXDomain],
+        y: [newUpperY, newLowerY],
+      }); //refresh chart data based on new domains
+      setCentileData(newData); // update the state with new centile data (tailored to visible area of chart)
+    }
+    if (reference === 'uk-who') {
+      newData = fetchUKWHOData(sex, measurementMethod, {
+        x: [lowerXDomain, upperXDomain],
+        y: [newLowerY, newUpperY],
+      }); //refresh chart data based on new domains
+      // update the state with new centile data (tailored to visible area of chart)
+      setCentileData(newData);
+    }
+
+    setDomains({
+      x: [lowerXDomain, upperXDomain],
+      y: setTermDomainsForMeasurementMethod(
+        measurementMethod,
+        lowerXDomain,
+        upperXDomain,
+        reference
+      ),
+    }); // update the state with new domains
+  };
+
+  // const updateDomains = () => {};
   
   return (
     <div
@@ -203,7 +243,8 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
           />
       } */}
       { !isLoading && reference === 'uk-who' &&
-          <UKWHOChart
+          <CentileChart
+            reference={reference}
             title={title}
             subtitle={subtitle}
             childMeasurements={measurementsArray || []}
@@ -231,7 +272,6 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
 export default RCPCHChart;
 
 /*
-
     return object structure from API
     [
       {
@@ -302,5 +342,4 @@ export default RCPCHChart;
 }
     ]
     
-
 */
