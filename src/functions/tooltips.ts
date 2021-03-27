@@ -62,7 +62,8 @@ export function tooltipText(
               if (age_type==="chronological_age"){
                 let finalChronologicalString = lay_comment
                   .replaceAll(', ', ',\n')
-                  .replaceAll('. ', '.\n');
+                  .replaceAll('. ', '.\n')
+                  .replaceAll('account ', 'account\n');
                 return (
                   'Actual age: ' +
                   calendar_age +
