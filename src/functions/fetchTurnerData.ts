@@ -6,8 +6,9 @@ import turnerData from '../../chartdata/turners_chart_data'
 
 // functions
 import { filterData } from '../functions/filterData';
+import { ICentile } from '../interfaces/CentilesObject';
 
-export function fetchTurnerData(sex: string, measurementMethod:string, domains:Domains): [][] {
+export function fetchTurnerData(sex: string, measurementMethod:string, domains:Domains): ICentile[][] {
     // Fetches the data to render based on the domain thresholds
     // truncates arrays based on visible data.
     if (sex === "male" || measurementMethod !== "height"){
@@ -26,5 +27,5 @@ export function fetchTurnerData(sex: string, measurementMethod:string, domains:D
         return  filterData(centile.data, lowerX, upperX, lowerY, upperY)
     })
 
-    return truncatedTurnerDataSet;
+    return [truncatedTurnerDataSet]
 }

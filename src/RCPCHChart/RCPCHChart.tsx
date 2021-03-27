@@ -5,14 +5,12 @@ import React, { useState, useEffect } from "react";
 import { RCPCHChartProps } from "./RCPCHChart.types";
 import { Domains } from "../interfaces/Domains";
 import { Measurement } from '../interfaces/RCPCHMeasurementObject';
+import { ICentile } from '../interfaces/CentilesObject';
 
 // style sheets
 import "./RCPCHChart.scss";
 
 // components
-import UKWHOChart from "../UKWHOChart";
-import TurnerChart from '../TURNERChart';
-import Trisomy21Chart from '../TRISOMY21Chart';
 import CentileChart from "../CentileChart";
 
 // helper functions
@@ -49,7 +47,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     y: yDomains,
   }); // set the limits of the chart
   const [isPreterm, setPreterm] = useState(false);
-  const [centileData, setCentileData] = useState([]);
+  const [centileReferenceData, setCentileReferenceData] = useState([]);
   const [termUnderThreeMonths, setTermUnderThreeMonths] = useState(false);
 
   // set domain thresholds and flags
@@ -123,18 +121,18 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
   }, [measurementsArray]);
 
   useEffect(() => {
-    let newData; //initialise the chart state
+    let newData: ICentile[][]; //initialise the chart state
     if (reference === 'trisomy-21') {
       newData = fetchTrisomy21Data(sex, measurementMethod, domains); //refresh chart data based on new domains
-      setCentileData(newData); // update the state with new centile data (tailored to visible area of chart)
+      setCentileReferenceData(newData); // update the state with new centile data (tailored to visible area of chart)
     }
     if (reference === 'turner') {
       newData = fetchTurnerData(sex, measurementMethod, domains); //refresh chart data based on new domains
-      setCentileData(newData); // update the state with new centile data (tailored to visible area of chart)
+      setCentileReferenceData(newData); // update the state with new centile data (tailored to visible area of chart)
     }
     if (reference === 'uk-who') {
       newData = fetchUKWHOData(sex, measurementMethod, domains); //refresh chart data based on new domains
-      setCentileData(newData); // update the state with new centile data (tailored to visible area of chart)
+      setCentileReferenceData(newData); // update the state with new centile data (tailored to visible area of chart)
     }
     setLoading(false);
   }, [measurementsArray]);
@@ -156,28 +154,29 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     //   newUpperY= upperMeasurementY-10
     // }
 
-    let newData;
+    
+    let newReferenceData: ICentile[][];
     if (reference === 'trisomy-21') {
-      newData = fetchTrisomy21Data(sex, measurementMethod, {
+      newReferenceData = fetchTrisomy21Data(sex, measurementMethod, {
         x: [lowerXDomain, upperXDomain],
         y: [newLowerY, newUpperY],
       }); //refresh chart data based on new domains
-      setCentileData(newData); // update the state with new centile data (tailored to visible area of chart)
+      setCentileReferenceData(newReferenceData); // update the state with new centile data (tailored to visible area of chart)
     }
     if (reference === 'turner') {
-      newData = fetchTurnerData(sex, measurementMethod, {
+      newReferenceData = fetchTurnerData(sex, measurementMethod, {
         x: [lowerXDomain, upperXDomain],
         y: [newUpperY, newLowerY],
       }); //refresh chart data based on new domains
-      setCentileData(newData); // update the state with new centile data (tailored to visible area of chart)
+      setCentileReferenceData(newReferenceData); // update the state with new centile data (tailored to visible area of chart)
     }
     if (reference === 'uk-who') {
-      newData = fetchUKWHOData(sex, measurementMethod, {
+      newReferenceData = fetchUKWHOData(sex, measurementMethod, {
         x: [lowerXDomain, upperXDomain],
         y: [newLowerY, newUpperY],
       }); //refresh chart data based on new domains
       // update the state with new centile data (tailored to visible area of chart)
-      setCentileData(newData);
+      setCentileReferenceData(newReferenceData);
     }
 
     setDomains({
@@ -242,7 +241,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
               domains={domains}
           />
       } */}
-      { !isLoading && reference === 'uk-who' &&
+      { !isLoading &&
           <CentileChart
             reference={reference}
             title={title}
@@ -255,7 +254,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
             gridlineStyle={gridlineStyle}
             centileStyle={centileStyle}
             measurementStyle={measurementStyle}
-            centileData={centileData}
+            centileReferenceData={centileReferenceData}
             setUKWHODomains={updateDomains}
             domains={domains}
             isPreterm={isPreterm}

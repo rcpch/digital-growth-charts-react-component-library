@@ -1,4 +1,5 @@
 import { Measurement } from '../interfaces/RCPCHMeasurementObject';
+import { ICentile } from '../interfaces/CentilesObject';
 import { ChartStyle, AxisStyle, GridlineStyle, MeasurementStyle, CentileStyle } from '../interfaces/StyleObjects';
 import { Domains } from '../interfaces/Domains';
 
@@ -17,7 +18,7 @@ export interface CentileChartProps {
     measurementStyle?: MeasurementStyle
     domains: Domains
     setUKWHODomains([lowerXDomain, upperXDomain], [lowerYDomain, upperYDomain]): void
-    centileData: [][],
+    centileReferenceData: ICentile[][],
     isPreterm: boolean,
     termUnderThreeMonths: boolean
 }

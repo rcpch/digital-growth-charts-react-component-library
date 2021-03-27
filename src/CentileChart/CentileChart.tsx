@@ -11,29 +11,26 @@ import {
   VictoryAxis,
   VictoryLegend,
   VictoryLabel,
-  VictoryArea,
-  Point,
+  VictoryArea, 
   createContainer,
 } from 'victory';
 
-// data
+// data - necessary for the puberty lines
 import ukwhoData from '../../chartdata/uk_who_chart_data';
 
 // helper functions
-import { stndth } from '../functions/suffix';
-import { measurementSuffix } from '../functions/measurementSuffix';
 import { yAxisLabel } from '../functions/yAxisLabel';
 
 // interfaces & props
-import { ICentile } from '../interfaces/CentilesObject';
 import { CentileChartProps } from './CentileChart.types';
-// import { PlottableMeasurement } from '../interfaces/RCPCHMeasurementObject';
+import { ICentile } from '../interfaces/CentilesObject';
 
 // components/subcomponents
 import PRETERMChart from '../PRETERMChart/PRETERMChart';
 import { XPoint } from '../SubComponents/XPoint';
 import { ChartCircle } from '../SubComponents/ChartCircle';
 import { MonthsLabel } from '../SubComponents/MonthsLabel';
+// import { NineCentiles } from '../SubComponents/Centiles';
 
 // style sheets
 import './CentileChart.scss';
@@ -47,6 +44,7 @@ import {
 } from '../SubComponents/DelayedPuberty';
 import { xTickCount } from '../functions/xTickCount';
 import { Measurement } from '../interfaces/RCPCHMeasurementObject';
+import { tooltipText } from '../functions/tooltips';
 
 const VictoryZoomVoronoiContainer = createContainer<
   VictoryZoomContainerProps,
@@ -66,7 +64,7 @@ function CentileChart({
   centileStyle,
   measurementStyle,
   domains,
-  centileData,
+  centileReferenceData,
   setUKWHODomains,
   isPreterm,
   termUnderThreeMonths,
@@ -129,6 +127,12 @@ function CentileChart({
     }
   };
 
+  // // reference data - not UK-WHO is made up of an array of references, where as T21 & Turner are not
+  // let referenceData = centileData
+  // if (reference !== "uk-who"){
+  //   referenceData: ICentile = centileData[0]
+  // }
+
   return (
     <div data-testid="UKWHOChart" className="centred">
       {/* The VictoryChart is the parent component. It contains a Voronoi container, which groups data sets together for the purposes of tooltips */}
@@ -148,7 +152,7 @@ function CentileChart({
           centileStyle={centileStyle}
           measurementStyle={measurementStyle}
           domains={domains}
-          centileData={centileData}
+          centileData={centileReferenceData}
           termUnderThreeMonths={termUnderThreeMonths}
           showChronologicalAge={chronologicalAge}
           showCorrectedAge={correctedAge}
@@ -210,196 +214,22 @@ function CentileChart({
                 />
               }
               labels={({ datum }) => {
-                
-                // tooltip labels
-                if (datum.l) {
-                  if (datum.x === 4) {
-                    // move from UK-WHO data to UK90 data at 4y
-                    return 'Transit point from\nUK-WHO to UK90 data.';
-                  }
-                  if (datum.x === 2 && measurementMethod === 'height') {
-                    // step down at 2 y where children measured standing (height), not lying (length)
-                    return 'Measure length until age 2;\nMeasure height after age 2.\nA child’s height is usually\nslightly less than their length.';
-                  }
-                  if (
-                    datum.l ===
-                    'For all Children plotted in this shaded area see instructions.'
-                  ) {
-                    // delayed puberty if plotted in this area
-                    return 'For all Children plotted\nin this shaded area\nsee instructions.';
-                  } else {
-                    // these are the centile labels
-                    return `${stndth(datum.l)} centile`;
-                  }
-                } 
-                if (
-                  datum.centile_band ||
-                  datum.observation_value_error ||
-                  datum.observation_value_error
-                ) {
-                  // these are the measurement points
-                  // this is a measurement
-                  
-                  /// errors
-                  if (datum.observation_value_error !== null) {
-                    // usually requests where there is no reference data
-                    if (datum.age_type === 'corrected_age') {
-                      const finalCorrectedString = datum.lay_comment
-                        .replaceAll(', ', ',\n')
-                        .replaceAll('. ', '.\n');
-                      return (
-                        'Corrected age: ' +
-                        datum.corrected_gestational_age + '\n' +
-                        finalCorrectedString +
-                        '\n' +
-                        datum.y +
-                        measurementSuffix(measurementMethod) +
-                        '\n' +
-                        datum.observation_value_error
-                      );
-                    } else {
-                      let finalChronologicalString = datum.lay_comment
-                        .replaceAll(', ', ',\n')
-                        .replaceAll('. ', '.\n');
-                      return (
-                        'Actual age: ' +
-                        datum.calendar_age +
-                        '\n' +
-                        finalChronologicalString +
-                        '\n' +
-                        datum.y +
-                        measurementSuffix(measurementMethod) +
-                        '\n' +
-                        datum.observation_value_error
-                      );
-                    }
-                  }
-
-                  if (datum.observation_value_error !== null) {
-                    // usually errors where impossible weights/heights etc
-
-                    // the datum.lay_decimal_age_comment and datum.clinician_decimal_age_comment are long strings
-                    // this adds new lines to ends of sentences or commas.
-                    if (datum.age_type === 'corrected_age' && correctedAge!==chronologicalAge ) {
-                      console.log(datum.age_type);
-                      
-                      const finalCorrectedString = datum.lay_comment
-                        .replaceAll(', ', ',\n')
-                        .replaceAll('. ', '.\n');
-                      return (
-                        'Corrected age: ' + datum.corrected_gestational_age
-                        + '\n' +
-                        finalCorrectedString +
-                        '\n' +
-                        datum.y +
-                        measurementSuffix(measurementMethod) +
-                        '\n' +
-                        datum.observation_value_error
-                      );
-                    } else {
-                      
-                      let finalChronologicalString = datum.lay_comment
-                        .replaceAll(', ', ',\n')
-                        .replaceAll('. ', '.\n');
-                      return (
-                        'Actual age: ' +
-                        datum.calendar_age +
-                        '\n' +
-                        finalChronologicalString +
-                        '\n' +
-                        datum.y +
-                        measurementSuffix(measurementMethod) +
-                        '\n' +
-                        datum.observation_value_error
-                      );
-                    }
-                  }
-                  // measurement data points
-                  if (datum.x <= 0.0383) {
-                    // <= 42 weeks
-
-                    if (datum.age_type === 'corrected_age') {
-                      if (datum.observation_value_error != null) {
-                        return `${datum.observation_value_error}`;
-                      }
-
-                      const finalCorrectedString = datum.lay_comment
-                        .replaceAll(', ', ',\n')
-                        .replaceAll('. ', '.\n');
-                      return (
-                        'Corrected age: ' +
-                        datum.corrected_gestation_weeks +
-                        '+' +
-                        datum.corrected_gestation_days +
-                        ' weeks gestation\n' +
-                        finalCorrectedString +
-                        '\n' +
-                        datum.y +
-                        measurementSuffix(measurementMethod) +
-                        '\n' +
-                        datum.centile_band
-                      );
-                    } else {
-                      if (datum.observation_value_error != null) {
-                        return `${datum.observation_value_error}`;
-                      }
-
-                      let finalChronologicalString = datum.lay_comment
-                        .replaceAll(', ', ',\n')
-                        .replaceAll('. ', '.\n');
-                      return (
-                        'Actual age: ' +
-                        datum.calendar_age +
-                        '\n' +
-                        finalChronologicalString +
-                        '\n' +
-                        datum.y +
-                        measurementSuffix(measurementMethod) +
-                        '\n' +
-                        datum.centile_band
-                      );
-                    }
-                  } else {
-                    if (datum.observation_value_error) {
-                      return `${datum.observation_value_error}`;
-                    }
-
-                    if (datum.age_type === 'corrected_age') {
-                      const finalCorrectedString = datum.lay_comment
-                        .replaceAll(', ', ',\n')
-                        .replaceAll('. ', '.\n');
-                      return (
-                        'Corrected age: ' +
-                        datum.calendar_age +
-                        '\n' +
-                        finalCorrectedString +
-                        '\n' +
-                        datum.y +
-                        measurementSuffix(measurementMethod) +
-                        '\n' +
-                        datum.centile_band
-                      );
-                    }
-                    let finalChronologicalString = datum.lay_comment
-                      .replaceAll(', ', ',\n')
-                      .replaceAll('. ', '.\n');
-                    return (
-                      'Actual age: ' +
-                      datum.calendar_age +
-                      '\n' +
-                      finalChronologicalString +
-                      '\n' +
-                      datum.y +
-                      measurementSuffix(measurementMethod) +
-                      '\n' +
-                      datum.centile_band
-                    );
-                  }
-                }
-                if (datum.l) {
-                  // these are the centile lines
-                  return `${stndth(datum.l)} centile`;
-                }
+                return tooltipText(
+                  reference,
+                  datum.l,
+                  measurementMethod,
+                  datum.x,
+                  datum.age_type,
+                  datum.centile_band,
+                  datum.calendar_age,
+                  datum.corrected_gestational_age,
+                  datum.y,
+                  datum.observation_value_error,
+                  datum.age_error,
+                  datum.lay_comment,
+                  correctedAge,
+                  chronologicalAge
+                  )
               }}
               voronoiBlacklist={['linkLine']}
             />
@@ -454,8 +284,8 @@ function CentileChart({
                 grid: {
                   stroke: () =>
                     gridlineStyle.gridlines ? gridlineStyle.stroke : null,
-                  strokeWidth: gridlineStyle.strokeWidth,
-                  strokeDasharray: gridlineStyle.dashed ? '5 5' : null,
+                    strokeWidth: gridlineStyle.strokeWidth,
+                    strokeDasharray: gridlineStyle.dashed ? '5 5' : null,
                 },
               }}
               tickLabelComponent={
@@ -690,7 +520,7 @@ function CentileChart({
 
           {/* These are the puberty threshold lines - the boys are a year above the girls */}
 
-          {domains.x[1] > 7.5 &&
+          {domains.x[1] > 7.5 && reference==="uk-who" &&
             sex === 'male' &&
             measurementMethod === 'height' && // puberty threshold lines boys UK90
             pubertyThresholdBoys.map((data, index) => {
@@ -726,7 +556,8 @@ function CentileChart({
               );
             })}
 
-          {domains.x[1] > 12.5 &&
+          {domains.x[1] > 12.5 && 
+            reference==="uk-who" &&
             sex === 'female' &&
             measurementMethod === 'height' && // puberty threshold lines uk90 girls
             pubertyThresholdGirls.map((data, index) => {
@@ -807,6 +638,7 @@ function CentileChart({
           {/* The upper border is the 0.4th centile so this must come before the centiles */}
 
           {domains.x[1] > 7 &&
+            reference==="uk-who" &&
             sex === 'male' &&
             measurementMethod == 'height' && ( //puberty delay shaded area boys
               <VictoryArea
@@ -827,6 +659,7 @@ function CentileChart({
             )}
 
           {domains.x[1] > 7 &&
+            reference==="uk-who" &&
             sex === 'female' &&
             measurementMethod == 'height' && ( //puberty delay shaded area boys
               <VictoryArea
@@ -860,15 +693,16 @@ function CentileChart({
           {/* 1 for each centile, 1 for the shaded area, 1 at 2years to indicate children are measured standing leading */}
           {/* to a step down in height weight and bmi in the data set. There is another tool tip at 4 years to indicate transition from datasets. */}
 
-          {centileData.map((reference, index) => {
+          {reference==="uk-who" &&
+            centileReferenceData.map((referenceData, index) => { // UK-WHO - 3 references
             if (index === 0) {
               // do not want to render preterm data - this will leave a 2 week gap from 0 to 2 weeks
               return;
             }
-            if (reference.length > 0) {
+
               return (
                 <VictoryGroup key={index}>
-                  {reference.map((centile: ICentile, centileIndex: number) => {
+                  {referenceData.map((centile: ICentile, centileIndex: number) => {
                     if (centileIndex % 2 === 0) {
                       // even index - centile is dashed
                       return (
@@ -906,8 +740,50 @@ function CentileChart({
                   })}
                 </VictoryGroup>
               );
-            }
           })}
+        
+          
+          { reference !=="uk-who" &&
+          // <VictoryGroup>
+              centileReferenceData[0].map((centile: ICentile, centileIndex: number) => { // specialist references - only one each
+                if (centileIndex % 2 === 0) {
+                  // even index - centile is dashed
+                  return (
+                    <VictoryLine
+                      key={centile.centile + '-' + centileIndex}
+                      padding={{ top: 20, bottom: 60 }}
+                      data={centile.data}
+                      style={{
+                        data: {
+                          stroke: centileStyle.centileStroke,
+                          strokeWidth: centileStyle.centileStrokeWidth,
+                          strokeLinecap: 'round',
+                          strokeDasharray: '5 5',
+                        },
+                      }}
+                    />
+                  );
+                } else {
+                  // uneven index - centile is continuous
+                  return (
+                    <VictoryLine
+                      key={centile.centile + '-' + centileIndex}
+                      padding={{ top: 20, bottom: 60 }}
+                      data={centile.data}
+                      style={{
+                        data: {
+                          stroke: centileStyle.centileStroke,
+                          strokeWidth: centileStyle.centileStrokeWidth,
+                          strokeLinecap: 'round',
+                        },
+                      }}
+                    />
+                  );
+                }
+              })
+            // </VictoryGroup>
+          }
+        
 
           {/* create a series for each child measurements datapoint: a circle for chronological age, a cross for corrected - if the chronological and corrected age are the same, */}
           {/* the removeCorrectedAge function removes the corrected age to prevent plotting a circle on a cross, and having duplicate */}
@@ -932,7 +808,7 @@ function CentileChart({
                       style={{
                         data: { fill: measurementStyle.measurementFill },
                       }}
-                      // name= 'split_age'
+                      name= 'corrected_age'
                     />
                   )}
 
@@ -946,7 +822,7 @@ function CentileChart({
                       style={{
                         data: { fill: measurementStyle.measurementFill },
                       }}
-                      // name='same_age'
+                      name='chronological'
                     />
                   )}
 
@@ -960,7 +836,7 @@ function CentileChart({
                             strokeWidth: 1.25,
                           },
                         }}
-                        data={[childMeasurement]}
+                        data={[childMeasurement.plottable_data.centile_data.chronological_decimal_age_data,childMeasurement.plottable_data.centile_data.corrected_decimal_age_data]}
                       />
                     )}
                 </VictoryGroup>
