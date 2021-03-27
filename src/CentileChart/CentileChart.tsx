@@ -128,7 +128,7 @@ function CentileChart({
   };
 
   return (
-    <div data-testid="UKWHOChart" className="centred">
+    <div data-testid="CentileChart" className="centred">
       {/* The VictoryChart is the parent component. It contains a Voronoi container, which groups data sets together for the purposes of tooltips */}
       {/* It has an animation object and the domains are the thresholds of ages rendered. This is calculated from the child data supplied by the user. */}
       {/* Tooltips are here as it is the parent component. More information of tooltips in centiles below. */}
@@ -155,6 +155,12 @@ function CentileChart({
         <VictoryChart
           width={chartStyle.width}
           height={chartStyle.height}
+          padding={{
+            left: chartStyle.padding.left,
+            right: chartStyle.padding.right,
+            top: chartStyle.padding.top,
+            bottom: chartStyle.padding.bottom
+          }}
           style={{
             background: {
               fill: chartStyle.backgroundColour,
@@ -194,16 +200,15 @@ function CentileChart({
                   pointerLength={5}
                   cornerRadius={0}
                   flyoutStyle={{
-                    stroke: chartStyle.tooltipBackgroundColour,
+                    stroke: chartStyle.tooltipStroke,
                     fill: chartStyle.tooltipBackgroundColour,
                   }}
                   style={{
                     textAnchor: 'start',
-                    stroke: chartStyle.tooltipTextColour,
-                    strokeWidth: 0.25,
-                    fill: chartStyle.tooltipTextColour,
-                    fontFamily: 'Montserrat',
-                    fontSize: 10,
+                    stroke: chartStyle.tooltipTextStyle.colour,
+                    strokeWidth: chartStyle.tooltipTextStyle.size,
+                    fill: chartStyle.tooltipTextStyle.colour,
+                    fontFamily: chartStyle.tooltipTextStyle.name,
                   }}
                 />
               }
@@ -240,7 +245,10 @@ function CentileChart({
                 fill: 'transparent',
               },
               title: {
-                fontFamily: 'Arial',
+                fontFamily: chartStyle.titleStyle.name,
+                color: chartStyle.titleStyle.colour,
+                fontSize: chartStyle.titleStyle.size,
+                fontWeight: chartStyle.titleStyle.weight
               },
             }}
             x={chartStyle.width / 2 - 50}
@@ -262,18 +270,19 @@ function CentileChart({
                   stroke: axisStyle.axisStroke,
                 },
                 axisLabel: {
-                  fontSize: axisStyle.axisLabelSize,
+                  fontSize: axisStyle.axisLabelTextStyle.size,
                   padding: 20,
-                  color: axisStyle.axisStroke,
-                  fontFamily: axisStyle.axisLabelFont,
+                  color: axisStyle.axisLabelTextStyle.colour,
+                  fontFamily: axisStyle.axisLabelTextStyle.name,
                 },
                 ticks: {
                   stroke: axisStyle.axisStroke,
                 },
                 tickLabels: {
-                  fontSize: axisStyle.tickLabelSize,
+                  fontSize: axisStyle.tickLabelTextStyle.size,
                   padding: 5,
-                  color: axisStyle.axisLabelColour,
+                  color: axisStyle.axisLabelTextStyle.colour,
+                  fontFamily: axisStyle.axisLabelTextStyle.name
                 },
                 grid: {
                   stroke: () =>
@@ -288,8 +297,8 @@ function CentileChart({
                   style={[
                     {
                       fill: axisStyle.axisStroke,
-                      fontSize: axisStyle.axisLabelSize,
-                      fontFamily: axisStyle.axisLabelFont,
+                      fontSize: axisStyle.axisLabelTextStyle.size,
+                      fontFamily: axisStyle.axisLabelTextStyle.name,
                     },
                   ]}
                 />
@@ -308,8 +317,8 @@ function CentileChart({
               axisLabelComponent={
                 <MonthsLabel
                   style={{
-                    fontFamily: axisStyle.axisLabelFont,
-                    fontSize: axisStyle.axisLabelSize,
+                    fontSize: axisStyle.axisLabelTextStyle.size,
+                    fontFamily: axisStyle.axisLabelTextStyle.name,
                   }}
                 />
               }
@@ -318,30 +327,31 @@ function CentileChart({
                   stroke: axisStyle.axisStroke,
                 },
                 axisLabel: {
-                  fontSize: axisStyle.axisLabelSize,
+                  fontSize: axisStyle.axisLabelTextStyle.size,
                   padding: 20,
-                  color: axisStyle.axisStroke,
-                  fontFamily: axisStyle.axisLabelFont,
+                  color: axisStyle.axisLabelTextStyle.colour,
+                  fontFamily: axisStyle.axisLabelTextStyle.name,
                 },
                 ticks: {
                   stroke: axisStyle.axisStroke,
                 },
                 tickLabels: {
-                  fontSize: axisStyle.tickLabelSize,
+                  fontSize: axisStyle.tickLabelTextStyle.size,
                   padding: 5,
-                  color: axisStyle.axisLabelColour,
+                  color: axisStyle.axisLabelTextStyle.colour,
+                  fontFamily: axisStyle.axisLabelTextStyle.name
                 },
                 grid: {
                   stroke: () =>
                     gridlineStyle.gridlines ? gridlineStyle.stroke : null,
-                  strokeWidth: gridlineStyle.strokeWidth,
-                  strokeDasharray: gridlineStyle.dashed ? '5 5' : null,
+                    strokeWidth: gridlineStyle.strokeWidth,
+                    strokeDasharray: gridlineStyle.dashed ? '5 5' : null,
                 },
               }}
               tickLabelComponent={
                 <ChartCircle
                   style={{
-                    stroke: axisStyle.axisLabelColour,
+                    stroke: axisStyle.axisLabelTextStyle.colour,
                   }}
                 />
               }
@@ -393,18 +403,19 @@ function CentileChart({
                   stroke: axisStyle.axisStroke,
                 },
                 axisLabel: {
-                  fontSize: axisStyle.axisLabelSize,
                   padding: 20,
-                  color: axisStyle.axisStroke,
-                  fontFamily: axisStyle.axisLabelFont,
+                  color: axisStyle.axisLabelTextStyle.colour,
+                  fontSize: axisStyle.axisLabelTextStyle.size,
+                  fontFamily: axisStyle.axisLabelTextStyle.name,
                 },
                 ticks: {
                   stroke: axisStyle.axisStroke,
                 },
                 tickLabels: {
-                  fontSize: axisStyle.tickLabelSize,
+                  fontSize: axisStyle.tickLabelTextStyle.size,
                   padding: 5,
-                  color: axisStyle.axisLabelColour,
+                  color: axisStyle.tickLabelTextStyle.colour,
+                  fontFamily: axisStyle.axisLabelTextStyle.name
                 },
                 grid: {
                   stroke: () =>
@@ -418,9 +429,9 @@ function CentileChart({
                   dy={0}
                   style={[
                     {
-                      fill: axisStyle.axisLabelColour,
-                      fontSize: axisStyle.tickLabelSize,
-                      fontFamily: axisStyle.axisLabelFont,
+                      fill: axisStyle.axisLabelTextStyle.colour,
+                      fontSize: axisStyle.axisLabelTextStyle.size,
+                      fontFamily: axisStyle.axisLabelTextStyle.name,
                     },
                   ]}
                 />
@@ -530,8 +541,8 @@ function CentileChart({
                       textAnchor="start"
                       style={{
                         fontSize: 8,
-                        color: axisStyle.axisLabelColour,
-                        fontFamily: axisStyle.axisLabelFont,
+                        color: axisStyle.axisLabelTextStyle.colour,
+                        fontFamily: axisStyle.axisLabelTextStyle.name,
                         textAlign: 'start',
                       }}
                     />
@@ -566,15 +577,15 @@ function CentileChart({
                       dx={-190}
                       style={{
                         fontSize: 8,
-                        color: axisStyle.axisLabelColour,
-                        fontFamily: axisStyle.axisLabelFont,
+                        color: axisStyle.axisLabelTextStyle.colour,
+                        fontFamily: axisStyle.axisLabelTextStyle.name,
                         textAlign: 'start',
                       }}
                     />
                   }
                   style={{
                     axis: {
-                      stroke: 'black',
+                      stroke: axisStyle.axisStroke,
                       strokeWidth: 1.0,
                     },
                     tickLabels: {
@@ -600,19 +611,19 @@ function CentileChart({
                   strokeWidth: 1.0,
                 },
                 axisLabel: {
-                  fontSize: axisStyle.axisLabelSize,
+                  fontSize: axisStyle.axisLabelTextStyle.size,
                   padding: 20,
-                  color: axisStyle.axisLabelColour,
-                  fontFamily: axisStyle.axisLabelFont,
+                  color: axisStyle.axisLabelTextStyle.colour,
+                  fontFamily: axisStyle.axisLabelTextStyle.name,
                 },
                 ticks: {
-                  stroke: axisStyle.axisLabelColour,
+                  stroke: axisStyle.tickLabelTextStyle.colour,
                 },
                 tickLabels: {
-                  fontSize: axisStyle.tickLabelSize,
+                  fontSize: axisStyle.tickLabelTextStyle.size,
                   padding: 5,
-                  color: axisStyle.axisLabelColour,
-                  fontFamily: axisStyle.axisLabelColour,
+                  color: axisStyle.tickLabelTextStyle.colour,
+                  fontFamily: axisStyle.axisLabelTextStyle.name,
                 },
                 grid: {
                   stroke: gridlineStyle.gridlines ? gridlineStyle.stroke : null,
@@ -775,7 +786,6 @@ function CentileChart({
                   );
                 }
               })
-            // </VictoryGroup>
           }
         
 
@@ -800,7 +810,10 @@ function CentileChart({
                         />
                       }
                       style={{
-                        data: { fill: measurementStyle.measurementFill },
+                        data: { 
+                          fill: measurementStyle.measurementFill,
+                          strokeWidth: measurementStyle.measurementSize 
+                        },
                       }}
                       name= 'corrected_age'
                     />
@@ -812,9 +825,12 @@ function CentileChart({
                         childMeasurement.plottable_data.centile_data
                           .chronological_decimal_age_data,
                       ]}
-                      symbol={measurementStyle.measurementShape}
+                      symbol="circle"
                       style={{
-                        data: { fill: measurementStyle.measurementFill },
+                        data: { 
+                          fill: measurementStyle.measurementFill,
+                          strokeWidth: measurementStyle.measurementSize 
+                        },
                       }}
                       name='chronological'
                     />
@@ -844,18 +860,21 @@ function CentileChart({
           <button
             onClick={onClickShowPretermChartHandler}
             style={{
-              backgroundColor: '#cb3083',
+              backgroundColor: chartStyle.toggleButtonInactiveColour,
               border: 'none',
               padding: 5,
               margin: 5,
-              color: 'white',
+              color: chartStyle.toggleButtonTextColour,
             }}
           >
             {showPretermChart ? 'Show Child Chart' : 'Show Preterm Chart'}
           </button>
         )}
         {showToggle && (
-          <div className="radio-toolbar" onChange={onSelectRadioButton}>
+          <div 
+            className="radio-toolbar" 
+            onChange={onSelectRadioButton}
+          >
             <input
               type="radio"
               id="adjusted"

@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import { RCPCHChartProps } from "./RCPCHChart.types";
 import { Domains } from "../interfaces/Domains";
 import { ICentile } from '../interfaces/CentilesObject';
+import { AxisStyle, CentileStyle, ChartStyle, GridlineStyle, MeasurementStyle } from '../interfaces/StyleObjects';
 
 // style sheets
 import "./RCPCHChart.scss";
@@ -18,6 +19,11 @@ import { setTermDomainsForMeasurementMethod } from "../functions/setTermDomainsF
 import { setYDomainsForMeasurement } from "../functions/setYDomainsForMeasurement";
 import { fetchTrisomy21Data } from '../functions/fetchTrisomy21Data';
 import { fetchTurnerData } from '../functions/fetchTurnerData';
+import { emptyChartValuesReturnDefaults } from "../functions/stylesDefaultValues";
+import { emptyCentileValuesReturnDefaults } from "../functions/stylesDefaultValues";
+import { emptyAxisValuesReturnDefaults } from "../functions/stylesDefaultValues";
+import { emptyMeasurementValuesReturnDefaults } from "../functions/stylesDefaultValues";
+import { emptyGridlineValuesReturnDefaults } from "../functions/stylesDefaultValues";
 
 const RCPCHChart: React.FC<RCPCHChartProps> = ({ 
         title,
@@ -32,6 +38,15 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
         centileStyle,
         measurementStyle
 }) => {
+
+  let defaultChartStyle: ChartStyle = emptyChartValuesReturnDefaults(chartStyle);
+  let defaultAxisStyle: AxisStyle = emptyAxisValuesReturnDefaults(axisStyle)
+  let defaultGridlineStyle: GridlineStyle = emptyGridlineValuesReturnDefaults(gridlineStyle)
+  let defaultCentileStyle: CentileStyle = emptyCentileValuesReturnDefaults(centileStyle)
+  let defaultMeasurementStyle: MeasurementStyle = emptyMeasurementValuesReturnDefaults(measurementStyle)
+    
+  
+  
     
   // set state
   const yDomains = setTermDomainsForMeasurementMethod(
@@ -203,40 +218,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
                     styles - there is one each for the chart, centiles, axes, gridlines and measurement points
                   */}
       
-      {/* { !isLoading && centileData != null && reference === 'trisomy-21' &&
-          <Trisomy21Chart
-            title={title}
-            subtitle={subtitle}
-            allMeasurementPairs={childMeasurements}
-            measurementMethod={measurementMethod}
-            sex={sex}
-            chartStyle={chartStyle}
-            axisStyle={axisStyle}
-            gridlineStyle={gridlineStyle}
-            centileStyle={centileStyle}
-            measurementStyle={measurementStyle}
-            centileData={centileData}
-            setTrisomy21Domains={updateDomains}
-            domains={domains}
-          />
-      }
-      { !isLoading && reference === 'turner' &&  sex === "female" && measurementMethod === "height" &&
-           <TurnerChart
-              title={title}
-              subtitle={subtitle}
-              allMeasurementPairs={childMeasurements}
-              measurementMethod={measurementMethod}
-              sex={sex}
-              chartStyle={chartStyle}
-              axisStyle={axisStyle}
-              gridlineStyle={gridlineStyle}
-              centileStyle={centileStyle}
-              measurementStyle={measurementStyle}
-              centileData={centileData}
-              setTurnerDomains={updateDomains}
-              domains={domains}
-          />
-      } */}
+      
       { !isLoading &&
           <CentileChart
             reference={reference}
@@ -245,11 +227,11 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
             childMeasurements={measurementsArray || []}
             measurementMethod={measurementMethod}
             sex={sex}
-            chartStyle={chartStyle}
-            axisStyle={axisStyle}
-            gridlineStyle={gridlineStyle}
-            centileStyle={centileStyle}
-            measurementStyle={measurementStyle}
+            chartStyle={defaultChartStyle}
+            axisStyle={defaultAxisStyle}
+            gridlineStyle={defaultGridlineStyle}
+            centileStyle={defaultCentileStyle}
+            measurementStyle={defaultMeasurementStyle}
             centileReferenceData={centileReferenceData}
             setUKWHODomains={updateDomains}
             domains={domains}

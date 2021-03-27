@@ -69,15 +69,16 @@ const PRETERMChart: React.FC<PRETERMChartProps>=(
               width={130}
               y={props.y1}
               height={85}
-              fill={chartStyle.tooltipBackgroundColour}
-              stroke={chartStyle.tooltipBackgroundColour}
+              fill={chartStyle.infoBoxFill}
+              stroke={chartStyle.infoBoxStroke}
             />
             <text
               x={props.x1 - 195}
               y={props.y1+2.5}
-              fill={chartStyle.tooltipTextColour}
-              fontSize={6}
-              fontFamily={axisStyle.axisLabelFont}
+              fill={chartStyle.tooltipTextStyle.colour}
+              fontSize={chartStyle.infoBoxTextStyle.size}
+              fontFamily={chartStyle.infoBoxTextStyle.name}
+              fontWeight={chartStyle.infoBoxTextStyle.weight}
             >
               <tspan dy="1.6em" x={props.x1 - 195}>Babies born in the shaded area are term.</tspan>
               <tspan dy="1.6em" x={props.x1 - 195}>It is normal for babies to lose weight</tspan>
@@ -99,6 +100,12 @@ const PRETERMChart: React.FC<PRETERMChartProps>=(
                 background: {
                   fill: chartStyle.backgroundColour
                 }
+              }}
+              padding={{
+                left: chartStyle.padding.left,
+                right: chartStyle.padding.right,
+                top: chartStyle.padding.top,
+                bottom: chartStyle.padding.bottom
               }}
               containerComponent={
                   <VictoryVoronoiContainer 
@@ -126,16 +133,15 @@ const PRETERMChart: React.FC<PRETERMChartProps>=(
                         pointerLength={5}
                         cornerRadius={0}
                         flyoutStyle={{
-                          stroke: chartStyle.tooltipBackgroundColour,
+                          stroke: chartStyle.tooltipStroke,
                           fill: chartStyle.tooltipBackgroundColour,
                         }}
                         style={{
                           textAnchor:"start",
-                          stroke: chartStyle.tooltipTextColour,
-                          fill: chartStyle.tooltipTextColour,
-                          strokeWidth: 0.25,
-                          fontFamily: 'Montserrat',
-                          fontSize: 6
+                          stroke: chartStyle.tooltipTextStyle.colour,
+                          fill: chartStyle.tooltipTextStyle.colour,
+                          strokeWidth: chartStyle.tooltipTextStyle.size,
+                          fontFamily: chartStyle.tooltipTextStyle.name,
                         }}
                       />
                     }
@@ -203,9 +209,9 @@ const PRETERMChart: React.FC<PRETERMChartProps>=(
                       axisLabelComponent={
                         <MonthsLabel
                           style={{
-                            fontSize: axisStyle.axisLabelSize,
-                            fontFamily: axisStyle.axisLabelFont,
-                            fill: axisStyle.axisLabelColour
+                            fontSize: axisStyle.axisLabelTextStyle.size,
+                            fontFamily: axisStyle.axisLabelTextStyle.name,
+                            fill: axisStyle.axisLabelTextStyle.colour
                           }}
                         />
                       }
@@ -240,18 +246,18 @@ const PRETERMChart: React.FC<PRETERMChartProps>=(
                       stroke: axisStyle.axisStroke,
                     },
                     axisLabel: {
-                      fontSize: axisStyle.axisLabelSize, 
+                      fontSize: axisStyle.axisLabelTextStyle.size, 
                       padding: 20,
-                      color: axisStyle.axisLabelColour,
-                      fontFamily: axisStyle.axisLabelFont
+                      color: axisStyle.axisLabelTextStyle.colour,
+                      fontFamily: axisStyle.axisLabelTextStyle.name
                     },
                     ticks: {
                       stroke: axisStyle.axisStroke 
                     },
                     tickLabels: {
-                      fontSize: axisStyle.tickLabelSize, 
+                      fontSize: axisStyle.axisLabelTextStyle.size, 
                       padding: 5,
-                      color: axisStyle.axisLabelColour
+                      color: axisStyle.axisLabelTextStyle.colour
                     },
                     grid: { 
                       stroke: ()=> gridlineStyle.gridlines ? gridlineStyle.stroke : null,
@@ -262,9 +268,9 @@ const PRETERMChart: React.FC<PRETERMChartProps>=(
                     <VictoryLabel 
                       dy={0}
                       style={[
-                        { fill: axisStyle.axisLabelColour, 
-                          fontSize: axisStyle.axisLabelSize,
-                          font: axisStyle.axisLabelFont
+                        { fill: axisStyle.axisLabelTextStyle.colour, 
+                          fontSize: axisStyle.axisLabelTextStyle.size,
+                          font: axisStyle.axisLabelTextStyle.name
                         },
                       ]}
                     />
@@ -286,19 +292,19 @@ const PRETERMChart: React.FC<PRETERMChartProps>=(
                       strokeWidth: 1.0
                     },
                     axisLabel: {
-                      fontSize: axisStyle.axisLabelSize, 
+                      fontSize: axisStyle.axisLabelTextStyle.size, 
                       padding: 20,
-                      color: axisStyle.axisLabelColour,
-                      font: axisStyle.axisLabelFont
+                      color: axisStyle.axisLabelTextStyle.colour,
+                      font: axisStyle.axisLabelTextStyle.name
                     },
                     ticks: {
-                      stroke: axisStyle.axisLabelColour
+                      stroke: axisStyle.tickLabelTextStyle.colour
                     },
                     tickLabels: {
-                      fontSize: axisStyle.tickLabelSize, 
+                      fontSize: axisStyle.tickLabelTextStyle.size, 
                       padding: 5,
                       color: axisStyle.axisStroke,
-                      fontFamily: axisStyle.axisLabelFont
+                      fontFamily: axisStyle.tickLabelTextStyle.name
                     },
                     grid: { 
                       stroke: gridlineStyle.gridlines ? gridlineStyle.stroke : null, 
@@ -353,7 +359,7 @@ const PRETERMChart: React.FC<PRETERMChartProps>=(
                             style={{
                             data: {
                                 stroke: centileStyle.centileStroke,
-                                strokeWidth: centileStyle.centileStrokeWidth-0.25,
+                                strokeWidth: centileStyle.centileStrokeWidth,
                                 strokeLinecap: 'round',
                                 strokeDasharray: '5 5'
                             }
@@ -369,7 +375,7 @@ const PRETERMChart: React.FC<PRETERMChartProps>=(
                               style={{
                               data: {
                                 stroke: centileStyle.centileStroke,
-                                strokeWidth: centileStyle.centileStrokeWidth-0.25,
+                                strokeWidth: centileStyle.centileStrokeWidth,
                                 strokeLinecap: 'round',
                               }
                               }}
@@ -403,7 +409,10 @@ const PRETERMChart: React.FC<PRETERMChartProps>=(
                               />
                             }
                           style={{ data: 
-                            { fill: measurementStyle.measurementFill } 
+                            { 
+                              fill: measurementStyle.measurementFill,
+                              strokeWidth: measurementStyle.measurementSize 
+                            } 
                           }}
                           // name= 'split_age'
                         />
@@ -412,9 +421,8 @@ const PRETERMChart: React.FC<PRETERMChartProps>=(
                       
                       { showChronologicalAge && <VictoryScatter // chronological age
                           data={[childMeasurement.plottable_data.centile_data.chronological_decimal_age_data]}
-                          symbol={ measurementStyle.measurementShape }
+                          symbol="circle"
                           style={{ data: { fill: measurementStyle.measurementFill } }}
-                          // name='same_age' 
                       />
                     }
                       

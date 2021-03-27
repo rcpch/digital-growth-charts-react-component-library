@@ -1,14 +1,25 @@
 export interface ChartStyle{
     backgroundColour?: string, 
     width?: number, 
-    height?: number, 
+    height?: number,
+    padding?: Padding,
+    titleStyle?: TextStyle,
+    subTitleStyle?: TextStyle,
     tooltipBackgroundColour?: string,
-    tooltipTextColour?: string
+    tooltipStroke?: string,
+    tooltipTextStyle?: TextStyle,   // the text size is not in pts, but is a strokeWidth as text is an svg
+    termFill?: string,
+    termStroke?: string,
+    infoBoxFill?: string,
+    infoBoxStroke?: string
+    infoBoxTextStyle?: TextStyle  // the text size is not in pts, but is a strokeWidth as text is an svg
+    toggleButtonInactiveColour: string
+    toggleButtonActiveColour: string
+    toggleButtonTextColour: string
 }
 export interface MeasurementStyle{
     measurementFill?: string, 
     measurementSize?: number, 
-    measurementShape?: 'circle' | 'cross' | 'triangleUp' | 'triangleDown' | 'square' | 'star' | 'diamond'
 }
 export interface CentileStyle{
     centileStroke?: string, 
@@ -23,8 +34,20 @@ export interface GridlineStyle{
 }
 export interface AxisStyle{
     axisStroke?: string, 
-    axisLabelColour?: string, 
-    axisLabelFont?: string, 
-    axisLabelSize?: number, 
-    tickLabelSize?: number
+    axisLabelTextStyle?: TextStyle, 
+    tickLabelTextStyle?: TextStyle
+}
+
+interface Padding {
+    left?: number,
+    right?: number,
+    top?: number,
+    bottom?: number
+}
+
+interface TextStyle {
+    name?: string,
+    colour?: string,
+    size?: number,
+    weight?: 'bold' | 'italic' | 'regular'
 }
