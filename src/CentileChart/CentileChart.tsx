@@ -127,12 +127,6 @@ function CentileChart({
     }
   };
 
-  // // reference data - not UK-WHO is made up of an array of references, where as T21 & Turner are not
-  // let referenceData = centileData
-  // if (reference !== "uk-who"){
-  //   referenceData: ICentile = centileData[0]
-  // }
-
   return (
     <div data-testid="UKWHOChart" className="centred">
       {/* The VictoryChart is the parent component. It contains a Voronoi container, which groups data sets together for the purposes of tooltips */}

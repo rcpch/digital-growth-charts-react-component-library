@@ -17,20 +17,20 @@ export function tooltipText(
     corrected: boolean,
     chronological: boolean):string{
     
-    // if (reference==="uk-who"){
+    
         if (label){
-            if (age===4){
+            if (age===4 && reference=="uk-who"){
                 return 'Transit point from\nUK-WHO to UK90 data.';
             }
-            if (age===2 && measurementMethod === 'height') {
+            if (age===2 && measurementMethod === 'height' && reference=="uk-who"){
                 // step down at 2 y where children measured standing (height), not lying (length)
                 return 'Measure length until age 2;\nMeasure height after age 2.\nA child’s height is usually\nslightly less than their length.';
             }
-            if (age === 2 && measurementMethod === 'height') {
+            if (age === 2 && measurementMethod === 'height' && reference=="uk-who"){
                 // step down at 2 y where children measured standing (height), not lying (length)
                 return 'Measure length until age 2;\nMeasure height after age 2.\nA child’s height is usually\nslightly less than their length.';
             }
-            if (label ==='For all Children plotted in this shaded area see instructions.') {
+            if (label ==='For all Children plotted in this shaded area see instructions.' && reference=="uk-who"){
                 // delayed puberty if plotted in this area
                 return 'For all Children plotted\nin this shaded area\nsee instructions.';
             } else {
@@ -45,7 +45,7 @@ export function tooltipText(
             /// plots
             if (observation_value_error === null && age_error === null) {
               // usually for requests where there is no reference data
-              if (age_type === 'corrected_age' && corrected!==chronological) {
+              if (age_type === 'corrected_age' && corrected!==chronological && corrected && age > 0.0383) {
                 const finalCorrectedString = lay_comment
                   .replaceAll(', ', ',\n')
                   .replaceAll('. ', '.\n');
@@ -119,7 +119,7 @@ export function tooltipText(
                /// plots
             if (observation_value_error === null && age_error === null) {
               // usually for requests where there is no reference data
-              if (age_type === 'corrected_age' && corrected!==chronological) {
+              if (age_type === 'corrected_age' &&  corrected ) {
                 const finalCorrectedString = lay_comment
                   .replaceAll(', ', ',\n')
                   .replaceAll('. ', '.\n');
@@ -153,5 +153,5 @@ export function tooltipText(
             } 
         }
     }
-  // }
+ 
 }

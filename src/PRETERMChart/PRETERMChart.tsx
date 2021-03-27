@@ -10,14 +10,12 @@ import { VictoryChart, VictoryVoronoiContainer, VictoryTooltip,VictoryLabel, Vic
 // import { UKWHOChartProps } from "../UKWHOChart/UKWHOChart.types"
 import { PRETERMChartProps } from "./PRETERMChart.types";
 
-// data
-import ukwhoData from '../../chartdata/uk_who_chart_data'
-
 // helper functions
 import { stndth } from '../functions/suffix';
 import { measurementSuffix } from '../functions/measurementSuffix';
 import { yAxisLabel } from '../functions/yAxisLabel';
 import { setPretermDomainForMeasurementMethod } from '../functions/setPretermDomainForMeasurementMethod';
+import { tooltipText } from '../functions/tooltips'
 
 // interfaces
 import { ICentile } from '../interfaces/CentilesObject';
@@ -104,74 +102,23 @@ const PRETERMChart: React.FC<PRETERMChartProps>=(
               }}
               containerComponent={
                   <VictoryVoronoiContainer 
-                    labels={({ datum }) => { // tooltip labels
-                
-                      if (datum.centile_band || datum.observation_value_error || datum.measurement_error) { // these are the measurement points
-                        // this is a measurement
-
-                        /// errors 
-                      if (datum.measurement_error !== null){
-                        
-                        // usually requests where there is no reference data
-                        if (datum.age_type==="corrected_age"){
-                          const finalCorrectedString = datum.lay_corrected_decimal_age_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n')
-                          return "Corrected age: " + datum.corrected_gestation_weeks + "+" + datum.corrected_gestation_days +' weeks gestation\n' + finalCorrectedString + "\n" + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.measurement_error
-                        } else {
-                          let finalChronologicalString = datum.lay_chronological_decimal_age_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n')
-                            return "Actual age: " + datum.calendar_age + "\n" + finalChronologicalString + "\n" + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.measurement_error
-                        }
-                      }
-
-                      if (datum.observation_value_error !== null){
-                        // usually errors where impossible weights/heights etc
-                        if (datum.age_type==="corrected_age"){
-                          const finalCorrectedString = datum.lay_corrected_decimal_age_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n')
-                          return "Corrected age: " + datum.corrected_gestation_weeks + "+" + datum.corrected_gestation_days +' weeks gestation\n' + finalCorrectedString + "\n" + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.observation_value_error
-                        } else {
-                          let finalChronologicalString = datum.lay_chronological_decimal_age_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n')
-                            return "Actual age: " + datum.calendar_age + "\n" + finalChronologicalString + "\n" + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.observation_value_error
-                        }
-                      }
-                        // measurement data points
-                        if (datum.x <= 0.0383){ // <= 42 weeks
-                          
-                          // the datum.lay_decimal_age_comment and datum.clinician_decimal_age_comment are long strings
-                          // this adds new lines to ends of sentences or commas.
-                          
-                          if (datum.age_type==="corrected_age"){
-                            
-                            if (datum.measurement_error != null){
-                              return `${datum.corrected_measurement_error}`
-                            }
-
-                            const finalCorrectedString = datum.lay_corrected_decimal_age_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n')
-                            return "Corrected age: " + datum.corrected_gestation_weeks + "+" + datum.corrected_gestation_days +' weeks gestation\n' + finalCorrectedString + "\n" + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
-                          } else {
-
-                            if (datum.measurement_error != null){
-                              return `${datum.chronological_measurement_error}`
-                            }
-
-                            let finalChronologicalString = datum.lay_chronological_decimal_age_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n')
-                            return "Actual age: " + datum.calendar_age + "\n" + finalChronologicalString + "\n" + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
-                          }
-                        } else {
-
-                          if (datum.corrected_measurement_error){
-                            return `${datum.chronological_measurement_error}`
-                          }
-
-                          if (datum.age_type==="corrected_age"){
-                            const finalCorrectedString = datum.lay_corrected_decimal_age_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n')
-                            return "Corrected age: " + datum.calendar_age +'\n' + finalCorrectedString + '\n' + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
-                          }
-                          let finalChronologicalString = datum.lay_chronological_decimal_age_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n')
-                          return "Actual age: " + datum.calendar_age +'\n' + finalChronologicalString + "\n" + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
-                        }
-                      }
-                      if (datum.l){ // these are the centile lines
-                        return `${stndth(datum.l)} centile`
-                      } 
+                    labels={({ datum }) => { 
+                      return tooltipText(
+                        "uk-who",
+                        datum.l,
+                        measurementMethod,
+                        datum.x,
+                        datum.age_type,
+                        datum.centile_band,
+                        datum.calendar_age,
+                        datum.corrected_gestational_age,
+                        datum.y,
+                        datum.observation_value_error,
+                        datum.age_error,
+                        datum.lay_comment,
+                        showCorrectedAge,
+                        showChronologicalAge
+                      )
                     }}
                     labelComponent={
                       <VictoryTooltip
@@ -471,15 +418,19 @@ const PRETERMChart: React.FC<PRETERMChartProps>=(
                       />
                     }
                       
-                    { showChronologicalAge && showCorrectedAge && // only show the line if both cross and dot are rendered
+                      {showChronologicalAge &&
+                    showCorrectedAge && ( // only show the line if both cross and dot are rendered
                       <VictoryLine
                         name="linkLine"
-                        style={{ 
-                          data: { stroke: measurementStyle.measurementFill, strokeWidth: 1.25 },
+                        style={{
+                          data: {
+                            stroke: measurementStyle.measurementFill,
+                            strokeWidth: 1.25,
+                          },
                         }}
-                        data={[childMeasurement]}
-                      /> 
-                    }
+                        data={[childMeasurement.plottable_data.centile_data.chronological_decimal_age_data,childMeasurement.plottable_data.centile_data.corrected_decimal_age_data]}
+                      />
+                    )}
                      </VictoryGroup> 
                   )
               })

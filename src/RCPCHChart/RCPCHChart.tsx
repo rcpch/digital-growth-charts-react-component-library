@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 // props and interfaces
 import { RCPCHChartProps } from "./RCPCHChart.types";
 import { Domains } from "../interfaces/Domains";
-import { Measurement } from '../interfaces/RCPCHMeasurementObject';
 import { ICentile } from '../interfaces/CentilesObject';
 
 // style sheets
@@ -55,9 +54,6 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
   let upperAgeX = 20;
   let upperMeasurementY = yDomains[1];
   let lowerMeasurementY = yDomains[0];
-
-  console.log(measurementsArray);
-  
 
   useEffect(() => {
     if (measurementsArray?.length > 0) {
