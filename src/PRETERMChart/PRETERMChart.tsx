@@ -10,19 +10,16 @@ import { VictoryChart, VictoryVoronoiContainer, VictoryTooltip,VictoryLabel, Vic
 // import { UKWHOChartProps } from "../UKWHOChart/UKWHOChart.types"
 import { PRETERMChartProps } from "./PRETERMChart.types";
 
-// data
-import ukwhoData from '../../chartdata/uk_who_chart_data'
-
 // helper functions
 import { stndth } from '../functions/suffix';
 import { measurementSuffix } from '../functions/measurementSuffix';
-import { removeCorrectedAge } from '../functions/removeCorrectedAge';
 import { yAxisLabel } from '../functions/yAxisLabel';
 import { setPretermDomainForMeasurementMethod } from '../functions/setPretermDomainForMeasurementMethod';
+import { tooltipText } from '../functions/tooltips'
 
 // interfaces
 import { ICentile } from '../interfaces/CentilesObject';
-import { PlottableMeasurement } from '../interfaces/RCPCHMeasurementObject';
+import { Measurement } from '../interfaces/RCPCHMeasurementObject';
 
 // subcomponents
 import { XPoint } from '../SubComponents/XPoint';
@@ -36,7 +33,7 @@ const PRETERMChart: React.FC<PRETERMChartProps>=(
       subtitle,
       measurementMethod,
       sex,
-      allMeasurementPairs,
+      childMeasurements,
       chartStyle,
       axisStyle,
       gridlineStyle,
@@ -72,15 +69,16 @@ const PRETERMChart: React.FC<PRETERMChartProps>=(
               width={130}
               y={props.y1}
               height={85}
-              fill={chartStyle.tooltipBackgroundColour}
-              stroke={chartStyle.tooltipBackgroundColour}
+              fill={chartStyle.infoBoxFill}
+              stroke={chartStyle.infoBoxStroke}
             />
             <text
               x={props.x1 - 195}
               y={props.y1+2.5}
-              fill={chartStyle.tooltipTextColour}
-              fontSize={6}
-              fontFamily={axisStyle.axisLabelFont}
+              fill={chartStyle.tooltipTextStyle.colour}
+              fontSize={chartStyle.infoBoxTextStyle.size}
+              fontFamily={chartStyle.infoBoxTextStyle.name}
+              fontWeight={chartStyle.infoBoxTextStyle.weight}
             >
               <tspan dy="1.6em" x={props.x1 - 195}>Babies born in the shaded area are term.</tspan>
               <tspan dy="1.6em" x={props.x1 - 195}>It is normal for babies to lose weight</tspan>
@@ -103,76 +101,31 @@ const PRETERMChart: React.FC<PRETERMChartProps>=(
                   fill: chartStyle.backgroundColour
                 }
               }}
+              padding={{
+                left: chartStyle.padding.left,
+                right: chartStyle.padding.right,
+                top: chartStyle.padding.top,
+                bottom: chartStyle.padding.bottom
+              }}
               containerComponent={
                   <VictoryVoronoiContainer 
-                    labels={({ datum }) => { // tooltip labels
-                
-                      if (datum.centile_band || datum.observation_value_error || datum.measurement_error) { // these are the measurement points
-                        // this is a measurement
-
-                        /// errors 
-                      if (datum.measurement_error !== null){
-                        
-                        // usually requests where there is no reference data
-                        if (datum.age_type==="corrected_age"){
-                          const finalCorrectedString = datum.lay_corrected_decimal_age_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n')
-                          return "Corrected age: " + datum.corrected_gestation_weeks + "+" + datum.corrected_gestation_days +' weeks gestation\n' + finalCorrectedString + "\n" + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.measurement_error
-                        } else {
-                          let finalChronologicalString = datum.lay_chronological_decimal_age_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n')
-                            return "Actual age: " + datum.calendar_age + "\n" + finalChronologicalString + "\n" + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.measurement_error
-                        }
-                      }
-
-                      if (datum.observation_value_error !== null){
-                        // usually errors where impossible weights/heights etc
-                        if (datum.age_type==="corrected_age"){
-                          const finalCorrectedString = datum.lay_corrected_decimal_age_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n')
-                          return "Corrected age: " + datum.corrected_gestation_weeks + "+" + datum.corrected_gestation_days +' weeks gestation\n' + finalCorrectedString + "\n" + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.observation_value_error
-                        } else {
-                          let finalChronologicalString = datum.lay_chronological_decimal_age_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n')
-                            return "Actual age: " + datum.calendar_age + "\n" + finalChronologicalString + "\n" + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.observation_value_error
-                        }
-                      }
-                        // measurement data points
-                        if (datum.x <= 0.0383){ // <= 42 weeks
-                          
-                          // the datum.lay_decimal_age_comment and datum.clinician_decimal_age_comment are long strings
-                          // this adds new lines to ends of sentences or commas.
-                          
-                          if (datum.age_type==="corrected_age"){
-                            
-                            if (datum.measurement_error != null){
-                              return `${datum.corrected_measurement_error}`
-                            }
-
-                            const finalCorrectedString = datum.lay_corrected_decimal_age_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n')
-                            return "Corrected age: " + datum.corrected_gestation_weeks + "+" + datum.corrected_gestation_days +' weeks gestation\n' + finalCorrectedString + "\n" + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
-                          } else {
-
-                            if (datum.measurement_error != null){
-                              return `${datum.chronological_measurement_error}`
-                            }
-
-                            let finalChronologicalString = datum.lay_chronological_decimal_age_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n')
-                            return "Actual age: " + datum.calendar_age + "\n" + finalChronologicalString + "\n" + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
-                          }
-                        } else {
-
-                          if (datum.corrected_measurement_error){
-                            return `${datum.chronological_measurement_error}`
-                          }
-
-                          if (datum.age_type==="corrected_age"){
-                            const finalCorrectedString = datum.lay_corrected_decimal_age_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n')
-                            return "Corrected age: " + datum.calendar_age +'\n' + finalCorrectedString + '\n' + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
-                          }
-                          let finalChronologicalString = datum.lay_chronological_decimal_age_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n')
-                          return "Actual age: " + datum.calendar_age +'\n' + finalChronologicalString + "\n" + datum.y + measurementSuffix(measurementMethod) + '\n' + datum.centile_band
-                        }
-                      }
-                      if (datum.l){ // these are the centile lines
-                        return `${stndth(datum.l)} centile`
-                      } 
+                    labels={({ datum }) => { 
+                      return tooltipText(
+                        "uk-who",
+                        datum.l,
+                        measurementMethod,
+                        datum.x,
+                        datum.age_type,
+                        datum.centile_band,
+                        datum.calendar_age,
+                        datum.corrected_gestational_age,
+                        datum.y,
+                        datum.observation_value_error,
+                        datum.age_error,
+                        datum.lay_comment,
+                        showCorrectedAge,
+                        showChronologicalAge
+                      )
                     }}
                     labelComponent={
                       <VictoryTooltip
@@ -180,16 +133,15 @@ const PRETERMChart: React.FC<PRETERMChartProps>=(
                         pointerLength={5}
                         cornerRadius={0}
                         flyoutStyle={{
-                          stroke: chartStyle.tooltipBackgroundColour,
+                          stroke: chartStyle.tooltipStroke,
                           fill: chartStyle.tooltipBackgroundColour,
                         }}
                         style={{
                           textAnchor:"start",
-                          stroke: chartStyle.tooltipTextColour,
-                          fill: chartStyle.tooltipTextColour,
-                          strokeWidth: 0.25,
-                          fontFamily: 'Montserrat',
-                          fontSize: 6
+                          stroke: chartStyle.tooltipTextStyle.colour,
+                          fill: chartStyle.tooltipTextStyle.colour,
+                          strokeWidth: chartStyle.tooltipTextStyle.size,
+                          fontFamily: chartStyle.tooltipTextStyle.name,
                         }}
                       />
                     }
@@ -257,9 +209,9 @@ const PRETERMChart: React.FC<PRETERMChartProps>=(
                       axisLabelComponent={
                         <MonthsLabel
                           style={{
-                            fontSize: axisStyle.axisLabelSize,
-                            fontFamily: axisStyle.axisLabelFont,
-                            fill: axisStyle.axisLabelColour
+                            fontSize: axisStyle.axisLabelTextStyle.size,
+                            fontFamily: axisStyle.axisLabelTextStyle.name,
+                            fill: axisStyle.axisLabelTextStyle.colour
                           }}
                         />
                       }
@@ -294,18 +246,18 @@ const PRETERMChart: React.FC<PRETERMChartProps>=(
                       stroke: axisStyle.axisStroke,
                     },
                     axisLabel: {
-                      fontSize: axisStyle.axisLabelSize, 
+                      fontSize: axisStyle.axisLabelTextStyle.size, 
                       padding: 20,
-                      color: axisStyle.axisLabelColour,
-                      fontFamily: axisStyle.axisLabelFont
+                      color: axisStyle.axisLabelTextStyle.colour,
+                      fontFamily: axisStyle.axisLabelTextStyle.name
                     },
                     ticks: {
                       stroke: axisStyle.axisStroke 
                     },
                     tickLabels: {
-                      fontSize: axisStyle.tickLabelSize, 
+                      fontSize: axisStyle.axisLabelTextStyle.size, 
                       padding: 5,
-                      color: axisStyle.axisLabelColour
+                      color: axisStyle.axisLabelTextStyle.colour
                     },
                     grid: { 
                       stroke: ()=> gridlineStyle.gridlines ? gridlineStyle.stroke : null,
@@ -316,9 +268,9 @@ const PRETERMChart: React.FC<PRETERMChartProps>=(
                     <VictoryLabel 
                       dy={0}
                       style={[
-                        { fill: axisStyle.axisLabelColour, 
-                          fontSize: axisStyle.axisLabelSize,
-                          font: axisStyle.axisLabelFont
+                        { fill: axisStyle.axisLabelTextStyle.colour, 
+                          fontSize: axisStyle.axisLabelTextStyle.size,
+                          font: axisStyle.axisLabelTextStyle.name
                         },
                       ]}
                     />
@@ -340,19 +292,19 @@ const PRETERMChart: React.FC<PRETERMChartProps>=(
                       strokeWidth: 1.0
                     },
                     axisLabel: {
-                      fontSize: axisStyle.axisLabelSize, 
+                      fontSize: axisStyle.axisLabelTextStyle.size, 
                       padding: 20,
-                      color: axisStyle.axisLabelColour,
-                      font: axisStyle.axisLabelFont
+                      color: axisStyle.axisLabelTextStyle.colour,
+                      font: axisStyle.axisLabelTextStyle.name
                     },
                     ticks: {
-                      stroke: axisStyle.axisLabelColour
+                      stroke: axisStyle.tickLabelTextStyle.colour
                     },
                     tickLabels: {
-                      fontSize: axisStyle.tickLabelSize, 
+                      fontSize: axisStyle.tickLabelTextStyle.size, 
                       padding: 5,
                       color: axisStyle.axisStroke,
-                      fontFamily: axisStyle.axisLabelFont
+                      fontFamily: axisStyle.tickLabelTextStyle.name
                     },
                     grid: { 
                       stroke: gridlineStyle.gridlines ? gridlineStyle.stroke : null, 
@@ -407,7 +359,7 @@ const PRETERMChart: React.FC<PRETERMChartProps>=(
                             style={{
                             data: {
                                 stroke: centileStyle.centileStroke,
-                                strokeWidth: centileStyle.centileStrokeWidth-0.25,
+                                strokeWidth: centileStyle.centileStrokeWidth,
                                 strokeLinecap: 'round',
                                 strokeDasharray: '5 5'
                             }
@@ -423,7 +375,7 @@ const PRETERMChart: React.FC<PRETERMChartProps>=(
                               style={{
                               data: {
                                 stroke: centileStyle.centileStroke,
-                                strokeWidth: centileStyle.centileStrokeWidth-0.25,
+                                strokeWidth: centileStyle.centileStrokeWidth,
                                 strokeLinecap: 'round',
                               }
                               }}
@@ -440,37 +392,16 @@ const PRETERMChart: React.FC<PRETERMChartProps>=(
               {/* create a series for each child measurements datapoint: a circle for chronological age, a cross for corrected - if the chronological and corrected age are the same, */}
               {/* the removeCorrectedAge function removes the corrected age to prevent plotting a circle on a cross, and having duplicate */}
               {/* text in the tool tip */}
-              { allMeasurementPairs.map((measurementPair: [PlottableMeasurement, PlottableMeasurement], index) => {
-                
-                let match=false
-                if(measurementPair.length > 1){
-                  
-                  const first = measurementPair[0]
-                  const second = measurementPair[1]
-                  match = first.x===second.x
-                
-                } else {
-                  match=true
-                }
+              { childMeasurements.map((childMeasurement: Measurement, index) => {
                 
                 return (
                     <VictoryGroup
                       key={'measurement'+index}
                     >
-                      { match  ?
+                    { showCorrectedAge  &&
                       
-                      
-                        <VictoryScatter // chronological age
-                            data={measurementPair.length > 1 ? removeCorrectedAge(measurementPair) : measurementPair}
-                            symbol={ measurementStyle.measurementShape }
-                            style={{ data: { fill: measurementStyle.measurementFill } }}
-                            name='same_age' 
-                        />
-
-                        :
-                        
-                        <VictoryScatter // corrected age
-                            data={measurementPair}
+                        <VictoryScatter // corrected age - a custom component that renders a dot or a cross
+                            data={[childMeasurement.plottable_data.centile_data.corrected_decimal_age_data]}
                             dataComponent={
                               <XPoint 
                                 showChronologicalAge={showChronologicalAge}
@@ -478,25 +409,41 @@ const PRETERMChart: React.FC<PRETERMChartProps>=(
                               />
                             }
                           style={{ data: 
-                            { fill: measurementStyle.measurementFill } 
+                            { 
+                              fill: measurementStyle.measurementFill,
+                              strokeWidth: measurementStyle.measurementSize 
+                            } 
                           }}
-                          name= 'split_age'
+                          // name= 'split_age'
                         />
-                        
-                      }
-                      { showChronologicalAge && showCorrectedAge && // only show the line if both cross and dot are rendered
-                        <VictoryLine
-                          name="linkLine"
-                          style={{ 
-                            data: { stroke: measurementStyle.measurementFill, strokeWidth: 1.25 },
-                          }}
-                          data={measurementPair}
-                        /> 
+                      
                       }
                       
-                    </VictoryGroup>
+                      { showChronologicalAge && <VictoryScatter // chronological age
+                          data={[childMeasurement.plottable_data.centile_data.chronological_decimal_age_data]}
+                          symbol="circle"
+                          style={{ data: { fill: measurementStyle.measurementFill } }}
+                      />
+                    }
+                      
+                      {showChronologicalAge &&
+                    showCorrectedAge && ( // only show the line if both cross and dot are rendered
+                      <VictoryLine
+                        name="linkLine"
+                        style={{
+                          data: {
+                            stroke: measurementStyle.measurementFill,
+                            strokeWidth: 1.25,
+                          },
+                        }}
+                        data={[childMeasurement.plottable_data.centile_data.chronological_decimal_age_data,childMeasurement.plottable_data.centile_data.corrected_decimal_age_data]}
+                      />
+                    )}
+                     </VictoryGroup> 
                   )
-              })}
+              })
+              
+            }
               </VictoryChart>
     )
 }

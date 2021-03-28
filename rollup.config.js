@@ -25,7 +25,16 @@ export default {
   plugins: [
     peerDepsExternal(),
     resolve(),
-    commonjs(),
+    commonjs(
+      {
+        ignoreGlobal: true,
+        include: /\/node_modules\//,
+        namedExports: {
+          react: Object.keys(require('react')),
+          'react-is': Object.keys(require('react-is')),
+        },
+      }
+    ),
     typescript({ useTsconfigDeclarationDir: true }),
     postcss(),
     copy({

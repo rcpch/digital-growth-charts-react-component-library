@@ -1,13 +1,13 @@
 {
   "name": "@rcpch/digital-growth-charts-react-component-library",
-  "version": "3.0.3",
+  "version": "4.0.0",
   "main": "build/index.js",
   "module": "build/index.esm.js",
   "files": [
     "build"
   ],
   "types": "build/index.d.ts",
-  "description": "A React component library for the RCPCH digital growth charts using Rollup, TypeScript, Sass and Storybook",
+  "description": "A React component library for the RCPCH digital growth charts using Rollup, TypeScript and Sass",
   "scripts": {
     "build": "rollup -c",
     "test": "jest",
@@ -62,8 +62,13 @@
     "typescript": "^3.7.2"
   },
   "dependencies": {
+    "@types/styled-components": "^5.1.9",
     "@types/victory": "^33.1.4",
+    "styled-components": "^5.2.1",
     "tslib": "^2.1.0",
     "victory": "^35.4.8"
+  },
+  "resolutions": {
+    "styled-components": "^5"
   }
 }
