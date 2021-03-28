@@ -38,16 +38,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
         centileStyle,
         measurementStyle
 }) => {
-
-  let defaultChartStyle: ChartStyle = emptyChartValuesReturnDefaults(chartStyle);
-  let defaultAxisStyle: AxisStyle = emptyAxisValuesReturnDefaults(axisStyle)
-  let defaultGridlineStyle: GridlineStyle = emptyGridlineValuesReturnDefaults(gridlineStyle)
-  let defaultCentileStyle: CentileStyle = emptyCentileValuesReturnDefaults(centileStyle)
-  let defaultMeasurementStyle: MeasurementStyle = emptyMeasurementValuesReturnDefaults(measurementStyle)
-    
   
-  
-    
   // set state
   const yDomains = setTermDomainsForMeasurementMethod(
     measurementMethod,
@@ -69,6 +60,13 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
   let upperAgeX = 20;
   let upperMeasurementY = yDomains[1];
   let lowerMeasurementY = yDomains[0];
+
+  // set default styles if not supplied
+  let defaultChartStyle: ChartStyle = emptyChartValuesReturnDefaults(chartStyle);
+  let defaultAxisStyle: AxisStyle = emptyAxisValuesReturnDefaults(axisStyle)
+  let defaultGridlineStyle: GridlineStyle = emptyGridlineValuesReturnDefaults(gridlineStyle)
+  let defaultCentileStyle: CentileStyle = emptyCentileValuesReturnDefaults(centileStyle)
+  let defaultMeasurementStyle: MeasurementStyle = emptyMeasurementValuesReturnDefaults(measurementStyle)
 
   useEffect(() => {
     if (measurementsArray?.length > 0) {

@@ -38,14 +38,14 @@ export interface AxisStyle{
     tickLabelTextStyle?: TextStyle
 }
 
-interface Padding {
+export interface Padding {
     left?: number,
     right?: number,
     top?: number,
     bottom?: number
 }
+export interface TextStyle {
 
-interface TextStyle {
     name?: string,
     colour?: string,
     size?: number,
