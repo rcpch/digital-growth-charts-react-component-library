@@ -62,8 +62,13 @@
     "typescript": "^3.7.2"
   },
   "dependencies": {
+    "@types/styled-components": "^5.1.9",
     "@types/victory": "^33.1.4",
+    "styled-components": "^5.2.1",
     "tslib": "^2.1.0",
     "victory": "^35.4.8"
+  },
+  "resolutions": {
+    "styled-components": "^5"
   }
 }

@@ -1,5 +1,6 @@
 // libraries
 import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
 import {
   VictoryChart,
   VictoryGroup,
@@ -855,55 +856,118 @@ function CentileChart({
           )}
         </VictoryChart>
       )}
-      <span style={{ display: 'inline-block' }}>
+      <span style={{display: 'block'}}>
         {(isPreterm || termUnderThreeMonths) && (
-          <button
-            onClick={onClickShowPretermChartHandler}
-            style={{
-              backgroundColor: chartStyle.toggleButtonInactiveColour,
-              border: 'none',
-              padding: 5,
-              margin: 5,
-              color: chartStyle.toggleButtonTextColour,
-            }}
-          >
-            {showPretermChart ? 'Show Child Chart' : 'Show Preterm Chart'}
-          </button>
-        )}
+            <PretermChildButton
+              activeColour={chartStyle.toggleButtonActiveColour}
+              inactiveColour={chartStyle.toggleButtonInactiveColour}
+              showPretermChart={showPretermChart}
+              handleClick={onClickShowPretermChartHandler}
+            />
+          )}
+      </span>
+      <span style={{ display: 'inline-block' }}>
         {showToggle && (
-          <div 
-            className="radio-toolbar" 
-            onChange={onSelectRadioButton}
-          >
-            <input
-              type="radio"
-              id="adjusted"
-              value="adjusted"
-              name="adjustments"
-              defaultChecked={correctedAge && chronologicalAge === false}
-            />
-            <label htmlFor="adjusted">Adjusted Age</label>
-            <input
-              type="radio"
-              id="unadjusted"
-              value="unadjusted"
-              name="adjustments"
-              defaultChecked={chronologicalAge && correctedAge === false}
-            />
-            <label htmlFor="unadjusted">Unadjusted Age</label>
-            <input
-              type="radio"
-              id="both"
-              value="both"
-              name="adjustments"
-              defaultChecked={correctedAge === chronologicalAge}
-            />
-            <label htmlFor="both">Both Ages</label>
-          </div>
+          <StyledRadioButtonGroup 
+            activeColour={chartStyle.toggleButtonActiveColour}
+            inactiveColour={chartStyle.toggleButtonInactiveColour}
+            textColour={chartStyle.toggleButtonTextColour}
+            handleClick={onSelectRadioButton}
+            correctedAge={correctedAge}
+            chronologicalAge={chronologicalAge}
+            className="PretermToggle"
+          />
         )}
       </span>
     </div>
   );
 }
+
+const StyledButton = styled.button<{textColour: string, activeColour: string, inactiveColour: string, preterm: boolean}>`
+  background-color: ${props=>props.activeColour};
+  margin: 5px 5px;
+  border: 2px solid ${props=>props.activeColour};
+  padding: 4px 11px;
+  font-family: Arial;
+  font-size: 16px;
+  color: white; 
+  &:hover {
+    background-color: ${props=>props.inactiveColour};
+    color: white;
+    border: 2px solid ${props=> props.inactiveColour};
+  }
+  &:focus{
+    outline: ${props=>props.activeColour} solid 2px;
+  }
+`;
+
+
+const PretermChildButton = (props) => {
+  
+  return (
+    <StyledButton
+      onClick={props.handleClick}
+      className={props.className}
+      activeColour={props.activeColour}
+      inactiveColour={props.inactiveColour}
+      textColour={props.toggleButtonTextColour}
+      preterm={props.showPretermChart}
+    >{props.showPretermChart ? 'Show Child Chart' : 'Show Preterm Chart'}
+    </StyledButton>
+  )
+}
+
+const AgeRadioButtonGroup = (props) => {
+  return  (  <div 
+      className="radio-toolbar" 
+      onChange={props.handleClick}
+    >
+      <input
+        type="radio"
+        id="adjusted"
+        value="adjusted"
+        name="adjustments"
+        defaultChecked={props.correctedAge && props.chronologicalAge === false}
+      />
+      <label htmlFor="adjusted">Adjusted Age</label>
+      <input
+        type="radio"
+        id="unadjusted"
+        value="unadjusted"
+        name="adjustments"
+        defaultChecked={props.chronologicalAge && props.correctedAge === false}
+      />
+      <label htmlFor="unadjusted">Unadjusted Age</label>
+      <input
+        type="radio"
+        id="both"
+        value="both"
+        name="adjustments"
+        defaultChecked={props.correctedAge === props.chronologicalAge}
+      />
+      <label htmlFor="both">Both Ages</label>
+    </div>)
+}
+
+
+const StyledRadioButtonGroup = styled(AgeRadioButtonGroup)`
+  label {
+    display: inline-block;
+    padding: 4px 11px;
+    font-family: Arial;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: ${props=> props.inactiveColour};
+    color: white;
+    width: 175px;
+  }
+  input[type="radio"]:checked + label{
+    background-color: ${props=>props.activeColour};
+  }
+  input[type="radio"] {
+    display: none;
+  }
+`
+
 
 export default CentileChart;
