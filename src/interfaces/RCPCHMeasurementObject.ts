@@ -39,21 +39,53 @@ export interface Measurement {
     plottable_data: {
       centile_data: {
         chronological_decimal_age_data: {
-          x: number,
-          y: number,
+          age_error: null,
+          age_type: "chronological_age" | "corrected_age",
+          calendar_age: string,
+          centile_band: string,
+          clinician_comment: string,
+          lay_comment: string,
+          observation_error: null,
+          observation_value_error: null,
+          x: number
+          y: number
         },
         corrected_decimal_age_data: {
-          x: number,
+          age_error: null,
+          age_type: "chronological_age" | "corrected_age",
+          calendar_age: string,
+          centile_band: string,
+          clinician_comment: string,
+          lay_comment: string,
+          observation_error: null,
+          observation_value_error: null,
+          x: number
           y: number
         }
       },
       sds_data: {
         chronological_decimal_age_data: {
-          x: number,
-          y: number,
+          age_error: null,
+          age_type: "chronological_age" | "corrected_age",
+          calendar_age: string,
+          centile_band: string,
+          clinician_comment: string,
+          lay_comment: string,
+          observation_error: null,
+          observation_value_error: null,
+          x: number
+          y: number
         },
         corrected_decimal_age_data: {
-          x: number,
+          age_error: null,
+          age_type: "chronological_age" | "corrected_age",
+          calendar_age: string,
+          centile_band: string,
+          clinician_comment: string,
+          lay_comment: string,
+          observation_error: null,
+          observation_value_error: null,
+          x: number
           y: number
         }
       }
