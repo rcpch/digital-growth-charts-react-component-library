@@ -36,8 +36,6 @@ import { MonthsLabel } from '../SubComponents/MonthsLabel';
 // style sheets
 import './CentileChart.scss';
 
-// definitions
-
 import {
   delayedPubertyThreshold,
   pubertyThresholdBoys,
@@ -51,6 +49,8 @@ const VictoryZoomVoronoiContainer = createContainer<
   VictoryZoomContainerProps,
   VictoryVoronoiContainerProps
 >('zoom', 'voronoi'); // allows two top level containers: zoom and voronoi
+
+import icon from '../images/icon.png'
 
 function CentileChart({
   reference,
@@ -133,6 +133,10 @@ function CentileChart({
       {/* The VictoryChart is the parent component. It contains a Voronoi container, which groups data sets together for the purposes of tooltips */}
       {/* It has an animation object and the domains are the thresholds of ages rendered. This is calculated from the child data supplied by the user. */}
       {/* Tooltips are here as it is the parent component. More information of tooltips in centiles below. */}
+     
+      <div className="flex-center-vertically">
+            <img src={icon} width={32} height={32}/>
+      </div>
 
       {showPretermChart ? (
         <PRETERMChart
@@ -856,6 +860,9 @@ function CentileChart({
           )}
         </VictoryChart>
       )}
+      {/* <div>
+        <img src={icon} />
+      </div> */}
       <span style={{ display: 'block' }}>
         {(isPreterm || termUnderThreeMonths) && (
           <PretermChildButton

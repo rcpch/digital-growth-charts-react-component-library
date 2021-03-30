@@ -25,6 +25,8 @@ import { emptyAxisValuesReturnDefaults } from "../functions/stylesDefaultValues"
 import { emptyMeasurementValuesReturnDefaults } from "../functions/stylesDefaultValues";
 import { emptyGridlineValuesReturnDefaults } from "../functions/stylesDefaultValues";
 
+import icon from '../images/icon.png'
+
 const RCPCHChart: React.FC<RCPCHChartProps> = ({
   title,
   subtitle,
@@ -218,6 +220,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
 
 
       { !isLoading &&
+      <div>  
         <CentileChart
           reference={reference}
           title={title}
@@ -236,6 +239,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
           isPreterm={isPreterm}
           termUnderThreeMonths={termUnderThreeMonths}
         />
+      </div>
       }
       {
         isLoading &&

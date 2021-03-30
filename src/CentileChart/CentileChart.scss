@@ -2,25 +2,15 @@
 @import "../variables.scss";
 @import "../typography.scss";
 
-.radio-toolbar input[type="radio"] {
-  display: none;
-}
-
-.radio-toolbar label {
-  display: inline-block;
-  padding: 4px 11px;
-  font-family: Arial;
-  font-size: 16px;
-  cursor: pointer;
-  background-color: #E497C1;
-  color: white;
-}
-
-.radio-toolbar input[type="radio"]:checked + label{
-  background-color: #cb3083;
-}
-
 .centred {
   display: block;
   margin: auto;
+}
+
+.flex-center-vertically {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  height: 50px;
+  left: 5px;
 }

@@ -1,6 +1,6 @@
 {
   "name": "@rcpch/digital-growth-charts-react-component-library",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "main": "build/index.js",
   "module": "build/index.esm.js",
   "files": [
@@ -45,6 +45,7 @@
   "devDependencies": {
     "@babel/core": "^7.10.3",
     "@rollup/plugin-commonjs": "^11.1.0",
+    "@rollup/plugin-image": "^2.0.6",
     "@rollup/plugin-node-resolve": "^7.1.3",
     "@testing-library/jest-dom": "^5.5.0",
     "@testing-library/react": "^10.0.2",
