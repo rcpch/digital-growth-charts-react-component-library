@@ -26,35 +26,43 @@ We're happy to consider building components in other languages/frameworks, or to
 
 ## Getting started
 
-```javascript
-npm i --save @rcph/digital-growth-charts-react-component-library
+```console
+foobar:~foo$ npm i --save @rcph/digital-growth-charts-react-component-library
 ```
 
 Victory Charts are a dependency (see below), themselves built on top of D3.js. On build it is likely you will get an error relating to circular dependencies for some files in the d3-interpolate module. The is an issue logged [here](https://github.com/d3/d3-interpolate/issues/58).
 
 If you want to run the package locally alongside the react client, there are some extra steps to go through. Since the chart library and the react client both use react, the charts will throw an error if you import them in the ```package.json``` of your app from a folder on your local machine. For example in your react app:
+
 ```json
 "dependencies": {
-    "@rcpch/digital-growth-charts-react-component-library": "file:/Users/SimonChapman/Development/react/component-libraries/digital-growth-charts-react-component-library",
-}
+    "@rcpch/digital-growth-charts-react-component-library": "file:/Users/FooBar/Development/react/component-libraries/digital-growth-charts-react-component-library",
+} 
 ```
+
 The problem with this is that there are then 2 versions of react running. To overcome this, in your application:
+
+```console
+foobar:~foo$ cd node_modules/react
+foobar:~foo$ npm link
 ```
-cd node_modules/react
-npm link
-```
+
 In the root folder of your chart library:
+
+```console
+foobar:~foo$ npm link react
 ```
-npm link react
-```
+
 Repeat the same for ```react-dom``` ensuring all the package versions are the same for your app and the library.
 In this way, you can make changes to the chart package and they will appear in your app after ```npm run build``` and refresh your app.
+
+If the invalid hooks error persists inspite of this, a further fix involves deleting the ```node_modules``` folder in the```@rcpch/digital-growth-charts-react-component-library``` folder within ```node_modules``` in the client.
 
 ## Structure
 
 This library has been written in Typescript. The main component is `RCPCHChart`, which takes the following `props`:
 
-```
+```js
 {
   title: string,
   subtitle: string,
@@ -76,7 +84,8 @@ The `Measurement` interface is structured to reflect the JSON `Measurement` obje
 
 The `Measurement` interface structure is:
 
-```interface Measurement {
+```js
+interface Measurement {
     birth_data: {
       birth_date: Date,
       estimated_date_delivery: Date,
@@ -168,12 +177,14 @@ The `Measurement` interface structure is:
         }
       }
     }
-  }```
+  }
+  ```
 
 The styling components allow the user to customise elements of the chart:
 Chart styles control the chart and the tooltips
 
-```interface ChartStyle{
+```js
+interface ChartStyle{
     backgroundColour?: string, 
     width?: number, 
     height?: number,
@@ -198,7 +209,8 @@ Note for the tooltips and infobox text sizes, these are strokeWidths, not point 
 
 Axis styles control axes and axis labels
 
-```interface AxisStyle{
+```js
+interface AxisStyle{
     axisStroke?: string, 
     axisLabelTextStyle?: requires {name?: string, colour?: string, size?: number, weight?: 'bold' | 'italic' | 'regular'}
     tickLabelTextStyle?: requires {name?: string, colour?: string, size?: number, weight?: 'bold' | 'italic' | 'regular'}
@@ -207,7 +219,8 @@ Axis styles control axes and axis labels
 
 Gridline styles allow/hide gridlines and control line width, presence of dashes, colour.
 
-```interface GridlineStyle{
+```js
+interface GridlineStyle{
    gridlines?: boolean, 
     stroke?: string, 
     strokeWidth?: number, 
@@ -217,7 +230,7 @@ Gridline styles allow/hide gridlines and control line width, presence of dashes,
 
 Centile styles control the width and colour.
 
-```
+```js
 interface CentileStyle{
     centileStroke?: string, 
     centileStrokeWidth?: number, 
@@ -227,7 +240,7 @@ interface CentileStyle{
 
 Measurement styles control the plotted data points - colour, size and shape. Corrected ages are always rendered as crosses. Circles for chronological ages are preferred.
 
-```
+```js
 interface MeasurementStyle{
     measurementFill?: string, 
     measurementSize?: number // this is an svg size

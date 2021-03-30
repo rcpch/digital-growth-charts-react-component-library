@@ -1,13 +1,13 @@
 {
   "name": "@rcpch/digital-growth-charts-react-component-library",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "main": "build/index.js",
   "module": "build/index.esm.js",
   "files": [
     "build"
   ],
   "types": "build/index.d.ts",
-  "description": "A React component library for the RCPCH digital growth charts using Rollup, TypeScript and Sass",
+  "description": "A React component library for the RCPCH digital growth charts using Rollup, TypeScript and Styled-Components",
   "scripts": {
     "build": "rollup -c",
     "test": "jest",
@@ -38,6 +38,10 @@
     "url": "https://github.com/RCPCH/digital-growth-charts-react-component-library/issues"
   },
   "homepage": "https://github.com/RCPCH/digital-growth-charts-react-component-library#readme",
+  "peerDependencies": {
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
+  },
   "devDependencies": {
     "@babel/core": "^7.10.3",
     "@rollup/plugin-commonjs": "^11.1.0",
@@ -64,6 +68,13 @@
   "dependencies": {
     "@types/styled-components": "^5.1.9",
     "@types/victory": "^33.1.4",
+    "@typescript-eslint/eslint-plugin": "^4.20.0",
+    "@typescript-eslint/parser": "^4.20.0",
+    "eslint": "^7.23.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-react": "^7.23.1",
+    "prettier": "^2.2.1",
     "styled-components": "^5.2.1",
     "tslib": "^2.1.0",
     "victory": "^35.4.8"

@@ -25,20 +25,20 @@ import { emptyAxisValuesReturnDefaults } from "../functions/stylesDefaultValues"
 import { emptyMeasurementValuesReturnDefaults } from "../functions/stylesDefaultValues";
 import { emptyGridlineValuesReturnDefaults } from "../functions/stylesDefaultValues";
 
-const RCPCHChart: React.FC<RCPCHChartProps> = ({ 
-        title,
-        subtitle,
-        measurementMethod,
-        reference,
-        sex,
-        measurementsArray,
-        chartStyle,
-        axisStyle,
-        gridlineStyle,
-        centileStyle,
-        measurementStyle
+const RCPCHChart: React.FC<RCPCHChartProps> = ({
+  title,
+  subtitle,
+  measurementMethod,
+  reference,
+  sex,
+  measurementsArray,
+  chartStyle,
+  axisStyle,
+  gridlineStyle,
+  centileStyle,
+  measurementStyle
 }) => {
-  
+
   // set state
   const yDomains = setTermDomainsForMeasurementMethod(
     measurementMethod,
@@ -163,7 +163,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     //   newUpperY= upperMeasurementY-10
     // }
 
-    
+
     let newReferenceData: ICentile[][];
     if (reference === 'trisomy-21') {
       newReferenceData = fetchTrisomy21Data(sex, measurementMethod, {
@@ -200,13 +200,13 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
   };
 
   // const updateDomains = () => {};
-  
+
   return (
     <div
       data-testid="RCPCHChart"
     >
-      
-                  {/*       
+
+      {/*       
                     The RCPCH chart component renders a single chart
                     Props include:
                     reference
@@ -215,34 +215,35 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
                     measurementsArray (this is an array of measurement objects received from the dGC API)
                     styles - there is one each for the chart, centiles, axes, gridlines and measurement points
                   */}
-      
-      
+
+
       { !isLoading &&
-          <CentileChart
-            reference={reference}
-            title={title}
-            subtitle={subtitle}
-            childMeasurements={measurementsArray || []}
-            measurementMethod={measurementMethod}
-            sex={sex}
-            chartStyle={defaultChartStyle}
-            axisStyle={defaultAxisStyle}
-            gridlineStyle={defaultGridlineStyle}
-            centileStyle={defaultCentileStyle}
-            measurementStyle={defaultMeasurementStyle}
-            centileReferenceData={centileReferenceData}
-            setUKWHODomains={updateDomains}
-            domains={domains}
-            isPreterm={isPreterm}
-            termUnderThreeMonths={termUnderThreeMonths}
-          />
+        <CentileChart
+          reference={reference}
+          title={title}
+          subtitle={subtitle}
+          childMeasurements={measurementsArray || []}
+          measurementMethod={measurementMethod}
+          sex={sex}
+          chartStyle={defaultChartStyle}
+          axisStyle={defaultAxisStyle}
+          gridlineStyle={defaultGridlineStyle}
+          centileStyle={defaultCentileStyle}
+          measurementStyle={defaultMeasurementStyle}
+          centileReferenceData={centileReferenceData}
+          setUKWHODomains={updateDomains}
+          domains={domains}
+          isPreterm={isPreterm}
+          termUnderThreeMonths={termUnderThreeMonths}
+        />
       }
       {
         isLoading &&
         <h1> Loading ...</h1>
       }
     </div >
-  )}
+  )
+}
 
 export default RCPCHChart;
 
@@ -316,5 +317,5 @@ export default RCPCHChart;
     }
 }
     ]
-    
+
 */

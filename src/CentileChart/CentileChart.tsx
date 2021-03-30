@@ -12,7 +12,7 @@ import {
   VictoryAxis,
   VictoryLegend,
   VictoryLabel,
-  VictoryArea, 
+  VictoryArea,
   createContainer,
 } from 'victory';
 
@@ -229,7 +229,7 @@ function CentileChart({
                   datum.lay_comment,
                   correctedAge,
                   chronologicalAge
-                  )
+                )
               }}
               voronoiBlacklist={['linkLine']}
             />
@@ -288,8 +288,8 @@ function CentileChart({
                 grid: {
                   stroke: () =>
                     gridlineStyle.gridlines ? gridlineStyle.stroke : null,
-                    strokeWidth: gridlineStyle.strokeWidth,
-                    strokeDasharray: gridlineStyle.dashed ? '5 5' : null,
+                  strokeWidth: gridlineStyle.strokeWidth,
+                  strokeDasharray: gridlineStyle.dashed ? '5 5' : null,
                 },
               }}
               tickLabelComponent={
@@ -345,8 +345,8 @@ function CentileChart({
                 grid: {
                   stroke: () =>
                     gridlineStyle.gridlines ? gridlineStyle.stroke : null,
-                    strokeWidth: gridlineStyle.strokeWidth,
-                    strokeDasharray: gridlineStyle.dashed ? '5 5' : null,
+                  strokeWidth: gridlineStyle.strokeWidth,
+                  strokeDasharray: gridlineStyle.dashed ? '5 5' : null,
                 },
               }}
               tickLabelComponent={
@@ -526,7 +526,7 @@ function CentileChart({
 
           {/* These are the puberty threshold lines - the boys are a year above the girls */}
 
-          {domains.x[1] > 7.5 && reference==="uk-who" &&
+          {domains.x[1] > 7.5 && reference === "uk-who" &&
             sex === 'male' &&
             measurementMethod === 'height' && // puberty threshold lines boys UK90
             pubertyThresholdBoys.map((data, index) => {
@@ -562,8 +562,8 @@ function CentileChart({
               );
             })}
 
-          {domains.x[1] > 12.5 && 
-            reference==="uk-who" &&
+          {domains.x[1] > 12.5 &&
+            reference === "uk-who" &&
             sex === 'female' &&
             measurementMethod === 'height' && // puberty threshold lines uk90 girls
             pubertyThresholdGirls.map((data, index) => {
@@ -644,7 +644,7 @@ function CentileChart({
           {/* The upper border is the 0.4th centile so this must come before the centiles */}
 
           {domains.x[1] > 7 &&
-            reference==="uk-who" &&
+            reference === "uk-who" &&
             sex === 'male' &&
             measurementMethod == 'height' && ( //puberty delay shaded area boys
               <VictoryArea
@@ -665,7 +665,7 @@ function CentileChart({
             )}
 
           {domains.x[1] > 7 &&
-            reference==="uk-who" &&
+            reference === "uk-who" &&
             sex === 'female' &&
             measurementMethod == 'height' && ( //puberty delay shaded area boys
               <VictoryArea
@@ -699,12 +699,12 @@ function CentileChart({
           {/* 1 for each centile, 1 for the shaded area, 1 at 2years to indicate children are measured standing leading */}
           {/* to a step down in height weight and bmi in the data set. There is another tool tip at 4 years to indicate transition from datasets. */}
 
-          {reference==="uk-who" &&
+          {reference === "uk-who" &&
             centileReferenceData.map((referenceData, index) => { // UK-WHO - 3 references
-            if (index === 0) {
-              // do not want to render preterm data - this will leave a 2 week gap from 0 to 2 weeks
-              return;
-            }
+              if (index === 0) {
+                // do not want to render preterm data - this will leave a 2 week gap from 0 to 2 weeks
+                return;
+              }
 
               return (
                 <VictoryGroup key={index}>
@@ -746,49 +746,49 @@ function CentileChart({
                   })}
                 </VictoryGroup>
               );
-          })}
-        
-          
-          { reference !=="uk-who" &&
-          // <VictoryGroup>
-              centileReferenceData[0].map((centile: ICentile, centileIndex: number) => { // specialist references - only one each
-                if (centileIndex % 2 === 0) {
-                  // even index - centile is dashed
-                  return (
-                    <VictoryLine
-                      key={centile.centile + '-' + centileIndex}
-                      padding={{ top: 20, bottom: 60 }}
-                      data={centile.data}
-                      style={{
-                        data: {
-                          stroke: centileStyle.centileStroke,
-                          strokeWidth: centileStyle.centileStrokeWidth,
-                          strokeLinecap: 'round',
-                          strokeDasharray: '5 5',
-                        },
-                      }}
-                    />
-                  );
-                } else {
-                  // uneven index - centile is continuous
-                  return (
-                    <VictoryLine
-                      key={centile.centile + '-' + centileIndex}
-                      padding={{ top: 20, bottom: 60 }}
-                      data={centile.data}
-                      style={{
-                        data: {
-                          stroke: centileStyle.centileStroke,
-                          strokeWidth: centileStyle.centileStrokeWidth,
-                          strokeLinecap: 'round',
-                        },
-                      }}
-                    />
-                  );
-                }
-              })
+            })}
+
+
+          { reference !== "uk-who" &&
+            // <VictoryGroup>
+            centileReferenceData[0].map((centile: ICentile, centileIndex: number) => { // specialist references - only one each
+              if (centileIndex % 2 === 0) {
+                // even index - centile is dashed
+                return (
+                  <VictoryLine
+                    key={centile.centile + '-' + centileIndex}
+                    padding={{ top: 20, bottom: 60 }}
+                    data={centile.data}
+                    style={{
+                      data: {
+                        stroke: centileStyle.centileStroke,
+                        strokeWidth: centileStyle.centileStrokeWidth,
+                        strokeLinecap: 'round',
+                        strokeDasharray: '5 5',
+                      },
+                    }}
+                  />
+                );
+              } else {
+                // uneven index - centile is continuous
+                return (
+                  <VictoryLine
+                    key={centile.centile + '-' + centileIndex}
+                    padding={{ top: 20, bottom: 60 }}
+                    data={centile.data}
+                    style={{
+                      data: {
+                        stroke: centileStyle.centileStroke,
+                        strokeWidth: centileStyle.centileStrokeWidth,
+                        strokeLinecap: 'round',
+                      },
+                    }}
+                  />
+                );
+              }
+            })
           }
-        
+
 
           {/* create a series for each child measurements datapoint: a circle for chronological age, a cross for corrected - if the chronological and corrected age are the same, */}
           {/* the removeCorrectedAge function removes the corrected age to prevent plotting a circle on a cross, and having duplicate */}
@@ -811,12 +811,12 @@ function CentileChart({
                         />
                       }
                       style={{
-                        data: { 
+                        data: {
                           fill: measurementStyle.measurementFill,
-                          strokeWidth: measurementStyle.measurementSize 
+                          strokeWidth: measurementStyle.measurementSize
                         },
                       }}
-                      name= 'corrected_age'
+                      name='corrected_age'
                     />
                   )}
 
@@ -828,9 +828,9 @@ function CentileChart({
                       ]}
                       symbol="circle"
                       style={{
-                        data: { 
+                        data: {
                           fill: measurementStyle.measurementFill,
-                          strokeWidth: measurementStyle.measurementSize 
+                          strokeWidth: measurementStyle.measurementSize
                         },
                       }}
                       name='chronological'
@@ -847,7 +847,7 @@ function CentileChart({
                             strokeWidth: 1.25,
                           },
                         }}
-                        data={[childMeasurement.plottable_data.centile_data.chronological_decimal_age_data,childMeasurement.plottable_data.centile_data.corrected_decimal_age_data]}
+                        data={[childMeasurement.plottable_data.centile_data.chronological_decimal_age_data, childMeasurement.plottable_data.centile_data.corrected_decimal_age_data]}
                       />
                     )}
                 </VictoryGroup>
@@ -856,19 +856,19 @@ function CentileChart({
           )}
         </VictoryChart>
       )}
-      <span style={{display: 'block'}}>
+      <span style={{ display: 'block' }}>
         {(isPreterm || termUnderThreeMonths) && (
-            <PretermChildButton
-              activeColour={chartStyle.toggleButtonActiveColour}
-              inactiveColour={chartStyle.toggleButtonInactiveColour}
-              showPretermChart={showPretermChart}
-              handleClick={onClickShowPretermChartHandler}
-            />
-          )}
+          <PretermChildButton
+            activeColour={chartStyle.toggleButtonActiveColour}
+            inactiveColour={chartStyle.toggleButtonInactiveColour}
+            showPretermChart={showPretermChart}
+            handleClick={onClickShowPretermChartHandler}
+          />
+        )}
       </span>
       <span style={{ display: 'inline-block' }}>
         {showToggle && (
-          <StyledRadioButtonGroup 
+          <StyledRadioButtonGroup
             activeColour={chartStyle.toggleButtonActiveColour}
             inactiveColour={chartStyle.toggleButtonInactiveColour}
             textColour={chartStyle.toggleButtonTextColour}
@@ -883,27 +883,27 @@ function CentileChart({
   );
 }
 
-const StyledButton = styled.button<{textColour: string, activeColour: string, inactiveColour: string, preterm: boolean}>`
-  background-color: ${props=>props.activeColour};
+const StyledButton = styled.button<{ textColour: string, activeColour: string, inactiveColour: string, preterm: boolean }>`
+  background-color: ${props => props.activeColour};
   margin: 5px 5px;
-  border: 2px solid ${props=>props.activeColour};
+  border: 2px solid ${props => props.activeColour};
   padding: 4px 11px;
   font-family: Arial;
   font-size: 16px;
-  color: white; 
+  color: ${props => props.textColour};
   &:hover {
-    background-color: ${props=>props.inactiveColour};
-    color: white;
-    border: 2px solid ${props=> props.inactiveColour};
+    background-color: ${props => props.inactiveColour};
+    color: ${props => props.textColour};
+    border: 2px solid ${props => props.inactiveColour};
   }
   &:focus{
-    outline: ${props=>props.activeColour} solid 2px;
+    outline: ${props => props.activeColour} solid 2px;
   }
 `;
 
 
 const PretermChildButton = (props) => {
-  
+
   return (
     <StyledButton
       onClick={props.handleClick}
@@ -918,35 +918,35 @@ const PretermChildButton = (props) => {
 }
 
 const AgeRadioButtonGroup = (props) => {
-  return  (  <div 
-      className="radio-toolbar" 
-      onChange={props.handleClick}
-    >
-      <input
-        type="radio"
-        id="adjusted"
-        value="adjusted"
-        name="adjustments"
-        defaultChecked={props.correctedAge && props.chronologicalAge === false}
-      />
-      <label htmlFor="adjusted">Adjusted Age</label>
-      <input
-        type="radio"
-        id="unadjusted"
-        value="unadjusted"
-        name="adjustments"
-        defaultChecked={props.chronologicalAge && props.correctedAge === false}
-      />
-      <label htmlFor="unadjusted">Unadjusted Age</label>
-      <input
-        type="radio"
-        id="both"
-        value="both"
-        name="adjustments"
-        defaultChecked={props.correctedAge === props.chronologicalAge}
-      />
-      <label htmlFor="both">Both Ages</label>
-    </div>)
+  return (<div
+    className="radio-toolbar"
+    onChange={props.handleClick}
+  >
+    <input
+      type="radio"
+      id="adjusted"
+      value="adjusted"
+      name="adjustments"
+      defaultChecked={props.correctedAge && props.chronologicalAge === false}
+    />
+    <label htmlFor="adjusted">Adjusted Age</label>
+    <input
+      type="radio"
+      id="unadjusted"
+      value="unadjusted"
+      name="adjustments"
+      defaultChecked={props.chronologicalAge && props.correctedAge === false}
+    />
+    <label htmlFor="unadjusted">Unadjusted Age</label>
+    <input
+      type="radio"
+      id="both"
+      value="both"
+      name="adjustments"
+      defaultChecked={props.correctedAge === props.chronologicalAge}
+    />
+    <label htmlFor="both">Both Ages</label>
+  </div>)
 }
 
 
@@ -957,12 +957,12 @@ const StyledRadioButtonGroup = styled(AgeRadioButtonGroup)`
     font-family: Arial;
     font-size: 16px;
     cursor: pointer;
-    background-color: ${props=> props.inactiveColour};
-    color: white;
+    background-color: ${props => props.inactiveColour};
+    color: ${props => props.textColour};
     width: 175px;
   }
   input[type="radio"]:checked + label{
-    background-color: ${props=>props.activeColour};
+    background-color: ${props => props.activeColour};
   }
   input[type="radio"] {
     display: none;
