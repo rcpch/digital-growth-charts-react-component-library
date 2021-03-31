@@ -860,14 +860,13 @@ function CentileChart({
           )}
         </VictoryChart>
       )}
-      {/* <div>
-        <img src={icon} />
-      </div> */}
+      
       <span style={{ display: 'block' }}>
         {(isPreterm || termUnderThreeMonths) && (
           <PretermChildButton
             activeColour={chartStyle.toggleButtonActiveColour}
             inactiveColour={chartStyle.toggleButtonInactiveColour}
+            textColour={chartStyle.toggleButtonTextColour}
             showPretermChart={showPretermChart}
             handleClick={onClickShowPretermChartHandler}
           />
@@ -890,18 +889,18 @@ function CentileChart({
   );
 }
 
-const StyledButton = styled.button<{ textColour: string, activeColour: string, inactiveColour: string, preterm: boolean }>`
-  background-color: ${props => props.activeColour};
+const StyledButton = styled.button<{ activeColour: string, inactiveColour: string, textColour: string, preterm: boolean }>`
+  background-color: ${props => props.inactiveColour};
   margin: 5px 5px;
-  border: 2px solid ${props => props.activeColour};
+  border: 2px solid ${props => props.inactiveColour};
   padding: 4px 11px;
   font-family: Arial;
   font-size: 16px;
-  color: ${props => props.textColour};
+  color: ${props => props.textColour};;
   &:hover {
-    background-color: ${props => props.inactiveColour};
+    background-color: ${props => props.activeColour};
     color: ${props => props.textColour};
-    border: 2px solid ${props => props.inactiveColour};
+    border: 2px solid ${props => props.activeColour};
   }
   &:focus{
     outline: ${props => props.activeColour} solid 2px;
@@ -910,14 +909,14 @@ const StyledButton = styled.button<{ textColour: string, activeColour: string, i
 
 
 const PretermChildButton = (props) => {
-
+  
   return (
     <StyledButton
       onClick={props.handleClick}
       className={props.className}
       activeColour={props.activeColour}
       inactiveColour={props.inactiveColour}
-      textColour={props.toggleButtonTextColour}
+      textColour={props.textColour}
       preterm={props.showPretermChart}
     >{props.showPretermChart ? 'Show Child Chart' : 'Show Preterm Chart'}
     </StyledButton>
@@ -926,7 +925,7 @@ const PretermChildButton = (props) => {
 
 const AgeRadioButtonGroup = (props) => {
   return (<div
-    className="radio-toolbar"
+    className={props.className}
     onChange={props.handleClick}
   >
     <input
@@ -956,8 +955,8 @@ const AgeRadioButtonGroup = (props) => {
   </div>)
 }
 
+const StyledRadioButtonGroup = styled(AgeRadioButtonGroup)<{activeColour: string, inactiveColour: string, textColour: string, className: string}>`
 
-const StyledRadioButtonGroup = styled(AgeRadioButtonGroup)`
   label {
     display: inline-block;
     padding: 4px 11px;
@@ -966,9 +965,10 @@ const StyledRadioButtonGroup = styled(AgeRadioButtonGroup)`
     cursor: pointer;
     background-color: ${props => props.inactiveColour};
     color: ${props => props.textColour};
-    width: 175px;
+    width: 170px;
   }
   input[type="radio"]:checked + label{
+    color: color: ${props => props.textColour};
     background-color: ${props => props.activeColour};
   }
   input[type="radio"] {
