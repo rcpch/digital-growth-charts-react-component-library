@@ -68,7 +68,7 @@ This library has been written in Typescript. The main component is `RCPCHChart`,
   subtitle: string,
   measurementMethod: 'height' | 'weight' | 'ofc' | 'bmi',
   sex: 'male' | 'female',
-  measurementsArray: [PlottableMeasurement][],
+  measurementsArray: [Measurement],
   reference: 'uk-who' | 'turner' | 'trisomy-21',
   width: number,
   height: number,
@@ -263,7 +263,7 @@ The chart data bundled in is subject to licence. If you wish to use this softwar
 
 ## Contributing
 
-We're a friendly bunch and we're happy to chat. You can get in touch with the primary developers to talk about the project using our forum at https://openhealthhub.org/c/rcpch-digital-growth-charts which is the community hub around the dGC project.
+We're a friendly bunch and we're happy to chat. You can get in touch with the primary developers to talk about the project using our forum at <https://openhealthhub.org/c/rcpch-digital-growth-charts> which is the community hub around the dGC project.
 
 ### How to contribute
 
