@@ -2,11 +2,11 @@
 import React from "react";
 import { render } from "@testing-library/react";
 
-import TURNERChart from "./TURNERChart";
-import { TURNERChartProps } from "./TURNERChart.types";
+import CentileChart from "./CentileChart";
+import { CentileChartProps } from "./CentileChart.types";
 
 describe("Test Component", () => {
-  let props: TURNERChartProps;
+  let props: CentileChartProps;
 
   beforeEach(() => {
     props = {
@@ -14,13 +14,13 @@ describe("Test Component", () => {
     };
   });
 
-  const renderComponent = () => render(<TURNERChart {...props} />);
+  const renderComponent = () => render(<CentileChart {...props} />);
 
   it("should render foo text correctly", () => {
     props.foo = "harvey was here";
     const { getByTestId } = renderComponent();
 
-    const component = getByTestId("TURNERChart");
+    const component = getByTestId("CentileChart");
 
     expect(component).toHaveTextContent("harvey was here");
   });

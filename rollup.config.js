@@ -4,6 +4,7 @@ import commonjs from "@rollup/plugin-commonjs";
 import typescript from "rollup-plugin-typescript2";
 import postcss from "rollup-plugin-postcss";
 import copy from "rollup-plugin-copy";
+import image from "@rollup/plugin-image";
 
 const packageJson = require("./package.json");
 
@@ -25,7 +26,16 @@ export default {
   plugins: [
     peerDepsExternal(),
     resolve(),
-    commonjs(),
+    commonjs(
+      {
+        ignoreGlobal: true,
+        include: /\/node_modules\//,
+        namedExports: {
+          react: Object.keys(require('react')),
+          'react-is': Object.keys(require('react-is')),
+        },
+      }
+    ),
     typescript({ useTsconfigDeclarationDir: true }),
     postcss(),
     copy({
@@ -41,6 +51,7 @@ export default {
           rename: "typography.scss"
         }
       ]
-    })
+    }),
+    image()
   ]
 };

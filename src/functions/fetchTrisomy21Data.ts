@@ -6,8 +6,9 @@ import trisomy21Data from '../../chartdata/trisomy21Data'
 
 // functions
 import { filterData } from '../functions/filterData';
+import { ICentile } from '../interfaces/CentilesObject';
 
-export function fetchTrisomy21Data(sex: string, measurementMethod:string, domains:Domains): [][] {
+export function fetchTrisomy21Data(sex: string, measurementMethod: string, domains: Domains): ICentile[][] {
     // Fetches the data to render based on the domain thresholds
     // truncates arrays based on visible data.
 
@@ -17,10 +18,10 @@ export function fetchTrisomy21Data(sex: string, measurementMethod:string, domain
     const lowerY = domains.y[0]
 
     const trisomy21DataSet = trisomy21Data.trisomy21[sex][measurementMethod]
-    
-    const truncatedTrisomyDataSet = trisomy21DataSet.filter(centile=>{
-        return  filterData(centile.data, lowerX, upperX, lowerY, upperY)
+
+    const truncatedTrisomyDataSet = trisomy21DataSet.filter(centile => {
+        return filterData(centile.data, lowerX, upperX, lowerY, upperY)
     })
 
-    return truncatedTrisomyDataSet
+    return [truncatedTrisomyDataSet]
 }

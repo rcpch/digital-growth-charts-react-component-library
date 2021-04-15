@@ -1,0 +1,16 @@
+// Generated with util/create-component.js
+@import "../variables.scss";
+@import "../typography.scss";
+
+.centred {
+  display: block;
+  margin: auto;
+}
+
+.flex-center-vertically {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  height: 50px;
+  left: 5px;
+}

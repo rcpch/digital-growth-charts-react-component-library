@@ -2,11 +2,11 @@
 import React from "react";
 import { render } from "@testing-library/react";
 
-import UKWHOChart from "./UKWHOChart";
-import { UKWHOChartProps } from "./UKWHOChart.types";
+import SDSChart from "./SDSChart";
+import { SDSChartProps } from "./SDSChart.types";
 
 describe("Test Component", () => {
-  let props: UKWHOChartProps;
+  let props: SDSChartProps;
 
   beforeEach(() => {
     props = {
@@ -14,13 +14,13 @@ describe("Test Component", () => {
     };
   });
 
-  const renderComponent = () => render(<UKWHOChart {...props} />);
+  const renderComponent = () => render(<SDSChart {...props} />);
 
   it("should render foo text correctly", () => {
     props.foo = "harvey was here";
     const { getByTestId } = renderComponent();
 
-    const component = getByTestId("UKWHOChart");
+    const component = getByTestId("SDSChart");
 
     expect(component).toHaveTextContent("harvey was here");
   });
