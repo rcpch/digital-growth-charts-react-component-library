@@ -1,253 +1,59 @@
 // packages/libraries
-import React, { useState, useEffect } from "react";
+import React from 'react';
 
 // props and interfaces
-import { RCPCHChartProps } from "./RCPCHChart.types";
-import { Domains } from "../interfaces/Domains";
-import { ICentile } from '../interfaces/CentilesObject';
+import { RCPCHChartProps } from './RCPCHChart.types';
 import { AxisStyle, CentileStyle, ChartStyle, GridlineStyle, MeasurementStyle } from '../interfaces/StyleObjects';
 
 // style sheets
-import "./RCPCHChart.scss";
+import './RCPCHChart.scss';
 
 // components
-import CentileChart from "../CentileChart";
+import CentileChart from '../CentileChart';
 
 // helper functions
-import { fetchUKWHOData } from '../functions/fetchUKWHOData';
-import { setTermDomainsForMeasurementMethod } from "../functions/setTermDomainsForMeasurementMethod";
-import { setYDomainsForMeasurement } from "../functions/setYDomainsForMeasurement";
-import { fetchTrisomy21Data } from '../functions/fetchTrisomy21Data';
-import { fetchTurnerData } from '../functions/fetchTurnerData';
-import { emptyChartValuesReturnDefaults } from "../functions/stylesDefaultValues";
-import { emptyCentileValuesReturnDefaults } from "../functions/stylesDefaultValues";
-import { emptyAxisValuesReturnDefaults } from "../functions/stylesDefaultValues";
-import { emptyMeasurementValuesReturnDefaults } from "../functions/stylesDefaultValues";
-import { emptyGridlineValuesReturnDefaults } from "../functions/stylesDefaultValues";
-
-import icon from '../images/icon.png'
+import { emptyChartValuesReturnDefaults } from '../functions/stylesDefaultValues';
+import { emptyCentileValuesReturnDefaults } from '../functions/stylesDefaultValues';
+import { emptyAxisValuesReturnDefaults } from '../functions/stylesDefaultValues';
+import { emptyMeasurementValuesReturnDefaults } from '../functions/stylesDefaultValues';
+import { emptyGridlineValuesReturnDefaults } from '../functions/stylesDefaultValues';
 
 const RCPCHChart: React.FC<RCPCHChartProps> = ({
-  title,
-  subtitle,
-  measurementMethod,
-  reference,
-  sex,
-  measurementsArray,
-  chartStyle,
-  axisStyle,
-  gridlineStyle,
-  centileStyle,
-  measurementStyle
-}) => {
-
-  // set state
-  const yDomains = setTermDomainsForMeasurementMethod(
+    title,
+    subtitle,
     measurementMethod,
-    0,
-    20,
-    reference
-  );
-  const [isLoading, setLoading] = useState(true);
-  const [domains, setDomains] = useState<Domains | undefined>({
-    x: [0, 20],
-    y: yDomains,
-  }); // set the limits of the chart
-  const [isPreterm, setPreterm] = useState(false);
-  const [centileReferenceData, setCentileReferenceData] = useState([]);
-  const [termUnderThreeMonths, setTermUnderThreeMonths] = useState(false);
+    reference,
+    sex,
+    measurementsArray,
+    chartStyle,
+    axisStyle,
+    gridlineStyle,
+    centileStyle,
+    measurementStyle,
+}) => {
+    // set default styles if not supplied
+    let defaultChartStyle: ChartStyle = emptyChartValuesReturnDefaults(chartStyle);
+    let defaultAxisStyle: AxisStyle = emptyAxisValuesReturnDefaults(axisStyle);
+    let defaultGridlineStyle: GridlineStyle = emptyGridlineValuesReturnDefaults(gridlineStyle);
+    let defaultCentileStyle: CentileStyle = emptyCentileValuesReturnDefaults(centileStyle);
+    let defaultMeasurementStyle: MeasurementStyle = emptyMeasurementValuesReturnDefaults(measurementStyle);
 
-  // set domain thresholds and flags
-  let lowerAgeX = 0;
-  let upperAgeX = 20;
-  let upperMeasurementY = yDomains[1];
-  let lowerMeasurementY = yDomains[0];
-
-  // set default styles if not supplied
-  let defaultChartStyle: ChartStyle = emptyChartValuesReturnDefaults(chartStyle);
-  let defaultAxisStyle: AxisStyle = emptyAxisValuesReturnDefaults(axisStyle)
-  let defaultGridlineStyle: GridlineStyle = emptyGridlineValuesReturnDefaults(gridlineStyle)
-  let defaultCentileStyle: CentileStyle = emptyCentileValuesReturnDefaults(centileStyle)
-  let defaultMeasurementStyle: MeasurementStyle = emptyMeasurementValuesReturnDefaults(measurementStyle)
-
-  useEffect(() => {
-    if (measurementsArray?.length > 0) {
-      let premature = false;
-      // if there are child measurements
-
-      // sort the measuremnents by corrected age
-      // const measurements = apiResult.result.sort((a,b)=> a.measurement_dates.corrected_decimal_age < b.measurement_dates.corrected_decimal_age ? 1 : -1)
-
-      // if there are child measurements - this sets the domains of the chart as it is initially rendered
-      // the chart is rendered 2 years above the upper measurements and 2 years below the lowest.
-      // this is overridden if zoom is used and the upper limits are set in the chart to updateDomains()
-
-      lowerAgeX = measurementsArray[0].measurement_dates.corrected_decimal_age;
-      upperAgeX =
-        measurementsArray[measurementsArray.length - 1].measurement_dates
-          .corrected_decimal_age;
-      lowerMeasurementY =
-        measurementsArray[0].child_observation_value.observation_value;
-      upperMeasurementY =
-        measurementsArray[measurementsArray.length - 1].child_observation_value
-          .observation_value;
-
-      premature = lowerAgeX < (37 * 7 - 40 * 7) / 365.25; // baby is premature as first measurement in array is below 37 weeks gestation
-      setTermUnderThreeMonths(upperAgeX <= 0.25); // infant is under 3 months
-
-      if (premature) {
-        lowerAgeX = 0; // in the Prematurity chart x domains are hard coded in the chart to 23 weeks 42 weeks. Switching to childhood 0-20y are shown
-        upperAgeX = 20;
-      } else {
-        if (lowerAgeX < 1 && lowerAgeX > 0) {
-          lowerAgeX -= 0.5;
-          upperAgeX += 0.5;
-        } else {
-          lowerAgeX -= 2;
-          upperAgeX += 2;
-        }
-        if (lowerAgeX < 0) {
-          lowerAgeX = 0;
-        }
-        if (upperAgeX > 20) {
-          upperAgeX = 20;
-        }
-      }
-      const newYDomains = setYDomainsForMeasurement(
-        reference,
-        measurementMethod,
-        lowerMeasurementY,
-        upperMeasurementY
-      );
-
-      lowerMeasurementY = newYDomains[0];
-      upperMeasurementY = newYDomains[1];
-
-      setPreterm(premature);
-      setDomains({
-        x: [lowerAgeX, upperAgeX],
-        y: [lowerMeasurementY, upperMeasurementY],
-      });
-    }
-  }, [measurementsArray]);
-
-  useEffect(() => {
-    let newData: ICentile[][]; //initialise the chart state
-    if (reference === 'trisomy-21') {
-      newData = fetchTrisomy21Data(sex, measurementMethod, domains); //refresh chart data based on new domains
-      setCentileReferenceData(newData); // update the state with new centile data (tailored to visible area of chart)
-    }
-    if (reference === 'turner') {
-      newData = fetchTurnerData(sex, measurementMethod, domains); //refresh chart data based on new domains
-      setCentileReferenceData(newData); // update the state with new centile data (tailored to visible area of chart)
-    }
-    if (reference === 'uk-who') {
-      newData = fetchUKWHOData(sex, measurementMethod, domains); //refresh chart data based on new domains
-      setCentileReferenceData(newData); // update the state with new centile data (tailored to visible area of chart)
-    }
-    setLoading(false);
-  }, [measurementsArray]);
-
-  const updateDomains = (
-    [lowerXDomain, upperXDomain],
-    [lowerYDomain, upperYDomain]
-  ) => {
-    // call back from chart.tsx on domain change
-    let newUpperY = upperYDomain;
-    let newLowerY = lowerYDomain;
-
-    // if (lowerYDomain >= upperMeasurementY){ // the measurement is not visible
-    //   newUpperY = upperYDomain
-    //   newLowerY = lowerMeasurementY
-    // }
-    // if (upperYDomain < upperMeasurementY){npm
-    //   newLowerY=lowerYDomain
-    //   newUpperY= upperMeasurementY-10
-    // }
-
-
-    let newReferenceData: ICentile[][];
-    if (reference === 'trisomy-21') {
-      newReferenceData = fetchTrisomy21Data(sex, measurementMethod, {
-        x: [lowerXDomain, upperXDomain],
-        y: [newLowerY, newUpperY],
-      }); //refresh chart data based on new domains
-      setCentileReferenceData(newReferenceData); // update the state with new centile data (tailored to visible area of chart)
-    }
-    if (reference === 'turner') {
-      newReferenceData = fetchTurnerData(sex, measurementMethod, {
-        x: [lowerXDomain, upperXDomain],
-        y: [newUpperY, newLowerY],
-      }); //refresh chart data based on new domains
-      setCentileReferenceData(newReferenceData); // update the state with new centile data (tailored to visible area of chart)
-    }
-    if (reference === 'uk-who') {
-      newReferenceData = fetchUKWHOData(sex, measurementMethod, {
-        x: [lowerXDomain, upperXDomain],
-        y: [newLowerY, newUpperY],
-      }); //refresh chart data based on new domains
-      // update the state with new centile data (tailored to visible area of chart)
-      setCentileReferenceData(newReferenceData);
-    }
-
-    setDomains({
-      x: [lowerXDomain, upperXDomain],
-      y: setTermDomainsForMeasurementMethod(
-        measurementMethod,
-        lowerXDomain,
-        upperXDomain,
-        reference
-      ),
-    }); // update the state with new domains
-  };
-
-  // const updateDomains = () => {};
-
-  return (
-    <div
-      data-testid="RCPCHChart"
-    >
-
-      {/*       
-                    The RCPCH chart component renders a single chart
-                    Props include:
-                    reference
-                    measurement_method
-                    sex
-                    measurementsArray (this is an array of measurement objects received from the dGC API)
-                    styles - there is one each for the chart, centiles, axes, gridlines and measurement points
-                  */}
-
-
-      { !isLoading &&
-      <div>  
+    return (
         <CentileChart
-          reference={reference}
-          title={title}
-          subtitle={subtitle}
-          childMeasurements={measurementsArray || []}
-          measurementMethod={measurementMethod}
-          sex={sex}
-          chartStyle={defaultChartStyle}
-          axisStyle={defaultAxisStyle}
-          gridlineStyle={defaultGridlineStyle}
-          centileStyle={defaultCentileStyle}
-          measurementStyle={defaultMeasurementStyle}
-          centileReferenceData={centileReferenceData}
-          setUKWHODomains={updateDomains}
-          domains={domains}
-          isPreterm={isPreterm}
-          termUnderThreeMonths={termUnderThreeMonths}
+            reference={reference}
+            title={title}
+            subtitle={subtitle}
+            childMeasurements={measurementsArray || []}
+            measurementMethod={measurementMethod}
+            sex={sex}
+            chartStyle={defaultChartStyle}
+            axisStyle={defaultAxisStyle}
+            gridlineStyle={defaultGridlineStyle}
+            centileStyle={defaultCentileStyle}
+            measurementStyle={defaultMeasurementStyle}
         />
-      </div>
-      }
-      {
-        isLoading &&
-        <h1> Loading ...</h1>
-      }
-    </div >
-  )
-}
+    );
+};
 
 export default RCPCHChart;
 
@@ -323,3 +129,66 @@ export default RCPCHChart;
     ]
 
 */
+
+// useEffect(() => {
+//   if (measurementsArray?.length > 0) {
+//     let premature = false;
+//     // if there are child measurements
+
+//     // sort the measuremnents by corrected age
+//     // const measurements = apiResult.result.sort((a,b)=> a.measurement_dates.corrected_decimal_age < b.measurement_dates.corrected_decimal_age ? 1 : -1)
+
+//     // if there are child measurements - this sets the domains of the chart as it is initially rendered
+//     // the chart is rendered 2 years above the upper measurements and 2 years below the lowest.
+//     // this is overridden if zoom is used and the upper limits are set in the chart to updateDomains()
+
+//     lowerAgeX = measurementsArray[0].measurement_dates.corrected_decimal_age;
+//     upperAgeX =
+//       measurementsArray[measurementsArray.length - 1].measurement_dates
+//         .corrected_decimal_age;
+//     lowerMeasurementY =
+//       measurementsArray[0].child_observation_value.observation_value;
+//     upperMeasurementY =
+//       measurementsArray[measurementsArray.length - 1].child_observation_value
+//         .observation_value;
+
+//     premature = lowerAgeX < (37 * 7 - 40 * 7) / 365.25; // baby is premature as first measurement in array is below 37 weeks gestation
+//     setTermUnderThreeMonths(upperAgeX <= 0.25); // infant is under 3 months
+
+//     if (premature) {
+//       lowerAgeX = 0; // in the Prematurity chart x domains are hard coded in the chart to 23 weeks 42 weeks. Switching to childhood 0-20y are shown
+//       upperAgeX = 20;
+//     } else {
+//       if (lowerAgeX < 1 && lowerAgeX > 0) {
+//         lowerAgeX -= 0.5;
+//         upperAgeX += 0.5;
+//       } else {
+//         lowerAgeX -= 2;
+//         upperAgeX += 2;
+//       }
+//       if (lowerAgeX < 0) {
+//         lowerAgeX = 0;
+//       }
+//       if (upperAgeX > 20) {
+//         upperAgeX = 20;
+//       }
+//     }
+//     const newYDomains = setYDomainsForMeasurement(
+//       reference,
+//       measurementMethod,
+//       lowerMeasurementY,
+//       upperMeasurementY
+//     );
+
+//     lowerMeasurementY = newYDomains[0];
+//     upperMeasurementY = newYDomains[1];
+
+//     setPreterm(premature);
+//     setDomains({
+//       x: [lowerAgeX, upperAgeX],
+//       y: [lowerMeasurementY, upperMeasurementY],
+//     });
+//   }
+// }, [measurementsArray]);
+
+// const updateDomains = () => {};
