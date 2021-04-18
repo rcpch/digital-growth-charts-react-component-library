@@ -126,8 +126,8 @@ function filterData(
 ) {
     const filtered = data.filter((d: IPlottedCentileMeasurement) => {
         //as centile data is to 4 decimal places, this prevents premature chopping off at either end:
-        const upperXTo4 = Number(upperX.toFixed(4));
-        const lowerXTo4 = Number(lowerX.toFixed(4));
+        const upperXTo4 = Number(upperX?.toFixed(4));
+        const lowerXTo4 = Number(lowerX?.toFixed(4));
         if (d.x <= upperXTo4 && d.x >= lowerXTo4) {
             updateCoordsOfExtremeValues(extremeValues, centileString, d, native);
             return true;
@@ -281,7 +281,6 @@ function getDomainsAndData(
             // set appropriate chart scale based on data:
             if (birthGestationWeeks < 37 && highestChildX <= twoWeeksPostnatal) {
                 // prem:
-                absoluteHighX = twoWeeksPostnatal;
                 absoluteBottomX = gestWeeks23;
                 if (measurementMethod === 'height') {
                     absoluteBottomX = -0.2874743326488706; // 25 weeks
@@ -292,6 +291,7 @@ function getDomainsAndData(
                 } else {
                     internalChartScaleType = 'prem';
                     agePadding = totalMinPadding.prem;
+                    absoluteHighX = twoWeeksPostnatal;
                 }
             } else if (highestChildX <= 1) {
                 //infant:
@@ -332,7 +332,6 @@ function getDomainsAndData(
                 } else {
                     unroundedLowestX = candidateLowX;
                 }
-
                 const candidateHighX = highestChildX + leftOverAgePadding / 2;
                 if (candidateHighX > absoluteHighX) {
                     unroundedHighestX = absoluteHighX;
@@ -351,10 +350,7 @@ function getDomainsAndData(
                 arrayForOrdering.push(unroundedLowestX);
                 arrayForOrdering.sort((a: number, b: number) => a - b);
                 const lowestXIndex = arrayForOrdering.findIndex((element: number) => element === unroundedLowestX);
-                lowestXForDomain = arrayForOrdering[lowestXIndex - 1];
-                if (lowestXForDomain < absoluteBottomX) {
-                    lowestXForDomain = absoluteBottomX;
-                }
+                lowestXForDomain = arrayForOrdering[lowestXIndex - 1] || lowestXForDomain;
             }
 
             highestXForDomain = unroundedHighestX;
@@ -364,10 +360,7 @@ function getDomainsAndData(
                 arrayForOrdering.push(unroundedHighestX);
                 arrayForOrdering.sort((a: number, b: number) => a - b);
                 const highestXIndex = arrayForOrdering.findIndex((element: number) => element === unroundedHighestX);
-                highestXForDomain = arrayForOrdering[highestXIndex + 1];
-                if (highestXForDomain > absoluteHighX) {
-                    highestXForDomain = absoluteHighX;
-                }
+                highestXForDomain = arrayForOrdering[highestXIndex + 1] || highestXForDomain;
             }
         }
     }

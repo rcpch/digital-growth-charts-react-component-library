@@ -27,7 +27,7 @@ function defaultToggles(childMeasurements: Measurement[]): returnObject {
         }
     }
     // show 2 points if born prem and max age < 2
-    if (maxAge < 2 && maxAge >= 0 && gestWeeks < 37) {
+    if (maxAge < 2 && maxAge > 0.038329911019849415 && gestWeeks < 37) {
         return { defaultShowCorrected: true, defaultShowChronological: true, showToggle: true };
     }
     // all other cases show just corrected:
