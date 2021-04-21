@@ -10,8 +10,8 @@ export interface RCPCHChartProps {
     reference: 'uk-who' | 'turner' | 'trisomy-21';
     enableZoom?: boolean;
     chartStyle: ChartStyle;
-    axisStyle: AxisStyle;
-    gridlineStyle: GridlineStyle;
-    centileStyle: CentileStyle;
-    measurementStyle: MeasurementStyle;
+    axisStyle?: AxisStyle;
+    gridlineStyle?: GridlineStyle;
+    centileStyle?: CentileStyle;
+    measurementStyle?: MeasurementStyle;
 }
