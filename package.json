@@ -1,6 +1,6 @@
 {
   "name": "@rcpch/digital-growth-charts-react-component-library",
-  "version": "4.0.5",
+  "version": "4.0.6",
   "main": "build/index.js",
   "module": "build/index.esm.js",
   "files": [
@@ -39,8 +39,7 @@
   },
   "homepage": "https://github.com/RCPCH/digital-growth-charts-react-component-library#readme",
   "peerDependencies": {
-    "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "styled-components": ">5"
   },
   "devDependencies": {
     "@babel/core": "^7.10.3",
@@ -63,6 +62,7 @@
     "rollup-plugin-postcss": "^3.1.2",
     "rollup-plugin-typescript2": "^0.27.0",
     "sass-loader": "^8.0.0",
+    "styled-components": "^5.2.1",
     "ts-jest": "^24.2.0",
     "typescript": "^3.7.2"
   },
@@ -76,7 +76,6 @@
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-react": "^7.23.1",
     "prettier": "^2.2.1",
-    "styled-components": "^5.2.1",
     "tslib": "^2.1.0",
     "victory": "^35.4.8"
   },
