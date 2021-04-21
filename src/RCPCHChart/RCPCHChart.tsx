@@ -25,6 +25,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     reference,
     sex,
     measurementsArray,
+    enableZoom = false,
     chartStyle,
     axisStyle,
     gridlineStyle,
@@ -46,6 +47,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
             childMeasurements={measurementsArray || []}
             measurementMethod={measurementMethod}
             sex={sex}
+            enableZoom={enableZoom}
             chartStyle={defaultChartStyle}
             axisStyle={defaultAxisStyle}
             gridlineStyle={defaultGridlineStyle}

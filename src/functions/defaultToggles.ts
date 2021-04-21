@@ -19,15 +19,15 @@ function defaultToggles(childMeasurements: Measurement[]): returnObject {
         return { defaultShowCorrected: false, defaultShowChronological: true, showToggle: false };
     }
     // get max corrected age from  data:
-    let maxAge = -500;
+    const arrayOfCorrectedX = [];
     for (let measurement of childMeasurements) {
         const correctedX = measurement.plottable_data.centile_data.corrected_decimal_age_data.x;
-        if (typeof correctedX === 'number' && maxAge < correctedX) {
-            maxAge = correctedX;
-        }
+        arrayOfCorrectedX.push(correctedX);
     }
-    // show 2 points if born prem and max age < 2
-    if (maxAge < 2 && maxAge > 0.038329911019849415 && gestWeeks < 37) {
+    const maxAge = Math.max(...arrayOfCorrectedX);
+    const averageAge = arrayOfCorrectedX.reduce((a, b) => a + b, 0) / arrayOfCorrectedX.length;
+    // show 2 points if born prem, max age < 2 and average age >= 2 weeks corrected:
+    if (maxAge < 2 && averageAge >= 0.038329911019849415 && gestWeeks < 37) {
         return { defaultShowCorrected: true, defaultShowChronological: true, showToggle: true };
     }
     // all other cases show just corrected:

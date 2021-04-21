@@ -18,6 +18,9 @@ export function tooltipText(
     chronological: boolean,
 ): string {
     if (label) {
+        if (age === 0.0383 && reference === 'uk-who') {
+            return 'Transit point from\nUK90 to WHO data';
+        }
         if (age === 4 && reference == 'uk-who') {
             return 'Transit point from\nUK-WHO to UK90 data.';
         }
