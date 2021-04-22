@@ -39,7 +39,7 @@
   },
   "homepage": "https://github.com/RCPCH/digital-growth-charts-react-component-library#readme",
   "peerDependencies": {
-    "styled-components": ">5",
+    "styled-components": ">=5",
     "react": ">=17",
     "react-dom": ">=17"
   },
