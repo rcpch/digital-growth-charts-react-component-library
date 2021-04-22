@@ -16,7 +16,7 @@ function CustomGridComponent({ datum, chartScaleType, ...otherProps }: PropTypes
         return null;
     } else {
         if (
-            ((Number.isInteger(Number((datum * 12).toFixed(2))) && datum < 1 && datum !== 0) ||
+            ((Number.isInteger(Number((datum * 12).toFixed(2))) && datum < 1) ||
                 (datum > 1 && Number.isInteger(Number((datum * 52.18).toFixed(2))))) &&
             (chartScaleType === 'prem' || chartScaleType === 'infant')
         ) {

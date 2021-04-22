@@ -9,9 +9,37 @@ import image from '@rollup/plugin-image';
 const packageJson = require('./package.json');
 
 export default {
-    input: 'src/index.ts',
-    external: ['react', 'react-dom', 'styled-components'],
-    output: [
+  input: "src/index.ts",
+  external: ['react', 'react-dom', 'styled-components'],
+  output: [
+    {
+      file: packageJson.main,
+      format: "cjs",
+      sourcemap: true
+    },
+    {
+      file: packageJson.module,
+      format: "esm",
+      sourcemap: true
+    }
+  ],
+  plugins: [
+    peerDepsExternal(),
+    resolve(),
+    commonjs(
+      {
+        ignoreGlobal: true,
+        include: /\/node_modules\//,
+        namedExports: {
+          react: Object.keys(require('react')),
+          'react-is': Object.keys(require('react-is')),
+        },
+      }
+    ),
+    typescript({ useTsconfigDeclarationDir: true }),
+    postcss(),
+    copy({
+      targets: [
         {
             file: packageJson.main,
             format: 'cjs',
