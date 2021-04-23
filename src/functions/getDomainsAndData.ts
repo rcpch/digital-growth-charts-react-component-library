@@ -277,10 +277,10 @@ function getDomainsAndData(
     let internalChartScaleType: 'prem' | 'infant' | 'smallChild' | 'biggerChild' = 'biggerChild';
     const twoWeeksPostnatal = 0.038329911019849415;
     const gestWeeks37 = -0.057494866529774126;
-    const gestWeeks25 = -0.2874743326488706;
-    const gestWeeks23 = -0.32580424366872;
+    const gestWeeks24 = -0.306639288158795;
+    const gestWeeks22 = -0.33;
     let absoluteBottomX = twoWeeksPostnatal;
-    let absoluteHighX = 20;
+    let absoluteHighX = 20.05;
     let agePadding = totalMinPadding.biggerChild;
 
     let finalCentileData: any[] = [];
@@ -290,25 +290,25 @@ function getDomainsAndData(
     if (reference === 'uk-who') {
         if (measurementMethod === 'ofc') {
             if (sex === 'female') {
-                absoluteHighX = 17;
+                absoluteHighX = 17.05;
             } else {
-                absoluteHighX = 18;
+                absoluteHighX = 18.05;
             }
         }
     }
 
     if (reference === 'trisomy-21') {
-        absoluteBottomX = 0;
+        absoluteBottomX = -0.05;
         if (measurementMethod === 'ofc') {
-            absoluteHighX = 18;
+            absoluteHighX = 18.05;
         }
         if (measurementMethod === 'bmi') {
-            absoluteHighX = 18.82;
+            absoluteHighX = 18.87;
         }
     }
 
     if (reference === 'turner') {
-        absoluteBottomX = 1;
+        absoluteBottomX = 0.95;
     }
 
     let lowestXForDomain = absoluteBottomX;
@@ -337,37 +337,35 @@ function getDomainsAndData(
             // set appropriate chart scale based on data:
             if (birthGestationWeeks < 37 && highestChildX <= twoWeeksPostnatal) {
                 // prem:
-                absoluteBottomX = gestWeeks23;
+                absoluteBottomX = gestWeeks22;
+                agePadding = totalMinPadding.prem;
+                absoluteHighX = twoWeeksPostnatal;
                 if (measurementMethod === 'height') {
-                    absoluteBottomX = gestWeeks25;
+                    absoluteBottomX = gestWeeks24;
                 }
                 if (difference > totalMinPadding.prem) {
-                    agePadding = totalMinPadding.infant;
                     internalChartScaleType = 'infant';
                 } else {
                     internalChartScaleType = 'prem';
-                    agePadding = totalMinPadding.prem;
-                    absoluteHighX = twoWeeksPostnatal;
                 }
             } else if (highestChildX <= 1) {
                 //infant:
+                agePadding = totalMinPadding.infant;
                 if (lowestChildX >= gestWeeks37 && lowestChildX < twoWeeksPostnatal) {
                     absoluteBottomX = gestWeeks37;
                 } else if (lowestChildX < gestWeeks37) {
-                    absoluteBottomX = measurementMethod === 'height' ? gestWeeks25 : gestWeeks23;
+                    absoluteBottomX = measurementMethod === 'height' ? gestWeeks24 : gestWeeks22;
                 }
                 if (difference > totalMinPadding.infant) {
-                    agePadding = totalMinPadding.smallChild;
                     internalChartScaleType = 'smallChild';
                 } else {
-                    agePadding = totalMinPadding.infant;
                     internalChartScaleType = 'infant';
                 }
             } else if (highestChildX <= 4) {
                 // small child:
+                agePadding = totalMinPadding.smallChild;
                 if (difference <= totalMinPadding.smallChild) {
                     internalChartScaleType = 'smallChild';
-                    agePadding = totalMinPadding.smallChild;
                 }
             }
 
@@ -376,8 +374,8 @@ function getDomainsAndData(
             let unroundedHighestX = 0;
             if (agePadding <= difference) {
                 // add padding:
-                unroundedLowestX = lowestChildX;
-                unroundedHighestX = highestChildX;
+                unroundedLowestX = absoluteBottomX > lowestChildX * 0.99 ? absoluteBottomX : lowestChildX * 0.99;
+                unroundedHighestX = absoluteHighX < highestChildX * 1.01 ? absoluteHighX : highestChildX * 1.01;
             } else {
                 const leftOverAgePadding = agePadding - difference;
                 let addToHighest = 0;

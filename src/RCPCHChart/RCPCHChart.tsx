@@ -3,7 +3,6 @@ import React from 'react';
 
 // props and interfaces
 import { RCPCHChartProps } from './RCPCHChart.types';
-import { AxisStyle, CentileStyle, ChartStyle, GridlineStyle, MeasurementStyle } from '../interfaces/StyleObjects';
 
 // style sheets
 import './RCPCHChart.scss';
@@ -12,11 +11,7 @@ import './RCPCHChart.scss';
 import CentileChart from '../CentileChart';
 
 // helper functions
-import { emptyChartValuesReturnDefaults } from '../functions/stylesDefaultValues';
-import { emptyCentileValuesReturnDefaults } from '../functions/stylesDefaultValues';
-import { emptyAxisValuesReturnDefaults } from '../functions/stylesDefaultValues';
-import { emptyMeasurementValuesReturnDefaults } from '../functions/stylesDefaultValues';
-import { emptyGridlineValuesReturnDefaults } from '../functions/stylesDefaultValues';
+import makeAllStyles from '../functions/makeAllStyles';
 
 const RCPCHChart: React.FC<RCPCHChartProps> = ({
     title,
@@ -32,12 +27,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     centileStyle,
     measurementStyle,
 }) => {
-    // set default styles if not supplied
-    let defaultChartStyle: ChartStyle = emptyChartValuesReturnDefaults(chartStyle);
-    let defaultAxisStyle: AxisStyle = emptyAxisValuesReturnDefaults(axisStyle);
-    let defaultGridlineStyle: GridlineStyle = emptyGridlineValuesReturnDefaults(gridlineStyle);
-    let defaultCentileStyle: CentileStyle = emptyCentileValuesReturnDefaults(centileStyle);
-    let defaultMeasurementStyle: MeasurementStyle = emptyMeasurementValuesReturnDefaults(measurementStyle);
+    const styles = makeAllStyles(chartStyle, axisStyle, gridlineStyle, centileStyle, measurementStyle);
 
     return (
         <CentileChart
@@ -48,11 +38,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
             measurementMethod={measurementMethod}
             sex={sex}
             enableZoom={enableZoom}
-            chartStyle={defaultChartStyle}
-            axisStyle={defaultAxisStyle}
-            gridlineStyle={defaultGridlineStyle}
-            centileStyle={defaultCentileStyle}
-            measurementStyle={defaultMeasurementStyle}
+            styles={styles}
         />
     );
 };

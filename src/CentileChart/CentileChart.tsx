@@ -53,11 +53,7 @@ function CentileChart({
     sex,
     childMeasurements,
     enableZoom,
-    chartStyle,
-    axisStyle,
-    gridlineStyle,
-    centileStyle,
-    measurementStyle,
+    styles,
 }: CentileChartProps) {
     if (reference === 'turner' && measurementMethod !== 'height') {
         console.error('Error: only female height data is available to chart for Turner Syndrome');
@@ -200,7 +196,7 @@ function CentileChart({
 
     if (isLoading) {
         return (
-            <LoadingDiv height={chartStyle.height} width={chartStyle.width}>
+            <LoadingDiv height={styles.chartHeight} width={styles.chartWidth}>
                 <LoadingH1>Loading...</LoadingH1>
             </LoadingDiv>
         );
@@ -216,19 +212,10 @@ function CentileChart({
                 </div>
 
                 <VictoryChart
-                    width={chartStyle.width}
-                    height={chartStyle.height}
-                    padding={{
-                        left: chartStyle.padding.left,
-                        right: chartStyle.padding.right,
-                        top: chartStyle.padding.top,
-                        bottom: chartStyle.padding.bottom,
-                    }}
-                    style={{
-                        background: {
-                            fill: chartStyle.backgroundColour,
-                        },
-                    }}
+                    width={styles.chartWidth}
+                    height={styles.chartHeight}
+                    padding={styles.chartPadding}
+                    style={styles.chartMisc}
                     domain={allowZooming ? maxDomains : domains}
                     containerComponent={
                         <VictoryZoomVoronoiContainer
@@ -241,17 +228,8 @@ function CentileChart({
                                     constrainToVisibleArea
                                     pointerLength={5}
                                     cornerRadius={0}
-                                    flyoutStyle={{
-                                        stroke: chartStyle.tooltipStroke,
-                                        fill: chartStyle.tooltipBackgroundColour,
-                                    }}
-                                    style={{
-                                        textAnchor: 'start',
-                                        stroke: chartStyle.tooltipTextStyle.colour,
-                                        strokeWidth: chartStyle.tooltipTextStyle.size,
-                                        fill: chartStyle.tooltipTextStyle.colour,
-                                        fontFamily: chartStyle.tooltipTextStyle.name,
-                                    }}
+                                    flyoutStyle={styles.toolTipFlyout}
+                                    style={styles.toolTipMain}
                                 />
                             }
                             labels={({ datum }) => {
@@ -282,18 +260,8 @@ function CentileChart({
                         centerTitle
                         titleOrientation="top"
                         orientation="horizontal"
-                        style={{
-                            data: {
-                                fill: 'transparent',
-                            },
-                            title: {
-                                fontFamily: chartStyle.titleStyle.name,
-                                color: chartStyle.titleStyle.colour,
-                                fontSize: chartStyle.titleStyle.size,
-                                fontWeight: chartStyle.titleStyle.weight,
-                            },
-                        }}
-                        x={chartStyle.width / 2 - 50}
+                        style={styles.chartHeading}
+                        x={styles.chartWidth / 2 - 50}
                         y={0}
                         data={[]}
                     />
@@ -302,7 +270,7 @@ function CentileChart({
 
                         showTermArea && (
                             <VictoryArea
-                                style={{ data: { fill: chartStyle.termFill } }}
+                                style={styles.termArea}
                                 data={[
                                     {
                                         x: -0.057494866529774126,
@@ -310,7 +278,6 @@ function CentileChart({
                                         y0: domains.y[0],
                                         l: shadedTermAreaText,
                                     },
-                                    { x: 0, y: domains.y[1], y0: domains.y[0], l: shadedTermAreaText },
                                     {
                                         x: 0.038329911019849415,
                                         y: domains.y[1],
@@ -325,41 +292,11 @@ function CentileChart({
                     {/* X axis: */}
                     <VictoryAxis
                         label={xAxisLabel(chartScaleType, domains)}
-                        style={{
-                            axis: {
-                                stroke: axisStyle.axisStroke,
-                                strokeWidth: 1.0,
-                            },
-                            axisLabel: {
-                                fontSize: axisStyle.axisLabelTextStyle.size,
-                                padding: 20,
-                                color: axisStyle.axisLabelTextStyle.colour,
-                                fontFamily: axisStyle.axisLabelTextStyle.name,
-                            },
-                            ticks: {
-                                stroke: axisStyle.tickLabelTextStyle.colour,
-                            },
-                            tickLabels: {
-                                fontSize: axisStyle.tickLabelTextStyle.size,
-                                padding: 5,
-                                color: axisStyle.tickLabelTextStyle.colour,
-                                fontFamily: axisStyle.axisLabelTextStyle.name,
-                            },
-                            grid: {
-                                stroke: gridlineStyle.gridlines ? gridlineStyle.stroke : null,
-                                strokeWidth: ({ t }) =>
-                                    t % 5 === 0 ? gridlineStyle.strokeWidth + 0.5 : gridlineStyle.strokeWidth,
-                                strokeDasharray: gridlineStyle.dashed ? '5 5' : '',
-                            },
-                        }}
+                        style={styles.xAxis}
                         tickValues={tailoredXTickValues[chartScaleType]}
                         tickLabelComponent={
                             <RenderTickLabel
-                                style={{
-                                    fill: axisStyle.tickLabelTextStyle?.colour,
-                                    fontSize: axisStyle.tickLabelTextStyle?.size,
-                                    fontFamily: axisStyle.tickLabelTextStyle?.name,
-                                }}
+                                style={styles.xTicklabel}
                                 chartScaleType={chartScaleType}
                                 domains={domains}
                             />
@@ -372,33 +309,7 @@ function CentileChart({
                         <VictoryAxis
                             minDomain={0}
                             label={yAxisLabel(measurementMethod)}
-                            style={{
-                                axis: {
-                                    stroke: axisStyle.axisStroke,
-                                    strokeWidth: 1.0,
-                                },
-                                axisLabel: {
-                                    fontSize: axisStyle.axisLabelTextStyle.size,
-                                    padding: 20,
-                                    color: axisStyle.axisLabelTextStyle.colour,
-                                    fontFamily: axisStyle.axisLabelTextStyle.name,
-                                },
-                                ticks: {
-                                    stroke: axisStyle.tickLabelTextStyle.colour,
-                                },
-                                tickLabels: {
-                                    fontSize: axisStyle.tickLabelTextStyle.size,
-                                    padding: 5,
-                                    color: axisStyle.tickLabelTextStyle.colour,
-                                    fontFamily: axisStyle.axisLabelTextStyle.name,
-                                },
-                                grid: {
-                                    stroke: gridlineStyle.gridlines ? gridlineStyle.stroke : null,
-                                    strokeWidth: ({ t }) =>
-                                        t % 5 === 0 ? gridlineStyle.strokeWidth + 0.5 : gridlineStyle.strokeWidth,
-                                    strokeDasharray: gridlineStyle.dashed ? '5 5' : '',
-                                },
-                            }}
+                            style={styles.yAxis}
                             dependentAxis
                             orientation={yAxisOrientation}
                         />
@@ -414,13 +325,7 @@ function CentileChart({
                             <VictoryArea
                                 data={delayedPubertyThreshold(sex)}
                                 y0={lowerPubertyBorder}
-                                style={{
-                                    data: {
-                                        stroke: centileStyle.delayedPubertyAreaFill,
-                                        fill: centileStyle.delayedPubertyAreaFill,
-                                        strokeWidth: centileStyle.centileStrokeWidth,
-                                    },
-                                }}
+                                style={styles.delayedPubertyArea}
                                 name="delayed"
                             />
                         )
@@ -436,12 +341,7 @@ function CentileChart({
                                         <VictoryLine
                                             key={dataArray[0].x}
                                             name={`puberty-${dataArray[0].x}`}
-                                            style={{
-                                                data: {
-                                                    stroke: measurementStyle.measurementFill,
-                                                    strokeWidth: 1,
-                                                },
-                                            }}
+                                            style={styles.delayedPubertyThresholdLine}
                                             data={dataArray}
                                             labels={({ datum }) => datum.label}
                                             labelComponent={
@@ -450,12 +350,7 @@ function CentileChart({
                                                     angle={-90}
                                                     dx={5}
                                                     dy={10}
-                                                    style={{
-                                                        fontSize: 8,
-                                                        color: axisStyle.axisLabelTextStyle.colour,
-                                                        fontFamily: axisStyle.axisLabelTextStyle.name,
-                                                        textAlign: 'start',
-                                                    }}
+                                                    style={styles.delayedPubertyThresholdLabel}
                                                 />
                                             }
                                         />
@@ -492,14 +387,7 @@ function CentileChart({
                                                     key={centile.centile + '-' + centileIndex}
                                                     padding={{ top: 20, bottom: 60 }}
                                                     data={centile.data}
-                                                    style={{
-                                                        data: {
-                                                            stroke: centileStyle.centileStroke,
-                                                            strokeWidth: centileStyle.centileStrokeWidth,
-                                                            strokeLinecap: 'round',
-                                                            strokeDasharray: '5 5',
-                                                        },
-                                                    }}
+                                                    style={styles.dashedCentile}
                                                 />
                                             );
                                         } else {
@@ -509,13 +397,7 @@ function CentileChart({
                                                     key={centile.centile + '-' + centileIndex}
                                                     padding={{ top: 20, bottom: 60 }}
                                                     data={centile.data}
-                                                    style={{
-                                                        data: {
-                                                            stroke: centileStyle.centileStroke,
-                                                            strokeWidth: centileStyle.centileStrokeWidth,
-                                                            strokeLinecap: 'round',
-                                                        },
-                                                    }}
+                                                    style={styles.continuousCentile}
                                                 />
                                             );
                                         }
@@ -543,12 +425,7 @@ function CentileChart({
                                                 showCorrectedAge={showCorrectedAge}
                                             />
                                         }
-                                        style={{
-                                            data: {
-                                                fill: measurementStyle.measurementFill,
-                                                strokeWidth: measurementStyle.measurementSize,
-                                            },
-                                        }}
+                                        style={styles.measurementPoint}
                                         name="corrected_age"
                                     />
                                 )}
@@ -559,12 +436,7 @@ function CentileChart({
                                             childMeasurement.plottable_data.centile_data.chronological_decimal_age_data,
                                         ]}
                                         symbol="circle"
-                                        style={{
-                                            data: {
-                                                fill: measurementStyle.measurementFill,
-                                                strokeWidth: measurementStyle.measurementSize,
-                                            },
-                                        }}
+                                        style={styles.measurementPoint}
                                         name="chronological"
                                     />
                                 )}
@@ -573,12 +445,7 @@ function CentileChart({
                                     showCorrectedAge && ( // only show the line if both cross and dot are rendered
                                         <VictoryLine
                                             name="linkLine"
-                                            style={{
-                                                data: {
-                                                    stroke: measurementStyle.measurementFill,
-                                                    strokeWidth: 1.25,
-                                                },
-                                            }}
+                                            style={styles.measurementLinkLine}
                                             data={[
                                                 childMeasurement.plottable_data.centile_data
                                                     .chronological_decimal_age_data,
@@ -594,9 +461,9 @@ function CentileChart({
                 {showToggle && (
                     <span style={{ display: 'inline-block' }}>
                         <StyledRadioButtonGroup
-                            activeColour={chartStyle.toggleButtonActiveColour}
-                            inactiveColour={chartStyle.toggleButtonInactiveColour}
-                            textColour={chartStyle.toggleButtonTextColour}
+                            activeColour={styles.toggleStyle.activeColour}
+                            inactiveColour={styles.toggleStyle.inactiveColour}
+                            textColour={styles.toggleStyle.textColour}
                             handleClick={onSelectRadioButton}
                             correctedAge={showCorrectedAge}
                             chronologicalAge={showChronologicalAge}

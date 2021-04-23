@@ -11,7 +11,7 @@ function RenderTickLabel(props) {
     const Dash = () => {
         return (
             <svg>
-                <line x1={x} x2={x} y1={y - 6} y2={y - 3} stroke="black" />
+                <line x1={x} x2={x} y1={y - 6} y2={y - 3} stroke={style.fill} />
             </svg>
         );
     };
@@ -24,7 +24,7 @@ function RenderTickLabel(props) {
                             x={x}
                             y={y - 18}
                             textAnchor="middle"
-                            fill="black"
+                            fill={style.fill}
                             fontSize={style.fontSize}
                             fontFamily={style.fontFamily}
                         >
@@ -48,7 +48,7 @@ function RenderTickLabel(props) {
                         x={x}
                         y={y + 8}
                         textAnchor="middle"
-                        fill="black"
+                        fill={style.fill}
                         fontSize={style.fontSize}
                         fontFamily={style.fontFamily}
                     >
