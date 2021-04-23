@@ -184,6 +184,12 @@ function CentileChart({
         setUserDomains(null);
     };
 
+    const handleDomainReset = () => {
+        if (userDomains) {
+            setUserDomains(null);
+        }
+    };
+
     const handleZoomChange = (domain: Domains) => {
         setUserDomains(domain);
     };
@@ -206,11 +212,9 @@ function CentileChart({
                 {/* The VictoryChart is the parent component. It contains a Voronoi container, which groups data sets together for the purposes of tooltips */}
                 {/* It has an animation object and the domains are the thresholds of ages rendered. This is calculated from the child data supplied by the user. */}
                 {/* Tooltips are here as it is the parent component. More information of tooltips in centiles below. */}
-
                 <div className="flex-center-vertically">
                     <img src={icon} width={32} height={32} />
                 </div>
-
                 <VictoryChart
                     width={styles.chartWidth}
                     height={styles.chartHeight}
@@ -457,9 +461,8 @@ function CentileChart({
                         );
                     })}
                 </VictoryChart>
-
-                {showToggle && (
-                    <span style={{ display: 'inline-block' }}>
+                <span style={{ display: 'inline-block' }}>
+                    {showToggle && (
                         <StyledRadioButtonGroup
                             activeColour={styles.toggleStyle.activeColour}
                             inactiveColour={styles.toggleStyle.inactiveColour}
@@ -469,35 +472,23 @@ function CentileChart({
                             chronologicalAge={showChronologicalAge}
                             className="PretermToggle"
                         />
-                    </span>
-                )}
+                    )}
+                    {allowZooming && (
+                        <StyledButton
+                            activeColour={styles.toggleStyle.activeColour}
+                            inactiveColour={styles.toggleStyle.inactiveColour}
+                            textColour={styles.toggleStyle.textColour}
+                            onClick={handleDomainReset}
+                            enabled={userDomains !== null}
+                        >
+                            Reset Zoom
+                        </StyledButton>
+                    )}
+                </span>
             </div>
         );
     }
 }
-
-const StyledButton = styled.button<{
-    activeColour: string;
-    inactiveColour: string;
-    textColour: string;
-    preterm: boolean;
-}>`
-    background-color: ${(props) => props.inactiveColour};
-    margin: 5px 5px;
-    border: 2px solid ${(props) => props.inactiveColour};
-    padding: 4px 11px;
-    font-family: Arial;
-    font-size: 16px;
-    color: ${(props) => props.textColour};
-    &:hover {
-        background-color: ${(props) => props.activeColour};
-        color: ${(props) => props.textColour};
-        border: 2px solid ${(props) => props.activeColour};
-    }
-    &:focus {
-        outline: ${(props) => props.activeColour} solid 2px;
-    }
-`;
 
 const LoadingDiv = styled.div<{ width: number; height: number }>`
     height: ${({ height }) => height}px;
@@ -509,6 +500,32 @@ const LoadingDiv = styled.div<{ width: number; height: number }>`
 
 const LoadingH1 = styled.h1`
     text-align: center;
+`;
+
+const StyledButton = styled.button<{
+    activeColour: string;
+    inactiveColour: string;
+    textColour: string;
+    enabled: boolean;
+}>`
+    display: inline-block;
+    background-color: ${(props) => (props.enabled ? props.activeColour : props.inactiveColour)};
+    margin: 10px 5px 10px 5px;
+    border: 2px solid ${(props) => (props.enabled ? props.activeColour : props.inactiveColour)};
+    padding: 4px 11px;
+    font-family: Arial;
+    font-size: 16px;
+    min-height: 30px;
+    color: ${(props) => props.textColour};
+    &:hover {
+        background-color: ${(props) => (props.enabled ? props.activeColour : props.inactiveColour)};
+        color: ${(props) => props.textColour};
+        border: 2px solid ${(props) => (props.enabled ? props.activeColour : props.inactiveColour)};
+        outline: ${(props) => (props.enabled ? props.activeColour : 'transparent')} solid 2px;
+    }
+    &:focus {
+        outline: ${(props) => (props.enabled ? props.activeColour : 'transparent')} solid 2px;
+    }
 `;
 
 const AgeRadioButtonGroup = (props) => {
@@ -550,13 +567,14 @@ const StyledRadioButtonGroup = styled(AgeRadioButtonGroup)<{
 }>`
     label {
         display: inline-block;
-        padding: 4px 11px;
+        padding: 5px 11px;
         font-family: Arial;
         font-size: 16px;
         cursor: pointer;
         background-color: ${(props) => props.inactiveColour};
         color: ${(props) => props.textColour};
         width: 170px;
+        min-height: 30px;
     }
     input[type='radio']:checked + label {
         color: ${(props) => props.textColour};
