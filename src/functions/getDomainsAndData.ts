@@ -170,19 +170,27 @@ function filterData(
     extremeValues?: { [key: string]: any },
     native?: boolean,
 ) {
-    const filtered = data.filter((d: IPlottedCentileMeasurement) => {
-        //as centile data is to 4 decimal places, this prevents premature chopping off at either end:
-        const upperXTo4 = Number(upperX?.toFixed(4));
-        const lowerXTo4 = Number(lowerX?.toFixed(4));
-        if (d.x <= upperXTo4 && d.x >= lowerXTo4) {
-            if (extremeValues) {
-                updateCoordsOfExtremeValues(extremeValues, centileString, d, native);
+    const filtered = data.filter(
+        (d: IPlottedCentileMeasurement, currentIndex: number, wholeArray: IPlottedCentileMeasurement[]) => {
+            //as centile data is to 4 decimal places, this prevents premature chopping off at either end:
+            const upperXTo4 = Number(upperX?.toFixed(4));
+            const lowerXTo4 = Number(lowerX?.toFixed(4));
+            if (d.x <= upperXTo4 && d.x >= lowerXTo4) {
+                if (extremeValues) {
+                    updateCoordsOfExtremeValues(extremeValues, centileString, d, native);
+                }
+                return true;
+            } else {
+                const xBelow: undefined | number = wholeArray[currentIndex - 1]?.x;
+                const xAbove: undefined | number = wholeArray[currentIndex + 1]?.x;
+                if ((xBelow <= upperXTo4 && xBelow >= lowerXTo4) || (xAbove <= upperXTo4 && xAbove >= lowerXTo4)) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
-            return true;
-        } else {
-            return false;
-        }
-    });
+        },
+    );
     return filtered;
 }
 
@@ -602,13 +610,8 @@ function getVisibleData(
     const relevantDataSets = getRelevantDataSets(sex, measurementMethod, reference, lowestX, highestX);
     let centileData = [];
     for (let referenceSet of relevantDataSets) {
-        // skip preterm data filtering as zooming in chops off graphs too quickly:
-        if (referenceSet[0]?.data[0]?.x === -0.2875 || referenceSet[0]?.data[0]?.x === -0.3258) {
-            centileData.push(referenceSet);
-        } else {
-            const truncated = truncate(referenceSet, lowestX, highestX);
-            centileData.push(truncated);
-        }
+        const truncated = truncate(referenceSet, lowestX, highestX);
+        centileData.push(truncated);
     }
     return { chartScaleType, centileData };
 }
