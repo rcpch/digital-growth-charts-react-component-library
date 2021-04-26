@@ -1,7 +1,7 @@
 import { AxisStyle, CentileStyle, ChartStyle, GridlineStyle, MeasurementStyle } from '../interfaces/StyleObjects';
 
-const black = '#000000';
-const grey = '#CDCDCD';
+const black = '%23000000';
+const grey = '%23CDCDCD';
 
 function makeAllStyles(
     chartStyle: ChartStyle,
@@ -64,6 +64,7 @@ function makeAllStyles(
             tickLabels: {
                 fontSize: axisStyle?.tickLabelTextStyle?.size ?? 8,
                 padding: 5,
+                fill: axisStyle?.tickLabelTextStyle?.colour ?? black,
                 color: axisStyle?.tickLabelTextStyle?.colour ?? black,
                 fontFamily: axisStyle?.axisLabelTextStyle?.name ?? 'Arial',
             },

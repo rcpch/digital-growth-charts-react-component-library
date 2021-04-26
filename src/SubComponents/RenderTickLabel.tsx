@@ -4,14 +4,16 @@ function RenderTickLabel(props) {
     const x = props.x;
     const y = props.y;
     const text = props.text;
-    const style = props.style;
+    const style = props.specificStyle;
     const chartScaleType = props.chartScaleType;
     const lowerX = props.domains.x[0];
+
+    const tickColour = style.fill === '000000' ? 'black' : style.fill;
 
     const Dash = () => {
         return (
             <svg>
-                <line x1={x} x2={x} y1={y - 6} y2={y - 3} stroke={style.fill} />
+                <line x1={x} x2={x} y1={y - 6} y2={y - 3} stroke={tickColour} />
             </svg>
         );
     };
@@ -24,14 +26,14 @@ function RenderTickLabel(props) {
                             x={x}
                             y={y - 18}
                             textAnchor="middle"
-                            fill={style.fill}
+                            fill={tickColour}
                             fontSize={style.fontSize}
                             fontFamily={style.fontFamily}
                         >
                             {textLabel}
                         </text>
-                        <circle cx={x} cy={y - 21} r={7} stroke={style.fill} fill="transparent" />
-                        <line x1={x} x2={x} y1={y - 3} y2={y - 14} stroke={style.fill} />
+                        <circle cx={x} cy={y - 21} r={7} stroke={tickColour} fill="transparent" />
+                        <line x1={x} x2={x} y1={y - 3} y2={y - 14} stroke={tickColour} />
                     </g>
                 </svg>
             );
@@ -43,12 +45,12 @@ function RenderTickLabel(props) {
         return (
             <svg>
                 <g>
-                    <line x1={x} x2={x} y1={y - 6} y2={y - 3} stroke={style.fill} />
+                    <line x1={x} x2={x} y1={y - 6} y2={y - 3} stroke={tickColour} />
                     <text
                         x={x}
                         y={y + 8}
                         textAnchor="middle"
-                        fill={style.fill}
+                        fill={tickColour}
                         fontSize={style.fontSize}
                         fontFamily={style.fontFamily}
                     >
