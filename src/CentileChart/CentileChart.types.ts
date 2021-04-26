@@ -26,9 +26,5 @@ export interface CentileChartProps {
     sex: 'male' | 'female';
     childMeasurements: Measurement[];
     enableZoom: boolean;
-    chartStyle: ChartStyle;
-    axisStyle?: AxisStyle;
-    gridlineStyle?: GridlineStyle;
-    centileStyle?: CentileStyle;
-    measurementStyle?: MeasurementStyle;
+    styles: { [key: string]: any };
 }
