@@ -206,7 +206,7 @@ interface ChartStyle{
 
 Note for the tooltips and infobox text sizes, these are strokeWidths, not point sizes as the text here is svg.
 
-Axis styles control axes and axis labels
+Axis styles control axes and axis labels:
 
 ```js
 interface AxisStyle{
