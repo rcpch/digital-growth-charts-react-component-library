@@ -9,52 +9,24 @@ import { Domains } from '../interfaces/Domains';
 
 import { IPlottedCentileMeasurement } from '../interfaces/CentilesObject';
 
-const blankDataset = [
-    [
-        { centile: 0.4, data: [], sds: -2.67 },
-        { centile: 2, data: [], sds: -2 },
-        { centile: 9, data: [], sds: -1.33 },
-        { centile: 25, data: [], sds: -0.67 },
-        { centile: 50, data: [], sds: 0 },
-        { centile: 75, data: [], sds: 0.67 },
-        { centile: 91, data: [], sds: 1.33 },
-        { centile: 98, data: [], sds: 2 },
-        { centile: 99.6, data: [], sds: 2.67 },
-    ],
-    [
-        { centile: 0.4, data: [], sds: -2.67 },
-        { centile: 2, data: [], sds: -2 },
-        { centile: 9, data: [], sds: -1.33 },
-        { centile: 25, data: [], sds: -0.67 },
-        { centile: 50, data: [], sds: 0 },
-        { centile: 75, data: [], sds: 0.67 },
-        { centile: 91, data: [], sds: 1.33 },
-        { centile: 98, data: [], sds: 2 },
-        { centile: 99.6, data: [], sds: 2.67 },
-    ],
-    [
-        { centile: 0.4, data: [], sds: -2.67 },
-        { centile: 2, data: [], sds: -2 },
-        { centile: 9, data: [], sds: -1.33 },
-        { centile: 25, data: [], sds: -0.67 },
-        { centile: 50, data: [], sds: 0 },
-        { centile: 75, data: [], sds: 0.67 },
-        { centile: 91, data: [], sds: 1.33 },
-        { centile: 98, data: [], sds: 2 },
-        { centile: 99.6, data: [], sds: 2.67 },
-    ],
-    [
-        { centile: 0.4, data: [], sds: -2.67 },
-        { centile: 2, data: [], sds: -2 },
-        { centile: 9, data: [], sds: -1.33 },
-        { centile: 25, data: [], sds: -0.67 },
-        { centile: 50, data: [], sds: 0 },
-        { centile: 75, data: [], sds: 0.67 },
-        { centile: 91, data: [], sds: 1.33 },
-        { centile: 98, data: [], sds: 2 },
-        { centile: 99.6, data: [], sds: 2.67 },
-    ],
-];
+type CentileLabelValues = {
+    0.4: { value: number; workingX: number };
+    2: { value: number; workingX: number };
+    9: { value: number; workingX: number };
+    25: { value: number; workingX: number };
+    50: { value: number; workingX: number };
+    75: { value: number; workingX: number };
+    91: { value: number; workingX: number };
+    98: { value: number; workingX: number };
+    99.6: { value: number; workingX: number };
+};
+
+type ExtremeValues = {
+    lowestY: number;
+    highestY: number;
+    lowestYForX: null | CentileLabelValues;
+    highestYForX: null | CentileLabelValues;
+};
 
 // analyses whole child measurement array to work out top and bottom x and y
 function childMeasurementRanges(childMeasurements: Measurement[], showCorrected: boolean, showChronological: boolean) {
@@ -129,6 +101,71 @@ function childMeasurementRanges(childMeasurements: Measurement[], showCorrected:
     return { lowestChildX, highestChildX, lowestChildY, highestChildY };
 }
 
+// keep track of top and bottom values in visible area:
+
+function makeExtremeValues(native: boolean): ExtremeValues {
+    const values = {
+        lowestY: 500,
+        highestY: -500,
+        lowestYForX: native
+            ? {
+                  0.4: { value: 500, workingX: 500 },
+                  2: { value: 500, workingX: 500 },
+                  9: { value: 500, workingX: 500 },
+                  25: { value: 500, workingX: 500 },
+                  50: { value: 500, workingX: 500 },
+                  75: { value: 500, workingX: 500 },
+                  91: { value: 500, workingX: 500 },
+                  98: { value: 500, workingX: 500 },
+                  99.6: { value: 500, workingX: 500 },
+              }
+            : null,
+        highestYForX: native
+            ? {
+                  0.4: { value: -500, workingX: -500 },
+                  2: { value: -500, workingX: -500 },
+                  9: { value: -500, workingX: -500 },
+                  25: { value: -500, workingX: -500 },
+                  50: { value: -500, workingX: -500 },
+                  75: { value: -500, workingX: -500 },
+                  91: { value: -500, workingX: -500 },
+                  98: { value: -500, workingX: -500 },
+                  99.6: { value: -500, workingX: -500 },
+              }
+            : null,
+    };
+    return values;
+}
+
+// generate objects to plot centile labels in react native:
+
+function makeCentileLabels(
+    extremeValues: ExtremeValues,
+    lowestXForDomain: number,
+    highestXForDomain: number,
+    internalChartScaleType: 'prem' | 'infant' | 'smallChild' | 'biggerChild',
+) {
+    const pointsForCentileLabels = [];
+    if (internalChartScaleType === 'prem' && extremeValues.lowestYForX) {
+        for (const [key, miniObject] of Object.entries(extremeValues.lowestYForX)) {
+            pointsForCentileLabels.push({
+                x: lowestXForDomain,
+                centile: key,
+                y: miniObject.value,
+            });
+        }
+    } else if (extremeValues.highestYForX) {
+        for (const [key, miniObject] of Object.entries(extremeValues.highestYForX)) {
+            pointsForCentileLabels.push({
+                x: highestXForDomain,
+                centile: key,
+                y: miniObject.value,
+            });
+        }
+    }
+    return pointsForCentileLabels;
+}
+
 /* update highest / lowest values in visible data set for labels / setting up best y domains. This is run in the filter
  data loops, so that only one run of looping required:
 */
@@ -170,19 +207,27 @@ function filterData(
     extremeValues?: { [key: string]: any },
     native?: boolean,
 ) {
-    const filtered = data.filter((d: IPlottedCentileMeasurement) => {
-        //as centile data is to 4 decimal places, this prevents premature chopping off at either end:
-        const upperXTo4 = Number(upperX?.toFixed(4));
-        const lowerXTo4 = Number(lowerX?.toFixed(4));
-        if (d.x <= upperXTo4 && d.x >= lowerXTo4) {
-            if (extremeValues) {
-                updateCoordsOfExtremeValues(extremeValues, centileString, d, native);
+    const filtered = data.filter(
+        (d: IPlottedCentileMeasurement, currentIndex: number, wholeArray: IPlottedCentileMeasurement[]) => {
+            //as centile data is to 4 decimal places, this prevents premature chopping off at either end:
+            const upperXTo4 = Number(upperX?.toFixed(4));
+            const lowerXTo4 = Number(lowerX?.toFixed(4));
+            if (d.x <= upperXTo4 && d.x >= lowerXTo4) {
+                if (extremeValues) {
+                    updateCoordsOfExtremeValues(extremeValues, centileString, d, native);
+                }
+                return true;
+            } else {
+                const xBelow: undefined | number = wholeArray[currentIndex - 1]?.x;
+                const xAbove: undefined | number = wholeArray[currentIndex + 1]?.x;
+                if ((xBelow <= upperXTo4 && xBelow >= lowerXTo4) || (xAbove <= upperXTo4 && xAbove >= lowerXTo4)) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
-            return true;
-        } else {
-            return false;
-        }
-    });
+        },
+    );
     return filtered;
 }
 
@@ -213,6 +258,52 @@ function getRelevantDataSets(
     lowestChildX: number,
     highestChildX: number,
 ) {
+    const blankDataset = [
+        [
+            { centile: 0.4, data: [], sds: -2.67 },
+            { centile: 2, data: [], sds: -2 },
+            { centile: 9, data: [], sds: -1.33 },
+            { centile: 25, data: [], sds: -0.67 },
+            { centile: 50, data: [], sds: 0 },
+            { centile: 75, data: [], sds: 0.67 },
+            { centile: 91, data: [], sds: 1.33 },
+            { centile: 98, data: [], sds: 2 },
+            { centile: 99.6, data: [], sds: 2.67 },
+        ],
+        [
+            { centile: 0.4, data: [], sds: -2.67 },
+            { centile: 2, data: [], sds: -2 },
+            { centile: 9, data: [], sds: -1.33 },
+            { centile: 25, data: [], sds: -0.67 },
+            { centile: 50, data: [], sds: 0 },
+            { centile: 75, data: [], sds: 0.67 },
+            { centile: 91, data: [], sds: 1.33 },
+            { centile: 98, data: [], sds: 2 },
+            { centile: 99.6, data: [], sds: 2.67 },
+        ],
+        [
+            { centile: 0.4, data: [], sds: -2.67 },
+            { centile: 2, data: [], sds: -2 },
+            { centile: 9, data: [], sds: -1.33 },
+            { centile: 25, data: [], sds: -0.67 },
+            { centile: 50, data: [], sds: 0 },
+            { centile: 75, data: [], sds: 0.67 },
+            { centile: 91, data: [], sds: 1.33 },
+            { centile: 98, data: [], sds: 2 },
+            { centile: 99.6, data: [], sds: 2.67 },
+        ],
+        [
+            { centile: 0.4, data: [], sds: -2.67 },
+            { centile: 2, data: [], sds: -2 },
+            { centile: 9, data: [], sds: -1.33 },
+            { centile: 25, data: [], sds: -0.67 },
+            { centile: 50, data: [], sds: 0 },
+            { centile: 75, data: [], sds: 0.67 },
+            { centile: 91, data: [], sds: 1.33 },
+            { centile: 98, data: [], sds: 2 },
+            { centile: 99.6, data: [], sds: 2.67 },
+        ],
+    ];
     if (reference === 'uk-who') {
         const dataSetRanges = [
             [-0.33, 0.0383],
@@ -252,12 +343,12 @@ function getRelevantDataSets(
             return returnArray;
         }
     } else if (reference === 'trisomy-21') {
-        return [trisomy21Data.trisomy21[sex][measurementMethod]];
+        return [trisomy21Data.trisomy21[sex][measurementMethod], blankDataset[0], blankDataset[1], blankDataset[2]];
     } else if (reference === 'turner') {
         if (sex !== 'female' && measurementMethod !== 'height') {
             throw new Error('getRelevantDataSets cannot fetch anything other than height data for turner');
         }
-        return [turnerData.turner.female.height];
+        return [turnerData.turner.female.height, blankDataset[0], blankDataset[1], blankDataset[2]];
     } else {
         throw new Error('No valid reference given to getRelevantDataSets');
     }
@@ -277,10 +368,10 @@ function getDomainsAndData(
     let internalChartScaleType: 'prem' | 'infant' | 'smallChild' | 'biggerChild' = 'biggerChild';
     const twoWeeksPostnatal = 0.038329911019849415;
     const gestWeeks37 = -0.057494866529774126;
-    const gestWeeks25 = -0.2874743326488706;
-    const gestWeeks23 = -0.32580424366872;
+    const gestWeeks24 = -0.306639288158795;
+    const gestWeeks22 = -0.33;
     let absoluteBottomX = twoWeeksPostnatal;
-    let absoluteHighX = 20;
+    let absoluteHighX = 20.05;
     let agePadding = totalMinPadding.biggerChild;
 
     let finalCentileData: any[] = [];
@@ -290,25 +381,25 @@ function getDomainsAndData(
     if (reference === 'uk-who') {
         if (measurementMethod === 'ofc') {
             if (sex === 'female') {
-                absoluteHighX = 17;
+                absoluteHighX = 17.05;
             } else {
-                absoluteHighX = 18;
+                absoluteHighX = 18.05;
             }
         }
     }
 
     if (reference === 'trisomy-21') {
-        absoluteBottomX = 0;
+        absoluteBottomX = -0.01;
         if (measurementMethod === 'ofc') {
-            absoluteHighX = 18;
+            absoluteHighX = 18.05;
         }
         if (measurementMethod === 'bmi') {
-            absoluteHighX = 18.82;
+            absoluteHighX = 18.87;
         }
     }
 
     if (reference === 'turner') {
-        absoluteBottomX = 1;
+        absoluteBottomX = 0.97;
     }
 
     let lowestXForDomain = absoluteBottomX;
@@ -337,37 +428,35 @@ function getDomainsAndData(
             // set appropriate chart scale based on data:
             if (birthGestationWeeks < 37 && highestChildX <= twoWeeksPostnatal) {
                 // prem:
-                absoluteBottomX = gestWeeks23;
+                absoluteBottomX = gestWeeks22;
+                agePadding = totalMinPadding.prem;
+                absoluteHighX = twoWeeksPostnatal;
                 if (measurementMethod === 'height') {
-                    absoluteBottomX = gestWeeks25;
+                    absoluteBottomX = gestWeeks24;
                 }
                 if (difference > totalMinPadding.prem) {
-                    agePadding = totalMinPadding.infant;
                     internalChartScaleType = 'infant';
                 } else {
                     internalChartScaleType = 'prem';
-                    agePadding = totalMinPadding.prem;
-                    absoluteHighX = twoWeeksPostnatal;
                 }
             } else if (highestChildX <= 1) {
                 //infant:
+                agePadding = totalMinPadding.infant;
                 if (lowestChildX >= gestWeeks37 && lowestChildX < twoWeeksPostnatal) {
                     absoluteBottomX = gestWeeks37;
                 } else if (lowestChildX < gestWeeks37) {
-                    absoluteBottomX = measurementMethod === 'height' ? gestWeeks25 : gestWeeks23;
+                    absoluteBottomX = measurementMethod === 'height' ? gestWeeks24 : gestWeeks22;
                 }
                 if (difference > totalMinPadding.infant) {
-                    agePadding = totalMinPadding.smallChild;
                     internalChartScaleType = 'smallChild';
                 } else {
-                    agePadding = totalMinPadding.infant;
                     internalChartScaleType = 'infant';
                 }
             } else if (highestChildX <= 4) {
                 // small child:
+                agePadding = totalMinPadding.smallChild;
                 if (difference <= totalMinPadding.smallChild) {
                     internalChartScaleType = 'smallChild';
-                    agePadding = totalMinPadding.smallChild;
                 }
             }
 
@@ -376,8 +465,8 @@ function getDomainsAndData(
             let unroundedHighestX = 0;
             if (agePadding <= difference) {
                 // add padding:
-                unroundedLowestX = lowestChildX;
-                unroundedHighestX = highestChildX;
+                unroundedLowestX = absoluteBottomX > lowestChildX * 0.99 ? absoluteBottomX : lowestChildX * 0.99;
+                unroundedHighestX = absoluteHighX < highestChildX * 1.01 ? absoluteHighX : highestChildX * 1.01;
             } else {
                 const leftOverAgePadding = agePadding - difference;
                 let addToHighest = 0;
@@ -422,36 +511,7 @@ function getDomainsAndData(
     }
 
     // this object keeps track of highest / lowest visible coords to use for chart scaling / labels:
-    const extremeValues = {
-        lowestY: 500,
-        highestY: -500,
-        lowestYForX: native
-            ? {
-                  0.4: { value: 500, workingX: 500 },
-                  2: { value: 500, workingX: 500 },
-                  9: { value: 500, workingX: 500 },
-                  25: { value: 500, workingX: 500 },
-                  50: { value: 500, workingX: 500 },
-                  75: { value: 500, workingX: 500 },
-                  91: { value: 500, workingX: 500 },
-                  98: { value: 500, workingX: 500 },
-                  99.6: { value: 500, workingX: 500 },
-              }
-            : null,
-        highestYForX: native
-            ? {
-                  0.4: { value: -500, workingX: -500 },
-                  2: { value: -500, workingX: -500 },
-                  9: { value: -500, workingX: -500 },
-                  25: { value: -500, workingX: -500 },
-                  50: { value: -500, workingX: -500 },
-                  75: { value: -500, workingX: -500 },
-                  91: { value: -500, workingX: -500 },
-                  98: { value: -500, workingX: -500 },
-                  99.6: { value: -500, workingX: -500 },
-              }
-            : null,
-    };
+    const extremeValues = makeExtremeValues(native);
 
     //removes irrelevant datasets before filtering to visible data:
     const relevantDataSets = getRelevantDataSets(
@@ -516,31 +576,12 @@ function getDomainsAndData(
     };
 
     if (native) {
-        // generate data needed to display centile labels:
-        if (internalChartScaleType === 'prem') {
-            for (const [key, miniObject] of Object.entries(extremeValues.lowestYForX)) {
-                pointsForCentileLabels.push({
-                    x: lowestXForDomain,
-                    centile: key,
-                    y: miniObject.value,
-                });
-            }
-        } else {
-            for (const [key, miniObject] of Object.entries(extremeValues.highestYForX)) {
-                pointsForCentileLabels.push({
-                    x: highestXForDomain,
-                    centile: key,
-                    y: miniObject.value,
-                });
-            }
-        }
-
-        return {
-            centileData: finalCentileData,
-            domains: internalDomains,
-            chartScaleType: internalChartScaleType,
-            pointsForCentileLabels: pointsForCentileLabels,
-        };
+        pointsForCentileLabels = makeCentileLabels(
+            extremeValues,
+            lowestXForDomain,
+            highestXForDomain,
+            internalChartScaleType,
+        );
     }
 
     return {
@@ -552,41 +593,19 @@ function getDomainsAndData(
     };
 }
 
-// main function but returns a promise
-function asyncGetDomainsAndData(
-    childMeasurements: Measurement[],
-    sex: 'male' | 'female',
-    measurementMethod: 'height' | 'weight' | 'bmi' | 'ofc',
-    reference: 'uk-who' | 'trisomy-21' | 'turner',
-    showCorrected: boolean,
-    showChronological: boolean,
-    native?: boolean,
-): Promise<any> {
-    return new Promise((resolve, reject) => {
-        const results = getDomainsAndData(
-            childMeasurements,
-            sex,
-            measurementMethod,
-            reference,
-            showCorrected,
-            showChronological,
-            native,
-        );
-        if (results.centileData !== undefined) {
-            resolve(results);
-        } else {
-            reject('No data generated from fetch');
-        }
-    });
-}
-
 function getVisibleData(
     sex: 'male' | 'female',
     measurementMethod: 'height' | 'weight' | 'bmi' | 'ofc',
     reference: 'uk-who' | 'trisomy-21' | 'turner',
     domains: any,
+    native: boolean,
 ) {
+    if (!domains) {
+        return null;
+    }
     let chartScaleType: 'prem' | 'infant' | 'smallChild' | 'biggerChild' = 'biggerChild';
+    let pointsForCentileLabels = [];
+    const extremeValues = native ? makeExtremeValues(native) : null;
     const lowestX = domains.x[0];
     const highestX = domains.x[1];
     const xDifference = highestX - lowestX;
@@ -604,15 +623,17 @@ function getVisibleData(
     const relevantDataSets = getRelevantDataSets(sex, measurementMethod, reference, lowestX, highestX);
     let centileData = [];
     for (let referenceSet of relevantDataSets) {
-        // skip preterm data filtering as zooming in chops off graphs too quickly:
-        if (referenceSet[0]?.data[0]?.x === -0.2875 || referenceSet[0]?.data[0]?.x === -0.3258) {
-            centileData.push(referenceSet);
-        } else {
-            const truncated = truncate(referenceSet, lowestX, highestX);
-            centileData.push(truncated);
-        }
+        const truncated = truncate(referenceSet, lowestX, highestX, extremeValues, native);
+        centileData.push(truncated);
     }
-    return { chartScaleType, centileData };
+    if (native && extremeValues) {
+        let internalChartScaleType = chartScaleType;
+        if (highestX > 0.038329911019849415 && chartScaleType === 'prem') {
+            internalChartScaleType = 'infant';
+        }
+        pointsForCentileLabels = makeCentileLabels(extremeValues, lowestX, highestX, internalChartScaleType);
+    }
+    return { chartScaleType, centileData, pointsForCentileLabels };
 }
 
 export const delayedPubertyData = {
@@ -620,5 +641,5 @@ export const delayedPubertyData = {
     female: ukwhoData.uk90_child.female.height[0].data,
 };
 
-export default asyncGetDomainsAndData;
+export default getDomainsAndData;
 export { getVisibleData };
