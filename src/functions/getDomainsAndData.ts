@@ -1,6 +1,6 @@
-import ukwhoData from '../../chartData/uk_who_chart_data';
-import turnerData from '../../chartData/turners_chart_data';
-import trisomy21Data from '../../chartData/trisomy21Data';
+import ukwhoData from '../chartdata/uk_who_chart_data';
+import turnerData from '../chartdata/turners_chart_data';
+import trisomy21Data from '../chartdata/trisomy21Data';
 
 import totalMinPadding from './totalMinPadding';
 import { getTickValuesForChartScaling } from './tailoredXTickValues';
