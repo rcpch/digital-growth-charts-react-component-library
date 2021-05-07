@@ -32,12 +32,12 @@ foobar:~foo$ npm i --save @rcph/digital-growth-charts-react-component-library
 
 Victory Charts are a dependency (see below), themselves built on top of D3.js. On build it is likely you will get an error relating to circular dependencies for some files in the d3-interpolate module. The is an issue logged [here](https://github.com/d3/d3-interpolate/issues/58).
 
-If you want to run the package locally alongside the react client, there are some extra steps to go through. Since the chart library and the react client both use react, the charts will throw an error if you import them in the ```package.json``` of your app from a folder on your local machine. For example in your react app:
+If you want to run the package locally alongside the react client, there are some extra steps to go through. Since the chart library and the react client both use react, the charts will throw an error if you import them in the `package.json` of your app from a folder on your local machine. For example in your react app:
 
 ```json
 "dependencies": {
     "@rcpch/digital-growth-charts-react-component-library": "file:/Users/FooBar/Development/react/component-libraries/digital-growth-charts-react-component-library",
-} 
+}
 ```
 
 The problem with this is that there are then 2 versions of react running. To overcome this, in your application:
@@ -53,10 +53,10 @@ In the root folder of your chart library:
 foobar:~foo$ npm link react
 ```
 
-Repeat the same for ```react-dom``` ensuring all the package versions are the same for your app and the library.
-In this way, you can make changes to the chart package and they will appear in your app after ```npm run build``` and refresh your app.
+Repeat the same for `react-dom` ensuring all the package versions are the same for your app and the library.
+In this way, you can make changes to the chart package and they will appear in your app after `npm run build` and refresh your app.
 
-If the invalid hooks error persists inspite of this, a further fix involves deleting the ```node_modules``` folder in the```@rcpch/digital-growth-charts-react-component-library``` folder within ```node_modules``` in the client.
+If the invalid hooks error persists inspite of this, a further fix involves deleting the `node_modules` folder in the`@rcpch/digital-growth-charts-react-component-library` folder within `node_modules` in the client.
 
 ## Structure
 
@@ -177,72 +177,69 @@ interface Measurement {
       }
     }
   }
-  ```
+```
 
 The styling components allow the user to customise elements of the chart:
 Chart styles control the chart and the tooltips
 
 ```js
 interface ChartStyle{
-    backgroundColour?: string, 
-    width?: number, 
+    backgroundColour?: string,
+    width?: number,
     height?: number,
     padding?: requires {left?: number, right?: number, top?: number, bottom?: number},
-    titleStyle?: requires {name?: string, colour?: string, size?: number, weight?: 'bold' | 'italic' | 'regular'}
-    subTitleStyle?: requires {name?: string, colour?: string, size?: number, weight?: 'bold' | 'italic' | 'regular'},,
+    titleStyle?: requires {name?: string, colour?: string, size?: number, weight?: 'bold' | 'italic' | 'normal'}
+    subTitleStyle?: requires {name?: string, colour?: string, size?: number, weight?: 'bold' | 'italic' | 'normal'},,
     tooltipBackgroundColour?: string,
     tooltipStroke?: string,
-    tooltipTextStyle?: requires {name?: string, colour?: string, size?: number, weight?: 'bold' | 'italic' | 'regular'}
+    tooltipTextStyle?: requires {name?: string, colour?: string, size?: number, weight?: 'bold' | 'italic' | 'normal'}
     termFill?: string,
     termStroke?: string,
-    infoBoxFill?: string,
-    infoBoxStroke?: string
-    infoBoxTextStyle?: requires {name?: string, colour?: string, size?: number, weight?: 'bold' | 'italic' | 'regular'}
-    toggleButtonInactiveColour: string // relates to the toggle buttons present if age correction is necessary
-    toggleButtonActiveColour: string
-    toggleButtonTextColour: string
+    toggleButtonInactiveColour: string, // relates to the toggle buttons present if age correction is necessary
+    toggleButtonActiveColour: string,
+    toggleButtonTextColour: string,
 }
 ```
 
-Note for the tooltips and infobox text sizes, these are strokeWidths, not point sizes as the text here is svg.
+Note for the tooltips text sizes, these are strokeWidths, not point sizes as the text here is svg.
 
 Axis styles control axes and axis labels
 
 ```js
 interface AxisStyle{
-    axisStroke?: string, 
-    axisLabelTextStyle?: requires {name?: string, colour?: string, size?: number, weight?: 'bold' | 'italic' | 'regular'}
-    tickLabelTextStyle?: requires {name?: string, colour?: string, size?: number, weight?: 'bold' | 'italic' | 'regular'}
+    axisStroke?: string,
+    axisLabelTextStyle?: requires {name?: string, colour?: string, size?: number, weight?: 'bold' | 'italic' | 'normal'}
+    tickLabelTextStyle?: requires {name?: string, colour?: string, size?: number, weight?: 'bold' | 'italic' | 'normal'}
 }
 ```
 
 Gridline styles allow/hide gridlines and control line width, presence of dashes, colour.
 
 ```js
-interface GridlineStyle{
-   gridlines?: boolean, 
-    stroke?: string, 
-    strokeWidth?: number, 
-    dashed?: boolean
+interface GridlineStyle {
+    gridlines?: boolean;
+    stroke?: string;
+    strokeWidth?: number;
+    dashed?: boolean;
 }
 ```
 
 Centile styles control the width and colour.
 
 ```js
-interface CentileStyle{
-    centileStroke?: string, 
-    centileStrokeWidth?: number, 
-    delayedPubertyAreaFill?: string 
+interface CentileStyle {
+    centileStroke?: string;
+    centileStrokeWidth?: number;
+    delayedPubertyAreaFill?: string;
 }
 ```
 
 Measurement styles control the plotted data points - colour, size and shape. Corrected ages are always rendered as crosses. Circles for chronological ages are preferred.
 
 ```js
-interface MeasurementStyle{
-    measurementFill?: string, 
-    measurementSize?: number // this is an svg size
+interface MeasurementStyle {
+    measurementFill?: string;
+    measurementSize?: number; // this is an svg size
 }
 ```
 
@@ -266,10 +263,10 @@ We're a friendly bunch and we're happy to chat. You can get in touch with the pr
 
 ### How to contribute
 
-- Fork the repository to your own GitHub account
-- Set up your development environment (ideally using our instructions here for maximum compatibility with our own development environments)
-- Note that running the chart package and react client locally will cause a conflict within react if multiple versions are running. A fix for this can be found in the [react client readme.MD](https://github.com/rcpch/digital-growth-charts-react-client)
-- Ideally, you should have discussed with our team what you are proposing to change, because we can only accept pull requests where there is an accepted need for that new feature or fix.
-- We can discuss with you how we would recommend to implement the new feature, for maximum potential 'mergeability' of your PR.
-- Once the work is ready to show us, create a pull request on our repo, detailing what the change is and details about the fix or feature. PRs that affect any 'mission critical' part of the code will need suitable tests which we can run.
-- We will endeavour to review and merge in a reasonable time frame, but will usually not merge straight into master, rather we will merge into an upcoming release branch.
+-   Fork the repository to your own GitHub account
+-   Set up your development environment (ideally using our instructions here for maximum compatibility with our own development environments)
+-   Note that running the chart package and react client locally will cause a conflict within react if multiple versions are running. A fix for this can be found in the [react client readme.MD](https://github.com/rcpch/digital-growth-charts-react-client)
+-   Ideally, you should have discussed with our team what you are proposing to change, because we can only accept pull requests where there is an accepted need for that new feature or fix.
+-   We can discuss with you how we would recommend to implement the new feature, for maximum potential 'mergeability' of your PR.
+-   Once the work is ready to show us, create a pull request on our repo, detailing what the change is and details about the fix or feature. PRs that affect any 'mission critical' part of the code will need suitable tests which we can run.
+-   We will endeavour to review and merge in a reasonable time frame, but will usually not merge straight into master, rather we will merge into an upcoming release branch.
