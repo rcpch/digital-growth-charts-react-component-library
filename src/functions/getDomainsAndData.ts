@@ -29,14 +29,21 @@ type ExtremeValues = {
 };
 
 // analyses whole child measurement array to work out top and bottom x and y
-function childMeasurementRanges(childMeasurements: Measurement[], showCorrected: boolean, showChronological: boolean) {
+function childMeasurementRanges(
+    childMeasurements: Measurement[],
+    showCorrected: boolean,
+    showChronological: boolean,
+    sex: 'male' | 'female',
+    measurementMethod: 'height' | 'weight' | 'bmi' | 'ofc',
+) {
     let highestChildX = -500;
     let lowestChildX = 500;
     let highestChildY = -500;
     let lowestChildY = 500;
     let gestationInDays: null | number = null;
     let dateOfBirth: null | string = null;
-    let sex: null | string = null;
+    let internalSex: null | 'male' | 'female' = null;
+    let internalMeasurementMethod: null | 'height' | 'weight' | 'bmi' | 'ofc' = null;
     for (let measurement of childMeasurements) {
         if (!measurement.plottable_data) {
             throw new Error('No plottable data found. Are you using the correct server version?');
@@ -58,11 +65,33 @@ function childMeasurementRanges(childMeasurements: Measurement[], showCorrected:
             );
         }
         const tempSex = measurement.birth_data.sex;
-        if (sex === null) {
-            sex = tempSex;
-        } else if (sex !== tempSex) {
+        if (internalSex === null) {
+            internalSex = tempSex;
+            if (internalSex !== sex) {
+                throw new Error('Sex supplied by chart props does not match sex supplied in measurements array.');
+            }
+        } else if (internalSex !== tempSex) {
             throw new Error(
                 'Measurement entries with different sexes detected. Measurements from only one patient at one time are supported',
+            );
+        } else if (internalSex !== sex) {
+            throw new Error('Sex supplied by chart props does not match sex supplied in measurements array.');
+        }
+        const tempMeasurementMethod = measurement.child_observation_value.measurement_method;
+        if (internalMeasurementMethod === null) {
+            internalMeasurementMethod = tempMeasurementMethod;
+            if (internalMeasurementMethod !== measurementMethod) {
+                throw new Error(
+                    'Measurement method supplied by chart props does not match measurement method supplied in measurements array.',
+                );
+            }
+        } else if (internalMeasurementMethod !== tempMeasurementMethod) {
+            throw new Error(
+                'Measurement entries with different measurement methods detected. Only one measurement method is supported at a time.',
+            );
+        } else if (internalMeasurementMethod !== measurementMethod) {
+            throw new Error(
+                'Measurement method supplied by chart props does not match measurement method supplied in measurements array.',
             );
         }
         let correctedX = measurement.plottable_data.centile_data.corrected_decimal_age_data.x;
@@ -96,6 +125,10 @@ function childMeasurementRanges(childMeasurements: Measurement[], showCorrected:
                     lowestChildY = coord;
                 }
             }
+        } else {
+            console.warn(
+                'Measurements considered invalid by the API given to the chart. The chart will not use them to calculate scaling.',
+            );
         }
     }
     return { lowestChildX, highestChildX, lowestChildY, highestChildY };
@@ -176,7 +209,7 @@ function updateCoordsOfExtremeValues(
     native = true,
 ): void {
     // transition points can lead to inaccurate coords for centile labels, therefore don't include 2 or 4 years old
-    if (d.x !== 4 && d.x !== 2) {
+    if (!native || (d.x !== 4 && d.x !== 2)) {
         if (extremeValues.lowestY > d.y) {
             extremeValues.lowestY = d.y;
         }
@@ -328,7 +361,7 @@ function getRelevantDataSets(
             }
         }
         const allData: any = [
-            ukwhoData.uk90_preterm[sex][measurementMethod],
+            measurementMethod !== 'bmi' ? ukwhoData.uk90_preterm[sex][measurementMethod] : blankDataset[0],
             ukwhoData.uk_who_infant[sex][measurementMethod],
             ukwhoData.uk_who_child[sex][measurementMethod],
             ukwhoData.uk90_child[sex][measurementMethod],
@@ -346,7 +379,8 @@ function getRelevantDataSets(
         return [trisomy21Data.trisomy21[sex][measurementMethod], blankDataset[0], blankDataset[1], blankDataset[2]];
     } else if (reference === 'turner') {
         if (sex !== 'female' && measurementMethod !== 'height') {
-            throw new Error('getRelevantDataSets cannot fetch anything other than height data for turner');
+            console.warn('No centile lines have rendered, as only height data is supported for turner reference.');
+            return blankDataset;
         }
         return [turnerData.turner.female.height, blankDataset[0], blankDataset[1], blankDataset[2]];
     } else {
@@ -409,7 +443,13 @@ function getDomainsAndData(
     let highestYFromMeasurements: null | number = null;
 
     if (childMeasurements.length > 0) {
-        const childCoordinates = childMeasurementRanges(childMeasurements, showCorrected, showChronological);
+        const childCoordinates = childMeasurementRanges(
+            childMeasurements,
+            showCorrected,
+            showChronological,
+            sex,
+            measurementMethod,
+        );
         let setDomainsOnMeasurementValues = true;
         for (const value of Object.values(childCoordinates)) {
             if (Math.abs(value) === 500) {

@@ -1,5 +1,5 @@
 // libraries
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useLayoutEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import {
     createContainer,
@@ -45,6 +45,9 @@ const VictoryZoomVoronoiContainer = createContainer<VictoryZoomContainerProps, V
     'voronoi',
 ); // allows two top level containers: zoom and voronoi
 
+const shadedTermAreaText =
+    'Babies born in this shaded area\nare term. It is normal for\nbabies to lose weight over\nthe first two weeks of life.\nMedical review should be sought\nif weight has dropped by more\nthan 10% of birth weight or\nweight is still below birth weight\nthree weeks after birth.';
+
 function CentileChart({
     reference,
     title,
@@ -55,11 +58,9 @@ function CentileChart({
     enableZoom,
     styles,
 }: CentileChartProps) {
-    const [internalChildMeasurements, setInternalChildMeasurements] = useState(childMeasurements);
-
     const [userDomains, setUserDomains] = useState(null);
 
-    const { defaultShowCorrected, defaultShowChronological, showToggle } = defaultToggles(internalChildMeasurements);
+    const { defaultShowCorrected, defaultShowChronological, showToggle } = defaultToggles(childMeasurements);
     const [showChronologicalAge, setShowChronologicalAge] = useState(defaultShowChronological);
     const [showCorrectedAge, setShowCorrectedAge] = useState(defaultShowCorrected);
 
@@ -77,22 +78,14 @@ function CentileChart({
         [childMeasurements, sex, measurementMethod, reference, showCorrectedAge, showChronologicalAge],
     );
 
-    const updatedData = useMemo(() => getVisibleData(sex, measurementMethod, reference, userDomains, false), [
-        sex,
-        measurementMethod,
-        reference,
-        internalChildMeasurements,
-        showCorrectedAge,
-        showChronologicalAge,
-        userDomains,
-    ]);
+    const updatedData = getVisibleData(sex, measurementMethod, reference, userDomains, false);
 
     if (updatedData) {
         chartScaleType = updatedData.chartScaleType;
         centileData = updatedData.centileData;
     }
 
-    const allowZooming = internalChildMeasurements.length > 0 && enableZoom ? true : false;
+    const allowZooming = childMeasurements.length > 0 && enableZoom ? true : false;
 
     const domains = userDomains || computedDomains;
 
@@ -109,7 +102,7 @@ function CentileChart({
     let showTermArea = false;
 
     if (
-        internalChildMeasurements[0]?.birth_data.gestation_weeks >= 37 &&
+        childMeasurements[0]?.birth_data.gestation_weeks >= 37 &&
         measurementMethod === 'weight' &&
         reference === 'uk-who' &&
         domains?.x[0] < 0.038329911019849415 && // 2 weeks postnatal
@@ -118,15 +111,26 @@ function CentileChart({
         showTermArea = true;
     }
 
-    const shadedTermAreaText =
-        'Babies born in this shaded area\nare term. It is normal for\nbabies to lose weight over\nthe first two weeks of life.\nMedical review should be sought\nif weight has dropped by more\nthan 10% of birth weight or\nweight is still below birth weight\nthree weeks after birth.';
+    const termAreaData = [
+        {
+            x: -0.057494866529774126,
+            y: domains.y[1],
+            y0: domains.y[0],
+            l: shadedTermAreaText,
+        },
+        {
+            x: 0.038329911019849415,
+            y: domains.y[1],
+            y0: domains.y[0],
+            l: shadedTermAreaText,
+        },
+    ];
 
-    useEffect(() => {
-        if (internalChildMeasurements !== childMeasurements) {
-            setInternalChildMeasurements(childMeasurements);
-            setUserDomains(null);
-        }
-    }, [childMeasurements, internalChildMeasurements]);
+    let yAxisOrientation: 'left' | 'right' = 'left';
+    if (chartScaleType === 'prem' && domains.x[0] < -0.057494866529774126) {
+        // 37 weeks gestation
+        yAxisOrientation = 'right';
+    }
 
     const onSelectRadioButton = (event) => {
         switch (event.target.value) {
@@ -158,20 +162,19 @@ function CentileChart({
         setUserDomains(domain);
     };
 
-    let yAxisOrientation: 'left' | 'right' = 'left';
-    if (chartScaleType === 'prem' && domains.x[0] < -0.057494866529774126) {
-        // 37 weeks gestation
-        yAxisOrientation = 'right';
-    }
+    useLayoutEffect(() => {
+        setUserDomains(null);
+    }, [childMeasurements]);
 
     return (
-        <div data-testid="CentileChart" className="centred">
+        <div className="centered">
             {/* The VictoryChart is the parent component. It contains a Voronoi container, which groups data sets together for the purposes of tooltips */}
             {/* It has an animation object and the domains are the thresholds of ages rendered. This is calculated from the child data supplied by the user. */}
             {/* Tooltips are here as it is the parent component. More information of tooltips in centiles below. */}
             <div className="flex-center-vertically">
                 <img src={icon} width={32} height={32} />
             </div>
+
             <VictoryChart
                 width={styles.chartWidth}
                 height={styles.chartHeight}
@@ -229,25 +232,7 @@ function CentileChart({
                 {
                     /* Term child shaded area: */
 
-                    showTermArea && (
-                        <VictoryArea
-                            style={styles.termArea}
-                            data={[
-                                {
-                                    x: -0.057494866529774126,
-                                    y: domains.y[1],
-                                    y0: domains.y[0],
-                                    l: shadedTermAreaText,
-                                },
-                                {
-                                    x: 0.038329911019849415,
-                                    y: domains.y[1],
-                                    y0: domains.y[0],
-                                    l: shadedTermAreaText,
-                                },
-                            ]}
-                        />
-                    )
+                    showTermArea && <VictoryArea style={styles.termArea} data={termAreaData} />
                 }
 
                 {/* X axis: */}
@@ -371,7 +356,7 @@ function CentileChart({
                 {/* the removeCorrectedAge function removes the corrected age to prevent plotting a circle on a cross, and having duplicate */}
                 {/* text in the tool tip */}
 
-                {internalChildMeasurements.map((childMeasurement: Measurement, index) => {
+                {childMeasurements.map((childMeasurement: Measurement, index) => {
                     if (!showCorrectedAge && !showChronologicalAge) {
                         return null;
                     }
@@ -415,33 +400,39 @@ function CentileChart({
                     );
                 })}
             </VictoryChart>
-            <span style={{ display: 'inline-block' }}>
-                {showToggle && (
-                    <StyledRadioButtonGroup
-                        activeColour={styles.toggleStyle.activeColour}
-                        inactiveColour={styles.toggleStyle.inactiveColour}
-                        textColour={styles.toggleStyle.textColour}
-                        handleClick={onSelectRadioButton}
-                        correctedAge={showCorrectedAge}
-                        chronologicalAge={showChronologicalAge}
-                        className="PretermToggle"
-                    />
-                )}
-                {allowZooming && (
-                    <StyledButton
-                        activeColour={styles.toggleStyle.activeColour}
-                        inactiveColour={styles.toggleStyle.inactiveColour}
-                        textColour={styles.toggleStyle.textColour}
-                        onClick={handleDomainReset}
-                        enabled={userDomains !== null}
-                    >
-                        Reset Zoom
-                    </StyledButton>
-                )}
-            </span>
+            {(showToggle || allowZooming) && (
+                <ButtonSpan>
+                    {showToggle && (
+                        <StyledRadioButtonGroup
+                            activeColour={styles.toggleStyle.activeColour}
+                            inactiveColour={styles.toggleStyle.inactiveColour}
+                            textColour={styles.toggleStyle.textColour}
+                            handleClick={onSelectRadioButton}
+                            correctedAge={showCorrectedAge}
+                            chronologicalAge={showChronologicalAge}
+                            className="PretermToggle"
+                        />
+                    )}
+                    {allowZooming && (
+                        <StyledButton
+                            activeColour={styles.toggleStyle.activeColour}
+                            inactiveColour={styles.toggleStyle.inactiveColour}
+                            textColour={styles.toggleStyle.textColour}
+                            onClick={handleDomainReset}
+                            enabled={userDomains !== null}
+                        >
+                            Reset Zoom
+                        </StyledButton>
+                    )}
+                </ButtonSpan>
+            )}
         </div>
     );
 }
+
+const ButtonSpan = styled.span`
+    display: inline-block;
+`;
 
 const StyledButton = styled.button<{
     activeColour: string;

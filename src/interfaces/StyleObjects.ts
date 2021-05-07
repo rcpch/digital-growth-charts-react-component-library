@@ -45,5 +45,5 @@ export interface TextStyle {
     name?: string;
     colour?: string;
     size?: number;
-    weight?: 'bold' | 'italic' | 'regular';
+    weight?: 'bold' | 'italic' | 'normal';
 }
