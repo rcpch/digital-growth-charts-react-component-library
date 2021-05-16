@@ -57,7 +57,6 @@ const allXTickValues = [
     0.9582477754962354,
     1,
     1.08333333333333333,
-    1.15331964407939766,
     1.16666666666666666,
     1.25,
     1.3333333333333333,
@@ -131,7 +130,8 @@ export function getTickValuesForChartScaling(chartScaleType: 'prem' | 'infant' |
                     Number.isInteger(element) ||
                     element === -0.32580424366872 ||
                     element === -0.19164955509924708 ||
-                    Number.isInteger(Number((element * 3).toFixed(2)))
+                    element === -0.057494866529774126 ||
+                    Number.isInteger(Number((element * 4).toFixed(2)))
                 ) {
                     tickValuesForChartScaling.push(element);
                 }

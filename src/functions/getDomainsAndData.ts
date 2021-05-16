@@ -53,7 +53,7 @@ function childMeasurementRanges(
             gestationInDays = tempGestDays;
         } else if (gestationInDays !== tempGestDays) {
             throw new Error(
-                'Measurement entries with different gestations detected. Measurements from only one patient at one time are supported',
+                'Measurement entries with different gestations detected. Measurements from only one patient at one time are supported.',
             );
         }
         const tempDob = measurement.birth_data.birth_date;
@@ -61,7 +61,7 @@ function childMeasurementRanges(
             dateOfBirth = tempDob;
         } else if (dateOfBirth !== tempDob) {
             throw new Error(
-                'Measurement entries with different date of births detected. Measurements from only one patient at one time are supported',
+                'Measurement entries with different date of births detected. Measurements from only one patient at one time are supported.',
             );
         }
         const tempSex = measurement.birth_data.sex;
@@ -98,7 +98,7 @@ function childMeasurementRanges(
         let chronologicalX = measurement.plottable_data.centile_data.chronological_decimal_age_data.x;
         let correctedY = measurement.plottable_data.centile_data.corrected_decimal_age_data.y;
         let chronologicalY = measurement.plottable_data.centile_data.chronological_decimal_age_data.y;
-        const errorsPresent = measurement.measurement_calculated_values.chronological_measurement_error ? true : false;
+        const errorsPresent = measurement.measurement_calculated_values.corrected_measurement_error ? true : false;
         if (!errorsPresent) {
             if (showCorrected && !showChronological) {
                 chronologicalX = correctedX;
@@ -126,9 +126,7 @@ function childMeasurementRanges(
                 }
             }
         } else {
-            console.warn(
-                'Measurements considered invalid by the API given to the chart. The chart will not use them to calculate scaling.',
-            );
+            console.warn('Measurements considered invalid by the API given to the chart. The chart will ignore them.');
         }
     }
     return { lowestChildX, highestChildX, lowestChildY, highestChildY };
@@ -433,7 +431,7 @@ function getDomainsAndData(
     }
 
     if (reference === 'turner') {
-        absoluteBottomX = 0.97;
+        absoluteBottomX = 0.99;
     }
 
     let lowestXForDomain = absoluteBottomX;
@@ -450,14 +448,14 @@ function getDomainsAndData(
             sex,
             measurementMethod,
         );
-        let setDomainsOnMeasurementValues = true;
+        let errorFree = true;
         for (const value of Object.values(childCoordinates)) {
             if (Math.abs(value) === 500) {
-                setDomainsOnMeasurementValues = false;
+                errorFree = false;
                 break;
             }
         }
-        if (setDomainsOnMeasurementValues) {
+        if (errorFree) {
             const { lowestChildX, highestChildX, lowestChildY, highestChildY } = childCoordinates;
             lowestYFromMeasurements = lowestChildY;
             highestYFromMeasurements = highestChildY;
@@ -479,7 +477,7 @@ function getDomainsAndData(
                 } else {
                     internalChartScaleType = 'prem';
                 }
-            } else if (highestChildX <= 1) {
+            } else if (highestChildX <= 2) {
                 //infant:
                 agePadding = totalMinPadding.infant;
                 if (lowestChildX >= gestWeeks37 && lowestChildX < twoWeeksPostnatal) {
@@ -504,9 +502,8 @@ function getDomainsAndData(
             let unroundedLowestX = 0;
             let unroundedHighestX = 0;
             if (agePadding <= difference) {
-                // add padding:
-                unroundedLowestX = absoluteBottomX > lowestChildX * 0.99 ? absoluteBottomX : lowestChildX * 0.99;
-                unroundedHighestX = absoluteHighX < highestChildX * 1.01 ? absoluteHighX : highestChildX * 1.01;
+                unroundedLowestX = absoluteBottomX > lowestChildX ? absoluteBottomX : lowestChildX;
+                unroundedHighestX = absoluteHighX < highestChildX ? absoluteHighX : highestChildX;
             } else {
                 const leftOverAgePadding = agePadding - difference;
                 let addToHighest = 0;
@@ -531,7 +528,7 @@ function getDomainsAndData(
             const xTickValues = getTickValuesForChartScaling(internalChartScaleType);
 
             if (lowestXForDomain !== absoluteBottomX) {
-                let arrayForOrdering = xTickValues.map((element: number) => element);
+                const arrayForOrdering = [...xTickValues];
                 arrayForOrdering.push(unroundedLowestX);
                 arrayForOrdering.sort((a: number, b: number) => a - b);
                 const lowestXIndex = arrayForOrdering.findIndex((element: number) => element === unroundedLowestX);
@@ -541,11 +538,19 @@ function getDomainsAndData(
             highestXForDomain = unroundedHighestX;
 
             if (highestXForDomain !== absoluteHighX) {
-                let arrayForOrdering = xTickValues.map((element: number) => element);
+                const arrayForOrdering = [...xTickValues];
                 arrayForOrdering.push(unroundedHighestX);
                 arrayForOrdering.sort((a: number, b: number) => a - b);
                 const highestXIndex = arrayForOrdering.findIndex((element: number) => element === unroundedHighestX);
                 highestXForDomain = arrayForOrdering[highestXIndex + 1] || highestXForDomain;
+            }
+        } else {
+            let errorString = 'No measurements provided were considered invalid. Error message from the server: ';
+            for (const measurement of childMeasurements) {
+                if (measurement.measurement_calculated_values.corrected_measurement_error) {
+                    errorString += ` ${measurement.measurement_calculated_values.corrected_measurement_error}`;
+                    throw new Error(errorString);
+                }
             }
         }
     }
@@ -583,36 +588,13 @@ function getDomainsAndData(
     }
 
     // to give a bit of space in vertical axis:
-    const candidatefinalLowestY = prePaddingLowestY - (prePaddingHighestY - prePaddingLowestY) * 0.06;
+    const candidatefinalLowestY = prePaddingLowestY - (prePaddingHighestY - prePaddingLowestY) * 0.07;
     const finalLowestY = candidatefinalLowestY < 0 ? 0 : candidatefinalLowestY;
     const finalHighestY = prePaddingHighestY + (prePaddingHighestY - prePaddingLowestY) * 0.06;
 
     internalDomains = {
         x: [lowestXForDomain, highestXForDomain],
         y: [finalLowestY, finalHighestY],
-    };
-
-    let highestPossibleDataY = 400;
-    switch (measurementMethod) {
-        case 'weight':
-            highestPossibleDataY = 120;
-            break;
-        case 'bmi':
-            highestPossibleDataY = 40;
-            break;
-        case 'ofc':
-            highestPossibleDataY = 65;
-            break;
-        case 'height':
-            highestPossibleDataY = 210;
-            break;
-        default:
-            console.error('getDomainsAndData did not pick up a valid measurementMethod for axis scaling');
-    }
-
-    const maxDomains = {
-        x: [absoluteBottomX, absoluteHighX],
-        y: [0, highestPossibleDataY > highestYFromMeasurements ? highestPossibleDataY : highestYFromMeasurements],
     };
 
     if (native) {
@@ -627,7 +609,6 @@ function getDomainsAndData(
     return {
         centileData: finalCentileData,
         computedDomains: internalDomains,
-        maxDomains: maxDomains,
         chartScaleType: internalChartScaleType,
         pointsForCentileLabels: pointsForCentileLabels,
     };

@@ -14,8 +14,6 @@ export function tooltipText(
     observation_value_error: any,
     age_error: any,
     lay_comment: any,
-    corrected: boolean,
-    chronological: boolean,
 ): string {
     if (label) {
         if (age === 0.0383 && reference === 'uk-who') {
@@ -49,7 +47,7 @@ export function tooltipText(
         /// plots
         if (observation_value_error === null && age_error === null) {
             // usually for requests where there is no reference data
-            if (age_type === 'corrected_age' && corrected !== chronological && corrected && age > 0.0383) {
+            if (age_type === 'corrected_age' && age > 0.0383) {
                 const finalCorrectedString = lay_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
                 return (
                     'Corrected age: ' +
@@ -79,51 +77,13 @@ export function tooltipText(
                 );
             }
         }
-
-        // errors
-        if (observation_value_error !== null || age_error !== null) {
-            // usually errors where impossible weights/heights etc
-
-            // the datum.lay_decimal_age_comment and datum.clinician_decimal_age_comment are long strings
-            // this adds new lines to ends of sentences or commas.
-            let obs_error_calc = '';
-            let age_error_calc = calendar_age;
-            if (observation_value_error !== null) {
-                obs_error_calc = observation_value_error.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
-            }
-            if (age_error !== null) {
-                age_error_calc = age_error.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
-            }
-
-            if (age_type === 'corrected_age') {
-                return (
-                    'Corrected age: ' +
-                    age_error_calc +
-                    '\n' +
-                    y +
-                    measurementSuffix(measurementMethod) +
-                    '\n' +
-                    observation_value_error
-                );
-            } else {
-                return (
-                    'Chronological age: ' +
-                    age_error_calc +
-                    '\n' +
-                    y +
-                    measurementSuffix(measurementMethod) +
-                    '\n' +
-                    observation_value_error
-                );
-            }
-        }
         // measurement data points
         if (age <= 0.0383) {
             // <= 42 weeks
             /// plots
             if (observation_value_error === null && age_error === null) {
                 // usually for requests where there is no reference data
-                if (age_type === 'corrected_age' && corrected) {
+                if (age_type === 'corrected_age') {
                     const finalCorrectedString = lay_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
                     return (
                         'Corrected age: ' +

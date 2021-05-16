@@ -1,18 +1,28 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { ChartTitle, StyledButton } from '../CentileChart/CentileChart';
+
+type TitleType = {
+    fontFamily: string;
+    color: string;
+    fontSize: number;
+    fontWeight: string;
+    fontStyle: string;
+};
+
 type PropTypes = {
     children: React.ReactNode;
-    height: number;
-    width: number;
+    styles: { [key: string]: any };
 };
 
 class ErrorBoundary extends React.Component {
-    state: { hasError: boolean };
+    state: { hasError: boolean; errorMessage: string; showError: false };
     props: PropTypes;
     constructor(props: PropTypes) {
         super(props);
-        this.state = { hasError: false };
+        this.state = { hasError: false, errorMessage: '', showError: false };
+        this.handleClick = this.handleClick.bind(this);
     }
 
     static getDerivedStateFromError() {
@@ -20,16 +30,33 @@ class ErrorBoundary extends React.Component {
     }
 
     componentDidCatch(error, errorInfo) {
-        console.log({ error: error.message, errorInfo: errorInfo });
+        console.error({ error: error.message, errorInfo: errorInfo });
+        this.setState({ errorMessage: error.message });
+    }
+
+    handleClick() {
+        this.setState({ showError: !this.state.showError });
     }
 
     render() {
         if (this.state.hasError) {
             return (
-                <ErrorContainer height={this.props.height} width={this.props.width}>
+                <ErrorContainer height={this.props.styles.chartHeight} width={this.props.styles.chartWidth}>
                     <TextContainer>
-                        <h2>Woops! The chart encountered an error</h2>
-                        <p>Please refresh the screen</p>
+                        <ChartTitle {...this.props.styles.chartTitle}>
+                            Woops! The chart could not be displayed
+                        </ChartTitle>
+                        <StyledButton
+                            {...this.props.styles.toggleStyle}
+                            onClick={this.handleClick}
+                            margin="20px 20px"
+                            enabled
+                        >
+                            {!this.state.showError ? 'Show Details' : 'Hide Details'}
+                        </StyledButton>
+                        <ChartTitle show={this.state.showError} {...this.props.styles.chartSubTitle}>
+                            {this.state.errorMessage}
+                        </ChartTitle>
                     </TextContainer>
                 </ErrorContainer>
             );

@@ -26,14 +26,14 @@ function makeAllStyles(
             strokeDasharray: gridlineStyle.dashed ? '5 5' : '',
         };
     }
-    const styles = {
-        chartHeight: chartStyle?.height ?? 500,
+    return {
+        chartHeight: chartStyle?.height ?? 475,
         chartWidth: chartStyle?.width ?? 700,
         chartPadding: {
             left: chartStyle?.padding?.left ?? 50,
             right: chartStyle?.padding?.right ?? 50,
-            top: chartStyle?.padding?.top ?? 50,
-            bottom: chartStyle?.padding?.bottom ?? 50,
+            top: chartStyle?.padding?.top ?? 25,
+            bottom: chartStyle?.padding?.bottom ?? 40,
         },
         chartMisc: {
             background: {
@@ -52,16 +52,21 @@ function makeAllStyles(
             fontFamily: chartStyle?.tooltipTextStyle?.name ?? 'Montserrat',
             fontWeight: chartStyle?.tooltipTextStyle?.weight ?? 'normal',
         },
-        chartHeading: {
-            data: {
-                fill: 'transparent',
-            },
-            title: {
-                fontFamily: chartStyle?.titleStyle?.name ?? 'Arial',
-                fill: chartStyle?.titleStyle?.colour ?? black,
-                fontSize: chartStyle?.titleStyle?.size ?? 12,
-                fontWeight: chartStyle?.titleStyle?.weight ?? 'normal',
-            },
+        chartTitle: {
+            fontFamily: chartStyle?.titleStyle?.name ?? 'Arial',
+            color: chartStyle?.titleStyle?.colour ?? black,
+            fontSize: chartStyle?.titleStyle?.size ?? 14,
+            fontWeight:
+                chartStyle?.titleStyle?.weight === 'italic' ? 'normal' : chartStyle?.titleStyle?.weight ?? 'bold',
+            fontStyle: chartStyle?.titleStyle?.weight === 'italic' ? 'italic' : 'normal',
+        },
+        chartSubTitle: {
+            fontFamily: chartStyle?.subTitleStyle?.name ?? 'Arial',
+            color: chartStyle?.subTitleStyle?.colour ?? black,
+            fontSize: chartStyle?.subTitleStyle?.size ?? 14,
+            fontWeight:
+                chartStyle?.subTitleStyle?.weight === 'italic' ? 'normal' : chartStyle?.titleStyle?.weight ?? 'normal',
+            fontStyle: chartStyle?.subTitleStyle?.weight === 'italic' ? 'italic' : 'normal',
         },
         termArea: { data: { fill: chartStyle?.termFill ?? midGrey, stroke: chartStyle?.termStroke ?? midGrey } },
         xAxis: {
@@ -167,10 +172,16 @@ function makeAllStyles(
         toggleStyle: {
             activeColour: chartStyle?.toggleButtonActiveColour ?? darkPink,
             inactiveColour: chartStyle?.toggleButtonInactiveColour ?? lightPink,
-            textColour: chartStyle?.toggleButtonTextColour ?? white,
+            fontFamily: chartStyle?.toggleButtonTextStyle?.name ?? 'Arial',
+            color: chartStyle?.toggleButtonTextStyle?.colour ?? white,
+            fontSize: chartStyle?.toggleButtonTextStyle?.size ?? 14,
+            fontWeight:
+                chartStyle?.toggleButtonTextStyle?.weight === 'italic'
+                    ? 'normal'
+                    : chartStyle?.toggleButtonTextStyle?.weight ?? 'normal',
+            fontStyle: chartStyle?.toggleButtonTextStyle?.weight === 'italic' ? 'italic' : 'normal',
         },
     };
-    return styles;
 }
 
 export default makeAllStyles;

@@ -1,5 +1,5 @@
 // libraries
-import React, { useState, useLayoutEffect, useMemo } from 'react';
+import React, { useState, useLayoutEffect, useMemo, MouseEvent } from 'react';
 import styled from 'styled-components';
 import {
     createContainer,
@@ -11,7 +11,6 @@ import {
     VictoryZoomContainerProps,
     VictoryTooltip,
     VictoryAxis,
-    VictoryLegend,
     VictoryLabel,
     VictoryArea,
 } from 'victory';
@@ -23,27 +22,27 @@ import xAxisLabel from '../functions/xAxisLabel';
 import tailoredXTickValues from '../functions/tailoredXTickValues';
 import defaultToggles from '../functions/defaultToggles';
 import { tooltipText } from '../functions/tooltips';
-import { delayedPubertyThreshold, makePubertyThresholds } from '../functions/DelayedPuberty';
+import { delayedPubertyThreshold, makePubertyThresholds, lowerPubertyBorder } from '../functions/delayedPuberty';
 
 // interfaces & props
 import { CentileChartProps } from './CentileChart.types';
 import { ICentile } from '../interfaces/CentilesObject';
 import { Measurement } from '../interfaces/RCPCHMeasurementObject';
+import { Domains } from '../interfaces/Domains';
 
 // components/subcomponents
 import { XPoint } from '../SubComponents/XPoint';
 import CustomGridComponent from '../SubComponents/CustomGridComponent';
 import RenderTickLabel from '../SubComponents/RenderTickLabel';
 
-// style sheets
-import './CentileChart.scss';
+// RCPCH Icon:
 import icon from '../images/icon.png';
-import { Domains } from '../interfaces/Domains';
 
+// allows two top level containers: zoom and voronoi
 const VictoryZoomVoronoiContainer = createContainer<VictoryZoomContainerProps, VictoryVoronoiContainerProps>(
     'zoom',
     'voronoi',
-); // allows two top level containers: zoom and voronoi
+);
 
 const shadedTermAreaText =
     'Babies born in this shaded area\nare term. It is normal for\nbabies to lose weight over\nthe first two weeks of life.\nMedical review should be sought\nif weight has dropped by more\nthan 10% of birth weight or\nweight is still below birth weight\nthree weeks after birth.';
@@ -64,7 +63,7 @@ function CentileChart({
     const [showChronologicalAge, setShowChronologicalAge] = useState(defaultShowChronological);
     const [showCorrectedAge, setShowCorrectedAge] = useState(defaultShowCorrected);
 
-    let { computedDomains, maxDomains, chartScaleType, centileData } = useMemo(
+    let { computedDomains, chartScaleType, centileData } = useMemo(
         () =>
             getDomainsAndData(
                 childMeasurements,
@@ -89,17 +88,13 @@ function CentileChart({
 
     const domains = userDomains || computedDomains;
 
-    const lowerPubertyBorder = (d: any) => {
-        if ((sex === 'male' && d.x >= 9 && d.x <= 14) || (sex === 'female' && d.x >= 9 && d.x <= 13)) {
-            return d.y0;
-        } else {
-            return null;
-        }
-    };
+    let pubertyThresholds: null | any[] = null;
 
-    const pubertyThresholds = makePubertyThresholds(domains, sex);
+    if (reference === 'uk-who' && measurementMethod === 'height') {
+        pubertyThresholds = makePubertyThresholds(domains, sex);
+    }
 
-    let showTermArea = false;
+    let termAreaData: null | any[] = null;
 
     if (
         childMeasurements[0]?.birth_data.gestation_weeks >= 37 &&
@@ -108,32 +103,24 @@ function CentileChart({
         domains?.x[0] < 0.038329911019849415 && // 2 weeks postnatal
         domains?.x[1] >= -0.057494866529774126 // 37 weeks gest
     ) {
-        showTermArea = true;
+        termAreaData = [
+            {
+                x: -0.057494866529774126,
+                y: domains.y[1],
+                y0: domains.y[0],
+                l: shadedTermAreaText,
+            },
+            {
+                x: 0.038329911019849415,
+                y: domains.y[1],
+                y0: domains.y[0],
+                l: shadedTermAreaText,
+            },
+        ];
     }
 
-    const termAreaData = [
-        {
-            x: -0.057494866529774126,
-            y: domains.y[1],
-            y0: domains.y[0],
-            l: shadedTermAreaText,
-        },
-        {
-            x: 0.038329911019849415,
-            y: domains.y[1],
-            y0: domains.y[0],
-            l: shadedTermAreaText,
-        },
-    ];
-
-    let yAxisOrientation: 'left' | 'right' = 'left';
-    if (chartScaleType === 'prem' && domains.x[0] < -0.057494866529774126) {
-        // 37 weeks gestation
-        yAxisOrientation = 'right';
-    }
-
-    const onSelectRadioButton = (event) => {
-        switch (event.target.value) {
+    const onSelectRadioButton = (event: MouseEvent<HTMLButtonElement>) => {
+        switch ((event.target as HTMLInputElement).value) {
             case 'unadjusted':
                 setShowChronologicalAge(true);
                 setShowCorrectedAge(false);
@@ -152,35 +139,36 @@ function CentileChart({
         setUserDomains(null);
     };
 
-    const handleDomainReset = () => {
-        if (userDomains) {
-            setUserDomains(null);
-        }
-    };
-
     const handleZoomChange = (domain: Domains) => {
         setUserDomains(domain);
     };
 
+    // always reset zoom to default when measurements array changes
     useLayoutEffect(() => {
         setUserDomains(null);
     }, [childMeasurements]);
 
     return (
-        <div className="centered">
+        <MainContainer>
+            <LogoContainer>
+                <img src={icon} width={32} height={32} />
+            </LogoContainer>
+
+            <TitleContainer>
+                <ChartTitle {...styles.chartTitle}>{title}</ChartTitle>
+                <ChartTitle {...styles.chartSubTitle}>{subtitle}</ChartTitle>
+            </TitleContainer>
+
             {/* The VictoryChart is the parent component. It contains a Voronoi container, which groups data sets together for the purposes of tooltips */}
             {/* It has an animation object and the domains are the thresholds of ages rendered. This is calculated from the child data supplied by the user. */}
             {/* Tooltips are here as it is the parent component. More information of tooltips in centiles below. */}
-            <div className="flex-center-vertically">
-                <img src={icon} width={32} height={32} />
-            </div>
 
             <VictoryChart
                 width={styles.chartWidth}
                 height={styles.chartHeight}
                 padding={styles.chartPadding}
                 style={styles.chartMisc}
-                domain={allowZooming ? maxDomains : domains}
+                domain={computedDomains}
                 containerComponent={
                     <VictoryZoomVoronoiContainer
                         allowZoom={allowZooming}
@@ -196,8 +184,8 @@ function CentileChart({
                                 style={styles.toolTipMain}
                             />
                         }
-                        labels={({ datum }) => {
-                            return tooltipText(
+                        labels={({ datum }) =>
+                            tooltipText(
                                 reference,
                                 datum.l,
                                 measurementMethod,
@@ -210,29 +198,16 @@ function CentileChart({
                                 datum.observation_value_error,
                                 datum.age_error,
                                 datum.lay_comment,
-                                showCorrectedAge,
-                                showChronologicalAge,
-                            );
-                        }}
+                            )
+                        }
                         voronoiBlacklist={['linkLine']}
                     />
                 }
             >
-                {/* the legend position must be hard coded. It automatically reproduces and labels each series - this is hidden with data: fill: "transparent" */}
-                <VictoryLegend
-                    title={[title, subtitle]}
-                    centerTitle
-                    titleOrientation="top"
-                    orientation="horizontal"
-                    style={styles.chartHeading}
-                    x={styles.chartWidth / 2 - 50}
-                    y={0}
-                    data={[]}
-                />
                 {
                     /* Term child shaded area: */
 
-                    showTermArea && <VictoryArea style={styles.termArea} data={termAreaData} />
+                    termAreaData !== null && <VictoryArea style={styles.termArea} data={termAreaData} />
                 }
 
                 {/* X axis: */}
@@ -257,7 +232,6 @@ function CentileChart({
                         label={yAxisLabel(measurementMethod)}
                         style={styles.yAxis}
                         dependentAxis
-                        orientation={yAxisOrientation}
                     />
                 }
 
@@ -267,44 +241,14 @@ function CentileChart({
 
                 {
                     // delayed puberty area:
-                    reference === 'uk-who' && measurementMethod === 'height' && (
+                    pubertyThresholds !== null && (
                         <VictoryArea
                             data={delayedPubertyThreshold(sex)}
-                            y0={lowerPubertyBorder}
+                            y0={(d: any) => lowerPubertyBorder(d, sex)}
                             style={styles.delayedPubertyArea}
                             name="delayed"
                         />
                     )
-                }
-
-                {
-                    // puberty threshold lines uk90:
-                    reference === 'uk-who' &&
-                        measurementMethod === 'height' &&
-                        pubertyThresholds.map((dataArray) => {
-                            if (dataArray[0].x > domains.x[0] && dataArray[1].x < domains.x[1]) {
-                                return (
-                                    <VictoryLine
-                                        key={dataArray[0].x}
-                                        name={`puberty-${dataArray[0].x}`}
-                                        style={styles.delayedPubertyThresholdLine}
-                                        data={dataArray}
-                                        labels={({ datum }) => datum.label}
-                                        labelComponent={
-                                            <VictoryLabel
-                                                textAnchor="start"
-                                                angle={-90}
-                                                dx={5}
-                                                dy={10}
-                                                style={styles.delayedPubertyThresholdLabel}
-                                            />
-                                        }
-                                    />
-                                );
-                            } else {
-                                return null;
-                            }
-                        })
                 }
 
                 {/* Render the centiles - loop through the data set, create a line for each centile */}
@@ -331,7 +275,7 @@ function CentileChart({
                                         return (
                                             <VictoryLine
                                                 key={centile.centile + '-' + centileIndex}
-                                                padding={{ top: 20, bottom: 60 }}
+                                                padding={{ top: 20, bottom: 20 }}
                                                 data={centile.data}
                                                 style={styles.dashedCentile}
                                             />
@@ -341,7 +285,7 @@ function CentileChart({
                                         return (
                                             <VictoryLine
                                                 key={centile.centile + '-' + centileIndex}
-                                                padding={{ top: 20, bottom: 60 }}
+                                                padding={{ top: 20, bottom: 20 }}
                                                 data={centile.data}
                                                 style={styles.continuousCentile}
                                             />
@@ -352,106 +296,174 @@ function CentileChart({
                         );
                     })}
 
+                {
+                    // puberty threshold lines uk90:
+                    pubertyThresholds !== null &&
+                        pubertyThresholds.map((dataArray) => {
+                            if (dataArray[0].x > domains.x[0] && dataArray[1].x < domains.x[1]) {
+                                return (
+                                    <VictoryLine
+                                        key={dataArray[0].x}
+                                        name={`puberty-${dataArray[0].x}`}
+                                        style={styles.delayedPubertyThresholdLine}
+                                        data={dataArray}
+                                        labels={({ datum }) => datum.label}
+                                        labelComponent={
+                                            <VictoryLabel
+                                                textAnchor="start"
+                                                angle={-90}
+                                                dx={5}
+                                                dy={10}
+                                                style={styles.delayedPubertyThresholdLabel}
+                                            />
+                                        }
+                                    />
+                                );
+                            } else {
+                                return null;
+                            }
+                        })
+                }
+
                 {/* create a series for each child measurements data point: a circle for chronological age, a cross for corrected - if the chronological and corrected age are the same, */}
-                {/* the removeCorrectedAge function removes the corrected age to prevent plotting a circle on a cross, and having duplicate */}
-                {/* text in the tool tip */}
 
                 {childMeasurements.map((childMeasurement: Measurement, index) => {
                     if (!showCorrectedAge && !showChronologicalAge) {
                         return null;
                     }
+                    if (childMeasurement.measurement_calculated_values.corrected_measurement_error) {
+                        return null;
+                    }
                     return (
                         <VictoryGroup key={'measurement' + index}>
-                            {showCorrectedAge && (
-                                <VictoryScatter // corrected age - a custom component that renders a dot or a cross
-                                    data={[childMeasurement.plottable_data.centile_data.corrected_decimal_age_data]}
-                                    dataComponent={
-                                        <XPoint
-                                            showChronologicalAge={showChronologicalAge}
-                                            showCorrectedAge={showCorrectedAge}
-                                        />
-                                    }
-                                    style={styles.measurementPoint}
-                                    name="corrected_age"
-                                />
-                            )}
-
-                            {showChronologicalAge && (
-                                <VictoryScatter // chronological age
-                                    data={[childMeasurement.plottable_data.centile_data.chronological_decimal_age_data]}
-                                    symbol="circle"
-                                    style={styles.measurementPoint}
-                                    name="chronological"
-                                />
-                            )}
-
                             {showChronologicalAge &&
                                 showCorrectedAge && ( // only show the line if both cross and dot are rendered
                                     <VictoryLine
                                         name="linkLine"
                                         style={styles.measurementLinkLine}
                                         data={[
-                                            childMeasurement.plottable_data.centile_data.chronological_decimal_age_data,
                                             childMeasurement.plottable_data.centile_data.corrected_decimal_age_data,
+                                            childMeasurement.plottable_data.centile_data.chronological_decimal_age_data,
                                         ]}
                                     />
                                 )}
+                            {showChronologicalAge && (
+                                <VictoryScatter // chronological age
+                                    data={[childMeasurement.plottable_data.centile_data.chronological_decimal_age_data]}
+                                    symbol="circle"
+                                    style={styles.measurementPoint}
+                                    name="chronological_age"
+                                />
+                            )}
+                            {showCorrectedAge && (
+                                <VictoryScatter // corrected age - a custom component that renders a cross
+                                    data={[childMeasurement.plottable_data.centile_data.corrected_decimal_age_data]}
+                                    dataComponent={<XPoint />}
+                                    style={styles.measurementPoint}
+                                    name="corrected_age"
+                                />
+                            )}
                         </VictoryGroup>
                     );
                 })}
             </VictoryChart>
+
             {(showToggle || allowZooming) && (
-                <ButtonSpan>
+                <ButtonContainer>
                     {showToggle && (
                         <StyledRadioButtonGroup
-                            activeColour={styles.toggleStyle.activeColour}
-                            inactiveColour={styles.toggleStyle.inactiveColour}
-                            textColour={styles.toggleStyle.textColour}
+                            {...styles.toggleStyle}
                             handleClick={onSelectRadioButton}
                             correctedAge={showCorrectedAge}
                             chronologicalAge={showChronologicalAge}
-                            className="PretermToggle"
+                            className="toggleButtons"
                         />
                     )}
                     {allowZooming && (
                         <StyledButton
-                            activeColour={styles.toggleStyle.activeColour}
-                            inactiveColour={styles.toggleStyle.inactiveColour}
-                            textColour={styles.toggleStyle.textColour}
-                            onClick={handleDomainReset}
+                            {...styles.toggleStyle}
+                            onClick={() => setUserDomains(null)}
                             enabled={userDomains !== null}
                         >
                             Reset Zoom
                         </StyledButton>
                     )}
-                </ButtonSpan>
+                </ButtonContainer>
             )}
-        </div>
+        </MainContainer>
     );
 }
 
-const ButtonSpan = styled.span`
-    display: inline-block;
+const MainContainer = styled.div`
+    display: block;
+    margin: auto;
 `;
 
-const StyledButton = styled.button<{
+const LogoContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: 'center';
+    padding-left: 5px;
+`;
+
+const TitleContainer = styled.div`
+    display: inline-block;
+    text-align: center;
+    margin: 0px;
+`;
+
+export const ChartTitle = styled.h2<{
+    fontFamily: string;
+    color: string;
+    fontSize: number;
+    fontWeight: string;
+    fontStyle: string;
+    show?: boolean;
+}>`
+    font-family: ${({ fontFamily }) => fontFamily};
+    font-size: ${({ fontSize }) => fontSize}px;
+    font-weight: ${({ fontWeight }) => fontWeight};
+    font-style: ${({ fontStyle }) => fontStyle};
+    line-height: 1.3em;
+    padding: 0px;
+    margin: 5px;
+    color: ${({ color }) => color};
+    visibility: ${({ show }) => (show === false ? 'hidden' : 'visible')};
+`;
+
+const ButtonContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: 'center';
+`;
+
+export const StyledButton = styled.button<{
     activeColour: string;
     inactiveColour: string;
-    textColour: string;
+    fontFamily: string;
+    fontSize: number;
+    fontWeight: string;
+    fontStyle: string;
+    color: string;
     enabled: boolean;
+    margin?: string;
 }>`
     display: inline-block;
     background-color: ${(props) => (props.enabled ? props.activeColour : props.inactiveColour)};
-    margin: 10px 5px 10px 5px;
     border: 2px solid ${(props) => (props.enabled ? props.activeColour : props.inactiveColour)};
     padding: 4px 11px;
+    margin: ${({ margin }) => margin ?? '0px 20px'};
     font-family: Arial;
-    font-size: 16px;
+    font-size: 14px;
     min-height: 30px;
-    color: ${(props) => props.textColour};
+    font-family: ${({ fontFamily }) => fontFamily};
+    font-size: ${({ fontSize }) => fontSize}px;
+    font-weight: ${({ fontWeight }) => fontWeight};
+    font-style: ${({ fontStyle }) => fontStyle};
+    color: ${({ color }) => color};
     &:hover {
         background-color: ${(props) => (props.enabled ? props.activeColour : props.inactiveColour)};
-        color: ${(props) => props.textColour};
+        color: ${({ color }) => color};
         border: 2px solid ${(props) => (props.enabled ? props.activeColour : props.inactiveColour)};
         outline: ${(props) => (props.enabled ? props.activeColour : 'transparent')} solid 2px;
     }
@@ -462,7 +474,7 @@ const StyledButton = styled.button<{
 
 const AgeRadioButtonGroup = (props) => {
     return (
-        <div className={props.className} onChange={props.handleClick}>
+        <div onChange={props.handleClick} className={props.className}>
             <input
                 type="radio"
                 id="adjusted"
@@ -494,22 +506,27 @@ const AgeRadioButtonGroup = (props) => {
 const StyledRadioButtonGroup = styled(AgeRadioButtonGroup)<{
     activeColour: string;
     inactiveColour: string;
-    textColour: string;
+    fontFamily: string;
+    fontSize: number;
+    fontWeight: string;
+    fontStyle: string;
+    color: string;
     className: string;
 }>`
     label {
         display: inline-block;
         padding: 5px 11px;
-        font-family: Arial;
-        font-size: 16px;
+        font-family: ${({ fontFamily }) => fontFamily};
+        font-size: ${({ fontSize }) => fontSize}px;
+        font-weight: ${({ fontWeight }) => fontWeight};
+        font-style: ${({ fontStyle }) => fontStyle};
+        color: ${({ color }) => color};
         cursor: pointer;
         background-color: ${(props) => props.inactiveColour};
-        color: ${(props) => props.textColour};
-        width: 170px;
         min-height: 30px;
     }
     input[type='radio']:checked + label {
-        color: ${(props) => props.textColour};
+        color: ${({ color }) => color};
         background-color: ${(props) => props.activeColour};
     }
     input[type='radio'] {

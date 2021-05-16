@@ -21,7 +21,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     reference,
     sex,
     measurementsArray,
-    enableZoom = false,
+    enableZoom = true,
     chartStyle,
     axisStyle,
     gridlineStyle,
@@ -31,7 +31,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     const styles = makeAllStyles(chartStyle, axisStyle, gridlineStyle, centileStyle, measurementStyle);
 
     return (
-        <ErrorBoundary height={styles.chartHeight} width={styles.chartWidth}>
+        <ErrorBoundary styles={styles}>
             <CentileChart
                 reference={reference}
                 title={title}
