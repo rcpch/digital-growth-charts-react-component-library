@@ -43,9 +43,7 @@ class ErrorBoundary extends React.Component {
             return (
                 <ErrorContainer height={this.props.styles.chartHeight} width={this.props.styles.chartWidth}>
                     <TextContainer>
-                        <ChartTitle {...this.props.styles.chartTitle}>
-                            Woops! The chart could not be displayed
-                        </ChartTitle>
+                        <ChartTitle {...this.props.styles.chartTitle}>The chart could not be displayed</ChartTitle>
                         <StyledButton
                             {...this.props.styles.toggleStyle}
                             onClick={this.handleClick}
