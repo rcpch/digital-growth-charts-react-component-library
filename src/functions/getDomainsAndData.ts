@@ -44,7 +44,12 @@ function childMeasurementRanges(
     let dateOfBirth: null | string = null;
     let internalSex: null | 'male' | 'female' = null;
     let internalMeasurementMethod: null | 'height' | 'weight' | 'bmi' | 'ofc' = null;
-    for (let measurement of childMeasurements) {
+    let workingMeasurement: null | string = null;
+    for (const measurement of childMeasurements) {
+        if (workingMeasurement === JSON.stringify(measurement)) {
+            throw new Error('Duplicate measurement entries detected.');
+        }
+        workingMeasurement = JSON.stringify(measurement);
         if (!measurement.plottable_data) {
             throw new Error('No plottable data found. Are you using the correct server version?');
         }
@@ -502,8 +507,8 @@ function getDomainsAndData(
             let unroundedLowestX = 0;
             let unroundedHighestX = 0;
             if (agePadding <= difference) {
-                unroundedLowestX = absoluteBottomX > lowestChildX ? absoluteBottomX : lowestChildX;
-                unroundedHighestX = absoluteHighX < highestChildX ? absoluteHighX : highestChildX;
+                unroundedLowestX = absoluteBottomX > lowestChildX - 0.02 ? absoluteBottomX : lowestChildX - 0.02;
+                unroundedHighestX = absoluteHighX < highestChildX + 0.02 ? absoluteHighX : highestChildX + 0.02;
             } else {
                 const leftOverAgePadding = agePadding - difference;
                 let addToHighest = 0;
@@ -545,7 +550,7 @@ function getDomainsAndData(
                 highestXForDomain = arrayForOrdering[highestXIndex + 1] || highestXForDomain;
             }
         } else {
-            let errorString = 'No measurements provided were considered invalid. Error message from the server: ';
+            let errorString = 'No valid measurements entered. Error message from the server: ';
             for (const measurement of childMeasurements) {
                 if (measurement.measurement_calculated_values.corrected_measurement_error) {
                     errorString += ` ${measurement.measurement_calculated_values.corrected_measurement_error}`;
