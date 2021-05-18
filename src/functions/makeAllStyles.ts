@@ -19,11 +19,17 @@ function makeAllStyles(
         strokeWidth: 0.25,
         strokeDasharray: '',
     };
-    if (gridlineStyle?.gridlines) {
+    if (gridlineStyle?.gridlines === true) {
         newGridlineStyle = {
             stroke: gridlineStyle.stroke ?? lightGrey,
             strokeWidth: gridlineStyle.strokeWidth ?? 0.25,
             strokeDasharray: gridlineStyle.dashed ? '5 5' : '',
+        };
+    } else if (gridlineStyle?.gridlines === false) {
+        newGridlineStyle = {
+            stroke: undefined,
+            strokeWidth: 0,
+            strokeDasharray: '',
         };
     }
     return {
