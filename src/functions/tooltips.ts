@@ -41,12 +41,16 @@ export function tooltipText(
             return label;
         }
     }
-    if (centile_band || observation_value_error || age_error) {
-        // these are the measurement points or the errors
-
+    if (centile_band) {
         /// plots
+        let finalCentile = centile_band;
+        const splitCentile = centile_band.split(' ');
+        if (splitCentile.length >= 11) {
+            const wantedIndex = splitCentile.findIndex((element: string) => element === 'is');
+            splitCentile[wantedIndex] = 'is\n';
+            finalCentile = splitCentile.join(' ').replace('is\n ', 'is\n');
+        }
         if (observation_value_error === null && age_error === null) {
-            // usually for requests where there is no reference data
             if (age_type === 'corrected_age' && age > 0.0383) {
                 const finalCorrectedString = lay_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
                 return (
@@ -57,7 +61,8 @@ export function tooltipText(
                     '\n' +
                     y +
                     measurementSuffix(measurementMethod) +
-                    '\n'
+                    '\n' +
+                    finalCentile
                 );
             }
             if (age_type === 'chronological_age') {
@@ -73,7 +78,8 @@ export function tooltipText(
                     '\n' +
                     y +
                     measurementSuffix(measurementMethod) +
-                    '\n'
+                    '\n' +
+                    finalCentile
                 );
             }
         }
@@ -82,7 +88,6 @@ export function tooltipText(
             // <= 42 weeks
             /// plots
             if (observation_value_error === null && age_error === null) {
-                // usually for requests where there is no reference data
                 if (age_type === 'corrected_age') {
                     const finalCorrectedString = lay_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
                     return (
@@ -93,7 +98,8 @@ export function tooltipText(
                         '\n' +
                         y +
                         measurementSuffix(measurementMethod) +
-                        '\n'
+                        '\n' +
+                        finalCentile
                     );
                 }
                 if (age_type === 'chronological_age') {
@@ -107,7 +113,8 @@ export function tooltipText(
                         finalChronologicalString +
                         y +
                         measurementSuffix(measurementMethod) +
-                        '\n'
+                        '\n' +
+                        finalCentile
                     );
                 }
             }
