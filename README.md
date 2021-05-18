@@ -86,8 +86,8 @@ The `Measurement` interface structure is:
 ```js
 interface Measurement {
     birth_data: {
-        birth_date: Date,
-        estimated_date_delivery: Date,
+        birth_date: string,
+        estimated_date_delivery: string,
         estimated_date_delivery_string: string,
         gestation_weeks: number,
         gestation_days: number,
@@ -109,7 +109,7 @@ interface Measurement {
             corrected_gestation_days: number,
         },
         lay_decimal_age_comment: string,
-        observation_date: Date,
+        observation_date: string,
     };
     measurement_calculated_values: {
         chronological_centile: number,
