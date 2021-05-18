@@ -63,19 +63,19 @@ If the invalid hooks error persists inspite of this, a further fix involves dele
 This library has been written in Typescript. The main component is `RCPCHChart`, which takes the following `props`:
 
 ```js
-{
-  title: string,
-  subtitle: string,
-  measurementMethod: 'height' | 'weight' | 'ofc' | 'bmi',
-  sex: 'male' | 'female',
-  measurementsArray: [Measurement],
-  reference: 'uk-who' | 'turner' | 'trisomy-21',
-  enableZoom: boolean,
-  chartStyle: ChartStyle,
-  axisStyle: AxisStyle,
-  gridlineStyle: GridlineStyle,
-  centileStyle: CentileStyle,
-  measurementStyle: MeasurementStyle
+interface ChartProps {
+    title: string;
+    subtitle: string;
+    measurementMethod: 'height' | 'weight' | 'ofc' | 'bmi';
+    sex: 'male' | 'female';
+    measurementsArray: [Measurement];
+    reference: 'uk-who' | 'turner' | 'trisomy-21';
+    enableZoom: boolean;
+    chartStyle: ChartStyle;
+    axisStyle: AxisStyle;
+    gridlineStyle: GridlineStyle;
+    centileStyle: CentileStyle;
+    measurementStyle: MeasurementStyle;
 }
 ```
 
@@ -86,119 +86,119 @@ The `Measurement` interface structure is:
 ```js
 interface Measurement {
     birth_data: {
-      birth_date: Date,
-      estimated_date_delivery: Date,
-      estimated_date_delivery_string: string,
-      gestation_weeks: number,
-      gestation_days: number,
-      sex: 'male' | 'female'
-    },
+        birth_date: Date,
+        estimated_date_delivery: Date,
+        estimated_date_delivery_string: string,
+        gestation_weeks: number,
+        gestation_days: number,
+        sex: 'male' | 'female',
+    };
     child_observation_value: {
-      measurement_method: 'height' | 'weight' | 'bmi' | 'bmi',
-      observation_value: number,
-      observation_value_error: string
-    },
+        measurement_method: 'height' | 'weight' | 'bmi' | 'ofc',
+        observation_value: number,
+        observation_value_error: string,
+    };
     measurement_dates: {
-      chronological_calendar_age: string,
-      chronological_decimal_age: number,
-      clinician_decimal_age_comment: string
-      corrected_calendar_age: string,
-      corrected_decimal_age: number,
-      corrected_gestational_age: {
-        corrected_gestation_weeks: number
-        corrected_gestation_days: number
-      },
-      lay_decimal_age_comment: string,
-      observation_date: Date
-    },
+        chronological_calendar_age: string,
+        chronological_decimal_age: number,
+        clinician_decimal_age_comment: string,
+        corrected_calendar_age: string,
+        corrected_decimal_age: number,
+        corrected_gestational_age: {
+            corrected_gestation_weeks: number,
+            corrected_gestation_days: number,
+        },
+        lay_decimal_age_comment: string,
+        observation_date: Date,
+    };
     measurement_calculated_values: {
-      chronological_centile: number,
-      chronological_centile_band: string,
-      chronological_measurement_error: string,
-      chronological_sds: number,
-      corrected_centile: number,
-      corrected_centile_band: string,
-      corrected_measurement_error: string,
-      corrected_sds: number
-      measurement_method: 'height' | 'weight' | 'bmi' | 'ofc',
-    }
+        chronological_centile: number,
+        chronological_centile_band: string,
+        chronological_measurement_error: string,
+        chronological_sds: number,
+        corrected_centile: number,
+        corrected_centile_band: string,
+        corrected_measurement_error: string,
+        corrected_sds: number,
+        measurement_method: 'height' | 'weight' | 'bmi' | 'ofc',
+    };
     plottable_data: {
-      centile_data: {
-        chronological_decimal_age_data: {
-          age_error: null,
-          age_type: "chronological_age" | "corrected_age",
-          calendar_age: string,
-          centile_band: string,
-          clinician_comment: string,
-          lay_comment: string,
-          observation_error: null,
-          observation_value_error: null,
-          x: number
-          y: number
+        centile_data: {
+            chronological_decimal_age_data: {
+                age_error: null,
+                age_type: 'chronological_age' | 'corrected_age',
+                calendar_age: string,
+                centile_band: string,
+                clinician_comment: string,
+                lay_comment: string,
+                observation_error: null,
+                observation_value_error: null,
+                x: number,
+                y: number,
+            },
+            corrected_decimal_age_data: {
+                age_error: null,
+                age_type: 'chronological_age' | 'corrected_age',
+                calendar_age: string,
+                centile_band: string,
+                clinician_comment: string,
+                lay_comment: string,
+                observation_error: null,
+                observation_value_error: null,
+                x: number,
+                y: number,
+            },
         },
-        corrected_decimal_age_data: {
-          age_error: null,
-          age_type: "chronological_age" | "corrected_age",
-          calendar_age: string,
-          centile_band: string,
-          clinician_comment: string,
-          lay_comment: string,
-          observation_error: null,
-          observation_value_error: null,
-          x: number
-          y: number
-        }
-      },
-      sds_data: {
-        chronological_decimal_age_data: {
-          age_error: null,
-          age_type: "chronological_age" | "corrected_age",
-          calendar_age: string,
-          centile_band: string,
-          clinician_comment: string,
-          lay_comment: string,
-          observation_error: null,
-          observation_value_error: null,
-          x: number
-          y: number
+        sds_data: {
+            chronological_decimal_age_data: {
+                age_error: null,
+                age_type: 'chronological_age' | 'corrected_age',
+                calendar_age: string,
+                centile_band: string,
+                clinician_comment: string,
+                lay_comment: string,
+                observation_error: null,
+                observation_value_error: null,
+                x: number,
+                y: number,
+            },
+            corrected_decimal_age_data: {
+                age_error: null,
+                age_type: 'chronological_age' | 'corrected_age',
+                calendar_age: string,
+                centile_band: string,
+                clinician_comment: string,
+                lay_comment: string,
+                observation_error: null,
+                observation_value_error: null,
+                x: number,
+                y: number,
+            },
         },
-        corrected_decimal_age_data: {
-          age_error: null,
-          age_type: "chronological_age" | "corrected_age",
-          calendar_age: string,
-          centile_band: string,
-          clinician_comment: string,
-          lay_comment: string,
-          observation_error: null,
-          observation_value_error: null,
-          x: number
-          y: number
-        }
-      }
-    }
-  }
+    };
+}
 ```
 
-The styling components allow the user to customise elements of the chart:
-Chart styles control the chart and the tooltips
+The styling props allow the user to customise elements of the chart:
+Chart styles control the chart and the tooltips. All style props are optional.
 
 ```js
-interface ChartStyle{
-    backgroundColour?: string,
-    width?: number,
-    height?: number,
-    padding?: requires {left?: number, right?: number, top?: number, bottom?: number},
-    titleStyle?: requires {name?: string, colour?: string, size?: number, weight?: 'bold' | 'italic' | 'normal'}
-    subTitleStyle?: requires {name?: string, colour?: string, size?: number, weight?: 'bold' | 'italic' | 'normal'},,
-    tooltipBackgroundColour?: string,
-    tooltipStroke?: string,
-    tooltipTextStyle?: requires {name?: string, colour?: string, size?: number, weight?: 'bold' | 'italic' | 'normal'}
-    termFill?: string,
-    termStroke?: string,
-    toggleButtonInactiveColour: string, // relates to the toggle buttons present if age correction is necessary
-    toggleButtonActiveColour: string,
-    toggleButtonTextColour: string,
-}
+interface ChartStyle {
+    backgroundColour?: string;
+    width?: number;
+    height?: number;
+    padding?: requires { left?: number; right?: number; top?: number; bottom?: number:};
+    titleStyle?: requires {name?: string; colour?: string; size?: number; weight?: 'bold' | 'italic' | 'normal':};
+    subTitleStyle?: requires {name?: string; colour?: string; size?: number; weight?: 'bold' | 'italic' | 'normal':};
+    tooltipBackgroundColour?: string;
+    tooltipStroke?: string;
+    tooltipTextStyle?: requires {name?: string; colour?: string; size?: number; weight?: 'bold' | 'italic' | 'normal':}; // the text size is not in pts, but is a strokeWidth as text is an svg
+    termFill?: string;
+    termStroke?: string;
+    toggleButtonInactiveColour: string;
+    toggleButtonActiveColour: string;
+    toggleButtonTextStyle: requires {name?: string; colour?: string; size?: number; weight?: 'bold' | 'italic' | 'normal':};
+};
 ```
 
 Note for the tooltips text sizes, these are strokeWidths, not point sizes as the text here is svg.
@@ -206,11 +206,11 @@ Note for the tooltips text sizes, these are strokeWidths, not point sizes as the
 Axis styles control axes and axis labels
 
 ```js
-interface AxisStyle{
+interface AxisStyle {
     axisStroke?: string,
-    axisLabelTextStyle?: requires {name?: string, colour?: string, size?: number, weight?: 'bold' | 'italic' | 'normal'}
-    tickLabelTextStyle?: requires {name?: string, colour?: string, size?: number, weight?: 'bold' | 'italic' | 'normal'}
-}
+    axisLabelTextStyle?: requires {name?: string, colour?: string, size?: number, weight?: 'bold' | 'italic' | 'normal';};
+    tickLabelTextStyle?: requires {name?: string, colour?: string, size?: number, weight?: 'bold' | 'italic' | 'normal';};
+};
 ```
 
 Gridline styles allow/hide gridlines and control line width, presence of dashes, colour.
@@ -234,7 +234,7 @@ interface CentileStyle {
 }
 ```
 
-Measurement styles control the plotted data points - colour, size and shape. Corrected ages are always rendered as crosses. Circles for chronological ages are preferred.
+Measurement styles control the plotted data points - colour, size and shape. Corrected ages are always rendered as crosses and circles for chronological ages.
 
 ```js
 interface MeasurementStyle {
