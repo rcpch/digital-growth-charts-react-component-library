@@ -8,6 +8,7 @@ import { Measurement } from '../interfaces/RCPCHMeasurementObject';
 import { Domains } from '../interfaces/Domains';
 
 import { IPlottedCentileMeasurement } from '../interfaces/CentilesObject';
+import deepCopy from './deepCopy';
 
 type CentileLabelValues = {
     0.4: { value: number; workingX: number };
@@ -27,6 +28,53 @@ type ExtremeValues = {
     lowestYForX: null | CentileLabelValues;
     highestYForX: null | CentileLabelValues;
 };
+
+const blankDataset = [
+    [
+        { centile: 0.4, data: [], sds: -2.67 },
+        { centile: 2, data: [], sds: -2 },
+        { centile: 9, data: [], sds: -1.33 },
+        { centile: 25, data: [], sds: -0.67 },
+        { centile: 50, data: [], sds: 0 },
+        { centile: 75, data: [], sds: 0.67 },
+        { centile: 91, data: [], sds: 1.33 },
+        { centile: 98, data: [], sds: 2 },
+        { centile: 99.6, data: [], sds: 2.67 },
+    ],
+    [
+        { centile: 0.4, data: [], sds: -2.67 },
+        { centile: 2, data: [], sds: -2 },
+        { centile: 9, data: [], sds: -1.33 },
+        { centile: 25, data: [], sds: -0.67 },
+        { centile: 50, data: [], sds: 0 },
+        { centile: 75, data: [], sds: 0.67 },
+        { centile: 91, data: [], sds: 1.33 },
+        { centile: 98, data: [], sds: 2 },
+        { centile: 99.6, data: [], sds: 2.67 },
+    ],
+    [
+        { centile: 0.4, data: [], sds: -2.67 },
+        { centile: 2, data: [], sds: -2 },
+        { centile: 9, data: [], sds: -1.33 },
+        { centile: 25, data: [], sds: -0.67 },
+        { centile: 50, data: [], sds: 0 },
+        { centile: 75, data: [], sds: 0.67 },
+        { centile: 91, data: [], sds: 1.33 },
+        { centile: 98, data: [], sds: 2 },
+        { centile: 99.6, data: [], sds: 2.67 },
+    ],
+    [
+        { centile: 0.4, data: [], sds: -2.67 },
+        { centile: 2, data: [], sds: -2 },
+        { centile: 9, data: [], sds: -1.33 },
+        { centile: 25, data: [], sds: -0.67 },
+        { centile: 50, data: [], sds: 0 },
+        { centile: 75, data: [], sds: 0.67 },
+        { centile: 91, data: [], sds: 1.33 },
+        { centile: 98, data: [], sds: 2 },
+        { centile: 99.6, data: [], sds: 2.67 },
+    ],
+];
 
 // analyses whole child measurement array to work out top and bottom x and y
 function childMeasurementRanges(
@@ -247,7 +295,7 @@ function filterData(
     extremeValues?: { [key: string]: any },
     native?: boolean,
 ) {
-    const filtered = data.filter(
+    return data.filter(
         (d: IPlottedCentileMeasurement, currentIndex: number, wholeArray: IPlottedCentileMeasurement[]) => {
             //as centile data is to 4 decimal places, this prevents premature chopping off at either end:
             const upperXTo4 = Number(upperX?.toFixed(4));
@@ -268,7 +316,6 @@ function filterData(
             }
         },
     );
-    return filtered;
 }
 
 // loops through data sets with filterData function:
@@ -298,52 +345,7 @@ function getRelevantDataSets(
     lowestChildX: number,
     highestChildX: number,
 ) {
-    const blankDataset = [
-        [
-            { centile: 0.4, data: [], sds: -2.67 },
-            { centile: 2, data: [], sds: -2 },
-            { centile: 9, data: [], sds: -1.33 },
-            { centile: 25, data: [], sds: -0.67 },
-            { centile: 50, data: [], sds: 0 },
-            { centile: 75, data: [], sds: 0.67 },
-            { centile: 91, data: [], sds: 1.33 },
-            { centile: 98, data: [], sds: 2 },
-            { centile: 99.6, data: [], sds: 2.67 },
-        ],
-        [
-            { centile: 0.4, data: [], sds: -2.67 },
-            { centile: 2, data: [], sds: -2 },
-            { centile: 9, data: [], sds: -1.33 },
-            { centile: 25, data: [], sds: -0.67 },
-            { centile: 50, data: [], sds: 0 },
-            { centile: 75, data: [], sds: 0.67 },
-            { centile: 91, data: [], sds: 1.33 },
-            { centile: 98, data: [], sds: 2 },
-            { centile: 99.6, data: [], sds: 2.67 },
-        ],
-        [
-            { centile: 0.4, data: [], sds: -2.67 },
-            { centile: 2, data: [], sds: -2 },
-            { centile: 9, data: [], sds: -1.33 },
-            { centile: 25, data: [], sds: -0.67 },
-            { centile: 50, data: [], sds: 0 },
-            { centile: 75, data: [], sds: 0.67 },
-            { centile: 91, data: [], sds: 1.33 },
-            { centile: 98, data: [], sds: 2 },
-            { centile: 99.6, data: [], sds: 2.67 },
-        ],
-        [
-            { centile: 0.4, data: [], sds: -2.67 },
-            { centile: 2, data: [], sds: -2 },
-            { centile: 9, data: [], sds: -1.33 },
-            { centile: 25, data: [], sds: -0.67 },
-            { centile: 50, data: [], sds: 0 },
-            { centile: 75, data: [], sds: 0.67 },
-            { centile: 91, data: [], sds: 1.33 },
-            { centile: 98, data: [], sds: 2 },
-            { centile: 99.6, data: [], sds: 2.67 },
-        ],
-    ];
+    const blankSubSet = deepCopy(blankDataset[0]);
     if (reference === 'uk-who') {
         const dataSetRanges = [
             [-0.33, 0.0383],
@@ -368,7 +370,7 @@ function getRelevantDataSets(
             }
         }
         const allData: any = [
-            measurementMethod !== 'bmi' ? ukwhoData.uk90_preterm[sex][measurementMethod] : blankDataset[0],
+            measurementMethod !== 'bmi' ? ukwhoData.uk90_preterm[sex][measurementMethod] : blankSubSet,
             ukwhoData.uk_who_infant[sex][measurementMethod],
             ukwhoData.uk_who_child[sex][measurementMethod],
             ukwhoData.uk90_child[sex][measurementMethod],
@@ -376,20 +378,20 @@ function getRelevantDataSets(
         if (startingGroup === 0 && endingGroup === 3) {
             return allData;
         } else {
-            let returnArray = blankDataset;
+            let returnArray = deepCopy(blankDataset);
             for (let i = startingGroup; i <= endingGroup; i++) {
                 returnArray.splice(i, 1, allData[i]);
             }
             return returnArray;
         }
     } else if (reference === 'trisomy-21') {
-        return [trisomy21Data.trisomy21[sex][measurementMethod], blankDataset[0], blankDataset[1], blankDataset[2]];
+        return [trisomy21Data.trisomy21[sex][measurementMethod], blankSubSet, blankSubSet, blankSubSet];
     } else if (reference === 'turner') {
         if (sex !== 'female' && measurementMethod !== 'height') {
-            console.warn('No centile lines have rendered, as only height data is supported for turner reference.');
-            return blankDataset;
+            console.error('No centile lines have rendered, as only height data is supported for turner reference.');
+            return deepCopy(blankDataset);
         }
-        return [turnerData.turner.female.height, blankDataset[0], blankDataset[1], blankDataset[2]];
+        return [turnerData.turner.female.height, blankSubSet, blankSubSet, blankSubSet];
     } else {
         throw new Error('No valid reference given to getRelevantDataSets');
     }
@@ -473,7 +475,7 @@ function getDomainsAndData(
             const birthGestationWeeks = childMeasurements[0].birth_data.gestation_weeks;
 
             // set appropriate chart scale based on data:
-            if (birthGestationWeeks < 37 && highestChildX <= twoWeeksPostnatal) {
+            if (birthGestationWeeks < 37 && highestChildX <= twoWeeksPostnatal && reference === 'uk-who') {
                 // prem:
                 absoluteBottomX = gestWeeks22;
                 agePadding = totalMinPadding.prem;
@@ -489,7 +491,7 @@ function getDomainsAndData(
             } else if (highestChildX <= 2) {
                 //infant:
                 agePadding = totalMinPadding.infant;
-                if (lowestChildX >= gestWeeks37 && lowestChildX < twoWeeksPostnatal) {
+                if (lowestChildX >= gestWeeks37 && lowestChildX < twoWeeksPostnatal && reference === 'uk-who') {
                     absoluteBottomX = gestWeeks37;
                 } else if (lowestChildX < gestWeeks37) {
                     absoluteBottomX = measurementMethod === 'height' ? gestWeeks24 : gestWeeks22;
@@ -511,8 +513,8 @@ function getDomainsAndData(
             let unroundedLowestX = 0;
             let unroundedHighestX = 0;
             if (agePadding <= difference) {
-                unroundedLowestX = absoluteBottomX > lowestChildX - 0.02 ? absoluteBottomX : lowestChildX - 0.02;
-                unroundedHighestX = absoluteHighX < highestChildX + 0.02 ? absoluteHighX : highestChildX + 0.02;
+                unroundedLowestX = absoluteBottomX > lowestChildX - 0.01 ? absoluteBottomX : lowestChildX - 0.01;
+                unroundedHighestX = absoluteHighX < highestChildX + 0.01 ? absoluteHighX : highestChildX + 0.01;
             } else {
                 const leftOverAgePadding = agePadding - difference;
                 let addToHighest = 0;

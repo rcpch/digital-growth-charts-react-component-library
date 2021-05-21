@@ -77,7 +77,12 @@ function CentileChart({
         [childMeasurements, sex, measurementMethod, reference, showCorrectedAge, showChronologicalAge],
     );
 
-    const updatedData = getVisibleData(sex, measurementMethod, reference, userDomains, false);
+    const updatedData = useMemo(() => getVisibleData(sex, measurementMethod, reference, userDomains, false), [
+        sex,
+        measurementMethod,
+        reference,
+        userDomains,
+    ]);
 
     if (updatedData) {
         chartScaleType = updatedData.chartScaleType;
@@ -268,7 +273,7 @@ function CentileChart({
                 {centileData &&
                     centileData.map((referenceData, index) => {
                         return (
-                            <VictoryGroup key={index}>
+                            <VictoryGroup key={'centileDataBlock' + index}>
                                 {referenceData.map((centile: ICentile, centileIndex: number) => {
                                     if (centileIndex % 2 === 0) {
                                         // even index - centile is dashed
@@ -328,25 +333,14 @@ function CentileChart({
                 {/* create a series for each child measurements data point: a circle for chronological age, a cross for corrected - if the chronological and corrected age are the same, */}
 
                 {childMeasurements.map((childMeasurement: Measurement, index) => {
-                    if (!showCorrectedAge && !showChronologicalAge) {
-                        return null;
-                    }
-                    if (childMeasurement.measurement_calculated_values.corrected_measurement_error) {
+                    if (
+                        childMeasurement.measurement_calculated_values.corrected_measurement_error ||
+                        childMeasurement.measurement_calculated_values.chronological_measurement_error
+                    ) {
                         return null;
                     }
                     return (
                         <VictoryGroup key={'measurement' + index}>
-                            {showChronologicalAge &&
-                                showCorrectedAge && ( // only show the line if both cross and dot are rendered
-                                    <VictoryLine
-                                        name="linkLine"
-                                        style={styles.measurementLinkLine}
-                                        data={[
-                                            childMeasurement.plottable_data.centile_data.corrected_decimal_age_data,
-                                            childMeasurement.plottable_data.centile_data.chronological_decimal_age_data,
-                                        ]}
-                                    />
-                                )}
                             {showChronologicalAge && (
                                 <VictoryScatter // chronological age
                                     data={[childMeasurement.plottable_data.centile_data.chronological_decimal_age_data]}
@@ -363,6 +357,17 @@ function CentileChart({
                                     name="corrected_age"
                                 />
                             )}
+                            {showChronologicalAge &&
+                                showCorrectedAge && ( // only show the line if both cross and dot are rendered
+                                    <VictoryLine
+                                        name="linkLine"
+                                        style={styles.measurementLinkLine}
+                                        data={[
+                                            childMeasurement.plottable_data.centile_data.corrected_decimal_age_data,
+                                            childMeasurement.plottable_data.centile_data.chronological_decimal_age_data,
+                                        ]}
+                                    />
+                                )}
                         </VictoryGroup>
                     );
                 })}

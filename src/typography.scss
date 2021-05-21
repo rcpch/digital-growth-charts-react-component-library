@@ -1,10 +1,5 @@
-@font-face {
-  font-family: "Montserrat";
-  src: url("./fonts/Montserrat/Montserrat-Light.ttf") format("truetype");
-  }
-
-$font-family: "Montserrat", Helvetica, Arial, sans-serif;
+$font-family: 'Montserrat', Helvetica, Arial, sans-serif;
 
 @mixin font-defaults {
-  font-family: $font-family;
+    font-family: $font-family;
 }

@@ -143,7 +143,7 @@ function makeAllStyles(
             },
         },
         delayedPubertyThresholdLabel: {
-            fontSize: 8,
+            fontSize: 9,
             fill: axisStyle?.axisLabelTextStyle?.colour ?? black,
             fontFamily: axisStyle?.axisLabelTextStyle?.name ?? 'Arial',
             textAlign: 'start',
