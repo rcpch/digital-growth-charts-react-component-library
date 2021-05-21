@@ -22,7 +22,7 @@ import xAxisLabel from '../functions/xAxisLabel';
 import tailoredXTickValues from '../functions/tailoredXTickValues';
 import defaultToggles from '../functions/defaultToggles';
 import { tooltipText } from '../functions/tooltips';
-import { delayedPubertyThreshold, makePubertyThresholds, lowerPubertyBorder } from '../functions/delayedPuberty';
+import { delayedPubertyThreshold, makePubertyThresholds, lowerPubertyBorder } from '../functions/DelayedPuberty';
 
 // interfaces & props
 import { CentileChartProps } from './CentileChart.types';
