@@ -8,7 +8,7 @@ export interface Measurement {
         sex: 'male' | 'female';
     };
     child_observation_value: {
-        measurement_method: 'height' | 'weight' | 'bmi' | 'bmi';
+        measurement_method: 'height' | 'weight' | 'bmi' | 'ofc';
         observation_value: number;
         observation_value_error: string;
     };

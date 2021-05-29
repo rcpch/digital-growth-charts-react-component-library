@@ -12,7 +12,7 @@ export interface ChartStyle {
     termStroke?: string;
     toggleButtonInactiveColour: string;
     toggleButtonActiveColour: string;
-    toggleButtonTextColour: string;
+    toggleButtonTextStyle: TextStyle;
 }
 export interface MeasurementStyle {
     measurementFill?: string;
@@ -45,5 +45,5 @@ export interface TextStyle {
     name?: string;
     colour?: string;
     size?: number;
-    weight?: 'bold' | 'italic' | 'regular';
+    weight?: 'bold' | 'italic' | 'normal';
 }

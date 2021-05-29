@@ -12,7 +12,7 @@ if rendered with week gridlines
 */
 
 function CustomGridComponent({ datum, chartScaleType, ...otherProps }: PropTypes) {
-    if (!datum) {
+    if ((!datum && datum !== 0) || datum === -0.33) {
         return null;
     } else {
         if (

@@ -1,62 +1,90 @@
 import { AxisStyle, CentileStyle, ChartStyle, GridlineStyle, MeasurementStyle } from '../interfaces/StyleObjects';
 
-const black = '%23000000';
-const grey = '%23CDCDCD';
+const black = '#000000';
+const white = '#FFFFFF';
+const midGrey = '#b3b3b3';
+const lightGrey = '#d9d9d9';
+const lightPink = '#E497C1';
+const darkPink = '#cb3083';
 
 function makeAllStyles(
-    chartStyle: ChartStyle,
-    axisStyle: AxisStyle,
-    gridlineStyle: GridlineStyle,
-    centileStyle: CentileStyle,
-    measurementStyle: MeasurementStyle,
+    chartStyle?: ChartStyle,
+    axisStyle?: AxisStyle,
+    gridlineStyle?: GridlineStyle,
+    centileStyle?: CentileStyle,
+    measurementStyle?: MeasurementStyle,
 ) {
-    const styles = {
-        chartHeight: chartStyle?.height ?? 600,
+    let newGridlineStyle = {
+        stroke: lightGrey,
+        strokeWidth: 0.25,
+        strokeDasharray: '',
+    };
+    if (gridlineStyle?.gridlines === true) {
+        newGridlineStyle = {
+            stroke: gridlineStyle.stroke ?? lightGrey,
+            strokeWidth: gridlineStyle.strokeWidth ?? 0.25,
+            strokeDasharray: gridlineStyle.dashed ? '5 5' : '',
+        };
+    } else if (gridlineStyle?.gridlines === false) {
+        newGridlineStyle = {
+            stroke: undefined,
+            strokeWidth: 0,
+            strokeDasharray: '',
+        };
+    }
+    return {
+        chartHeight: chartStyle?.height ?? 475,
         chartWidth: chartStyle?.width ?? 700,
         chartPadding: {
             left: chartStyle?.padding?.left ?? 50,
             right: chartStyle?.padding?.right ?? 50,
-            top: chartStyle?.padding?.top ?? 50,
+            top: chartStyle?.padding?.top ?? 25,
             bottom: chartStyle?.padding?.bottom ?? 40,
         },
         chartMisc: {
             background: {
-                fill: chartStyle?.backgroundColour ?? black,
+                fill: chartStyle?.backgroundColour ?? white,
             },
         },
         toolTipFlyout: {
-            stroke: chartStyle?.tooltipStroke ?? grey,
-            fill: chartStyle?.tooltipBackgroundColour ?? grey,
+            stroke: chartStyle?.tooltipStroke ?? midGrey,
+            fill: chartStyle?.tooltipBackgroundColour ?? midGrey,
         },
         toolTipMain: {
             textAnchor: 'start',
             stroke: chartStyle?.tooltipTextStyle?.colour ?? black,
             strokeWidth: chartStyle?.tooltipTextStyle?.size ?? 0.25,
             fill: chartStyle?.tooltipTextStyle?.colour ?? black,
-            fontFamily: chartStyle?.tooltipTextStyle?.name ?? '#Montserrat',
+            fontFamily: chartStyle?.tooltipTextStyle?.name ?? 'Montserrat',
+            fontWeight: chartStyle?.tooltipTextStyle?.weight ?? 'normal',
         },
-        chartHeading: {
-            data: {
-                fill: 'transparent',
-            },
-            title: {
-                fontFamily: chartStyle?.titleStyle?.name ?? 'Arial',
-                color: chartStyle?.titleStyle?.colour ?? black,
-                fontSize: chartStyle?.titleStyle?.size ?? 12,
-                fontWeight: chartStyle?.titleStyle?.weight ?? 'regular',
-            },
+        chartTitle: {
+            fontFamily: chartStyle?.titleStyle?.name ?? 'Arial',
+            color: chartStyle?.titleStyle?.colour ?? black,
+            fontSize: chartStyle?.titleStyle?.size ?? 14,
+            fontWeight:
+                chartStyle?.titleStyle?.weight === 'italic' ? 'normal' : chartStyle?.titleStyle?.weight ?? 'bold',
+            fontStyle: chartStyle?.titleStyle?.weight === 'italic' ? 'italic' : 'normal',
         },
-        termArea: { data: { fill: chartStyle?.termFill ?? grey, stroke: chartStyle?.termStroke ?? grey } },
+        chartSubTitle: {
+            fontFamily: chartStyle?.subTitleStyle?.name ?? 'Arial',
+            color: chartStyle?.subTitleStyle?.colour ?? black,
+            fontSize: chartStyle?.subTitleStyle?.size ?? 14,
+            fontWeight:
+                chartStyle?.subTitleStyle?.weight === 'italic' ? 'normal' : chartStyle?.titleStyle?.weight ?? 'normal',
+            fontStyle: chartStyle?.subTitleStyle?.weight === 'italic' ? 'italic' : 'normal',
+        },
+        termArea: { data: { fill: chartStyle?.termFill ?? midGrey, stroke: chartStyle?.termStroke ?? midGrey } },
         xAxis: {
             axis: {
                 stroke: axisStyle?.axisStroke ?? black,
                 strokeWidth: 1.0,
             },
             axisLabel: {
-                fontSize: axisStyle?.axisLabelTextStyle?.size ?? 8,
+                fontSize: axisStyle?.axisLabelTextStyle?.size ?? 10,
                 padding: 20,
-                color: axisStyle?.axisLabelTextStyle?.colour ?? black,
-                fontFamily: axisStyle?.axisLabelTextStyle?.name ?? '#Montserrat',
+                fill: axisStyle?.axisLabelTextStyle?.colour ?? black,
+                fontFamily: axisStyle?.axisLabelTextStyle?.name ?? 'Arial',
             },
             ticks: {
                 stroke: axisStyle?.tickLabelTextStyle?.colour ?? black,
@@ -69,15 +97,13 @@ function makeAllStyles(
                 fontFamily: axisStyle?.axisLabelTextStyle?.name ?? 'Arial',
             },
             grid: {
-                stroke: gridlineStyle?.gridlines ? gridlineStyle?.stroke ?? grey : null,
-                strokeWidth: gridlineStyle?.strokeWidth ?? 0.5,
-                strokeDasharray: gridlineStyle?.dashed ? '5 5' : '',
+                ...newGridlineStyle,
             },
         },
         xTicklabel: {
-            fill: axisStyle.tickLabelTextStyle?.colour ?? black,
-            fontSize: axisStyle.tickLabelTextStyle?.size ?? 8,
-            fontFamily: axisStyle.tickLabelTextStyle?.name ?? 'Arial',
+            fill: axisStyle?.tickLabelTextStyle?.colour ?? black,
+            fontSize: axisStyle?.tickLabelTextStyle?.size ?? 8,
+            fontFamily: axisStyle?.tickLabelTextStyle?.name ?? 'Arial',
         },
         yAxis: {
             axis: {
@@ -85,10 +111,10 @@ function makeAllStyles(
                 strokeWidth: 1.0,
             },
             axisLabel: {
-                fontSize: axisStyle?.axisLabelTextStyle?.size ?? 8,
+                fontSize: axisStyle?.axisLabelTextStyle?.size ?? 10,
                 padding: 25,
-                color: axisStyle?.axisLabelTextStyle?.colour ?? black,
-                fontFamily: axisStyle?.axisLabelTextStyle?.name ?? '#Montserrat',
+                fill: axisStyle?.axisLabelTextStyle?.colour ?? black,
+                fontFamily: axisStyle?.axisLabelTextStyle?.name ?? 'Arial',
             },
             ticks: {
                 stroke: axisStyle?.tickLabelTextStyle?.colour ?? black,
@@ -96,19 +122,17 @@ function makeAllStyles(
             tickLabels: {
                 fontSize: axisStyle?.tickLabelTextStyle?.size ?? 8,
                 padding: 5,
-                color: axisStyle?.tickLabelTextStyle?.colour ?? black,
+                fill: axisStyle?.tickLabelTextStyle?.colour ?? black,
                 fontFamily: axisStyle?.axisLabelTextStyle?.name ?? 'Arial',
             },
             grid: {
-                stroke: gridlineStyle?.gridlines ? gridlineStyle?.stroke ?? grey : null,
-                strokeWidth: gridlineStyle?.strokeWidth ?? 0.5,
-                strokeDasharray: gridlineStyle?.dashed ? '5 5' : '',
+                ...newGridlineStyle,
             },
         },
         delayedPubertyArea: {
             data: {
-                stroke: centileStyle?.delayedPubertyAreaFill ?? grey,
-                fill: centileStyle?.delayedPubertyAreaFill ?? grey,
+                stroke: centileStyle?.delayedPubertyAreaFill ?? midGrey,
+                fill: centileStyle?.delayedPubertyAreaFill ?? midGrey,
                 strokeWidth: centileStyle?.centileStrokeWidth ?? 0.5,
             },
         },
@@ -119,15 +143,15 @@ function makeAllStyles(
             },
         },
         delayedPubertyThresholdLabel: {
-            fontSize: 8,
-            color: axisStyle?.axisLabelTextStyle?.colour ?? black,
+            fontSize: 9,
+            fill: axisStyle?.axisLabelTextStyle?.colour ?? black,
             fontFamily: axisStyle?.axisLabelTextStyle?.name ?? 'Arial',
             textAlign: 'start',
         },
         dashedCentile: {
             data: {
                 stroke: centileStyle?.centileStroke ?? black,
-                strokeWidth: centileStyle?.centileStrokeWidth ?? 0.25,
+                strokeWidth: centileStyle?.centileStrokeWidth ?? 1.5,
                 strokeLinecap: 'round',
                 strokeDasharray: '5 5',
             },
@@ -135,7 +159,7 @@ function makeAllStyles(
         continuousCentile: {
             data: {
                 stroke: centileStyle?.centileStroke ?? black,
-                strokeWidth: centileStyle?.centileStrokeWidth ?? 0.25,
+                strokeWidth: centileStyle?.centileStrokeWidth ?? 1.5,
                 strokeLinecap: 'round',
             },
         },
@@ -152,12 +176,18 @@ function makeAllStyles(
             },
         },
         toggleStyle: {
-            activeColour: chartStyle?.toggleButtonActiveColour ?? '#cb3083',
-            inactiveColour: chartStyle?.toggleButtonInactiveColour ?? '#E497C1',
-            textColour: chartStyle?.toggleButtonTextColour ?? black,
+            activeColour: chartStyle?.toggleButtonActiveColour ?? darkPink,
+            inactiveColour: chartStyle?.toggleButtonInactiveColour ?? lightPink,
+            fontFamily: chartStyle?.toggleButtonTextStyle?.name ?? 'Arial',
+            color: chartStyle?.toggleButtonTextStyle?.colour ?? white,
+            fontSize: chartStyle?.toggleButtonTextStyle?.size ?? 14,
+            fontWeight:
+                chartStyle?.toggleButtonTextStyle?.weight === 'italic'
+                    ? 'normal'
+                    : chartStyle?.toggleButtonTextStyle?.weight ?? 'normal',
+            fontStyle: chartStyle?.toggleButtonTextStyle?.weight === 'italic' ? 'italic' : 'normal',
         },
     };
-    return styles;
 }
 
 export default makeAllStyles;

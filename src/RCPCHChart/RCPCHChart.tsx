@@ -12,6 +12,7 @@ import CentileChart from '../CentileChart';
 
 // helper functions
 import makeAllStyles from '../functions/makeAllStyles';
+import ErrorBoundary from '../SubComponents/ErrorBoundary';
 
 const RCPCHChart: React.FC<RCPCHChartProps> = ({
     title,
@@ -20,7 +21,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     reference,
     sex,
     measurementsArray,
-    enableZoom = false,
+    enableZoom = true,
     chartStyle,
     axisStyle,
     gridlineStyle,
@@ -30,16 +31,18 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     const styles = makeAllStyles(chartStyle, axisStyle, gridlineStyle, centileStyle, measurementStyle);
 
     return (
-        <CentileChart
-            reference={reference}
-            title={title}
-            subtitle={subtitle}
-            childMeasurements={measurementsArray || []}
-            measurementMethod={measurementMethod}
-            sex={sex}
-            enableZoom={enableZoom}
-            styles={styles}
-        />
+        <ErrorBoundary styles={styles}>
+            <CentileChart
+                reference={reference}
+                title={title}
+                subtitle={subtitle}
+                childMeasurements={measurementsArray || []}
+                measurementMethod={measurementMethod}
+                sex={sex}
+                enableZoom={enableZoom}
+                styles={styles}
+            />
+        </ErrorBoundary>
     );
 };
 

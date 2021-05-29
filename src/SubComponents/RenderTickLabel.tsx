@@ -65,7 +65,7 @@ function RenderTickLabel(props) {
     const weeks = Math.round(text * 52.18);
     const months = Math.round(text * 12);
 
-    const isAllGestWeeks = (arrayNumber: number) => arrayNumber < 0.0384;
+    const isAllGestWeeks = (arrayNumber: number) => arrayNumber < 0.0384 && arrayNumber !== -0.33;
     const isEvenGestWeeks = (arrayNumber: number) => {
         const rounded = Number((text * 52.18).toFixed(2));
         return arrayNumber < 0 && Number.isInteger(rounded) && rounded % 2 === 0;
