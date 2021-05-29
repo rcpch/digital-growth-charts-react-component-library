@@ -6,9 +6,6 @@ on:
   push:
     branches:
       - live
-  pull_request:
-    branches:
-      - live
 
 # Job will run on a ubuntu instance
 jobs:
