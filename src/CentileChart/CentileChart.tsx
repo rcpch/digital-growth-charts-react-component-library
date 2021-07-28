@@ -16,7 +16,7 @@ import {
 } from 'victory';
 
 // helper functions
-import getDomainsAndData, { getVisibleData } from '../functions/getDomainsAndData';
+import { getDomainsAndData, getVisibleData } from '../functions/getDomainsAndData';
 import { yAxisLabel } from '../functions/yAxisLabel';
 import xAxisLabel from '../functions/xAxisLabel';
 import tailoredXTickValues from '../functions/tailoredXTickValues';
@@ -72,12 +72,11 @@ function CentileChart({
                 reference,
                 showCorrectedAge,
                 showChronologicalAge,
-                false,
             ),
         [childMeasurements, sex, measurementMethod, reference, showCorrectedAge, showChronologicalAge],
     );
 
-    const updatedData = useMemo(() => getVisibleData(sex, measurementMethod, reference, userDomains, false), [
+    const updatedData = useMemo(() => getVisibleData(sex, measurementMethod, reference, userDomains), [
         sex,
         measurementMethod,
         reference,
