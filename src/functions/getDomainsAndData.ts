@@ -168,7 +168,7 @@ function makeDefaultDomains(
     return all[sex][reference][measurementMethod];
 }
 
-// analyses whole child measurement array to work out top and bottom x and y
+// data validation / analyses whole child measurement array to work out top and bottom x and y
 function childMeasurementRanges(
     childMeasurements: Measurement[],
     showCorrected: boolean,
@@ -314,35 +314,6 @@ function makeExtremeValues(native: boolean = false): ExtremeValues {
               }
             : null,
     };
-}
-
-// generate objects to plot centile labels in react native:
-
-function makeCentileLabels(
-    extremeValues: ExtremeValues,
-    lowestXForDomain: number,
-    highestXForDomain: number,
-    internalChartScaleType: 'prem' | 'infant' | 'smallChild' | 'biggerChild',
-) {
-    const pointsForCentileLabels = [];
-    if (internalChartScaleType === 'prem' && extremeValues.lowestYForX) {
-        for (const [key, miniObject] of Object.entries(extremeValues.lowestYForX)) {
-            pointsForCentileLabels.push({
-                x: lowestXForDomain,
-                centile: key,
-                y: miniObject.value,
-            });
-        }
-    } else if (extremeValues.highestYForX) {
-        for (const [key, miniObject] of Object.entries(extremeValues.highestYForX)) {
-            pointsForCentileLabels.push({
-                x: highestXForDomain,
-                centile: key,
-                y: miniObject.value,
-            });
-        }
-    }
-    return pointsForCentileLabels;
 }
 
 /* update highest / lowest values in visible data set for labels / setting up best y domains. This is run in the filter
