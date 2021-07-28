@@ -37,6 +37,7 @@ import RenderTickLabel from '../SubComponents/RenderTickLabel';
 
 // RCPCH Icon:
 import icon from '../images/icon.png';
+import { isCrowded } from '../functions/isCrowded';
 
 // allows two top level containers: zoom and voronoi
 const VictoryZoomVoronoiContainer = createContainer<VictoryZoomContainerProps, VictoryVoronoiContainerProps>(
@@ -91,6 +92,8 @@ function CentileChart({
     const allowZooming = childMeasurements.length > 0 && enableZoom ? true : false;
 
     const domains = userDomains || computedDomains;
+
+    const isChartCrowded = isCrowded(domains, childMeasurements);
 
     let pubertyThresholds: null | any[] = null;
 
@@ -338,11 +341,24 @@ function CentileChart({
                     ) {
                         return null;
                     }
+                    const chronData: any = {
+                        ...childMeasurement.plottable_data.centile_data.chronological_decimal_age_data,
+                    };
+                    const correctData: any = {
+                        ...childMeasurement.plottable_data.centile_data.corrected_decimal_age_data,
+                    };
+                    if (isChartCrowded) {
+                        chronData.size = 1.5;
+                        correctData.size = 1.5;
+                    } else {
+                        chronData.size = 3;
+                        correctData.size = 3;
+                    }
                     return (
                         <VictoryGroup key={'measurement' + index}>
                             {showChronologicalAge && (
                                 <VictoryScatter // chronological age
-                                    data={[childMeasurement.plottable_data.centile_data.chronological_decimal_age_data]}
+                                    data={[chronData]}
                                     symbol="circle"
                                     style={styles.measurementPoint}
                                     name="chronological_age"
@@ -350,7 +366,7 @@ function CentileChart({
                             )}
                             {showCorrectedAge && (
                                 <VictoryScatter // corrected age - a custom component that renders a cross
-                                    data={[childMeasurement.plottable_data.centile_data.corrected_decimal_age_data]}
+                                    data={[correctData]}
                                     dataComponent={<XPoint />}
                                     style={styles.measurementPoint}
                                     name="corrected_age"
@@ -361,10 +377,7 @@ function CentileChart({
                                     <VictoryLine
                                         name="linkLine"
                                         style={styles.measurementLinkLine}
-                                        data={[
-                                            childMeasurement.plottable_data.centile_data.corrected_decimal_age_data,
-                                            childMeasurement.plottable_data.centile_data.chronological_decimal_age_data,
-                                        ]}
+                                        data={[chronData, correctData]}
                                     />
                                 )}
                         </VictoryGroup>
