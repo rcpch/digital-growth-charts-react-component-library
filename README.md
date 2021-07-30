@@ -27,7 +27,7 @@ We're happy to consider building components in other languages/frameworks, or to
 ## Getting started
 
 ```console
-foobar:~foo$ npm i --save @rcph/digital-growth-charts-react-component-library
+foobar:~foo$ npm i --save @rcpch/digital-growth-charts-react-component-library
 ```
 
 Victory Charts are a dependency (see below), themselves built on top of D3.js. On build it is likely you will get an error relating to circular dependencies for some files in the d3-interpolate module. The is an issue logged [here](https://github.com/d3/d3-interpolate/issues/58).
@@ -263,10 +263,10 @@ We're a friendly bunch and we're happy to chat. You can get in touch with the pr
 
 ### How to contribute
 
--   Fork the repository to your own GitHub account
--   Set up your development environment (ideally using our instructions here for maximum compatibility with our own development environments)
--   Note that running the chart package and react client locally will cause a conflict within react if multiple versions are running. A fix for this can be found in the [react client readme.MD](https://github.com/rcpch/digital-growth-charts-react-client)
--   Ideally, you should have discussed with our team what you are proposing to change, because we can only accept pull requests where there is an accepted need for that new feature or fix.
--   We can discuss with you how we would recommend to implement the new feature, for maximum potential 'mergeability' of your PR.
--   Once the work is ready to show us, create a pull request on our repo, detailing what the change is and details about the fix or feature. PRs that affect any 'mission critical' part of the code will need suitable tests which we can run.
--   We will endeavour to review and merge in a reasonable time frame, but will usually not merge straight into master, rather we will merge into an upcoming release branch.
+- Fork the repository to your own GitHub account
+- Set up your development environment (ideally using our instructions here for maximum compatibility with our own development environments)
+- Note that running the chart package and react client locally will cause a conflict within react if multiple versions are running. A fix for this can be found in the [react client readme.MD](https://github.com/rcpch/digital-growth-charts-react-client)
+- Ideally, you should have discussed with our team what you are proposing to change, because we can only accept pull requests where there is an accepted need for that new feature or fix.
+- We can discuss with you how we would recommend to implement the new feature, for maximum potential 'mergeability' of your PR.
+- Once the work is ready to show us, create a pull request on our repo, detailing what the change is and details about the fix or feature. PRs that affect any 'mission critical' part of the code will need suitable tests which we can run.
+- We will endeavour to review and merge in a reasonable time frame, but will usually not merge straight into master, rather we will merge into an upcoming release branch.

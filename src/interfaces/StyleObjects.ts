@@ -16,7 +16,6 @@ export interface ChartStyle {
 }
 export interface MeasurementStyle {
     measurementFill?: string;
-    measurementSize?: number;
 }
 export interface CentileStyle {
     centileStroke?: string;

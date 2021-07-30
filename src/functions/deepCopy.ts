@@ -1,33 +1,37 @@
-const deepCopyArray = (arr: any[]) => {
-    let copy: any[] = [];
-    arr.forEach((elem: any) => {
-        if (Array.isArray(elem)) {
-            copy.push(deepCopyArray(elem));
+// deep copy variables
+// note: this is only copies enumerable properties
+
+const deepCopyArray = (oldArray: any[]) => {
+    const copyArray: any[] = [];
+    oldArray.forEach((element) => {
+        if (Array.isArray(element)) {
+            copyArray.push(deepCopyArray(element));
         } else {
-            if (typeof elem === 'object' && elem !== null) {
-                copy.push(deepCopyObject(elem));
+            if (typeof element === 'object' && element !== null) {
+                copyArray.push(deepCopyObject(element));
             } else {
-                copy.push(elem);
+                copyArray.push(element);
             }
         }
     });
-    return copy;
+    return copyArray;
 };
 
-const deepCopyObject = (obj: { [key: string]: any }) => {
-    let tempObj: { [key: string]: any } = {};
-    for (let [key, value] of Object.entries(obj)) {
+const deepCopyObject = (oldObject: { [key: string]: any }) => {
+    const tempObject: { [key: string]: any } = {};
+    for (const key in oldObject) {
+        const value = oldObject[key];
         if (Array.isArray(value)) {
-            tempObj[key] = deepCopyArray(value);
+            tempObject[key] = deepCopyArray(value);
         } else {
             if (typeof value === 'object' && value !== null) {
-                tempObj[key] = deepCopyObject(value);
+                tempObject[key] = deepCopyObject(value);
             } else {
-                tempObj[key] = value;
+                tempObject[key] = value;
             }
         }
     }
-    return tempObj;
+    return tempObject;
 };
 
 const deepCopy = (input: any) => {

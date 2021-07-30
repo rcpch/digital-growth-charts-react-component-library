@@ -17,7 +17,7 @@ type PropTypes = {
 };
 
 class ErrorBoundary extends React.Component {
-    state: { hasError: boolean; errorMessage: string; showError: false };
+    state: { hasError: boolean; errorMessage: string; showError: boolean };
     props: PropTypes;
     constructor(props: PropTypes) {
         super(props);

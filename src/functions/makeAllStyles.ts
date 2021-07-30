@@ -166,7 +166,6 @@ function makeAllStyles(
         measurementPoint: {
             data: {
                 fill: measurementStyle?.measurementFill ?? black,
-                strokeWidth: measurementStyle?.measurementSize ?? 6,
             },
         },
         measurementLinkLine: {
