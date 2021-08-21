@@ -205,6 +205,7 @@ function CentileChart({
                                 datum.observation_value_error,
                                 datum.age_error,
                                 datum.lay_comment,
+                                datum.sex
                             )
                         }
                         voronoiBlacklist={['linkLine']}

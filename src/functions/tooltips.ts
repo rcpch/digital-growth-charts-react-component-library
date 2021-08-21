@@ -14,6 +14,7 @@ export function tooltipText(
     observation_value_error: any,
     age_error: any,
     lay_comment: any,
+    sex: string
 ): string {
     if (label) {
         if (age === 0.0383 && reference === 'uk-who') {
@@ -32,7 +33,11 @@ export function tooltipText(
         }
         if (label === 'For all Children plotted in this shaded area see instructions.' && reference == 'uk-who') {
             // delayed puberty if plotted in this area
-            return 'For all Children plotted\nin this shaded area\nsee instructions.';
+            if (sex==='male'){
+                return 'If a plot falls here, pubertal assessment will be required\nand mid-parental centile should be assessed.\nIf they are in puberty or completing puberty,\nthey are below the 0.4th centile and should be referred.\nIn most instances a prepubertal boy plotted in this area\nis growing normally, but comparison with the mid-parental\ncentile and growth trajectory will assist the assessment\nof whether further investigation is needed.';
+            } else {
+                return 'If a plot falls here, pubertal assessment will be required\nand mid-parental centile should be assessed.\nIf they are in puberty or completing puberty,\nthey are below the 0.4th centile and should be referred.\nIn most instances a prepubertal girl plotted in this area\nis growing normally, but comparison with the mid-parental\ncentile and growth trajectory will assist the assessment\nof whether further investigation is needed.';
+            }
         }
         if (!isNaN(Number(label))) {
             // these are the centile labels
