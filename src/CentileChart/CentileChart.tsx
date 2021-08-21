@@ -333,7 +333,8 @@ function CentileChart({
                         })
                 }
 
-                {/* create a series for each child measurements data point: a circle for chronological age, a cross for corrected - if the chronological and corrected age are the same, */}
+                {/* create a series for each child measurements data point: a circle for chronological age, a cross for corrected */}
+                {/* If data points are close together, reduce the size of the point */}
 
                 {childMeasurements.map((childMeasurement: Measurement, index) => {
                     if (
@@ -348,6 +349,7 @@ function CentileChart({
                     const correctData: any = {
                         ...childMeasurement.plottable_data.centile_data.corrected_decimal_age_data,
                     };
+
                     if (isChartCrowded) {
                         chronData.size = 1.5;
                         correctData.size = 1.5;
