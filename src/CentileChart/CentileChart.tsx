@@ -38,6 +38,7 @@ import RenderTickLabel from '../SubComponents/RenderTickLabel';
 // RCPCH Icon:
 import icon from '../images/icon.png';
 import { isCrowded } from '../functions/isCrowded';
+import { EventLine } from '../SubComponents/EventLine';
 
 // allows two top level containers: zoom and voronoi
 const VictoryZoomVoronoiContainer = createContainer<VictoryZoomContainerProps, VictoryVoronoiContainerProps>(
@@ -191,26 +192,31 @@ function CentileChart({
                                 style={styles.toolTipMain}
                             />
                         }
-                        labels={({ datum }) =>
-                            tooltipText(
-                                reference,
-                                datum.l,
-                                measurementMethod,
-                                datum.x,
-                                datum.age_type,
-                                datum.centile_band,
-                                datum.calendar_age,
-                                datum.corrected_gestational_age,
-                                datum.y,
-                                datum.observation_value_error,
-                                datum.age_error,
-                                datum.lay_comment,
-                                datum.sex,
-                                datum.b,
-                                datum.bone_age_label
-                            )
+                        labels={({ datum }) => {
+                                return tooltipText(
+                                    reference,
+                                    datum.l,
+                                    measurementMethod,
+                                    datum.x,
+                                    datum.age_type,
+                                    datum.centile_band,
+                                    datum.calendar_age,
+                                    datum.corrected_gestational_age,
+                                    datum.y,
+                                    datum.observation_value_error,
+                                    datum.age_error,
+                                    datum.lay_comment,
+                                    datum.sex,
+                                    datum.b,
+                                    datum.bone_age_label,
+                                    datum.bone_age_sds,
+                                    datum.bone_age_centile,
+                                    datum.bone_age_type,
+                                    datum.childName
+                                )
+                            }
                         }
-                        voronoiBlacklist={['linkLine']}
+                        voronoiBlacklist={['linkLine', 'chronologicalboneagelinkline', 'correctedboneagelinkline']}
                     />
                 }
             >
@@ -352,6 +358,11 @@ function CentileChart({
                         ...childMeasurement.plottable_data.centile_data.corrected_decimal_age_data,
                     };
 
+                    let isEvent = false;
+                    if (childMeasurement.events_data.events_text && childMeasurement.events_data.events_text.length > 0){
+                        isEvent = true;
+                    }
+
                     if (isChartCrowded) {
                         chronData.size = 1.5;
                         correctData.size = 1.5;
@@ -361,6 +372,60 @@ function CentileChart({
                     }
                     return (
                         <VictoryGroup key={'measurement' + index}>
+                            { isEvent &&
+                                <EventLine measurement={childMeasurement}/>
+                            }
+                            { showChronologicalAge && // bone age linked to corrected age
+                                <VictoryScatter // bone age
+                                    name="chronologicalboneage"
+                                    data={[chronData]}
+                                    x={"b"}
+                                    y={"y"}
+                                    size={15}
+                                    dataComponent={<XPoint />}
+                                />
+                            }
+                            { showCorrectedAge && // bone age linked to corrected age
+                                <VictoryScatter // bone age
+                                    name="correctedboneage"
+                                    data={[correctData]}
+                                    x={"b"}
+                                    y={"y"}
+                                    size={15}
+                                    dataComponent={
+                                        <XPoint />
+                                    }
+                                />
+                            }
+                            { showChronologicalAge && childMeasurement.bone_age.bone_age &&// bone age line linked to corrected age
+                                <VictoryLine // bone age link line
+                                    name="chronologicalboneagelinkline"
+                                    data={[{x: chronData.x, y: chronData.y}, {x: chronData.b, y: chronData.y}]}
+                                    style={{
+                                        data: {
+                                            strokeWidth: 2,
+                                            stroke: 'red',
+                                            strokeDasharray: '3, 3',
+                                            fill: 'red'
+                                        }
+                                    }}
+                                />
+                            }
+
+                            { showCorrectedAge && // bone age line linked to corrected age
+                                <VictoryLine // bone age link line
+                                    name="correctedboneagelinkline"
+                                    data={[{x: correctData.x, y: correctData.y}, {x: correctData.b, y: correctData.y}]}
+                                    style={{
+                                        data: {
+                                            strokeWidth: 2,
+                                            stroke: 'red',
+                                            strokeDasharray: '3, 3',
+                                            fill: 'red'
+                                        }
+                                    }}
+                                />
+                            }
                             {showChronologicalAge && (
                                 <VictoryScatter // chronological age
                                     data={[chronData]}
@@ -385,55 +450,6 @@ function CentileChart({
                                         data={[chronData, correctData]}
                                     />
                             )}
-                            { showChronologicalAge && // bone age linked to corrected age
-                                <VictoryScatter // bone age
-                                    name="boneAge"
-                                    data={[chronData]}
-                                    x={"b"}
-                                    y={"y"}
-                                    size={15}
-                                    dataComponent={<XPoint />}
-                                />
-                            }
-                            { showCorrectedAge && // bone age linked to corrected age
-                                <VictoryScatter // bone age
-                                    name="boneAge"
-                                    data={[correctData]}
-                                    x={"b"}
-                                    y={"y"}
-                                    size={15}
-                                    dataComponent={
-                                        <XPoint />
-                                    }
-                                />
-                            }
-                            { showChronologicalAge && // bone age line linked to corrected age
-                                <VictoryLine // bone age link line
-                                    data={[{x: chronData.x, y: chronData.y}, {x: chronData.b, y: chronData.y}]}
-                                    style={{
-                                        data: {
-                                            strokeWidth: 2,
-                                            stroke: 'red',
-                                            strokeDasharray: '3, 3',
-                                            fill: 'red'
-                                        }
-                                    }}
-                                />
-                            }
-
-                            { showCorrectedAge && // bone age line linked to corrected age
-                                <VictoryLine // bone age link line
-                                    data={[{x: correctData.x, y: correctData.y}, {x: correctData.b, y: correctData.y}]}
-                                    style={{
-                                        data: {
-                                            strokeWidth: 2,
-                                            stroke: 'red',
-                                            strokeDasharray: '3, 3',
-                                            fill: 'red'
-                                        }
-                                    }}
-                                />
-                            }
                         </VictoryGroup>
                     );
                 })}

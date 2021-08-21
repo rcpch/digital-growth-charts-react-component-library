@@ -16,7 +16,11 @@ export function tooltipText(
     lay_comment: any,
     sex: string,
     b: number,
-    bone_age_label: string
+    bone_age_label: string,
+    bone_age_sds: number,
+    bone_age_centile: number,
+    bone_age_type: string,
+    childName: any // the name of the component hit
 ): string {
     if (label) {
         if (age === 0.0383 && reference === 'uk-who') {
@@ -48,10 +52,42 @@ export function tooltipText(
             return label;
         }
     }
-    if (bone_age_label) {
-        return b + ' years.\n' + bone_age_label;
-    }
     if (centile_band) {
+
+        if (childName==="chronologicalboneage" || childName === "correctedboneage"){
+            let concatenatedText = "Bone Age: "
+            // this is bone age text
+            concatenatedText+=b.toString()+" yrs";
+            if (bone_age_sds && !isNaN(bone_age_sds)) {
+                concatenatedText+="\nSDS: "+bone_age_sds.toString();
+            }
+            if (bone_age_centile && !isNaN(bone_age_centile)) {
+                concatenatedText+="\nCentile: "+bone_age_sds.toString();
+            }
+            if (bone_age_type && bone_age_type.length > 0) {
+                if (bone_age_type==="greulich-pyle"){
+                    concatenatedText+="\nGreulich & Pyle"
+                }
+                if (bone_age_type==='tanner-whitehouse-ii'){
+                    concatenatedText+="\nTanner-Whitehouse II";
+                }
+                if (bone_age_type==='tanner-whitehouse-iii'){
+                    concatenatedText+="\nTanner-Whitehouse III";
+                }
+                if (bone_age_type==='fels'){
+                    concatenatedText+="\nFels";
+                }
+                if (bone_age_type==='bonexpert'){
+                    concatenatedText+="\nBoneXpert";
+                }
+                if (bone_age_label.length > 0) {
+                    concatenatedText+="\n"+bone_age_label
+                }
+            }
+            
+            return concatenatedText;
+        }
+
         /// plots
         let finalCentile = centile_band;
         const splitCentile = centile_band.split(' ');
