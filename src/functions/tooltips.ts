@@ -14,7 +14,9 @@ export function tooltipText(
     observation_value_error: any,
     age_error: any,
     lay_comment: any,
-    sex: string
+    sex: string,
+    b: number,
+    bone_age_label: string
 ): string {
     if (label) {
         if (age === 0.0383 && reference === 'uk-who') {
@@ -45,6 +47,9 @@ export function tooltipText(
         } else {
             return label;
         }
+    }
+    if (bone_age_label) {
+        return b + ' years.\n' + bone_age_label;
     }
     if (centile_band) {
         /// plots

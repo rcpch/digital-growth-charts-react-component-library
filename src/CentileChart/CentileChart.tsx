@@ -205,7 +205,9 @@ function CentileChart({
                                 datum.observation_value_error,
                                 datum.age_error,
                                 datum.lay_comment,
-                                datum.sex
+                                datum.sex,
+                                datum.b,
+                                datum.bone_age_label
                             )
                         }
                         voronoiBlacklist={['linkLine']}
@@ -382,7 +384,56 @@ function CentileChart({
                                         style={styles.measurementLinkLine}
                                         data={[chronData, correctData]}
                                     />
-                                )}
+                            )}
+                            { showChronologicalAge && // bone age linked to corrected age
+                                <VictoryScatter // bone age
+                                    name="boneAge"
+                                    data={[chronData]}
+                                    x={"b"}
+                                    y={"y"}
+                                    size={15}
+                                    dataComponent={<XPoint />}
+                                />
+                            }
+                            { showCorrectedAge && // bone age linked to corrected age
+                                <VictoryScatter // bone age
+                                    name="boneAge"
+                                    data={[correctData]}
+                                    x={"b"}
+                                    y={"y"}
+                                    size={15}
+                                    dataComponent={
+                                        <XPoint />
+                                    }
+                                />
+                            }
+                            { showChronologicalAge && // bone age line linked to corrected age
+                                <VictoryLine // bone age link line
+                                    data={[{x: chronData.x, y: chronData.y}, {x: chronData.b, y: chronData.y}]}
+                                    style={{
+                                        data: {
+                                            strokeWidth: 2,
+                                            stroke: 'red',
+                                            strokeDasharray: '3, 3',
+                                            fill: 'red'
+                                        }
+                                    }}
+                                />
+                            }
+
+                            { showCorrectedAge && // bone age line linked to corrected age
+                                <VictoryLine // bone age link line
+                                    data={[{x: correctData.x, y: correctData.y}, {x: correctData.b, y: correctData.y}]}
+                                    style={{
+                                        data: {
+                                            strokeWidth: 2,
+                                            stroke: 'red',
+                                            strokeDasharray: '3, 3',
+                                            fill: 'red'
+                                        }
+                                    }}
+                                />
+                            }
                         </VictoryGroup>
                     );
                 })}

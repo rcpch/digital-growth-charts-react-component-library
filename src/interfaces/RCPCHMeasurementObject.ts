@@ -10,7 +10,7 @@ export interface Measurement {
     child_observation_value: {
         measurement_method: 'height' | 'weight' | 'bmi' | 'ofc';
         observation_value: number;
-        observation_value_error: string;
+        observation_value_error?: string;
     };
     measurement_dates: {
         chronological_calendar_age: string;
@@ -18,9 +18,9 @@ export interface Measurement {
         clinician_decimal_age_comment: string;
         corrected_calendar_age: string;
         corrected_decimal_age: number;
-        corrected_gestational_age: {
-            corrected_gestation_weeks: number;
-            corrected_gestation_days: number;
+        corrected_gestational_age?: {
+            corrected_gestation_weeks?: number;
+            corrected_gestation_days?: number;
         };
         lay_decimal_age_comment: string;
         observation_date: Date;
@@ -28,27 +28,30 @@ export interface Measurement {
     measurement_calculated_values: {
         chronological_centile: number;
         chronological_centile_band: string;
-        chronological_measurement_error: string;
+        chronological_measurement_error?: string;
         chronological_sds: number;
         corrected_centile: number;
         corrected_centile_band: string;
-        corrected_measurement_error: string;
+        corrected_measurement_error?: string;
         corrected_sds: number;
         measurement_method: 'height' | 'weight' | 'bmi' | 'ofc';
     };
     plottable_data: {
         centile_data: {
             chronological_decimal_age_data: {
-                age_error: null;
+                age_error?: string;
                 age_type: 'chronological_age' | 'corrected_age';
                 calendar_age: string;
                 centile_band: string;
                 clinician_comment: string;
                 lay_comment: string;
-                observation_error: null;
-                observation_value_error: null;
+                observation_error?: string;
+                observation_value_error?: string;
                 x: number;
                 y: number;
+                b: number;
+                bone_age_label?: string;
+                events_text?: string[];
             };
             corrected_decimal_age_data: {
                 age_error: null;
@@ -57,37 +60,56 @@ export interface Measurement {
                 centile_band: string;
                 clinician_comment: string;
                 lay_comment: string;
-                observation_error: null;
-                observation_value_error: null;
+                observation_error?: string;
+                observation_value_error?: string;
                 x: number;
                 y: number;
+                b: number;
+                bone_age_label?: string;
+                events_text?: string[];
             };
         };
         sds_data: {
             chronological_decimal_age_data: {
-                age_error: null;
+                age_error?: string;
                 age_type: 'chronological_age' | 'corrected_age';
                 calendar_age: string;
                 centile_band: string;
                 clinician_comment: string;
                 lay_comment: string;
-                observation_error: null;
-                observation_value_error: null;
+                observation_error?: string;
+                observation_value_error?: string;
                 x: number;
                 y: number;
+                b: number;
+                bone_age_label?: string;
+                events_text?: string[];
             };
             corrected_decimal_age_data: {
-                age_error: null;
+                age_error?: string;
                 age_type: 'chronological_age' | 'corrected_age';
                 calendar_age: string;
                 centile_band: string;
                 clinician_comment: string;
                 lay_comment: string;
-                observation_error: null;
-                observation_value_error: null;
+                observation_error?: string;
+                observation_value_error?: string;
                 x: number;
                 y: number;
+                b: number;
+                bone_age_label?: string;
+                events_text?: string[];
             };
         };
+    };
+    bone_age: {
+        bone_age?: number;
+        bone_age_type?: number;
+        bone_age_centile?: number;
+        bone_age_sds?: number;
+        bone_age_text?: string;
+    };
+    events_data: {
+        events_text?: string[];
     };
 }
