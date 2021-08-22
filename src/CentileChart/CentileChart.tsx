@@ -38,7 +38,7 @@ import RenderTickLabel from '../SubComponents/RenderTickLabel';
 // RCPCH Icon:
 import icon from '../images/icon.png';
 import { isCrowded } from '../functions/isCrowded';
-import { EventLine } from '../SubComponents/EventLine';
+import { EventCaret } from '../SubComponents/EventCaret';
 
 // allows two top level containers: zoom and voronoi
 const VictoryZoomVoronoiContainer = createContainer<VictoryZoomContainerProps, VictoryVoronoiContainerProps>(
@@ -358,11 +358,6 @@ function CentileChart({
                         ...childMeasurement.plottable_data.centile_data.corrected_decimal_age_data,
                     };
 
-                    let isEvent = false;
-                    if (childMeasurement.events_data.events_text && childMeasurement.events_data.events_text.length > 0){
-                        isEvent = true;
-                    }
-
                     if (isChartCrowded) {
                         chronData.size = 1.5;
                         correctData.size = 1.5;
@@ -372,10 +367,20 @@ function CentileChart({
                     }
                     return (
                         <VictoryGroup key={'measurement' + index}>
-                            { isEvent &&
-                                <EventLine measurement={childMeasurement}/>
+
+                            { childMeasurement.events_data.events_text && childMeasurement.events_data.events_text.length > 0 &&
+                                <VictoryScatter 
+                                    name="eventcaret"
+                                    data={[{x: childMeasurement.measurement_dates.chronological_decimal_age, y: childMeasurement.child_observation_value.observation_value}]}
+                                    dataComponent={
+                                        <EventCaret 
+                                            eventsText={childMeasurement.events_data.events_text}
+                                        />
+                                    }
+                                />
                             }
-                            { showChronologicalAge && // bone age linked to corrected age
+                            
+                            { showChronologicalAge && // bone age linked to chronological age
                                 <VictoryScatter // bone age
                                     name="chronologicalboneage"
                                     data={[chronData]}
@@ -397,7 +402,7 @@ function CentileChart({
                                     }
                                 />
                             }
-                            { showChronologicalAge && childMeasurement.bone_age.bone_age &&// bone age line linked to corrected age
+                            { showChronologicalAge && childMeasurement.bone_age.bone_age &&// bone age line linked to chronological age
                                 <VictoryLine // bone age link line
                                     name="chronologicalboneagelinkline"
                                     data={[{x: chronData.x, y: chronData.y}, {x: chronData.b, y: chronData.y}]}
