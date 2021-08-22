@@ -55,7 +55,7 @@ export function tooltipText(
     if (centile_band) {
 
         // bone age text
-        if (childName==="chronologicalboneage" || childName === "correctedboneage"){
+        if ((childName==="chronologicalboneage" || childName === "correctedboneage") && b){
             let concatenatedText = "Bone Age: "
             
             concatenatedText+=b.toString()+" yrs";

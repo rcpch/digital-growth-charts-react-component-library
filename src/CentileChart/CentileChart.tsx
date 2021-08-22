@@ -380,7 +380,7 @@ function CentileChart({
                                 />
                             }
                             
-                            { showChronologicalAge && // bone age linked to chronological age
+                            { showChronologicalAge && childMeasurement.bone_age.bone_age && ( showChronologicalAge || showCorrectedAge ) && !( showCorrectedAge && showChronologicalAge ) && // bone age linked to chronological age
                                 <VictoryScatter // bone age
                                     name="chronologicalboneage"
                                     data={[chronData]}
@@ -390,7 +390,8 @@ function CentileChart({
                                     dataComponent={<XPoint />}
                                 />
                             }
-                            { showCorrectedAge && // bone age linked to corrected age
+
+                            { showCorrectedAge && childMeasurement.bone_age.bone_age &&  // bone age linked to corrected age
                                 <VictoryScatter // bone age
                                     name="correctedboneage"
                                     data={[correctData]}
@@ -402,7 +403,7 @@ function CentileChart({
                                     }
                                 />
                             }
-                            { showChronologicalAge && childMeasurement.bone_age.bone_age &&// bone age line linked to chronological age
+                            { showChronologicalAge && !showCorrectedAge && childMeasurement.bone_age.bone_age &&// bone age line linked to chronological age
                                 <VictoryLine // bone age link line
                                     name="chronologicalboneagelinkline"
                                     data={[{x: chronData.x, y: chronData.y}, {x: chronData.b, y: chronData.y}]}
@@ -417,7 +418,7 @@ function CentileChart({
                                 />
                             }
 
-                            { showCorrectedAge && // bone age line linked to corrected age
+                            { showCorrectedAge && childMeasurement.bone_age.bone_age && // bone age line linked to corrected age
                                 <VictoryLine // bone age link line
                                     name="correctedboneagelinkline"
                                     data={[{x: correctData.x, y: correctData.y}, {x: correctData.b, y: correctData.y}]}
@@ -431,7 +432,7 @@ function CentileChart({
                                     }}
                                 />
                             }
-                            {showChronologicalAge && (
+                            { showChronologicalAge && (
                                 <VictoryScatter // chronological age
                                     data={[chronData]}
                                     symbol="circle"
@@ -439,7 +440,7 @@ function CentileChart({
                                     name="chronological_age"
                                 />
                             )}
-                            {showCorrectedAge && (
+                            { showCorrectedAge && (
                                 <VictoryScatter // corrected age - a custom component that renders a cross
                                     data={[correctData]}
                                     dataComponent={<XPoint />}
@@ -447,7 +448,7 @@ function CentileChart({
                                     name="corrected_age"
                                 />
                             )}
-                            {showChronologicalAge &&
+                            { showChronologicalAge &&
                                 showCorrectedAge && ( // only show the line if both cross and dot are rendered
                                     <VictoryLine
                                         name="linkLine"
