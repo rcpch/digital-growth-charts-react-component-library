@@ -30,7 +30,8 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
 }) => {
     const styles = makeAllStyles(chartStyle, axisStyle, gridlineStyle, centileStyle, measurementStyle);
 
-    console.log("loading from locally...");
+    // uncomment in development
+    // console.log("loading from locally...");
 
     return (
         <ErrorBoundary styles={styles}>
