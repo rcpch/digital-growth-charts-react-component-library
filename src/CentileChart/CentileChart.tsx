@@ -387,7 +387,7 @@ function CentileChart({
                                     x={"b"}
                                     y={"y"}
                                     size={15}
-                                    dataComponent={<XPoint />}
+                                    dataComponent={<XPoint isBoneAge={true}/>}
                                 />
                             }
 
@@ -399,7 +399,7 @@ function CentileChart({
                                     y={"y"}
                                     size={15}
                                     dataComponent={
-                                        <XPoint />
+                                        <XPoint isBoneAge={true}/>
                                     }
                                 />
                             }
@@ -410,9 +410,8 @@ function CentileChart({
                                     style={{
                                         data: {
                                             strokeWidth: 2,
-                                            stroke: 'red',
+                                            stroke: '#A9A9A9',
                                             strokeDasharray: '3, 3',
-                                            fill: 'red'
                                         }
                                     }}
                                 />
@@ -425,9 +424,8 @@ function CentileChart({
                                     style={{
                                         data: {
                                             strokeWidth: 2,
-                                            stroke: 'red',
+                                            stroke: '#A9A9A9',
                                             strokeDasharray: '3, 3',
-                                            fill: 'red'
                                         }
                                     }}
                                 />
@@ -443,7 +441,7 @@ function CentileChart({
                             { showCorrectedAge && (
                                 <VictoryScatter // corrected age - a custom component that renders a cross
                                     data={[correctData]}
-                                    dataComponent={<XPoint />}
+                                    dataComponent={<XPoint isBoneAge={false}/>}
                                     style={styles.measurementPoint}
                                     name="corrected_age"
                                 />
