@@ -1,6 +1,5 @@
 import { Measurement } from '../interfaces/RCPCHMeasurementObject';
-import { ICentile } from '../interfaces/CentilesObject';
-import { ChartStyle, AxisStyle, GridlineStyle, MeasurementStyle, CentileStyle } from '../interfaces/StyleObjects';
+import { MidParentalHeightObject } from '../interfaces/MidParentalHeightObject';
 
 export type ComputedData = {
     centileData: null | any[];
@@ -25,6 +24,7 @@ export interface CentileChartProps {
     measurementMethod: 'height' | 'weight' | 'ofc' | 'bmi';
     sex: 'male' | 'female';
     childMeasurements: Measurement[];
+    midParentalHeightData: MidParentalHeightObject;
     enableZoom: boolean;
     styles: { [key: string]: any };
 }

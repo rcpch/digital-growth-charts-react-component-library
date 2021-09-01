@@ -14,6 +14,13 @@ export function tooltipText(
     observation_value_error: any,
     age_error: any,
     lay_comment: any,
+    sex: string,
+    b: number,
+    bone_age_label: string,
+    bone_age_sds: number,
+    bone_age_centile: number,
+    bone_age_type: string,
+    childName: any // the name of the component hit
 ): string {
     if (label) {
         if (age === 0.0383 && reference === 'uk-who') {
@@ -32,7 +39,11 @@ export function tooltipText(
         }
         if (label === 'For all Children plotted in this shaded area see instructions.' && reference == 'uk-who') {
             // delayed puberty if plotted in this area
-            return 'For all Children plotted\nin this shaded area\nsee instructions.';
+            if (sex==='male'){
+                return 'If a plot falls here, pubertal assessment will be required\nand mid-parental centile should be assessed.\nIf they are in puberty or completing puberty,\nthey are below the 0.4th centile and should be referred.\nIn most instances a prepubertal boy plotted in this area\nis growing normally, but comparison with the mid-parental\ncentile and growth trajectory will assist the assessment\nof whether further investigation is needed.';
+            } else {
+                return 'If a plot falls here, pubertal assessment will be required\nand mid-parental centile should be assessed.\nIf they are in puberty or completing puberty,\nthey are below the 0.4th centile and should be referred.\nIn most instances a prepubertal girl plotted in this area\nis growing normally, but comparison with the mid-parental\ncentile and growth trajectory will assist the assessment\nof whether further investigation is needed.';
+            }
         }
         if (!isNaN(Number(label))) {
             // these are the centile labels
@@ -42,6 +53,42 @@ export function tooltipText(
         }
     }
     if (centile_band) {
+
+        // bone age text
+        if ((childName==="chronologicalboneage" || childName === "correctedboneage") && b){
+            let concatenatedText = "Bone Age: "
+            
+            concatenatedText+=b.toString()+" yrs";
+            if (bone_age_sds && !isNaN(bone_age_sds)) {
+                concatenatedText+="\nSDS: "+bone_age_sds.toString();
+            }
+            if (bone_age_centile && !isNaN(bone_age_centile)) {
+                concatenatedText+="\nCentile: "+bone_age_sds.toString();
+            }
+            if (bone_age_type && bone_age_type.length > 0) {
+                if (bone_age_type==="greulich-pyle"){
+                    concatenatedText+="\nGreulich & Pyle"
+                }
+                if (bone_age_type==='tanner-whitehouse-ii'){
+                    concatenatedText+="\nTanner-Whitehouse II";
+                }
+                if (bone_age_type==='tanner-whitehouse-iii'){
+                    concatenatedText+="\nTanner-Whitehouse III";
+                }
+                if (bone_age_type==='fels'){
+                    concatenatedText+="\nFels";
+                }
+                if (bone_age_type==='bonexpert'){
+                    concatenatedText+="\nBoneXpert";
+                }
+                if (bone_age_label.length > 0) {
+                    concatenatedText+="\n"+bone_age_label
+                }
+            }
+            
+            return concatenatedText;
+        }
+
         /// plots
         let finalCentile = centile_band;
         const splitCentile = centile_band.split(' ');
