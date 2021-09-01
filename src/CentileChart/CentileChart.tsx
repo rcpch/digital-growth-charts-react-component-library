@@ -39,6 +39,7 @@ import RenderTickLabel from '../SubComponents/RenderTickLabel';
 import icon from '../images/icon.png';
 import { isCrowded } from '../functions/isCrowded';
 import { EventCaret } from '../SubComponents/EventCaret';
+import { MidParentalHeight } from '../SubComponents/MidParentalHeight';
 
 // allows two top level containers: zoom and voronoi
 const VictoryZoomVoronoiContainer = createContainer<VictoryZoomContainerProps, VictoryVoronoiContainerProps>(
@@ -56,6 +57,7 @@ function CentileChart({
     measurementMethod,
     sex,
     childMeasurements,
+    midParentalHeightData,
     enableZoom,
     styles,
 }: CentileChartProps) {
@@ -84,11 +86,6 @@ function CentileChart({
         reference,
         userDomains,
     ]);
-
-    if (updatedData) {
-        chartScaleType = updatedData.chartScaleType;
-        centileData = updatedData.centileData;
-    }
 
     const allowZooming = childMeasurements.length > 0 && enableZoom ? true : false;
 
@@ -339,6 +336,15 @@ function CentileChart({
                                 return null;
                             }
                         })
+                }
+
+                { midParentalHeightData.mid_parental_height &&
+                    <MidParentalHeight
+                        sds={midParentalHeightData.mid_parental_height_sds}
+                        centile={midParentalHeightData.mid_parental_height_centile}
+                        data={[{x: 20, y: midParentalHeightData.mid_parental_height}]}
+                        styles = {styles}
+                    />
                 }
 
                 {/* create a series for each child measurements data point: a circle for chronological age, a cross for corrected */}

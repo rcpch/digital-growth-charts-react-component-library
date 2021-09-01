@@ -1,4 +1,5 @@
 import { Measurement } from '../interfaces/RCPCHMeasurementObject';
+import { MidParentalHeightObject } from '../interfaces/MidParentalHeightObject';
 import { AxisStyle, CentileStyle, ChartStyle, GridlineStyle, MeasurementStyle } from '../interfaces/StyleObjects';
 
 export interface RCPCHChartProps {
@@ -7,6 +8,7 @@ export interface RCPCHChartProps {
     measurementMethod: 'height' | 'weight' | 'ofc' | 'bmi';
     sex: 'male' | 'female';
     measurementsArray: Measurement[];
+    midParentalHeightData?: MidParentalHeightObject;
     reference: 'uk-who' | 'turner' | 'trisomy-21';
     enableZoom?: boolean;
     chartStyle?: ChartStyle;
