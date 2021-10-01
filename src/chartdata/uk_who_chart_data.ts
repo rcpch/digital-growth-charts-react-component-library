@@ -1,5 +1,5 @@
-import {UKWHOReferences} from '../interfaces/CentilesObject'
-export const ukwhoData: UKWHOReferences = {
+import { Reference } from '../interfaces/CentilesObject'
+export const ukwhoData: Reference = {
     uk90_preterm:
     {
         female:
