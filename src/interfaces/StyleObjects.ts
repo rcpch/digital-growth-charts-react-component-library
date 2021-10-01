@@ -21,6 +21,9 @@ export interface CentileStyle {
     centileStroke?: string;
     centileStrokeWidth?: number;
     delayedPubertyAreaFill?: string;
+    midParentalCentileStrokeWidth: number;
+    midParentalCentileStroke?: string;
+    midParentalAreaFill?: string;
 }
 export interface GridlineStyle {
     gridlines?: boolean;

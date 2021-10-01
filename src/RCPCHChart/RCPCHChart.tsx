@@ -33,7 +33,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
 
     // uncomment in development
     // console.log("loading from locally...");
-
+    
     return (
         <ErrorBoundary styles={styles}>
             <CentileChart

@@ -26,7 +26,7 @@ import { delayedPubertyThreshold, makePubertyThresholds, lowerPubertyBorder } fr
 
 // interfaces & props
 import { CentileChartProps } from './CentileChart.types';
-import { ICentile } from '../interfaces/CentilesObject';
+import { ICentile, ISexChoice } from '../interfaces/CentilesObject';
 import { Measurement } from '../interfaces/RCPCHMeasurementObject';
 import { Domains } from '../interfaces/Domains';
 
@@ -209,6 +209,10 @@ function CentileChart({
                                     datum.bone_age_sds,
                                     datum.bone_age_centile,
                                     datum.bone_age_type,
+                                    midParentalHeightData.mid_parental_height,
+                                    midParentalHeightData.mid_parental_height_sds,
+                                    midParentalHeightData.mid_parental_height_lower_value,
+                                    midParentalHeightData.mid_parental_height_upper_value,
                                     datum.childName
                                 )
                             }
@@ -217,9 +221,82 @@ function CentileChart({
                     />
                 }
             >
+
+                {/* 
+                midparental height centiles 
+                These are three lines, the MPH centile, a centile 2SD above it, and another 2SD below
+                There is an area fill between the highest and lowest
+                */
+                }
+                
+                { midParentalHeightData.mid_parental_height_centile_data && 
+
+                    midParentalHeightData.mid_parental_height_centile_data.map((referenceData, index) => {
+                    const centiles = referenceData.uk90_preterm || referenceData.uk_who_infant || referenceData.uk_who_child || referenceData.uk90_child;
+                    const lowercentiles = midParentalHeightData.mid_parental_height_lower_centile_data[index].uk90_preterm || midParentalHeightData.mid_parental_height_lower_centile_data[index].uk_who_infant || midParentalHeightData.mid_parental_height_lower_centile_data[index].uk_who_child || midParentalHeightData.mid_parental_height_lower_centile_data[index].uk90_child;
+                    const uppercentiles = midParentalHeightData.mid_parental_height_upper_centile_data[index].uk90_preterm || midParentalHeightData.mid_parental_height_upper_centile_data[index].uk_who_infant || midParentalHeightData.mid_parental_height_upper_centile_data[index].uk_who_child || midParentalHeightData.mid_parental_height_upper_centile_data[index].uk90_child;
+                    const mpcData = sex === "male" ? centiles.male.height : centiles.female.height;
+                    const lowerMPCData = sex === "male" ? lowercentiles.male.height : lowercentiles.female.height;
+                    const upperMPCData = sex === "male" ? uppercentiles.male.height : uppercentiles.female.height;
+                        return (
+                            <VictoryGroup key={'midparentalCentileDataBlock' + index}>
+                                {   upperMPCData.map((centile: ICentile, centileIndex: number)=>{
+                                    const newData: any = centile.data.map((data, index) => {
+                                        let o: any = Object.assign({}, data)
+                                        o.y0 = lowerMPCData[centileIndex].data[index].y
+                                        return o;
+                                    })
+                                        return (
+                                            <VictoryArea 
+                                                name="areaMPH"
+                                                key={centile.centile+'-area-'+centileIndex}
+                                                data={newData}
+                                                style={styles.midParentalArea}
+                                            />
+                                        )
+                                    })
+                                }
+                                {   lowerMPCData.map((lowercentile: ICentile, centileIndex: number) => {
+                                        return (
+                                            <VictoryLine
+                                                name="lowerCentileMPH"
+                                                key={lowercentile.centile + '-' + centileIndex}
+                                                padding={{ top: 20, bottom: 20 }}
+                                                data={lowercentile.data}
+                                                style={styles.midParentalCentile}
+                                            />
+                                        );
+                                })}
+                                {mpcData.map((centile: ICentile, centileIndex: number) => {
+                                        return (
+                                            <VictoryLine
+                                                name="centileMPH"
+                                                key={centile.centile + '-' + centileIndex}
+                                                padding={{ top: 20, bottom: 20 }}
+                                                data={centile.data}
+                                                style={styles.midparentalCentile}
+                                            />
+                                        );
+                                })}
+                                {upperMPCData.map((uppercentile: ICentile, centileIndex: number) => {
+                                        return (
+                                            <VictoryLine
+                                                name="upperCentileMPH"
+                                                key={uppercentile.centile + '-' + centileIndex}
+                                                padding={{ top: 20, bottom: 20 }}
+                                                data={uppercentile.data}
+                                                style={styles.midparentalCentile}
+                                            />
+                                        );
+                                })}
+                                
+                            </VictoryGroup>
+                        );
+                    })
+                }
+
                 {
                     /* Term child shaded area: */
-
                     termAreaData !== null && <VictoryArea style={styles.termArea} data={termAreaData} />
                 }
 
@@ -307,7 +384,9 @@ function CentileChart({
                                 })}
                             </VictoryGroup>
                         );
-                    })}
+                    })
+                }
+
 
                 {
                     // puberty threshold lines uk90:
@@ -338,14 +417,14 @@ function CentileChart({
                         })
                 }
 
-                { midParentalHeightData.mid_parental_height &&
+                {/* { midParentalHeightData.mid_parental_height &&
                     <MidParentalHeight
                         sds={midParentalHeightData.mid_parental_height_sds}
                         centile={midParentalHeightData.mid_parental_height_centile}
                         data={[{x: 20, y: midParentalHeightData.mid_parental_height}]}
                         styles = {styles}
                     />
-                }
+                } */}
 
                 {/* create a series for each child measurements data point: a circle for chronological age, a cross for corrected */}
                 {/* If data points are close together, reduce the size of the point */}

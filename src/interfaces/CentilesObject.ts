@@ -1,10 +1,9 @@
-export interface UKWHOReferences {
-    uk90_preterm:  ISexChoice
-    uk_who_infant:  ISexChoice
-    uk_who_child:  ISexChoice
-    uk90_child:  ISexChoice
-}
-
+// export interface UKWHOReferences {
+//     uk90_preterm:  ISexChoice
+//     uk_who_infant:  ISexChoice
+//     uk_who_child:  ISexChoice
+//     uk90_child:  ISexChoice
+// }
 export interface Reference {
     [key: string]: ISexChoice
 }

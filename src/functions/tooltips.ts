@@ -20,8 +20,24 @@ export function tooltipText(
     bone_age_sds: number,
     bone_age_centile: number,
     bone_age_type: string,
+    midparental_height: number,
+    midparental_sds: number,
+    midparental_lower: number,
+    midparental_upper: number,
     childName: any // the name of the component hit
 ): string {
+    if (['centileMPH', 'lowerCentileMPH', 'upperCentileMPH', 'areaMPH'].includes(childName)){
+        if (childName=="lowerCentileMPH"){
+            return "Expected Height for age: "+Math.round(y*10)/10+" cm\n(based on midparental -2SD)"
+        }
+        if (childName==="centileMPH"){
+            return "Expected Height for age: "+Math.round(y*10)/10+" cm\nMidparental Centile: "+addOrdinalSuffix(Math.round(parseFloat(label)))+"\nMidparental SDS: "+Math.round(midparental_sds*100)/100+"\nMidparental Final Height: "+Math.round(midparental_height*10)/10+" cm\nMidparental Final Height (-2 SD): "+Math.round(midparental_lower*10)/10+" cm\nMidparental Final Height (+2 SD): "+Math.round(midparental_upper*10)/10 + " cm";
+        }
+        if (childName ==="upperCentileMPH"){
+            return "Expected Height for age: "+Math.round(y*10)/10 + "cm\n (based on midparental height +2SD)"
+        }
+        return;
+    }
     if (label) {
         if (age === 0.0383 && reference === 'uk-who') {
             return 'Transit point from\nUK90 to WHO data';

@@ -77,10 +77,3 @@ export const MidParentalHeight = (props) => {
     )
     
 }
-
-function lerp(x, x0, x1, y0, y1) {
-    // console.log(x, x0, x1, y0, y1);
-    
-    const y = y0 + (x-x0)*(y1-y0/x1-x0)
-    return y
-}

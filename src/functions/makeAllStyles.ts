@@ -4,6 +4,7 @@ const black = '#000000';
 const white = '#FFFFFF';
 const midGrey = '#b3b3b3';
 const lightGrey = '#d9d9d9';
+const lightLightGrey = "#f3f3f3";
 const lightPink = '#E497C1';
 const darkPink = '#cb3083';
 
@@ -162,6 +163,18 @@ function makeAllStyles(
                 strokeWidth: centileStyle?.centileStrokeWidth ?? 1.5,
                 strokeLinecap: 'round',
             },
+        },
+        midParentalCentile: {
+            data: {
+                stroke: centileStyle?.midParentalCentileStroke ?? black,
+                strokeWidth: centileStyle?.midParentalCentileStrokeWidth ?? 1.5,
+                strokeLinecap: 'round'
+            }
+        },
+        midParentalArea: {
+            data: {
+                fill: centileStyle?.midParentalAreaFill ?? lightLightGrey
+            }
         },
         measurementPoint: {
             data: {
