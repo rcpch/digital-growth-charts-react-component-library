@@ -21,7 +21,7 @@ export interface CentileStyle {
     centileStroke?: string;
     centileStrokeWidth?: number;
     delayedPubertyAreaFill?: string;
-    midParentalCentileStrokeWidth: number;
+    midParentalCentileStrokeWidth?: number;
     midParentalCentileStroke?: string;
     midParentalAreaFill?: string;
 }
