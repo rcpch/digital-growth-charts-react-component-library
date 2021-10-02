@@ -1,6 +1,6 @@
 {
     "name": "@rcpch/digital-growth-charts-react-component-library",
-    "version": "4.2.3",
+    "version": "4.2.4",
     "main": "build/index.js",
     "module": "build/index.esm.js",
     "files": [
@@ -9,7 +9,6 @@
     "types": "build/index.d.ts",
     "description": "A React component library for the RCPCH digital growth charts using Rollup, TypeScript and Styled-Components",
     "scripts": {
-        "postinstall": "rm -rf node_modules",
         "build": "rollup -c",
         "test": "jest",
         "test:watch": "jest --watch",
