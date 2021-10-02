@@ -242,6 +242,9 @@ interface CentileStyle {
     centileStroke?: string;
     centileStrokeWidth?: number;
     delayedPubertyAreaFill?: string;
+    midParentalCentileStroke?: number;
+    midParentalCentileStrokeWidth?: number;
+    midParentalAreaFill?: string;
 }
 ```
 
