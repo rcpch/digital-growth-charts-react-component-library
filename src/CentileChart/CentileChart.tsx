@@ -229,7 +229,7 @@ function CentileChart({
                 */
                 }
                 
-                { reference=="uk-who" && midParentalHeightData.mid_parental_height_centile_data && 
+                { reference==="uk-who" && measurementMethod==="height" && midParentalHeightData.mid_parental_height_centile_data && 
 
                     midParentalHeightData.mid_parental_height_centile_data.map((referenceData, index) => {
                     const centiles = referenceData.uk90_preterm || referenceData.uk_who_infant || referenceData.uk_who_child || referenceData.uk90_child;
