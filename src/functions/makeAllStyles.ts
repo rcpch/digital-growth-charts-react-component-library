@@ -167,13 +167,15 @@ function makeAllStyles(
         midParentalCentile: {
             data: {
                 stroke: centileStyle?.midParentalCentileStroke ?? black,
-                strokeWidth: centileStyle?.midParentalCentileStrokeWidth ?? 1.5,
-                strokeLinecap: 'round'
+                strokeWidth: centileStyle?.midParentalCentileStrokeWidth ?? 0.75,
+                strokeLinecap: 'round',
+                strokeOpacity: 1.0
             }
         },
         midParentalArea: {
             data: {
-                fill: centileStyle?.midParentalAreaFill ?? lightLightGrey
+                fill: centileStyle?.midParentalAreaFill ?? lightLightGrey,
+                opacity: 0.25
             }
         },
         measurementPoint: {

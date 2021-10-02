@@ -229,7 +229,7 @@ function CentileChart({
                 */
                 }
                 
-                { midParentalHeightData.mid_parental_height_centile_data && 
+                { reference=="uk-who" && midParentalHeightData.mid_parental_height_centile_data && 
 
                     midParentalHeightData.mid_parental_height_centile_data.map((referenceData, index) => {
                     const centiles = referenceData.uk90_preterm || referenceData.uk_who_infant || referenceData.uk_who_child || referenceData.uk90_child;
@@ -274,7 +274,7 @@ function CentileChart({
                                                 key={centile.centile + '-' + centileIndex}
                                                 padding={{ top: 20, bottom: 20 }}
                                                 data={centile.data}
-                                                style={styles.midparentalCentile}
+                                                style={styles.midParentalCentile}
                                             />
                                         );
                                 })}
@@ -285,7 +285,7 @@ function CentileChart({
                                                 key={uppercentile.centile + '-' + centileIndex}
                                                 padding={{ top: 20, bottom: 20 }}
                                                 data={uppercentile.data}
-                                                style={styles.midparentalCentile}
+                                                style={styles.midParentalCentile}
                                             />
                                         );
                                 })}
