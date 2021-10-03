@@ -9,10 +9,12 @@ import './RCPCHChart.scss';
 
 // components
 import CentileChart from '../CentileChart';
+import SDSChart from '../SDSChart/SDSChart';
 
 // helper functions
 import makeAllStyles from '../functions/makeAllStyles';
 import ErrorBoundary from '../SubComponents/ErrorBoundary';
+import { ClientMeasurementObject } from '../interfaces/ClientMeasurementObject';
 
 const RCPCHChart: React.FC<RCPCHChartProps> = ({
     title,
@@ -28,27 +30,49 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     gridlineStyle,
     centileStyle,
     measurementStyle,
+    chartType
 }) => {
     const styles = makeAllStyles(chartStyle, axisStyle, gridlineStyle, centileStyle, measurementStyle);
 
     // uncomment in development
     // console.log("loading from locally...");
+    let isCentile = (chartType === "centile" || chartType === undefined);
+
+    if (isCentile){
+        return (
+            <ErrorBoundary styles={styles}>
+                <CentileChart
+                    reference={reference}
+                    title={title}
+                    subtitle={subtitle}
+                    childMeasurements={measurementsArray || []}
+                    midParentalHeightData={midParentalHeightData}
+                    measurementMethod={measurementMethod}
+                    sex={sex}
+                    enableZoom={enableZoom}
+                    styles={styles}
+                />
+            </ErrorBoundary>
+        );
+    } else {
+        const castArray = measurementsArray as ClientMeasurementObject
+        return (
+            <ErrorBoundary styles={styles}>
+                <SDSChart
+                    reference={reference}
+                    title={title}
+                    subtitle={subtitle}
+                    childMeasurements={castArray}
+                    midParentalHeightData={midParentalHeightData}
+                    sex={sex}
+                    enableZoom={enableZoom}
+                    styles={styles}
+                />
+            </ErrorBoundary>
+        );
+    }
     
-    return (
-        <ErrorBoundary styles={styles}>
-            <CentileChart
-                reference={reference}
-                title={title}
-                subtitle={subtitle}
-                childMeasurements={measurementsArray || []}
-                midParentalHeightData={midParentalHeightData}
-                measurementMethod={measurementMethod}
-                sex={sex}
-                enableZoom={enableZoom}
-                styles={styles}
-            />
-        </ErrorBoundary>
-    );
+    
 };
 
 export default RCPCHChart;

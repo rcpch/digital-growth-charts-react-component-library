@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { ChartTitle, StyledButton } from '../CentileChart/CentileChart';
+import { ChartTitle } from './ChartTitle';
+import { StyledButton } from './StyledButton';
 
 type TitleType = {
     fontFamily: string;

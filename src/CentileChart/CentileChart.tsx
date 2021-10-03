@@ -1,6 +1,5 @@
 // libraries
 import React, { useState, useLayoutEffect, useMemo, MouseEvent } from 'react';
-import styled from 'styled-components';
 import {
     createContainer,
     VictoryChart,
@@ -26,7 +25,7 @@ import { delayedPubertyThreshold, makePubertyThresholds, lowerPubertyBorder } fr
 
 // interfaces & props
 import { CentileChartProps } from './CentileChart.types';
-import { ICentile, ISexChoice } from '../interfaces/CentilesObject';
+import { ICentile } from '../interfaces/CentilesObject';
 import { Measurement } from '../interfaces/RCPCHMeasurementObject';
 import { Domains } from '../interfaces/Domains';
 
@@ -34,6 +33,13 @@ import { Domains } from '../interfaces/Domains';
 import { XPoint } from '../SubComponents/XPoint';
 import CustomGridComponent from '../SubComponents/CustomGridComponent';
 import RenderTickLabel from '../SubComponents/RenderTickLabel';
+import { TitleContainer } from '../SubComponents/TitleContainer';
+import { StyledRadioButtonGroup } from '../SubComponents/StyledRadioButtonGroup';
+import { StyledButton } from '../SubComponents/StyledButton';
+import { ButtonContainer } from '../SubComponents/ButtonContainer';
+import { ChartTitle } from '../SubComponents/ChartTitle';
+import { LogoContainer } from '../SubComponents/LogoContainer';
+import { MainContainer } from '../SubComponents/MainContainer';
 
 // RCPCH Icon:
 import icon from '../images/icon.png';
@@ -569,145 +575,5 @@ function CentileChart({
         </MainContainer>
     );
 }
-
-const MainContainer = styled.div`
-    display: block;
-    margin: auto;
-`;
-
-const LogoContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: 'center';
-    padding-left: 5px;
-`;
-
-const TitleContainer = styled.div`
-    display: inline-block;
-    text-align: center;
-    margin: 0px;
-`;
-
-export const ChartTitle = styled.h2<{
-    fontFamily: string;
-    color: string;
-    fontSize: number;
-    fontWeight: string;
-    fontStyle: string;
-    show?: boolean;
-}>`
-    font-family: ${({ fontFamily }) => fontFamily};
-    font-size: ${({ fontSize }) => fontSize}px;
-    font-weight: ${({ fontWeight }) => fontWeight};
-    font-style: ${({ fontStyle }) => fontStyle};
-    line-height: 1.3em;
-    padding: 0px;
-    margin: 5px;
-    color: ${({ color }) => color};
-    visibility: ${({ show }) => (show === false ? 'hidden' : 'visible')};
-`;
-
-const ButtonContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: 'center';
-`;
-
-export const StyledButton = styled.button<{
-    activeColour: string;
-    inactiveColour: string;
-    fontFamily: string;
-    fontSize: number;
-    fontWeight: string;
-    fontStyle: string;
-    color: string;
-    enabled: boolean;
-    margin?: string;
-}>`
-    display: inline-block;
-    background-color: ${(props) => (props.enabled ? props.activeColour : props.inactiveColour)};
-    border: 2px solid ${(props) => (props.enabled ? props.activeColour : props.inactiveColour)};
-    padding: 4px 11px;
-    margin: ${({ margin }) => margin ?? '0px 20px'};
-    font-family: Arial;
-    font-size: 14px;
-    min-height: 30px;
-    font-family: ${({ fontFamily }) => fontFamily};
-    font-size: ${({ fontSize }) => fontSize}px;
-    font-weight: ${({ fontWeight }) => fontWeight};
-    font-style: ${({ fontStyle }) => fontStyle};
-    color: ${({ color }) => color};
-    &:hover {
-        background-color: ${(props) => (props.enabled ? props.activeColour : props.inactiveColour)};
-        color: ${({ color }) => color};
-        border: 2px solid ${(props) => (props.enabled ? props.activeColour : props.inactiveColour)};
-        outline: ${(props) => (props.enabled ? props.activeColour : 'transparent')} solid 2px;
-    }
-    &:focus {
-        outline: ${(props) => (props.enabled ? props.activeColour : 'transparent')} solid 2px;
-    }
-`;
-
-const AgeRadioButtonGroup = (props) => {
-    return (
-        <div onChange={props.handleClick} className={props.className}>
-            <input
-                type="radio"
-                id="adjusted"
-                value="adjusted"
-                name="adjustments"
-                defaultChecked={props.correctedAge && props.chronologicalAge === false}
-            />
-            <label htmlFor="adjusted">Adjusted Age</label>
-            <input
-                type="radio"
-                id="unadjusted"
-                value="unadjusted"
-                name="adjustments"
-                defaultChecked={props.chronologicalAge && props.correctedAge === false}
-            />
-            <label htmlFor="unadjusted">Unadjusted Age</label>
-            <input
-                type="radio"
-                id="both"
-                value="both"
-                name="adjustments"
-                defaultChecked={props.correctedAge === props.chronologicalAge}
-            />
-            <label htmlFor="both">Both Ages</label>
-        </div>
-    );
-};
-
-const StyledRadioButtonGroup = styled(AgeRadioButtonGroup)<{
-    activeColour: string;
-    inactiveColour: string;
-    fontFamily: string;
-    fontSize: number;
-    fontWeight: string;
-    fontStyle: string;
-    color: string;
-    className: string;
-}>`
-    label {
-        display: inline-block;
-        padding: 5px 11px;
-        font-family: ${({ fontFamily }) => fontFamily};
-        font-size: ${({ fontSize }) => fontSize}px;
-        font-weight: ${({ fontWeight }) => fontWeight};
-        font-style: ${({ fontStyle }) => fontStyle};
-        color: ${({ color }) => color};
-        cursor: pointer;
-        background-color: ${(props) => props.inactiveColour};
-        min-height: 30px;
-    }
-    input[type='radio']:checked + label {
-        color: ${({ color }) => color};
-        background-color: ${(props) => props.activeColour};
-    }
-    input[type='radio'] {
-        display: none;
-    }
-`;
 
 export default CentileChart;

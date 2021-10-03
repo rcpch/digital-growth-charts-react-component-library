@@ -1,4 +1,5 @@
 import { Measurement } from '../interfaces/RCPCHMeasurementObject';
+import { ClientMeasurementObject } from '../interfaces/ClientMeasurementObject';
 import { MidParentalHeightObject } from '../interfaces/MidParentalHeightObject';
 import { AxisStyle, CentileStyle, ChartStyle, GridlineStyle, MeasurementStyle } from '../interfaces/StyleObjects';
 
@@ -16,4 +17,5 @@ export interface RCPCHChartProps {
     gridlineStyle?: GridlineStyle;
     centileStyle?: CentileStyle;
     measurementStyle?: MeasurementStyle;
+    chartType?: 'centile' | 'sds'
 }
