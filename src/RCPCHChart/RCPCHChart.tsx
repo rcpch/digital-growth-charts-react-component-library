@@ -62,6 +62,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
                     reference={reference}
                     title={title}
                     subtitle={subtitle}
+                    measurementMethod={measurementMethod}
                     childMeasurements={castArray}
                     midParentalHeightData={midParentalHeightData}
                     sex={sex}

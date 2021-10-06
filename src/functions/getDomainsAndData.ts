@@ -9,6 +9,7 @@ import { Domains } from '../interfaces/Domains';
 
 import { IPlottedCentileMeasurement } from '../interfaces/CentilesObject';
 import deepCopy from './deepCopy';
+import { ClientMeasurementObject } from '../interfaces/ClientMeasurementObject';
 
 type CentileLabelValues = {
     0.4: { value: number; workingX: number };

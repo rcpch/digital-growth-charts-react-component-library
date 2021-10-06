@@ -8,7 +8,9 @@ export const XPoint = (props) => {
     if (props.isBoneAge) {
         crossColour = "grey"
         crossSize += 2
-        console.log(props);
+    }
+    if (props.isSDS){
+        crossColour="lightgray"
     }
     return <Point 
         x={props.x}
