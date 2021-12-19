@@ -36,6 +36,7 @@ import { sdsTooltipText } from "../functions/sdsTooltipTex";
 // style sheets
 import "./SDSChart.scss";
 import { XPoint } from "../SubComponents/XPoint";
+import { isAccessor } from "typescript";
 
 const SDSChart: React.FC<SDSChartProps> = (
     { 
@@ -93,6 +94,22 @@ const SDSChart: React.FC<SDSChartProps> = (
     );
 
     const domains = userDomains || computedDomains;
+    
+
+    // set Y domains as the getDomainsAndData function returns only domains on measurement values, not SDS
+    let newLowerY = -2
+    let newUpperY = 2
+
+    if (childMeasurements[measurementMethod].length > 0){
+        const lowestYMeasurement = childMeasurements[measurementMethod].reduce(
+            (a,b) => a.plottable_data.sds_data.corrected_decimal_age_data.y < b.plottable_data.sds_data.corrected_decimal_age_data.y ? a : b
+        )
+        const highestYMeasurement = childMeasurements[measurementMethod].reduce(
+            (a,b) => a.plottable_data.sds_data.corrected_decimal_age_data.y > b.plottable_data.sds_data.corrected_decimal_age_data.y ? a : b
+        )
+        newLowerY = lowestYMeasurement.plottable_data.sds_data.corrected_decimal_age_data.y - 0.25 // add 0.25 SDS padding
+        newUpperY = highestYMeasurement.plottable_data.sds_data.corrected_decimal_age_data.y + 0.25 // add 0.25 SDS padding
+    }
 
     if (
         (
@@ -106,17 +123,18 @@ const SDSChart: React.FC<SDSChartProps> = (
         domains?.x[0] < 0.038329911019849415 && // 2 weeks postnatal
         domains?.x[1] >= -0.057494866529774126 // 37 weeks gest
     ) {
+
         termAreaData = [
             {
                 x: -0.057494866529774126,
-                y: domains.y[1],
-                y0: domains.y[0],
+                y: newUpperY,
+                y0: newLowerY,
                 l: shadedTermAreaText,
             },
             {
                 x: 0.038329911019849415,
-                y: domains.y[1],
-                y0: domains.y[0],
+                y: newUpperY,
+                y0: newLowerY,
                 l: shadedTermAreaText,
             },
         ];
@@ -200,8 +218,8 @@ const SDSChart: React.FC<SDSChartProps> = (
                 {
                     /* render the y axis */
                     <VictoryAxis
-                        minDomain={0}
-                        label={yAxisLabel(measurementMethod)}
+                        domain={{y:[newLowerY, newUpperY]}}
+                        label={yAxisLabel(measurementMethod, true)}
                         style={styles.yAxis}
                         dependentAxis
                     />
@@ -224,7 +242,7 @@ const SDSChart: React.FC<SDSChartProps> = (
                                 data={measurementTypeItem.measurementTypeData}
                                 x={(datum)=>datum.plottable_data.sds_data.chronological_decimal_age_data.x}
                                 y={(datum)=>datum.plottable_data.sds_data.chronological_decimal_age_data.y}
-                                interpolation="natural"
+                                // interpolation="natural"
                                 style={styles.continuousCentile}
                             /> 
                         }
@@ -234,7 +252,7 @@ const SDSChart: React.FC<SDSChartProps> = (
                                 data={measurementTypeItem.measurementTypeData}
                                 x={(datum)=>datum.plottable_data.sds_data.corrected_decimal_age_data.x}
                                 y={(datum)=>datum.plottable_data.sds_data.corrected_decimal_age_data.y}
-                                interpolation="natural"
+                                // interpolation="natural"
                                 style={styles.dashedCentile}
                             /> 
                         }

@@ -285,6 +285,7 @@ function childMeasurementRanges(
 // keep track of top and bottom values in visible area:
 
 function makeExtremeValues(native: boolean = false): ExtremeValues {
+
     return {
         lowestY: 500,
         highestY: -500,
@@ -463,7 +464,7 @@ function getDomainsAndData(
     measurementMethod: 'height' | 'weight' | 'bmi' | 'ofc',
     reference: 'uk-who' | 'trisomy-21' | 'turner',
     showCorrected: boolean,
-    showChronological: boolean,
+    showChronological: boolean
 ) {
     // variables initialised to chart for bigger child:
     let internalChartScaleType: 'prem' | 'infant' | 'smallChild' | 'biggerChild' = 'biggerChild';
@@ -641,14 +642,16 @@ function getDomainsAndData(
 
         const lowestDataY = extremeValues.lowestY;
         const highestDataY = extremeValues.highestY;
+        let prePaddingLowestY = lowestDataY;
+        let prePaddingHighestY = highestDataY;
 
         // decide if measurement or centile band highest and lowest y:
-        let prePaddingLowestY = lowestDataY;
+        // lowest y
         if (childMeasurements.length > 0 && lowestYFromMeasurements !== null) {
             prePaddingLowestY = lowestYFromMeasurements < lowestDataY ? lowestYFromMeasurements : lowestDataY;
         }
 
-        let prePaddingHighestY = highestDataY;
+        // highest y
         if (childMeasurements.length > 0 && highestYFromMeasurements !== null) {
             prePaddingHighestY = highestYFromMeasurements > highestDataY ? highestYFromMeasurements : highestDataY;
         }
@@ -657,6 +660,7 @@ function getDomainsAndData(
         const candidatefinalLowestY = prePaddingLowestY - (prePaddingHighestY - prePaddingLowestY) * 0.07;
         const finalLowestY = candidatefinalLowestY < 0 ? 0 : candidatefinalLowestY;
         const finalHighestY = prePaddingHighestY + (prePaddingHighestY - prePaddingLowestY) * 0.06;
+        
 
         internalDomains = {
             x: [lowestXForDomain, highestXForDomain],

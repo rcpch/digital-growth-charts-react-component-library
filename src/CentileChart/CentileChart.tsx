@@ -81,7 +81,7 @@ function CentileChart({
                 measurementMethod,
                 reference,
                 showCorrectedAge,
-                showChronologicalAge,
+                showChronologicalAge
             ),
         [childMeasurements, sex, measurementMethod, reference, showCorrectedAge, showChronologicalAge],
     );
@@ -325,7 +325,7 @@ function CentileChart({
                     /* render the y axis */
                     <VictoryAxis
                         minDomain={0}
-                        label={yAxisLabel(measurementMethod)}
+                        label={yAxisLabel(measurementMethod, false)}
                         style={styles.yAxis}
                         dependentAxis
                     />
