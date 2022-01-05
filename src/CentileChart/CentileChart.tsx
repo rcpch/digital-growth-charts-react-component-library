@@ -45,11 +45,6 @@ import { MainContainer } from '../SubComponents/MainContainer';
 import icon from '../images/icon.png';
 import { isCrowded } from '../functions/isCrowded';
 import { EventCaret } from '../SubComponents/EventCaret';
-import { MidParentalHeight } from '../SubComponents/MidParentalHeight';
-// import { ukwhoBMIMaleSDSData } from '../chartdata/uk_who_bmi_sds_male';
-// import { ukwhoBMIFemaleSDSData } from '../chartdata/uk_who_bmi_female_sds_data';
-// import { trisomy21BMIMaleSDSData } from '../chartdata/trisomy21_bmi_male_sds_data';
-// import { trisomy21BMIFemaleSDSData } from '../chartdata/trisomy21_bmi_female_sds_data';
 
 // allows two top level containers: zoom and voronoi
 const VictoryZoomVoronoiContainer = createContainer<VictoryZoomContainerProps, VictoryVoronoiContainerProps>(
@@ -77,7 +72,7 @@ function CentileChart({
     const [showChronologicalAge, setShowChronologicalAge] = useState(defaultShowChronological);
     const [showCorrectedAge, setShowCorrectedAge] = useState(defaultShowCorrected);
 
-    let { computedDomains, chartScaleType, centileData, bmiSDSData } = useMemo(
+    let { bmiSDSData, centileData, computedDomains, chartScaleType } = useMemo(
         () =>
             getDomainsAndData(
                 childMeasurements,

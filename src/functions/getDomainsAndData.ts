@@ -26,6 +26,7 @@ import { IPlottedCentileMeasurement, ReferenceGroup, UKWHOReferences, Reference 
 import deepCopy from './deepCopy';
 import { ClientMeasurementObject } from '../interfaces/ClientMeasurementObject';
 import { trisomy21HeightMaleCentileData } from '../chartdata/trisomy21_height_male_centile_data';
+import { trisomy21HeightFemaleCentileData } from '../chartdata/trisomy21_height_female_centile_data';
 import { trisomy21BMIFemaleCentileData } from '../chartdata/trisomy21_bmi_female_centile_data';
 import { trisomy21BMIMaleCentileData } from '../chartdata/trisomy21_bmi_male_centile_data';
 import { trisomy21WeightMaleCentileData } from '../chartdata/trisomy21_weight_male_centile_data';
@@ -487,9 +488,9 @@ function getRelevantDataSets(
         return returnArray;
     } else if (reference === 'trisomy-21') {
         let trisomy21Data: Reference[]
-        let trisomy21SDSData: Reference[]
+        // let trisomy21SDSData: Reference[]
         if (measurementMethod === 'height'){
-            trisomy21Data = sex==="male" ? trisomy21HeightMaleCentileData.centile_data : trisomy21BMIFemaleCentileData.centile_data;
+            trisomy21Data = sex==="male" ? trisomy21HeightMaleCentileData.centile_data : trisomy21HeightFemaleCentileData.centile_data;
         }
         if (measurementMethod === 'weight'){
             trisomy21Data = sex==="male" ? trisomy21WeightMaleCentileData.centile_data : trisomy21WeightFemaleCentileData.centile_data;
@@ -499,11 +500,10 @@ function getRelevantDataSets(
         }
         if (measurementMethod === 'bmi'){
             if (isSDS){
-                trisomy21Data = sex ==="male" ? trisomy21BMIMaleCentileData.centile_data : trisomy21BMIFemaleCentileData.centile_data;
+                trisomy21Data = sex ==="male" ? trisomy21BMIMaleSDSData.centile_data : trisomy21BMIFemaleSDSData.centile_data;
             } else {
-                trisomy21SDSData = sex==="male" ? ukwhoBMIMaleCentileData.centile_data : trisomy21OFCFemaleCentileData.centile_data;
+                trisomy21Data = sex==="male" ? trisomy21BMIMaleCentileData.centile_data : trisomy21BMIFemaleCentileData.centile_data;
             }
-            trisomy21Data = sex==="male" ? trisomy21BMIMaleCentileData.centile_data : trisomy21BMIFemaleCentileData.centile_data;
         }
         const blankSubSet = deepCopy(blankDataset[0]);
         return [trisomy21Data[0]['trisomy-21'][sex][measurementMethod], blankSubSet, blankSubSet, blankSubSet];
@@ -698,7 +698,7 @@ function getDomainsAndData(
             false
         );
 
-        if (measurementMethod==="bmi" && reference !== "turner"){
+        if (measurementMethod==="bmi" && reference !== "turner") {
             const relevantSDSDataSets = getRelevantDataSets(
                 sex,
                 'bmi',
@@ -706,7 +706,7 @@ function getDomainsAndData(
                 lowestXForDomain,
                 highestXForDomain,
                 true
-            )
+            );
             //get final sds data set for centile line render:
             for (let referenceSet of relevantSDSDataSets) {
                 const truncatedSDS = truncate(referenceSet, lowestXForDomain, highestXForDomain, extremeValues);
@@ -741,7 +741,6 @@ function getDomainsAndData(
         const candidatefinalLowestY = prePaddingLowestY - (prePaddingHighestY - prePaddingLowestY) * 0.07;
         const finalLowestY = candidatefinalLowestY < 0 ? 0 : candidatefinalLowestY;
         const finalHighestY = prePaddingHighestY + (prePaddingHighestY - prePaddingLowestY) * 0.06;
-        
 
         internalDomains = {
             x: [lowestXForDomain, highestXForDomain],
