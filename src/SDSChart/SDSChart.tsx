@@ -36,7 +36,6 @@ import { sdsTooltipText } from "../functions/sdsTooltipTex";
 // style sheets
 import "./SDSChart.scss";
 import { XPoint } from "../SubComponents/XPoint";
-import { isAccessor } from "typescript";
 
 const SDSChart: React.FC<SDSChartProps> = (
     { 
@@ -66,6 +65,7 @@ const SDSChart: React.FC<SDSChartProps> = (
     if (measurementMethod==="ofc"){
         measurements=childMeasurements.ofc;
     }
+    
 
     const { defaultShowCorrected, defaultShowChronological, showToggle } = defaultToggles(measurements);
 
@@ -138,6 +138,27 @@ const SDSChart: React.FC<SDSChartProps> = (
                 l: shadedTermAreaText,
             },
         ];
+    }
+
+    const colours = {
+        monochrome:{
+            height: "#D3D3D3",
+            weight: '#D3D3D3',
+            bmi: "#D3D3D3",
+            ofc: "#D3D3D3"
+        },
+        rcpch_boy_girl: {
+            height: "#3A4454",
+            weight: '#F5DDDD',
+            bmi: "#ffba49",
+            ofc: "#EECFD4"
+        },
+        rcpch_rebrand: {
+            height: "#DDFFD9",
+            weight: '#6C4B5E',
+            bmi: "#B3679B",
+            ofc: "#000501"
+        }
     }
 
     const onSelectRadioButton = (event: MouseEvent<HTMLButtonElement>) => {
@@ -267,10 +288,18 @@ const SDSChart: React.FC<SDSChartProps> = (
                             ...measurement.plottable_data.sds_data.corrected_decimal_age_data,
                         };
 
-                        const lightGrey = {
-                            data: {
-                                fill: "lightgray"
-                            }
+                        let chosenColour;
+                        if (measurement.child_observation_value.measurement_method==="height"){
+                            chosenColour=colours.rcpch_rebrand.height
+                        }
+                        if (measurement.child_observation_value.measurement_method==="weight"){
+                            chosenColour=colours.rcpch_rebrand.weight
+                        }
+                        if (measurement.child_observation_value.measurement_method==="bmi"){
+                            chosenColour=colours.rcpch_rebrand.bmi
+                        }
+                        if (measurement.child_observation_value.measurement_method==="ofc"){
+                            chosenColour=colours.rcpch_rebrand.ofc
                         }
                         
                         return (
@@ -281,7 +310,11 @@ const SDSChart: React.FC<SDSChartProps> = (
                                     <VictoryScatter
                                         data={[chronData]}
                                         symbol="circle"
-                                        style={lightGrey}
+                                        style={{
+                                            data: {
+                                                fill: chosenColour
+                                            }
+                                        }}
                                         name={"chronological-"+measurementTypeItem.measurementType}
                                     />
                                 }
@@ -294,7 +327,11 @@ const SDSChart: React.FC<SDSChartProps> = (
                                                 isSDS={true}
                                             />
                                         }
-                                        style={lightGrey}
+                                        style={{
+                                            data: {
+                                                fill: chosenColour
+                                            }
+                                        }}
                                         name={"chronological-"+measurementTypeItem.measurementType}
                                     />
                                 }
@@ -303,7 +340,7 @@ const SDSChart: React.FC<SDSChartProps> = (
                                         name="linkLine"
                                         style={{
                                             data: {
-                                                stroke: 'lightGrey'
+                                                stroke: chosenColour
                                             }
                                         }}
                                         data={[chronData, correctData]}

@@ -61,11 +61,15 @@ export function tooltipText(
                 return 'If a plot falls here, pubertal assessment will be required\nand mid-parental centile should be assessed.\nIf they are in puberty or completing puberty,\nthey are below the 0.4th centile and should be referred.\nIn most instances a prepubertal girl plotted in this area\nis growing normally, but comparison with the mid-parental\ncentile and growth trajectory will assist the assessment\nof whether further investigation is needed.';
             }
         }
-        if (!isNaN(Number(label))) {
+        
+        // BMI SDS labels
+        if (childName.includes("sdsLine")){
+            return `${label} SDS`  
+        }
+
+        if (childName.includes("centileLine")){
             // these are the centile labels
             return `${addOrdinalSuffix(label)} centile`;
-        } else {
-            return label;
         }
     }
     if (centile_band) {

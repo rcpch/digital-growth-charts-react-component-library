@@ -1,6 +1,6 @@
-// libraries
 import React, { useState, useLayoutEffect, useMemo, MouseEvent } from 'react';
 import {
+    // libraries
     createContainer,
     VictoryChart,
     VictoryGroup,
@@ -25,7 +25,7 @@ import { delayedPubertyThreshold, makePubertyThresholds, lowerPubertyBorder } fr
 
 // interfaces & props
 import { CentileChartProps } from './CentileChart.types';
-import { ICentile } from '../interfaces/CentilesObject';
+import { ICentile, Reference, ReferenceGroup } from '../interfaces/CentilesObject';
 import { Measurement } from '../interfaces/RCPCHMeasurementObject';
 import { Domains } from '../interfaces/Domains';
 
@@ -46,6 +46,10 @@ import icon from '../images/icon.png';
 import { isCrowded } from '../functions/isCrowded';
 import { EventCaret } from '../SubComponents/EventCaret';
 import { MidParentalHeight } from '../SubComponents/MidParentalHeight';
+// import { ukwhoBMIMaleSDSData } from '../chartdata/uk_who_bmi_sds_male';
+// import { ukwhoBMIFemaleSDSData } from '../chartdata/uk_who_bmi_female_sds_data';
+// import { trisomy21BMIMaleSDSData } from '../chartdata/trisomy21_bmi_male_sds_data';
+// import { trisomy21BMIFemaleSDSData } from '../chartdata/trisomy21_bmi_female_sds_data';
 
 // allows two top level containers: zoom and voronoi
 const VictoryZoomVoronoiContainer = createContainer<VictoryZoomContainerProps, VictoryVoronoiContainerProps>(
@@ -73,7 +77,7 @@ function CentileChart({
     const [showChronologicalAge, setShowChronologicalAge] = useState(defaultShowChronological);
     const [showCorrectedAge, setShowCorrectedAge] = useState(defaultShowCorrected);
 
-    let { computedDomains, chartScaleType, centileData } = useMemo(
+    let { computedDomains, chartScaleType, centileData, bmiSDSData } = useMemo(
         () =>
             getDomainsAndData(
                 childMeasurements,
@@ -364,12 +368,19 @@ function CentileChart({
                 {centileData &&
                     centileData.map((referenceData, index) => {
                         return (
-                            <VictoryGroup key={'centileDataBlock' + index}>
+                            <VictoryGroup 
+                                key={'centileDataBlock' + index}
+                                name='centileLineGroup'
+                            >
                                 {referenceData.map((centile: ICentile, centileIndex: number) => {
+                                    
+                                    // BMI charts also have SDS lines at -5, -4, -3, -2, 2, 3, 4, 5
+                                    
                                     if (centileIndex % 2 === 0) {
                                         // even index - centile is dashed
                                         return (
                                             <VictoryLine
+                                                name={'centileLine-'+ centileIndex}
                                                 key={centile.centile + '-' + centileIndex}
                                                 padding={{ top: 20, bottom: 20 }}
                                                 data={centile.data}
@@ -380,6 +391,7 @@ function CentileChart({
                                         // uneven index - centile is continuous
                                         return (
                                             <VictoryLine
+                                                name={'centileLine-'+ centileIndex}
                                                 key={centile.centile + '-' + centileIndex}
                                                 padding={{ top: 20, bottom: 20 }}
                                                 data={centile.data}
@@ -391,6 +403,41 @@ function CentileChart({
                             </VictoryGroup>
                         );
                     })
+                }
+
+                {
+                    /* BMI SDS lines */
+                    measurementMethod === "bmi" && bmiSDSData &&
+                        bmiSDSData.map((sdsReferenceData, index) => {
+                            return (
+                                <VictoryGroup 
+                                    key={'sdsDataBlock' + index}
+                                    name='sdsLineGroup'
+                                >
+                                    {sdsReferenceData.map((sdsLine, sdsIndex: number) => {
+                                        
+                                        // BMI charts have SDS lines at -5, -4, -3, 3, 3.33, 3.67, 4
+                                        
+                                            // sds line is dashed
+                                            return (
+                                                <VictoryLine
+                                                    name={'sdsLine-'+ sdsIndex}
+                                                    key={sdsLine.sds + '-' + sdsIndex}
+                                                    padding={{ top: 20, bottom: 20 }}
+                                                    data={sdsLine.data}
+                                                    style={{
+                                                        data: {
+                                                            strokeDasharray: '5 5',
+                                                            stroke: "#A9A9A9"
+                                                        }
+                                                    }}
+                                                />
+                                            );
+                                        
+                                    })}
+                                </VictoryGroup>
+                            )
+                        })
                 }
 
 

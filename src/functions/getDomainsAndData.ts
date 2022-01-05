@@ -1,15 +1,38 @@
-import ukwhoData from '../chartdata/uk_who_chart_data';
-import turnerData from '../chartdata/turners_chart_data';
-import trisomy21Data from '../chartdata/trisomy21Data';
+// import ukwhoData from '../chartdata/uk_who_chart_data';
+// import turnerData from '../chartdata/turners_chart_data';
+// import trisomy21Data from '../chartdata/trisomy21Data';
+
+import { ukwhoHeightMaleCentileData } from '../chartdata/uk_who_height_male_centile_data';
+import { ukwhoHeightFemaleCentileData } from '../chartdata/uk_who_height_female_centile_data';
+import { ukwhoWeightMaleCentileData } from '../chartdata/uk_who_weight_male_centile_data';
+import { ukwhoWeightFemaleCentileData } from '../chartdata/uk_who_weight_female_centile_data';
+import { ukwhoOFCMaleCentileData } from '../chartdata/uk_who_ofc_male_centile_data';
+import { ukwhoOFCFemaleCentileData } from '../chartdata/uk_who_ofc_female_centile_data';
+import { ukwhoBMIMaleCentileData } from '../chartdata/uk_who_bmi_male_centile_data';
+import { ukwhoBMIFemaleCentileData } from '../chartdata/uk_who_bmi_female_centile_data';
+
+import { ukwhoBMIMaleSDSData } from '../chartdata/uk_who_bmi_sds_male';
+import { ukwhoBMIFemaleSDSData } from '../chartdata/uk_who_bmi_female_sds_data';
+import { trisomy21BMIMaleSDSData } from '../chartdata/trisomy21_bmi_male_sds_data';
+import { trisomy21BMIFemaleSDSData } from '../chartdata/trisomy21_bmi_female_sds_data';
+
 
 import totalMinPadding from './totalMinPadding';
 import { getTickValuesForChartScaling } from './tailoredXTickValues';
 import { Measurement } from '../interfaces/RCPCHMeasurementObject';
 import { Domains } from '../interfaces/Domains';
 
-import { IPlottedCentileMeasurement } from '../interfaces/CentilesObject';
+import { IPlottedCentileMeasurement, ReferenceGroup, UKWHOReferences, Reference } from '../interfaces/CentilesObject';
 import deepCopy from './deepCopy';
 import { ClientMeasurementObject } from '../interfaces/ClientMeasurementObject';
+import { trisomy21HeightMaleCentileData } from '../chartdata/trisomy21_height_male_centile_data';
+import { trisomy21BMIFemaleCentileData } from '../chartdata/trisomy21_bmi_female_centile_data';
+import { trisomy21BMIMaleCentileData } from '../chartdata/trisomy21_bmi_male_centile_data';
+import { trisomy21WeightMaleCentileData } from '../chartdata/trisomy21_weight_male_centile_data';
+import { trisomy21WeightFemaleCentileData } from '../chartdata/trisomy21_weight_female_centile_data';
+import { trisomy21OFCMaleCentileData } from '../chartdata/trisomy21_ofc_male_centile_data';
+import { trisomy21OFCFemaleCentileData } from '../chartdata/trisomy21_ofc_female_centile_data';
+import { turnerHeightFemaleCentileData } from '../chartdata/turner_height_female_centile_data';
 
 type CentileLabelValues = {
     0.4: { value: number; workingX: number };
@@ -408,8 +431,27 @@ function getRelevantDataSets(
     reference: 'uk-who' | 'trisomy-21' | 'turner',
     lowestChildX: number,
     highestChildX: number,
+    isSDS: boolean
 ) {
     if (reference === 'uk-who') {
+        let ukwhoData: Reference[]
+        if (measurementMethod === 'height'){
+            ukwhoData = sex==="male" ? ukwhoHeightMaleCentileData.centile_data : ukwhoHeightFemaleCentileData.centile_data;
+        }
+        if (measurementMethod === 'weight'){
+            ukwhoData = sex==="male" ? ukwhoWeightMaleCentileData.centile_data : ukwhoWeightFemaleCentileData.centile_data;
+        }
+        if (measurementMethod === 'ofc'){
+            ukwhoData = sex==="male" ? ukwhoOFCMaleCentileData.centile_data : ukwhoOFCFemaleCentileData.centile_data;
+        }
+        if (measurementMethod === 'bmi'){
+            if (isSDS){
+                ukwhoData = sex ==="male" ? ukwhoBMIMaleSDSData.centile_data : ukwhoBMIFemaleSDSData.centile_data;
+            } else {
+                ukwhoData = sex==="male" ? ukwhoBMIMaleCentileData.centile_data : ukwhoBMIFemaleCentileData.centile_data;
+            }
+        }
+
         const dataSetRanges = [
             [-0.33, 0.0383],
             [0.0383, 2],
@@ -433,10 +475,10 @@ function getRelevantDataSets(
             }
         }
         const allData: any = [
-            measurementMethod !== 'bmi' ? ukwhoData.uk90_preterm[sex][measurementMethod] : deepCopy(blankDataset[0]),
-            ukwhoData.uk_who_infant[sex][measurementMethod],
-            ukwhoData.uk_who_child[sex][measurementMethod],
-            ukwhoData.uk90_child[sex][measurementMethod],
+            measurementMethod !== 'bmi' ? ukwhoData[0].uk90_preterm[sex][measurementMethod] : deepCopy(blankDataset[0]),
+            ukwhoData[1].uk_who_infant[sex][measurementMethod],
+            ukwhoData[2].uk_who_child[sex][measurementMethod],
+            ukwhoData[3].uk90_child[sex][measurementMethod],
         ];
         let returnArray = deepCopy(blankDataset);
         for (let i = startingGroup; i <= endingGroup; i++) {
@@ -444,14 +486,34 @@ function getRelevantDataSets(
         }
         return returnArray;
     } else if (reference === 'trisomy-21') {
+        let trisomy21Data: Reference[]
+        let trisomy21SDSData: Reference[]
+        if (measurementMethod === 'height'){
+            trisomy21Data = sex==="male" ? trisomy21HeightMaleCentileData.centile_data : trisomy21BMIFemaleCentileData.centile_data;
+        }
+        if (measurementMethod === 'weight'){
+            trisomy21Data = sex==="male" ? trisomy21WeightMaleCentileData.centile_data : trisomy21WeightFemaleCentileData.centile_data;
+        }
+        if (measurementMethod === 'ofc'){
+            trisomy21Data = sex==="male" ? trisomy21OFCMaleCentileData.centile_data : trisomy21OFCFemaleCentileData.centile_data;
+        }
+        if (measurementMethod === 'bmi'){
+            if (isSDS){
+                trisomy21Data = sex ==="male" ? trisomy21BMIMaleCentileData.centile_data : trisomy21BMIFemaleCentileData.centile_data;
+            } else {
+                trisomy21SDSData = sex==="male" ? ukwhoBMIMaleCentileData.centile_data : trisomy21OFCFemaleCentileData.centile_data;
+            }
+            trisomy21Data = sex==="male" ? trisomy21BMIMaleCentileData.centile_data : trisomy21BMIFemaleCentileData.centile_data;
+        }
         const blankSubSet = deepCopy(blankDataset[0]);
-        return [trisomy21Data.trisomy21[sex][measurementMethod], blankSubSet, blankSubSet, blankSubSet];
+        return [trisomy21Data[0]['trisomy-21'][sex][measurementMethod], blankSubSet, blankSubSet, blankSubSet];
     } else if (reference === 'turner') {
+        const turnerData: Reference[] = turnerHeightFemaleCentileData.centile_data
         const blankSubSet = deepCopy(blankDataset[0]);
         if (sex !== 'female' && measurementMethod !== 'height') {
             throw new Error('No centile lines have rendered, as only height data is supported for turner reference.');
         }
-        return [turnerData.turner.female.height, blankSubSet, blankSubSet, blankSubSet];
+        return [turnerData[0]['turners-syndrome'].female.height, blankSubSet, blankSubSet, blankSubSet];
     } else {
         throw new Error('No valid reference given to getRelevantDataSets');
     }
@@ -469,6 +531,7 @@ function getDomainsAndData(
     // variables initialised to chart for bigger child:
     let internalChartScaleType: 'prem' | 'infant' | 'smallChild' | 'biggerChild' = 'biggerChild';
     let finalCentileData: any[] = [];
+    let finalSDSData: any[] = [];
     let internalDomains: Domains;
 
     if (childMeasurements.length > 0) {
@@ -626,16 +689,34 @@ function getDomainsAndData(
         const extremeValues = makeExtremeValues();
 
         //removes irrelevant datasets before filtering to visible data:
-        const relevantDataSets = getRelevantDataSets(
+        const relevantCentileDataSets = getRelevantDataSets(
             sex,
             measurementMethod,
             reference,
             lowestXForDomain,
             highestXForDomain,
+            false
         );
 
+        if (measurementMethod==="bmi" && reference !== "turner"){
+            const relevantSDSDataSets = getRelevantDataSets(
+                sex,
+                'bmi',
+                reference,
+                lowestXForDomain,
+                highestXForDomain,
+                true
+            )
+            //get final sds data set for centile line render:
+            for (let referenceSet of relevantSDSDataSets) {
+                const truncatedSDS = truncate(referenceSet, lowestXForDomain, highestXForDomain, extremeValues);
+                finalSDSData.push(truncatedSDS);
+            }
+        }
+
+
         //get final centile data set for centile line render:
-        for (let referenceSet of relevantDataSets) {
+        for (let referenceSet of relevantCentileDataSets) {
             const truncated = truncate(referenceSet, lowestXForDomain, highestXForDomain, extremeValues);
             finalCentileData.push(truncated);
         }
@@ -674,10 +755,20 @@ function getDomainsAndData(
             reference,
             internalDomains.x[0],
             internalDomains.x[1],
+            false
+        );
+        finalSDSData = getRelevantDataSets(
+            sex,
+            measurementMethod,
+            reference,
+            internalDomains.x[0],
+            internalDomains.x[1],
+            true
         );
     }
 
     return {
+        bmiSDSData: finalSDSData,
         centileData: finalCentileData,
         computedDomains: internalDomains,
         chartScaleType: internalChartScaleType,
@@ -708,18 +799,24 @@ function getVisibleData(
             chartScaleType = 'smallChild';
             break;
     }
-    const relevantDataSets = getRelevantDataSets(sex, measurementMethod, reference, lowestX, highestX);
+    const relevantCentileDataSets = getRelevantDataSets(sex, measurementMethod, reference, lowestX, highestX, false);
+    const relevantSDSDataSets = getRelevantDataSets(sex, measurementMethod, reference, lowestX, highestX, true);
     let centileData = [];
-    for (let referenceSet of relevantDataSets) {
+    let sdsData = [];
+    for (let referenceSet of relevantCentileDataSets) {
         const truncated = truncate(referenceSet, lowestX, highestX);
         centileData.push(truncated);
     }
-    return { chartScaleType, centileData };
+    for (let referenceSet of relevantSDSDataSets) {
+        const truncated = truncate(referenceSet, lowestX, highestX);
+        sdsData.push(truncated);
+    }
+    return { chartScaleType, centileData, sdsData };
 }
 
 export const delayedPubertyData = {
-    male: ukwhoData.uk90_child.male.height[0].data,
-    female: ukwhoData.uk90_child.female.height[0].data,
+    male: ukwhoHeightMaleCentileData.centile_data[3].uk90_child.male.height[0].data, //ukwhoData.uk90_child.male.height[0].data,
+    female: ukwhoHeightFemaleCentileData.centile_data[3].uk90_child.female.height[0].data //ukwhoData.uk90_child.female.height[0].data,
 };
 
 export { getVisibleData, getDomainsAndData };

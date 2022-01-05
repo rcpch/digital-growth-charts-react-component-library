@@ -1,11 +1,20 @@
-// export interface UKWHOReferences {
-//     uk90_preterm:  ISexChoice
-//     uk_who_infant:  ISexChoice
-//     uk_who_child:  ISexChoice
-//     uk90_child:  ISexChoice
-// }
+export interface UKWHOReferences {
+    "uk90_preterm"?:  ISexChoice
+    "uk_who_infant"?:  ISexChoice
+    "uk_who_child"?:  ISexChoice
+    "uk90_child"?:  ISexChoice
+}
+export interface ReferenceGroup {
+    centile_data: Reference[]
+}
 export interface Reference {
-    [key: string]: ISexChoice
+    [name: string]: ISexChoice
+    // uk90_preterm?:  ISexChoice
+    // uk_who_infant?:  ISexChoice
+    // uk_who_child?:  ISexChoice
+    // uk90_child?:  ISexChoice
+    // "trisomy-21"?: ISexChoice
+    // "turners-syndrome"?: ISexChoice
 }
 
 export interface ICentile {
@@ -15,9 +24,9 @@ export interface ICentile {
 }
 
 export interface IPlottedCentileMeasurement {
-    l: number,
-    x: number,
-    y: number
+    "l": string | number,
+    "x": number,
+    "y": number
 }
 
 export interface ISexChoice {
@@ -26,8 +35,8 @@ export interface ISexChoice {
 }
 
 export interface IMeasurementMethod{
-    height: ICentile[],
-    weight: ICentile[],
-    bmi: ICentile[],
-    ofc: ICentile[],
+    height?: ICentile[],
+    weight?: ICentile[],
+    bmi?: ICentile[],
+    ofc?: ICentile[],
 }
