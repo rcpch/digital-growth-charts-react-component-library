@@ -22,6 +22,8 @@ export interface MeasurementStyle {
     ofcSDSFill?: string;
 }
 export interface CentileStyle {
+    sdsStroke?: string;
+    sdsStrokeWidth?: string;
     centileStroke?: string;
     centileStrokeWidth?: number;
     delayedPubertyAreaFill?: string;

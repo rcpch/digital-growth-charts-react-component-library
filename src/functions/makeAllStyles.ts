@@ -149,6 +149,14 @@ function makeAllStyles(
             fontFamily: axisStyle?.axisLabelTextStyle?.name ?? 'Arial',
             textAlign: 'start',
         },
+        sdsLine: {
+            data: {
+                stroke: centileStyle.sdsStroke ?? '#A9A9A9',
+                strokeWidth: centileStyle?.sdsStrokeWidth ?? 1.5,
+                strokeLinecap: 'round',
+                strokeDasharray: '5 5',
+            }
+        },
         dashedCentile: {
             data: {
                 stroke: centileStyle?.centileStroke ?? black,

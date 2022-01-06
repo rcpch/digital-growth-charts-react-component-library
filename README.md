@@ -11,6 +11,14 @@
 
 # RCPCH Growth Chart React Component Library
 
+## Supported Features
+
+* Corrected/Chronological age with toggle
+* Zoom with zoom reset (optional prop)
+* Event logging - events associated with measurements
+* Bone ages
+* Midparental heights with midparental centile lines (at +2 and -2 SDS)
+
 ## Background
 
 The Royal College of Paediatrics and Child Health were commissioned in early 2020 to build the growth charts for the electronic Red Book, until now a book given to all new parents in the UK to guide them on how to monitor growth, development and to document any interactions or procedures (for example, immunisations). The RCPCH could at that point have commissioned an app to do just this, but instead took the imaginative step of building the charts as an API. The maths behind the charts is complex and by building an API, developers can now focus on rendering charts, rather than engaging with the maths behind them.
@@ -71,22 +79,23 @@ If the invalid hooks error persists inspite of this, a further fix involves dele
 
 ## Structure
 
-This library has been written in Typescript. The main component is `RCPCHChart`, which takes the following `props`:
+This library has been written in Typescript. The main component is `RCPCHChart`, which takes the following `props`. Note each component will only render a single chart.:
 
 ```js
-interface ChartProps {
-    title: string;
-    subtitle: string;
-    measurementMethod: 'height' | 'weight' | 'ofc' | 'bmi';
-    sex: 'male' | 'female';
-    measurementsArray: [Measurement];
-    reference: 'uk-who' | 'turner' | 'trisomy-21';
-    enableZoom: boolean;
-    chartStyle: ChartStyle;
-    axisStyle: AxisStyle;
-    gridlineStyle: GridlineStyle;
-    centileStyle: CentileStyle;
-    measurementStyle: MeasurementStyle;
+{
+  title: string,
+  subtitle: string,
+  measurementMethod: 'height' | 'weight' | 'ofc' | 'bmi',
+  sex: 'male' | 'female',
+  measurementsArray: [Measurement],
+  reference: 'uk-who' | 'turner' | 'trisomy-21',
+  width: number,
+  height: number,
+  chartStyle: ChartStyle,
+  axisStyle: AxisStyle,
+  gridlineStyle: GridlineStyle,
+  centileStyle: CentileStyle,
+  measurementStyle: MeasurementStyle
 }
 ```
 
@@ -95,169 +104,194 @@ The `Measurement` interface is structured to reflect the JSON `Measurement` obje
 The `Measurement` interface structure is:
 
 ```js
-interface Measurement {
+export interface Measurement {
     birth_data: {
-        birth_date: string,
-        estimated_date_delivery: string,
-        estimated_date_delivery_string: string,
-        gestation_weeks: number,
-        gestation_days: number,
-        sex: 'male' | 'female',
+        birth_date: string;
+        estimated_date_delivery: string;
+        estimated_date_delivery_string: string;
+        gestation_weeks: number;
+        gestation_days: number;
+        sex: 'male' | 'female';
     };
     child_observation_value: {
-        measurement_method: 'height' | 'weight' | 'bmi' | 'ofc',
-        observation_value: number,
-        observation_value_error: string,
+        measurement_method: 'height' | 'weight' | 'bmi' | 'ofc';
+        observation_value: number;
+        observation_value_error?: string;
     };
     measurement_dates: {
-        chronological_calendar_age: string,
-        chronological_decimal_age: number,
-        clinician_decimal_age_comment: string,
-        corrected_calendar_age: string,
-        corrected_decimal_age: number,
-        corrected_gestational_age: {
-            corrected_gestation_weeks: number,
-            corrected_gestation_days: number,
-        },
-        lay_decimal_age_comment: string,
-        observation_date: string,
+        chronological_calendar_age: string;
+        chronological_decimal_age: number;
+        clinician_decimal_age_comment: string;
+        corrected_calendar_age: string;
+        corrected_decimal_age: number;
+        corrected_gestational_age?: {
+            corrected_gestation_weeks?: number;
+            corrected_gestation_days?: number;
+        };
+        lay_decimal_age_comment: string;
+        observation_date: Date;
     };
     measurement_calculated_values: {
-        chronological_centile: number,
-        chronological_centile_band: string,
-        chronological_measurement_error: string,
-        chronological_sds: number,
-        corrected_centile: number,
-        corrected_centile_band: string,
-        corrected_measurement_error: string,
-        corrected_sds: number,
-        measurement_method: 'height' | 'weight' | 'bmi' | 'ofc',
+        chronological_centile: number;
+        chronological_centile_band: string;
+        chronological_measurement_error?: string;
+        chronological_sds: number;
+        corrected_centile: number;
+        corrected_centile_band: string;
+        corrected_measurement_error?: string;
+        corrected_sds: number;
+        measurement_method: 'height' | 'weight' | 'bmi' | 'ofc';
     };
     plottable_data: {
         centile_data: {
             chronological_decimal_age_data: {
-                age_error: null,
-                age_type: 'chronological_age' | 'corrected_age',
-                calendar_age: string,
-                centile_band: string,
-                clinician_comment: string,
-                lay_comment: string,
-                observation_error: null,
-                observation_value_error: null,
-                x: number,
-                y: number,
-            },
+                age_error?: string;
+                age_type: 'chronological_age' | 'corrected_age';
+                calendar_age: string;
+                centile_band: string;
+                clinician_comment: string;
+                lay_comment: string;
+                observation_error?: string;
+                observation_value_error?: string;
+                x: number;
+                y: number;
+                b: number;
+                bone_age_label?: string;
+                events_text?: string[];
+            };
             corrected_decimal_age_data: {
-                age_error: null,
-                age_type: 'chronological_age' | 'corrected_age',
-                calendar_age: string,
-                centile_band: string,
-                clinician_comment: string,
-                lay_comment: string,
-                observation_error: null,
-                observation_value_error: null,
-                x: number,
-                y: number,
-            },
-        },
+                age_error: null;
+                age_type: 'chronological_age' | 'corrected_age';
+                calendar_age: string;
+                centile_band: string;
+                clinician_comment: string;
+                lay_comment: string;
+                observation_error?: string;
+                observation_value_error?: string;
+                x: number;
+                y: number;
+                b: number;
+                bone_age_label?: string;
+                events_text?: string[];
+            };
+        };
         sds_data: {
             chronological_decimal_age_data: {
-                age_error: null,
-                age_type: 'chronological_age' | 'corrected_age',
-                calendar_age: string,
-                centile_band: string,
-                clinician_comment: string,
-                lay_comment: string,
-                observation_error: null,
-                observation_value_error: null,
-                x: number,
-                y: number,
-            },
+                age_error?: string;
+                age_type: 'chronological_age' | 'corrected_age';
+                calendar_age: string;
+                centile_band: string;
+                clinician_comment: string;
+                lay_comment: string;
+                observation_error?: string;
+                observation_value_error?: string;
+                x: number;
+                y: number;
+                b: number;
+                bone_age_label?: string;
+                events_text?: string[];
+            };
             corrected_decimal_age_data: {
-                age_error: null,
-                age_type: 'chronological_age' | 'corrected_age',
-                calendar_age: string,
-                centile_band: string,
-                clinician_comment: string,
-                lay_comment: string,
-                observation_error: null,
-                observation_value_error: null,
-                x: number,
-                y: number,
-            },
-        },
+                age_error?: string;
+                age_type: 'chronological_age' | 'corrected_age';
+                calendar_age: string;
+                centile_band: string;
+                clinician_comment: string;
+                lay_comment: string;
+                observation_error?: string;
+                observation_value_error?: string;
+                x: number;
+                y: number;
+                b: number;
+                bone_age_label?: string;
+                events_text?: string[];
+            };
+        };
     };
+    bone_age: {
+        bone_age?: number;
+        bone_age_type?: number;
+        bone_age_centile?: number;
+        bone_age_sds?: number;
+        bone_age_text?: string;
+    };
+    events_data: {
+        events_text?: string[];
+    };
+}
+  ```
+
+The styling components allow the user to customise elements of the chart:
+Chart styles control the chart and the tooltips
+
+```js
+interface ChartStyle{
+    backgroundColour?: string, 
+    width?: number, 
+    height?: number,
+    padding?: requires {left?: number, right?: number, top?: number, bottom?: number},
+    titleStyle?: requires {name?: string, colour?: string, size?: number, weight?: 'bold' | 'italic' | 'regular'}
+    subTitleStyle?: requires {name?: string, colour?: string, size?: number, weight?: 'bold' | 'italic' | 'regular'},,
+    tooltipBackgroundColour?: string,
+    tooltipStroke?: string,
+    tooltipTextStyle?: requires {name?: string, colour?: string, size?: number, weight?: 'bold' | 'italic' | 'regular'}
+    termFill?: string,
+    termStroke?: string,
+    infoBoxFill?: string,
+    infoBoxStroke?: string
+    infoBoxTextStyle?: requires {name?: string, colour?: string, size?: number, weight?: 'bold' | 'italic' | 'regular'}
+    toggleButtonInactiveColour: string // relates to the toggle buttons present if age correction is necessary
+    toggleButtonActiveColour: string
+    toggleButtonTextColour: string
 }
 ```
 
-The styling props allow the user to customise elements of the chart:
-Chart styles control the chart and the tooltips. All style props are optional.
+Note for the tooltips and infobox text sizes, these are strokeWidths, not point sizes as the text here is svg.
+
+Axis styles control axes and axis labels
 
 ```js
-interface ChartStyle {
-    backgroundColour?: string;
-    width?: number;
-    height?: number;
-    padding?: requires { left?: number; right?: number; top?: number; bottom?: number:};
-    titleStyle?: requires {name?: string; colour?: string; size?: number; weight?: 'bold' | 'italic' | 'normal':};
-    subTitleStyle?: requires {name?: string; colour?: string; size?: number; weight?: 'bold' | 'italic' | 'normal':};
-    tooltipBackgroundColour?: string;
-    tooltipStroke?: string;
-    tooltipTextStyle?: requires {name?: string; colour?: string; size?: number; weight?: 'bold' | 'italic' | 'normal':}; // the text size is not in pts, but is a strokeWidth as text is an svg
-    termFill?: string;
-    termStroke?: string;
-    toggleButtonInactiveColour: string;
-    toggleButtonActiveColour: string;
-    toggleButtonTextStyle: requires {name?: string; colour?: string; size?: number; weight?: 'bold' | 'italic' | 'normal':};
-};
-```
-
-Note for the tooltips text sizes, these are strokeWidths, not point sizes as the text here is svg.
-
-Axis styles control axes and axis labels:
-
-```js
-interface AxisStyle {
-    axisStroke?: string,
-    axisLabelTextStyle?: requires {name?: string, colour?: string, size?: number, weight?: 'bold' | 'italic' | 'normal';};
-    tickLabelTextStyle?: requires {name?: string, colour?: string, size?: number, weight?: 'bold' | 'italic' | 'normal';};
-};
+interface AxisStyle{
+    axisStroke?: string, 
+    axisLabelTextStyle?: requires {name?: string, colour?: string, size?: number, weight?: 'bold' | 'italic' | 'regular'}
+    tickLabelTextStyle?: requires {name?: string, colour?: string, size?: number, weight?: 'bold' | 'italic' | 'regular'}
+}
 ```
 
 Gridline styles allow/hide gridlines and control line width, presence of dashes, colour.
 
 ```js
-interface GridlineStyle {
-    gridlines?: boolean;
-    stroke?: string;
-    strokeWidth?: number;
-    dashed?: boolean;
+interface GridlineStyle{
+   gridlines?: boolean, 
+    stroke?: string, 
+    strokeWidth?: number, 
+    dashed?: boolean
 }
 ```
 
-Centile styles control the width and colour.
+Centile styles control the width and colour of the centile and SDS lines.
 
 ```js
-interface CentileStyle {
-    centileStroke?: string;
-    centileStrokeWidth?: number;
-    delayedPubertyAreaFill?: string;
+interface CentileStyle{
+    sdsStroke?: string,
+    sdsStrokeWidth?: string,
+    centileStroke?: string, 
+    centileStrokeWidth?: number, 
+    delayedPubertyAreaFill?: string,
     midParentalCentileStroke?: number;
     midParentalCentileStrokeWidth?: number;
     midParentalAreaFill?: string;
 }
 ```
 
-Measurement styles control the plotted data points - colour, size and shape. Corrected ages are always rendered as crosses and circles for chronological ages.
+Measurement styles control the plotted data points - colour, size and shape. Corrected ages are always rendered as crosses. Circles for chronological ages are preferred.
 
 ```js
-interface MeasurementStyle {
-    measurementFill?: string;
-    measurementSize?: number; // this is an svg size
+interface MeasurementStyle{
+    measurementFill?: string, 
+    measurementSize?: number // this is an svg size
 }
 ```
-
-At the moment, only standard centile measurement plots are supported, but in future it is expected SDS charts will be added for all references.
 
 In time more props can be added if users request them. If you have requests, please post issues on our [github](https://github.com/rcpch/digital-growth-charts-react-component-library/issues) or contribute.
 
@@ -277,10 +311,10 @@ We're a friendly bunch and we're happy to chat. You can get in touch with the pr
 
 ### How to contribute
 
-- Fork the repository to your own GitHub account
-- Set up your development environment (ideally using our instructions here for maximum compatibility with our own development environments)
-- Note that running the chart package and react client locally will cause a conflict within react if multiple versions are running. A fix for this can be found in the [react client readme.MD](https://github.com/rcpch/digital-growth-charts-react-client)
-- Ideally, you should have discussed with our team what you are proposing to change, because we can only accept pull requests where there is an accepted need for that new feature or fix.
-- We can discuss with you how we would recommend to implement the new feature, for maximum potential 'mergeability' of your PR.
-- Once the work is ready to show us, create a pull request on our repo, detailing what the change is and details about the fix or feature. PRs that affect any 'mission critical' part of the code will need suitable tests which we can run.
-- We will endeavour to review and merge in a reasonable time frame, but will usually not merge straight into master, rather we will merge into an upcoming release branch.
+* Fork the repository to your own GitHub account
+* Set up your development environment (ideally using our instructions here for maximum compatibility with our own development environments)
+* Note that running the chart package and react client locally will cause a conflict within react if multiple versions are running. A fix for this can be found in the [react client readme.MD](https://github.com/rcpch/digital-growth-charts-react-client)
+* Ideally, you should have discussed with our team what you are proposing to change, because we can only accept pull requests where there is an accepted need for that new feature or fix.
+* We can discuss with you how we would recommend to implement the new feature, for maximum potential 'mergeability' of your PR.
+* Once the work is ready to show us, create a pull request on our repo, detailing what the change is and details about the fix or feature. PRs that affect any 'mission critical' part of the code will need suitable tests which we can run.
+* We will endeavour to review and merge in a reasonable time frame, but will usually not merge straight into master, rather we will merge into an upcoming release branch.

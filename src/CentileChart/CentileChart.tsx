@@ -420,12 +420,7 @@ function CentileChart({
                                                     key={sdsLine.sds + '-' + sdsIndex}
                                                     padding={{ top: 20, bottom: 20 }}
                                                     data={sdsLine.data}
-                                                    style={{
-                                                        data: {
-                                                            strokeDasharray: '5 5',
-                                                            stroke: "#A9A9A9"
-                                                        }
-                                                    }}
+                                                    style={styles.sdsLine}
                                                 />
                                             );
                                         
