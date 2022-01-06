@@ -140,27 +140,6 @@ const SDSChart: React.FC<SDSChartProps> = (
         ];
     }
 
-    const colours = {
-        monochrome:{
-            height: "#D3D3D3",
-            weight: '#D3D3D3',
-            bmi: "#D3D3D3",
-            ofc: "#D3D3D3"
-        },
-        rcpch_boy_girl: {
-            height: "#3A4454",
-            weight: '#F5DDDD',
-            bmi: "#ffba49",
-            ofc: "#EECFD4"
-        },
-        rcpch_rebrand: {
-            height: "#DDFFD9",
-            weight: '#6C4B5E',
-            bmi: "#B3679B",
-            ofc: "#000501"
-        }
-    }
-
     const onSelectRadioButton = (event: MouseEvent<HTMLButtonElement>) => {
         switch ((event.target as HTMLInputElement).value) {
             case 'unadjusted':
@@ -253,7 +232,7 @@ const SDSChart: React.FC<SDSChartProps> = (
 
             { childMeasurementsByType.map((measurementTypeItem, itemIndex) =>
             
-                {   return measurementTypeItem.measurementType===measurementMethod ?
+                {  return measurementTypeItem.measurementType===measurementMethod ?
                     <VictoryGroup
                         key={measurementTypeItem.measurementType+"-"+itemIndex}
                     >
