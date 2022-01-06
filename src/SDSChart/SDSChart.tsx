@@ -290,16 +290,16 @@ const SDSChart: React.FC<SDSChartProps> = (
 
                         let chosenColour;
                         if (measurement.child_observation_value.measurement_method==="height"){
-                            chosenColour=colours.rcpch_rebrand.height
+                            chosenColour=styles.heightSDSPoint
                         }
                         if (measurement.child_observation_value.measurement_method==="weight"){
-                            chosenColour=colours.rcpch_rebrand.weight
+                            chosenColour=styles.weightSDSPoint
                         }
                         if (measurement.child_observation_value.measurement_method==="bmi"){
-                            chosenColour=colours.rcpch_rebrand.bmi
+                            chosenColour=styles.bmiSDSPoint
                         }
                         if (measurement.child_observation_value.measurement_method==="ofc"){
-                            chosenColour=colours.rcpch_rebrand.ofc
+                            chosenColour=styles.ofcSDSPoint
                         }
                         
                         return (
@@ -310,11 +310,7 @@ const SDSChart: React.FC<SDSChartProps> = (
                                     <VictoryScatter
                                         data={[chronData]}
                                         symbol="circle"
-                                        style={{
-                                            data: {
-                                                fill: chosenColour
-                                            }
-                                        }}
+                                        style={chosenColour}
                                         name={"chronological-"+measurementTypeItem.measurementType}
                                     />
                                 }
@@ -327,22 +323,14 @@ const SDSChart: React.FC<SDSChartProps> = (
                                                 isSDS={true}
                                             />
                                         }
-                                        style={{
-                                            data: {
-                                                fill: chosenColour
-                                            }
-                                        }}
+                                        style={chosenColour}
                                         name={"chronological-"+measurementTypeItem.measurementType}
                                     />
                                 }
                                 { showCorrectedAge && showChronologicalAge &&
                                     <VictoryLine
                                         name="linkLine"
-                                        style={{
-                                            data: {
-                                                stroke: chosenColour
-                                            }
-                                        }}
+                                        style={chosenColour}
                                         data={[chronData, correctData]}
                                     />
                                 }

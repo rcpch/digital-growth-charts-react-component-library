@@ -197,6 +197,26 @@ function makeAllStyles(
                 strokeWidth: 1.25,
             },
         },
+        heightSDSPoint: {
+            data: {
+                fill: measurementStyle?.heightSDSFill ?? midGrey
+            }
+        },
+        weightSDSPoint: {
+            data: {
+                fill: measurementStyle?.weightSDSFill ?? midGrey
+            }
+        },
+        bmiSDSPoint: {
+            data: {
+                fill: measurementStyle?.bmiSDSFill ?? midGrey
+            }
+        },
+        ofcSDSPoint: {
+            data: {
+                fill: measurementStyle?.ofcSDSFill ?? midGrey
+            }
+        },
         toggleStyle: {
             activeColour: chartStyle?.toggleButtonActiveColour ?? darkPink,
             inactiveColour: chartStyle?.toggleButtonInactiveColour ?? lightPink,
