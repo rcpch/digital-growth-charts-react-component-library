@@ -16,10 +16,7 @@ export interface ChartStyle {
 }
 export interface MeasurementStyle {
     measurementFill?: string;
-    heightSDSFill?: string;
-    weightSDSFill?: string;
-    bmiSDSFill?: string;
-    ofcSDSFill?: string;
+    highlightedMeasurementFill?: string;
 }
 export interface CentileStyle {
     sdsStroke?: string;

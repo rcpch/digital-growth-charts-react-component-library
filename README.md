@@ -284,16 +284,12 @@ interface CentileStyle{
 }
 ```
 
-Measurement styles control the plotted data points - colour, size and shape. Corrected ages are always rendered as crosses. Circles for chronological ages are preferred. On the SDS charts, measurement points are grey by default, with the measurement method in focus highlighted by rendering as a line. Points which are not highlighted can be changed by measurement method.
+Measurement styles control the plotted data points - colour, size and shape. Corrected ages are always rendered as crosses. Circles for chronological ages are preferred. On the SDS charts, measurement points are grey by default, with the measurement method in focus highlighted by rendering as a line. Points which are not highlighted can be emphasised on mouse hover, the highlighted colour being set by the highlightedMeasurementFill prop.
 
 ```js
 interface MeasurementStyle{
     measurementFill?: string, 
-    measurementSize?: number // this is an svg size
-    heightSDSFill?: string;
-    weightSDSFill?: string;
-    bmiSDSFill?: string;
-    ofcSDSFill?: string;
+    highLightedMeasurementFill?: string;
 }
 ```
 

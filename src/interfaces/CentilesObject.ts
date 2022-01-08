@@ -9,12 +9,6 @@ export interface ReferenceGroup {
 }
 export interface Reference {
     [name: string]: ISexChoice
-    // uk90_preterm?:  ISexChoice
-    // uk_who_infant?:  ISexChoice
-    // uk_who_child?:  ISexChoice
-    // uk90_child?:  ISexChoice
-    // "trisomy-21"?: ISexChoice
-    // "turners-syndrome"?: ISexChoice
 }
 
 export interface ICentile {

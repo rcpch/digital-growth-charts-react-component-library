@@ -197,24 +197,9 @@ function makeAllStyles(
                 strokeWidth: 1.25,
             },
         },
-        heightSDSPoint: {
+        highlightedMeasurementFill: {
             data: {
-                fill: measurementStyle?.heightSDSFill ?? midGrey
-            }
-        },
-        weightSDSPoint: {
-            data: {
-                fill: measurementStyle?.weightSDSFill ?? midGrey
-            }
-        },
-        bmiSDSPoint: {
-            data: {
-                fill: measurementStyle?.bmiSDSFill ?? midGrey
-            }
-        },
-        ofcSDSPoint: {
-            data: {
-                fill: measurementStyle?.ofcSDSFill ?? midGrey
+                fill: measurementStyle?.highlightedMeasurementFill ?? black
             }
         },
         toggleStyle: {

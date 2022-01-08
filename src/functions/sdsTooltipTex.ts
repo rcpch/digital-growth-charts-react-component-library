@@ -1,4 +1,3 @@
-import { getDefaultLibFileName } from "typescript";
 
 export function sdsTooltipText(datum){
     let corrected = "Adjusted Age: ";

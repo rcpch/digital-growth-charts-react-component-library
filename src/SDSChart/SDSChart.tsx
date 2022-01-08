@@ -12,7 +12,6 @@ import {
 
 // interfaces and props
 import { SDSChartProps } from "./SDSChart.types";
-import { Domains } from '../interfaces/Domains';
 
 // components
 import { MainContainer } from "../SubComponents/MainContainer";
@@ -32,6 +31,7 @@ import xAxisLabel from '../functions/xAxisLabel';
 import tailoredXTickValues from '../functions/tailoredXTickValues';
 import defaultToggles from '../functions/defaultToggles';
 import { sdsTooltipText } from "../functions/sdsTooltipTex";
+import { createSDSPointMouseOverObject } from '../functions/sdsPointMouseOverObject';
 
 // style sheets
 import "./SDSChart.scss";
@@ -194,6 +194,7 @@ const SDSChart: React.FC<SDSChartProps> = (
                     voronoiBlacklist={['linkLine']}
                 />
             }
+            events={createSDSPointMouseOverObject(styles)}  // create events objects for each measurement that will highlight datapoints on mouse hover
         >
                 {
                     /* Term child shaded area: */
@@ -266,21 +267,7 @@ const SDSChart: React.FC<SDSChartProps> = (
                         const correctData: any = {
                             ...measurement.plottable_data.sds_data.corrected_decimal_age_data,
                         };
-
-                        let chosenColour;
-                        if (measurement.child_observation_value.measurement_method==="height"){
-                            chosenColour=styles.heightSDSPoint
-                        }
-                        if (measurement.child_observation_value.measurement_method==="weight"){
-                            chosenColour=styles.weightSDSPoint
-                        }
-                        if (measurement.child_observation_value.measurement_method==="bmi"){
-                            chosenColour=styles.bmiSDSPoint
-                        }
-                        if (measurement.child_observation_value.measurement_method==="ofc"){
-                            chosenColour=styles.ofcSDSPoint
-                        }
-                        
+                                        
                         return (
                             <VictoryGroup
                                 key={measurementTypeItem.measurementType+"-"+index}
@@ -289,7 +276,11 @@ const SDSChart: React.FC<SDSChartProps> = (
                                     <VictoryScatter
                                         data={[chronData]}
                                         symbol="circle"
-                                        style={chosenColour}
+                                        style={{
+                                            data: {
+                                                fill: '#b3b3b3'
+                                            }
+                                        }}
                                         name={"chronological-"+measurementTypeItem.measurementType}
                                     />
                                 }
@@ -302,14 +293,22 @@ const SDSChart: React.FC<SDSChartProps> = (
                                                 isSDS={true}
                                             />
                                         }
-                                        style={chosenColour}
-                                        name={"chronological-"+measurementTypeItem.measurementType}
+                                        style={{
+                                            data: {
+                                                fill: '#b3b3b3'
+                                            }
+                                        }}
+                                        name={"corrected-"+measurementTypeItem.measurementType}
                                     />
                                 }
                                 { showCorrectedAge && showChronologicalAge &&
                                     <VictoryLine
                                         name="linkLine"
-                                        style={chosenColour}
+                                        style={{
+                                            data: {
+                                                stroke: '#b3b3b3'
+                                            }
+                                        }}
                                         data={[chronData, correctData]}
                                     />
                                 }
