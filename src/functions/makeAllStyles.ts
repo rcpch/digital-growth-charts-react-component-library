@@ -152,7 +152,7 @@ function makeAllStyles(
         sdsLine: {
             data: {
                 stroke: centileStyle.sdsStroke ?? '#A9A9A9',
-                strokeWidth: centileStyle?.sdsStrokeWidth ?? 1.5,
+                strokeWidth: centileStyle?.sdsStrokeWidth ?? 1.0,
                 strokeLinecap: 'round',
                 strokeDasharray: '5 5',
             }
