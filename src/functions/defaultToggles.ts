@@ -8,7 +8,8 @@ type returnObject = {
 
 function defaultToggles(childMeasurements: Measurement[]): returnObject {
     if (!childMeasurements || childMeasurements.length < 1) {
-        return { defaultShowCorrected: false, defaultShowChronological: false, showToggle: false };
+        // although no values to plot, allows SDS chart to render unselected measurement types
+        return { defaultShowCorrected: false, defaultShowChronological: true, showToggle: false };
     }
     if (!childMeasurements[0].plottable_data) {
         throw new Error('No plottable data found. Are you using the correct server version?');

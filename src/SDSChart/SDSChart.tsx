@@ -100,6 +100,8 @@ const SDSChart: React.FC<SDSChartProps> = (
     let newLowerY = -2
     let newUpperY = 2
 
+    // retrieve lower and upper values from measurements if supplied
+    // if lower than -2 of greater than 2, set these with padding to be the limits
     if (childMeasurements[measurementMethod].length > 0){
         const lowestYMeasurement = childMeasurements[measurementMethod].reduce(
             (a,b) => a.plottable_data.sds_data.corrected_decimal_age_data.y < b.plottable_data.sds_data.corrected_decimal_age_data.y ? a : b
@@ -107,8 +109,10 @@ const SDSChart: React.FC<SDSChartProps> = (
         const highestYMeasurement = childMeasurements[measurementMethod].reduce(
             (a,b) => a.plottable_data.sds_data.corrected_decimal_age_data.y > b.plottable_data.sds_data.corrected_decimal_age_data.y ? a : b
         )
-        newLowerY = lowestYMeasurement.plottable_data.sds_data.corrected_decimal_age_data.y - 0.25 // add 0.25 SDS padding
-        newUpperY = highestYMeasurement.plottable_data.sds_data.corrected_decimal_age_data.y + 0.25 // add 0.25 SDS padding
+        const lowestYVal = lowestYMeasurement.plottable_data.sds_data.corrected_decimal_age_data.y - 0.25; // add 0.25 SDS padding
+        const highestYVal = highestYMeasurement.plottable_data.sds_data.corrected_decimal_age_data.y + 0.25; // add 0.25 SDS padding
+        newLowerY = lowestYVal < newLowerY ? lowestYVal : newLowerY;
+        newUpperY = highestYVal > newUpperY ? highestYVal : newUpperY;
     }
 
     if (
@@ -261,13 +265,14 @@ const SDSChart: React.FC<SDSChartProps> = (
                     :
 
                     measurementTypeItem.measurementTypeData.map((measurement, index) => {
+
                         const chronData: any = {
                             ...measurement.plottable_data.sds_data.chronological_decimal_age_data,
                         };
                         const correctData: any = {
                             ...measurement.plottable_data.sds_data.corrected_decimal_age_data,
                         };
-                                        
+
                         return (
                             <VictoryGroup
                                 key={measurementTypeItem.measurementType+"-"+index}
