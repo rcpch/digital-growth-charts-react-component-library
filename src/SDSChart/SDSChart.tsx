@@ -79,7 +79,6 @@ const SDSChart: React.FC<SDSChartProps> = (
     const shadedTermAreaText =
     'Babies born in this shaded area\nare term. It is normal for\nbabies to lose weight over\nthe first two weeks of life.\nMedical review should be sought\nif weight has dropped by more\nthan 10% of birth weight or\nweight is still below birth weight\nthree weeks after birth.';
     
-
     let { computedDomains, chartScaleType } = useMemo(
         () =>
             getDomainsAndData(
@@ -187,12 +186,12 @@ const SDSChart: React.FC<SDSChartProps> = (
                 <VictoryVoronoiContainer
                     labelComponent={
                         <VictoryTooltip
-                            constrainToVisibleArea
-                            pointerLength={5}
-                            cornerRadius={0}
-                            flyoutStyle={styles.toolTipFlyout}
-                            style={styles.toolTipMain}
-                        />
+                        constrainToVisibleArea
+                        pointerLength={5}
+                        cornerRadius={0}
+                        flyoutStyle={styles.toolTipFlyout}
+                        style={styles.toolTipMain}
+                    />   
                     }
                     labels={(datum)=> { return sdsTooltipText(datum)}}
                     voronoiBlacklist={['linkLine']}
@@ -237,7 +236,7 @@ const SDSChart: React.FC<SDSChartProps> = (
 
             { childMeasurementsByType.map((measurementTypeItem, itemIndex) =>
             
-                {  return measurementTypeItem.measurementType===measurementMethod ?
+                {  return measurementTypeItem.measurementType===measurementMethod && measurementTypeItem.measurementTypeData.length > 1 ?
                     <VictoryGroup
                         key={measurementTypeItem.measurementType+"-"+itemIndex}
                     >

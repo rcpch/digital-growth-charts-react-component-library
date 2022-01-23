@@ -1,6 +1,6 @@
 {
     "name": "@rcpch/digital-growth-charts-react-component-library",
-    "version": "4.2.5",
+    "version": "5.0.0",
     "main": "build/index.js",
     "module": "build/index.esm.js",
     "files": [
