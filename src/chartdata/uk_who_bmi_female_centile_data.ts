@@ -584,6 +584,11 @@ export const ukwhoBMIFemaleCentileData: ReferenceGroup = {
                                     "l": "0.4",
                                     "x": 1.9932,
                                     "y": 12.4438
+                                },
+                                {
+                                    "l": "0.4",
+                                    "x": 2.0,
+                                    "y": 12.4423
                                 }
                             ]
                         },
@@ -1105,6 +1110,11 @@ export const ukwhoBMIFemaleCentileData: ReferenceGroup = {
                                     "l": "2.0",
                                     "x": 1.9932,
                                     "y": 13.0937
+                                },
+                                {
+                                    "l": "2.0",
+                                    "x": 2.0,
+                                    "y": 13.0919
                                 }
                             ]
                         },
@@ -1626,6 +1636,11 @@ export const ukwhoBMIFemaleCentileData: ReferenceGroup = {
                                     "l": "9.0",
                                     "x": 1.9932,
                                     "y": 13.7996
+                                },
+                                {
+                                    "l": "9.0",
+                                    "x": 2.0,
+                                    "y": 13.7975
                                 }
                             ]
                         },
@@ -2147,6 +2162,11 @@ export const ukwhoBMIFemaleCentileData: ReferenceGroup = {
                                     "l": "25.0",
                                     "x": 1.9932,
                                     "y": 14.5684
+                                },
+                                {
+                                    "l": "25.0",
+                                    "x": 2.0,
+                                    "y": 14.566
                                 }
                             ]
                         },
@@ -2668,6 +2688,11 @@ export const ukwhoBMIFemaleCentileData: ReferenceGroup = {
                                     "l": "50.0",
                                     "x": 1.9932,
                                     "y": 15.4079
+                                },
+                                {
+                                    "l": "50.0",
+                                    "x": 2.0,
+                                    "y": 15.4052
                                 }
                             ]
                         },
@@ -3189,6 +3214,11 @@ export const ukwhoBMIFemaleCentileData: ReferenceGroup = {
                                     "l": "75.0",
                                     "x": 1.9932,
                                     "y": 16.3274
+                                },
+                                {
+                                    "l": "75.0",
+                                    "x": 2.0,
+                                    "y": 16.3245
                                 }
                             ]
                         },
@@ -3710,6 +3740,11 @@ export const ukwhoBMIFemaleCentileData: ReferenceGroup = {
                                     "l": "91.0",
                                     "x": 1.9932,
                                     "y": 17.3379
+                                },
+                                {
+                                    "l": "91.0",
+                                    "x": 2.0,
+                                    "y": 17.3347
                                 }
                             ]
                         },
@@ -4231,6 +4266,11 @@ export const ukwhoBMIFemaleCentileData: ReferenceGroup = {
                                     "l": "98.0",
                                     "x": 1.9932,
                                     "y": 18.4521
+                                },
+                                {
+                                    "l": "98.0",
+                                    "x": 2.0,
+                                    "y": 18.4488
                                 }
                             ]
                         },
@@ -4752,6 +4792,11 @@ export const ukwhoBMIFemaleCentileData: ReferenceGroup = {
                                     "l": "99.6",
                                     "x": 1.9932,
                                     "y": 19.6853
+                                },
+                                {
+                                    "l": "99.6",
+                                    "x": 2.0,
+                                    "y": 19.6819
                                 }
                             ]
                         }
@@ -4895,6 +4940,11 @@ export const ukwhoBMIFemaleCentileData: ReferenceGroup = {
                                     "l": "0.4",
                                     "x": 3.9358,
                                     "y": 12.1542
+                                },
+                                {
+                                    "l": "0.4",
+                                    "x": 4.0,
+                                    "y": 12.1379
                                 }
                             ]
                         },
@@ -5026,6 +5076,11 @@ export const ukwhoBMIFemaleCentileData: ReferenceGroup = {
                                     "l": "2.0",
                                     "x": 3.9358,
                                     "y": 12.8319
+                                },
+                                {
+                                    "l": "2.0",
+                                    "x": 4.0,
+                                    "y": 12.8177
                                 }
                             ]
                         },
@@ -5157,6 +5212,11 @@ export const ukwhoBMIFemaleCentileData: ReferenceGroup = {
                                     "l": "9.0",
                                     "x": 3.9358,
                                     "y": 13.5708
+                                },
+                                {
+                                    "l": "9.0",
+                                    "x": 4.0,
+                                    "y": 13.5592
                                 }
                             ]
                         },
@@ -5288,6 +5348,11 @@ export const ukwhoBMIFemaleCentileData: ReferenceGroup = {
                                     "l": "25.0",
                                     "x": 3.9358,
                                     "y": 14.3787
+                                },
+                                {
+                                    "l": "25.0",
+                                    "x": 4.0,
+                                    "y": 14.3703
                                 }
                             ]
                         },
@@ -5419,6 +5484,11 @@ export const ukwhoBMIFemaleCentileData: ReferenceGroup = {
                                     "l": "50.0",
                                     "x": 3.9358,
                                     "y": 15.2647
+                                },
+                                {
+                                    "l": "50.0",
+                                    "x": 4.0,
+                                    "y": 15.2602
                                 }
                             ]
                         },
@@ -5550,6 +5620,11 @@ export const ukwhoBMIFemaleCentileData: ReferenceGroup = {
                                     "l": "75.0",
                                     "x": 3.9358,
                                     "y": 16.2395
+                                },
+                                {
+                                    "l": "75.0",
+                                    "x": 4.0,
+                                    "y": 16.2396
                                 }
                             ]
                         },
@@ -5681,6 +5756,11 @@ export const ukwhoBMIFemaleCentileData: ReferenceGroup = {
                                     "l": "91.0",
                                     "x": 3.9358,
                                     "y": 17.3155
+                                },
+                                {
+                                    "l": "91.0",
+                                    "x": 4.0,
+                                    "y": 17.3214
                                 }
                             ]
                         },
@@ -5812,6 +5892,11 @@ export const ukwhoBMIFemaleCentileData: ReferenceGroup = {
                                     "l": "98.0",
                                     "x": 3.9358,
                                     "y": 18.5077
+                                },
+                                {
+                                    "l": "98.0",
+                                    "x": 4.0,
+                                    "y": 18.5206
                                 }
                             ]
                         },
@@ -5943,6 +6028,11 @@ export const ukwhoBMIFemaleCentileData: ReferenceGroup = {
                                     "l": "99.6",
                                     "x": 3.9358,
                                     "y": 19.8338
+                                },
+                                {
+                                    "l": "99.6",
+                                    "x": 4.0,
+                                    "y": 19.8553
                                 }
                             ]
                         }
@@ -6926,6 +7016,11 @@ export const ukwhoBMIFemaleCentileData: ReferenceGroup = {
                                     "l": "0.4",
                                     "x": 20.0,
                                     "y": 16.3907
+                                },
+                                {
+                                    "l": "0.4",
+                                    "x": 20.0,
+                                    "y": 16.3907
                                 }
                             ]
                         },
@@ -7892,6 +7987,11 @@ export const ukwhoBMIFemaleCentileData: ReferenceGroup = {
                                     "l": "2.0",
                                     "x": 19.9167,
                                     "y": 17.4282
+                                },
+                                {
+                                    "l": "2.0",
+                                    "x": 20.0,
+                                    "y": 17.445
                                 },
                                 {
                                     "l": "2.0",
@@ -8868,6 +8968,11 @@ export const ukwhoBMIFemaleCentileData: ReferenceGroup = {
                                     "l": "9.0",
                                     "x": 20.0,
                                     "y": 18.658
+                                },
+                                {
+                                    "l": "9.0",
+                                    "x": 20.0,
+                                    "y": 18.658
                                 }
                             ]
                         },
@@ -9834,6 +9939,11 @@ export const ukwhoBMIFemaleCentileData: ReferenceGroup = {
                                     "l": "25.0",
                                     "x": 19.9167,
                                     "y": 20.0508
+                                },
+                                {
+                                    "l": "25.0",
+                                    "x": 20.0,
+                                    "y": 20.0697
                                 },
                                 {
                                     "l": "25.0",
@@ -10810,6 +10920,11 @@ export const ukwhoBMIFemaleCentileData: ReferenceGroup = {
                                     "l": "50.0",
                                     "x": 20.0,
                                     "y": 21.735
+                                },
+                                {
+                                    "l": "50.0",
+                                    "x": 20.0,
+                                    "y": 21.735
                                 }
                             ]
                         },
@@ -11776,6 +11891,11 @@ export const ukwhoBMIFemaleCentileData: ReferenceGroup = {
                                     "l": "75.0",
                                     "x": 19.9167,
                                     "y": 23.7105
+                                },
+                                {
+                                    "l": "75.0",
+                                    "x": 20.0,
+                                    "y": 23.7316
                                 },
                                 {
                                     "l": "75.0",
@@ -12752,6 +12872,11 @@ export const ukwhoBMIFemaleCentileData: ReferenceGroup = {
                                     "l": "91.0",
                                     "x": 20.0,
                                     "y": 26.1729
+                                },
+                                {
+                                    "l": "91.0",
+                                    "x": 20.0,
+                                    "y": 26.1729
                                 }
                             ]
                         },
@@ -13723,6 +13848,11 @@ export const ukwhoBMIFemaleCentileData: ReferenceGroup = {
                                     "l": "98.0",
                                     "x": 20.0,
                                     "y": 29.2321
+                                },
+                                {
+                                    "l": "98.0",
+                                    "x": 20.0,
+                                    "y": 29.2321
                                 }
                             ]
                         },
@@ -14689,6 +14819,11 @@ export const ukwhoBMIFemaleCentileData: ReferenceGroup = {
                                     "l": "99.6",
                                     "x": 19.9167,
                                     "y": 33.1665
+                                },
+                                {
+                                    "l": "99.6",
+                                    "x": 20.0,
+                                    "y": 33.1877
                                 },
                                 {
                                     "l": "99.6",

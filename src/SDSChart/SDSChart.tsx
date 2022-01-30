@@ -48,6 +48,8 @@ const SDSChart: React.FC<SDSChartProps> = (
         midParentalHeightData,
         enableZoom,
         styles,
+        enableExport,
+        exportChartCallback
     }
 ) => {
     const [userDomains, setUserDomains] = useState(null);

@@ -99,6 +99,11 @@ export const ukwhoHeightMaleCentileData: ReferenceGroup = {
                                     "l": "0.4",
                                     "x": 0.0383,
                                     "y": 46.7337
+                                },
+                                {
+                                    "l": "0.4",
+                                    "x": 0.0383,
+                                    "y": 46.7337
                                 }
                             ]
                         },
@@ -190,6 +195,11 @@ export const ukwhoHeightMaleCentileData: ReferenceGroup = {
                                     "l": "2.0",
                                     "x": 0.0192,
                                     "y": 47.4105
+                                },
+                                {
+                                    "l": "2.0",
+                                    "x": 0.0383,
+                                    "y": 48.1266
                                 },
                                 {
                                     "l": "2.0",
@@ -291,6 +301,11 @@ export const ukwhoHeightMaleCentileData: ReferenceGroup = {
                                     "l": "9.0",
                                     "x": 0.0383,
                                     "y": 49.5194
+                                },
+                                {
+                                    "l": "9.0",
+                                    "x": 0.0383,
+                                    "y": 49.5194
                                 }
                             ]
                         },
@@ -382,6 +397,11 @@ export const ukwhoHeightMaleCentileData: ReferenceGroup = {
                                     "l": "25.0",
                                     "x": 0.0192,
                                     "y": 50.234
+                                },
+                                {
+                                    "l": "25.0",
+                                    "x": 0.0383,
+                                    "y": 50.9123
                                 },
                                 {
                                     "l": "25.0",
@@ -483,6 +503,11 @@ export const ukwhoHeightMaleCentileData: ReferenceGroup = {
                                     "l": "50.0",
                                     "x": 0.0383,
                                     "y": 52.3051
+                                },
+                                {
+                                    "l": "50.0",
+                                    "x": 0.0383,
+                                    "y": 52.3051
                                 }
                             ]
                         },
@@ -574,6 +599,11 @@ export const ukwhoHeightMaleCentileData: ReferenceGroup = {
                                     "l": "75.0",
                                     "x": 0.0192,
                                     "y": 53.0576
+                                },
+                                {
+                                    "l": "75.0",
+                                    "x": 0.0383,
+                                    "y": 53.698
                                 },
                                 {
                                     "l": "75.0",
@@ -675,6 +705,11 @@ export const ukwhoHeightMaleCentileData: ReferenceGroup = {
                                     "l": "91.0",
                                     "x": 0.0383,
                                     "y": 55.0908
+                                },
+                                {
+                                    "l": "91.0",
+                                    "x": 0.0383,
+                                    "y": 55.0908
                                 }
                             ]
                         },
@@ -771,6 +806,11 @@ export const ukwhoHeightMaleCentileData: ReferenceGroup = {
                                     "l": "98.0",
                                     "x": 0.0383,
                                     "y": 56.4837
+                                },
+                                {
+                                    "l": "98.0",
+                                    "x": 0.0383,
+                                    "y": 56.4837
                                 }
                             ]
                         },
@@ -862,6 +902,11 @@ export const ukwhoHeightMaleCentileData: ReferenceGroup = {
                                     "l": "99.6",
                                     "x": 0.0192,
                                     "y": 57.2928
+                                },
+                                {
+                                    "l": "99.6",
+                                    "x": 0.0383,
+                                    "y": 57.8765
                                 },
                                 {
                                     "l": "99.6",
@@ -1400,6 +1445,11 @@ export const ukwhoHeightMaleCentileData: ReferenceGroup = {
                                     "l": "0.4",
                                     "x": 1.9932,
                                     "y": 79.6104
+                                },
+                                {
+                                    "l": "0.4",
+                                    "x": 2.0,
+                                    "y": 79.6691
                                 }
                             ]
                         },
@@ -1921,6 +1971,11 @@ export const ukwhoHeightMaleCentileData: ReferenceGroup = {
                                     "l": "2.0",
                                     "x": 1.9932,
                                     "y": 81.6439
+                                },
+                                {
+                                    "l": "2.0",
+                                    "x": 2.0,
+                                    "y": 81.7059
                                 }
                             ]
                         },
@@ -2442,6 +2497,11 @@ export const ukwhoHeightMaleCentileData: ReferenceGroup = {
                                     "l": "9.0",
                                     "x": 1.9932,
                                     "y": 83.6773
+                                },
+                                {
+                                    "l": "9.0",
+                                    "x": 2.0,
+                                    "y": 83.7426
                                 }
                             ]
                         },
@@ -2963,6 +3023,11 @@ export const ukwhoHeightMaleCentileData: ReferenceGroup = {
                                     "l": "25.0",
                                     "x": 1.9932,
                                     "y": 85.7108
+                                },
+                                {
+                                    "l": "25.0",
+                                    "x": 2.0,
+                                    "y": 85.7794
                                 }
                             ]
                         },
@@ -3484,6 +3549,11 @@ export const ukwhoHeightMaleCentileData: ReferenceGroup = {
                                     "l": "50.0",
                                     "x": 1.9932,
                                     "y": 87.7442
+                                },
+                                {
+                                    "l": "50.0",
+                                    "x": 2.0,
+                                    "y": 87.8161
                                 }
                             ]
                         },
@@ -4005,6 +4075,11 @@ export const ukwhoHeightMaleCentileData: ReferenceGroup = {
                                     "l": "75.0",
                                     "x": 1.9932,
                                     "y": 89.7777
+                                },
+                                {
+                                    "l": "75.0",
+                                    "x": 2.0,
+                                    "y": 89.8528
                                 }
                             ]
                         },
@@ -4526,6 +4601,11 @@ export const ukwhoHeightMaleCentileData: ReferenceGroup = {
                                     "l": "91.0",
                                     "x": 1.9932,
                                     "y": 91.8111
+                                },
+                                {
+                                    "l": "91.0",
+                                    "x": 2.0,
+                                    "y": 91.8896
                                 }
                             ]
                         },
@@ -5047,6 +5127,11 @@ export const ukwhoHeightMaleCentileData: ReferenceGroup = {
                                     "l": "98.0",
                                     "x": 1.9932,
                                     "y": 93.8446
+                                },
+                                {
+                                    "l": "98.0",
+                                    "x": 2.0,
+                                    "y": 93.9263
                                 }
                             ]
                         },
@@ -5568,6 +5653,11 @@ export const ukwhoHeightMaleCentileData: ReferenceGroup = {
                                     "l": "99.6",
                                     "x": 1.9932,
                                     "y": 95.878
+                                },
+                                {
+                                    "l": "99.6",
+                                    "x": 2.0,
+                                    "y": 95.9631
                                 }
                             ]
                         }
@@ -5711,6 +5801,11 @@ export const ukwhoHeightMaleCentileData: ReferenceGroup = {
                                     "l": "0.4",
                                     "x": 3.9358,
                                     "y": 91.7849
+                                },
+                                {
+                                    "l": "0.4",
+                                    "x": 4.0,
+                                    "y": 92.1432
                                 }
                             ]
                         },
@@ -5842,6 +5937,11 @@ export const ukwhoHeightMaleCentileData: ReferenceGroup = {
                                     "l": "2.0",
                                     "x": 3.9358,
                                     "y": 94.5618
+                                },
+                                {
+                                    "l": "2.0",
+                                    "x": 4.0,
+                                    "y": 94.9392
                                 }
                             ]
                         },
@@ -5973,6 +6073,11 @@ export const ukwhoHeightMaleCentileData: ReferenceGroup = {
                                     "l": "9.0",
                                     "x": 3.9358,
                                     "y": 97.3386
+                                },
+                                {
+                                    "l": "9.0",
+                                    "x": 4.0,
+                                    "y": 97.7352
                                 }
                             ]
                         },
@@ -6104,6 +6209,11 @@ export const ukwhoHeightMaleCentileData: ReferenceGroup = {
                                     "l": "25.0",
                                     "x": 3.9358,
                                     "y": 100.1155
+                                },
+                                {
+                                    "l": "25.0",
+                                    "x": 4.0,
+                                    "y": 100.5313
                                 }
                             ]
                         },
@@ -6235,6 +6345,11 @@ export const ukwhoHeightMaleCentileData: ReferenceGroup = {
                                     "l": "50.0",
                                     "x": 3.9358,
                                     "y": 102.8924
+                                },
+                                {
+                                    "l": "50.0",
+                                    "x": 4.0,
+                                    "y": 103.3273
                                 }
                             ]
                         },
@@ -6366,6 +6481,11 @@ export const ukwhoHeightMaleCentileData: ReferenceGroup = {
                                     "l": "75.0",
                                     "x": 3.9358,
                                     "y": 105.6693
+                                },
+                                {
+                                    "l": "75.0",
+                                    "x": 4.0,
+                                    "y": 106.1233
                                 }
                             ]
                         },
@@ -6497,6 +6617,11 @@ export const ukwhoHeightMaleCentileData: ReferenceGroup = {
                                     "l": "91.0",
                                     "x": 3.9358,
                                     "y": 108.4461
+                                },
+                                {
+                                    "l": "91.0",
+                                    "x": 4.0,
+                                    "y": 108.9194
                                 }
                             ]
                         },
@@ -6628,6 +6753,11 @@ export const ukwhoHeightMaleCentileData: ReferenceGroup = {
                                     "l": "98.0",
                                     "x": 3.9358,
                                     "y": 111.223
+                                },
+                                {
+                                    "l": "98.0",
+                                    "x": 4.0,
+                                    "y": 111.7154
                                 }
                             ]
                         },
@@ -6759,6 +6889,11 @@ export const ukwhoHeightMaleCentileData: ReferenceGroup = {
                                     "l": "99.6",
                                     "x": 3.9358,
                                     "y": 113.9999
+                                },
+                                {
+                                    "l": "99.6",
+                                    "x": 4.0,
+                                    "y": 114.5114
                                 }
                             ]
                         }
@@ -7742,6 +7877,11 @@ export const ukwhoHeightMaleCentileData: ReferenceGroup = {
                                     "l": "0.4",
                                     "x": 20.0,
                                     "y": 158.7595
+                                },
+                                {
+                                    "l": "0.4",
+                                    "x": 20.0,
+                                    "y": 158.7595
                                 }
                             ]
                         },
@@ -8708,6 +8848,11 @@ export const ukwhoHeightMaleCentileData: ReferenceGroup = {
                                     "l": "2.0",
                                     "x": 19.9167,
                                     "y": 163.3919
+                                },
+                                {
+                                    "l": "2.0",
+                                    "x": 20.0,
+                                    "y": 163.4046
                                 },
                                 {
                                     "l": "2.0",
@@ -9684,6 +9829,11 @@ export const ukwhoHeightMaleCentileData: ReferenceGroup = {
                                     "l": "9.0",
                                     "x": 20.0,
                                     "y": 168.0497
+                                },
+                                {
+                                    "l": "9.0",
+                                    "x": 20.0,
+                                    "y": 168.0497
                                 }
                             ]
                         },
@@ -10650,6 +10800,11 @@ export const ukwhoHeightMaleCentileData: ReferenceGroup = {
                                     "l": "25.0",
                                     "x": 19.9167,
                                     "y": 172.684
+                                },
+                                {
+                                    "l": "25.0",
+                                    "x": 20.0,
+                                    "y": 172.6949
                                 },
                                 {
                                     "l": "25.0",
@@ -11626,6 +11781,11 @@ export const ukwhoHeightMaleCentileData: ReferenceGroup = {
                                     "l": "50.0",
                                     "x": 20.0,
                                     "y": 177.34
+                                },
+                                {
+                                    "l": "50.0",
+                                    "x": 20.0,
+                                    "y": 177.34
                                 }
                             ]
                         },
@@ -12592,6 +12752,11 @@ export const ukwhoHeightMaleCentileData: ReferenceGroup = {
                                     "l": "75.0",
                                     "x": 19.9167,
                                     "y": 181.976
+                                },
+                                {
+                                    "l": "75.0",
+                                    "x": 20.0,
+                                    "y": 181.9851
                                 },
                                 {
                                     "l": "75.0",
@@ -13568,6 +13733,11 @@ export const ukwhoHeightMaleCentileData: ReferenceGroup = {
                                     "l": "91.0",
                                     "x": 20.0,
                                     "y": 186.6303
+                                },
+                                {
+                                    "l": "91.0",
+                                    "x": 20.0,
+                                    "y": 186.6303
                                 }
                             ]
                         },
@@ -14539,6 +14709,11 @@ export const ukwhoHeightMaleCentileData: ReferenceGroup = {
                                     "l": "98.0",
                                     "x": 20.0,
                                     "y": 191.2754
+                                },
+                                {
+                                    "l": "98.0",
+                                    "x": 20.0,
+                                    "y": 191.2754
                                 }
                             ]
                         },
@@ -15505,6 +15680,11 @@ export const ukwhoHeightMaleCentileData: ReferenceGroup = {
                                     "l": "99.6",
                                     "x": 19.9167,
                                     "y": 195.9142
+                                },
+                                {
+                                    "l": "99.6",
+                                    "x": 20.0,
+                                    "y": 195.9205
                                 },
                                 {
                                     "l": "99.6",

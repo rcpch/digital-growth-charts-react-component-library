@@ -17,5 +17,7 @@ export interface RCPCHChartProps {
     gridlineStyle?: GridlineStyle;
     centileStyle?: CentileStyle;
     measurementStyle?: MeasurementStyle;
-    chartType?: 'centile' | 'sds'
+    chartType?: 'centile' | 'sds';
+    enableExport: boolean;
+    exportChartCallback(svg: any);
 }

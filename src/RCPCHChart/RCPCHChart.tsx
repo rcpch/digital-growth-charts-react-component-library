@@ -30,7 +30,9 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     gridlineStyle,
     centileStyle,
     measurementStyle,
-    chartType
+    chartType,
+    enableExport,
+    exportChartCallback
 }) => {
     const styles = makeAllStyles(chartStyle, axisStyle, gridlineStyle, centileStyle, measurementStyle);
 
@@ -51,6 +53,8 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
                     sex={sex}
                     enableZoom={enableZoom}
                     styles={styles}
+                    enableExport={enableExport}
+                    exportChartCallback={exportChartCallback}
                 />
             </ErrorBoundary>
         );
@@ -68,6 +72,8 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
                     sex={sex}
                     enableZoom={enableZoom}
                     styles={styles}
+                    enableExport={enableExport}
+                    exportChartCallback={exportChartCallback}
                 />
             </ErrorBoundary>
         );

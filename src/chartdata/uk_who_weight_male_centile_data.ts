@@ -110,6 +110,11 @@ export const ukwhoWeightMaleCentileData: ReferenceGroup = {
                                     "l": "0.4",
                                     "x": 0.0383,
                                     "y": 2.6784
+                                },
+                                {
+                                    "l": "0.4",
+                                    "x": 0.0383,
+                                    "y": 2.6784
                                 }
                             ]
                         },
@@ -211,6 +216,11 @@ export const ukwhoWeightMaleCentileData: ReferenceGroup = {
                                     "l": "2.0",
                                     "x": 0.0192,
                                     "y": 2.8232
+                                },
+                                {
+                                    "l": "2.0",
+                                    "x": 0.0383,
+                                    "y": 2.9655
                                 },
                                 {
                                     "l": "2.0",
@@ -322,6 +332,11 @@ export const ukwhoWeightMaleCentileData: ReferenceGroup = {
                                     "l": "9.0",
                                     "x": 0.0383,
                                     "y": 3.26
+                                },
+                                {
+                                    "l": "9.0",
+                                    "x": 0.0383,
+                                    "y": 3.26
                                 }
                             ]
                         },
@@ -423,6 +438,11 @@ export const ukwhoWeightMaleCentileData: ReferenceGroup = {
                                     "l": "25.0",
                                     "x": 0.0192,
                                     "y": 3.4127
+                                },
+                                {
+                                    "l": "25.0",
+                                    "x": 0.0383,
+                                    "y": 3.5617
                                 },
                                 {
                                     "l": "25.0",
@@ -534,6 +554,11 @@ export const ukwhoWeightMaleCentileData: ReferenceGroup = {
                                     "l": "50.0",
                                     "x": 0.0383,
                                     "y": 3.8702
+                                },
+                                {
+                                    "l": "50.0",
+                                    "x": 0.0383,
+                                    "y": 3.8702
                                 }
                             ]
                         },
@@ -635,6 +660,11 @@ export const ukwhoWeightMaleCentileData: ReferenceGroup = {
                                     "l": "75.0",
                                     "x": 0.0192,
                                     "y": 4.0278
+                                },
+                                {
+                                    "l": "75.0",
+                                    "x": 0.0383,
+                                    "y": 4.1852
                                 },
                                 {
                                     "l": "75.0",
@@ -746,6 +776,11 @@ export const ukwhoWeightMaleCentileData: ReferenceGroup = {
                                     "l": "91.0",
                                     "x": 0.0383,
                                     "y": 4.5066
+                                },
+                                {
+                                    "l": "91.0",
+                                    "x": 0.0383,
+                                    "y": 4.5066
                                 }
                             ]
                         },
@@ -852,6 +887,11 @@ export const ukwhoWeightMaleCentileData: ReferenceGroup = {
                                     "l": "98.0",
                                     "x": 0.0383,
                                     "y": 4.8341
+                                },
+                                {
+                                    "l": "98.0",
+                                    "x": 0.0383,
+                                    "y": 4.8341
                                 }
                             ]
                         },
@@ -953,6 +993,11 @@ export const ukwhoWeightMaleCentileData: ReferenceGroup = {
                                     "l": "99.6",
                                     "x": 0.0192,
                                     "y": 4.9939
+                                },
+                                {
+                                    "l": "99.6",
+                                    "x": 0.0383,
+                                    "y": 5.1674
                                 },
                                 {
                                     "l": "99.6",
@@ -1491,6 +1536,11 @@ export const ukwhoWeightMaleCentileData: ReferenceGroup = {
                                     "l": "0.4",
                                     "x": 1.9932,
                                     "y": 8.9544
+                                },
+                                {
+                                    "l": "0.4",
+                                    "x": 2.0,
+                                    "y": 8.9656
                                 }
                             ]
                         },
@@ -2012,6 +2062,11 @@ export const ukwhoWeightMaleCentileData: ReferenceGroup = {
                                     "l": "2.0",
                                     "x": 1.9932,
                                     "y": 9.6602
+                                },
+                                {
+                                    "l": "2.0",
+                                    "x": 2.0,
+                                    "y": 9.6725
                                 }
                             ]
                         },
@@ -2533,6 +2588,11 @@ export const ukwhoWeightMaleCentileData: ReferenceGroup = {
                                     "l": "9.0",
                                     "x": 1.9932,
                                     "y": 10.4225
+                                },
+                                {
+                                    "l": "9.0",
+                                    "x": 2.0,
+                                    "y": 10.436
                                 }
                             ]
                         },
@@ -3054,6 +3114,11 @@ export const ukwhoWeightMaleCentileData: ReferenceGroup = {
                                     "l": "25.0",
                                     "x": 1.9932,
                                     "y": 11.2458
+                                },
+                                {
+                                    "l": "25.0",
+                                    "x": 2.0,
+                                    "y": 11.2607
                                 }
                             ]
                         },
@@ -3575,6 +3640,11 @@ export const ukwhoWeightMaleCentileData: ReferenceGroup = {
                                     "l": "50.0",
                                     "x": 1.9932,
                                     "y": 12.1351
+                                },
+                                {
+                                    "l": "50.0",
+                                    "x": 2.0,
+                                    "y": 12.1515
                                 }
                             ]
                         },
@@ -4096,6 +4166,11 @@ export const ukwhoWeightMaleCentileData: ReferenceGroup = {
                                     "l": "75.0",
                                     "x": 1.9932,
                                     "y": 13.0956
+                                },
+                                {
+                                    "l": "75.0",
+                                    "x": 2.0,
+                                    "y": 13.1138
                                 }
                             ]
                         },
@@ -4617,6 +4692,11 @@ export const ukwhoWeightMaleCentileData: ReferenceGroup = {
                                     "l": "91.0",
                                     "x": 1.9932,
                                     "y": 14.1334
+                                },
+                                {
+                                    "l": "91.0",
+                                    "x": 2.0,
+                                    "y": 14.1535
                                 }
                             ]
                         },
@@ -5138,6 +5218,11 @@ export const ukwhoWeightMaleCentileData: ReferenceGroup = {
                                     "l": "98.0",
                                     "x": 1.9932,
                                     "y": 15.2545
+                                },
+                                {
+                                    "l": "98.0",
+                                    "x": 2.0,
+                                    "y": 15.2767
                                 }
                             ]
                         },
@@ -5659,6 +5744,11 @@ export const ukwhoWeightMaleCentileData: ReferenceGroup = {
                                     "l": "99.6",
                                     "x": 1.9932,
                                     "y": 16.4658
+                                },
+                                {
+                                    "l": "99.6",
+                                    "x": 2.0,
+                                    "y": 16.4905
                                 }
                             ]
                         }
@@ -5802,6 +5892,11 @@ export const ukwhoWeightMaleCentileData: ReferenceGroup = {
                                     "l": "0.4",
                                     "x": 3.9358,
                                     "y": 11.6286
+                                },
+                                {
+                                    "l": "0.4",
+                                    "x": 4.0,
+                                    "y": 11.7084
                                 }
                             ]
                         },
@@ -5933,6 +6028,11 @@ export const ukwhoWeightMaleCentileData: ReferenceGroup = {
                                     "l": "2.0",
                                     "x": 3.9358,
                                     "y": 12.6232
+                                },
+                                {
+                                    "l": "2.0",
+                                    "x": 4.0,
+                                    "y": 12.7126
                                 }
                             ]
                         },
@@ -6064,6 +6164,11 @@ export const ukwhoWeightMaleCentileData: ReferenceGroup = {
                                     "l": "9.0",
                                     "x": 3.9358,
                                     "y": 13.7132
+                                },
+                                {
+                                    "l": "9.0",
+                                    "x": 4.0,
+                                    "y": 13.8136
                                 }
                             ]
                         },
@@ -6195,6 +6300,11 @@ export const ukwhoWeightMaleCentileData: ReferenceGroup = {
                                     "l": "25.0",
                                     "x": 3.9358,
                                     "y": 14.9086
+                                },
+                                {
+                                    "l": "25.0",
+                                    "x": 4.0,
+                                    "y": 15.0219
                                 }
                             ]
                         },
@@ -6326,6 +6436,11 @@ export const ukwhoWeightMaleCentileData: ReferenceGroup = {
                                     "l": "50.0",
                                     "x": 3.9358,
                                     "y": 16.2209
+                                },
+                                {
+                                    "l": "50.0",
+                                    "x": 4.0,
+                                    "y": 16.3489
                                 }
                             ]
                         },
@@ -6457,6 +6572,11 @@ export const ukwhoWeightMaleCentileData: ReferenceGroup = {
                                     "l": "75.0",
                                     "x": 3.9358,
                                     "y": 17.6628
+                                },
+                                {
+                                    "l": "75.0",
+                                    "x": 4.0,
+                                    "y": 17.8077
                                 }
                             ]
                         },
@@ -6588,6 +6708,11 @@ export const ukwhoWeightMaleCentileData: ReferenceGroup = {
                                     "l": "91.0",
                                     "x": 3.9358,
                                     "y": 19.2483
+                                },
+                                {
+                                    "l": "91.0",
+                                    "x": 4.0,
+                                    "y": 19.4129
                                 }
                             ]
                         },
@@ -6719,6 +6844,11 @@ export const ukwhoWeightMaleCentileData: ReferenceGroup = {
                                     "l": "98.0",
                                     "x": 3.9358,
                                     "y": 20.9935
+                                },
+                                {
+                                    "l": "98.0",
+                                    "x": 4.0,
+                                    "y": 21.1808
                                 }
                             ]
                         },
@@ -6850,6 +6980,11 @@ export const ukwhoWeightMaleCentileData: ReferenceGroup = {
                                     "l": "99.6",
                                     "x": 3.9358,
                                     "y": 22.9162
+                                },
+                                {
+                                    "l": "99.6",
+                                    "x": 4.0,
+                                    "y": 23.1298
                                 }
                             ]
                         }
@@ -7833,6 +7968,11 @@ export const ukwhoWeightMaleCentileData: ReferenceGroup = {
                                     "l": "0.4",
                                     "x": 20.0,
                                     "y": 50.9186
+                                },
+                                {
+                                    "l": "0.4",
+                                    "x": 20.0,
+                                    "y": 50.9186
                                 }
                             ]
                         },
@@ -8799,6 +8939,11 @@ export const ukwhoWeightMaleCentileData: ReferenceGroup = {
                                     "l": "2.0",
                                     "x": 19.9167,
                                     "y": 54.6147
+                                },
+                                {
+                                    "l": "2.0",
+                                    "x": 20.0,
+                                    "y": 54.6968
                                 },
                                 {
                                     "l": "2.0",
@@ -9775,6 +9920,11 @@ export const ukwhoWeightMaleCentileData: ReferenceGroup = {
                                     "l": "9.0",
                                     "x": 20.0,
                                     "y": 58.9838
+                                },
+                                {
+                                    "l": "9.0",
+                                    "x": 20.0,
+                                    "y": 58.9838
                                 }
                             ]
                         },
@@ -10741,6 +10891,11 @@ export const ukwhoWeightMaleCentileData: ReferenceGroup = {
                                     "l": "25.0",
                                     "x": 19.9167,
                                     "y": 63.8039
+                                },
+                                {
+                                    "l": "25.0",
+                                    "x": 20.0,
+                                    "y": 63.8823
                                 },
                                 {
                                     "l": "25.0",
@@ -11717,6 +11872,11 @@ export const ukwhoWeightMaleCentileData: ReferenceGroup = {
                                     "l": "50.0",
                                     "x": 20.0,
                                     "y": 69.524
+                                },
+                                {
+                                    "l": "50.0",
+                                    "x": 20.0,
+                                    "y": 69.524
                                 }
                             ]
                         },
@@ -12683,6 +12843,11 @@ export const ukwhoWeightMaleCentileData: ReferenceGroup = {
                                     "l": "75.0",
                                     "x": 19.9167,
                                     "y": 76.0031
+                                },
+                                {
+                                    "l": "75.0",
+                                    "x": 20.0,
+                                    "y": 76.0795
                                 },
                                 {
                                     "l": "75.0",
@@ -13659,6 +13824,11 @@ export const ukwhoWeightMaleCentileData: ReferenceGroup = {
                                     "l": "91.0",
                                     "x": 20.0,
                                     "y": 83.7738
+                                },
+                                {
+                                    "l": "91.0",
+                                    "x": 20.0,
+                                    "y": 83.7738
                                 }
                             ]
                         },
@@ -14630,6 +14800,11 @@ export const ukwhoWeightMaleCentileData: ReferenceGroup = {
                                     "l": "98.0",
                                     "x": 20.0,
                                     "y": 92.9093
+                                },
+                                {
+                                    "l": "98.0",
+                                    "x": 20.0,
+                                    "y": 92.9093
                                 }
                             ]
                         },
@@ -15596,6 +15771,11 @@ export const ukwhoWeightMaleCentileData: ReferenceGroup = {
                                     "l": "99.6",
                                     "x": 19.9167,
                                     "y": 103.8121
+                                },
+                                {
+                                    "l": "99.6",
+                                    "x": 20.0,
+                                    "y": 103.9014
                                 },
                                 {
                                     "l": "99.6",

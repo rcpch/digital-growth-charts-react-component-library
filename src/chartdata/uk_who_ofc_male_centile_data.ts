@@ -111,6 +111,11 @@ export const ukwhoOFCMaleCentileData: ReferenceGroup = {
                                     "l": "0.4",
                                     "x": 0.0383,
                                     "y": 33.015
+                                },
+                                {
+                                    "l": "0.4",
+                                    "x": 0.0383,
+                                    "y": 33.015
                                 }
                             ]
                         },
@@ -212,6 +217,11 @@ export const ukwhoOFCMaleCentileData: ReferenceGroup = {
                                     "l": "2.0",
                                     "x": 0.0192,
                                     "y": 33.1602
+                                },
+                                {
+                                    "l": "2.0",
+                                    "x": 0.0383,
+                                    "y": 33.7243
                                 },
                                 {
                                     "l": "2.0",
@@ -323,6 +333,11 @@ export const ukwhoOFCMaleCentileData: ReferenceGroup = {
                                     "l": "9.0",
                                     "x": 0.0383,
                                     "y": 34.4336
+                                },
+                                {
+                                    "l": "9.0",
+                                    "x": 0.0383,
+                                    "y": 34.4336
                                 }
                             ]
                         },
@@ -424,6 +439,11 @@ export const ukwhoOFCMaleCentileData: ReferenceGroup = {
                                     "l": "25.0",
                                     "x": 0.0192,
                                     "y": 34.6445
+                                },
+                                {
+                                    "l": "25.0",
+                                    "x": 0.0383,
+                                    "y": 35.1428
                                 },
                                 {
                                     "l": "25.0",
@@ -535,6 +555,11 @@ export const ukwhoOFCMaleCentileData: ReferenceGroup = {
                                     "l": "50.0",
                                     "x": 0.0383,
                                     "y": 35.8521
+                                },
+                                {
+                                    "l": "50.0",
+                                    "x": 0.0383,
+                                    "y": 35.8521
                                 }
                             ]
                         },
@@ -636,6 +661,11 @@ export const ukwhoOFCMaleCentileData: ReferenceGroup = {
                                     "l": "75.0",
                                     "x": 0.0192,
                                     "y": 36.1288
+                                },
+                                {
+                                    "l": "75.0",
+                                    "x": 0.0383,
+                                    "y": 36.5614
                                 },
                                 {
                                     "l": "75.0",
@@ -747,6 +777,11 @@ export const ukwhoOFCMaleCentileData: ReferenceGroup = {
                                     "l": "91.0",
                                     "x": 0.0383,
                                     "y": 37.2706
+                                },
+                                {
+                                    "l": "91.0",
+                                    "x": 0.0383,
+                                    "y": 37.2706
                                 }
                             ]
                         },
@@ -853,6 +888,11 @@ export const ukwhoOFCMaleCentileData: ReferenceGroup = {
                                     "l": "98.0",
                                     "x": 0.0383,
                                     "y": 37.9799
+                                },
+                                {
+                                    "l": "98.0",
+                                    "x": 0.0383,
+                                    "y": 37.9799
                                 }
                             ]
                         },
@@ -954,6 +994,11 @@ export const ukwhoOFCMaleCentileData: ReferenceGroup = {
                                     "l": "99.6",
                                     "x": 0.0192,
                                     "y": 38.3553
+                                },
+                                {
+                                    "l": "99.6",
+                                    "x": 0.0383,
+                                    "y": 38.6891
                                 },
                                 {
                                     "l": "99.6",
@@ -1492,6 +1537,11 @@ export const ukwhoOFCMaleCentileData: ReferenceGroup = {
                                     "l": "0.4",
                                     "x": 1.9932,
                                     "y": 44.6121
+                                },
+                                {
+                                    "l": "0.4",
+                                    "x": 2.0,
+                                    "y": 44.6217
                                 }
                             ]
                         },
@@ -2013,6 +2063,11 @@ export const ukwhoOFCMaleCentileData: ReferenceGroup = {
                                     "l": "2.0",
                                     "x": 1.9932,
                                     "y": 45.5193
+                                },
+                                {
+                                    "l": "2.0",
+                                    "x": 2.0,
+                                    "y": 45.5292
                                 }
                             ]
                         },
@@ -2534,6 +2589,11 @@ export const ukwhoOFCMaleCentileData: ReferenceGroup = {
                                     "l": "9.0",
                                     "x": 1.9932,
                                     "y": 46.4264
+                                },
+                                {
+                                    "l": "9.0",
+                                    "x": 2.0,
+                                    "y": 46.4366
                                 }
                             ]
                         },
@@ -3055,6 +3115,11 @@ export const ukwhoOFCMaleCentileData: ReferenceGroup = {
                                     "l": "25.0",
                                     "x": 1.9932,
                                     "y": 47.3336
+                                },
+                                {
+                                    "l": "25.0",
+                                    "x": 2.0,
+                                    "y": 47.3441
                                 }
                             ]
                         },
@@ -3576,6 +3641,11 @@ export const ukwhoOFCMaleCentileData: ReferenceGroup = {
                                     "l": "50.0",
                                     "x": 1.9932,
                                     "y": 48.2407
+                                },
+                                {
+                                    "l": "50.0",
+                                    "x": 2.0,
+                                    "y": 48.2515
                                 }
                             ]
                         },
@@ -4097,6 +4167,11 @@ export const ukwhoOFCMaleCentileData: ReferenceGroup = {
                                     "l": "75.0",
                                     "x": 1.9932,
                                     "y": 49.1478
+                                },
+                                {
+                                    "l": "75.0",
+                                    "x": 2.0,
+                                    "y": 49.1589
                                 }
                             ]
                         },
@@ -4618,6 +4693,11 @@ export const ukwhoOFCMaleCentileData: ReferenceGroup = {
                                     "l": "91.0",
                                     "x": 1.9932,
                                     "y": 50.055
+                                },
+                                {
+                                    "l": "91.0",
+                                    "x": 2.0,
+                                    "y": 50.0664
                                 }
                             ]
                         },
@@ -5139,6 +5219,11 @@ export const ukwhoOFCMaleCentileData: ReferenceGroup = {
                                     "l": "98.0",
                                     "x": 1.9932,
                                     "y": 50.9621
+                                },
+                                {
+                                    "l": "98.0",
+                                    "x": 2.0,
+                                    "y": 50.9738
                                 }
                             ]
                         },
@@ -5660,6 +5745,11 @@ export const ukwhoOFCMaleCentileData: ReferenceGroup = {
                                     "l": "99.6",
                                     "x": 1.9932,
                                     "y": 51.8693
+                                },
+                                {
+                                    "l": "99.6",
+                                    "x": 2.0,
+                                    "y": 51.8813
                                 }
                             ]
                         }
@@ -5803,6 +5893,11 @@ export const ukwhoOFCMaleCentileData: ReferenceGroup = {
                                     "l": "0.4",
                                     "x": 3.9358,
                                     "y": 46.2788
+                                },
+                                {
+                                    "l": "0.4",
+                                    "x": 4.0,
+                                    "y": 46.3124
                                 }
                             ]
                         },
@@ -5934,6 +6029,11 @@ export const ukwhoOFCMaleCentileData: ReferenceGroup = {
                                     "l": "2.0",
                                     "x": 3.9358,
                                     "y": 47.252
+                                },
+                                {
+                                    "l": "2.0",
+                                    "x": 4.0,
+                                    "y": 47.2872
                                 }
                             ]
                         },
@@ -6065,6 +6165,11 @@ export const ukwhoOFCMaleCentileData: ReferenceGroup = {
                                     "l": "9.0",
                                     "x": 3.9358,
                                     "y": 48.2252
+                                },
+                                {
+                                    "l": "9.0",
+                                    "x": 4.0,
+                                    "y": 48.262
                                 }
                             ]
                         },
@@ -6196,6 +6301,11 @@ export const ukwhoOFCMaleCentileData: ReferenceGroup = {
                                     "l": "25.0",
                                     "x": 3.9358,
                                     "y": 49.1985
+                                },
+                                {
+                                    "l": "25.0",
+                                    "x": 4.0,
+                                    "y": 49.2367
                                 }
                             ]
                         },
@@ -6327,6 +6437,11 @@ export const ukwhoOFCMaleCentileData: ReferenceGroup = {
                                     "l": "50.0",
                                     "x": 3.9358,
                                     "y": 50.1717
+                                },
+                                {
+                                    "l": "50.0",
+                                    "x": 4.0,
+                                    "y": 50.2115
                                 }
                             ]
                         },
@@ -6458,6 +6573,11 @@ export const ukwhoOFCMaleCentileData: ReferenceGroup = {
                                     "l": "75.0",
                                     "x": 3.9358,
                                     "y": 51.1449
+                                },
+                                {
+                                    "l": "75.0",
+                                    "x": 4.0,
+                                    "y": 51.1863
                                 }
                             ]
                         },
@@ -6589,6 +6709,11 @@ export const ukwhoOFCMaleCentileData: ReferenceGroup = {
                                     "l": "91.0",
                                     "x": 3.9358,
                                     "y": 52.1181
+                                },
+                                {
+                                    "l": "91.0",
+                                    "x": 4.0,
+                                    "y": 52.161
                                 }
                             ]
                         },
@@ -6720,6 +6845,11 @@ export const ukwhoOFCMaleCentileData: ReferenceGroup = {
                                     "l": "98.0",
                                     "x": 3.9358,
                                     "y": 53.0914
+                                },
+                                {
+                                    "l": "98.0",
+                                    "x": 4.0,
+                                    "y": 53.1358
                                 }
                             ]
                         },
@@ -6851,6 +6981,11 @@ export const ukwhoOFCMaleCentileData: ReferenceGroup = {
                                     "l": "99.6",
                                     "x": 3.9358,
                                     "y": 54.0646
+                                },
+                                {
+                                    "l": "99.6",
+                                    "x": 4.0,
+                                    "y": 54.1106
                                 }
                             ]
                         }
@@ -7709,6 +7844,11 @@ export const ukwhoOFCMaleCentileData: ReferenceGroup = {
                                     "l": "0.4",
                                     "x": 17.9167,
                                     "y": 52.6626
+                                },
+                                {
+                                    "l": "0.4",
+                                    "x": 18.0,
+                                    "y": 52.6929
                                 }
                             ]
                         },
@@ -8555,6 +8695,11 @@ export const ukwhoOFCMaleCentileData: ReferenceGroup = {
                                     "l": "2.0",
                                     "x": 17.9167,
                                     "y": 53.8037
+                                },
+                                {
+                                    "l": "2.0",
+                                    "x": 18.0,
+                                    "y": 53.8347
                                 }
                             ]
                         },
@@ -9401,6 +9546,11 @@ export const ukwhoOFCMaleCentileData: ReferenceGroup = {
                                     "l": "9.0",
                                     "x": 17.9167,
                                     "y": 54.9448
+                                },
+                                {
+                                    "l": "9.0",
+                                    "x": 18.0,
+                                    "y": 54.9765
                                 }
                             ]
                         },
@@ -10247,6 +10397,11 @@ export const ukwhoOFCMaleCentileData: ReferenceGroup = {
                                     "l": "25.0",
                                     "x": 17.9167,
                                     "y": 56.0859
+                                },
+                                {
+                                    "l": "25.0",
+                                    "x": 18.0,
+                                    "y": 56.1182
                                 }
                             ]
                         },
@@ -11093,6 +11248,11 @@ export const ukwhoOFCMaleCentileData: ReferenceGroup = {
                                     "l": "50.0",
                                     "x": 17.9167,
                                     "y": 57.227
+                                },
+                                {
+                                    "l": "50.0",
+                                    "x": 18.0,
+                                    "y": 57.26
                                 }
                             ]
                         },
@@ -11939,6 +12099,11 @@ export const ukwhoOFCMaleCentileData: ReferenceGroup = {
                                     "l": "75.0",
                                     "x": 17.9167,
                                     "y": 58.3681
+                                },
+                                {
+                                    "l": "75.0",
+                                    "x": 18.0,
+                                    "y": 58.4018
                                 }
                             ]
                         },
@@ -12785,6 +12950,11 @@ export const ukwhoOFCMaleCentileData: ReferenceGroup = {
                                     "l": "91.0",
                                     "x": 17.9167,
                                     "y": 59.5092
+                                },
+                                {
+                                    "l": "91.0",
+                                    "x": 18.0,
+                                    "y": 59.5435
                                 }
                             ]
                         },
@@ -13631,6 +13801,11 @@ export const ukwhoOFCMaleCentileData: ReferenceGroup = {
                                     "l": "98.0",
                                     "x": 17.9167,
                                     "y": 60.6503
+                                },
+                                {
+                                    "l": "98.0",
+                                    "x": 18.0,
+                                    "y": 60.6853
                                 }
                             ]
                         },
@@ -14477,6 +14652,11 @@ export const ukwhoOFCMaleCentileData: ReferenceGroup = {
                                     "l": "99.6",
                                     "x": 17.9167,
                                     "y": 61.7914
+                                },
+                                {
+                                    "l": "99.6",
+                                    "x": 18.0,
+                                    "y": 61.8271
                                 }
                             ]
                         }

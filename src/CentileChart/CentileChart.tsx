@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, useMemo, MouseEvent } from 'react';
+import React, { useState, useLayoutEffect, useMemo, MouseEvent, useRef } from 'react';
 import {
     // libraries
     createContainer,
@@ -12,6 +12,7 @@ import {
     VictoryAxis,
     VictoryLabel,
     VictoryArea,
+    VictoryVoronoiContainer,
 } from 'victory';
 
 // helper functions
@@ -45,6 +46,8 @@ import { MainContainer } from '../SubComponents/MainContainer';
 import icon from '../images/icon.png';
 import { isCrowded } from '../functions/isCrowded';
 import { EventCaret } from '../SubComponents/EventCaret';
+import { StyledShareButton } from '../SubComponents/StyledShareButton';
+import { ShareIcon } from '../SubComponents/ShareIcon';
 
 // allows two top level containers: zoom and voronoi
 const VictoryZoomVoronoiContainer = createContainer<VictoryZoomContainerProps, VictoryVoronoiContainerProps>(
@@ -65,12 +68,15 @@ function CentileChart({
     midParentalHeightData,
     enableZoom,
     styles,
+    enableExport,
+    exportChartCallback
 }: CentileChartProps) {
     const [userDomains, setUserDomains] = useState(null);
 
     const { defaultShowCorrected, defaultShowChronological, showToggle } = defaultToggles(childMeasurements);
     const [showChronologicalAge, setShowChronologicalAge] = useState(defaultShowChronological);
     const [showCorrectedAge, setShowCorrectedAge] = useState(defaultShowCorrected);
+    const chartRef=useRef<any>();
 
     let { bmiSDSData, centileData, computedDomains, chartScaleType } = useMemo(
         () =>
@@ -129,6 +135,12 @@ function CentileChart({
         ];
     }
 
+    const exportPressed = () => {
+        if (enableExport) {
+            exportChartCallback(chartRef.current.firstChild) // this passes the raw SVG back to the client for converting
+        } 
+    }
+    
     const onSelectRadioButton = (event: MouseEvent<HTMLButtonElement>) => {
         switch ((event.target as HTMLInputElement).value) {
             case 'unadjusted':
@@ -181,6 +193,7 @@ function CentileChart({
                 domain={computedDomains}
                 containerComponent={
                     <VictoryZoomVoronoiContainer
+                        containerRef={ref => { chartRef.current=ref} }
                         allowZoom={allowZooming}
                         allowPan={allowZooming}
                         onZoomDomainChange={handleZoomChange}
@@ -617,6 +630,15 @@ function CentileChart({
                     )}
                 </ButtonContainer>
             )}
+            { enableExport &&
+                 <StyledShareButton 
+                    color={styles.toggleStyle.activeColour}
+                    size={5}
+                    onClick={exportPressed}
+                 >
+                     <ShareIcon/>
+                 </StyledShareButton>
+            }
         </MainContainer>
     );
 }

@@ -583,6 +583,11 @@ export const ukwhoBMIMaleCentileData: ReferenceGroup = {
                                     "l": "0.4",
                                     "x": 1.9932,
                                     "y": 12.9575
+                                },
+                                {
+                                    "l": "0.4",
+                                    "x": 2.0,
+                                    "y": 12.9548
                                 }
                             ]
                         },
@@ -1104,6 +1109,11 @@ export const ukwhoBMIMaleCentileData: ReferenceGroup = {
                                     "l": "2.0",
                                     "x": 1.9932,
                                     "y": 13.5727
+                                },
+                                {
+                                    "l": "2.0",
+                                    "x": 2.0,
+                                    "y": 13.5697
                                 }
                             ]
                         },
@@ -1625,6 +1635,11 @@ export const ukwhoBMIMaleCentileData: ReferenceGroup = {
                                     "l": "9.0",
                                     "x": 1.9932,
                                     "y": 14.2375
+                                },
+                                {
+                                    "l": "9.0",
+                                    "x": 2.0,
+                                    "y": 14.2341
                                 }
                             ]
                         },
@@ -2146,6 +2161,11 @@ export const ukwhoBMIMaleCentileData: ReferenceGroup = {
                                     "l": "25.0",
                                     "x": 1.9932,
                                     "y": 14.9576
+                                },
+                                {
+                                    "l": "25.0",
+                                    "x": 2.0,
+                                    "y": 14.9538
                                 }
                             ]
                         },
@@ -2667,6 +2687,11 @@ export const ukwhoBMIMaleCentileData: ReferenceGroup = {
                                     "l": "50.0",
                                     "x": 1.9932,
                                     "y": 15.7397
+                                },
+                                {
+                                    "l": "50.0",
+                                    "x": 2.0,
+                                    "y": 15.7356
                                 }
                             ]
                         },
@@ -3188,6 +3213,11 @@ export const ukwhoBMIMaleCentileData: ReferenceGroup = {
                                     "l": "75.0",
                                     "x": 1.9932,
                                     "y": 16.5914
+                                },
+                                {
+                                    "l": "75.0",
+                                    "x": 2.0,
+                                    "y": 16.587
                                 }
                             ]
                         },
@@ -3709,6 +3739,11 @@ export const ukwhoBMIMaleCentileData: ReferenceGroup = {
                                     "l": "91.0",
                                     "x": 1.9932,
                                     "y": 17.5218
+                                },
+                                {
+                                    "l": "91.0",
+                                    "x": 2.0,
+                                    "y": 17.5171
                                 }
                             ]
                         },
@@ -4230,6 +4265,11 @@ export const ukwhoBMIMaleCentileData: ReferenceGroup = {
                                     "l": "98.0",
                                     "x": 1.9932,
                                     "y": 18.5413
+                                },
+                                {
+                                    "l": "98.0",
+                                    "x": 2.0,
+                                    "y": 18.5363
                                 }
                             ]
                         },
@@ -4751,6 +4791,11 @@ export const ukwhoBMIMaleCentileData: ReferenceGroup = {
                                     "l": "99.6",
                                     "x": 1.9932,
                                     "y": 19.6622
+                                },
+                                {
+                                    "l": "99.6",
+                                    "x": 2.0,
+                                    "y": 19.657
                                 }
                             ]
                         }
@@ -4894,6 +4939,11 @@ export const ukwhoBMIMaleCentileData: ReferenceGroup = {
                                     "l": "0.4",
                                     "x": 3.9358,
                                     "y": 12.4254
+                                },
+                                {
+                                    "l": "0.4",
+                                    "x": 4.0,
+                                    "y": 12.4113
                                 }
                             ]
                         },
@@ -5025,6 +5075,11 @@ export const ukwhoBMIMaleCentileData: ReferenceGroup = {
                                     "l": "2.0",
                                     "x": 3.9358,
                                     "y": 13.0797
+                                },
+                                {
+                                    "l": "2.0",
+                                    "x": 4.0,
+                                    "y": 13.0652
                                 }
                             ]
                         },
@@ -5156,6 +5211,11 @@ export const ukwhoBMIMaleCentileData: ReferenceGroup = {
                                     "l": "9.0",
                                     "x": 3.9358,
                                     "y": 13.7814
+                                },
+                                {
+                                    "l": "9.0",
+                                    "x": 4.0,
+                                    "y": 13.7669
                                 }
                             ]
                         },
@@ -5287,6 +5347,11 @@ export const ukwhoBMIMaleCentileData: ReferenceGroup = {
                                     "l": "25.0",
                                     "x": 3.9358,
                                     "y": 14.5348
+                                },
+                                {
+                                    "l": "25.0",
+                                    "x": 4.0,
+                                    "y": 14.5211
                                 }
                             ]
                         },
@@ -5418,6 +5483,11 @@ export const ukwhoBMIMaleCentileData: ReferenceGroup = {
                                     "l": "50.0",
                                     "x": 3.9358,
                                     "y": 15.3448
+                                },
+                                {
+                                    "l": "50.0",
+                                    "x": 4.0,
+                                    "y": 15.3326
                                 }
                             ]
                         },
@@ -5549,6 +5619,11 @@ export const ukwhoBMIMaleCentileData: ReferenceGroup = {
                                     "l": "75.0",
                                     "x": 3.9358,
                                     "y": 16.217
+                                },
+                                {
+                                    "l": "75.0",
+                                    "x": 4.0,
+                                    "y": 16.2072
                                 }
                             ]
                         },
@@ -5680,6 +5755,11 @@ export const ukwhoBMIMaleCentileData: ReferenceGroup = {
                                     "l": "91.0",
                                     "x": 3.9358,
                                     "y": 17.1574
+                                },
+                                {
+                                    "l": "91.0",
+                                    "x": 4.0,
+                                    "y": 17.1512
                                 }
                             ]
                         },
@@ -5811,6 +5891,11 @@ export const ukwhoBMIMaleCentileData: ReferenceGroup = {
                                     "l": "98.0",
                                     "x": 3.9358,
                                     "y": 18.1728
+                                },
+                                {
+                                    "l": "98.0",
+                                    "x": 4.0,
+                                    "y": 18.1716
                                 }
                             ]
                         },
@@ -5942,6 +6027,11 @@ export const ukwhoBMIMaleCentileData: ReferenceGroup = {
                                     "l": "99.6",
                                     "x": 3.9358,
                                     "y": 19.2711
+                                },
+                                {
+                                    "l": "99.6",
+                                    "x": 4.0,
+                                    "y": 19.2766
                                 }
                             ]
                         }
@@ -6925,6 +7015,11 @@ export const ukwhoBMIMaleCentileData: ReferenceGroup = {
                                     "l": "0.4",
                                     "x": 20.0,
                                     "y": 17.0146
+                                },
+                                {
+                                    "l": "0.4",
+                                    "x": 20.0,
+                                    "y": 17.0146
                                 }
                             ]
                         },
@@ -7891,6 +7986,11 @@ export const ukwhoBMIMaleCentileData: ReferenceGroup = {
                                     "l": "2.0",
                                     "x": 19.9167,
                                     "y": 17.9669
+                                },
+                                {
+                                    "l": "2.0",
+                                    "x": 20.0,
+                                    "y": 17.9951
                                 },
                                 {
                                     "l": "2.0",
@@ -8867,6 +8967,11 @@ export const ukwhoBMIMaleCentileData: ReferenceGroup = {
                                     "l": "9.0",
                                     "x": 20.0,
                                     "y": 19.1225
+                                },
+                                {
+                                    "l": "9.0",
+                                    "x": 20.0,
+                                    "y": 19.1225
                                 }
                             ]
                         },
@@ -9833,6 +9938,11 @@ export const ukwhoBMIMaleCentileData: ReferenceGroup = {
                                     "l": "25.0",
                                     "x": 19.9167,
                                     "y": 20.4024
+                                },
+                                {
+                                    "l": "25.0",
+                                    "x": 20.0,
+                                    "y": 20.4351
                                 },
                                 {
                                     "l": "25.0",
@@ -10809,6 +10919,11 @@ export const ukwhoBMIMaleCentileData: ReferenceGroup = {
                                     "l": "50.0",
                                     "x": 20.0,
                                     "y": 21.986
+                                },
+                                {
+                                    "l": "50.0",
+                                    "x": 20.0,
+                                    "y": 21.986
                                 }
                             ]
                         },
@@ -11775,6 +11890,11 @@ export const ukwhoBMIMaleCentileData: ReferenceGroup = {
                                     "l": "75.0",
                                     "x": 19.9167,
                                     "y": 23.8147
+                                },
+                                {
+                                    "l": "75.0",
+                                    "x": 20.0,
+                                    "y": 23.8518
                                 },
                                 {
                                     "l": "75.0",
@@ -12751,6 +12871,11 @@ export const ukwhoBMIMaleCentileData: ReferenceGroup = {
                                     "l": "91.0",
                                     "x": 20.0,
                                     "y": 26.1473
+                                },
+                                {
+                                    "l": "91.0",
+                                    "x": 20.0,
+                                    "y": 26.1473
                                 }
                             ]
                         },
@@ -13722,6 +13847,11 @@ export const ukwhoBMIMaleCentileData: ReferenceGroup = {
                                     "l": "98.0",
                                     "x": 20.0,
                                     "y": 29.0533
+                                },
+                                {
+                                    "l": "98.0",
+                                    "x": 20.0,
+                                    "y": 29.0533
                                 }
                             ]
                         },
@@ -14688,6 +14818,11 @@ export const ukwhoBMIMaleCentileData: ReferenceGroup = {
                                     "l": "99.6",
                                     "x": 19.9167,
                                     "y": 32.8392
+                                },
+                                {
+                                    "l": "99.6",
+                                    "x": 20.0,
+                                    "y": 32.874
                                 },
                                 {
                                     "l": "99.6",
