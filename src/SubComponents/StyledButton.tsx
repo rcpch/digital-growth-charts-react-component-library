@@ -11,11 +11,9 @@ export const StyledButton = styled.button<{
     enabled: boolean;
     margin?: string;
 }>`
-    display: inline-block;
+    align-self: flex-end;
     background-color: ${(props) => (props.enabled ? props.activeColour : props.inactiveColour)};
     border: 2px solid ${(props) => (props.enabled ? props.activeColour : props.inactiveColour)};
-    padding: 4px 11px;
-    margin: ${({ margin }) => margin ?? '0px 20px'};
     font-family: Arial;
     font-size: 14px;
     min-height: 30px;

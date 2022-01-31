@@ -11,6 +11,7 @@ export const StyledRadioButtonGroup = styled(AgeRadioButtonGroup)<{
     color: string;
     className: string;
 }>`
+    align-self: center;
     label {
         display: inline-block;
         padding: 5px 11px;

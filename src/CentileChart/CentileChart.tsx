@@ -11,8 +11,7 @@ import {
     VictoryTooltip,
     VictoryAxis,
     VictoryLabel,
-    VictoryArea,
-    VictoryVoronoiContainer,
+    VictoryArea
 } from 'victory';
 
 // helper functions
@@ -47,7 +46,10 @@ import icon from '../images/icon.png';
 import { isCrowded } from '../functions/isCrowded';
 import { EventCaret } from '../SubComponents/EventCaret';
 import { StyledShareButton } from '../SubComponents/StyledShareButton';
+import { ShareButtonWrapper } from '../SubComponents/ShareButtonWrapper';
 import { ShareIcon } from '../SubComponents/ShareIcon';
+import { CopiedLabel } from '../SubComponents/CopiedLabel';
+import { ChartContainer } from '../SubComponents/ChartContainer';
 
 // allows two top level containers: zoom and voronoi
 const VictoryZoomVoronoiContainer = createContainer<VictoryZoomContainerProps, VictoryVoronoiContainerProps>(
@@ -77,6 +79,7 @@ function CentileChart({
     const [showChronologicalAge, setShowChronologicalAge] = useState(defaultShowChronological);
     const [showCorrectedAge, setShowCorrectedAge] = useState(defaultShowCorrected);
     const chartRef=useRef<any>();
+    const [active, setActive] = useState(false);
 
     let { bmiSDSData, centileData, computedDomains, chartScaleType } = useMemo(
         () =>
@@ -137,8 +140,12 @@ function CentileChart({
 
     const exportPressed = () => {
         if (enableExport) {
+            setActive(true);
             exportChartCallback(chartRef.current.firstChild) // this passes the raw SVG back to the client for converting
         } 
+    }
+    const labelFadeEnd = () => {
+        setActive(false);
     }
     
     const onSelectRadioButton = (event: MouseEvent<HTMLButtonElement>) => {
@@ -181,464 +188,477 @@ function CentileChart({
                 <ChartTitle {...styles.chartSubTitle}>{subtitle}</ChartTitle>
             </TitleContainer>
 
-            {/* The VictoryChart is the parent component. It contains a Voronoi container, which groups data sets together for the purposes of tooltips */}
-            {/* It has an animation object and the domains are the thresholds of ages rendered. This is calculated from the child data supplied by the user. */}
-            {/* Tooltips are here as it is the parent component. More information of tooltips in centiles below. */}
+            <ChartContainer>
 
-            <VictoryChart
-                width={styles.chartWidth}
-                height={styles.chartHeight}
-                padding={styles.chartPadding}
-                style={styles.chartMisc}
-                domain={computedDomains}
-                containerComponent={
-                    <VictoryZoomVoronoiContainer
-                        containerRef={ref => { chartRef.current=ref} }
-                        allowZoom={allowZooming}
-                        allowPan={allowZooming}
-                        onZoomDomainChange={handleZoomChange}
-                        zoomDomain={domains}
-                        labelComponent={
-                            <VictoryTooltip
-                                constrainToVisibleArea
-                                pointerLength={5}
-                                cornerRadius={0}
-                                flyoutStyle={styles.toolTipFlyout}
-                                style={styles.toolTipMain}
-                            />
-                        }
-                        labels={({ datum }) => {
-                                return tooltipText(
-                                    reference,
-                                    datum.l,
-                                    measurementMethod,
-                                    datum.x,
-                                    datum.age_type,
-                                    datum.centile_band,
-                                    datum.calendar_age,
-                                    datum.corrected_gestational_age,
-                                    datum.y,
-                                    datum.observation_value_error,
-                                    datum.age_error,
-                                    datum.lay_comment,
-                                    datum.sex,
-                                    datum.b,
-                                    datum.bone_age_label,
-                                    datum.bone_age_sds,
-                                    datum.bone_age_centile,
-                                    datum.bone_age_type,
-                                    midParentalHeightData.mid_parental_height,
-                                    midParentalHeightData.mid_parental_height_sds,
-                                    midParentalHeightData.mid_parental_height_lower_value,
-                                    midParentalHeightData.mid_parental_height_upper_value,
-                                    datum.childName
-                                )
+                {/* The VictoryChart is the parent component. It contains a Voronoi container, which groups data sets together for the purposes of tooltips */}
+                {/* It has an animation object and the domains are the thresholds of ages rendered. This is calculated from the child data supplied by the user. */}
+                {/* Tooltips are here as it is the parent component. More information of tooltips in centiles below. */}
+
+                <VictoryChart
+                    width={styles.chartWidth}
+                    height={styles.chartHeight}
+                    padding={styles.chartPadding}
+                    style={styles.chartMisc}
+                    domain={computedDomains}
+                    containerComponent={
+                        <VictoryZoomVoronoiContainer
+                            containerRef={ref => { chartRef.current=ref} }
+                            allowZoom={allowZooming}
+                            allowPan={allowZooming}
+                            onZoomDomainChange={handleZoomChange}
+                            zoomDomain={domains}
+                            labelComponent={
+                                <VictoryTooltip
+                                    constrainToVisibleArea
+                                    pointerLength={5}
+                                    cornerRadius={0}
+                                    flyoutStyle={styles.toolTipFlyout}
+                                    style={styles.toolTipMain}
+                                />
                             }
-                        }
-                        voronoiBlacklist={['linkLine', 'chronologicalboneagelinkline', 'correctedboneagelinkline']}
-                    />
-                }
-            >
-
-                {/* 
-                midparental height centiles 
-                These are three lines, the MPH centile, a centile 2SD above it, and another 2SD below
-                There is an area fill between the highest and lowest
-                */
-                }
-                
-                { reference==="uk-who" && measurementMethod==="height" && midParentalHeightData.mid_parental_height_centile_data && 
-
-                    midParentalHeightData.mid_parental_height_centile_data.map((referenceData, index) => {
-                    const centiles = referenceData.uk90_preterm || referenceData.uk_who_infant || referenceData.uk_who_child || referenceData.uk90_child;
-                    const lowercentiles = midParentalHeightData.mid_parental_height_lower_centile_data[index].uk90_preterm || midParentalHeightData.mid_parental_height_lower_centile_data[index].uk_who_infant || midParentalHeightData.mid_parental_height_lower_centile_data[index].uk_who_child || midParentalHeightData.mid_parental_height_lower_centile_data[index].uk90_child;
-                    const uppercentiles = midParentalHeightData.mid_parental_height_upper_centile_data[index].uk90_preterm || midParentalHeightData.mid_parental_height_upper_centile_data[index].uk_who_infant || midParentalHeightData.mid_parental_height_upper_centile_data[index].uk_who_child || midParentalHeightData.mid_parental_height_upper_centile_data[index].uk90_child;
-                    const mpcData = sex === "male" ? centiles.male.height : centiles.female.height;
-                    const lowerMPCData = sex === "male" ? lowercentiles.male.height : lowercentiles.female.height;
-                    const upperMPCData = sex === "male" ? uppercentiles.male.height : uppercentiles.female.height;
-                        return (
-                            <VictoryGroup key={'midparentalCentileDataBlock' + index}>
-                                {   upperMPCData.map((centile: ICentile, centileIndex: number)=>{
-                                    const newData: any = centile.data.map((data, index) => {
-                                        let o: any = Object.assign({}, data)
-                                        o.y0 = lowerMPCData[centileIndex].data[index].y
-                                        return o;
-                                    })
-                                        return (
-                                            <VictoryArea 
-                                                name="areaMPH"
-                                                key={centile.centile+'-area-'+centileIndex}
-                                                data={newData}
-                                                style={styles.midParentalArea}
-                                            />
-                                        )
-                                    })
+                            labels={({ datum }) => {
+                                    return tooltipText(
+                                        reference,
+                                        datum.l,
+                                        measurementMethod,
+                                        datum.x,
+                                        datum.age_type,
+                                        datum.centile_band,
+                                        datum.calendar_age,
+                                        datum.corrected_gestational_age,
+                                        datum.y,
+                                        datum.observation_value_error,
+                                        datum.age_error,
+                                        datum.lay_comment,
+                                        datum.sex,
+                                        datum.b,
+                                        datum.bone_age_label,
+                                        datum.bone_age_sds,
+                                        datum.bone_age_centile,
+                                        datum.bone_age_type,
+                                        midParentalHeightData.mid_parental_height,
+                                        midParentalHeightData.mid_parental_height_sds,
+                                        midParentalHeightData.mid_parental_height_lower_value,
+                                        midParentalHeightData.mid_parental_height_upper_value,
+                                        datum.childName
+                                    )
                                 }
-                                {   lowerMPCData.map((lowercentile: ICentile, centileIndex: number) => {
-                                        return (
-                                            <VictoryLine
-                                                name="lowerCentileMPH"
-                                                key={lowercentile.centile + '-' + centileIndex}
-                                                padding={{ top: 20, bottom: 20 }}
-                                                data={lowercentile.data}
-                                                style={styles.midParentalCentile}
-                                            />
-                                        );
-                                })}
-                                {mpcData.map((centile: ICentile, centileIndex: number) => {
-                                        return (
-                                            <VictoryLine
-                                                name="centileMPH"
-                                                key={centile.centile + '-' + centileIndex}
-                                                padding={{ top: 20, bottom: 20 }}
-                                                data={centile.data}
-                                                style={styles.midParentalCentile}
-                                            />
-                                        );
-                                })}
-                                {upperMPCData.map((uppercentile: ICentile, centileIndex: number) => {
-                                        return (
-                                            <VictoryLine
-                                                name="upperCentileMPH"
-                                                key={uppercentile.centile + '-' + centileIndex}
-                                                padding={{ top: 20, bottom: 20 }}
-                                                data={uppercentile.data}
-                                                style={styles.midParentalCentile}
-                                            />
-                                        );
-                                })}
-                                
-                            </VictoryGroup>
-                        );
-                    })
-                }
-
-                {
-                    /* Term child shaded area: */
-                    termAreaData !== null && <VictoryArea style={styles.termArea} data={termAreaData} />
-                }
-
-                {/* X axis: */}
-                <VictoryAxis
-                    label={xAxisLabel(chartScaleType, domains)}
-                    style={styles.xAxis}
-                    tickValues={tailoredXTickValues[chartScaleType]}
-                    tickLabelComponent={
-                        <RenderTickLabel
-                            specificStyle={styles.xTicklabel}
-                            chartScaleType={chartScaleType}
-                            domains={domains}
+                            }
+                            voronoiBlacklist={['linkLine', 'chronologicalboneagelinkline', 'correctedboneagelinkline']}
                         />
                     }
-                    gridComponent={<CustomGridComponent chartScaleType={chartScaleType} />}
-                />
+                >
 
-                {
-                    /* render the y axis */
-                    <VictoryAxis
-                        minDomain={0}
-                        label={yAxisLabel(measurementMethod, false)}
-                        style={styles.yAxis}
-                        dependentAxis
-                    />
-                }
+                    {/* 
+                    midparental height centiles 
+                    These are three lines, the MPH centile, a centile 2SD above it, and another 2SD below
+                    There is an area fill between the highest and lowest
+                    */
+                    }
+                    
+                    { reference==="uk-who" && measurementMethod==="height" && midParentalHeightData.mid_parental_height_centile_data && 
 
-                {/* This is the shaded area below the 0.4th centile in late childhood/early adolescence */}
-                {/* Any measurements plotting here are likely due to delayed puberty */}
-                {/* The upper border is the 0.4th centile so this must come before the centiles */}
-
-                {
-                    // delayed puberty area:
-                    pubertyThresholds !== null && (
-                        <VictoryArea
-                            data={delayedPubertyThreshold(sex)}
-                            y0={(d: any) => lowerPubertyBorder(d, sex)}
-                            style={styles.delayedPubertyArea}
-                            name="delayed"
-                        />
-                    )
-                }
-
-                {/* Render the centiles - loop through the data set, create a line for each centile */}
-                {/* On the old charts the 50th centile was thicker and darker and this lead parents to believe it was therefore */}
-                {/* the line their children should follow. This was a design mistake, since it does not matter which line the child is on  */}
-                {/* so long as they follow it. The middle line was therefore 'de-emphasised' on the newer charts. */}
-                {/* For each reference data set, there are 9 centiles. The 0.4th, 9th, 50th, 91st, 99.6th are all dashed. */}
-                {/* The 2nd, 25th, 75th, 98th are all continuous lines. As there are 4 datasets, this means 36 separate line series to render. */}
-                {/* It is essential each centile from each reference is plotted as a series to prevent interpolation between centiles of one reference  */}
-                {/* and centiles of another. The discontinuous lines reflect the transition between references and are essential */}
-                {/* One final line is the VictoryArea, which represents the shaded area at the onset of puberty. Children that plot here */}
-                {/* will have delayed puberty. */}
-                {/* Tooltips are found in the parent element (VictoryChart). Tooltips included: */}
-                {/* 1 for each centile, 1 for the shaded area, 1 at 2years to indicate children are measured standing leading */}
-                {/* to a step down in height weight and bmi in the data set. There is another tool tip at 4 years to indicate transition from datasets. */}
-
-                {centileData &&
-                    centileData.map((referenceData, index) => {
-                        return (
-                            <VictoryGroup 
-                                key={'centileDataBlock' + index}
-                                name='centileLineGroup'
-                            >
-                                {referenceData.map((centile: ICentile, centileIndex: number) => {
-                                    
-                                    // BMI charts also have SDS lines at -5, -4, -3, -2, 2, 3, 4, 5
-                                    
-                                    if (centileIndex % 2 === 0) {
-                                        // even index - centile is dashed
-                                        return (
-                                            <VictoryLine
-                                                name={'centileLine-'+ centileIndex}
-                                                key={centile.centile + '-' + centileIndex}
-                                                padding={{ top: 20, bottom: 20 }}
-                                                data={centile.data}
-                                                style={styles.dashedCentile}
-                                            />
-                                        );
-                                    } else {
-                                        // uneven index - centile is continuous
-                                        return (
-                                            <VictoryLine
-                                                name={'centileLine-'+ centileIndex}
-                                                key={centile.centile + '-' + centileIndex}
-                                                padding={{ top: 20, bottom: 20 }}
-                                                data={centile.data}
-                                                style={styles.continuousCentile}
-                                            />
-                                        );
-                                    }
-                                })}
-                            </VictoryGroup>
-                        );
-                    })
-                }
-
-                {
-                    /* BMI SDS lines */
-                    measurementMethod === "bmi" && bmiSDSData &&
-                        bmiSDSData.map((sdsReferenceData, index) => {
+                        midParentalHeightData.mid_parental_height_centile_data.map((referenceData, index) => {
+                        const centiles = referenceData.uk90_preterm || referenceData.uk_who_infant || referenceData.uk_who_child || referenceData.uk90_child;
+                        const lowercentiles = midParentalHeightData.mid_parental_height_lower_centile_data[index].uk90_preterm || midParentalHeightData.mid_parental_height_lower_centile_data[index].uk_who_infant || midParentalHeightData.mid_parental_height_lower_centile_data[index].uk_who_child || midParentalHeightData.mid_parental_height_lower_centile_data[index].uk90_child;
+                        const uppercentiles = midParentalHeightData.mid_parental_height_upper_centile_data[index].uk90_preterm || midParentalHeightData.mid_parental_height_upper_centile_data[index].uk_who_infant || midParentalHeightData.mid_parental_height_upper_centile_data[index].uk_who_child || midParentalHeightData.mid_parental_height_upper_centile_data[index].uk90_child;
+                        const mpcData = sex === "male" ? centiles.male.height : centiles.female.height;
+                        const lowerMPCData = sex === "male" ? lowercentiles.male.height : lowercentiles.female.height;
+                        const upperMPCData = sex === "male" ? uppercentiles.male.height : uppercentiles.female.height;
                             return (
-                                <VictoryGroup 
-                                    key={'sdsDataBlock' + index}
-                                    name='sdsLineGroup'
-                                >
-                                    {sdsReferenceData.map((sdsLine, sdsIndex: number) => {
-                                        
-                                        // BMI charts have SDS lines at -5, -4, -3, 3, 3.33, 3.67, 4
-                                        
-                                            // sds line is dashed
+                                <VictoryGroup key={'midparentalCentileDataBlock' + index}>
+                                    {   upperMPCData.map((centile: ICentile, centileIndex: number)=>{
+                                        const newData: any = centile.data.map((data, index) => {
+                                            let o: any = Object.assign({}, data)
+                                            o.y0 = lowerMPCData[centileIndex].data[index].y
+                                            return o;
+                                        })
+                                            return (
+                                                <VictoryArea 
+                                                    name="areaMPH"
+                                                    key={centile.centile+'-area-'+centileIndex}
+                                                    data={newData}
+                                                    style={styles.midParentalArea}
+                                                />
+                                            )
+                                        })
+                                    }
+                                    {   lowerMPCData.map((lowercentile: ICentile, centileIndex: number) => {
                                             return (
                                                 <VictoryLine
-                                                    name={'sdsLine-'+ sdsIndex}
-                                                    key={sdsLine.sds + '-' + sdsIndex}
+                                                    name="lowerCentileMPH"
+                                                    key={lowercentile.centile + '-' + centileIndex}
                                                     padding={{ top: 20, bottom: 20 }}
-                                                    data={sdsLine.data}
-                                                    style={styles.sdsLine}
+                                                    data={lowercentile.data}
+                                                    style={styles.midParentalCentile}
                                                 />
                                             );
+                                    })}
+                                    {mpcData.map((centile: ICentile, centileIndex: number) => {
+                                            return (
+                                                <VictoryLine
+                                                    name="centileMPH"
+                                                    key={centile.centile + '-' + centileIndex}
+                                                    padding={{ top: 20, bottom: 20 }}
+                                                    data={centile.data}
+                                                    style={styles.midParentalCentile}
+                                                />
+                                            );
+                                    })}
+                                    {upperMPCData.map((uppercentile: ICentile, centileIndex: number) => {
+                                            return (
+                                                <VictoryLine
+                                                    name="upperCentileMPH"
+                                                    key={uppercentile.centile + '-' + centileIndex}
+                                                    padding={{ top: 20, bottom: 20 }}
+                                                    data={uppercentile.data}
+                                                    style={styles.midParentalCentile}
+                                                />
+                                            );
+                                    })}
+                                    
+                                </VictoryGroup>
+                            );
+                        })
+                    }
+
+                    {
+                        /* Term child shaded area: */
+                        termAreaData !== null && <VictoryArea style={styles.termArea} data={termAreaData} />
+                    }
+
+                    {/* X axis: */}
+                    <VictoryAxis
+                        label={xAxisLabel(chartScaleType, domains)}
+                        style={styles.xAxis}
+                        tickValues={tailoredXTickValues[chartScaleType]}
+                        tickLabelComponent={
+                            <RenderTickLabel
+                                specificStyle={styles.xTicklabel}
+                                chartScaleType={chartScaleType}
+                                domains={domains}
+                            />
+                        }
+                        gridComponent={<CustomGridComponent chartScaleType={chartScaleType} />}
+                    />
+
+                    {
+                        /* render the y axis */
+                        <VictoryAxis
+                            minDomain={0}
+                            label={yAxisLabel(measurementMethod, false)}
+                            style={styles.yAxis}
+                            dependentAxis
+                        />
+                    }
+
+                    {/* This is the shaded area below the 0.4th centile in late childhood/early adolescence */}
+                    {/* Any measurements plotting here are likely due to delayed puberty */}
+                    {/* The upper border is the 0.4th centile so this must come before the centiles */}
+
+                    {
+                        // delayed puberty area:
+                        pubertyThresholds !== null && (
+                            <VictoryArea
+                                data={delayedPubertyThreshold(sex)}
+                                y0={(d: any) => lowerPubertyBorder(d, sex)}
+                                style={styles.delayedPubertyArea}
+                                name="delayed"
+                            />
+                        )
+                    }
+
+                    {/* Render the centiles - loop through the data set, create a line for each centile */}
+                    {/* On the old charts the 50th centile was thicker and darker and this lead parents to believe it was therefore */}
+                    {/* the line their children should follow. This was a design mistake, since it does not matter which line the child is on  */}
+                    {/* so long as they follow it. The middle line was therefore 'de-emphasised' on the newer charts. */}
+                    {/* For each reference data set, there are 9 centiles. The 0.4th, 9th, 50th, 91st, 99.6th are all dashed. */}
+                    {/* The 2nd, 25th, 75th, 98th are all continuous lines. As there are 4 datasets, this means 36 separate line series to render. */}
+                    {/* It is essential each centile from each reference is plotted as a series to prevent interpolation between centiles of one reference  */}
+                    {/* and centiles of another. The discontinuous lines reflect the transition between references and are essential */}
+                    {/* One final line is the VictoryArea, which represents the shaded area at the onset of puberty. Children that plot here */}
+                    {/* will have delayed puberty. */}
+                    {/* Tooltips are found in the parent element (VictoryChart). Tooltips included: */}
+                    {/* 1 for each centile, 1 for the shaded area, 1 at 2years to indicate children are measured standing leading */}
+                    {/* to a step down in height weight and bmi in the data set. There is another tool tip at 4 years to indicate transition from datasets. */}
+
+                    {centileData &&
+                        centileData.map((referenceData, index) => {
+                            return (
+                                <VictoryGroup 
+                                    key={'centileDataBlock' + index}
+                                    name='centileLineGroup'
+                                >
+                                    {referenceData.map((centile: ICentile, centileIndex: number) => {
                                         
+                                        // BMI charts also have SDS lines at -5, -4, -3, -2, 2, 3, 4, 5
+                                        
+                                        if (centileIndex % 2 === 0) {
+                                            // even index - centile is dashed
+                                            return (
+                                                <VictoryLine
+                                                    name={'centileLine-'+ centileIndex}
+                                                    key={centile.centile + '-' + centileIndex}
+                                                    padding={{ top: 20, bottom: 20 }}
+                                                    data={centile.data}
+                                                    style={styles.dashedCentile}
+                                                />
+                                            );
+                                        } else {
+                                            // uneven index - centile is continuous
+                                            return (
+                                                <VictoryLine
+                                                    name={'centileLine-'+ centileIndex}
+                                                    key={centile.centile + '-' + centileIndex}
+                                                    padding={{ top: 20, bottom: 20 }}
+                                                    data={centile.data}
+                                                    style={styles.continuousCentile}
+                                                />
+                                            );
+                                        }
                                     })}
                                 </VictoryGroup>
-                            )
+                            );
                         })
-                }
+                    }
 
-
-                {
-                    // puberty threshold lines uk90:
-                    pubertyThresholds !== null &&
-                        pubertyThresholds.map((dataArray) => {
-                            if (dataArray[0].x > domains.x[0] && dataArray[1].x < domains.x[1]) {
+                    {
+                        /* BMI SDS lines */
+                        measurementMethod === "bmi" && bmiSDSData &&
+                            bmiSDSData.map((sdsReferenceData, index) => {
                                 return (
-                                    <VictoryLine
-                                        key={dataArray[0].x}
-                                        name={`puberty-${dataArray[0].x}`}
-                                        style={styles.delayedPubertyThresholdLine}
-                                        data={dataArray}
-                                        labels={({ datum }) => datum.label}
-                                        labelComponent={
-                                            <VictoryLabel
-                                                textAnchor="start"
-                                                angle={-90}
-                                                dx={5}
-                                                dy={10}
-                                                style={styles.delayedPubertyThresholdLabel}
+                                    <VictoryGroup 
+                                        key={'sdsDataBlock' + index}
+                                        name='sdsLineGroup'
+                                    >
+                                        {sdsReferenceData.map((sdsLine, sdsIndex: number) => {
+                                            
+                                            // BMI charts have SDS lines at -5, -4, -3, 3, 3.33, 3.67, 4
+                                            
+                                                // sds line is dashed
+                                                return (
+                                                    <VictoryLine
+                                                        name={'sdsLine-'+ sdsIndex}
+                                                        key={sdsLine.sds + '-' + sdsIndex}
+                                                        padding={{ top: 20, bottom: 20 }}
+                                                        data={sdsLine.data}
+                                                        style={styles.sdsLine}
+                                                    />
+                                                );
+                                            
+                                        })}
+                                    </VictoryGroup>
+                                )
+                            })
+                    }
+
+
+                    {
+                        // puberty threshold lines uk90:
+                        pubertyThresholds !== null &&
+                            pubertyThresholds.map((dataArray) => {
+                                if (dataArray[0].x > domains.x[0] && dataArray[1].x < domains.x[1]) {
+                                    return (
+                                        <VictoryLine
+                                            key={dataArray[0].x}
+                                            name={`puberty-${dataArray[0].x}`}
+                                            style={styles.delayedPubertyThresholdLine}
+                                            data={dataArray}
+                                            labels={({ datum }) => datum.label}
+                                            labelComponent={
+                                                <VictoryLabel
+                                                    textAnchor="start"
+                                                    angle={-90}
+                                                    dx={5}
+                                                    dy={10}
+                                                    style={styles.delayedPubertyThresholdLabel}
+                                                />
+                                            }
+                                        />
+                                    );
+                                } else {
+                                    return null;
+                                }
+                            })
+                    }
+
+                    {/* { midParentalHeightData.mid_parental_height &&
+                        <MidParentalHeight
+                            sds={midParentalHeightData.mid_parental_height_sds}
+                            centile={midParentalHeightData.mid_parental_height_centile}
+                            data={[{x: 20, y: midParentalHeightData.mid_parental_height}]}
+                            styles = {styles}
+                        />
+                    } */}
+
+                    {/* create a series for each child measurements data point: a circle for chronological age, a cross for corrected */}
+                    {/* If data points are close together, reduce the size of the point */}
+
+                    {childMeasurements.map((childMeasurement: Measurement, index) => {
+                        if (
+                            childMeasurement.measurement_calculated_values.corrected_measurement_error ||
+                            childMeasurement.measurement_calculated_values.chronological_measurement_error
+                        ) {
+                            return null;
+                        }
+                        const chronData: any = {
+                            ...childMeasurement.plottable_data.centile_data.chronological_decimal_age_data,
+                        };
+                        const correctData: any = {
+                            ...childMeasurement.plottable_data.centile_data.corrected_decimal_age_data,
+                        };
+
+                        if (isChartCrowded) {
+                            chronData.size = 1.5;
+                            correctData.size = 1.5;
+                        } else {
+                            chronData.size = 3;
+                            correctData.size = 3;
+                        }
+                        return (
+                            <VictoryGroup key={'measurement' + index}>
+
+                                { childMeasurement.events_data.events_text && childMeasurement.events_data.events_text.length > 0 &&
+                                    <VictoryScatter 
+                                        name="eventcaret"
+                                        data={[{x: childMeasurement.measurement_dates.chronological_decimal_age, y: childMeasurement.child_observation_value.observation_value}]}
+                                        dataComponent={
+                                            <EventCaret 
+                                                eventsText={childMeasurement.events_data.events_text}
                                             />
                                         }
                                     />
-                                );
-                            } else {
-                                return null;
-                            }
-                        })
-                }
-
-                {/* { midParentalHeightData.mid_parental_height &&
-                    <MidParentalHeight
-                        sds={midParentalHeightData.mid_parental_height_sds}
-                        centile={midParentalHeightData.mid_parental_height_centile}
-                        data={[{x: 20, y: midParentalHeightData.mid_parental_height}]}
-                        styles = {styles}
-                    />
-                } */}
-
-                {/* create a series for each child measurements data point: a circle for chronological age, a cross for corrected */}
-                {/* If data points are close together, reduce the size of the point */}
-
-                {childMeasurements.map((childMeasurement: Measurement, index) => {
-                    if (
-                        childMeasurement.measurement_calculated_values.corrected_measurement_error ||
-                        childMeasurement.measurement_calculated_values.chronological_measurement_error
-                    ) {
-                        return null;
-                    }
-                    const chronData: any = {
-                        ...childMeasurement.plottable_data.centile_data.chronological_decimal_age_data,
-                    };
-                    const correctData: any = {
-                        ...childMeasurement.plottable_data.centile_data.corrected_decimal_age_data,
-                    };
-
-                    if (isChartCrowded) {
-                        chronData.size = 1.5;
-                        correctData.size = 1.5;
-                    } else {
-                        chronData.size = 3;
-                        correctData.size = 3;
-                    }
-                    return (
-                        <VictoryGroup key={'measurement' + index}>
-
-                            { childMeasurement.events_data.events_text && childMeasurement.events_data.events_text.length > 0 &&
-                                <VictoryScatter 
-                                    name="eventcaret"
-                                    data={[{x: childMeasurement.measurement_dates.chronological_decimal_age, y: childMeasurement.child_observation_value.observation_value}]}
-                                    dataComponent={
-                                        <EventCaret 
-                                            eventsText={childMeasurement.events_data.events_text}
-                                        />
-                                    }
-                                />
-                            }
-                            
-                            { showChronologicalAge && childMeasurement.bone_age.bone_age && ( showChronologicalAge || showCorrectedAge ) && !( showCorrectedAge && showChronologicalAge ) && // bone age linked to chronological age
-                                <VictoryScatter // bone age
-                                    name="chronologicalboneage"
-                                    data={[chronData]}
-                                    x={"b"}
-                                    y={"y"}
-                                    size={15}
-                                    dataComponent={<XPoint isBoneAge={true}/>}
-                                />
-                            }
-
-                            { showCorrectedAge && childMeasurement.bone_age.bone_age &&  // bone age linked to corrected age
-                                <VictoryScatter // bone age
-                                    name="correctedboneage"
-                                    data={[correctData]}
-                                    x={"b"}
-                                    y={"y"}
-                                    size={15}
-                                    dataComponent={
-                                        <XPoint 
-                                            isBoneAge={true}
-                                            isSDS={false}
-                                        />
-                                    }
-                                />
-                            }
-                            { showChronologicalAge && !showCorrectedAge && childMeasurement.bone_age.bone_age &&// bone age line linked to chronological age
-                                <VictoryLine // bone age link line
-                                    name="chronologicalboneagelinkline"
-                                    data={[{x: chronData.x, y: chronData.y}, {x: chronData.b, y: chronData.y}]}
-                                    style={{
-                                        data: {
-                                            strokeWidth: 2,
-                                            stroke: '#A9A9A9',
-                                            strokeDasharray: '3, 3',
-                                        }
-                                    }}
-                                />
-                            }
-
-                            { showCorrectedAge && childMeasurement.bone_age.bone_age && // bone age line linked to corrected age
-                                <VictoryLine // bone age link line
-                                    name="correctedboneagelinkline"
-                                    data={[{x: correctData.x, y: correctData.y}, {x: correctData.b, y: correctData.y}]}
-                                    style={{
-                                        data: {
-                                            strokeWidth: 2,
-                                            stroke: '#A9A9A9',
-                                            strokeDasharray: '3, 3',
-                                        }
-                                    }}
-                                />
-                            }
-                            { showChronologicalAge && (
-                                <VictoryScatter // chronological age
-                                    data={[chronData]}
-                                    symbol="circle"
-                                    style={styles.measurementPoint}
-                                    name="chronological_age"
-                                />
-                            )}
-                            { showCorrectedAge && (
-                                <VictoryScatter // corrected age - a custom component that renders a cross
-                                    data={[correctData]}
-                                    dataComponent={
-                                        <XPoint 
-                                            isBoneAge={false}
-                                            isSDS={false}
-                                        />
-                                    }
-                                    style={styles.measurementPoint}
-                                    name="corrected_age"
-                                />
-                            )}
-                            { showChronologicalAge &&
-                                showCorrectedAge && ( // only show the line if both cross and dot are rendered
-                                    <VictoryLine
-                                        name="linkLine"
-                                        style={styles.measurementLinkLine}
-                                        data={[chronData, correctData]}
+                                }
+                                
+                                { showChronologicalAge && childMeasurement.bone_age.bone_age && ( showChronologicalAge || showCorrectedAge ) && !( showCorrectedAge && showChronologicalAge ) && // bone age linked to chronological age
+                                    <VictoryScatter // bone age
+                                        name="chronologicalboneage"
+                                        data={[chronData]}
+                                        x={"b"}
+                                        y={"y"}
+                                        size={15}
+                                        dataComponent={<XPoint isBoneAge={true}/>}
                                     />
-                            )}
-                        </VictoryGroup>
-                    );
-                })}
-            </VictoryChart>
+                                }
 
-            {(showToggle || allowZooming) && (
+                                { showCorrectedAge && childMeasurement.bone_age.bone_age &&  // bone age linked to corrected age
+                                    <VictoryScatter // bone age
+                                        name="correctedboneage"
+                                        data={[correctData]}
+                                        x={"b"}
+                                        y={"y"}
+                                        size={15}
+                                        dataComponent={
+                                            <XPoint 
+                                                isBoneAge={true}
+                                                isSDS={false}
+                                            />
+                                        }
+                                    />
+                                }
+                                { showChronologicalAge && !showCorrectedAge && childMeasurement.bone_age.bone_age &&// bone age line linked to chronological age
+                                    <VictoryLine // bone age link line
+                                        name="chronologicalboneagelinkline"
+                                        data={[{x: chronData.x, y: chronData.y}, {x: chronData.b, y: chronData.y}]}
+                                        style={{
+                                            data: {
+                                                strokeWidth: 2,
+                                                stroke: '#A9A9A9',
+                                                strokeDasharray: '3, 3',
+                                            }
+                                        }}
+                                    />
+                                }
+
+                                { showCorrectedAge && childMeasurement.bone_age.bone_age && // bone age line linked to corrected age
+                                    <VictoryLine // bone age link line
+                                        name="correctedboneagelinkline"
+                                        data={[{x: correctData.x, y: correctData.y}, {x: correctData.b, y: correctData.y}]}
+                                        style={{
+                                            data: {
+                                                strokeWidth: 2,
+                                                stroke: '#A9A9A9',
+                                                strokeDasharray: '3, 3',
+                                            }
+                                        }}
+                                    />
+                                }
+                                { showChronologicalAge && (
+                                    <VictoryScatter // chronological age
+                                        data={[chronData]}
+                                        symbol="circle"
+                                        style={styles.measurementPoint}
+                                        name="chronological_age"
+                                    />
+                                )}
+                                { showCorrectedAge && (
+                                    <VictoryScatter // corrected age - a custom component that renders a cross
+                                        data={[correctData]}
+                                        dataComponent={
+                                            <XPoint 
+                                                isBoneAge={false}
+                                                isSDS={false}
+                                            />
+                                        }
+                                        style={styles.measurementPoint}
+                                        name="corrected_age"
+                                    />
+                                )}
+                                { showChronologicalAge &&
+                                    showCorrectedAge && ( // only show the line if both cross and dot are rendered
+                                        <VictoryLine
+                                            name="linkLine"
+                                            style={styles.measurementLinkLine}
+                                            data={[chronData, correctData]}
+                                        />
+                                )}
+                            </VictoryGroup>
+                        );
+                    })}
+                </VictoryChart>
+            </ChartContainer>
+
+            {(showToggle || allowZooming || enableExport) && (
                 <ButtonContainer>
-                    {showToggle && (
-                        <StyledRadioButtonGroup
-                            {...styles.toggleStyle}
-                            handleClick={onSelectRadioButton}
-                            correctedAge={showCorrectedAge}
-                            chronologicalAge={showChronologicalAge}
-                            className="toggleButtons"
-                        />
-                    )}
-                    {allowZooming && (
-                        <StyledButton
-                            {...styles.toggleStyle}
-                            onClick={() => setUserDomains(null)}
-                            enabled={userDomains !== null}
-                        >
-                            Reset Zoom
-                        </StyledButton>
-                    )}
+                    { enableExport && (
+                            <ShareButtonWrapper>
+                                <StyledShareButton 
+                                    color={styles.toggleStyle.activeColour}
+                                    size={5}
+                                    onClick={exportPressed}
+                                >
+                                    <ShareIcon/>
+                                </StyledShareButton>
+                                <CopiedLabel
+                                    active={active}
+                                    onAnimationEnd={labelFadeEnd}
+                                >
+                                    Copied!
+                                </CopiedLabel>
+                            </ShareButtonWrapper>
+                        )}
+                        {showToggle && (
+                            <StyledRadioButtonGroup
+                                {...styles.toggleStyle}
+                                handleClick={onSelectRadioButton}
+                                correctedAge={showCorrectedAge}
+                                chronologicalAge={showChronologicalAge}
+                                className="toggleButtons"
+                            />
+                        )}
+                        {allowZooming && (
+                            <div>
+                                <StyledButton
+                                    {...styles.toggleStyle}
+                                    onClick={() => setUserDomains(null)}
+                                    enabled={userDomains !== null}
+                                >
+                                    Reset Zoom
+                                </StyledButton>
+                            </div>
+                        )}
                 </ButtonContainer>
             )}
-            { enableExport &&
-                 <StyledShareButton 
-                    color={styles.toggleStyle.activeColour}
-                    size={5}
-                    onClick={exportPressed}
-                 >
-                     <ShareIcon/>
-                 </StyledShareButton>
-            }
         </MainContainer>
     );
 }
