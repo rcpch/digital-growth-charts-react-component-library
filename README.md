@@ -11,6 +11,14 @@
 
 # RCPCH Growth Chart React Component Library
 
+## Release Candidate Features
+
+1. Only works with client version 3.0 and above
+2. Rework the data structure to match that from API to prevent persisting data in the component in future
+3. Add BMI SDS lines
+4. SDS charts
+5. Save to clipboard
+
 ## Supported Features
 
 * Corrected/Chronological age with toggle
