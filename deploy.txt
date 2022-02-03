@@ -1,0 +1,9 @@
+This are the rules on deploy
+
+This is a pre-release and therefore published as an npm package to github.
+The live branch publishes to npm.
+
+Before merging to live need to:
+1. change .npmrc publish origin back to npm (uncomment the relevant line)
+2. bump version as necessary
+3. (delete this file)
