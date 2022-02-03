@@ -21,7 +21,7 @@
         "url": "https://github.com/RCPCH/digital-growth-charts-react-component-library.git"
     },
     "publishConfig": {
-        "registry": "https://npm.pkg.github.com/"
+        "registry": "https://registry.npmjs.org/"
       },
     "keywords": [
         "Growth",
