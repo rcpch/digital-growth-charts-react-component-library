@@ -37,7 +37,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     const styles = makeAllStyles(chartStyle, axisStyle, gridlineStyle, centileStyle, measurementStyle);
 
     // uncomment in development
-    // console.log("loading from locally...");
+    console.log("loading from locally...");
     let isCentile = (chartType === "centile" || chartType === undefined);
 
     if (isCentile){
