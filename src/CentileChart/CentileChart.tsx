@@ -171,6 +171,7 @@ function CentileChart({
     const handleZoomChange = (domain: Domains) => {
         setUserDomains(domain);
     };
+    
 
     // always reset zoom to default when measurements array changes
     useLayoutEffect(() => {
@@ -278,7 +279,7 @@ function CentileChart({
                                                     name="areaMPH"
                                                     key={centile.centile+'-area-'+centileIndex}
                                                     data={newData}
-                                                    style={styles.midParentalArea}
+                                                    style={{...styles.midParentalArea}}
                                                 />
                                             )
                                         })
