@@ -238,8 +238,6 @@ function CentileChart({
                                 // This the tool tip text, and accepts a large number of arguments
                                 // tool tips return contextual information for each datapoint, as well as the centile
                                 // and SDS lines, as well as bone ages, events and midparental heights
-                                console.log(datum);
-                                
                                     return tooltipText(
                                         reference,
                                         datum.l,
@@ -528,8 +526,6 @@ function CentileChart({
                             ...childMeasurement.plottable_data.centile_data.corrected_decimal_age_data,
                         };
 
-                        console.log(chronData);
-                        
 
                         if (isChartCrowded) {
                             chronData.size = 1.5;
