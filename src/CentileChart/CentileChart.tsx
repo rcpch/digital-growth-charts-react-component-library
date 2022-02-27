@@ -22,10 +22,11 @@ import tailoredXTickValues from '../functions/tailoredXTickValues';
 import defaultToggles from '../functions/defaultToggles';
 import { tooltipText } from '../functions/tooltips';
 import { delayedPubertyThreshold, makePubertyThresholds, lowerPubertyBorder } from '../functions/DelayedPuberty';
+import { getFilteredMidParentalHeightData } from '../functions/getFilteredMidParentalHeightData';
 
 // interfaces & props
 import { CentileChartProps } from './CentileChart.types';
-import { ICentile, Reference, ReferenceGroup } from '../interfaces/CentilesObject';
+import { ICentile, IMeasurementMethod, IPlottedCentileMeasurement, Reference, ReferenceGroup } from '../interfaces/CentilesObject';
 import { Measurement } from '../interfaces/RCPCHMeasurementObject';
 import { Domains } from '../interfaces/Domains';
 
@@ -101,17 +102,33 @@ function CentileChart({
         userDomains,
     ]);
 
+    
     const allowZooming = childMeasurements.length > 0 && enableZoom ? true : false;
-
+    
     const domains = userDomains || computedDomains;
-
+    
     const isChartCrowded = isCrowded(domains, childMeasurements);
-
+    
     let pubertyThresholds: null | any[] = null;
-
+    
     if (reference === 'uk-who' && measurementMethod === 'height') {
         pubertyThresholds = makePubertyThresholds(domains, sex);
     }
+
+    /*
+    if midparental height data is present, 
+    filters it to 6mths either side of most recent measurement or 19-20y if none supplied
+    return object is {
+        lowerParentalCentile: lowerMPCData,
+        midParentalCentile: mpcData,
+        upperParentalCentile: upperMPCData
+    }
+    */
+    const filteredMidParentalHeightData = useMemo(() => getFilteredMidParentalHeightData(childMeasurements, midParentalHeightData, sex),[
+        childMeasurements,
+        midParentalHeightData, 
+        sex
+    ]);
 
     let termAreaData: null | any[] = null;
 
@@ -218,6 +235,11 @@ function CentileChart({
                                 />
                             }
                             labels={({ datum }) => {
+                                // This the tool tip text, and accepts a large number of arguments
+                                // tool tips return contextual information for each datapoint, as well as the centile
+                                // and SDS lines, as well as bone ages, events and midparental heights
+                                console.log(datum);
+                                
                                     return tooltipText(
                                         reference,
                                         datum.l,
@@ -233,6 +255,8 @@ function CentileChart({
                                         datum.lay_comment,
                                         datum.sex,
                                         datum.b,
+                                        datum.centile,
+                                        datum.sds,
                                         datum.bone_age_label,
                                         datum.bone_age_sds,
                                         datum.bone_age_centile,
@@ -249,79 +273,6 @@ function CentileChart({
                         />
                     }
                 >
-
-                    {/* 
-                    midparental height centiles 
-                    These are three lines, the MPH centile, a centile 2SD above it, and another 2SD below
-                    There is an area fill between the highest and lowest
-                    */
-                    }
-                    
-                    { reference==="uk-who" && measurementMethod==="height" && midParentalHeightData.mid_parental_height_centile_data && 
-
-                        midParentalHeightData.mid_parental_height_centile_data.map((referenceData, index) => {
-                        const centiles = referenceData.uk90_preterm || referenceData.uk_who_infant || referenceData.uk_who_child || referenceData.uk90_child;
-                        const lowercentiles = midParentalHeightData.mid_parental_height_lower_centile_data[index].uk90_preterm || midParentalHeightData.mid_parental_height_lower_centile_data[index].uk_who_infant || midParentalHeightData.mid_parental_height_lower_centile_data[index].uk_who_child || midParentalHeightData.mid_parental_height_lower_centile_data[index].uk90_child;
-                        const uppercentiles = midParentalHeightData.mid_parental_height_upper_centile_data[index].uk90_preterm || midParentalHeightData.mid_parental_height_upper_centile_data[index].uk_who_infant || midParentalHeightData.mid_parental_height_upper_centile_data[index].uk_who_child || midParentalHeightData.mid_parental_height_upper_centile_data[index].uk90_child;
-                        const mpcData = sex === "male" ? centiles.male.height : centiles.female.height;
-                        const lowerMPCData = sex === "male" ? lowercentiles.male.height : lowercentiles.female.height;
-                        const upperMPCData = sex === "male" ? uppercentiles.male.height : uppercentiles.female.height;
-                            return (
-                                <VictoryGroup key={'midparentalCentileDataBlock' + index}>
-                                    {   upperMPCData.map((centile: ICentile, centileIndex: number)=>{
-                                        const newData: any = centile.data.map((data, index) => {
-                                            let o: any = Object.assign({}, data)
-                                            o.y0 = lowerMPCData[centileIndex].data[index].y
-                                            return o;
-                                        })
-                                            return (
-                                                <VictoryArea 
-                                                    name="areaMPH"
-                                                    key={centile.centile+'-area-'+centileIndex}
-                                                    data={newData}
-                                                    style={{...styles.midParentalArea}}
-                                                />
-                                            )
-                                        })
-                                    }
-                                    {   lowerMPCData.map((lowercentile: ICentile, centileIndex: number) => {
-                                            return (
-                                                <VictoryLine
-                                                    name="lowerCentileMPH"
-                                                    key={lowercentile.centile + '-' + centileIndex}
-                                                    padding={{ top: 20, bottom: 20 }}
-                                                    data={lowercentile.data}
-                                                    style={styles.midParentalCentile}
-                                                />
-                                            );
-                                    })}
-                                    {mpcData.map((centile: ICentile, centileIndex: number) => {
-                                            return (
-                                                <VictoryLine
-                                                    name="centileMPH"
-                                                    key={centile.centile + '-' + centileIndex}
-                                                    padding={{ top: 20, bottom: 20 }}
-                                                    data={centile.data}
-                                                    style={styles.midParentalCentile}
-                                                />
-                                            );
-                                    })}
-                                    {upperMPCData.map((uppercentile: ICentile, centileIndex: number) => {
-                                            return (
-                                                <VictoryLine
-                                                    name="upperCentileMPH"
-                                                    key={uppercentile.centile + '-' + centileIndex}
-                                                    padding={{ top: 20, bottom: 20 }}
-                                                    data={uppercentile.data}
-                                                    style={styles.midParentalCentile}
-                                                />
-                                            );
-                                    })}
-                                    
-                                </VictoryGroup>
-                            );
-                        })
-                    }
 
                     {
                         /* Term child shaded area: */
@@ -367,6 +318,83 @@ function CentileChart({
                                 name="delayed"
                             />
                         )
+                    }
+
+                    {/* 
+                    midparental height centiles 
+                    These are three lines, the MPH centile, a centile 2SD above it, and another 2SD below
+                    There is an area fill between the highest and lowest
+                    */
+                    }
+                    
+                    { reference==="uk-who" && measurementMethod==="height" &&  filteredMidParentalHeightData && 
+
+                        filteredMidParentalHeightData.map((reference, index)=>{
+
+                            // this function filters the midparental height centile data to only those values
+                            // one month either side of the most recent measurement, or 20 y if no measurements
+                            // supplied.
+
+                            const lowerData = reference.lowerParentalCentile;
+                            const midData = reference.midParentalCentile;
+                            const upperData = reference.upperParentalCentile;
+
+                            return (
+                                <VictoryGroup key={'midparentalCentileDataBlock' + index}>
+                                    {   upperData.map((centile: ICentile, centileIndex: number)=>{
+                                        // area lower and and upper boundaries
+                                        const newData: any = centile.data.map((data, index) => {
+                                            let o: any = Object.assign({}, data)
+                                            o.y0 = lowerData[centileIndex].data[index].y
+                                            return o;
+                                        })
+                                            return (
+                                                <VictoryArea 
+                                                    name="areaMPH"
+                                                    key={centile.centile+'-area-'+centileIndex}
+                                                    data={newData}
+                                                    style={{...styles.midParentalArea}}
+                                                />
+                                            )
+                                        })
+                                    }
+                                    {   lowerData.map((lowercentile: ICentile, centileIndex: number) => {
+                                            return (
+                                                <VictoryLine
+                                                    name="lowerCentileMPH"
+                                                    key={lowercentile.centile + '-' + centileIndex}
+                                                    padding={{ top: 20, bottom: 20 }}
+                                                    data={lowercentile.data}
+                                                    style={styles.midParentalCentile}
+                                                />
+                                            );
+                                    })}
+                                    {midData.map((centile: ICentile, centileIndex: number) => {
+                                            return (
+                                                <VictoryLine
+                                                    name="centileMPH"
+                                                    key={centile.centile + '-' + centileIndex}
+                                                    padding={{ top: 20, bottom: 20 }}
+                                                    data={centile.data}
+                                                    style={styles.midParentalCentile}
+                                                />
+                                            );
+                                    })}
+                                    {upperData.map((uppercentile: ICentile, centileIndex: number) => {
+                                            return (
+                                                <VictoryLine
+                                                    name="upperCentileMPH"
+                                                    key={uppercentile.centile + '-' + centileIndex}
+                                                    padding={{ top: 20, bottom: 20 }}
+                                                    data={uppercentile.data}
+                                                    style={styles.midParentalCentile}
+                                                />
+                                            );
+                                    })}
+                                    
+                                </VictoryGroup>
+                            );
+                        })
                     }
 
                     {/* Render the centiles - loop through the data set, create a line for each centile */}
@@ -483,15 +511,6 @@ function CentileChart({
                             })
                     }
 
-                    {/* { midParentalHeightData.mid_parental_height &&
-                        <MidParentalHeight
-                            sds={midParentalHeightData.mid_parental_height_sds}
-                            centile={midParentalHeightData.mid_parental_height_centile}
-                            data={[{x: 20, y: midParentalHeightData.mid_parental_height}]}
-                            styles = {styles}
-                        />
-                    } */}
-
                     {/* create a series for each child measurements data point: a circle for chronological age, a cross for corrected */}
                     {/* If data points are close together, reduce the size of the point */}
 
@@ -509,6 +528,9 @@ function CentileChart({
                             ...childMeasurement.plottable_data.centile_data.corrected_decimal_age_data,
                         };
 
+                        console.log(chronData);
+                        
+
                         if (isChartCrowded) {
                             chronData.size = 1.5;
                             correctData.size = 1.5;
@@ -520,6 +542,7 @@ function CentileChart({
                             <VictoryGroup key={'measurement' + index}>
 
                                 { childMeasurement.events_data.events_text && childMeasurement.events_data.events_text.length > 0 &&
+                                    // Events
                                     <VictoryScatter 
                                         name="eventcaret"
                                         data={[{x: childMeasurement.measurement_dates.chronological_decimal_age, y: childMeasurement.child_observation_value.observation_value}]}

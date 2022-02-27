@@ -13,7 +13,7 @@ export interface Reference {
 
 export interface ICentile {
     centile: number,
-    data: IPlottedCentileMeasurement [],
+    data: IPlottedCentileMeasurement[],
     sds: number
 }
 

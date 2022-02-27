@@ -175,9 +175,9 @@ function makeAllStyles(
         midParentalCentile: {
             data: {
                 stroke: centileStyle?.midParentalCentileStroke ?? black,
-                strokeWidth: centileStyle?.midParentalCentileStrokeWidth ?? 2.0,
+                strokeWidth: centileStyle?.midParentalCentileStrokeWidth ?? 1.5,
                 strokeLinecap: 'round',
-                strokeOpacity: 1.0
+                strokeOpacity: 1.0,
             }
         },
         midParentalArea: {
