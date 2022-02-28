@@ -38,7 +38,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     
 
     // uncomment in development
-    console.log("loading from locally...");
+    // console.log("loading from locally...");
     let isCentile=(chartType === "centile" || chartType === undefined);
     
     if (isCentile){
