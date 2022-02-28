@@ -1,5 +1,5 @@
 // libraries and frameworks
-import React, { useState, useMemo, MouseEvent } from "react";
+import React, { useState, useMemo, MouseEvent, useRef } from "react";
 import { 
     VictoryAxis, 
     VictoryChart,
@@ -30,12 +30,17 @@ import { getDomainsAndData, getVisibleData } from '../functions/getDomainsAndDat
 import xAxisLabel from '../functions/xAxisLabel';
 import tailoredXTickValues from '../functions/tailoredXTickValues';
 import defaultToggles from '../functions/defaultToggles';
-import { sdsTooltipText } from "../functions/sdsTooltipTex";
+import { sdsTooltipText } from "../functions/sdsTooltipText";
 import { createSDSPointMouseOverObject } from '../functions/sdsPointMouseOverObject';
 
 // style sheets
 import "./SDSChart.scss";
 import { XPoint } from "../SubComponents/XPoint";
+import { CopiedLabel } from "../SubComponents/CopiedLabel";
+import { ShareButtonWrapper } from "../SubComponents/ShareButtonWrapper";
+import { ShareIcon } from "../SubComponents/ShareIcon";
+import { StyledShareButton } from "../SubComponents/StyledShareButton";
+import { generateMidParentalHeightSDSData } from "../functions/generateMidParentalHeightSDSData";
 
 const SDSChart: React.FC<SDSChartProps> = (
     { 
@@ -43,9 +48,9 @@ const SDSChart: React.FC<SDSChartProps> = (
         title,
         subtitle,
         measurementMethod,
-        sex,
         childMeasurements,
         midParentalHeightData,
+        sex,
         enableZoom,
         styles,
         enableExport,
@@ -68,11 +73,12 @@ const SDSChart: React.FC<SDSChartProps> = (
         measurements=childMeasurements.ofc;
     }
     
-
     const { defaultShowCorrected, defaultShowChronological, showToggle } = defaultToggles(measurements);
 
     const [showChronologicalAge, setShowChronologicalAge] = useState(defaultShowChronological);
     const [showCorrectedAge, setShowCorrectedAge] = useState(defaultShowCorrected);
+    const chartRef=useRef<any>();
+    const [active, setActive] = useState(false);
     
     const childMeasurementsByType = [{measurementType: "height", measurementTypeData: childMeasurements.height}, {measurementType: "weight", measurementTypeData: childMeasurements.weight}, {measurementType: "bmi", measurementTypeData: childMeasurements.bmi}, {measurementType: "ofc", measurementTypeData: childMeasurements.ofc}];
     
@@ -96,10 +102,14 @@ const SDSChart: React.FC<SDSChartProps> = (
 
     const domains = userDomains || computedDomains;
     
+    const midParentalHeightSDSData = useMemo(() => generateMidParentalHeightSDSData(domains, midParentalHeightData),[
+        domains,
+        midParentalHeightData
+    ]);
 
     // set Y domains as the getDomainsAndData function returns only domains on measurement values, not SDS
-    let newLowerY = -2
-    let newUpperY = 2
+    let newLowerY = -2;
+    let newUpperY = 2;
 
     // retrieve lower and upper values from measurements if supplied
     // if lower than -2 of greater than 2, set these with padding to be the limits
@@ -165,6 +175,17 @@ const SDSChart: React.FC<SDSChartProps> = (
         setUserDomains(null);
     };
 
+    const exportPressed = () => {
+        if (enableExport) {
+            setActive(true);
+            exportChartCallback(chartRef.current.firstChild) // this passes the raw SVG back to the client for converting
+        } 
+    };
+
+    const labelFadeEnd = () => {
+        setActive(false);
+    };
+
     return (
         <MainContainer>
             <LogoContainer>
@@ -186,6 +207,7 @@ const SDSChart: React.FC<SDSChartProps> = (
             style={styles.chartMisc}
             containerComponent={
                 <VictoryVoronoiContainer
+                    containerRef={ref => { chartRef.current=ref} }
                     labelComponent={
                         <VictoryTooltip
                         constrainToVisibleArea
@@ -195,7 +217,9 @@ const SDSChart: React.FC<SDSChartProps> = (
                         style={styles.toolTipMain}
                     />   
                     }
-                    labels={(datum)=> { return sdsTooltipText(datum)}}
+                    labels={(datum)=> { 
+                        return sdsTooltipText(datum)}
+                    }
                     voronoiBlacklist={['linkLine']}
                 />
             }
@@ -208,14 +232,15 @@ const SDSChart: React.FC<SDSChartProps> = (
 
                 {/* X axis: */}
                 <VictoryAxis
+                    domain={{x:[domains.x[0],domains.x[1]]}}
                     label={xAxisLabel(chartScaleType, domains)}
                     style={styles.xAxis}
                     tickValues={tailoredXTickValues[chartScaleType]}
                     tickLabelComponent={
                         <RenderTickLabel
+                            domains={{x:[domains.x[0],domains.x[1]]}}
                             specificStyle={styles.xTicklabel}
                             chartScaleType={chartScaleType}
-                            domains={domains}
                         />
                     }
                     gridComponent={<CustomGridComponent chartScaleType={chartScaleType} />}
@@ -231,102 +256,134 @@ const SDSChart: React.FC<SDSChartProps> = (
                     />
                 }
 
-            {/* 
-                Measurements by type - loops through the measurement data provided by the API, first by measurement type,
-                then by data point.
-            */}
+                {/* 
+                    Measurements by type - loops through the measurement data provided by the API, first by measurement type,
+                    then by data point.
+                */}
 
-            { childMeasurementsByType.map((measurementTypeItem, itemIndex) =>
-            
-                {  return measurementTypeItem.measurementType===measurementMethod && measurementTypeItem.measurementTypeData.length > 1 ?
-                    <VictoryGroup
-                        key={measurementTypeItem.measurementType+"-"+itemIndex}
-                    >
-                        { showChronologicalAge &&
-                            <VictoryLine 
-                                name="chronological-line"
-                                data={measurementTypeItem.measurementTypeData}
-                                x={(datum)=>datum.plottable_data.sds_data.chronological_decimal_age_data.x}
-                                y={(datum)=>datum.plottable_data.sds_data.chronological_decimal_age_data.y}
-                                // interpolation="natural"
-                                style={styles.continuousCentile}
-                            /> 
-                        }
-                        { showCorrectedAge &&
-                            <VictoryLine 
-                                name="corrected-line"
-                                data={measurementTypeItem.measurementTypeData}
-                                x={(datum)=>datum.plottable_data.sds_data.corrected_decimal_age_data.x}
-                                y={(datum)=>datum.plottable_data.sds_data.corrected_decimal_age_data.y}
-                                // interpolation="natural"
-                                style={styles.dashedCentile}
-                            /> 
-                        }
-                    </VictoryGroup>
-                    :
+                { childMeasurementsByType.map((measurementTypeItem, itemIndex) =>
+                
+                    {   const onlyOneAndSelected = measurementTypeItem.measurementTypeData.length === 1 && measurementTypeItem.measurementType===measurementMethod;
+                        const moreThanOneAndSelected = measurementTypeItem.measurementTypeData.length > 1 && measurementTypeItem.measurementType===measurementMethod;
 
-                    measurementTypeItem.measurementTypeData.map((measurement, index) => {
+                        return  moreThanOneAndSelected ?
+                        <VictoryGroup
+                            key={measurementTypeItem.measurementType+"-"+itemIndex}
+                        >
+                            { showChronologicalAge &&
+                                <VictoryLine 
+                                    name="chronological-line"
+                                    data={measurementTypeItem.measurementTypeData}
+                                    x={(datum)=>datum.plottable_data.sds_data.chronological_decimal_age_data.x}
+                                    y={(datum)=>datum.plottable_data.sds_data.chronological_decimal_age_data.y}
+                                    // interpolation="natural"
+                                    style={styles.continuousCentile}
+                                /> 
+                            }
+                            { showCorrectedAge &&
+                                <VictoryLine 
+                                    name="corrected-line"
+                                    data={measurementTypeItem.measurementTypeData}
+                                    x={(datum)=>datum.plottable_data.sds_data.corrected_decimal_age_data.x}
+                                    y={(datum)=>datum.plottable_data.sds_data.corrected_decimal_age_data.y}
+                                    // interpolation="natural"
+                                    style={styles.dashedCentile}
+                                /> 
+                            }
+                        </VictoryGroup>
+                        :
 
-                        const chronData: any = {
-                            ...measurement.plottable_data.sds_data.chronological_decimal_age_data,
-                        };
-                        const correctData: any = {
-                            ...measurement.plottable_data.sds_data.corrected_decimal_age_data,
-                        };
+                        measurementTypeItem.measurementTypeData.map((measurement, index) => {
 
-                        return (
-                            <VictoryGroup
-                                key={measurementTypeItem.measurementType+"-"+index}
-                            >
-                                {  showChronologicalAge &&
-                                    <VictoryScatter
-                                        data={[chronData]}
-                                        symbol="circle"
-                                        style={{
-                                            data: {
-                                                fill: '#b3b3b3'
+                            const chronData: any = {
+                                ...measurement.plottable_data.sds_data.chronological_decimal_age_data,
+                            };
+                            const correctData: any = {
+                                ...measurement.plottable_data.sds_data.corrected_decimal_age_data,
+                            };
+
+                            return (
+                                <VictoryGroup
+                                    key={measurementTypeItem.measurementType+"-"+index}
+                                >
+                                    {  showChronologicalAge &&
+                                        <VictoryScatter
+                                            data={[chronData]}
+                                            symbol="circle"
+                                            style={{
+                                                data: {
+                                                    fill: onlyOneAndSelected ? styles.highlightedMeasurementFill.data.fill : '#b3b3b3'
+                                                }
+                                            }}
+                                            name={"chronological-"+measurementTypeItem.measurementType}
+                                        />
+                                    }
+                                    {  showCorrectedAge &&
+                                        <VictoryScatter
+                                            data={[correctData]}
+                                            dataComponent={
+                                                <XPoint
+                                                    isBoneAge={false}
+                                                    isSDS={true}
+                                                />
                                             }
-                                        }}
-                                        name={"chronological-"+measurementTypeItem.measurementType}
-                                    />
-                                }
-                                {  showCorrectedAge &&
-                                    <VictoryScatter
-                                        data={[correctData]}
-                                        dataComponent={
-                                            <XPoint
-                                                isBoneAge={false}
-                                                isSDS={true}
-                                            />
-                                        }
-                                        style={{
-                                            data: {
-                                                fill: '#b3b3b3'
-                                            }
-                                        }}
-                                        name={"corrected-"+measurementTypeItem.measurementType}
-                                    />
-                                }
-                                { showCorrectedAge && showChronologicalAge &&
-                                    <VictoryLine
-                                        name="linkLine"
-                                        style={{
-                                            data: {
-                                                stroke: '#b3b3b3'
-                                            }
-                                        }}
-                                        data={[chronData, correctData]}
-                                    />
-                                }
-                            </VictoryGroup>
-                        )
-                    });
-                })
-            }
+                                            style={{
+                                                data: {
+                                                    fill: '#b3b3b3'
+                                                }
+                                            }}
+                                            name={"corrected-"+measurementTypeItem.measurementType}
+                                        />
+                                    }
+                                    { showCorrectedAge && showChronologicalAge &&
+                                        <VictoryLine
+                                            name="linkLine"
+                                            style={{
+                                                data: {
+                                                    stroke: '#b3b3b3'
+                                                }
+                                            }}
+                                            data={[chronData, correctData]}
+                                        />
+                                    }
+                                </VictoryGroup>
+                            )
+                        });
+                    })
+                }
+
+                {
+                    midParentalHeightData?.mid_parental_height_sds && reference==="uk-who" && measurementMethod==="height" &&
+                    // only show midparental line if data present and height is selected
+                        <VictoryLine 
+                            name="mid-parental-sds"
+                            data={midParentalHeightSDSData}
+                            style={styles.midParentalSDS}
+                        />
+                    
+                }
 
         </VictoryChart>
-        {(showToggle) && (
-                <ButtonContainer>
+        
+        {(showToggle || enableExport) && (
+            <ButtonContainer>
+                { enableExport && (
+                        <ShareButtonWrapper>
+                            <StyledShareButton 
+                                color={styles.toggleStyle.activeColour}
+                                size={5}
+                                onClick={exportPressed}
+                            >
+                                <ShareIcon/>
+                            </StyledShareButton>
+                            <CopiedLabel
+                                active={active}
+                                onAnimationEnd={labelFadeEnd}
+                            >
+                                Copied!
+                            </CopiedLabel>
+                        </ShareButtonWrapper>
+                    )}
                     {showToggle && (
                         <StyledRadioButtonGroup
                             {...styles.toggleStyle}
@@ -336,8 +393,8 @@ const SDSChart: React.FC<SDSChartProps> = (
                             className="toggleButtons"
                         />
                     )}
-                </ButtonContainer>
-            )}
+            </ButtonContainer>
+        )}
     </MainContainer>
 )
 };

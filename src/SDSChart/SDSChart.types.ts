@@ -5,9 +5,9 @@ export interface SDSChartProps {
     title: string;
     subtitle: string;
     measurementMethod: 'height' | 'weight' | 'ofc' | 'bmi';
-    sex: 'male' | 'female';
     childMeasurements: ClientMeasurementObject;
     midParentalHeightData: MidParentalHeightObject;
+    sex: 'male' | 'female';
     enableZoom: boolean;
     styles: { [key: string]: any };
     enableExport: boolean;

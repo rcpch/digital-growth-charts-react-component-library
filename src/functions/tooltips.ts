@@ -29,13 +29,13 @@ export function tooltipText(
     childName: any // the name of the component hit
 ): string {
     if (['centileMPH', 'lowerCentileMPH', 'upperCentileMPH', 'areaMPH'].includes(childName)){
-        if (childName=="lowerCentileMPH"){
+        if (childName==="lowerCentileMPH"){
             return `Expected Final Height: ${Math.round(midparental_lower*10)/10} cm\n (based on midparental height -2SD)`
         }
         if (childName==="centileMPH"){
             return `Midparental Final Height: ${Math.round(midparental_height*10)/10} cm (${addOrdinalSuffix(Math.round(parseFloat(label)))} centile, SDS: ${Math.round(midparental_sds*100)/100})\nRange(+/-2SD): ${Math.round(midparental_lower*10)/10} cm - ${Math.round(midparental_upper*10)/10} cm`;
         }
-        if (childName ==="upperCentileMPH"){
+        if (childName==="upperCentileMPH"){
             return `Expected Final Height: ${Math.round(midparental_upper*10)/10} cm\n(based on midparental +2SD)`
         }
         return;

@@ -1,5 +1,5 @@
 // packages/libraries
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 
 // props and interfaces
 import { RCPCHChartProps } from './RCPCHChart.types';
@@ -35,11 +35,12 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     exportChartCallback
 }) => {
     const styles = makeAllStyles(chartStyle, axisStyle, gridlineStyle, centileStyle, measurementStyle);
+    
 
     // uncomment in development
     console.log("loading from locally...");
-    let isCentile = (chartType === "centile" || chartType === undefined);
-
+    let isCentile=(chartType === "centile" || chartType === undefined);
+    
     if (isCentile){
         return (
             <ErrorBoundary styles={styles}>
@@ -59,7 +60,8 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
             </ErrorBoundary>
         );
     } else {
-        const castArray = measurementsArray as ClientMeasurementObject
+        const castArray = measurementsArray as ClientMeasurementObject;
+        
         return (
             <ErrorBoundary styles={styles}>
                 <SDSChart
@@ -78,8 +80,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
             </ErrorBoundary>
         );
     }
-    
-    
+
 };
 
 export default RCPCHChart;

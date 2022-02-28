@@ -1,5 +1,8 @@
 
 export function sdsTooltipText(datum){
+    if (datum.datum.childName==='mid-parental-sds'){
+        return `Midparental Height SDS: ${datum.datum.y > 0 ? '+' : ''}${Math.round(datum.datum.y*1000)/1000}`;
+    }
     let corrected = "Adjusted Age: ";
     const array = datum.datum.childName.split('-')
     let pointLabel = array[1];

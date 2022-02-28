@@ -180,6 +180,15 @@ function makeAllStyles(
                 strokeOpacity: 1.0,
             }
         },
+        midParentalSDS: {
+            data: {
+                stroke: centileStyle?.midParentalCentileStroke ?? black,
+                strokeWidth: centileStyle?.midParentalCentileStrokeWidth ?? 1.5,
+                strokeLinecap: 'round',
+                strokeOpacity: 1.0,
+                strokeDasharray: '2 5'
+            }
+        },
         midParentalArea: {
             data: {
                 fill: centileStyle?.midParentalAreaFill ?? lightLightGrey,
