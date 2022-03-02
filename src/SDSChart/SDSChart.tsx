@@ -251,6 +251,7 @@ const SDSChart: React.FC<SDSChartProps> = (
                     <VictoryAxis
                         domain={{y:[newLowerY, newUpperY]}}
                         label={yAxisLabel(measurementMethod, true)}
+                        tickValues={[-5.33, -4.67, -4.0, -3.33, -2.67, -2.0, -1.33, -0.67, 0, 0.67, 1.33, 2.0, 2.67, 3.33, 4.0, 4.67, 5.33]}
                         style={styles.yAxis}
                         dependentAxis
                     />

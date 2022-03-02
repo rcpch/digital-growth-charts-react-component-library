@@ -30,13 +30,13 @@ export function tooltipText(
 ): string {
     if (['centileMPH', 'lowerCentileMPH', 'upperCentileMPH', 'areaMPH'].includes(childName)){
         if (childName==="lowerCentileMPH"){
-            return `Expected Final Height: ${Math.round(midparental_lower*10)/10} cm\n (based on midparental height -2SD)`
+            return `Midparental Height -2SD: ${Math.round(midparental_lower*10)/10} cm`
         }
         if (childName==="centileMPH"){
-            return `Midparental Final Height: ${Math.round(midparental_height*10)/10} cm (${addOrdinalSuffix(Math.round(parseFloat(label)))} centile, SDS: ${Math.round(midparental_sds*100)/100})\nRange(+/-2SD): ${Math.round(midparental_lower*10)/10} cm - ${Math.round(midparental_upper*10)/10} cm`;
+            return `Midparental Height: ${Math.round(midparental_height*10)/10} cm (${addOrdinalSuffix(Math.round(parseFloat(label)))} centile, SDS: ${Math.round(midparental_sds*100)/100})\nRange(+/-2SD): ${Math.round(midparental_lower*10)/10} cm - ${Math.round(midparental_upper*10)/10} cm`;
         }
         if (childName==="upperCentileMPH"){
-            return `Expected Final Height: ${Math.round(midparental_upper*10)/10} cm\n(based on midparental +2SD)`
+            return `Midparental Height +2SD: ${Math.round(midparental_upper*10)/10} cm`
         }
         return;
     }

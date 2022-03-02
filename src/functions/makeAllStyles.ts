@@ -192,7 +192,7 @@ function makeAllStyles(
         midParentalArea: {
             data: {
                 fill: centileStyle?.midParentalAreaFill ?? lightLightGrey,
-                opacity: 0.25
+                opacity: 0.5
             }
         },
         measurementPoint: {

@@ -14,8 +14,18 @@ export const getFilteredMidParentalHeightData = (
 
 
         if (childMeasurements.length > 0){
-            upperLimit = childMeasurements[childMeasurements.length-1].plottable_data.centile_data.corrected_decimal_age_data.x + (1/12);
-            lowerLimit = childMeasurements[childMeasurements.length-1].plottable_data.centile_data.corrected_decimal_age_data.x - (1/12);
+            const latestAge = childMeasurements[childMeasurements.length-1].plottable_data.centile_data.corrected_decimal_age_data.x;
+            
+            if (latestAge < 3/12){
+                upperLimit = latestAge + 1/52;
+                lowerLimit = latestAge - 1/52;
+            } else if (latestAge >= 3/12 && latestAge < 3){
+                upperLimit = latestAge + 2/52;
+                lowerLimit = latestAge - 2/52;
+            } else {
+                upperLimit = latestAge + 2/12;
+                lowerLimit = latestAge - 2/12;
+            }
         }
 
         let newReferenceObject = [];
