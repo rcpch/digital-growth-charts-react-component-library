@@ -124,7 +124,9 @@ function CentileChart({
         upperParentalCentile: upperMPCData
     }
     */
-    const filteredMidParentalHeightData = useMemo(() => getFilteredMidParentalHeightData(childMeasurements, midParentalHeightData, sex),[
+   
+    const filteredMidParentalHeightData = useMemo(() => getFilteredMidParentalHeightData(reference, childMeasurements, midParentalHeightData, sex),[
+        reference,
         childMeasurements,
         midParentalHeightData, 
         sex
@@ -259,10 +261,10 @@ function CentileChart({
                                         datum.bone_age_sds,
                                         datum.bone_age_centile,
                                         datum.bone_age_type,
-                                        midParentalHeightData.mid_parental_height,
-                                        midParentalHeightData.mid_parental_height_sds,
-                                        midParentalHeightData.mid_parental_height_lower_value,
-                                        midParentalHeightData.mid_parental_height_upper_value,
+                                        midParentalHeightData?.mid_parental_height,
+                                        midParentalHeightData?.mid_parental_height_sds,
+                                        midParentalHeightData?.mid_parental_height_lower_value,
+                                        midParentalHeightData?.mid_parental_height_upper_value,
                                         datum.childName
                                     )
                                 }

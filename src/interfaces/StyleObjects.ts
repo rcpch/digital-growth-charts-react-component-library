@@ -28,6 +28,14 @@ export interface CentileStyle {
     midParentalCentileStroke?: string;
     midParentalAreaFill?: string;
 }
+
+export interface SDSStyle {
+    lineStrokeWidth?: number;
+    heightStroke?: string;
+    weightStroke?: string;
+    ofcStroke?: string;
+    bmiStroke?: string;
+}
 export interface GridlineStyle {
     gridlines?: boolean;
     stroke?: string;

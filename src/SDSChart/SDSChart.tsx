@@ -7,6 +7,7 @@ import {
     VictoryGroup, 
     VictoryScatter, 
     VictoryLine,
+    VictoryLabel,
     VictoryVoronoiContainer,
     VictoryTooltip} from "victory";
 
@@ -41,6 +42,9 @@ import { ShareButtonWrapper } from "../SubComponents/ShareButtonWrapper";
 import { ShareIcon } from "../SubComponents/ShareIcon";
 import { StyledShareButton } from "../SubComponents/StyledShareButton";
 import { generateMidParentalHeightSDSData } from "../functions/generateMidParentalHeightSDSData";
+import { symbolForMeasurementType } from "../functions/symbolForMeasurementType";
+import { nameForMeasurementMethod } from "../functions/nameForMeasurementMethod";
+import { setOpacity } from "../functions/setOpacity";
 
 const SDSChart: React.FC<SDSChartProps> = (
     { 
@@ -220,7 +224,7 @@ const SDSChart: React.FC<SDSChartProps> = (
                     labels={(datum)=> { 
                         return sdsTooltipText(datum)}
                     }
-                    voronoiBlacklist={['linkLine']}
+                    voronoiBlacklist={['linkLine', 'chronological-height-line', 'corrected-height-line', 'chronological-weight-line', 'corrected-weight-line', 'chronological-bmi-line', 'corrected-bmi-line', 'chronological-ofc-line', 'corrected-ofc-line']}
                 />
             }
             events={createSDSPointMouseOverObject(styles)}  // create events objects for each measurement that will highlight datapoints on mouse hover
@@ -262,96 +266,193 @@ const SDSChart: React.FC<SDSChartProps> = (
                     then by data point.
                 */}
 
+                
+
                 { childMeasurementsByType.map((measurementTypeItem, itemIndex) =>
                 
                     {   const onlyOneAndSelected = measurementTypeItem.measurementTypeData.length === 1 && measurementTypeItem.measurementType===measurementMethod;
-                        const moreThanOneAndSelected = measurementTypeItem.measurementTypeData.length > 1 && measurementTypeItem.measurementType===measurementMethod;
-
-                        return  moreThanOneAndSelected ?
+                        const moreThanOneAndSelected = measurementTypeItem.measurementTypeData.length > 1 && measurementTypeItem.measurementType===measurementMethod; 
+                        /*
+                        Set the SDS line style and line colour. Note if not supplied from the client, the centile line colour is used,
+                        with an opacity level set based on the itemIndex to differentiate the lines. This happens in the 
+                        makeAllStyles function.
+                        Each line is associated with a scatter also, whose symbol varies
+                        */
+                        let measurementStyles;
+                        
+                        if (measurementTypeItem.measurementType==="height"){
+                            measurementStyles=styles?.heightSDS;
+                        }
+                        if (measurementTypeItem.measurementType==="weight"){
+                            measurementStyles=styles?.weightSDS;
+                        }
+                        if (measurementTypeItem.measurementType==="bmi"){
+                            measurementStyles=styles?.bmiSDS;
+                        }
+                        if (measurementTypeItem.measurementType==="ofc"){
+                            measurementStyles=styles?.ofcSDS;
+                        }
+                        
+                        return (
                         <VictoryGroup
                             key={measurementTypeItem.measurementType+"-"+itemIndex}
                         >
                             { showChronologicalAge &&
-                                <VictoryLine 
-                                    name="chronological-line"
-                                    data={measurementTypeItem.measurementTypeData}
-                                    x={(datum)=>datum.plottable_data.sds_data.chronological_decimal_age_data.x}
-                                    y={(datum)=>datum.plottable_data.sds_data.chronological_decimal_age_data.y}
-                                    // interpolation="natural"
-                                    style={styles.continuousCentile}
-                                /> 
+                                <VictoryGroup 
+                                    key={`chronological-${itemIndex}`}
+                                >
+                                    <VictoryLine 
+                                        name={`chronological-${measurementTypeItem.measurementType}-line`}
+                                        data={measurementTypeItem.measurementTypeData}
+                                        x={(datum)=>datum.plottable_data.sds_data.chronological_decimal_age_data.x}
+                                        y={(datum)=>datum.plottable_data.sds_data.chronological_decimal_age_data.y}
+                                        // interpolation="natural"
+                                        labels={[nameForMeasurementMethod(measurementTypeItem.measurementType)]}
+                                        labelComponent={
+                                            <VictoryLabel 
+                                                renderInPortal 
+                                                dx={20}
+                                                title="height"
+                                            />
+                                        }
+                                        style={measurementStyles}
+                                    /> 
+                                    <VictoryScatter
+                                        data={measurementTypeItem.measurementTypeData}
+                                        x={(datum)=>datum.plottable_data.sds_data.chronological_decimal_age_data.x}
+                                        y={(datum)=>datum.plottable_data.sds_data.chronological_decimal_age_data.y}
+                                        symbol={symbolForMeasurementType(measurementTypeItem.measurementType)}
+                                        style={{
+                                            data: {
+                                                fill: styles.highlightedMeasurementFill.data.fill
+                                            }
+                                        }}
+                                        name={`chronological-${measurementTypeItem.measurementType}-scatter`}
+                                    />
+                                </VictoryGroup>
                             }
                             { showCorrectedAge &&
+                             <VictoryGroup 
+                                    key={`corrected-${itemIndex}`}
+                                >
                                 <VictoryLine 
-                                    name="corrected-line"
+                                    name={`corrected-${measurementTypeItem.measurementType}-line`}
                                     data={measurementTypeItem.measurementTypeData}
                                     x={(datum)=>datum.plottable_data.sds_data.corrected_decimal_age_data.x}
                                     y={(datum)=>datum.plottable_data.sds_data.corrected_decimal_age_data.y}
                                     // interpolation="natural"
                                     style={styles.dashedCentile}
-                                /> 
+                                />
+                                <VictoryScatter
+                                    data={measurementTypeItem.measurementTypeData}
+                                    x={(datum)=>datum.plottable_data.sds_data.corrected_decimal_age_data.x}
+                                    y={(datum)=>datum.plottable_data.sds_data.corrected_decimal_age_data.y}
+                                    dataComponent={
+                                        <XPoint
+                                            isBoneAge={false}
+                                            isSDS={true}
+                                        />
+                                    }
+                                    style={{
+                                        data: {
+                                            fill: styles.highlightedMeasurementFill.data.fill
+                                        }
+                                    }}
+                                    name={"chronological-"+measurementTypeItem.measurementType}
+                                />
+                            </VictoryGroup>
                             }
-                        </VictoryGroup>
-                        :
+                        </VictoryGroup>)
+                    //     :
 
-                        measurementTypeItem.measurementTypeData.map((measurement, index) => {
+                        // return measurementTypeItem.measurementTypeData.map((measurement, index) => {
 
-                            const chronData: any = {
-                                ...measurement.plottable_data.sds_data.chronological_decimal_age_data,
-                            };
-                            const correctData: any = {
-                                ...measurement.plottable_data.sds_data.corrected_decimal_age_data,
-                            };
+                        //     const chronData: any = {
+                        //         ...measurement.plottable_data.sds_data.chronological_decimal_age_data,
+                        //     };
+                        //     const correctData: any = {
+                        //         ...measurement.plottable_data.sds_data.corrected_decimal_age_data,
+                        //     };
 
-                            return (
-                                <VictoryGroup
-                                    key={measurementTypeItem.measurementType+"-"+index}
-                                >
-                                    {  showChronologicalAge &&
-                                        <VictoryScatter
-                                            data={[chronData]}
-                                            symbol="circle"
-                                            style={{
-                                                data: {
-                                                    fill: onlyOneAndSelected ? styles.highlightedMeasurementFill.data.fill : '#b3b3b3'
-                                                }
-                                            }}
-                                            name={"chronological-"+measurementTypeItem.measurementType}
-                                        />
-                                    }
-                                    {  showCorrectedAge &&
-                                        <VictoryScatter
-                                            data={[correctData]}
-                                            dataComponent={
-                                                <XPoint
-                                                    isBoneAge={false}
-                                                    isSDS={true}
-                                                />
-                                            }
-                                            style={{
-                                                data: {
-                                                    fill: '#b3b3b3'
-                                                }
-                                            }}
-                                            name={"corrected-"+measurementTypeItem.measurementType}
-                                        />
-                                    }
-                                    { showCorrectedAge && showChronologicalAge &&
-                                        <VictoryLine
-                                            name="linkLine"
-                                            style={{
-                                                data: {
-                                                    stroke: '#b3b3b3'
-                                                }
-                                            }}
-                                            data={[chronData, correctData]}
-                                        />
-                                    }
-                                </VictoryGroup>
-                            )
-                        });
+                        //     // return (
+                        //         // <VictoryGroup
+                        //         //     key={measurementTypeItem.measurementType+"-"+index}
+                        //         // >
+                        //             {  showChronologicalAge &&
+                        //             <VictoryGroup
+                        //                 key={`chronological-${index}`}
+                        //             >
+                        //                 <VictoryScatter
+                        //                     data={[chronData]}
+                        //                     symbol="circle"
+                        //                     style={{
+                        //                         data: {
+                        //                             fill: styles.highlightedMeasurementFill.data.fill
+                        //                         }
+                        //                     }}
+                        //                     name={"chronological-"+measurementTypeItem.measurementType}
+                        //                 />
+                        //                 <VictoryLine
+                        //                     data={[chronData]}
+                        //                     style={{
+                        //                         data: {
+                        //                             stroke: styles.highlightedMeasurementFill.data.fill
+                        //                         }
+                        //                     }}
+                        //                     name={`chronological-${measurementTypeItem.measurementType}-line`}
+                        //                 />
+                        //             </VictoryGroup>
+                        //             }
+                        //             {  showCorrectedAge &&
+                        //             <VictoryGroup
+                        //                 key={`corrected-${index}`}
+                        //             >
+                        //                 <VictoryScatter
+                        //                     data={[correctData]}
+                        //                     dataComponent={
+                        //                         <XPoint
+                        //                             isBoneAge={false}
+                        //                             isSDS={true}
+                        //                         />
+                        //                     }
+                        //                     style={{
+                        //                         data: {
+                        //                             fill: '#b3b3b3'
+                        //                         }
+                        //                     }}
+                        //                     name={"corrected-"+measurementTypeItem.measurementType}
+                        //                 />
+                        //                 <VictoryLine
+                        //                     data={[correctData]}
+                        //                     style={{
+                        //                         data: {
+                        //                             stroke: styles.highlightedMeasurementFill.data.fill,
+                        //                             strokeDasharray: '5 5'
+                        //                         }
+                        //                     }}
+                        //                     name={"corrected-"+measurementTypeItem.measurementType}
+                        //                 />
+                        //             </VictoryGroup>
+                        //             }
+                        //             { showCorrectedAge && showChronologicalAge &&
+                        //                 <VictoryLine
+                        //                     key={`link-chronological-${index}`}
+                        //                     name="linkLine"
+                        //                     style={{
+                        //                         data: {
+                        //                             stroke: '#b3b3b3'
+                        //                         }
+                        //                     }}
+                        //                     data={[chronData, correctData]}
+                        //                 />
+                        //             }
+                        //         // </VictoryGroup>
+                        //     // )
+                        // });
                     })
                 }
+            {/* )}; */}
+            
 
                 {
                     midParentalHeightData?.mid_parental_height_sds && reference==="uk-who" && measurementMethod==="height" &&
@@ -365,7 +466,6 @@ const SDSChart: React.FC<SDSChartProps> = (
                 }
 
         </VictoryChart>
-        
         {(showToggle || enableExport) && (
             <ButtonContainer>
                 { enableExport && (

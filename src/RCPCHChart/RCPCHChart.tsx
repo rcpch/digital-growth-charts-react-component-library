@@ -29,12 +29,13 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     axisStyle,
     gridlineStyle,
     centileStyle,
+    sdsStyle,
     measurementStyle,
     chartType,
     enableExport,
     exportChartCallback
 }) => {
-    const styles = makeAllStyles(chartStyle, axisStyle, gridlineStyle, centileStyle, measurementStyle);
+    const styles = makeAllStyles(chartStyle, axisStyle, gridlineStyle, centileStyle, sdsStyle, measurementStyle);
     
 
     // uncomment in development

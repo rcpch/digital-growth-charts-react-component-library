@@ -1,4 +1,5 @@
-import { AxisStyle, CentileStyle, ChartStyle, GridlineStyle, MeasurementStyle } from '../interfaces/StyleObjects';
+import { AxisStyle, CentileStyle, SDSStyle, ChartStyle, GridlineStyle, MeasurementStyle } from '../interfaces/StyleObjects';
+import { setOpacity } from './setOpacity';
 
 const black = '#000000';
 const white = '#FFFFFF';
@@ -13,6 +14,7 @@ function makeAllStyles(
     axisStyle?: AxisStyle,
     gridlineStyle?: GridlineStyle,
     centileStyle?: CentileStyle,
+    sdsStyle?: SDSStyle,
     measurementStyle?: MeasurementStyle,
 ) {
     let newGridlineStyle = {
@@ -149,7 +151,7 @@ function makeAllStyles(
             fontFamily: axisStyle?.axisLabelTextStyle?.name ?? 'Arial',
             textAlign: 'start',
         },
-        sdsLine: {
+        sdsLine: {  // these are the sds lines on the BMI chart
             data: {
                 stroke: centileStyle.sdsStroke ?? '#A9A9A9',
                 strokeWidth: centileStyle?.sdsStrokeWidth ?? 1.0,
@@ -171,6 +173,34 @@ function makeAllStyles(
                 strokeWidth: centileStyle?.centileStrokeWidth ?? 1.5,
                 strokeLinecap: 'round',
             },
+        },
+        heightSDS: {
+            data: {
+                stroke: sdsStyle?.heightStroke ?? setOpacity(centileStyle?.centileStroke ?? black, 1.0),
+                strokeWidth: centileStyle?.centileStrokeWidth ?? 1.5,
+                strokeLinecap: 'round',
+            }
+        },
+        weightSDS: {
+            data: {
+                stroke: sdsStyle?.weightStroke ?? setOpacity(centileStyle?.centileStroke ?? black, 0.5),
+                strokeWidth: centileStyle?.centileStrokeWidth ?? 1.5,
+                strokeLinecap: 'round',
+            }
+        },
+        ofcSDS: {
+            data: {
+                stroke: sdsStyle?.ofcStroke ?? setOpacity(centileStyle?.centileStroke ?? black, 0.25),
+                strokeWidth: centileStyle?.centileStrokeWidth ?? 1.5,
+                strokeLinecap: 'round',
+            }
+        },
+        bmiSDS: {
+            data: {
+                stroke: sdsStyle?.bmiStroke ?? setOpacity(centileStyle?.centileStroke ?? black, 0.125),
+                strokeWidth: centileStyle?.centileStrokeWidth ?? 1.5,
+                strokeLinecap: 'round',
+            }
         },
         midParentalCentile: {
             data: {

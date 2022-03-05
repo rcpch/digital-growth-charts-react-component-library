@@ -2,12 +2,19 @@ import { ICentile } from "../interfaces/CentilesObject";
 import { Measurement } from "../interfaces/RCPCHMeasurementObject";
 
 export const getFilteredMidParentalHeightData = (
+    reference: string,
     childMeasurements: Measurement[],
     midParentalHeightData,
     sex
 ) => {
+
+    if(reference !== "uk-who"){
+        console.log("Not UK-WHO");
+        return
+    }
     
-    if (midParentalHeightData.mid_parental_height && midParentalHeightData.mid_parental_height_centile_data.length > 0){
+    
+    if (midParentalHeightData.mid_parental_height_centile && midParentalHeightData.mid_parental_height_centile_data.length > 0){
     
         let upperLimit = 20;
         let lowerLimit = 19.75;

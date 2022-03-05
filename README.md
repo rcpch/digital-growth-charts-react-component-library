@@ -277,7 +277,7 @@ interface GridlineStyle{
 }
 ```
 
-Centile styles control the width and colour of the centile and SDS lines.
+Centile styles control the width and colour of the centile and BMI SDS lines. Note the BMI SDS lines relate to those SDS lines rendered on the BMI centile chart, not to be confused with the SDS lines on the SDS chart, which has its own styling object.
 
 ```js
 interface CentileStyle{
@@ -289,6 +289,18 @@ interface CentileStyle{
     midParentalCentileStroke?: number;
     midParentalCentileStrokeWidth?: number;
     midParentalAreaFill?: string;
+}
+```
+
+SDS styles controle the colour and width of the SDS lines. Because all measurement methods are rendered on a single chart, the user is offered the option of different colours for each measurement method [height, weight, head circumference(ofc) and body mass index (bmi)]. If no SDS style is supplied, the centile line colour is used with an opacity applied to each measurement.
+
+```js
+interface SDSStyle {
+    lineStrokeWidth?: number;
+    heightStroke?: string;
+    weightStroke?: string;
+    ofcStroke?: string;
+    bmiStroke?: string;
 }
 ```
 
