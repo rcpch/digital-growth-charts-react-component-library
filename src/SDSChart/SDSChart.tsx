@@ -378,10 +378,9 @@ const SDSChart: React.FC<SDSChartProps> = (
                                             x={(datum)=>datum.plottable_data.sds_data.chronological_decimal_age_data.x}
                                             y={(datum)=>datum.plottable_data.sds_data.chronological_decimal_age_data.y}
                                             symbol={symbolForMeasurementType(measurementTypeItem.measurementType)}
-                                            // size={moreThanOneMeasurementToDisplayAndCurrentlySelected ? 4 : 3}
                                             style={{
                                                 data: {
-                                                    fill: styles.highlightedMeasurementFill.data.fill
+                                                    fill: measurementStyles.data.stroke
                                                 }
                                             }}
                                             name={`chronological-${measurementTypeItem.measurementType}-scatter`}
@@ -408,15 +407,15 @@ const SDSChart: React.FC<SDSChartProps> = (
                                             <XPoint
                                                 isBoneAge={false}
                                                 isSDS={true}
-                                                colour={styles.highlightedMeasurementFill.data.fill}
+                                                colour={measurementStyles.data.stroke}
                                             />
                                         }
                                         style={{
                                             data: {
-                                                fill: styles.highlightedMeasurementFill.data.fill
+                                                fill: measurementStyles.data.stroke
                                             }
                                         }}
-                                        name={"corrected-"+measurementTypeItem.measurementType}
+                                        name={`corrected-${measurementTypeItem.measurementType}-scatter`}
                                     />
                                 </VictoryGroup>
                                 }

@@ -26,7 +26,11 @@ export function createSDSPointMouseOverObject(styles){
                             ],
 
                             mutation: ()=>{
-                                return {style: {stroke: styles.toolTipFlyout.stroke}};
+                                return {
+                                    style: {
+                                        stroke: styles.toolTipFlyout.stroke,
+                                    }
+                                };
                             }
                         },
                         {
@@ -36,7 +40,11 @@ export function createSDSPointMouseOverObject(styles){
                             ],
 
                             mutation: ()=>{
-                                return {style: {fill: styles.toolTipFlyout.fill}};
+                                return {
+                                    style: {
+                                        fill: styles.toolTipFlyout.stroke
+                                    }
+                                };
                             }
                         }
                     ]
