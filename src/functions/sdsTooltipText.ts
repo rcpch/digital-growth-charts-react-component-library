@@ -1,14 +1,15 @@
 
 export function sdsTooltipText(datum){
-    
-    if (datum.datum.childName==="legend"){
-        return "Click to hide/reveal measurement type."
-    }
+    /*
+    Returns tool tip labels for SDS charts.
+    */
     if (datum.datum.childName==='mid-parental-sds'){
         return `Midparental Height SDS: ${datum.datum.y > 0 ? '+' : ''}${Math.round(datum.datum.y*1000)/1000}`;
     }
-    let corrected = "Adjusted Age: ";
-    const array = datum.datum.childName.split('-')
+    // use childName to identify if this is a corrected or chronological age
+    const array = datum.datum.childName.split('-');
+
+    // set the measurement methods
     let measurementMethod = array[1];
 
     let finalString = ""
@@ -24,24 +25,29 @@ export function sdsTooltipText(datum){
     if (measurementMethod=="ofc"){
         finalString="Head Circumference"
     }
-    
-    if (datum.datum.age_type==="chronological_age"){
-        corrected="Unadjusted Age: ";
-    }
+
+    // concatenate to form final string
     let finalLabel = "";
-    
-        if (corrected==="chronological"){
-            finalLabel = measurementMethod+"\n"+datum.datum.measurement_dates.chronological_calendar_age + "\n"+ "SDS: " + Math.round(datum.datum.measurement_calculated_values.chronological_sds*1000)/1000;
-        } else {
-            finalLabel = finalString+"\n"+datum.datum.measurement_dates.corrected_calendar_age + "\n"+ "SDS: " + Math.round(datum.datum.measurement_calculated_values.corrected_sds*1000)/1000;
+
+    // set the ages
+    let correctedChronologicalText="Unadjusted Age: ";
+    if (array[0]==="corrected"){
+        correctedChronologicalText = "Adjusted Age: ";
+        if (datum?.datum?.plottable_data?.sds_data?.corrected_decimal_age_data?.corrected_gestational_age){
+            correctedChronologicalText="Corrected Gestational Age: ";
         }
-    
-        if (datum.datum.age_error){
-            finalLabel += datum.datum.age_error;
-        }
-        if (datum.datum.observation_value_error){
-            finalLabel+=datum.datum.observation_value_error;
-        }
+        finalLabel = `${finalString} SDS: ${Math.round(datum.datum.measurement_calculated_values.corrected_sds*1000)/1000}\n${correctedChronologicalText}${datum.datum.measurement_dates.corrected_calendar_age ?? datum.datum.plottable_data.sds_data.corrected_decimal_age_data.corrected_gestational_age}`;
+    } else {
+        finalLabel = `${finalString} SDS: ${Math.round(datum.datum.measurement_calculated_values.chronological_sds*1000)/1000}\n${correctedChronologicalText}${datum.datum.measurement_dates.chronological_calendar_age}`;
+    }
+
+    // set the errors to tooltips if present
+    if (datum.datum.plottable_data?.sds_data?.corrected_decimal_age_data?.age_error || datum.datum.plottable_data?.sds_data?.chronological_decimal_age_data?.age_error){
+        finalLabel += datum.datum.plottable_data?.sds_data?.corrected_decimal_age_data?.age_error ?? datum.datum.plottable_data?.sds_data?.chronological_decimal_age_data?.age_error;
+    }
+    if (datum.datum.plottable_data?.sds_data?.corrected_decimal_age_data?.observation_value_error || datum.datum.plottable_data?.sds_data?.chronological_decimal_age_data?.observation_value_error){
+        finalLabel+=datum.datum.plottable_data?.sds_data?.corrected_decimal_age_data?.observation_value_error ?? datum.datum.plottable_data?.sds_data?.chronological_decimal_age_data?.observation_value_error;
+    }
     
     return finalLabel;
 }
