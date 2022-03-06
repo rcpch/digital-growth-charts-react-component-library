@@ -466,6 +466,7 @@ const SDSChart: React.FC<SDSChartProps> = (
                             fontSize: 12
                         }
                     }}
+                    borderPadding={{top: 10, bottom: 10, left: 15, right: 15}}
                     data={legendSelections}
                     dataComponent={
                         <Point />
