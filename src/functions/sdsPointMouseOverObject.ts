@@ -6,24 +6,53 @@ export function createSDSPointMouseOverObject(styles){
     */
     const returnArray=[]
     for (const item of ["height", "weight", "ofc", "bmi"]){
-        const correctedName = "corrected-"+item;
-        const chronologicalName = "chronological-"+item;
         const redObject = {
-            childName: [correctedName, chronologicalName, "linkLine"],
+            childName: [
+                `chronological-${item}-line`, 
+                `corrected-${item}-line`,
+                `corrected-${item}-scatter`,
+                `chronological-${item}-scatter`,
+                `linkLine-${item}`
+            ],
             target: "data",
             eventHandlers: {
                 onMouseOver: ()=>{
                     return [
                         {
-                            childName: [correctedName, chronologicalName],
+                            childName: [
+                                `chronological-${item}-line`, 
+                                `corrected-${item}-line`,
+                                `linkLine-${item}`
+                            ],
+
                             mutation: ()=>{
-                                return {style: {fill: styles.highlightedMeasurementFill.data.fill}};
+                                return {style: {stroke: styles.toolTipFlyout.stroke}};
                             }
                         },
                         {
-                            childName: ["linkLine"],
+                            childName: [
+                                `corrected-${item}-scatter`,
+                                `chronological-${item}-scatter`,
+                            ],
+
                             mutation: ()=>{
-                                return {style: {stroke: styles.highlightedMeasurementFill.data.fill}};
+                                return {style: {fill: styles.toolTipFlyout.fill}};
+                            }
+                        }
+                    ]
+                },
+                onMouseOut: ()=>{
+                    return [
+                        {
+                            childName: [
+                                `chronological-${item}-line`, 
+                                `corrected-${item}-line`,
+                                `corrected-${item}-scatter`,
+                                `chronological-${item}-scatter`,
+                                `linkLine-${item}`
+                            ],
+                            mutation: ()=>{
+                                return null;
                             }
                         }
                     ]

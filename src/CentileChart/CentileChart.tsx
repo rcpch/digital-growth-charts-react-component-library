@@ -559,7 +559,12 @@ function CentileChart({
                                         x={"b"}
                                         y={"y"}
                                         size={15}
-                                        dataComponent={<XPoint isBoneAge={true}/>}
+                                        dataComponent={
+                                            <XPoint
+                                                isBoneAge={true}
+                                                colour={styles.measurementPoint.data.fill}
+                                            />
+                                        }
                                     />
                                 }
 
@@ -573,7 +578,7 @@ function CentileChart({
                                         dataComponent={
                                             <XPoint 
                                                 isBoneAge={true}
-                                                isSDS={false}
+                                                colour={styles.measurementPoint.data.fill}
                                             />
                                         }
                                     />
@@ -619,7 +624,7 @@ function CentileChart({
                                         dataComponent={
                                             <XPoint 
                                                 isBoneAge={false}
-                                                isSDS={false}
+                                                colour={"black"}
                                             />
                                         }
                                         style={styles.measurementPoint}

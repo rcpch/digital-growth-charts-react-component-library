@@ -1,5 +1,9 @@
 
 export function sdsTooltipText(datum){
+    
+    if (datum.datum.childName==="legend"){
+        return "Click to hide/reveal measurement type."
+    }
     if (datum.datum.childName==='mid-parental-sds'){
         return `Midparental Height SDS: ${datum.datum.y > 0 ? '+' : ''}${Math.round(datum.datum.y*1000)/1000}`;
     }
@@ -32,14 +36,12 @@ export function sdsTooltipText(datum){
             finalLabel = finalString+"\n"+datum.datum.measurement_dates.corrected_calendar_age + "\n"+ "SDS: " + Math.round(datum.datum.measurement_calculated_values.corrected_sds*1000)/1000;
         }
     
-        // finalLabel = finalString + "\n"+corrected + "\n" + datum.datum.calendar_age+"\n"+datum.datum.clinician_comment+"\n"+"SDS: "+Math.round(datum.datum.y*1000)/1000;
-        
-        // if (datum.datum.age_error){
-        //     finalLabel += datum.datum.age_error;
-        // }
-        // if (datum.datum.observation_value_error){
-        //     finalLabel+=datum.datum.observation_value_error;
-        // }
-    // }
+        if (datum.datum.age_error){
+            finalLabel += datum.datum.age_error;
+        }
+        if (datum.datum.observation_value_error){
+            finalLabel+=datum.datum.observation_value_error;
+        }
+    
     return finalLabel;
 }
