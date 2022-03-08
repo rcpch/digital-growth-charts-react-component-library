@@ -29,9 +29,12 @@ export const getFilteredMidParentalHeightData = (
             } else if (latestAge >= 3/12 && latestAge < 3){
                 upperLimit = latestAge + 2/52;
                 lowerLimit = latestAge - 2/52;
-            } else {
+            } else if (latestAge >= 3 && latestAge < 12){
                 upperLimit = latestAge + 2/12;
                 lowerLimit = latestAge - 2/12;
+            } else {
+                upperLimit = latestAge + 6/12;
+                lowerLimit = latestAge - 6/12;
             }
         }
 
