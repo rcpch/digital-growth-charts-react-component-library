@@ -1,0 +1,11 @@
+This are the rules on deploy
+
+This is a pre-release and therefore published as a release candidate to npm.
+To deploy:
+1. version major.minor.patch-rc1
+2. npm publish --tag alpha
+
+Before merging to live need to:
+
+2. reverse these changes
+3. (delete this file)

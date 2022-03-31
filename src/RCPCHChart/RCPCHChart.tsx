@@ -1,5 +1,5 @@
 // packages/libraries
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 
 // props and interfaces
 import { RCPCHChartProps } from './RCPCHChart.types';
@@ -9,10 +9,12 @@ import './RCPCHChart.scss';
 
 // components
 import CentileChart from '../CentileChart';
+import SDSChart from '../SDSChart/SDSChart';
 
 // helper functions
 import makeAllStyles from '../functions/makeAllStyles';
 import ErrorBoundary from '../SubComponents/ErrorBoundary';
+import { ClientMeasurementObject } from '../interfaces/ClientMeasurementObject';
 
 const RCPCHChart: React.FC<RCPCHChartProps> = ({
     title,
@@ -27,28 +29,59 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     axisStyle,
     gridlineStyle,
     centileStyle,
+    sdsStyle,
     measurementStyle,
+    chartType,
+    enableExport,
+    exportChartCallback
 }) => {
-    const styles = makeAllStyles(chartStyle, axisStyle, gridlineStyle, centileStyle, measurementStyle);
+    const styles = makeAllStyles(chartStyle, axisStyle, gridlineStyle, centileStyle, sdsStyle, measurementStyle);
+    
 
     // uncomment in development
     // console.log("loading from locally...");
+    let isCentile=(chartType === "centile" || chartType === undefined);
     
-    return (
-        <ErrorBoundary styles={styles}>
-            <CentileChart
-                reference={reference}
-                title={title}
-                subtitle={subtitle}
-                childMeasurements={measurementsArray || []}
-                midParentalHeightData={midParentalHeightData}
-                measurementMethod={measurementMethod}
-                sex={sex}
-                enableZoom={enableZoom}
-                styles={styles}
-            />
-        </ErrorBoundary>
-    );
+    if (isCentile){
+        return (
+            <ErrorBoundary styles={styles}>
+                <CentileChart
+                    reference={reference}
+                    title={title}
+                    subtitle={subtitle}
+                    childMeasurements={measurementsArray || []}
+                    midParentalHeightData={midParentalHeightData}
+                    measurementMethod={measurementMethod}
+                    sex={sex}
+                    enableZoom={enableZoom}
+                    styles={styles}
+                    enableExport={enableExport}
+                    exportChartCallback={exportChartCallback}
+                />
+            </ErrorBoundary>
+        );
+    } else {
+        const castArray = measurementsArray as ClientMeasurementObject;
+        
+        return (
+            <ErrorBoundary styles={styles}>
+                <SDSChart
+                    reference={reference}
+                    title={title}
+                    subtitle={subtitle}
+                    measurementMethod={measurementMethod}
+                    childMeasurements={castArray}
+                    midParentalHeightData={midParentalHeightData}
+                    sex={sex}
+                    enableZoom={enableZoom}
+                    styles={styles}
+                    enableExport={enableExport}
+                    exportChartCallback={exportChartCallback}
+                />
+            </ErrorBoundary>
+        );
+    }
+
 };
 
 export default RCPCHChart;

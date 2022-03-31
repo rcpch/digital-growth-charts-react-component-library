@@ -16,6 +16,8 @@ export function tooltipText(
     lay_comment: any,
     sex: string,
     b: number,
+    centile: number,
+    sds: number,
     bone_age_label: string,
     bone_age_sds: number,
     bone_age_centile: number,
@@ -27,14 +29,14 @@ export function tooltipText(
     childName: any // the name of the component hit
 ): string {
     if (['centileMPH', 'lowerCentileMPH', 'upperCentileMPH', 'areaMPH'].includes(childName)){
-        if (childName=="lowerCentileMPH"){
-            return "Expected Height for age: "+Math.round(y*10)/10+" cm\n(based on midparental -2SD)"
+        if (childName==="lowerCentileMPH"){
+            return `Midparental Height -2SD: ${Math.round(midparental_lower*10)/10} cm`
         }
         if (childName==="centileMPH"){
-            return "Expected Height for age: "+Math.round(y*10)/10+" cm\nMidparental Centile: "+addOrdinalSuffix(Math.round(parseFloat(label)))+"\nMidparental SDS: "+Math.round(midparental_sds*100)/100+"\nMidparental Final Height: "+Math.round(midparental_height*10)/10+" cm\nMidparental Final Height (-2 SD): "+Math.round(midparental_lower*10)/10+" cm\nMidparental Final Height (+2 SD): "+Math.round(midparental_upper*10)/10 + " cm";
+            return `Midparental Height: ${Math.round(midparental_height*10)/10} cm (${addOrdinalSuffix(Math.round(parseFloat(label)))} centile, SDS: ${Math.round(midparental_sds*100)/100})\nRange(+/-2SD): ${Math.round(midparental_lower*10)/10} cm - ${Math.round(midparental_upper*10)/10} cm`;
         }
-        if (childName ==="upperCentileMPH"){
-            return "Expected Height for age: "+Math.round(y*10)/10 + "cm\n (based on midparental height +2SD)"
+        if (childName==="upperCentileMPH"){
+            return `Midparental Height +2SD: ${Math.round(midparental_upper*10)/10} cm`
         }
         return;
     }
@@ -47,11 +49,11 @@ export function tooltipText(
         }
         if (age === 2 && measurementMethod === 'height' && reference == 'uk-who') {
             // step down at 2 y where children measured standing (height), not lying (length)
-            return 'Measure length until age 2;\nMeasure height after age 2.\nA child’s height is usually\nslightly less than their length.';
+            return "Measure length until age 2;\nMeasure height after age 2.\nA child’s height is usually\nslightly less than their length.";
         }
         if (age === 2 && measurementMethod === 'height' && reference == 'uk-who') {
             // step down at 2 y where children measured standing (height), not lying (length)
-            return 'Measure length until age 2;\nMeasure height after age 2.\nA child’s height is usually\nslightly less than their length.';
+            return "Measure length until age 2;\nMeasure height after age 2.\nA child’s height is usually\nslightly less than their length.";
         }
         if (label === 'For all Children plotted in this shaded area see instructions.' && reference == 'uk-who') {
             // delayed puberty if plotted in this area
@@ -61,11 +63,15 @@ export function tooltipText(
                 return 'If a plot falls here, pubertal assessment will be required\nand mid-parental centile should be assessed.\nIf they are in puberty or completing puberty,\nthey are below the 0.4th centile and should be referred.\nIn most instances a prepubertal girl plotted in this area\nis growing normally, but comparison with the mid-parental\ncentile and growth trajectory will assist the assessment\nof whether further investigation is needed.';
             }
         }
-        if (!isNaN(Number(label))) {
+        
+        // BMI SDS labels
+        if (childName.includes("sdsLine")){
+            return `${label} SDS`  
+        }
+
+        if (childName.includes("centileLine")){
             // these are the centile labels
             return `${addOrdinalSuffix(label)} centile`;
-        } else {
-            return label;
         }
     }
     if (centile_band) {
@@ -116,34 +122,14 @@ export function tooltipText(
         if (observation_value_error === null && age_error === null) {
             if (age_type === 'corrected_age' && age > 0.0383) {
                 const finalCorrectedString = lay_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
-                return (
-                    'Corrected age: ' +
-                    calendar_age +
-                    '\n' +
-                    finalCorrectedString +
-                    '\n' +
-                    y +
-                    measurementSuffix(measurementMethod) +
-                    '\n' +
-                    finalCentile
-                );
+                return `Corrected age: ${calendar_age}\n${finalCorrectedString}\n${y} ${measurementSuffix(measurementMethod)} [SDS: ${sds > 0 ? '+' + Math.round(sds*1000)/1000 : Math.round(sds*1000)/1000 }]\n${finalCentile}`;
             }
             if (age_type === 'chronological_age') {
                 let finalChronologicalString = lay_comment
                     .replaceAll(', ', ',\n')
                     .replaceAll('. ', '.\n')
                     .replaceAll('account ', 'account\n');
-                return (
-                    'Actual age: ' +
-                    calendar_age +
-                    '\n' +
-                    finalChronologicalString +
-                    '\n' +
-                    y +
-                    measurementSuffix(measurementMethod) +
-                    '\n' +
-                    finalCentile
-                );
+                return `Actual age: ${calendar_age}\n${finalChronologicalString}\n${y} ${measurementSuffix(measurementMethod)} [SDS: ${sds > 0 ? '+' + Math.round(sds*1000)/1000 : Math.round(sds*1000)/1000 }]\n${finalCentile}`;
             }
         }
         // measurement data points
@@ -153,32 +139,11 @@ export function tooltipText(
             if (observation_value_error === null && age_error === null) {
                 if (age_type === 'corrected_age') {
                     const finalCorrectedString = lay_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
-                    return (
-                        'Corrected age: ' +
-                        corrected_gestational_age +
-                        '\n' +
-                        finalCorrectedString +
-                        '\n' +
-                        y +
-                        measurementSuffix(measurementMethod) +
-                        '\n' +
-                        finalCentile
-                    );
+                    return `Corrected age: ${corrected_gestational_age}\n${finalCorrectedString}\n${y} ${measurementSuffix(measurementMethod)} [SDS: ${sds > 0 ? '+' + Math.round(sds*1000)/1000 : Math.round(sds*1000)/1000 }]\n${finalCentile}`;
                 }
                 if (age_type === 'chronological_age') {
                     let finalChronologicalString = lay_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
-                    return (
-                        'Actual age: ' +
-                        calendar_age +
-                        '\n' +
-                        corrected_gestational_age +
-                        '\n' +
-                        finalChronologicalString +
-                        y +
-                        measurementSuffix(measurementMethod) +
-                        '\n' +
-                        finalCentile
-                    );
+                    return `Actual age: ${calendar_age}\n${corrected_gestational_age}\n${finalChronologicalString}\n${y} ${measurementSuffix(measurementMethod)} [SDS: ${sds > 0 ? '+' + Math.round(sds*1000)/1000 : Math.round(sds*1000)/1000 }]\n${finalCentile}`;
                 }
             }
         }

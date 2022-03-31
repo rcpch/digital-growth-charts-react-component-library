@@ -1,6 +1,6 @@
 {
     "name": "@rcpch/digital-growth-charts-react-component-library",
-    "version": "4.2.4",
+    "version": "6.0.0",
     "main": "build/index.js",
     "module": "build/index.esm.js",
     "files": [
@@ -13,7 +13,8 @@
         "test": "jest",
         "test:watch": "jest --watch",
         "generate": "node ./util/create-component",
-        "prepublishOnly": "npm run build"
+        "prepublishOnly": "npm run build",
+        "prepare": "npm run build"
     },
     "repository": {
         "type": "git",
@@ -21,7 +22,7 @@
     },
     "publishConfig": {
         "registry": "https://registry.npmjs.org/"
-    },
+      },
     "keywords": [
         "Growth",
         "Charts",
@@ -57,13 +58,13 @@
         "babel-preset-react-app": "^9.1.2",
         "identity-obj-proxy": "^3.0.0",
         "jest": "^24.9.0",
-        "node-sass": "^4.14.1",
+        "node-sass": "^7.0.0",
         "rollup": "^1.27.4",
         "rollup-plugin-copy": "^3.3.0",
         "rollup-plugin-peer-deps-external": "^2.2.0",
         "rollup-plugin-postcss": "^3.1.2",
         "rollup-plugin-typescript2": "^0.27.0",
-        "sass-loader": "^8.0.0",
+        "sass-loader": "^12.4.0",
         "ts-jest": "^24.2.0",
         "typescript": "^3.7.2"
     },

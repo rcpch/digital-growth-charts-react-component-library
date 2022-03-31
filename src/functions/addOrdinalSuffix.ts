@@ -1,12 +1,14 @@
 // input a number and outputs a string with ordinal suffix attached
 const addOrdinalSuffix = (inputNumber: number | string): string => {
-    const answerNumber = inputNumber;
+    let answerNumber: string = inputNumber.toString();
     let workingNumber = Number(inputNumber);
     if (Number.isInteger(workingNumber) === false) {
         workingNumber *= 10;
         if (Number.isInteger(workingNumber) === false) {
             throw Error('Only integers or numbers to 1 decimal place are supported');
         }
+    } else {
+        answerNumber = answerNumber.split(".")[0]; // this is an integer - remove the decimal point
     }
     const remainder10 = workingNumber % 10;
     const remainder100 = workingNumber % 100;

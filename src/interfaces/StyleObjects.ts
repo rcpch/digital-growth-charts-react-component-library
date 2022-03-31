@@ -16,14 +16,25 @@ export interface ChartStyle {
 }
 export interface MeasurementStyle {
     measurementFill?: string;
+    highlightedMeasurementFill?: string;
 }
 export interface CentileStyle {
+    sdsStroke?: string;
+    sdsStrokeWidth?: string;
     centileStroke?: string;
     centileStrokeWidth?: number;
     delayedPubertyAreaFill?: string;
     midParentalCentileStrokeWidth?: number;
     midParentalCentileStroke?: string;
     midParentalAreaFill?: string;
+}
+
+export interface SDSStyle {
+    lineStrokeWidth?: number;
+    heightStroke?: string;
+    weightStroke?: string;
+    ofcStroke?: string;
+    bmiStroke?: string;
 }
 export interface GridlineStyle {
     gridlines?: boolean;

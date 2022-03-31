@@ -8,14 +8,15 @@ type returnObject = {
 
 function defaultToggles(childMeasurements: Measurement[]): returnObject {
     if (!childMeasurements || childMeasurements.length < 1) {
-        return { defaultShowCorrected: false, defaultShowChronological: false, showToggle: false };
+        // although no values to plot, allows SDS chart to render unselected measurement types
+        return { defaultShowCorrected: false, defaultShowChronological: true, showToggle: false };
     }
     if (!childMeasurements[0].plottable_data) {
         throw new Error('No plottable data found. Are you using the correct server version?');
     }
-    // if >= 40 weeks, only show chronological:
+    // if == 40 weeks, only show chronological:
     const gestWeeks = childMeasurements[0].birth_data.gestation_weeks;
-    if (gestWeeks >= 40) {
+    if (gestWeeks == 40) {
         return { defaultShowCorrected: false, defaultShowChronological: true, showToggle: false };
     }
     // get max corrected age from  data:

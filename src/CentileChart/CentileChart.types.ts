@@ -27,4 +27,6 @@ export interface CentileChartProps {
     midParentalHeightData: MidParentalHeightObject;
     enableZoom: boolean;
     styles: { [key: string]: any };
+    enableExport: boolean;
+    exportChartCallback(svg: any);
 }
