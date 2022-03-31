@@ -122,14 +122,14 @@ export function tooltipText(
         if (observation_value_error === null && age_error === null) {
             if (age_type === 'corrected_age' && age > 0.0383) {
                 const finalCorrectedString = lay_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
-                return `Corrected age: ${calendar_age}\n${finalCorrectedString}\n${y} ${measurementSuffix(measurementMethod)} [SDS: ${sds > 0 && '+'}${Math.round(sds*1000)/1000}]\n${finalCentile}`;
+                return `Corrected age: ${calendar_age}\n${finalCorrectedString}\n${y} ${measurementSuffix(measurementMethod)} [SDS: ${sds > 0 ? '+' + Math.round(sds*1000)/1000 : Math.round(sds*1000)/1000 }]\n${finalCentile}`;
             }
             if (age_type === 'chronological_age') {
                 let finalChronologicalString = lay_comment
                     .replaceAll(', ', ',\n')
                     .replaceAll('. ', '.\n')
                     .replaceAll('account ', 'account\n');
-                return `Actual age: ${calendar_age}\n${finalChronologicalString}\n${y} ${measurementSuffix(measurementMethod)} [SDS: ${sds > 0 && '+'}${Math.round(sds*1000)/1000}]\n${finalCentile}`;
+                return `Actual age: ${calendar_age}\n${finalChronologicalString}\n${y} ${measurementSuffix(measurementMethod)} [SDS: ${sds > 0 ? '+' + Math.round(sds*1000)/1000 : Math.round(sds*1000)/1000 }]\n${finalCentile}`;
             }
         }
         // measurement data points
@@ -139,11 +139,11 @@ export function tooltipText(
             if (observation_value_error === null && age_error === null) {
                 if (age_type === 'corrected_age') {
                     const finalCorrectedString = lay_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
-                    return `Corrected age: ${corrected_gestational_age}\n${finalCorrectedString}\n${y} ${measurementSuffix(measurementMethod)} [SDS: ${sds > 0 && '+'}${Math.round(sds*1000)/1000}]\n${finalCentile}`;
+                    return `Corrected age: ${corrected_gestational_age}\n${finalCorrectedString}\n${y} ${measurementSuffix(measurementMethod)} [SDS: ${sds > 0 ? '+' + Math.round(sds*1000)/1000 : Math.round(sds*1000)/1000 }]\n${finalCentile}`;
                 }
                 if (age_type === 'chronological_age') {
                     let finalChronologicalString = lay_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
-                    return `Actual age: ${calendar_age}\n${corrected_gestational_age}\n${finalChronologicalString}\n${y} ${measurementSuffix(measurementMethod)} [SDS: ${sds > 0 && '+'}${Math.round(sds*1000)/1000}]\n${finalCentile}`;
+                    return `Actual age: ${calendar_age}\n${corrected_gestational_age}\n${finalChronologicalString}\n${y} ${measurementSuffix(measurementMethod)} [SDS: ${sds > 0 ? '+' + Math.round(sds*1000)/1000 : Math.round(sds*1000)/1000 }]\n${finalCentile}`;
                 }
             }
         }
