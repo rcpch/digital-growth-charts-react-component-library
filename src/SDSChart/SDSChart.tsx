@@ -25,6 +25,7 @@ import { yAxisLabel } from '../functions/yAxisLabel';
 import CustomGridComponent from "../SubComponents/CustomGridComponent";
 import RenderTickLabel from "../SubComponents/RenderTickLabel";
 import icon from '../images/icon.png';
+import ukca from '../images/ukca.png';
 import { ButtonContainer } from "../SubComponents/ButtonContainer";
 import { StyledRadioButtonGroup } from "../SubComponents/StyledRadioButtonGroup";
 
@@ -227,6 +228,7 @@ const SDSChart: React.FC<SDSChartProps> = (
         <MainContainer>
             <LogoContainer>
                 <img src={icon} width={32} height={32} />
+                <img src={ukca} width={32} height={32} />
             </LogoContainer>
 
             <TitleContainer>

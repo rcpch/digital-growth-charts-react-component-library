@@ -26,7 +26,7 @@ import { getFilteredMidParentalHeightData } from '../functions/getFilteredMidPar
 
 // interfaces & props
 import { CentileChartProps } from './CentileChart.types';
-import { ICentile, IMeasurementMethod, IPlottedCentileMeasurement, Reference, ReferenceGroup } from '../interfaces/CentilesObject';
+import { ICentile } from '../interfaces/CentilesObject';
 import { Measurement } from '../interfaces/RCPCHMeasurementObject';
 import { Domains } from '../interfaces/Domains';
 
@@ -44,6 +44,7 @@ import { MainContainer } from '../SubComponents/MainContainer';
 
 // RCPCH Icon:
 import icon from '../images/icon.png';
+import ukca from '../images/ukca.png';
 import { isCrowded } from '../functions/isCrowded';
 import { EventCaret } from '../SubComponents/EventCaret';
 import { StyledShareButton } from '../SubComponents/StyledShareButton';
@@ -200,7 +201,8 @@ function CentileChart({
     return (
         <MainContainer>
             <LogoContainer>
-                <img src={icon} width={32} height={32} />
+                <img src={icon} width={24} height={24} />
+                <img src={ukca} width={18} height={18}/>
             </LogoContainer>
 
             <TitleContainer>
