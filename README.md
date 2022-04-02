@@ -11,15 +11,22 @@
 
 # RCPCH Growth Chart React Component Library
 
-For all guidance on this component, implementation and contributing to the RCPCH growth chart projects, please see our [documentation](https://../../digital-growth-charts-documentation/docs/products/react-component.md)
+For all guidance on this component, implementation and contributing to the RCPCH growth chart projects, please see our [documentation](https://growth.rcpch.ac.uk/products/react-component/)
 
 ## Version 6.0 Supported Features
 
-* Corrected/Chronological age with toggle with theme styling
-* Zoom with zoom reset (optional prop)
 * Event logging - events associated with measurements
 * Bone ages
 * Midparental heights with midparental centile lines (at +2 and -2 SDS)
 * Copy/Paste button (optional prop)
 * SDS Lines for BMI centile chart
 * SDS charts
+
+## Existing features
+
+* Centile charts for UK-WHO, Turner's and Down's syndromes (data for lines bundled)
+* Corrected/Chronological age with toggle with theme styling
+* Zoom with zoom reset (optional prop)
+* Styling props for chart look and feel
+* Meets all UK growth chart national standards
+* Designed and built by RCPCH

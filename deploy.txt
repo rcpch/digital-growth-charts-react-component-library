@@ -1,11 +1,11 @@
-This are the rules on deploy
+Note: there is a github action to publish to NPM on creation or a release
 
-This is a pre-release and therefore published as a release candidate to npm.
-To deploy:
+If this is a prerelease:
 1. version major.minor.patch-rc1
 2. npm publish --tag alpha
 
-Before merging to live need to:
+If this is a release
+1. version major.minor.patch
+2. npm publish --access public
 
-2. reverse these changes
-3. (delete this file)
+note npm version patch | npm version minor | npm version major from the command line can bump the version
