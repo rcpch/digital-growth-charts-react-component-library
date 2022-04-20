@@ -115,16 +115,6 @@ function CentileChart({
     if (reference === 'uk-who' && measurementMethod === 'height') {
         pubertyThresholds = makePubertyThresholds(domains, sex);
     }
-
-    /*
-    if midparental height data is present, 
-    filters it to 6mths either side of most recent measurement or 19-20y if none supplied
-    return object is {
-        lowerParentalCentile: lowerMPCData,
-        midParentalCentile: mpcData,
-        upperParentalCentile: upperMPCData
-    }
-    */
    
     const filteredMidParentalHeightData = useMemo(() => getFilteredMidParentalHeightData(reference, childMeasurements, midParentalHeightData, sex),[
         reference,
