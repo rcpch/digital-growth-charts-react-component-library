@@ -42,9 +42,6 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     clinicianFocus = defineNonStylePropDefaults('clinicianFocus', clinicianFocus);
     enableExport = defineNonStylePropDefaults('enableExport', enableExport);
     chartType = defineNonStylePropDefaults('chartType', chartType);
-
-    console.log(clinicianFocus, enableExport, chartType);
-    
     
     // uncomment in development
     // console.log("loading from locally...");
@@ -65,6 +62,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
                     styles={styles}
                     enableExport={enableExport}
                     exportChartCallback={exportChartCallback}
+                    clinicianFocus={clinicianFocus}
                 />
             </ErrorBoundary>
         );

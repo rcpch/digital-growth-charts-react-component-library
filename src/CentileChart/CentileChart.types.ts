@@ -29,4 +29,5 @@ export interface CentileChartProps {
     styles: { [key: string]: any };
     enableExport: boolean;
     exportChartCallback(svg: any);
+    clinicianFocus: boolean;
 }

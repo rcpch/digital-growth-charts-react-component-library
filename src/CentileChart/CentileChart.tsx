@@ -73,7 +73,8 @@ function CentileChart({
     enableZoom,
     styles,
     enableExport,
-    exportChartCallback
+    exportChartCallback,
+    clinicianFocus
 }: CentileChartProps) {
     const [userDomains, setUserDomains] = useState(null);
 
@@ -234,30 +235,10 @@ function CentileChart({
                                 // and SDS lines, as well as bone ages, events and midparental heights
                                     return tooltipText(
                                         reference,
-                                        datum.l,
                                         measurementMethod,
-                                        datum.x,
-                                        datum.age_type,
-                                        datum.centile_band,
-                                        datum.calendar_age,
-                                        datum.corrected_gestational_age,
-                                        datum.y,
-                                        datum.observation_value_error,
-                                        datum.age_error,
-                                        datum.lay_comment,
-                                        datum.sex,
-                                        datum.b,
-                                        datum.centile,
-                                        datum.sds,
-                                        datum.bone_age_label,
-                                        datum.bone_age_sds,
-                                        datum.bone_age_centile,
-                                        datum.bone_age_type,
-                                        midParentalHeightData?.mid_parental_height,
-                                        midParentalHeightData?.mid_parental_height_sds,
-                                        midParentalHeightData?.mid_parental_height_lower_value,
-                                        midParentalHeightData?.mid_parental_height_upper_value,
-                                        datum.childName
+                                        datum,
+                                        midParentalHeightData,
+                                        clinicianFocus
                                     )
                                 }
                             }
