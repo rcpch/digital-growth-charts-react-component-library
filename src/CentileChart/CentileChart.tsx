@@ -495,10 +495,10 @@ function CentileChart({
                             return null;
                         }
                         const chronData: any = {
-                            ...childMeasurement.plottable_data.centile_data.chronological_decimal_age_data,
+                            ...childMeasurement.plottable_data.centile_data.chronological_decimal_age_data, observationDate: new Date(childMeasurement.measurement_dates.observation_date).toLocaleDateString('en-UK')
                         };
                         const correctData: any = {
-                            ...childMeasurement.plottable_data.centile_data.corrected_decimal_age_data,
+                            ...childMeasurement.plottable_data.centile_data.corrected_decimal_age_data, observationDate: new Date(childMeasurement.measurement_dates.observation_date).toLocaleDateString('en-UK')
                         };
 
 
