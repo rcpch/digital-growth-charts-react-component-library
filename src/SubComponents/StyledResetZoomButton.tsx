@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const StyledButton = styled.button<{
+export const StyledResetZoomButton = styled.button<{
     activeColour: string;
     inactiveColour: string;
     fontFamily: string;
@@ -17,6 +17,7 @@ export const StyledButton = styled.button<{
     font-family: Arial;
     font-size: 14px;
     min-height: 30px;
+    min-width: max-content;
     font-family: ${({ fontFamily }) => fontFamily};
     font-size: ${({ fontSize }) => fontSize}px;
     font-weight: ${({ fontWeight }) => fontWeight};

@@ -36,7 +36,7 @@ import CustomGridComponent from '../SubComponents/CustomGridComponent';
 import RenderTickLabel from '../SubComponents/RenderTickLabel';
 import { TitleContainer } from '../SubComponents/TitleContainer';
 import { StyledRadioButtonGroup } from '../SubComponents/StyledRadioButtonGroup';
-import { StyledButton } from '../SubComponents/StyledButton';
+import { StyledResetZoomButton } from '../SubComponents/StyledResetZoomButton';
 import { ButtonContainer } from '../SubComponents/ButtonContainer';
 import { TwoButtonContainer } from '../SubComponents/TwoButtonContainer';
 import { ChartTitle } from '../SubComponents/ChartTitle';
@@ -57,6 +57,7 @@ import { CopiedLabel } from '../SubComponents/CopiedLabel';
 import { ChartContainer } from '../SubComponents/ChartContainer';
 import { FullScreenIcon } from '../SubComponents/FullScreenIcon';
 import { CloseFullScreenIcon } from '../SubComponents/CloseFullScreenIcon';
+import { ResetZoomContainer } from '../SubComponents/ResetZoomContainer';
 
 // allows two top level containers: zoom and voronoi
 const VictoryZoomVoronoiContainer = createContainer<VictoryZoomContainerProps, VictoryVoronoiContainerProps>(
@@ -84,7 +85,7 @@ function CentileChart({
     const [userDomains, setUserDomains] = useState(null);
 
     const [storedChildMeasurements, setStoredChildMeasurements] = useState(childMeasurements)
-    const { defaultShowCorrected, defaultShowChronological, showToggle } = defaultToggles(storedChildMeasurements);
+    const { defaultShowCorrected, defaultShowChronological, showToggle } = defaultToggles(childMeasurements);
     const [showChronologicalAge, setShowChronologicalAge] = useState(defaultShowChronological);
     const [showCorrectedAge, setShowCorrectedAge] = useState(defaultShowCorrected);
     const chartRef=useRef<any>();
@@ -688,18 +689,20 @@ function CentileChart({
                         )
                     }
                         
-                    {allowZooming && (
-                            <div>
-                                <StyledButton
+                    {/* {allowZooming && ( */}
+                            <ResetZoomContainer
+                                isHidden={!allowZooming}
+                            >
+                                <StyledResetZoomButton
                                     {...styles.toggleStyle}
                                     onClick={() => setUserDomains(null)}
                                     enabled={userDomains !== null}
                                 >
                                     Reset Zoom
-                                </StyledButton>
-                            </div>
-                        )
-                    }
+                                </StyledResetZoomButton>
+                            </ResetZoomContainer>
+                        {/* )
+                    } */}
                 </ButtonContainer>
             )}
         </MainContainer>
