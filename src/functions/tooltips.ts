@@ -11,9 +11,9 @@ export function tooltipText(
 
     const {
         childName,
+        x, // the decimal age
         l, // labels
         observationDate,
-        age,
         age_type,
         centile_band,
         calendar_age,
@@ -60,19 +60,19 @@ export function tooltipText(
     // l represent labels that represent reference transitions, puberty area or sds labels for the BMI SDS lines
     if (l) {
         // reference transit point or puberty shaded area labels
-        if (age === 0.0383 && reference === 'uk-who') {
+        if (x === 0.0383 && reference === 'uk-who') {
             return 'Transit point from\nUK90 to WHO data';
         }
-        if (age === 4 && reference == 'uk-who') {
+        if (x === 4 && reference == 'uk-who') {
             return 'Transit point from\nUK-WHO to UK90 data.';
         }
-        if (age === 2 && measurementMethod === 'height' && reference == 'uk-who') {
+        if (x === 2 && measurementMethod === 'height' && reference == 'uk-who') {
             // step down at 2 y where children measured standing (height), not lying (length)
-            return "Measure length until age 2;\nMeasure height after age 2.\nA child’s height is usually\nslightly less than their length.";
+            return "Measure length until x 2;\nMeasure height after age 2.\nA child’s height is usually\nslightly less than their length.";
         }
-        if (age === 2 && measurementMethod === 'height' && reference == 'uk-who') {
+        if (x === 2 && measurementMethod === 'height' && reference == 'uk-who') {
             // step down at 2 y where children measured standing (height), not lying (length)
-            return "Measure length until age 2;\nMeasure height after age 2.\nA child’s height is usually\nslightly less than their length.";
+            return "Measure length until x 2;\nMeasure height after age 2.\nA child’s height is usually\nslightly less than their length.";
         }
         if (l === 'For all Children plotted in this shaded area see instructions.' && reference == 'uk-who') {
             // delayed puberty if plotted in this area
@@ -147,10 +147,11 @@ export function tooltipText(
             splitCentile[wantedIndex] = 'is\n';
             finalCentile = splitCentile.join(' ').replace('is\n ', 'is\n');
         }
+
         if (observation_value_error === null && age_error === null) {
             // sds in square brackets
             const sds_string = `[SDS: ${sds > 0 ? '+' + Math.round(sds*1000)/1000 : Math.round(sds*1000)/1000 }]`;
-            if (age_type === 'corrected_age' && age > 0.0383) {
+            if (age_type === 'corrected_age' && x > 0.0383) {
                 const finalCorrectedString = lay_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
                 return `Corrected age: ${calendar_age} on ${observationDate}\n${finalCorrectedString}\n${y} ${measurementSuffix(measurementMethod)} ${ clinicianFocus ? sds_string : '\n' + finalCentile}`;
             }
@@ -163,7 +164,7 @@ export function tooltipText(
             }
         }
         // measurement data points
-        if (age <= 0.0383) {
+        if (x <= 0.0383) {
             // <= 42 weeks
             /// plots
             if (observation_value_error === null && age_error === null) {
