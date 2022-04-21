@@ -38,6 +38,7 @@ import { TitleContainer } from '../SubComponents/TitleContainer';
 import { StyledRadioButtonGroup } from '../SubComponents/StyledRadioButtonGroup';
 import { StyledButton } from '../SubComponents/StyledButton';
 import { ButtonContainer } from '../SubComponents/ButtonContainer';
+import { TwoButtonContainer } from '../SubComponents/TwoButtonContainer';
 import { ChartTitle } from '../SubComponents/ChartTitle';
 import { LogoContainer } from '../SubComponents/LogoContainer';
 import { MainContainer } from '../SubComponents/MainContainer';
@@ -52,6 +53,8 @@ import { ShareButtonWrapper } from '../SubComponents/ShareButtonWrapper';
 import { ShareIcon } from '../SubComponents/ShareIcon';
 import { CopiedLabel } from '../SubComponents/CopiedLabel';
 import { ChartContainer } from '../SubComponents/ChartContainer';
+import { FullScreenIcon } from '../SubComponents/FullScreenButton';
+import { CloseFullScreenIcon } from '../SubComponents/CloseFullScreenButton';
 
 // allows two top level containers: zoom and voronoi
 const VictoryZoomVoronoiContainer = createContainer<VictoryZoomContainerProps, VictoryVoronoiContainerProps>(
@@ -83,6 +86,7 @@ function CentileChart({
     const [showCorrectedAge, setShowCorrectedAge] = useState(defaultShowCorrected);
     const chartRef=useRef<any>();
     const [active, setActive] = useState(false);
+    const [fullScreen, setFullScreen]=useState(false);
 
     let { bmiSDSData, centileData, computedDomains, chartScaleType } = useMemo(
         () =>
@@ -157,6 +161,11 @@ function CentileChart({
     }
     const labelFadeEnd = () => {
         setActive(false);
+    }
+
+    const fullScreenPressed = () => {
+        setFullScreen(!fullScreen);
+        
     }
     
     const onSelectRadioButton = (event: MouseEvent<HTMLButtonElement>) => {
@@ -620,6 +629,7 @@ function CentileChart({
 
             {(showToggle || allowZooming || enableExport) && (
                 <ButtonContainer>
+                    <TwoButtonContainer>
                     { enableExport && (
                             <ShareButtonWrapper>
                                 <StyledShareButton 
@@ -636,8 +646,27 @@ function CentileChart({
                                     Copied!
                                 </CopiedLabel>
                             </ShareButtonWrapper>
-                        )}
-                        {showToggle && (
+                        )
+                    }
+
+                    { childMeasurements.length > 0 && 
+                            <ShareButtonWrapper>
+                                <StyledShareButton
+                                    onClick={()=> fullScreenPressed()}
+                                    color={styles.toggleStyle.activeColour}
+                                    size={5}
+                                >
+                                    { fullScreen ?
+                                        <CloseFullScreenIcon/>
+                                        :
+                                        <FullScreenIcon/>
+                                    }
+                                </StyledShareButton>
+                            </ShareButtonWrapper>
+                    }
+                    </TwoButtonContainer>
+
+                    {showToggle && (
                             <StyledRadioButtonGroup
                                 {...styles.toggleStyle}
                                 handleClick={onSelectRadioButton}
@@ -645,8 +674,10 @@ function CentileChart({
                                 chronologicalAge={showChronologicalAge}
                                 className="toggleButtons"
                             />
-                        )}
-                        {allowZooming && (
+                        )
+                    }
+                        
+                    {allowZooming && (
                             <div>
                                 <StyledButton
                                     {...styles.toggleStyle}
@@ -656,7 +687,8 @@ function CentileChart({
                                     Reset Zoom
                                 </StyledButton>
                             </div>
-                        )}
+                        )
+                    }
                 </ButtonContainer>
             )}
         </MainContainer>
