@@ -531,17 +531,31 @@ function CentileChart({
                         return (
                             <VictoryGroup key={'measurement' + index}>
 
-                                { childMeasurement.events_data.events_text && childMeasurement.events_data.events_text.length > 0 &&
-                                    // Events
-                                    <VictoryScatter 
-                                        name="eventcaret"
-                                        data={[{x: childMeasurement.measurement_dates.chronological_decimal_age, y: childMeasurement.child_observation_value.observation_value}]}
-                                        dataComponent={
-                                            <EventCaret 
-                                                eventsText={childMeasurement.events_data.events_text}
-                                            />
-                                        }
-                                    />
+                                { childMeasurement.events_data.events_text && childMeasurement.events_data.events_text.length > 0 && (
+
+                                        showChronologicalAge && !showCorrectedAge ?
+                                        // Events against chronological age only if corrected age not showing
+                                        <VictoryScatter 
+                                            name="eventcaret"
+                                            data={[{x: childMeasurement.measurement_dates.chronological_decimal_age, y: childMeasurement.child_observation_value.observation_value}]}
+                                            dataComponent={
+                                                <EventCaret 
+                                                    eventsText={childMeasurement.events_data.events_text}
+                                                />
+                                            }
+                                        />
+                                        :
+                                        // Events against corrected age
+                                        <VictoryScatter 
+                                            name="eventcaret"
+                                            data={[{x: childMeasurement.measurement_dates.corrected_decimal_age, y: childMeasurement.child_observation_value.observation_value}]}
+                                            dataComponent={
+                                                <EventCaret 
+                                                    eventsText={childMeasurement.events_data.events_text}
+                                                />
+                                            }
+                                        />
+                                    )
                                 }
                                 
                                 { showChronologicalAge && childMeasurement.bone_age.bone_age && ( showChronologicalAge || showCorrectedAge ) && !( showCorrectedAge && showChronologicalAge ) && // bone age linked to chronological age
