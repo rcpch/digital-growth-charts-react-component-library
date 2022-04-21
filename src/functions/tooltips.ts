@@ -152,7 +152,7 @@ export function tooltipText(
             // sds in square brackets
             const sds_string = `[SDS: ${sds > 0 ? '+' + Math.round(sds*1000)/1000 : Math.round(sds*1000)/1000 }]`;
             if (age_type === 'corrected_age' && x > 0.0383) {
-                const finalCorrectedString = lay_comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
+                const finalCorrectedString = comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
                 return `Corrected age: ${calendar_age} on ${observationDate}\n${finalCorrectedString}\n${y} ${measurementSuffix(measurementMethod)} ${ clinicianFocus ? sds_string : '\n' + finalCentile}`;
             }
             if (age_type === 'chronological_age') {
