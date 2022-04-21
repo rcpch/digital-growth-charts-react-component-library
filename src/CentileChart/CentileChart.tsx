@@ -81,24 +81,25 @@ function CentileChart({
 }: CentileChartProps) {
     const [userDomains, setUserDomains] = useState(null);
 
-    const { defaultShowCorrected, defaultShowChronological, showToggle } = defaultToggles(childMeasurements);
+    const [storedChildMeasurements, setStoredChildMeasurements] = useState(childMeasurements)
+    const { defaultShowCorrected, defaultShowChronological, showToggle } = defaultToggles(storedChildMeasurements);
     const [showChronologicalAge, setShowChronologicalAge] = useState(defaultShowChronological);
     const [showCorrectedAge, setShowCorrectedAge] = useState(defaultShowCorrected);
     const chartRef=useRef<any>();
     const [active, setActive] = useState(false);
-    const [fullScreen, setFullScreen]=useState(false);
+    const [fullScreen, setFullScreen]=useState(true);
 
     let { bmiSDSData, centileData, computedDomains, chartScaleType } = useMemo(
         () =>
             getDomainsAndData(
-                childMeasurements,
+                storedChildMeasurements,
                 sex,
                 measurementMethod,
                 reference,
                 showCorrectedAge,
                 showChronologicalAge
             ),
-        [childMeasurements, sex, measurementMethod, reference, showCorrectedAge, showChronologicalAge],
+        [storedChildMeasurements, sex, measurementMethod, reference, showCorrectedAge, showChronologicalAge],
     );
 
     const updatedData = useMemo(() => getVisibleData(sex, measurementMethod, reference, userDomains), [
@@ -109,7 +110,7 @@ function CentileChart({
     ]);
 
     
-    const allowZooming = childMeasurements.length > 0 && enableZoom ? true : false;
+    const allowZooming = storedChildMeasurements.length > 0 && enableZoom ? true : false;
     
     const domains = userDomains || computedDomains;
     
@@ -128,6 +129,7 @@ function CentileChart({
         sex
     ]);
 
+    // Create the shaded area at term 
     let termAreaData: null | any[] = null;
 
     if (
@@ -153,21 +155,26 @@ function CentileChart({
         ];
     }
 
+    // cut and paste action
     const exportPressed = () => {
         if (enableExport) {
             setActive(true);
             exportChartCallback(chartRef.current.firstChild) // this passes the raw SVG back to the client for converting
         } 
     }
+
+    // label fade on cut
     const labelFadeEnd = () => {
         setActive(false);
     }
 
+    // full screen button action
     const fullScreenPressed = () => {
         setFullScreen(!fullScreen);
-        
+        fullScreen ? setStoredChildMeasurements([]) : setStoredChildMeasurements(childMeasurements);
     }
     
+    // toggle between corrected/uncorrected/both
     const onSelectRadioButton = (event: MouseEvent<HTMLButtonElement>) => {
         switch ((event.target as HTMLInputElement).value) {
             case 'unadjusted':
@@ -196,7 +203,7 @@ function CentileChart({
     // always reset zoom to default when measurements array changes
     useLayoutEffect(() => {
         setUserDomains(null);
-    }, [childMeasurements]);
+    }, [storedChildMeasurements]);
 
     return (
         <MainContainer>
@@ -657,9 +664,9 @@ function CentileChart({
                                     size={5}
                                 >
                                     { fullScreen ?
-                                        <CloseFullScreenIcon/>
-                                        :
                                         <FullScreenIcon/>
+                                        :
+                                        <CloseFullScreenIcon/>
                                     }
                                 </StyledShareButton>
                             </ShareButtonWrapper>
