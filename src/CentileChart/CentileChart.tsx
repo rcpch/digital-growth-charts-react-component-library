@@ -49,12 +49,14 @@ import ukca from '../images/ukca.png';
 import { isCrowded } from '../functions/isCrowded';
 import { EventCaret } from '../SubComponents/EventCaret';
 import { StyledShareButton } from '../SubComponents/StyledShareButton';
+import { StyledFullScreenButton } from '../SubComponents/StyledFullScreenButton';
 import { ShareButtonWrapper } from '../SubComponents/ShareButtonWrapper';
+import { FullScreenButtonWrapper } from '../SubComponents/FullScreenButtonWrapper';
 import { ShareIcon } from '../SubComponents/ShareIcon';
 import { CopiedLabel } from '../SubComponents/CopiedLabel';
 import { ChartContainer } from '../SubComponents/ChartContainer';
-import { FullScreenIcon } from '../SubComponents/FullScreenButton';
-import { CloseFullScreenIcon } from '../SubComponents/CloseFullScreenButton';
+import { FullScreenIcon } from '../SubComponents/FullScreenIcon';
+import { CloseFullScreenIcon } from '../SubComponents/CloseFullScreenIcon';
 
 // allows two top level containers: zoom and voronoi
 const VictoryZoomVoronoiContainer = createContainer<VictoryZoomContainerProps, VictoryVoronoiContainerProps>(
@@ -637,28 +639,10 @@ function CentileChart({
             {(showToggle || allowZooming || enableExport) && (
                 <ButtonContainer>
                     <TwoButtonContainer>
-                    { enableExport && (
-                            <ShareButtonWrapper>
-                                <StyledShareButton 
-                                    color={styles.toggleStyle.activeColour}
-                                    size={5}
-                                    onClick={exportPressed}
-                                >
-                                    <ShareIcon/>
-                                </StyledShareButton>
-                                <CopiedLabel
-                                    active={active}
-                                    onAnimationEnd={labelFadeEnd}
-                                >
-                                    Copied!
-                                </CopiedLabel>
-                            </ShareButtonWrapper>
-                        )
-                    }
 
                     { childMeasurements.length > 0 && 
-                            <ShareButtonWrapper>
-                                <StyledShareButton
+                            <FullScreenButtonWrapper>
+                                <StyledFullScreenButton
                                     onClick={()=> fullScreenPressed()}
                                     color={styles.toggleStyle.activeColour}
                                     size={5}
@@ -668,9 +652,29 @@ function CentileChart({
                                         :
                                         <CloseFullScreenIcon/>
                                     }
-                                </StyledShareButton>
-                            </ShareButtonWrapper>
+                                </StyledFullScreenButton>
+                            </FullScreenButtonWrapper>
                     }
+                
+                    { enableExport && (
+                            <ShareButtonWrapper>
+                                    <StyledShareButton 
+                                        color={styles.toggleStyle.activeColour}
+                                        size={5}
+                                        onClick={exportPressed}
+                                    >
+                                        <ShareIcon/>
+                                    </StyledShareButton>
+                                    <CopiedLabel
+                                        active={active}
+                                        onAnimationEnd={labelFadeEnd}
+                                    >
+                                        Copied!
+                                    </CopiedLabel>
+                            </ShareButtonWrapper>
+                        )
+                    }
+
                     </TwoButtonContainer>
 
                     {showToggle && (

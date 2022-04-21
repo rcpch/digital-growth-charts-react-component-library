@@ -5,6 +5,7 @@ import Icon from './Icon'
 const Svg = styled(Icon)` 
   width: 25px; 
   height: 25px;
+  flex-grow: 0;
 `;
 
 export const FullScreenIcon = ()=>(
