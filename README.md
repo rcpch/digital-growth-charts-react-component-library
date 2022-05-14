@@ -22,6 +22,12 @@ For all guidance on this component, implementation and contributing to the RCPCH
 * SDS Lines for BMI centile chart
 * SDS charts
 
+### New in 6.1
+
+* Dates included in tooltips
+* clinicianFocus (optional prop) to toggle between advice strings aimed at clinicians or those aimed at families/children & young people
+* toggle button to allow user to constrain viewable chart to measurements or view the whole chart
+
 ## Existing features
 
 * Centile charts for UK-WHO, Turner's and Down's syndromes (data for lines bundled)
