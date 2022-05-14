@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { ChartTitle } from './ChartTitle';
-import { StyledButton } from './StyledButton';
+import { StyledErrorButton } from './StyledErrorButton';
 
 type TitleType = {
     fontFamily: string;
@@ -45,14 +45,14 @@ class ErrorBoundary extends React.Component {
                 <ErrorContainer height={this.props.styles.chartHeight} width={this.props.styles.chartWidth}>
                     <TextContainer>
                         <ChartTitle {...this.props.styles.chartTitle}>The chart could not be displayed</ChartTitle>
-                        <StyledButton
+                        <StyledErrorButton
                             {...this.props.styles.toggleStyle}
                             onClick={this.handleClick}
                             margin="20px 20px"
                             enabled
                         >
                             {!this.state.showError ? 'Show Details' : 'Hide Details'}
-                        </StyledButton>
+                        </StyledErrorButton>
                         <ChartTitle show={this.state.showError} {...this.props.styles.chartSubTitle}>
                             {this.state.errorMessage}
                         </ChartTitle>

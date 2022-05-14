@@ -15,6 +15,7 @@ import SDSChart from '../SDSChart/SDSChart';
 import makeAllStyles from '../functions/makeAllStyles';
 import ErrorBoundary from '../SubComponents/ErrorBoundary';
 import { ClientMeasurementObject } from '../interfaces/ClientMeasurementObject';
+import defineNonStylePropDefaults from '../functions/defineNonStylePropDefaults';
 
 const RCPCHChart: React.FC<RCPCHChartProps> = ({
     title,
@@ -33,11 +34,15 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     measurementStyle,
     chartType,
     enableExport,
-    exportChartCallback
+    exportChartCallback,
+    clinicianFocus
 }) => {
     const styles = makeAllStyles(chartStyle, axisStyle, gridlineStyle, centileStyle, sdsStyle, measurementStyle);
     
-
+    clinicianFocus = defineNonStylePropDefaults('clinicianFocus', clinicianFocus);
+    enableExport = defineNonStylePropDefaults('enableExport', enableExport);
+    chartType = defineNonStylePropDefaults('chartType', chartType);
+    
     // uncomment in development
     // console.log("loading from locally...");
     let isCentile=(chartType === "centile" || chartType === undefined);
@@ -57,6 +62,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
                     styles={styles}
                     enableExport={enableExport}
                     exportChartCallback={exportChartCallback}
+                    clinicianFocus={clinicianFocus}
                 />
             </ErrorBoundary>
         );

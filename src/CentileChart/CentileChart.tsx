@@ -36,8 +36,9 @@ import CustomGridComponent from '../SubComponents/CustomGridComponent';
 import RenderTickLabel from '../SubComponents/RenderTickLabel';
 import { TitleContainer } from '../SubComponents/TitleContainer';
 import { StyledRadioButtonGroup } from '../SubComponents/StyledRadioButtonGroup';
-import { StyledButton } from '../SubComponents/StyledButton';
+import { StyledResetZoomButton } from '../SubComponents/StyledResetZoomButton';
 import { ButtonContainer } from '../SubComponents/ButtonContainer';
+import { TwoButtonContainer } from '../SubComponents/TwoButtonContainer';
 import { ChartTitle } from '../SubComponents/ChartTitle';
 import { LogoContainer } from '../SubComponents/LogoContainer';
 import { MainContainer } from '../SubComponents/MainContainer';
@@ -48,10 +49,15 @@ import ukca from '../images/ukca.png';
 import { isCrowded } from '../functions/isCrowded';
 import { EventCaret } from '../SubComponents/EventCaret';
 import { StyledShareButton } from '../SubComponents/StyledShareButton';
+import { StyledFullScreenButton } from '../SubComponents/StyledFullScreenButton';
 import { ShareButtonWrapper } from '../SubComponents/ShareButtonWrapper';
+import { FullScreenButtonWrapper } from '../SubComponents/FullScreenButtonWrapper';
 import { ShareIcon } from '../SubComponents/ShareIcon';
 import { CopiedLabel } from '../SubComponents/CopiedLabel';
 import { ChartContainer } from '../SubComponents/ChartContainer';
+import { FullScreenIcon } from '../SubComponents/FullScreenIcon';
+import { CloseFullScreenIcon } from '../SubComponents/CloseFullScreenIcon';
+import { ResetZoomContainer } from '../SubComponents/ResetZoomContainer';
 
 // allows two top level containers: zoom and voronoi
 const VictoryZoomVoronoiContainer = createContainer<VictoryZoomContainerProps, VictoryVoronoiContainerProps>(
@@ -73,27 +79,30 @@ function CentileChart({
     enableZoom,
     styles,
     enableExport,
-    exportChartCallback
+    exportChartCallback,
+    clinicianFocus
 }: CentileChartProps) {
     const [userDomains, setUserDomains] = useState(null);
 
+    const [storedChildMeasurements, setStoredChildMeasurements] = useState(childMeasurements)
     const { defaultShowCorrected, defaultShowChronological, showToggle } = defaultToggles(childMeasurements);
     const [showChronologicalAge, setShowChronologicalAge] = useState(defaultShowChronological);
     const [showCorrectedAge, setShowCorrectedAge] = useState(defaultShowCorrected);
     const chartRef=useRef<any>();
     const [active, setActive] = useState(false);
+    const [fullScreen, setFullScreen]=useState(true);
 
     let { bmiSDSData, centileData, computedDomains, chartScaleType } = useMemo(
         () =>
             getDomainsAndData(
-                childMeasurements,
+                storedChildMeasurements,
                 sex,
                 measurementMethod,
                 reference,
                 showCorrectedAge,
                 showChronologicalAge
             ),
-        [childMeasurements, sex, measurementMethod, reference, showCorrectedAge, showChronologicalAge],
+        [storedChildMeasurements, sex, measurementMethod, reference, showCorrectedAge, showChronologicalAge],
     );
 
     const updatedData = useMemo(() => getVisibleData(sex, measurementMethod, reference, userDomains), [
@@ -104,7 +113,7 @@ function CentileChart({
     ]);
 
     
-    const allowZooming = childMeasurements.length > 0 && enableZoom ? true : false;
+    const allowZooming = storedChildMeasurements.length > 0 && enableZoom ? true : false;
     
     const domains = userDomains || computedDomains;
     
@@ -115,16 +124,6 @@ function CentileChart({
     if (reference === 'uk-who' && measurementMethod === 'height') {
         pubertyThresholds = makePubertyThresholds(domains, sex);
     }
-
-    /*
-    if midparental height data is present, 
-    filters it to 6mths either side of most recent measurement or 19-20y if none supplied
-    return object is {
-        lowerParentalCentile: lowerMPCData,
-        midParentalCentile: mpcData,
-        upperParentalCentile: upperMPCData
-    }
-    */
    
     const filteredMidParentalHeightData = useMemo(() => getFilteredMidParentalHeightData(reference, childMeasurements, midParentalHeightData, sex),[
         reference,
@@ -133,6 +132,7 @@ function CentileChart({
         sex
     ]);
 
+    // Create the shaded area at term 
     let termAreaData: null | any[] = null;
 
     if (
@@ -158,16 +158,26 @@ function CentileChart({
         ];
     }
 
+    // cut and paste action
     const exportPressed = () => {
         if (enableExport) {
             setActive(true);
             exportChartCallback(chartRef.current.firstChild) // this passes the raw SVG back to the client for converting
         } 
     }
+
+    // label fade on cut
     const labelFadeEnd = () => {
         setActive(false);
     }
+
+    // full screen button action
+    const fullScreenPressed = () => {
+        setFullScreen(!fullScreen);
+        fullScreen ? setStoredChildMeasurements([]) : setStoredChildMeasurements(childMeasurements);
+    }
     
+    // toggle between corrected/uncorrected/both
     const onSelectRadioButton = (event: MouseEvent<HTMLButtonElement>) => {
         switch ((event.target as HTMLInputElement).value) {
             case 'unadjusted':
@@ -196,7 +206,7 @@ function CentileChart({
     // always reset zoom to default when measurements array changes
     useLayoutEffect(() => {
         setUserDomains(null);
-    }, [childMeasurements]);
+    }, [storedChildMeasurements]);
 
     return (
         <MainContainer>
@@ -244,30 +254,10 @@ function CentileChart({
                                 // and SDS lines, as well as bone ages, events and midparental heights
                                     return tooltipText(
                                         reference,
-                                        datum.l,
                                         measurementMethod,
-                                        datum.x,
-                                        datum.age_type,
-                                        datum.centile_band,
-                                        datum.calendar_age,
-                                        datum.corrected_gestational_age,
-                                        datum.y,
-                                        datum.observation_value_error,
-                                        datum.age_error,
-                                        datum.lay_comment,
-                                        datum.sex,
-                                        datum.b,
-                                        datum.centile,
-                                        datum.sds,
-                                        datum.bone_age_label,
-                                        datum.bone_age_sds,
-                                        datum.bone_age_centile,
-                                        datum.bone_age_type,
-                                        midParentalHeightData?.mid_parental_height,
-                                        midParentalHeightData?.mid_parental_height_sds,
-                                        midParentalHeightData?.mid_parental_height_lower_value,
-                                        midParentalHeightData?.mid_parental_height_upper_value,
-                                        datum.childName
+                                        datum,
+                                        midParentalHeightData,
+                                        clinicianFocus
                                     )
                                 }
                             }
@@ -524,10 +514,10 @@ function CentileChart({
                             return null;
                         }
                         const chronData: any = {
-                            ...childMeasurement.plottable_data.centile_data.chronological_decimal_age_data,
+                            ...childMeasurement.plottable_data.centile_data.chronological_decimal_age_data, observationDate: new Date(childMeasurement.measurement_dates.observation_date).toLocaleDateString('en-UK')
                         };
                         const correctData: any = {
-                            ...childMeasurement.plottable_data.centile_data.corrected_decimal_age_data,
+                            ...childMeasurement.plottable_data.centile_data.corrected_decimal_age_data, observationDate: new Date(childMeasurement.measurement_dates.observation_date).toLocaleDateString('en-UK')
                         };
 
 
@@ -541,17 +531,31 @@ function CentileChart({
                         return (
                             <VictoryGroup key={'measurement' + index}>
 
-                                { childMeasurement.events_data.events_text && childMeasurement.events_data.events_text.length > 0 &&
-                                    // Events
-                                    <VictoryScatter 
-                                        name="eventcaret"
-                                        data={[{x: childMeasurement.measurement_dates.chronological_decimal_age, y: childMeasurement.child_observation_value.observation_value}]}
-                                        dataComponent={
-                                            <EventCaret 
-                                                eventsText={childMeasurement.events_data.events_text}
-                                            />
-                                        }
-                                    />
+                                { childMeasurement.events_data.events_text && childMeasurement.events_data.events_text.length > 0 && (
+
+                                        showChronologicalAge && !showCorrectedAge ?
+                                        // Events against chronological age only if corrected age not showing
+                                        <VictoryScatter 
+                                            name="eventcaret"
+                                            data={[{x: childMeasurement.measurement_dates.chronological_decimal_age, y: childMeasurement.child_observation_value.observation_value}]}
+                                            dataComponent={
+                                                <EventCaret 
+                                                    eventsText={childMeasurement.events_data.events_text}
+                                                />
+                                            }
+                                        />
+                                        :
+                                        // Events against corrected age
+                                        <VictoryScatter 
+                                            name="eventcaret"
+                                            data={[{x: childMeasurement.measurement_dates.corrected_decimal_age, y: childMeasurement.child_observation_value.observation_value}]}
+                                            dataComponent={
+                                                <EventCaret 
+                                                    eventsText={childMeasurement.events_data.events_text}
+                                                />
+                                            }
+                                        />
+                                    )
                                 }
                                 
                                 { showChronologicalAge && childMeasurement.bone_age.bone_age && ( showChronologicalAge || showCorrectedAge ) && !( showCorrectedAge && showChronologicalAge ) && // bone age linked to chronological age
@@ -649,24 +653,46 @@ function CentileChart({
 
             {(showToggle || allowZooming || enableExport) && (
                 <ButtonContainer>
-                    { enableExport && (
-                            <ShareButtonWrapper>
-                                <StyledShareButton 
+                    <TwoButtonContainer>
+
+                    { childMeasurements.length > 0 && 
+                            <FullScreenButtonWrapper>
+                                <StyledFullScreenButton
+                                    onClick={()=> fullScreenPressed()}
                                     color={styles.toggleStyle.activeColour}
                                     size={5}
-                                    onClick={exportPressed}
                                 >
-                                    <ShareIcon/>
-                                </StyledShareButton>
-                                <CopiedLabel
-                                    active={active}
-                                    onAnimationEnd={labelFadeEnd}
-                                >
-                                    Copied!
-                                </CopiedLabel>
+                                    { fullScreen ?
+                                        <FullScreenIcon/>
+                                        :
+                                        <CloseFullScreenIcon/>
+                                    }
+                                </StyledFullScreenButton>
+                            </FullScreenButtonWrapper>
+                    }
+                
+                    { enableExport && (
+                            <ShareButtonWrapper>
+                                    <StyledShareButton 
+                                        color={styles.toggleStyle.activeColour}
+                                        size={5}
+                                        onClick={exportPressed}
+                                    >
+                                        <ShareIcon/>
+                                    </StyledShareButton>
+                                    <CopiedLabel
+                                        active={active}
+                                        onAnimationEnd={labelFadeEnd}
+                                    >
+                                        Copied!
+                                    </CopiedLabel>
                             </ShareButtonWrapper>
-                        )}
-                        {showToggle && (
+                        )
+                    }
+
+                    </TwoButtonContainer>
+
+                    {showToggle && (
                             <StyledRadioButtonGroup
                                 {...styles.toggleStyle}
                                 handleClick={onSelectRadioButton}
@@ -674,18 +700,23 @@ function CentileChart({
                                 chronologicalAge={showChronologicalAge}
                                 className="toggleButtons"
                             />
-                        )}
-                        {allowZooming && (
-                            <div>
-                                <StyledButton
+                        )
+                    }
+                        
+                    {/* {allowZooming && ( */}
+                            <ResetZoomContainer
+                                isHidden={!allowZooming}
+                            >
+                                <StyledResetZoomButton
                                     {...styles.toggleStyle}
                                     onClick={() => setUserDomains(null)}
                                     enabled={userDomains !== null}
                                 >
                                     Reset Zoom
-                                </StyledButton>
-                            </div>
-                        )}
+                                </StyledResetZoomButton>
+                            </ResetZoomContainer>
+                        {/* )
+                    } */}
                 </ButtonContainer>
             )}
         </MainContainer>

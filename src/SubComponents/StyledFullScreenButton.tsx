@@ -1,10 +1,9 @@
 import styled from 'styled-components';
 
-export const StyledShareButton = styled.button<{
+export const StyledFullScreenButton = styled.button<{
     color?: string,
     size?: number
 }>`
-flex-grow:0;
 background-color: ${(props) => (props.color ? props.color : 'black')};
 height: 48px;
 width: 48px;
@@ -15,6 +14,7 @@ cursor: pointer;
 border: 5px solid white;
 border-radius: 50%;
 padding: 3px;
+flex: 1;
 display: flex;
 justify-content: center;
 align-items: center;

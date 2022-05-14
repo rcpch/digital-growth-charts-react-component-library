@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const TitleContainer = styled.div`
-    display: inline-block;
+    display: block;
     text-align: center;
     margin: 0px;
 `;

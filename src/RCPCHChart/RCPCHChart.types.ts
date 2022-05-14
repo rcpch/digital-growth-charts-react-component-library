@@ -18,6 +18,7 @@ export interface RCPCHChartProps {
     sdsStyle?: SDSStyle;
     measurementStyle?: MeasurementStyle;
     chartType?: 'centile' | 'sds';
-    enableExport: boolean;
-    exportChartCallback(svg: any);
+    enableExport?: boolean;
+    exportChartCallback(svg?: any);
+    clinicianFocus?: boolean;
 }
