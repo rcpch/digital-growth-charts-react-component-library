@@ -106,7 +106,7 @@ export function tooltipText(
                 concatenatedText+="\nSDS: "+bone_age_sds.toString();
             }
             if (bone_age_centile && !isNaN(bone_age_centile)) {
-                concatenatedText+="\nCentile: "+bone_age_sds.toString();
+                concatenatedText+="\nCentile: "+bone_age_centile.toString();
             }
             if (bone_age_type && bone_age_type.length > 0) {
                 if (bone_age_type==="greulich-pyle"){
