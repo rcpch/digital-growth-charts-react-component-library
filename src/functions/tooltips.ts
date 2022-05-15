@@ -150,6 +150,7 @@ export function tooltipText(
 
         if (observation_value_error === null && age_error === null) {
             // sds in square brackets
+            
             const sds_string = `[SDS: ${sds > 0 ? '+' + Math.round(sds*1000)/1000 : Math.round(sds*1000)/1000 }]`;
             if (age_type === 'corrected_age' && x > 0.0383) {
                 const finalCorrectedString = comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
