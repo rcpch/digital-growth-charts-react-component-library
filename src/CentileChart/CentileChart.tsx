@@ -70,6 +70,7 @@ const shadedTermAreaText =
     'Babies born in this shaded area\nare term. It is normal for\nbabies to lose weight over\nthe first two weeks of life.\nMedical review should be sought\nif weight has dropped by more\nthan 10% of birth weight or\nweight is still below birth weight\nthree weeks after birth.';
 
 function CentileChart({
+    chartsVersion,
     reference,
     title,
     subtitle,
@@ -216,7 +217,7 @@ function CentileChart({
                     <img src={icon} width={24} height={24} />
                     <VersionLabel
                         fontFamily={styles.chartTitle.fontFamily}
-                    >v6.1.3</VersionLabel>
+                    >{chartsVersion}</VersionLabel>
                 </div>
                 <img src={ukca} width={18} height={18}/>
             </LogoContainer>

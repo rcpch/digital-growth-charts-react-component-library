@@ -18,6 +18,7 @@ export type Results = {
     pointsForCentileLabels: { x: number; y: number; centile: string }[];
 };
 export interface CentileChartProps {
+    chartsVersion: string;
     reference: 'uk-who' | 'turner' | 'trisomy-21';
     title: string;
     subtitle: string;

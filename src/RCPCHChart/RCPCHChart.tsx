@@ -1,8 +1,9 @@
 // packages/libraries
-import React, { useMemo, useState } from 'react';
+import React from 'react';
 
 // props and interfaces
 import { RCPCHChartProps } from './RCPCHChart.types';
+
 
 // style sheets
 import './RCPCHChart.scss';
@@ -47,11 +48,14 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     // console.log("loading from locally...");
     
     let isCentile=(chartType === "centile" || chartType === undefined);
+
+    const version="v6.1.4"
     
     if (isCentile){
         return (
             <ErrorBoundary styles={styles}>
                 <CentileChart
+                    chartsVersion={version}
                     reference={reference}
                     title={title}
                     subtitle={subtitle}
@@ -73,6 +77,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
         return (
             <ErrorBoundary styles={styles}>
                 <SDSChart
+                    chartsVersion={version}
                     reference={reference}
                     title={title}
                     subtitle={subtitle}

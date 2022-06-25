@@ -5,6 +5,7 @@ import typescript from 'rollup-plugin-typescript2';
 import postcss from 'rollup-plugin-postcss';
 import copy from 'rollup-plugin-copy';
 import image from '@rollup/plugin-image';
+import json from '@rollup/plugin-json';
 
 const packageJson = require('./package.json');
 
@@ -28,7 +29,7 @@ export default {
         resolve(),
         commonjs({
             ignoreGlobal: true,
-            include: /\/node_modules\//
+            include: /\/node_modules\//,
         }),
         typescript({ useTsconfigDeclarationDir: true }),
         postcss(),
@@ -47,5 +48,6 @@ export default {
             ],
         }),
         image(),
+        json(),
     ],
 };

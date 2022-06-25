@@ -9,3 +9,4 @@ If this is a release
 2. npm publish --access public
 
 note npm version patch | npm version minor | npm version major from the command line can bump the version
+DON'T forget to update the version in RCPCChart.tsx

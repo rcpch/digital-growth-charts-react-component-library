@@ -26,6 +26,7 @@ import CustomGridComponent from "../SubComponents/CustomGridComponent";
 import RenderTickLabel from "../SubComponents/RenderTickLabel";
 import icon from '../images/icon.png';
 import ukca from '../images/ukca.png';
+import { VersionLabel } from "../SubComponents/VersionLabel";
 import { ButtonContainer } from "../SubComponents/ButtonContainer";
 import { StyledRadioButtonGroup } from "../SubComponents/StyledRadioButtonGroup";
 
@@ -51,6 +52,7 @@ import { measurementMethodForName } from "../functions/measurementMethodForName"
 
 const SDSChart: React.FC<SDSChartProps> = (
     { 
+        chartsVersion,
         reference,
         title,
         subtitle,
@@ -227,8 +229,13 @@ const SDSChart: React.FC<SDSChartProps> = (
     return (
         <MainContainer>
             <LogoContainer>
-                <img src={icon} width={32} height={32} />
-                <img src={ukca} width={32} height={32} />
+                <div>
+                    <img src={icon} width={24} height={24} />
+                    <VersionLabel
+                        fontFamily={styles.chartTitle.fontFamily}
+                    >{chartsVersion}</VersionLabel>
+                </div>
+                <img src={ukca} width={18} height={18}/>
             </LogoContainer>
 
             <TitleContainer>
