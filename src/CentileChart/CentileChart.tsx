@@ -216,7 +216,7 @@ function CentileChart({
                     <img src={icon} width={24} height={24} />
                     <VersionLabel
                         fontFamily={styles.chartTitle.fontFamily}
-                    >v6.1.2</VersionLabel>
+                    >v6.1.3</VersionLabel>
                 </div>
                 <img src={ukca} width={18} height={18}/>
             </LogoContainer>
