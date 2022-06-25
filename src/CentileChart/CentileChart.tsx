@@ -263,7 +263,8 @@ function CentileChart({
                                         measurementMethod,
                                         datum,
                                         midParentalHeightData,
-                                        clinicianFocus
+                                        clinicianFocus,
+                                        sex
                                     )
                                 }
                             }

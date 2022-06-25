@@ -6,7 +6,8 @@ export function tooltipText(
     measurementMethod: string,
     datum: any,
     midParentalHeightData,
-    clinicianFocus: boolean // flag passed in from user - defines if tooltip text aimed at clinicians or families
+    clinicianFocus: boolean, // flag passed in from user - defines if tooltip text aimed at clinicians or families
+    sex: string
 ): string {
 
     const {
@@ -23,7 +24,6 @@ export function tooltipText(
         age_error,
         lay_comment,
         clinician_comment,
-        sex,
         b,
         centile,
         sds,
@@ -32,8 +32,6 @@ export function tooltipText(
         bone_age_centile,
         bone_age_type,
     } = datum;
-    
-
 
     // midparental height labels
     if (midParentalHeightData){
