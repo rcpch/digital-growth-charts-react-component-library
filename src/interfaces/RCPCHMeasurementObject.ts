@@ -15,15 +15,21 @@ export interface Measurement {
     measurement_dates: {
         chronological_calendar_age: string;
         chronological_decimal_age: number;
-        clinician_decimal_age_comment: string;
         corrected_calendar_age: string;
         corrected_decimal_age: number;
         corrected_gestational_age?: {
             corrected_gestation_weeks?: number;
             corrected_gestation_days?: number;
         };
-        lay_decimal_age_comment: string;
+        comments?:{
+            clinician_corrected_decimal_age_comment?: string;
+            lay_corrected_decimal_age_comment?: string;
+            clinician_chronological_decimal_age_comment: string;
+            lay_chronological_decimal_age_comment: string;
+        }
         observation_date: Date;
+        corrected_decimal_age_error?: string; 
+        chronological_decimal_age_error?: string; 
     };
     measurement_calculated_values: {
         chronological_centile: number;

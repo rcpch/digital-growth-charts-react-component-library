@@ -513,12 +513,51 @@ function CentileChart({
                         ) {
                             return null;
                         }
+
                         const chronData: any = {
-                            ...childMeasurement.plottable_data.centile_data.chronological_decimal_age_data, observationDate: new Date(childMeasurement.measurement_dates.observation_date).toLocaleDateString('en-UK')
+                            age_type: 'chronological_age',
+                            age_error: childMeasurement.measurement_dates.chronological_decimal_age_error,
+                            b: childMeasurement.bone_age.bone_age,
+                            bone_age_label: childMeasurement.bone_age.bone_age_text,
+                            bone_age_sds: childMeasurement.bone_age.bone_age_sds,
+                            bone_age_centile: childMeasurement.bone_age.bone_age_centile,
+                            bone_age_type: childMeasurement.bone_age.bone_age_type,
+                            calendar_age: childMeasurement.measurement_dates.chronological_calendar_age,
+                            centile: childMeasurement.measurement_calculated_values.chronological_centile,
+                            centile_band: childMeasurement.measurement_calculated_values.chronological_centile_band,
+                            clinician_comment: childMeasurement.measurement_dates.comments.clinician_chronological_decimal_age_comment,
+                            lay_comment: childMeasurement.measurement_dates.comments.lay_chronological_decimal_age_comment,
+                            observation_date: new Date(childMeasurement.measurement_dates.observation_date).toLocaleDateString('en-UK'),
+                            observation_value_error: childMeasurement.child_observation_value.observation_value_error,
+                            x: childMeasurement.measurement_dates.chronological_decimal_age,
+                            y: childMeasurement.child_observation_value.observation_value,
+                            sds: childMeasurement.measurement_calculated_values.chronological_sds
                         };
                         const correctData: any = {
-                            ...childMeasurement.plottable_data.centile_data.corrected_decimal_age_data, observationDate: new Date(childMeasurement.measurement_dates.observation_date).toLocaleDateString('en-UK')
+                            age_type: 'corrected_age',
+                            age_error: childMeasurement.measurement_dates.corrected_decimal_age_error,
+                            b: childMeasurement.bone_age.bone_age,
+                            bone_age_label: childMeasurement.bone_age.bone_age_text,
+                            bone_age_sds: childMeasurement.bone_age.bone_age_sds,
+                            bone_age_centile: childMeasurement.bone_age.bone_age_centile,
+                            bone_age_type: childMeasurement.bone_age.bone_age_type,
+                            calendar_age: childMeasurement.measurement_dates.corrected_calendar_age,
+                            centile: childMeasurement.measurement_calculated_values.corrected_centile,
+                            centile_band: childMeasurement.measurement_calculated_values.corrected_centile_band,
+                            clinician_comment: childMeasurement.measurement_dates.comments.clinician_corrected_decimal_age_comment,
+                            lay_comment: childMeasurement.measurement_dates.comments.lay_corrected_decimal_age_comment,
+                            observation_date: new Date(childMeasurement.measurement_dates.observation_date).toLocaleDateString('en-UK'),
+                            observation_value_error: childMeasurement.child_observation_value.observation_value_error,
+                            x: childMeasurement.measurement_dates.corrected_decimal_age,
+                            y: childMeasurement.child_observation_value.observation_value,
+                            sds: childMeasurement.measurement_calculated_values.corrected_sds
                         };
+                        // const chronData: any = {
+                        //     ...childMeasurement.plottable_data.centile_data.chronological_decimal_age_data, observationDate: new Date(childMeasurement.measurement_dates.observation_date).toLocaleDateString('en-UK'), sds: childMeasurement.measurement_calculated_values.chronological_sds
+                        // };
+                        // const correctData: any = {
+                        //     ...childMeasurement.plottable_data.centile_data.corrected_decimal_age_data, observationDate: new Date(childMeasurement.measurement_dates.observation_date).toLocaleDateString('en-UK'), sds: childMeasurement.measurement_calculated_values.corrected_sds
+                        // };
 
 
                         if (isChartCrowded) {

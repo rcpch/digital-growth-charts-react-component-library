@@ -13,7 +13,7 @@ export function tooltipText(
         childName,
         x, // the decimal age
         l, // labels
-        observationDate,
+        observation_date,
         age_type,
         centile_band,
         calendar_age,
@@ -32,6 +32,8 @@ export function tooltipText(
         bone_age_centile,
         bone_age_type,
     } = datum;
+    
+
 
     // midparental height labels
     if (midParentalHeightData){
@@ -154,14 +156,14 @@ export function tooltipText(
             const sds_string = `[SDS: ${sds > 0 ? '+' + Math.round(sds*1000)/1000 : Math.round(sds*1000)/1000 }]`;
             if (age_type === 'corrected_age' && x > 0.0383) {
                 const finalCorrectedString = comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
-                return `Corrected age: ${calendar_age} on ${observationDate}\n${finalCorrectedString}\n${y} ${measurementSuffix(measurementMethod)} ${ clinicianFocus ? sds_string : '\n' + finalCentile}`;
+                return `Corrected age: ${calendar_age} on ${observation_date}\n${finalCorrectedString}\n${y} ${measurementSuffix(measurementMethod)} ${ clinicianFocus ? sds_string : '\n' + finalCentile}`;
             }
             if (age_type === 'chronological_age') {
                 let finalChronologicalString = comment
                     .replaceAll(', ', ',\n')
                     .replaceAll('. ', '.\n')
                     .replaceAll('account ', 'account\n');
-                return `Actual age: ${calendar_age} on ${observationDate}\n${finalChronologicalString}\n${y} ${measurementSuffix(measurementMethod)} ${ clinicianFocus ? sds_string : '\n' + finalCentile}`;
+                return `Actual age: ${calendar_age} on ${observation_date}\n${finalChronologicalString}\n${y} ${measurementSuffix(measurementMethod)} ${ clinicianFocus ? sds_string : '\n' + finalCentile}`;
             }
         }
         // measurement data points
@@ -173,11 +175,11 @@ export function tooltipText(
                 const sds_string = `[SDS: ${sds > 0 ? '+' + Math.round(sds*1000)/1000 : Math.round(sds*1000)/1000 }]`;
                 if (age_type === 'corrected_age') {
                     const finalCorrectedString = comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
-                    return `Corrected age: ${corrected_gestational_age} on ${observationDate}\n${finalCorrectedString}\n${y} ${measurementSuffix(measurementMethod)} ${ clinicianFocus ? sds_string : '\n' + finalCentile}`;
+                    return `Corrected age: ${corrected_gestational_age} on ${observation_date}\n${finalCorrectedString}\n${y} ${measurementSuffix(measurementMethod)} ${ clinicianFocus ? sds_string : '\n' + finalCentile}`;
                 }
                 if (age_type === 'chronological_age') {
                     let finalChronologicalString = comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
-                    return `Actual age: ${calendar_age}\n${corrected_gestational_age} on ${observationDate}\n${finalChronologicalString}\n${y} ${measurementSuffix(measurementMethod)} ${ clinicianFocus ? sds_string : '\n' + finalCentile}`;
+                    return `Actual age: ${calendar_age}\n${corrected_gestational_age} on ${observation_date}\n${finalChronologicalString}\n${y} ${measurementSuffix(measurementMethod)} ${ clinicianFocus ? sds_string : '\n' + finalCentile}`;
                 }
             }
         }
