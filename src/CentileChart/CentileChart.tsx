@@ -41,6 +41,7 @@ import { ButtonContainer } from '../SubComponents/ButtonContainer';
 import { TwoButtonContainer } from '../SubComponents/TwoButtonContainer';
 import { ChartTitle } from '../SubComponents/ChartTitle';
 import { LogoContainer } from '../SubComponents/LogoContainer';
+import { VersionLabel } from '../SubComponents/VersionLabel';
 import { MainContainer } from '../SubComponents/MainContainer';
 
 // RCPCH Icon:
@@ -211,7 +212,12 @@ function CentileChart({
     return (
         <MainContainer>
             <LogoContainer>
-                <img src={icon} width={24} height={24} />
+                <div>
+                    <img src={icon} width={24} height={24} />
+                    <VersionLabel
+                        fontFamily={styles.chartTitle.fontFamily}
+                    >v6.1.2</VersionLabel>
+                </div>
                 <img src={ukca} width={18} height={18}/>
             </LogoContainer>
 
