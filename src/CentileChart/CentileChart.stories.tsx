@@ -1,5 +1,5 @@
 // Generated with util/create-component.js
-import React from "react";
+import * as React from "react";
 import CentileChart from "./CentileChart";
 
 export default {

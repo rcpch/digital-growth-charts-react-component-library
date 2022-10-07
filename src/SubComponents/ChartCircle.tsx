@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 export const ChartCircle = (props) =>{ // lollipop tick for months
     const {x, y, style, text} = props
