@@ -1,5 +1,5 @@
 // Generated with util/create-component.js
-import React from "react";
+import * as React from "react";
 import { render } from "@testing-library/react";
 
 import SDSChart from "./SDSChart";

@@ -1,4 +1,4 @@
-import React from 'react';
+import *  as React from 'react';
 
 export const MonthsLabel = (props) => { // the same ChartCircle but smaller for use in axis label
     const {x, y, text, style} = props

@@ -1,4 +1,5 @@
-import React, { useState, useLayoutEffect, useMemo, MouseEvent, useRef } from 'react';
+import * as React from 'react';
+import { useState, useLayoutEffect, useMemo, MouseEvent, useRef } from 'react';
 import {
     // libraries
     createContainer,

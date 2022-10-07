@@ -1,5 +1,6 @@
 // libraries and frameworks
-import React, { useState, useMemo, MouseEvent, useRef } from "react";
+import * as React from 'react';
+import { useState, useMemo, MouseEvent, useRef } from "react";
 import { 
     VictoryAxis, 
     VictoryChart,
