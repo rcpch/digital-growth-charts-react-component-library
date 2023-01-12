@@ -153,7 +153,7 @@ function makeAllStyles(
         },
         sdsLine: {  // these are the sds lines on the BMI chart
             data: {
-                stroke: centileStyle.sdsStroke ?? '#A9A9A9',
+                stroke: centileStyle?.sdsStroke ?? '#A9A9A9',
                 strokeWidth: centileStyle?.sdsStrokeWidth ?? 1.0,
                 strokeLinecap: 'round',
                 strokeDasharray: '5 5',
