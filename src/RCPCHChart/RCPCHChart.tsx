@@ -48,7 +48,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     
     let isCentile=(chartType === "centile" || chartType === undefined);
 
-    const version="v6.1.4"
+    const version="v6.1.6"
     
     if (isCentile){
         return (
