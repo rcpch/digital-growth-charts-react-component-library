@@ -18,7 +18,7 @@ export function tooltipText(
         age_type,
         centile_band,
         calendar_age,
-        corrected_gestational_age,
+        gestational_age,
         y,
         observation_value_error,
         age_error,
@@ -169,6 +169,10 @@ export function tooltipText(
             // <= 42 weeks
             /// plots
             if (observation_value_error === null && age_error === null) {
+                let corrected_gestational_age=''
+                if (gestational_age){
+                    corrected_gestational_age=`${gestational_age.corrected_gestation_weeks}+${gestational_age.corrected_gestation_days} weeks`
+                }
                 // sds in square brackets
                 const sds_string = `[SDS: ${sds > 0 ? '+' + Math.round(sds*1000)/1000 : Math.round(sds*1000)/1000 }]`;
                 if (age_type === 'corrected_age') {
