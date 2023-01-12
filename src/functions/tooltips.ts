@@ -166,9 +166,11 @@ export function tooltipText(
         }
         // measurement data points
         if (x <= 0.0383) {
+
             // <= 42 weeks
             /// plots
-            if (observation_value_error === null && age_error === null) {
+            if (observation_value_error === null ) {
+                // && age_error === null temporarily removed from if statement as error in api return object for EDD < observation_date
                 let corrected_gestational_age=''
                 if (gestational_age){
                     corrected_gestational_age=`${gestational_age.corrected_gestation_weeks}+${gestational_age.corrected_gestation_days} weeks`
@@ -177,11 +179,11 @@ export function tooltipText(
                 const sds_string = `[SDS: ${sds > 0 ? '+' + Math.round(sds*1000)/1000 : Math.round(sds*1000)/1000 }]`;
                 if (age_type === 'corrected_age') {
                     const finalCorrectedString = comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
-                    return `Corrected age: ${corrected_gestational_age} on ${observation_date}\n${finalCorrectedString}\n${y} ${measurementSuffix(measurementMethod)} ${ clinicianFocus ? sds_string : '\n' + finalCentile}`;
+                    return `${calendar_age} old\nCorrected age: ${corrected_gestational_age} on ${observation_date}\n${finalCorrectedString}\n${y} ${measurementSuffix(measurementMethod)} ${ clinicianFocus ? sds_string : '\n' + finalCentile}`;
                 }
                 if (age_type === 'chronological_age') {
                     let finalChronologicalString = comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
-                    return `Actual age: ${calendar_age}\n${corrected_gestational_age} on ${observation_date}\n${finalChronologicalString}\n${y} ${measurementSuffix(measurementMethod)} ${ clinicianFocus ? sds_string : '\n' + finalCentile}`;
+                    return `Actual age: ${calendar_age}\n${observation_date}\n${finalChronologicalString}\n${y} ${measurementSuffix(measurementMethod)} ${ clinicianFocus ? sds_string : '\n' + finalCentile}`;
                 }
             }
         }

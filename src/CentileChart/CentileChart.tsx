@@ -551,7 +551,7 @@ function CentileChart({
                             bone_age_sds: childMeasurement.bone_age.bone_age_sds,
                             bone_age_centile: childMeasurement.bone_age.bone_age_centile,
                             bone_age_type: childMeasurement.bone_age.bone_age_type,
-                            calendar_age: childMeasurement.measurement_dates.corrected_calendar_age,
+                            calendar_age: childMeasurement.measurement_dates.corrected_decimal_age < 0.0383 ? childMeasurement.measurement_dates.chronological_calendar_age : childMeasurement.measurement_dates.corrected_calendar_age, // calendar age not corrected if < EDD
                             gestational_age: childMeasurement.measurement_dates.corrected_gestational_age,
                             centile: childMeasurement.measurement_calculated_values.corrected_centile,
                             centile_band: childMeasurement.measurement_calculated_values.corrected_centile_band,
