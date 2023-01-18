@@ -46,6 +46,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     // uncomment in development
     // console.log("loading from locally...");
     
+    
     let isCentile=(chartType === "centile" || chartType === undefined);
 
     const version="v6.1.6"
@@ -59,7 +60,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
                     title={title}
                     subtitle={subtitle}
                     childMeasurements={measurementsArray || []}
-                    midParentalHeightData={midParentalHeightData}
+                    midParentalHeightData={midParentalHeightData || {}}
                     measurementMethod={measurementMethod}
                     sex={sex}
                     enableZoom={enableZoom}
