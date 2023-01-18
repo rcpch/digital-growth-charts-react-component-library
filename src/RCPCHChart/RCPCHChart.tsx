@@ -17,6 +17,9 @@ import ErrorBoundary from '../SubComponents/ErrorBoundary';
 import { ClientMeasurementObject } from '../interfaces/ClientMeasurementObject';
 import defineNonStylePropDefaults from '../functions/defineNonStylePropDefaults';
 
+// const VERSION_LOG = '[VI]Version: {version} - built on {date}[/VI]'; 
+const VERSION = '[VI]v{version}[/VI]'; // uses version injector plugin to Rollup to report package.json version
+
 const RCPCHChart: React.FC<RCPCHChartProps> = ({
     title,
     subtitle,
@@ -46,16 +49,14 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     // uncomment in development
     // console.log("loading from locally...");
     
-    
     let isCentile=(chartType === "centile" || chartType === undefined);
-
-    const version="v6.1.6"
+    
     
     if (isCentile){
         return (
             <ErrorBoundary styles={styles}>
                 <CentileChart
-                    chartsVersion={version}
+                    chartsVersion={VERSION}
                     reference={reference}
                     title={title}
                     subtitle={subtitle}
@@ -77,7 +78,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
         return (
             <ErrorBoundary styles={styles}>
                 <SDSChart
-                    chartsVersion={version}
+                    chartsVersion={VERSION}
                     reference={reference}
                     title={title}
                     subtitle={subtitle}

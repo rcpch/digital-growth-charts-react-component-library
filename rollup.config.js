@@ -6,6 +6,7 @@ import postcss from 'rollup-plugin-postcss';
 import copy from 'rollup-plugin-copy';
 import image from '@rollup/plugin-image';
 import json from '@rollup/plugin-json';
+import versionInjector from 'rollup-plugin-version-injector';
 
 const packageJson = require('./package.json');
 
@@ -49,5 +50,6 @@ export default {
         }),
         image(),
         json(),
+        versionInjector(),
     ],
 };
