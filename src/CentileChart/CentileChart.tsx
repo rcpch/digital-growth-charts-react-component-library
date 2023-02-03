@@ -701,8 +701,9 @@ function CentileChart({
                 </VictoryChart>
             </ChartContainer>
 
-            {(showToggle || allowZooming || enableExport) && (
+            {(showToggle || allowZooming || enableExport || childMeasurements.length > 0) && (
                 <ButtonContainer>
+                    
                     <TwoButtonContainer>
 
                     { childMeasurements.length > 0 && 
