@@ -563,12 +563,6 @@ function CentileChart({
                             y: childMeasurement.child_observation_value.observation_value,
                             sds: childMeasurement.measurement_calculated_values.corrected_sds
                         };
-                        // const chronData: any = {
-                        //     ...childMeasurement.plottable_data.centile_data.chronological_decimal_age_data, observationDate: new Date(childMeasurement.measurement_dates.observation_date).toLocaleDateString('en-UK'), sds: childMeasurement.measurement_calculated_values.chronological_sds
-                        // };
-                        // const correctData: any = {
-                        //     ...childMeasurement.plottable_data.centile_data.corrected_decimal_age_data, observationDate: new Date(childMeasurement.measurement_dates.observation_date).toLocaleDateString('en-UK'), sds: childMeasurement.measurement_calculated_values.corrected_sds
-                        // };
 
 
                         if (isChartCrowded) {
@@ -578,6 +572,7 @@ function CentileChart({
                             chronData.size = 3;
                             correctData.size = 3;
                         }
+                        
                         return (
                             <VictoryGroup key={'measurement' + index}>
 
@@ -680,7 +675,7 @@ function CentileChart({
                                         dataComponent={
                                             <XPoint 
                                                 isBoneAge={false}
-                                                colour={"black"}
+                                                colour={styles.measurementPoint.data.fill}
                                             />
                                         }
                                         style={styles.measurementPoint}
