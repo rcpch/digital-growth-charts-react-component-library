@@ -270,7 +270,7 @@ function CentileChart({
                                     )
                                 }
                             }
-                            voronoiBlacklist={['linkLine', 'chronologicalboneagelinkline', 'correctedboneagelinkline']}
+                            voronoiBlacklist={['linkLine', 'chronologicalboneagelinkline', 'correctedboneagelinkline', 'areaMPH']}
                         />
                     }
                 >

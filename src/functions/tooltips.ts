@@ -42,11 +42,11 @@ export function tooltipText(
             mid_parental_height_upper_value
         } = midParentalHeightData;
     
-        if (['centileMPH', 'lowerCentileMPH', 'upperCentileMPH', 'areaMPH'].includes(childName)){
+        if (['centileMPH', 'lowerCentileMPH', 'upperCentileMPH', 'areaMPH'].includes(childName) && datum._voronoiX < 20){
             if (childName==="lowerCentileMPH"){
                 return `Midparental Height -2SD: ${Math.round(mid_parental_height_lower_value*10)/10} cm`;
             }
-            if (childName==="centileMPH"){
+            if (childName==="centileMPH" || childName==="areaMPH"){
                 return `Midparental Height: ${Math.round(mid_parental_height*10)/10} cm (${addOrdinalSuffix(Math.round(parseFloat(l)))} centile, SDS: ${Math.round(mid_parental_height_sds*100)/100})\nRange(+/-2SD): ${Math.round(mid_parental_height_lower_value*10)/10} cm - ${Math.round(mid_parental_height_upper_value*10)/10} cm`;
             }
             if (childName==="upperCentileMPH"){
@@ -90,7 +90,10 @@ export function tooltipText(
 
         if (childName.includes("centileLine")){
             // these are the centile labels
-            return `${addOrdinalSuffix(l)} centile`;
+            if (datum._voronoiX < 20){
+                // fix for duplicate text if tooltip called from mouse point where x > chart area
+                return `${addOrdinalSuffix(l)} centile`;
+            }
         }
     }
     if (centile_band) {
@@ -179,7 +182,7 @@ export function tooltipText(
                 const sds_string = `[SDS: ${sds > 0 ? '+' + Math.round(sds*1000)/1000 : Math.round(sds*1000)/1000 }]`;
                 if (age_type === 'corrected_age') {
                     const finalCorrectedString = comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
-                    return `${calendar_age} old\nCorrected age: ${corrected_gestational_age} on ${observation_date}\n${finalCorrectedString}\n${y} ${measurementSuffix(measurementMethod)} ${ clinicianFocus ? sds_string : '\n' + finalCentile}`;
+                    return `${calendar_age}\nCorrected age: ${corrected_gestational_age} on ${observation_date}\n${finalCorrectedString}\n${y} ${measurementSuffix(measurementMethod)} ${ clinicianFocus ? sds_string : '\n' + finalCentile}`;
                 }
                 if (age_type === 'chronological_age') {
                     let finalChronologicalString = comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
