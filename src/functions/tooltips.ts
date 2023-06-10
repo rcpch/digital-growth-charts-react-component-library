@@ -179,7 +179,7 @@ export function tooltipText(
                 const sds_string = `[SDS: ${sds > 0 ? '+' + Math.round(sds*1000)/1000 : Math.round(sds*1000)/1000 }]`;
                 if (age_type === 'corrected_age') {
                     const finalCorrectedString = comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
-                    return `${calendar_age} old\nCorrected age: ${corrected_gestational_age} on ${observation_date}\n${finalCorrectedString}\n${y} ${measurementSuffix(measurementMethod)} ${ clinicianFocus ? sds_string : '\n' + finalCentile}`;
+                    return `${calendar_age}\nCorrected age: ${corrected_gestational_age} on ${observation_date}\n${finalCorrectedString}\n${y} ${measurementSuffix(measurementMethod)} ${ clinicianFocus ? sds_string : '\n' + finalCentile}`;
                 }
                 if (age_type === 'chronological_age') {
                     let finalChronologicalString = comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
