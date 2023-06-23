@@ -30,7 +30,7 @@ export function sdsTooltipText(datum){
     let finalLabel = "";
 
     // set the ages
-    let correctedChronologicalText="Uncorrected Age: ";
+    let correctedChronologicalText="Chronological Age: ";
     if (array[0]==="corrected"){
         correctedChronologicalText = "Corrected Age: ";
         if (datum?.datum?.plottable_data?.sds_data?.corrected_decimal_age_data?.corrected_gestational_age){

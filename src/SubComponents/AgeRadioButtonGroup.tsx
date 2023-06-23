@@ -18,7 +18,7 @@ export const AgeRadioButtonGroup = (props) => {
                 name="adjustments"
                 defaultChecked={props.chronologicalAge && props.correctedAge === false}
             />
-            <label htmlFor="unadjusted">Uncorrected Age</label>
+            <label htmlFor="unadjusted">Chronological Age</label>
             <input
                 type="radio"
                 id="both"
