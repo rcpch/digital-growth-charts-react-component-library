@@ -94,6 +94,7 @@ function CentileChart({
     const chartRef=useRef<any>();
     const [active, setActive] = useState(false);
     const [fullScreen, setFullScreen]=useState(true);
+    
 
     let { bmiSDSData, centileData, computedDomains, chartScaleType } = useMemo(
         () =>
