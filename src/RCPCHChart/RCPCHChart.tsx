@@ -47,7 +47,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     chartType = defineNonStylePropDefaults('chartType', chartType);
     
     // uncomment in development
-    // console.log("loading from locally...");
+    console.log("loading from locally...");
     
     let isCentile=(chartType === "centile" || chartType === undefined);
     
