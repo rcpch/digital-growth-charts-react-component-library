@@ -627,6 +627,11 @@ function getDomainsAndData(
                 if (difference <= totalMinPadding.smallChild) {
                     internalChartScaleType = 'smallChild';
                 }
+                if(lowestChildX < twoWeeksPostnatal){
+                    absoluteBottomX = lowestChildX-totalMinPadding.infant;
+                }
+                
+                
             }
 
             // work out most appropriate highest and lowest x coords for domain setting:
