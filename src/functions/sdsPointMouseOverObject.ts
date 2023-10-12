@@ -1,4 +1,6 @@
-export function createSDSPointMouseOverObject(styles){
+import { ClientStyle } from "../interfaces/ClientStyleObjects";
+
+export function createSDSPointMouseOverObject(styles: { [key: string]: any }){
     /*
     Takes styles object from SDS chart
     This function creates an array of Victory Events, which trigger onMouseOver of SDS chart measurement 
@@ -59,9 +61,6 @@ export function createSDSPointMouseOverObject(styles){
                                 `chronological-${item}-scatter`,
                                 `linkLine-${item}`
                             ],
-                            mutation: ()=>{
-                                return null;
-                            }
                         }
                     ]
                 }

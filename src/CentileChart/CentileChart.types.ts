@@ -18,17 +18,19 @@ export type Results = {
     pointsForCentileLabels: { x: number; y: number; centile: string }[];
 };
 export interface CentileChartProps {
-    chartsVersion: string;
+    chartsVersion?: string;
     reference: 'uk-who' | 'turner' | 'trisomy-21';
     title: string;
     subtitle: string;
     measurementMethod: 'height' | 'weight' | 'ofc' | 'bmi';
     sex: 'male' | 'female';
     childMeasurements: Measurement[];
-    midParentalHeightData: MidParentalHeightObject;
-    enableZoom: boolean;
+    midParentalHeightData?: MidParentalHeightObject | null;
+    enableZoom?: boolean;
     styles: { [key: string]: any };
-    enableExport: boolean;
-    exportChartCallback(svg: any);
-    clinicianFocus: boolean;
+    enableExport?: boolean;
+    exportChartCallback(svg: any): any;
+    clinicianFocus?: boolean | undefined | null;
+    showCentileLabels?: boolean | undefined | null;
+    showSDSLabels?: boolean | undefined | null;
 }

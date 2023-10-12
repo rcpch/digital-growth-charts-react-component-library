@@ -12,7 +12,9 @@ import {
     VictoryTooltip,
     VictoryAxis,
     VictoryLabel,
-    VictoryArea
+    VictoryArea,
+    Rect,
+    DomainPropType,
 } from 'victory';
 
 // helper functions
@@ -29,7 +31,6 @@ import { getFilteredMidParentalHeightData } from '../functions/getFilteredMidPar
 import { CentileChartProps } from './CentileChart.types';
 import { ICentile } from '../interfaces/CentilesObject';
 import { Measurement } from '../interfaces/RCPCHMeasurementObject';
-import { Domains } from '../interfaces/Domains';
 
 // components/subcomponents
 import { XPoint } from '../SubComponents/XPoint';
@@ -60,6 +61,10 @@ import { ChartContainer } from '../SubComponents/ChartContainer';
 import { FullScreenIcon } from '../SubComponents/FullScreenIcon';
 import { CloseFullScreenIcon } from '../SubComponents/CloseFullScreenIcon';
 import { ResetZoomContainer } from '../SubComponents/ResetZoomContainer';
+import { labelAngle } from '../functions/labelAngle';
+import addOrdinalSuffix from '../functions/addOrdinalSuffix';
+import { labelIndexInterval } from '../functions/labelIndexInterval';
+import { referenceText } from '../functions/referenceText';
 
 // allows two top level containers: zoom and voronoi
 const VictoryZoomVoronoiContainer = createContainer<VictoryZoomContainerProps, VictoryVoronoiContainerProps>(
@@ -83,7 +88,9 @@ function CentileChart({
     styles,
     enableExport,
     exportChartCallback,
-    clinicianFocus
+    clinicianFocus,
+    showCentileLabels,
+    showSDSLabels
 }: CentileChartProps) {
     const [userDomains, setUserDomains] = useState(null);
 
@@ -94,7 +101,7 @@ function CentileChart({
     const chartRef=useRef<any>();
     const [active, setActive] = useState(false);
     const [fullScreen, setFullScreen]=useState(true);
-
+    
     let { bmiSDSData, centileData, computedDomains, chartScaleType } = useMemo(
         () =>
             getDomainsAndData(
@@ -107,6 +114,7 @@ function CentileChart({
             ),
         [storedChildMeasurements, sex, measurementMethod, reference, showCorrectedAge, showChronologicalAge],
     );
+    
 
     const updatedData = useMemo(() => getVisibleData(sex, measurementMethod, reference, userDomains), [
         sex,
@@ -115,6 +123,31 @@ function CentileChart({
         userDomains,
     ]);
 
+    // get the highest reference index of visible centile data
+    let maxVisibleReferenceIndex: number = null;
+    let minimumArrayLength;
+    centileData.forEach((item,index)=>{
+        switch (index) {
+            case 0:
+                minimumArrayLength = 3; // neonates label gap
+                break;
+            case 1:
+                minimumArrayLength = 4; // infants label gap
+                break;
+            case 2:
+                minimumArrayLength = 6; // small child label gap
+                break;
+            case 3:
+                minimumArrayLength = 15; // large child label gap
+                break;
+            default:
+                minimumArrayLength = 6;
+                break;
+        }
+        if (item[0].data.length > minimumArrayLength){
+            maxVisibleReferenceIndex = index;
+        }
+    });
     
     const allowZooming = storedChildMeasurements.length > 0 && enableZoom ? true : false;
     
@@ -201,7 +234,7 @@ function CentileChart({
         setUserDomains(null);
     };
 
-    const handleZoomChange = (domain: Domains) => {
+    const handleZoomChange = (domain: DomainPropType) => {
         setUserDomains(domain);
     };
     
@@ -236,7 +269,7 @@ function CentileChart({
 
                 <VictoryChart
                     width={styles.chartWidth}
-                    height={styles.chartHeight}
+                    height={styles.chartHeight-35}
                     padding={styles.chartPadding}
                     style={styles.chartMisc}
                     domain={computedDomains}
@@ -249,6 +282,7 @@ function CentileChart({
                             zoomDomain={domains}
                             labelComponent={
                                 <VictoryTooltip
+                                    data-testid='tooltip'
                                     constrainToVisibleArea
                                     pointerLength={5}
                                     cornerRadius={0}
@@ -413,10 +447,11 @@ function CentileChart({
                     {/* to a step down in height weight and bmi in the data set. There is another tool tip at 4 years to indicate transition from datasets. */}
 
                     {centileData &&
-                        centileData.map((referenceData, index) => {
+                        centileData.map((referenceData, referenceIndex) => {
+                            
                             return (
                                 <VictoryGroup 
-                                    key={'centileDataBlock' + index}
+                                    key={'centileDataBlock' + referenceIndex}
                                     name='centileLineGroup'
                                 >
                                     {referenceData.map((centile: ICentile, centileIndex: number) => {
@@ -425,24 +460,59 @@ function CentileChart({
                                         
                                         if (centileIndex % 2 === 0) {
                                             // even index - centile is dashed
+                                            
                                             return (
                                                 <VictoryLine
+                                                    data-testid='evenCentileLine'
                                                     name={'centileLine-'+ centileIndex}
                                                     key={centile.centile + '-' + centileIndex}
                                                     padding={{ top: 20, bottom: 20 }}
                                                     data={centile.data}
                                                     style={styles.dashedCentile}
+                                                    labels={ (props: { index: number; }) => showCentileLabels && labelIndexInterval(chartScaleType, props.index) && props.index > 0 ? [addOrdinalSuffix(centile.centile)]: null}
+                                                    labelComponent={
+                                                        <VictoryLabel
+                                                            angle={
+                                                                ({index})=>{
+                                                                    return labelAngle(centile.data, index, chartScaleType);
+                                                                }
+                                                            }
+                                                            style={styles.centileLabel}
+                                                            backgroundStyle={{fill:'white'}}
+                                                            backgroundPadding={{top: 0, bottom: 0, left: 3, right:3}}
+                                                            textAnchor={'middle'}
+                                                            verticalAnchor={'middle'}
+                                                            dy={0}
+                                                        />
+                                                    }
                                                 />
                                             );
                                         } else {
                                             // uneven index - centile is continuous
                                             return (
                                                 <VictoryLine
+                                                    data-testid='unevenCentileLine'
                                                     name={'centileLine-'+ centileIndex}
                                                     key={centile.centile + '-' + centileIndex}
                                                     padding={{ top: 20, bottom: 20 }}
                                                     data={centile.data}
                                                     style={styles.continuousCentile}
+                                                    labels={ (props: { index: number; })=> showCentileLabels && labelIndexInterval(chartScaleType, props.index) && props.index > 0 ? [addOrdinalSuffix(centile.centile)]: null}
+                                                    labelComponent={
+                                                        <VictoryLabel
+                                                            angle={
+                                                                ({index})=>{
+                                                                    return labelAngle(centile.data, index, chartScaleType);
+                                                                }
+                                                            }
+                                                            style={styles.centileLabel}
+                                                            backgroundStyle={{fill:'white'}}
+                                                            backgroundPadding={{top: 0, bottom: 0, left: 3, right:3}}
+                                                            textAnchor={'middle'}
+                                                            verticalAnchor={'middle'}
+                                                            dy={0}
+                                                        />
+                                                    }
                                                 />
                                             );
                                         }
@@ -461,10 +531,10 @@ function CentileChart({
                                         key={'sdsDataBlock' + index}
                                         name='sdsLineGroup'
                                     >
-                                        {sdsReferenceData.map((sdsLine, sdsIndex: number) => {
+                                        {sdsReferenceData.map((sdsLine: ICentile, sdsIndex: number) => {
                                             
                                             // BMI charts have SDS lines at -5, -4, -3, 3, 3.33, 3.67, 4
-                                            
+                                                
                                                 // sds line is dashed
                                                 return (
                                                     <VictoryLine
@@ -473,6 +543,20 @@ function CentileChart({
                                                         padding={{ top: 20, bottom: 20 }}
                                                         data={sdsLine.data}
                                                         style={styles.sdsLine}
+                                                        labels={ (props: { index: number; })=> showSDSLabels && labelIndexInterval(chartScaleType, props.index) && props.index > 0 ? [sdsLine.sds]: null}
+                                                        labelComponent={
+                                                            <VictoryLabel
+                                                                angle={
+                                                                    ({index})=>{  
+                                                                        return labelAngle(sdsLine.data, index, chartScaleType);
+                                                                    }
+                                                                }
+                                                                style={{fill: styles.sdsLine.data.stroke, fontSize: 10.0}}
+                                                                backgroundStyle={{fill:'white'}}
+                                                                textAnchor={'end'}
+                                                                dy={5}
+                                                            />
+                                                        }
                                                     />
                                                 );
                                             
@@ -494,7 +578,6 @@ function CentileChart({
                                             name={`puberty-${dataArray[0].x}`}
                                             style={styles.delayedPubertyThresholdLine}
                                             data={dataArray}
-                                            labels={({ datum }) => datum.label}
                                             labelComponent={
                                                 <VictoryLabel
                                                     textAnchor="start"
@@ -663,6 +746,7 @@ function CentileChart({
                                 }
                                 { showChronologicalAge && (
                                     <VictoryScatter // chronological age
+                                        data-testid='chronologicalMeasurementPoint'
                                         data={[chronData]}
                                         symbol="circle"
                                         style={styles.measurementPoint}
@@ -671,6 +755,7 @@ function CentileChart({
                                 )}
                                 { showCorrectedAge && (
                                     <VictoryScatter // corrected age - a custom component that renders a cross
+                                        data-testid='correctedMeasurementXPoint'
                                         data={[correctData]}
                                         dataComponent={
                                             <XPoint 
@@ -694,9 +779,17 @@ function CentileChart({
                         );
                     })}
                 </VictoryChart>
+                <ChartTitle
+                    fontSize={8}
+                    fontFamily={'Montserrat'}
+                    color={'#000000'}
+                    fontWeight={'200'}
+                    fontStyle='normal'
+                >{referenceText(reference)}</ChartTitle>
             </ChartContainer>
 
             {(showToggle || allowZooming || enableExport || childMeasurements.length > 0) && (
+                
                 <ButtonContainer>
                     
                     <TwoButtonContainer>
@@ -705,7 +798,7 @@ function CentileChart({
                             <FullScreenButtonWrapper>
                                 <StyledFullScreenButton
                                     onClick={()=> fullScreenPressed()}
-                                    color={styles.toggleStyle.activeColour}
+                                    $color={styles.toggleStyle.activeColour}
                                     size={5}
                                 >
                                     { fullScreen ?
@@ -720,14 +813,14 @@ function CentileChart({
                     { enableExport && (
                             <ShareButtonWrapper>
                                     <StyledShareButton 
-                                        color={styles.toggleStyle.activeColour}
+                                        $color={styles.toggleStyle.activeColour}
                                         size={5}
                                         onClick={exportPressed}
                                     >
                                         <ShareIcon/>
                                     </StyledShareButton>
                                     <CopiedLabel
-                                        active={active}
+                                        $active={active}
                                         onAnimationEnd={labelFadeEnd}
                                     >
                                         Copied!
@@ -740,23 +833,36 @@ function CentileChart({
 
                     {showToggle && (
                             <StyledRadioButtonGroup
-                                {...styles.toggleStyle}
+                                $activeColour={styles.toggleStyle.activeColour}
+                                $inactiveColour={styles.toggleStyle.inactiveColour}
+                                $fontFamily={styles.toggleStyle.fontFamily}
+                                $fontSize={styles.toggleStyle.fontSize}
+                                $fontWeight={styles.toggleStyle.fontWeight}
+                                $fontStyle={styles.toggleStyle.fontStyle}
+                                $color={styles.toggleStyle.color}
+                                $className={"toggleButtons"}
                                 handleClick={onSelectRadioButton}
                                 correctedAge={showCorrectedAge}
                                 chronologicalAge={showChronologicalAge}
-                                className="toggleButtons"
                             />
                         )
                     }
                         
                     {/* {allowZooming && ( */}
                             <ResetZoomContainer
-                                isHidden={!allowZooming}
+                                $isHidden={!allowZooming}
                             >
                                 <StyledResetZoomButton
-                                    {...styles.toggleStyle}
+                                    $activeColour={styles.toggleStyle.activeColour}
+                                    $inactiveColour={styles.toggleStyle.inactiveColour}
+                                    $fontFamily={styles.toggleStyle.fontFamily}
+                                    $fontSize={styles.toggleStyle.fontSize}
+                                    $fontWeight={styles.toggleStyle.fontWeight}
+                                    $fontStyle={styles.toggleStyle.fontStyle}
+                                    $color={styles.toggleStyle.color}
+                                    $margin={styles.toggleStyle.margin}
+                                    $enabled={userDomains !== null}
                                     onClick={() => setUserDomains(null)}
-                                    enabled={userDomains !== null}
                                 >
                                     Reset Zoom
                                 </StyledResetZoomButton>

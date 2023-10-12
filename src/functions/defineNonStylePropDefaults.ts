@@ -1,7 +1,3 @@
-import { Measurement } from "../interfaces/RCPCHMeasurementObject"
-import { MidParentalHeightObject } from "../interfaces/MidParentalHeightObject"
-
-
 function defineNonStylePropDefaults(
     propName: string,
     propValue: any
@@ -11,6 +7,9 @@ function defineNonStylePropDefaults(
     //  sets default values if not already specified by the user
     
     if (propName === 'clinicianFocus' || propName === 'enableExport'){
+        return propValue === undefined ? false : propValue;
+    }
+    if (propName === 'showCentileLabels' || propName === 'showSDSLabels'){
         return propValue === undefined ? false : propValue;
     }
     if (propName === 'chartType'){

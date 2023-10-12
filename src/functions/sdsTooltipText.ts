@@ -1,5 +1,6 @@
+import { Datum } from "victory";
 
-export function sdsTooltipText(datum){
+export function sdsTooltipText(datum: Datum){
     /*
     Returns tool tip labels for SDS charts.
     */

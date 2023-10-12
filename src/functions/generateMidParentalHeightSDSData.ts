@@ -1,4 +1,3 @@
-import { ClientMeasurementObject } from "../interfaces/ClientMeasurementObject";
 import { MidParentalHeightObject } from "../interfaces/MidParentalHeightObject";
 
 export const generateMidParentalHeightSDSData = (

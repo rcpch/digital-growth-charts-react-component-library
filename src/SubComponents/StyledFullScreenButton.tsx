@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
 export const StyledFullScreenButton = styled.button<{
-    color?: string,
+    $color?: string,
     size?: number
 }>`
-background-color: ${(props) => (props.color ? props.color : 'black')};
+background-color: ${(props) => (props.$color ? props.$color : 'black')};
 height: 48px;
 width: 48px;
 color: white;

@@ -4,24 +4,45 @@ import { render } from "@testing-library/react";
 
 import SDSChart from "./SDSChart";
 import { SDSChartProps } from "./SDSChart.types";
+import { monochromeStyles } from "../testParameters/styles/monochromeStyles";
+import { ClientMeasurementObject } from "../interfaces/ClientMeasurementObject";
 
-// describe("Test Component", () => {
-//   let props: SDSChartProps;
+describe("SDSChart", () => {
+  let props: SDSChartProps;
 
-//   beforeEach(() => {
-//     props = {
-//       foo: "bar"
-//     };
-//   });
+  const blank: ClientMeasurementObject = {
+    height:[],
+    weight: [],
+    ofc:[],
+    bmi:[]
+  }
 
-//   const renderComponent = () => render(<SDSChart {...props} />);
+  beforeEach(() => {
+    props = {
+        chartsVersion: 'testVersion',
+        reference: 'uk-who',
+        title: 'TestChartTitle',
+        subtitle: 'TestChartSubtitle',
+        measurementMethod: 'height',
+        sex: 'male',
+        childMeasurements: blank,
+        midParentalHeightData: {},
+        enableZoom: false,
+        styles: monochromeStyles,
+        enableExport: false,
+        exportChartCallback: ()=>null,
+        clinicianFocus: false,
+    };
+  });
 
-//   it("should render foo text correctly", () => {
-//     props.foo = "harvey was here";
-//     const { getByTestId } = renderComponent();
+  const renderComponent = () => render(<SDSChart {...props} />);
 
-//     const component = getByTestId("SDSChart");
+  test.skip("should render foo text correctly", () => {
+    props.title = 'TestChartTitle';
+    const { getByTestId } = renderComponent();
 
-//     expect(component).toHaveTextContent("harvey was here");
-//   });
-// });
+    const component = getByTestId("SDSChart");
+
+    expect(component.textContent?.match(/TestChartTitle/));
+  });
+});

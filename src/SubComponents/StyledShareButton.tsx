@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 
 export const StyledShareButton = styled.button<{
-    color?: string,
+    $color?: string,
     size?: number
 }>`
 flex-grow:0;
-background-color: ${(props) => (props.color ? props.color : 'black')};
+background-color: ${(props) => (props.$color ? props.$color : 'black')};
 height: 48px;
 width: 48px;
 color: white;

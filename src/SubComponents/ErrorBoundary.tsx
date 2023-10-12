@@ -30,7 +30,7 @@ class ErrorBoundary extends React.Component {
         return { hasError: true };
     }
 
-    componentDidCatch(error, errorInfo) {
+    componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
         console.error({ error: error.message, errorInfo: errorInfo });
         this.setState({ errorMessage: error.message });
     }
@@ -69,7 +69,7 @@ const ErrorContainer = styled.div<{ height: number; width: number }>`
     display: block;
     margin: auto;
     height: ${({ height }) => height}px;
-    width: ${({ width }) => width}px;
+    width: ${({ width }) => width == Infinity ? 0 : width}px;
 `;
 
 const TextContainer = styled.div`

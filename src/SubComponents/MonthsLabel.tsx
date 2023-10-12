@@ -1,6 +1,6 @@
 import *  as React from 'react';
 
-export const MonthsLabel = (props) => { // the same ChartCircle but smaller for use in axis label
+export const MonthsLabel = (props:any) => { // the same ChartCircle but smaller for use in axis label
     const {x, y, text, style} = props
     return (<svg>
       <text x={x+110} y={y+2.5} textAnchor="left" fontSize={style.fontSize} fill={style.fill} fontFamily={style.fontFamily}>{text}</text>

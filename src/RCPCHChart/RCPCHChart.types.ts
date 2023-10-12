@@ -9,7 +9,7 @@ export interface RCPCHChartProps {
     reference: 'uk-who' | 'turner' | 'trisomy-21';
     sex: 'male' | 'female';
     measurementsArray: Measurement[];
-    midParentalHeightData?: MidParentalHeightObject;
+    midParentalHeightData?: MidParentalHeightObject | undefined;
     enableZoom?: boolean;
     chartStyle?: ChartStyle;
     axisStyle?: AxisStyle;
@@ -18,7 +18,9 @@ export interface RCPCHChartProps {
     sdsStyle?: SDSStyle;
     measurementStyle?: MeasurementStyle;
     chartType?: 'centile' | 'sds';
-    enableExport?: boolean;
-    exportChartCallback(svg?: any);
-    clinicianFocus?: boolean;
+    enableExport?: boolean | undefined;
+    exportChartCallback(svg?: any): any;
+    clinicianFocus?: boolean | undefined | null;
+    showCentileLabels?: boolean | undefined | null;
+    showSDSLabels?: boolean | undefined | null;
 }

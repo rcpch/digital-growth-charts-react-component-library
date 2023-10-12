@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-function RenderTickLabel(props) {
+function RenderTickLabel(props: any) {
     const x = props.x;
     const y = props.y;
     const text = props.text;

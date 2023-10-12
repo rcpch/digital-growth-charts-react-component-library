@@ -50,6 +50,8 @@ import { generateMidParentalHeightSDSData } from "../functions/generateMidParent
 import { symbolForMeasurementType } from "../functions/symbolForMeasurementType";
 import { selectedMeasurementMethods } from "../functions/buildListOfMeasurementMethods";
 import { measurementMethodForName } from "../functions/measurementMethodForName";
+import { Measurement } from '../interfaces/RCPCHMeasurementObject';
+import { Line } from '../interfaces/ClientStyleObjects';
 
 const SDSChart: React.FC<SDSChartProps> = (
     { 
@@ -69,7 +71,7 @@ const SDSChart: React.FC<SDSChartProps> = (
 ) => {
     const [userDomains, setUserDomains] = useState(null);
     
-    let measurements = [];
+    let measurements:Measurement[] = [];
     if (measurementMethod==="height"){
         measurements=childMeasurements.height;
     }
@@ -336,7 +338,7 @@ const SDSChart: React.FC<SDSChartProps> = (
                         Each line is associated with a scatter also, whose symbol varies
                         */
                         let measurementStyles;
-                        let linkLineStyles;
+                        let linkLineStyles: Line;
                         let showData: boolean;
                         
                         if (measurementTypeItem.measurementType==="height"){
@@ -547,7 +549,7 @@ const SDSChart: React.FC<SDSChartProps> = (
                                 <ShareIcon/>
                             </StyledShareButton>
                             <CopiedLabel
-                                active={active}
+                                $active={active}
                                 onAnimationEnd={labelFadeEnd}
                             >
                                 Copied!

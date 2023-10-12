@@ -38,7 +38,9 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     chartType,
     enableExport,
     exportChartCallback,
-    clinicianFocus
+    clinicianFocus,
+    showCentileLabels,
+    showSDSLabels
 }) => {
     const styles = makeAllStyles(chartStyle, axisStyle, gridlineStyle, centileStyle, sdsStyle, measurementStyle);
     
@@ -48,6 +50,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     
     // uncomment in development
     // console.log("loading from locally...");
+    
     
     let isCentile=(chartType === "centile" || chartType === undefined);
     
@@ -69,6 +72,8 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
                     enableExport={enableExport}
                     exportChartCallback={exportChartCallback}
                     clinicianFocus={clinicianFocus}
+                    showCentileLabels={showCentileLabels}
+                    showSDSLabels={showSDSLabels}
                 />
             </ErrorBoundary>
         );
@@ -90,6 +95,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
                     styles={styles}
                     enableExport={enableExport}
                     exportChartCallback={exportChartCallback}
+                    clinicianFocus={clinicianFocus}
                 />
             </ErrorBoundary>
         );

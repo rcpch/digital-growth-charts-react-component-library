@@ -30,12 +30,12 @@ function makeAllStyles(
         };
     } else if (gridlineStyle?.gridlines === false) {
         newGridlineStyle = {
-            stroke: undefined,
+            stroke: '',
             strokeWidth: 0,
             strokeDasharray: '',
         };
     }
-    return {
+    return { 
         chartHeight: chartStyle?.height ?? 475,
         chartWidth: chartStyle?.width ?? 700,
         chartPadding: {
@@ -173,6 +173,10 @@ function makeAllStyles(
                 strokeWidth: centileStyle?.centileStrokeWidth ?? 1.5,
                 strokeLinecap: 'round',
             },
+        },
+        centileLabel: {
+            fill: centileStyle?.centileStroke ?? black,
+            fontSize: centileStyle?.centileStroke == black ? 8 : 6
         },
         heightSDS: {
             data: {

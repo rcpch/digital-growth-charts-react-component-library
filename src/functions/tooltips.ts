@@ -1,16 +1,18 @@
+import { Datum } from 'victory';
 import { measurementSuffix } from '../functions/measurementSuffix';
+import { MidParentalHeightObject } from '../interfaces/MidParentalHeightObject';
 import addOrdinalSuffix from './addOrdinalSuffix';
 
 export function tooltipText(
     reference: string,
     measurementMethod: string,
-    datum: any,
-    midParentalHeightData,
+    datum: Datum,
+    midParentalHeightData: MidParentalHeightObject,
     clinicianFocus: boolean, // flag passed in from user - defines if tooltip text aimed at clinicians or families
-    sex: string
+    sex: 'male' | 'female'
 ): string {
 
-    const {
+    const { 
         childName,
         x, // the decimal age
         l, // labels
@@ -68,11 +70,11 @@ export function tooltipText(
         }
         if (x === 2 && measurementMethod === 'height' && reference == 'uk-who') {
             // step down at 2 y where children measured standing (height), not lying (length)
-            return "Measure length until x 2;\nMeasure height after age 2.\nA child’s height is usually\nslightly less than their length.";
+            return "Measure length until age 2y;\nMeasure height after age 2y.\nA child’s height is usually\nslightly less than their length.";
         }
         if (x === 2 && measurementMethod === 'height' && reference == 'uk-who') {
             // step down at 2 y where children measured standing (height), not lying (length)
-            return "Measure length until x 2;\nMeasure height after age 2.\nA child’s height is usually\nslightly less than their length.";
+            return "Measure length until age 2y;\nMeasure height after age 2y.\nA child’s height is usually\nslightly less than their length.";
         }
         if (l === 'For all Children plotted in this shaded area see instructions.' && reference == 'uk-who') {
             // delayed puberty if plotted in this area
@@ -152,9 +154,11 @@ export function tooltipText(
         }
 
         if (observation_value_error === null && age_error === null) {
-            // sds in square brackets
+            // if no errors, return the ages, measurement and calculations
             
+            // sds in square brackets
             const sds_string = `[SDS: ${sds > 0 ? '+' + Math.round(sds*1000)/1000 : Math.round(sds*1000)/1000 }]`;
+            
             if (age_type === 'corrected_age' && x > 0.0383) {
                 const finalCorrectedString = comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
                 return `Corrected age: ${calendar_age} on ${observation_date}\n${finalCorrectedString}\n${y} ${measurementSuffix(measurementMethod)} ${ clinicianFocus ? sds_string : '\n' + finalCentile}`;
@@ -169,7 +173,7 @@ export function tooltipText(
         }
         // measurement data points
         if (x <= 0.0383) {
-
+            
             // <= 42 weeks
             /// plots
             if (observation_value_error === null ) {

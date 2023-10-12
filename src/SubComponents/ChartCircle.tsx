@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export const ChartCircle = (props) =>{ // lollipop tick for months
+export const ChartCircle = (props: any) =>{ // lollipop tick for months
     const {x, y, style, text} = props
     if (text  as number > 0){
       return (<svg>
@@ -11,4 +11,4 @@ export const ChartCircle = (props) =>{ // lollipop tick for months
       } else {
         return null
       }
-  } 
+  }
