@@ -8,6 +8,7 @@ import { MidParentalHeightObject } from "../interfaces/MidParentalHeightObject";
 
 import { monochromeStyles } from '../testParameters/styles/monochromeStyles'
 import {prematureThreeMonths} from '../testParameters/measurements/prematureThreeMonths';
+import { twoToEightWeight } from "../testParameters/measurements/twoToEightWeight";
 
 describe("All tests relate to rendering the text in the height centile chart for an older boy.", () => {
   let props: CentileChartProps;
@@ -255,3 +256,80 @@ describe("All tests relate to plotting in the height/length centile chart for a 
     });
 
 });
+
+describe("All tests relating to rendering the text in the weight centile chart for an older boy.", () => {
+  let props: CentileChartProps;
+
+  const midparentalHeight: MidParentalHeightObject = {}
+
+  beforeEach(() => {
+    props = {
+      chartsVersion: "ChartVersion",
+      reference: "uk-who",
+      title: "TestChartTitle",
+      subtitle: "TestChartSubtitle",
+      measurementMethod: "weight",
+      sex: 'male',
+      childMeasurements: twoToEightWeight,
+      midParentalHeightData: midparentalHeight,
+      enableZoom: false,
+      styles: monochromeStyles,
+      enableExport: false,
+      exportChartCallback: ()=>null,
+      clinicianFocus: false,
+      showCentileLabels: false,
+      showSDSLabels: false
+    };
+  });
+
+  it("should render title text correctly", () => {
+    render(<CentileChart{...props} />);
+    expect(screen.queryByText("TestChartTitle")).toBeInTheDocument()
+  });
+
+  it("should render subtitle text correctly", () => {
+    render(<CentileChart {...props} />);
+    expect(screen.queryByText("TestChartSubtitle")).toBeInTheDocument()
+  });
+
+  it("should render weight y axis label text correcttly", () => {
+    render(<CentileChart {...props} />);
+    expect(screen.queryByText("Weight (kg)")).toBeInTheDocument();
+  });
+
+  it("should render age x axis label correctly", () => {
+    render(<CentileChart {...props} />);
+    expect(screen.queryByText("Age (in years)"))
+  });
+
+});
+
+describe("All test relating to plotting in the weight centile chart for a toddler", () => {
+  let props: CentileChartProps;
+  const midparentalHeight: MidParentalHeightObject = {}
+
+  beforeEach(() => {
+    props = {
+      chartsVersion: "ChartVersion",
+      reference: "uk-who",
+      title: "TestChartTitle",
+      subtitle: "TestChartSubtitle",
+      measurementMethod: "weight",
+      sex: 'male',
+      childMeasurements: twoToEightWeight,
+      midParentalHeightData: midparentalHeight,
+      enableZoom: false,
+      styles: monochromeStyles,
+      enableExport: false,
+      exportChartCallback: ()=>null,
+      clinicianFocus: false,
+      showCentileLabels: false,
+      showSDSLabels: false
+    };
+  });
+  it("should plot 73 x points for chronological age", () => {
+    render(<CentileChart {...props} />);
+    expect(screen.getAllByTestId('chronologicalMeasurementPoint')).toHaveLength(73);
+  }
+  )
+})
