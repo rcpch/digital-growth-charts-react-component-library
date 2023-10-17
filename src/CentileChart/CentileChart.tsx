@@ -39,6 +39,7 @@ import RenderTickLabel from '../SubComponents/RenderTickLabel';
 import { TitleContainer } from '../SubComponents/TitleContainer';
 import { StyledRadioButtonGroup } from '../SubComponents/StyledRadioButtonGroup';
 import { StyledResetZoomButton } from '../SubComponents/StyledResetZoomButton';
+import { StyledButtonTooltip } from '../SubComponents/StyledButtonTooltip';
 import { ButtonContainer } from '../SubComponents/ButtonContainer';
 import { TwoButtonContainer } from '../SubComponents/TwoButtonContainer';
 import { ChartTitle } from '../SubComponents/ChartTitle';
@@ -793,32 +794,39 @@ function CentileChart({
                 <ButtonContainer>
                     
                     <TwoButtonContainer>
-
+                    {/* Creates the Zoom to see whole lifespan button */}
                     { childMeasurements.length > 0 && 
                             <FullScreenButtonWrapper>
-                                <StyledFullScreenButton
-                                    onClick={()=> fullScreenPressed()}
-                                    $color={styles.toggleStyle.activeColour}
-                                    size={5}
-                                >
-                                    { fullScreen ?
-                                        <FullScreenIcon/>
-                                        :
-                                        <CloseFullScreenIcon/>
-                                    }
-                                </StyledFullScreenButton>
-                            </FullScreenButtonWrapper>
-                    }
-                
-                    { enableExport && (
-                            <ShareButtonWrapper>
-                                    <StyledShareButton 
+                                <StyledButtonTooltip>
+                                    <StyledFullScreenButton
+                                        onClick={()=> fullScreenPressed()}
                                         $color={styles.toggleStyle.activeColour}
                                         size={5}
-                                        onClick={exportPressed}
                                     >
-                                        <ShareIcon/>
-                                    </StyledShareButton>
+                                        { fullScreen ?
+                                            <FullScreenIcon/>
+                                            :
+                                            <CloseFullScreenIcon/>
+                                        }
+                                    </StyledFullScreenButton>
+                                    <div className='tooltip'>Toggle Full Lifespan</div>
+                                </StyledButtonTooltip>
+                            </FullScreenButtonWrapper>
+                    }
+
+                    {/* Creates the Copy button */}
+                    { enableExport && (
+                            <ShareButtonWrapper>
+                                    <StyledButtonTooltip>
+                                        <StyledShareButton 
+                                            $color={styles.toggleStyle.activeColour}
+                                            size={5}
+                                            onClick={exportPressed}
+                                        >
+                                            <ShareIcon/>
+                                        </StyledShareButton>
+                                            <div className='tooltip'>Copy Graph</div>
+                                    </StyledButtonTooltip>
                                     <CopiedLabel
                                         $active={active}
                                         onAnimationEnd={labelFadeEnd}
@@ -851,7 +859,7 @@ function CentileChart({
                     {/* {allowZooming && ( */}
                             <ResetZoomContainer
                                 $isHidden={!allowZooming}
-                            >
+                        >
                                 <StyledResetZoomButton
                                     $activeColour={styles.toggleStyle.activeColour}
                                     $inactiveColour={styles.toggleStyle.inactiveColour}
