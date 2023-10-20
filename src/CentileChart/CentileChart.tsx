@@ -73,9 +73,6 @@ const VictoryZoomVoronoiContainer = createContainer<VictoryZoomContainerProps, V
     'voronoi',
 );
 
-const shadedTermAreaText =
-    'Babies born in this shaded area\nare term. It is normal for\nbabies to lose weight over\nthe first two weeks of life.\nMedical review should be sought\nif weight has dropped by more\nthan 10% of birth weight or\nweight is still below birth weight\nthree weeks after birth.';
-
 function CentileChart({
     chartsVersion,
     reference,
@@ -183,14 +180,12 @@ function CentileChart({
             {
                 x: -0.057494866529774126,
                 y: domains.y[1],
-                y0: domains.y[0],
-                l: shadedTermAreaText,
+                y0: domains.y[0]
             },
             {
                 x: 0.038329911019849415,
                 y: domains.y[1],
-                y0: domains.y[0],
-                l: shadedTermAreaText,
+                y0: domains.y[0]
             },
         ];
     }
