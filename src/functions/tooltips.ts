@@ -85,6 +85,11 @@ export function tooltipText(
             }
         }
         
+        // Term shaded area text
+        if (x < 0.038329911019849415 && x > -0.057494866529774126 && reference ==='uk-who' && measurementMethod === 'weight'){
+            return `${addOrdinalSuffix(l)} centile: \n Babies born in this shaded area\nare term. It is normal for\nbabies to lose weight over\nthe first two weeks of life.\nMedical review should be sought\nif weight has dropped by more\nthan 10% of birth weight or\nweight is still below birth weight\nthree weeks after birth.`;
+        }
+        
         // BMI SDS labels
         if (childName.includes("sdsLine")){
             return `${l} SDS`  
