@@ -475,7 +475,7 @@ function CentileChart({
                                                         <VictoryLabel
                                                             angle={
                                                                 ({index})=>{
-                                                                    return labelAngle(centile.data, index, chartScaleType);
+                                                                    return labelAngle(centile.data, index, chartScaleType, measurementMethod);
                                                                 }
                                                             }
                                                             style={styles.centileLabel}
@@ -503,7 +503,7 @@ function CentileChart({
                                                         <VictoryLabel
                                                             angle={
                                                                 ({index})=>{
-                                                                    return labelAngle(centile.data, index, chartScaleType);
+                                                                    return labelAngle(centile.data, index, chartScaleType, measurementMethod);
                                                                 }
                                                             }
                                                             style={styles.centileLabel}
@@ -549,7 +549,7 @@ function CentileChart({
                                                             <VictoryLabel
                                                                 angle={
                                                                     ({index})=>{
-                                                                        return labelAngle(sdsLine.data, index, chartScaleType);
+                                                                        return labelAngle(sdsLine.data, index, chartScaleType, measurementMethod);
                                                                     }
                                                                 }
                                                                 style={{fill: styles.sdsLine.data.stroke, fontSize: 10.0}}

@@ -1,9 +1,10 @@
 
-export function labelAngle(data:any, index:any, chartScaleType: 'prem' | 'infant' | 'smallChild' | 'biggerChild' = 'biggerChild'):number{
+export function labelAngle(data:any, index:any, chartScaleType: 'prem' | 'infant' | 'smallChild' | 'biggerChild' = 'biggerChild', measurementMethod: 'height' | 'weight' | 'ofc' | 'bmi'):number{
     /* 
     returns the angle in radians of a centile or sds line label using the gradient of the line
     */
 
+    // requires 2 or more datapoints to calculate gradient
     if (data.length<1){
         return;
     }
@@ -28,9 +29,20 @@ export function labelAngle(data:any, index:any, chartScaleType: 'prem' | 'infant
     const y1=lastItem.y
 
     let ageDiff = (x1-x0)*10;
-    if (x1 < 2.0){ // babies ages smaller - magnify more
+    if (x1 < 2.0 && chartScaleType==='biggerChild' && measurementMethod==='height'){ // babies ages smaller - magnify more
+        ageDiff = (x1-x0)*40;
+    } else if (x1 < 2.0 && chartScaleType === 'infant') {
         ageDiff = (x1-x0)*100;
     }
+    if (measurementMethod === 'bmi') {
+        ageDiff = (x1-x0) * 2;
+    }
+    if (measurementMethod === 'ofc'){
+        ageDiff = (x1-x0) * 2.5;
+    }
+    // if (measurementMethod === 'height'){
+    //     ageDiff = (x1-x0) * 40;
+    // }
     
     let angle = 0;
     const radians = Math.atan2((y1-y0), ageDiff);
