@@ -1,8 +1,8 @@
 import { AxisStyle, CentileStyle, ChartStyle, GridlineStyle, MeasurementStyle, SDSStyle } from "../../interfaces/StyleObjects"
 
 export const rcpch2Styles = {
-    "chartHeight": 700,
-    "chartWidth": 700,
+    "chartHeight": 800,
+    "chartWidth": 1000,
     "chartPadding": {
         "left": 50,
         "right": 50,
