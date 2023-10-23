@@ -40,9 +40,6 @@ export function labelAngle(data:any, index:any, chartScaleType: 'prem' | 'infant
     if (measurementMethod === 'ofc'){
         ageDiff = (x1-x0) * 2.5;
     }
-    // if (measurementMethod === 'height'){
-    //     ageDiff = (x1-x0) * 40;
-    // }
     
     let angle = 0;
     const radians = Math.atan2((y1-y0), ageDiff);
