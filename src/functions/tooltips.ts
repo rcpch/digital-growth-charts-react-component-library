@@ -152,8 +152,12 @@ export function tooltipText(
         }
 
         if (observation_value_error === null && age_error === null) {
+            const year=observation_date.split('/')[2]
+            const month=observation_date.split('/')[1]-1
+            const day=observation_date.split('/')[0]
+
             // sds in square brackets
-            const formatted_observation_date = new Date(observation_date).toLocaleDateString("en-GB", {year: "numeric", month: "short", day: "numeric"});
+            const formatted_observation_date = new Date(year,month,day).toLocaleDateString("en-GB", {year: "numeric", month: "short", day: "numeric"});
             const sds_string = `[SDS: ${sds > 0 ? '+' + Math.round(sds*1000)/1000 : Math.round(sds*1000)/1000 }]`;
             if (age_type === 'corrected_age' && x > 0.0383) {
                 const finalCorrectedString = comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
@@ -173,8 +177,11 @@ export function tooltipText(
             // <= 42 weeks
             /// plots
             if (observation_value_error === null ) {
+                const year=observation_date.split('/')[2]
+                const month=observation_date.split('/')[1]-1
+                const day=observation_date.split('/')[0]
                 // && age_error === null temporarily removed from if statement as error in api return object for EDD < observation_date
-                const formatted_observation_date = new Date(observation_date).toLocaleDateString("en-GB", {year: "numeric", month: "short", day: "numeric"});
+                const formatted_observation_date = new Date(year,month,day).toLocaleDateString("en-GB", {year: "numeric", month: "short", day: "numeric"});
                 let corrected_gestational_age=''
                 if (gestational_age){
                     corrected_gestational_age=`${gestational_age.corrected_gestation_weeks}+${gestational_age.corrected_gestation_days} weeks`
