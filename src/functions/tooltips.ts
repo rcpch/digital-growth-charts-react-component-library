@@ -23,6 +23,9 @@ export function tooltipText(
         gestational_age,
         y,
         observation_value_error,
+        corrected_measurement_error,
+        corrected_decimal_age_error,
+        chronological_decimal_age_error,
         age_error,
         lay_comment,
         clinician_comment,
@@ -34,6 +37,26 @@ export function tooltipText(
         bone_age_centile,
         bone_age_type,
     } = datum;
+
+    // flag passed in from user - if clinician, show clinician age advice strings, else show child/family advice 
+    const comment = clinicianFocus ? clinician_comment : lay_comment;
+
+    if (corrected_decimal_age_error){
+        return corrected_decimal_age_error
+    }
+    if (chronological_decimal_age_error){
+        return chronological_decimal_age_error
+    }
+    if (corrected_measurement_error){
+        let corrected_gestational_age=''
+        if (gestational_age){
+            const finalCorrectedString = comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
+            corrected_gestational_age=`${gestational_age.corrected_gestation_weeks}+${gestational_age.corrected_gestation_days} weeks`
+            return `${calendar_age}\nCorrected age: ${corrected_gestational_age} on ${observation_date}\n${finalCorrectedString}\n${y}${measurementSuffix(measurementMethod)}\n${corrected_measurement_error}`;
+        }
+        const finalCorrectedString = comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
+        return `Corrected age: ${calendar_age} on ${observation_date}\n${finalCorrectedString}\n${y} ${measurementSuffix(measurementMethod)} ${corrected_measurement_error}`;
+    }
 
     // midparental height labels
     if (midParentalHeightData){
@@ -92,16 +115,15 @@ export function tooltipText(
 
         if (childName.includes("centileLine")){
             // these are the centile labels
-            if (datum._voronoiX < 20){
-                // fix for duplicate text if tooltip called from mouse point where x > chart area
+            if (datum._voronoiX < 20 && y != null){
+                // fix for duplicate text if tooltip called from mouse point where x > chart area or 
+                // y is ull - situations when hovering below the chart in areas where centile data do not exist
                 return `${addOrdinalSuffix(l)} centile`;
             }
         }
     }
     if (centile_band) {
-        // flag passed in from user - if clinician, show clinician age advice strings, else show child/family advice 
-        const comment = clinicianFocus ? clinician_comment : lay_comment;
-
+        
         // bone age text
         if ((childName==="chronologicalboneage" || childName === "correctedboneage") && b){
             let concatenatedText = "Bone Age: "
@@ -173,8 +195,8 @@ export function tooltipText(
         }
         // measurement data points
         if (x <= 0.0383) {
-            
             // <= 42 weeks
+            
             /// plots
             if (observation_value_error === null ) {
                 // && age_error === null temporarily removed from if statement as error in api return object for EDD < observation_date

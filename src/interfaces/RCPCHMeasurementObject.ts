@@ -133,7 +133,7 @@ export interface Measurement {
     };
     bone_age: {
         bone_age?: number;
-        bone_age_type?: number;
+        bone_age_type?: string;
         bone_age_centile?: number;
         bone_age_sds?: number;
         bone_age_text?: string;

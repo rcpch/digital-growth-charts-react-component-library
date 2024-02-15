@@ -9,6 +9,7 @@ import { twoHeightMeasurements } from "../testParameters/measurements/twoHeightM
 import { twoToEight } from "../testParameters/measurements/twoToEight"
 import { prematureThreeMonths } from "../testParameters/measurements/prematureThreeMonths"
 import { smallChildJustOverTwo } from "../testParameters/measurements/smallChildJustOverTwo"
+import { prematureTwentyTwoWeeks } from "../testParameters/measurements/prematureTwentyTwoWeeks"
 
 export default {
     title: "CentileChart"
@@ -154,6 +155,26 @@ export const WithMeasurementsFromBirthOverTwoYears = () => (
     />
 );
 
+export const WithMeasurementsAtExtremePrematurity = () => (
+    <CentileChart 
+        chartsVersion="bar"
+        reference="uk-who"
+        title="Simon"
+        subtitle="rules"
+        measurementMethod="weight"
+        sex="female"
+        childMeasurements={prematureTwentyTwoWeeks}
+        midParentalHeightData={midParentalHeights}
+        enableZoom={true}
+        styles={rcpch1Styles}
+        enableExport={true}
+        exportChartCallback={()=>null}
+        clinicianFocus={true}
+        showCentileLabels={true}
+        showSDSLabels={true}
+    />
+);
+
 export const WithMeasurementsToNineYears = () => (
     <CentileChart 
         chartsVersion="baz"
@@ -185,7 +206,7 @@ export const WithPrematureFemaleHeights = () => (
         childMeasurements={prematureThreeMonths}
         midParentalHeightData={midParentalHeights}
         enableZoom={true}
-        styles={monochromeStyles}
+        styles={rcpch3Styles}
         enableExport={true}
         exportChartCallback={()=>null}
         clinicianFocus={true}

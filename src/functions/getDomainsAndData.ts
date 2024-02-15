@@ -536,8 +536,9 @@ function getDomainsAndData(
         const twoWeeksPostnatal = 0.038329911019849415;
         const gestWeeks37 = -0.057494866529774126;
         const gestWeeks24 = -0.306639288158795;
-        const gestWeeks22 = -0.33;
         let absoluteBottomX = twoWeeksPostnatal;
+        const gestWeeks23 = -0.33;
+        const gestWeeks22 = -0.345;
         let absoluteHighX = 20.05;
         let agePadding = totalMinPadding.biggerChild;
         if (reference === 'uk-who') {
@@ -612,7 +613,8 @@ function getDomainsAndData(
                 if (lowestChildX >= gestWeeks37 && lowestChildX < twoWeeksPostnatal && reference === 'uk-who') {
                     absoluteBottomX = gestWeeks37;
                 } else if (lowestChildX < gestWeeks37) {
-                    absoluteBottomX = measurementMethod === 'height' ? gestWeeks24 : gestWeeks22;
+                    // absoluteBottomX = measurementMethod === 'height' ? gestWeeks24 : gestWeeks22;
+                    absoluteBottomX = gestWeeks22;
                 }
                 if (difference > totalMinPadding.infant) {
                     internalChartScaleType = 'smallChild';
@@ -661,6 +663,7 @@ function getDomainsAndData(
 
             const xTickValues = getTickValuesForChartScaling(internalChartScaleType);
 
+
             if (lowestXForDomain !== absoluteBottomX) {
                 const arrayForOrdering = [...xTickValues];
                 arrayForOrdering.push(unroundedLowestX);
@@ -681,9 +684,13 @@ function getDomainsAndData(
         } else {
             let errorString = 'No valid measurements entered. Error message from the server: ';
             for (const measurement of childMeasurements) {
-                if (measurement.measurement_calculated_values.corrected_measurement_error) {
-                    errorString += ` ${measurement.measurement_calculated_values.corrected_measurement_error}`;
-                    throw new Error(errorString);
+                if (measurement.measurement_calculated_values.corrected_measurement_error && measurement.measurement_dates.corrected_decimal_age < gestWeeks22) {
+                    // if (measurement.measurement_calculated_values.corrected_measurement_error == "UK-WHO data does not exist below 23 weeks gestation." && measurement.measurement_dates.corrected_gestational_age.corrected_gestation_weeks >= 22){
+                    //     return;
+                    // } else {
+                        errorString += ` ${measurement.measurement_calculated_values.corrected_measurement_error}`;
+                        throw new Error(errorString);
+                    // }
                 }
             }
         }
@@ -820,5 +827,6 @@ export const delayedPubertyData = {
     male: ukwhoHeightMaleCentileData.centile_data[3].uk90_child.male.height[0].data, //ukwhoData.uk90_child.male.height[0].data,
     female: ukwhoHeightFemaleCentileData.centile_data[3].uk90_child.female.height[0].data //ukwhoData.uk90_child.female.height[0].data,
 };
+
 
 export { getVisibleData, getDomainsAndData };
