@@ -599,9 +599,9 @@ function getDomainsAndData(
                 absoluteBottomX = gestWeeks22;
                 agePadding = totalMinPadding.prem;
                 absoluteHighX = twoWeeksPostnatal;
-                if (measurementMethod === 'height') {
-                    absoluteBottomX = gestWeeks24;
-                }
+                // if (measurementMethod === 'height') {
+                //     absoluteBottomX = gestWeeks24;
+                // }
                 if (difference > totalMinPadding.prem) {
                     internalChartScaleType = 'infant';
                 } else {

@@ -9,7 +9,9 @@ import { twoHeightMeasurements } from "../testParameters/measurements/twoHeightM
 import { twoToEight } from "../testParameters/measurements/twoToEight"
 import { prematureThreeMonths } from "../testParameters/measurements/prematureThreeMonths"
 import { smallChildJustOverTwo } from "../testParameters/measurements/smallChildJustOverTwo"
-import { prematureTwentyTwoWeeks } from "../testParameters/measurements/prematureTwentyTwoWeeks"
+import { prematureTwentyTwoWeeksWeight } from "../testParameters/measurements/prematureTwentyTwoWeeks"
+import { prematureTwentyTwoWeeksHeight } from "../testParameters/measurements/prematureTwentyTwoWeeksHeight"
+import { prematureTwentyTwoWeeksOFC } from "../testParameters/measurements/prematureTwentyTwoWeeksOFC"
 
 export default {
     title: "CentileChart"
@@ -155,7 +157,7 @@ export const WithMeasurementsFromBirthOverTwoYears = () => (
     />
 );
 
-export const WithMeasurementsAtExtremePrematurity = () => (
+export const WithMeasurementsAtExtremePrematurityWeight = () => (
     <CentileChart 
         chartsVersion="bar"
         reference="uk-who"
@@ -163,7 +165,47 @@ export const WithMeasurementsAtExtremePrematurity = () => (
         subtitle="rules"
         measurementMethod="weight"
         sex="female"
-        childMeasurements={prematureTwentyTwoWeeks}
+        childMeasurements={prematureTwentyTwoWeeksWeight}
+        midParentalHeightData={midParentalHeights}
+        enableZoom={true}
+        styles={rcpch1Styles}
+        enableExport={true}
+        exportChartCallback={()=>null}
+        clinicianFocus={true}
+        showCentileLabels={true}
+        showSDSLabels={true}
+    />
+);
+
+export const WithMeasurementsAtExtremePrematurity = () => (
+    <CentileChart 
+        chartsVersion="bar"
+        reference="uk-who"
+        title="Simon"
+        subtitle="rules"
+        measurementMethod="height"
+        sex="female"
+        childMeasurements={prematureTwentyTwoWeeksHeight}
+        midParentalHeightData={midParentalHeights}
+        enableZoom={true}
+        styles={rcpch1Styles}
+        enableExport={true}
+        exportChartCallback={()=>null}
+        clinicianFocus={true}
+        showCentileLabels={true}
+        showSDSLabels={true}
+    />
+);
+
+export const WithMeasurementsAtExtremePrematurityOFC = () => (
+    <CentileChart 
+        chartsVersion="bar"
+        reference="uk-who"
+        title="Simon"
+        subtitle="rules"
+        measurementMethod="ofc"
+        sex="female"
+        childMeasurements={prematureTwentyTwoWeeksOFC}
         midParentalHeightData={midParentalHeights}
         enableZoom={true}
         styles={rcpch1Styles}
@@ -203,7 +245,7 @@ export const WithPrematureFemaleHeights = () => (
         subtitle="rules"
         measurementMethod="height"
         sex="female"
-        childMeasurements={prematureThreeMonths}
+        childMeasurements={prematureTwentyTwoWeeksHeight}
         midParentalHeightData={midParentalHeights}
         enableZoom={true}
         styles={rcpch3Styles}

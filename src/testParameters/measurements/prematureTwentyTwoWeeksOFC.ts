@@ -1,25 +1,25 @@
 
 import { Measurement } from "../../interfaces/RCPCHMeasurementObject";
 
-export const prematureTwentyTwoWeeksWeight: Measurement[]=[
+export const prematureTwentyTwoWeeksOFC: Measurement[]=[
     {
         "birth_data": {
             "birth_date": "1759-04-11",
             "gestation_weeks": 22,
-            "gestation_days": 1,
-            "estimated_date_delivery": "1759-08-14",
-            "estimated_date_delivery_string": "Tue 14 August, 1759",
+            "gestation_days": 0,
+            "estimated_date_delivery": "1759-08-15",
+            "estimated_date_delivery_string": "Wed 15 August, 1759",
             "sex": "female"
         },
         "measurement_dates": {
             "observation_date": "1759-04-11",
             "chronological_decimal_age": 0.0,
-            "corrected_decimal_age": -0.34223134839151265,
+            "corrected_decimal_age": -0.34496919917864477,
             "chronological_calendar_age": "Happy Birthday",
             "corrected_calendar_age": null,
             "corrected_gestational_age": {
                 "corrected_gestation_weeks": 22,
-                "corrected_gestation_days": 1
+                "corrected_gestation_days": 0
             },
             "comments": {
                 "clinician_corrected_decimal_age_comment": "Your child has been born below the threshold of the charts.",
@@ -31,17 +31,17 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
             "chronological_decimal_age_error": "The due date is after the observation date - a calendar age cannot be calculated."
         },
         "child_observation_value": {
-            "measurement_method": "weight",
-            "observation_value": 3.4,
+            "measurement_method": "ofc",
+            "observation_value": 28.9,
             "observation_value_error": null
         },
         "measurement_calculated_values": {
             "corrected_sds": null,
             "corrected_centile": null,
             "corrected_centile_band": null,
-            "chronological_sds": -0.03054717110689776,
-            "chronological_centile": 48.8,
-            "chronological_centile_band": "This weight measurement is on or near the 50th centile.",
+            "chronological_sds": -5.0150532354212505,
+            "chronological_centile": 0.0,
+            "chronological_centile_band": "This head circumference measurement is below the normal range",
             "corrected_measurement_error": "UK-WHO data does not exist below 23 weeks gestation.",
             "chronological_measurement_error": null,
             "corrected_percentage_median_bmi": null,
@@ -51,10 +51,10 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
             "centile_data": {
                 "chronological_decimal_age_data": {
                     "x": 0.0,
-                    "y": 3.4,
+                    "y": 28.9,
                     "b": null,
-                    "centile": 48.8,
-                    "sds": -0.03054717110689776,
+                    "centile": 0.0,
+                    "sds": -5.0150532354212505,
                     "bone_age_label": null,
                     "events_text": null,
                     "bone_age_type": null,
@@ -66,12 +66,12 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is on or near the 50th centile.",
+                    "centile_band": "This head circumference measurement is below the normal range",
                     "observation_value_error": null
                 },
                 "corrected_decimal_age_data": {
-                    "x": -0.34223134839151265,
-                    "y": 3.4,
+                    "x": -0.34496919917864477,
+                    "y": 28.9,
                     "b": null,
                     "centile": null,
                     "sds": null,
@@ -83,7 +83,7 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "observation_error": null,
                     "age_type": "corrected_age",
                     "calendar_age": null,
-                    "corrected_gestational_age": "22 + 1 weeks",
+                    "corrected_gestational_age": "22 + 0 weeks",
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
@@ -94,9 +94,9 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
             "sds_data": {
                 "chronological_decimal_age_data": {
                     "x": 0.0,
-                    "y": -0.03054717110689776,
+                    "y": -5.0150532354212505,
                     "b": null,
-                    "centile": 48.8,
+                    "centile": 0.0,
                     "sds": null,
                     "bone_age_label": null,
                     "events_text": null,
@@ -109,11 +109,11 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is on or near the 50th centile.",
+                    "centile_band": "This head circumference measurement is below the normal range",
                     "observation_value_error": null
                 },
                 "corrected_decimal_age_data": {
-                    "x": -0.34223134839151265,
+                    "x": -0.34496919917864477,
                     "y": null,
                     "b": null,
                     "centile": null,
@@ -126,7 +126,7 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "observation_error": null,
                     "age_type": "corrected_age",
                     "calendar_age": null,
-                    "corrected_gestational_age": "22 + 1 weeks",
+                    "corrected_gestational_age": "22 + 0 weeks",
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
@@ -150,20 +150,20 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
         "birth_data": {
             "birth_date": "1759-04-11",
             "gestation_weeks": 22,
-            "gestation_days": 1,
-            "estimated_date_delivery": "1759-08-14",
-            "estimated_date_delivery_string": "Tue 14 August, 1759",
+            "gestation_days": 0,
+            "estimated_date_delivery": "1759-08-15",
+            "estimated_date_delivery_string": "Wed 15 August, 1759",
             "sex": "female"
         },
         "measurement_dates": {
             "observation_date": "1759-04-18",
             "chronological_decimal_age": 0.019164955509924708,
-            "corrected_decimal_age": -0.32306639288158795,
+            "corrected_decimal_age": -0.3258042436687201,
             "chronological_calendar_age": "1 week",
             "corrected_calendar_age": null,
             "corrected_gestational_age": {
                 "corrected_gestation_weeks": 23,
-                "corrected_gestation_days": 1
+                "corrected_gestation_days": 0
             },
             "comments": {
                 "clinician_corrected_decimal_age_comment": "Your child has been born below the threshold of the charts.",
@@ -175,17 +175,17 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
             "chronological_decimal_age_error": "The due date is after the observation date - a calendar age cannot be calculated."
         },
         "child_observation_value": {
-            "measurement_method": "weight",
-            "observation_value": 3.6,
+            "measurement_method": "ofc",
+            "observation_value": 29.5,
             "observation_value_error": null
         },
         "measurement_calculated_values": {
-            "corrected_sds": 44.77006264057963,
+            "corrected_sds": 6.00345584218107,
             "corrected_centile": 100.0,
-            "corrected_centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
-            "chronological_sds": 0.10903374116398087,
-            "chronological_centile": 54.3,
-            "chronological_centile_band": "This weight measurement is on or near the 50th centile.",
+            "corrected_centile_band": "This head circumference measurement is well above the normal range. Please review its accuracy.",
+            "chronological_sds": -5.008061734033337,
+            "chronological_centile": 0.0,
+            "chronological_centile_band": "This head circumference measurement is below the normal range",
             "corrected_measurement_error": null,
             "chronological_measurement_error": null,
             "corrected_percentage_median_bmi": null,
@@ -195,10 +195,10 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
             "centile_data": {
                 "chronological_decimal_age_data": {
                     "x": 0.019164955509924708,
-                    "y": 3.6,
+                    "y": 29.5,
                     "b": null,
-                    "centile": 54.3,
-                    "sds": 0.10903374116398087,
+                    "centile": 0.0,
+                    "sds": -5.008061734033337,
                     "bone_age_label": null,
                     "events_text": null,
                     "bone_age_type": null,
@@ -210,15 +210,15 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is on or near the 50th centile.",
+                    "centile_band": "This head circumference measurement is below the normal range",
                     "observation_value_error": null
                 },
                 "corrected_decimal_age_data": {
-                    "x": -0.32306639288158795,
-                    "y": 3.6,
+                    "x": -0.3258042436687201,
+                    "y": 29.5,
                     "b": null,
                     "centile": 100.0,
-                    "sds": 44.77006264057963,
+                    "sds": 6.00345584218107,
                     "bone_age_label": null,
                     "events_text": null,
                     "bone_age_type": null,
@@ -227,20 +227,20 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "observation_error": null,
                     "age_type": "corrected_age",
                     "calendar_age": null,
-                    "corrected_gestational_age": "23 + 1 weeks",
+                    "corrected_gestational_age": "23 + 0 weeks",
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
+                    "centile_band": "This head circumference measurement is well above the normal range. Please review its accuracy.",
                     "observation_value_error": null
                 }
             },
             "sds_data": {
                 "chronological_decimal_age_data": {
                     "x": 0.019164955509924708,
-                    "y": 0.10903374116398087,
+                    "y": -5.008061734033337,
                     "b": null,
-                    "centile": 54.3,
+                    "centile": 0.0,
                     "sds": null,
                     "bone_age_label": null,
                     "events_text": null,
@@ -253,12 +253,12 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is on or near the 50th centile.",
+                    "centile_band": "This head circumference measurement is below the normal range",
                     "observation_value_error": null
                 },
                 "corrected_decimal_age_data": {
-                    "x": -0.32306639288158795,
-                    "y": 44.77006264057963,
+                    "x": -0.3258042436687201,
+                    "y": 6.00345584218107,
                     "b": null,
                     "centile": 100.0,
                     "sds": null,
@@ -270,11 +270,11 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "observation_error": null,
                     "age_type": "corrected_age",
                     "calendar_age": null,
-                    "corrected_gestational_age": "23 + 1 weeks",
+                    "corrected_gestational_age": "23 + 0 weeks",
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
+                    "centile_band": "This head circumference measurement is well above the normal range. Please review its accuracy.",
                     "observation_value_error": null
                 }
             }
@@ -294,20 +294,20 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
         "birth_data": {
             "birth_date": "1759-04-11",
             "gestation_weeks": 22,
-            "gestation_days": 1,
-            "estimated_date_delivery": "1759-08-14",
-            "estimated_date_delivery_string": "Tue 14 August, 1759",
+            "gestation_days": 0,
+            "estimated_date_delivery": "1759-08-15",
+            "estimated_date_delivery_string": "Wed 15 August, 1759",
             "sex": "female"
         },
         "measurement_dates": {
             "observation_date": "1759-04-25",
             "chronological_decimal_age": 0.038329911019849415,
-            "corrected_decimal_age": -0.30390143737166325,
+            "corrected_decimal_age": -0.3066392881587953,
             "chronological_calendar_age": "2 weeks",
             "corrected_calendar_age": null,
             "corrected_gestational_age": {
                 "corrected_gestation_weeks": 24,
-                "corrected_gestation_days": 1
+                "corrected_gestation_days": 0
             },
             "comments": {
                 "clinician_corrected_decimal_age_comment": "Your child has been born below the threshold of the charts.",
@@ -319,17 +319,17 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
             "chronological_decimal_age_error": "The due date is after the observation date - a calendar age cannot be calculated."
         },
         "child_observation_value": {
-            "measurement_method": "weight",
-            "observation_value": 3.6,
+            "measurement_method": "ofc",
+            "observation_value": 29.5,
             "observation_value_error": null
         },
         "measurement_calculated_values": {
-            "corrected_sds": 32.90044006623068,
+            "corrected_sds": 5.102334993314876,
             "corrected_centile": 100.0,
-            "corrected_centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
-            "chronological_sds": 0.059786614011023295,
-            "chronological_centile": 52.4,
-            "chronological_centile_band": "This weight measurement is on or near the 50th centile.",
+            "corrected_centile_band": "This head circumference measurement is above the normal range",
+            "chronological_sds": -5.000889458380692,
+            "chronological_centile": 0.0,
+            "chronological_centile_band": "This head circumference measurement is below the normal range",
             "corrected_measurement_error": null,
             "chronological_measurement_error": null,
             "corrected_percentage_median_bmi": null,
@@ -339,10 +339,10 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
             "centile_data": {
                 "chronological_decimal_age_data": {
                     "x": 0.038329911019849415,
-                    "y": 3.6,
+                    "y": 29.5,
                     "b": null,
-                    "centile": 52.4,
-                    "sds": 0.059786614011023295,
+                    "centile": 0.0,
+                    "sds": -5.000889458380692,
                     "bone_age_label": null,
                     "events_text": null,
                     "bone_age_type": null,
@@ -354,15 +354,15 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is on or near the 50th centile.",
+                    "centile_band": "This head circumference measurement is below the normal range",
                     "observation_value_error": null
                 },
                 "corrected_decimal_age_data": {
-                    "x": -0.30390143737166325,
-                    "y": 3.6,
+                    "x": -0.3066392881587953,
+                    "y": 29.5,
                     "b": null,
                     "centile": 100.0,
-                    "sds": 32.90044006623068,
+                    "sds": 5.102334993314876,
                     "bone_age_label": null,
                     "events_text": null,
                     "bone_age_type": null,
@@ -371,20 +371,20 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "observation_error": null,
                     "age_type": "corrected_age",
                     "calendar_age": null,
-                    "corrected_gestational_age": "24 + 1 weeks",
+                    "corrected_gestational_age": "24 + 0 weeks",
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
+                    "centile_band": "This head circumference measurement is above the normal range",
                     "observation_value_error": null
                 }
             },
             "sds_data": {
                 "chronological_decimal_age_data": {
                     "x": 0.038329911019849415,
-                    "y": 0.059786614011023295,
+                    "y": -5.000889458380692,
                     "b": null,
-                    "centile": 52.4,
+                    "centile": 0.0,
                     "sds": null,
                     "bone_age_label": null,
                     "events_text": null,
@@ -397,12 +397,12 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is on or near the 50th centile.",
+                    "centile_band": "This head circumference measurement is below the normal range",
                     "observation_value_error": null
                 },
                 "corrected_decimal_age_data": {
-                    "x": -0.30390143737166325,
-                    "y": 32.90044006623068,
+                    "x": -0.3066392881587953,
+                    "y": 5.102334993314876,
                     "b": null,
                     "centile": 100.0,
                     "sds": null,
@@ -414,11 +414,11 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "observation_error": null,
                     "age_type": "corrected_age",
                     "calendar_age": null,
-                    "corrected_gestational_age": "24 + 1 weeks",
+                    "corrected_gestational_age": "24 + 0 weeks",
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
+                    "centile_band": "This head circumference measurement is above the normal range",
                     "observation_value_error": null
                 }
             }
@@ -438,20 +438,20 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
         "birth_data": {
             "birth_date": "1759-04-11",
             "gestation_weeks": 22,
-            "gestation_days": 1,
-            "estimated_date_delivery": "1759-08-14",
-            "estimated_date_delivery_string": "Tue 14 August, 1759",
+            "gestation_days": 0,
+            "estimated_date_delivery": "1759-08-15",
+            "estimated_date_delivery_string": "Wed 15 August, 1759",
             "sex": "female"
         },
         "measurement_dates": {
             "observation_date": "1759-05-02",
             "chronological_decimal_age": 0.057494866529774126,
-            "corrected_decimal_age": -0.28473648186173856,
+            "corrected_decimal_age": -0.2874743326488706,
             "chronological_calendar_age": "3 weeks",
             "corrected_calendar_age": null,
             "corrected_gestational_age": {
                 "corrected_gestation_weeks": 25,
-                "corrected_gestation_days": 1
+                "corrected_gestation_days": 0
             },
             "comments": {
                 "clinician_corrected_decimal_age_comment": "Your child has been born below the threshold of the charts.",
@@ -463,17 +463,17 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
             "chronological_decimal_age_error": "The due date is after the observation date - a calendar age cannot be calculated."
         },
         "child_observation_value": {
-            "measurement_method": "weight",
-            "observation_value": 3.8,
+            "measurement_method": "ofc",
+            "observation_value": 30.1,
             "observation_value_error": null
         },
         "measurement_calculated_values": {
-            "corrected_sds": 26.956362318360686,
+            "corrected_sds": 4.668083158208143,
             "corrected_centile": 100.0,
-            "corrected_centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
-            "chronological_sds": -0.06551863085840072,
-            "chronological_centile": 47.4,
-            "chronological_centile_band": "This weight measurement is on or near the 50th centile.",
+            "corrected_centile_band": "This head circumference measurement is above the normal range",
+            "chronological_sds": -4.959038797186392,
+            "chronological_centile": 0.0,
+            "chronological_centile_band": "This head circumference measurement is below the normal range",
             "corrected_measurement_error": null,
             "chronological_measurement_error": null,
             "corrected_percentage_median_bmi": null,
@@ -483,10 +483,10 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
             "centile_data": {
                 "chronological_decimal_age_data": {
                     "x": 0.057494866529774126,
-                    "y": 3.8,
+                    "y": 30.1,
                     "b": null,
-                    "centile": 47.4,
-                    "sds": -0.06551863085840072,
+                    "centile": 0.0,
+                    "sds": -4.959038797186392,
                     "bone_age_label": null,
                     "events_text": null,
                     "bone_age_type": null,
@@ -498,15 +498,15 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is on or near the 50th centile.",
+                    "centile_band": "This head circumference measurement is below the normal range",
                     "observation_value_error": null
                 },
                 "corrected_decimal_age_data": {
-                    "x": -0.28473648186173856,
-                    "y": 3.8,
+                    "x": -0.2874743326488706,
+                    "y": 30.1,
                     "b": null,
                     "centile": 100.0,
-                    "sds": 26.956362318360686,
+                    "sds": 4.668083158208143,
                     "bone_age_label": null,
                     "events_text": null,
                     "bone_age_type": null,
@@ -515,20 +515,20 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "observation_error": null,
                     "age_type": "corrected_age",
                     "calendar_age": null,
-                    "corrected_gestational_age": "25 + 1 weeks",
+                    "corrected_gestational_age": "25 + 0 weeks",
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
+                    "centile_band": "This head circumference measurement is above the normal range",
                     "observation_value_error": null
                 }
             },
             "sds_data": {
                 "chronological_decimal_age_data": {
                     "x": 0.057494866529774126,
-                    "y": -0.06551863085840072,
+                    "y": -4.959038797186392,
                     "b": null,
-                    "centile": 47.4,
+                    "centile": 0.0,
                     "sds": null,
                     "bone_age_label": null,
                     "events_text": null,
@@ -541,12 +541,12 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is on or near the 50th centile.",
+                    "centile_band": "This head circumference measurement is below the normal range",
                     "observation_value_error": null
                 },
                 "corrected_decimal_age_data": {
-                    "x": -0.28473648186173856,
-                    "y": 26.956362318360686,
+                    "x": -0.2874743326488706,
+                    "y": 4.668083158208143,
                     "b": null,
                     "centile": 100.0,
                     "sds": null,
@@ -558,11 +558,11 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "observation_error": null,
                     "age_type": "corrected_age",
                     "calendar_age": null,
-                    "corrected_gestational_age": "25 + 1 weeks",
+                    "corrected_gestational_age": "25 + 0 weeks",
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
+                    "centile_band": "This head circumference measurement is above the normal range",
                     "observation_value_error": null
                 }
             }
@@ -582,20 +582,20 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
         "birth_data": {
             "birth_date": "1759-04-11",
             "gestation_weeks": 22,
-            "gestation_days": 1,
-            "estimated_date_delivery": "1759-08-14",
-            "estimated_date_delivery_string": "Tue 14 August, 1759",
+            "gestation_days": 0,
+            "estimated_date_delivery": "1759-08-15",
+            "estimated_date_delivery_string": "Wed 15 August, 1759",
             "sex": "female"
         },
         "measurement_dates": {
             "observation_date": "1759-05-09",
             "chronological_decimal_age": 0.07665982203969883,
-            "corrected_decimal_age": -0.2655715263518138,
+            "corrected_decimal_age": -0.2683093771389459,
             "chronological_calendar_age": "4 weeks",
             "corrected_calendar_age": null,
             "corrected_gestational_age": {
                 "corrected_gestation_weeks": 26,
-                "corrected_gestation_days": 1
+                "corrected_gestation_days": 0
             },
             "comments": {
                 "clinician_corrected_decimal_age_comment": "Your child has been born below the threshold of the charts.",
@@ -607,17 +607,17 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
             "chronological_decimal_age_error": "The due date is after the observation date - a calendar age cannot be calculated."
         },
         "child_observation_value": {
-            "measurement_method": "weight",
-            "observation_value": 4.1,
+            "measurement_method": "ofc",
+            "observation_value": 30.5,
             "observation_value_error": null
         },
         "measurement_calculated_values": {
-            "corrected_sds": 23.357913797816078,
+            "corrected_sds": 4.1410508219073225,
             "corrected_centile": 100.0,
-            "corrected_centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
-            "chronological_sds": 0.00229722886614603,
-            "chronological_centile": 50.1,
-            "chronological_centile_band": "This weight measurement is on or near the 50th centile.",
+            "corrected_centile_band": "This head circumference measurement is above the normal range",
+            "chronological_sds": -5.02449091950095,
+            "chronological_centile": 0.0,
+            "chronological_centile_band": "This head circumference measurement is below the normal range",
             "corrected_measurement_error": null,
             "chronological_measurement_error": null,
             "corrected_percentage_median_bmi": null,
@@ -627,10 +627,10 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
             "centile_data": {
                 "chronological_decimal_age_data": {
                     "x": 0.07665982203969883,
-                    "y": 4.1,
+                    "y": 30.5,
                     "b": null,
-                    "centile": 50.1,
-                    "sds": 0.00229722886614603,
+                    "centile": 0.0,
+                    "sds": -5.02449091950095,
                     "bone_age_label": null,
                     "events_text": null,
                     "bone_age_type": null,
@@ -642,15 +642,15 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is on or near the 50th centile.",
+                    "centile_band": "This head circumference measurement is below the normal range",
                     "observation_value_error": null
                 },
                 "corrected_decimal_age_data": {
-                    "x": -0.2655715263518138,
-                    "y": 4.1,
+                    "x": -0.2683093771389459,
+                    "y": 30.5,
                     "b": null,
                     "centile": 100.0,
-                    "sds": 23.357913797816078,
+                    "sds": 4.1410508219073225,
                     "bone_age_label": null,
                     "events_text": null,
                     "bone_age_type": null,
@@ -659,20 +659,20 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "observation_error": null,
                     "age_type": "corrected_age",
                     "calendar_age": null,
-                    "corrected_gestational_age": "26 + 1 weeks",
+                    "corrected_gestational_age": "26 + 0 weeks",
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
+                    "centile_band": "This head circumference measurement is above the normal range",
                     "observation_value_error": null
                 }
             },
             "sds_data": {
                 "chronological_decimal_age_data": {
                     "x": 0.07665982203969883,
-                    "y": 0.00229722886614603,
+                    "y": -5.02449091950095,
                     "b": null,
-                    "centile": 50.1,
+                    "centile": 0.0,
                     "sds": null,
                     "bone_age_label": null,
                     "events_text": null,
@@ -685,12 +685,12 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is on or near the 50th centile.",
+                    "centile_band": "This head circumference measurement is below the normal range",
                     "observation_value_error": null
                 },
                 "corrected_decimal_age_data": {
-                    "x": -0.2655715263518138,
-                    "y": 23.357913797816078,
+                    "x": -0.2683093771389459,
+                    "y": 4.1410508219073225,
                     "b": null,
                     "centile": 100.0,
                     "sds": null,
@@ -702,11 +702,11 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "observation_error": null,
                     "age_type": "corrected_age",
                     "calendar_age": null,
-                    "corrected_gestational_age": "26 + 1 weeks",
+                    "corrected_gestational_age": "26 + 0 weeks",
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
+                    "centile_band": "This head circumference measurement is above the normal range",
                     "observation_value_error": null
                 }
             }
@@ -726,20 +726,20 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
         "birth_data": {
             "birth_date": "1759-04-11",
             "gestation_weeks": 22,
-            "gestation_days": 1,
-            "estimated_date_delivery": "1759-08-14",
-            "estimated_date_delivery_string": "Tue 14 August, 1759",
+            "gestation_days": 0,
+            "estimated_date_delivery": "1759-08-15",
+            "estimated_date_delivery_string": "Wed 15 August, 1759",
             "sex": "female"
         },
         "measurement_dates": {
             "observation_date": "1759-05-16",
             "chronological_decimal_age": 0.09582477754962354,
-            "corrected_decimal_age": -0.2464065708418891,
+            "corrected_decimal_age": -0.24914442162902123,
             "chronological_calendar_age": "1 month and 5 days",
             "corrected_calendar_age": null,
             "corrected_gestational_age": {
                 "corrected_gestation_weeks": 27,
-                "corrected_gestation_days": 1
+                "corrected_gestation_days": 0
             },
             "comments": {
                 "clinician_corrected_decimal_age_comment": "Your child has been born below the threshold of the charts.",
@@ -751,17 +751,17 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
             "chronological_decimal_age_error": "The due date is after the observation date - a calendar age cannot be calculated."
         },
         "child_observation_value": {
-            "measurement_method": "weight",
-            "observation_value": 4.4,
+            "measurement_method": "ofc",
+            "observation_value": 31.0,
             "observation_value_error": null
         },
         "measurement_calculated_values": {
-            "corrected_sds": 20.465683880553005,
+            "corrected_sds": 3.7294620693077274,
             "corrected_centile": 100.0,
-            "corrected_centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
-            "chronological_sds": 0.08828633543228687,
-            "chronological_centile": 53.5,
-            "chronological_centile_band": "This weight measurement is on or near the 50th centile.",
+            "corrected_centile_band": "This head circumference measurement is above the normal range",
+            "chronological_sds": -4.955895378953365,
+            "chronological_centile": 0.0,
+            "chronological_centile_band": "This head circumference measurement is below the normal range",
             "corrected_measurement_error": null,
             "chronological_measurement_error": null,
             "corrected_percentage_median_bmi": null,
@@ -771,10 +771,10 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
             "centile_data": {
                 "chronological_decimal_age_data": {
                     "x": 0.09582477754962354,
-                    "y": 4.4,
+                    "y": 31.0,
                     "b": null,
-                    "centile": 53.5,
-                    "sds": 0.08828633543228687,
+                    "centile": 0.0,
+                    "sds": -4.955895378953365,
                     "bone_age_label": null,
                     "events_text": null,
                     "bone_age_type": null,
@@ -786,15 +786,15 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is on or near the 50th centile.",
+                    "centile_band": "This head circumference measurement is below the normal range",
                     "observation_value_error": null
                 },
                 "corrected_decimal_age_data": {
-                    "x": -0.2464065708418891,
-                    "y": 4.4,
+                    "x": -0.24914442162902123,
+                    "y": 31.0,
                     "b": null,
                     "centile": 100.0,
-                    "sds": 20.465683880553005,
+                    "sds": 3.7294620693077274,
                     "bone_age_label": null,
                     "events_text": null,
                     "bone_age_type": null,
@@ -803,20 +803,20 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "observation_error": null,
                     "age_type": "corrected_age",
                     "calendar_age": null,
-                    "corrected_gestational_age": "27 + 1 weeks",
+                    "corrected_gestational_age": "27 + 0 weeks",
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
+                    "centile_band": "This head circumference measurement is above the normal range",
                     "observation_value_error": null
                 }
             },
             "sds_data": {
                 "chronological_decimal_age_data": {
                     "x": 0.09582477754962354,
-                    "y": 0.08828633543228687,
+                    "y": -4.955895378953365,
                     "b": null,
-                    "centile": 53.5,
+                    "centile": 0.0,
                     "sds": null,
                     "bone_age_label": null,
                     "events_text": null,
@@ -829,12 +829,12 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is on or near the 50th centile.",
+                    "centile_band": "This head circumference measurement is below the normal range",
                     "observation_value_error": null
                 },
                 "corrected_decimal_age_data": {
-                    "x": -0.2464065708418891,
-                    "y": 20.465683880553005,
+                    "x": -0.24914442162902123,
+                    "y": 3.7294620693077274,
                     "b": null,
                     "centile": 100.0,
                     "sds": null,
@@ -846,11 +846,11 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "observation_error": null,
                     "age_type": "corrected_age",
                     "calendar_age": null,
-                    "corrected_gestational_age": "27 + 1 weeks",
+                    "corrected_gestational_age": "27 + 0 weeks",
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
+                    "centile_band": "This head circumference measurement is above the normal range",
                     "observation_value_error": null
                 }
             }
@@ -870,20 +870,20 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
         "birth_data": {
             "birth_date": "1759-04-11",
             "gestation_weeks": 22,
-            "gestation_days": 1,
-            "estimated_date_delivery": "1759-08-14",
-            "estimated_date_delivery_string": "Tue 14 August, 1759",
+            "gestation_days": 0,
+            "estimated_date_delivery": "1759-08-15",
+            "estimated_date_delivery_string": "Wed 15 August, 1759",
             "sex": "female"
         },
         "measurement_dates": {
             "observation_date": "1759-05-23",
             "chronological_decimal_age": 0.11498973305954825,
-            "corrected_decimal_age": -0.2272416153319644,
+            "corrected_decimal_age": -0.2299794661190965,
             "chronological_calendar_age": "1 month, 1 week and 5 days",
             "corrected_calendar_age": null,
             "corrected_gestational_age": {
                 "corrected_gestation_weeks": 28,
-                "corrected_gestation_days": 1
+                "corrected_gestation_days": 0
             },
             "comments": {
                 "clinician_corrected_decimal_age_comment": "Your child has been born below the threshold of the charts.",
@@ -895,17 +895,17 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
             "chronological_decimal_age_error": "The due date is after the observation date - a calendar age cannot be calculated."
         },
         "child_observation_value": {
-            "measurement_method": "weight",
-            "observation_value": 4.6,
+            "measurement_method": "ofc",
+            "observation_value": 31.3,
             "observation_value_error": null
         },
         "measurement_calculated_values": {
-            "corrected_sds": 17.63067864666676,
-            "corrected_centile": 100.0,
-            "corrected_centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
-            "chronological_sds": 0.033688579713907395,
-            "chronological_centile": 51.3,
-            "chronological_centile_band": "This weight measurement is on or near the 50th centile.",
+            "corrected_sds": 3.245534804059691,
+            "corrected_centile": 99.9,
+            "corrected_centile_band": "This head circumference measurement is above the normal range",
+            "chronological_sds": -5.020596625384338,
+            "chronological_centile": 0.0,
+            "chronological_centile_band": "This head circumference measurement is below the normal range",
             "corrected_measurement_error": null,
             "chronological_measurement_error": null,
             "corrected_percentage_median_bmi": null,
@@ -915,10 +915,10 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
             "centile_data": {
                 "chronological_decimal_age_data": {
                     "x": 0.11498973305954825,
-                    "y": 4.6,
+                    "y": 31.3,
                     "b": null,
-                    "centile": 51.3,
-                    "sds": 0.033688579713907395,
+                    "centile": 0.0,
+                    "sds": -5.020596625384338,
                     "bone_age_label": null,
                     "events_text": null,
                     "bone_age_type": null,
@@ -930,15 +930,15 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is on or near the 50th centile.",
+                    "centile_band": "This head circumference measurement is below the normal range",
                     "observation_value_error": null
                 },
                 "corrected_decimal_age_data": {
-                    "x": -0.2272416153319644,
-                    "y": 4.6,
+                    "x": -0.2299794661190965,
+                    "y": 31.3,
                     "b": null,
-                    "centile": 100.0,
-                    "sds": 17.63067864666676,
+                    "centile": 99.9,
+                    "sds": 3.245534804059691,
                     "bone_age_label": null,
                     "events_text": null,
                     "bone_age_type": null,
@@ -947,20 +947,20 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "observation_error": null,
                     "age_type": "corrected_age",
                     "calendar_age": null,
-                    "corrected_gestational_age": "28 + 1 weeks",
+                    "corrected_gestational_age": "28 + 0 weeks",
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
+                    "centile_band": "This head circumference measurement is above the normal range",
                     "observation_value_error": null
                 }
             },
             "sds_data": {
                 "chronological_decimal_age_data": {
                     "x": 0.11498973305954825,
-                    "y": 0.033688579713907395,
+                    "y": -5.020596625384338,
                     "b": null,
-                    "centile": 51.3,
+                    "centile": 0.0,
                     "sds": null,
                     "bone_age_label": null,
                     "events_text": null,
@@ -973,14 +973,14 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is on or near the 50th centile.",
+                    "centile_band": "This head circumference measurement is below the normal range",
                     "observation_value_error": null
                 },
                 "corrected_decimal_age_data": {
-                    "x": -0.2272416153319644,
-                    "y": 17.63067864666676,
+                    "x": -0.2299794661190965,
+                    "y": 3.245534804059691,
                     "b": null,
-                    "centile": 100.0,
+                    "centile": 99.9,
                     "sds": null,
                     "bone_age_label": null,
                     "events_text": null,
@@ -990,11 +990,11 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "observation_error": null,
                     "age_type": "corrected_age",
                     "calendar_age": null,
-                    "corrected_gestational_age": "28 + 1 weeks",
+                    "corrected_gestational_age": "28 + 0 weeks",
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
+                    "centile_band": "This head circumference measurement is above the normal range",
                     "observation_value_error": null
                 }
             }
@@ -1014,20 +1014,20 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
         "birth_data": {
             "birth_date": "1759-04-11",
             "gestation_weeks": 22,
-            "gestation_days": 1,
-            "estimated_date_delivery": "1759-08-14",
-            "estimated_date_delivery_string": "Tue 14 August, 1759",
+            "gestation_days": 0,
+            "estimated_date_delivery": "1759-08-15",
+            "estimated_date_delivery_string": "Wed 15 August, 1759",
             "sex": "female"
         },
         "measurement_dates": {
             "observation_date": "1759-05-30",
             "chronological_decimal_age": 0.13415468856947296,
-            "corrected_decimal_age": -0.2080766598220397,
+            "corrected_decimal_age": -0.2108145106091718,
             "chronological_calendar_age": "1 month, 2 weeks and 5 days",
             "corrected_calendar_age": null,
             "corrected_gestational_age": {
                 "corrected_gestation_weeks": 29,
-                "corrected_gestation_days": 1
+                "corrected_gestation_days": 0
             },
             "comments": {
                 "clinician_corrected_decimal_age_comment": "Your child has been born below the threshold of the charts.",
@@ -1039,17 +1039,17 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
             "chronological_decimal_age_error": "The due date is after the observation date - a calendar age cannot be calculated."
         },
         "child_observation_value": {
-            "measurement_method": "weight",
-            "observation_value": 4.8,
+            "measurement_method": "ofc",
+            "observation_value": 31.7,
             "observation_value_error": null
         },
         "measurement_calculated_values": {
-            "corrected_sds": 15.362146547194069,
-            "corrected_centile": 100.0,
-            "corrected_centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
-            "chronological_sds": 0.007879317030238848,
-            "chronological_centile": 50.3,
-            "chronological_centile_band": "This weight measurement is on or near the 50th centile.",
+            "corrected_sds": 2.8850949808144857,
+            "corrected_centile": 99.8,
+            "corrected_centile_band": "This head circumference measurement is above the normal range",
+            "chronological_sds": -4.972417835368453,
+            "chronological_centile": 0.0,
+            "chronological_centile_band": "This head circumference measurement is below the normal range",
             "corrected_measurement_error": null,
             "chronological_measurement_error": null,
             "corrected_percentage_median_bmi": null,
@@ -1059,10 +1059,10 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
             "centile_data": {
                 "chronological_decimal_age_data": {
                     "x": 0.13415468856947296,
-                    "y": 4.8,
+                    "y": 31.7,
                     "b": null,
-                    "centile": 50.3,
-                    "sds": 0.007879317030238848,
+                    "centile": 0.0,
+                    "sds": -4.972417835368453,
                     "bone_age_label": null,
                     "events_text": null,
                     "bone_age_type": null,
@@ -1074,15 +1074,15 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is on or near the 50th centile.",
+                    "centile_band": "This head circumference measurement is below the normal range",
                     "observation_value_error": null
                 },
                 "corrected_decimal_age_data": {
-                    "x": -0.2080766598220397,
-                    "y": 4.8,
+                    "x": -0.2108145106091718,
+                    "y": 31.7,
                     "b": null,
-                    "centile": 100.0,
-                    "sds": 15.362146547194069,
+                    "centile": 99.8,
+                    "sds": 2.8850949808144857,
                     "bone_age_label": null,
                     "events_text": null,
                     "bone_age_type": null,
@@ -1091,20 +1091,20 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "observation_error": null,
                     "age_type": "corrected_age",
                     "calendar_age": null,
-                    "corrected_gestational_age": "29 + 1 weeks",
+                    "corrected_gestational_age": "29 + 0 weeks",
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
+                    "centile_band": "This head circumference measurement is above the normal range",
                     "observation_value_error": null
                 }
             },
             "sds_data": {
                 "chronological_decimal_age_data": {
                     "x": 0.13415468856947296,
-                    "y": 0.007879317030238848,
+                    "y": -4.972417835368453,
                     "b": null,
-                    "centile": 50.3,
+                    "centile": 0.0,
                     "sds": null,
                     "bone_age_label": null,
                     "events_text": null,
@@ -1117,14 +1117,14 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is on or near the 50th centile.",
+                    "centile_band": "This head circumference measurement is below the normal range",
                     "observation_value_error": null
                 },
                 "corrected_decimal_age_data": {
-                    "x": -0.2080766598220397,
-                    "y": 15.362146547194069,
+                    "x": -0.2108145106091718,
+                    "y": 2.8850949808144857,
                     "b": null,
-                    "centile": 100.0,
+                    "centile": 99.8,
                     "sds": null,
                     "bone_age_label": null,
                     "events_text": null,
@@ -1134,11 +1134,11 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "observation_error": null,
                     "age_type": "corrected_age",
                     "calendar_age": null,
-                    "corrected_gestational_age": "29 + 1 weeks",
+                    "corrected_gestational_age": "29 + 0 weeks",
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
+                    "centile_band": "This head circumference measurement is above the normal range",
                     "observation_value_error": null
                 }
             }
@@ -1158,20 +1158,20 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
         "birth_data": {
             "birth_date": "1759-04-11",
             "gestation_weeks": 22,
-            "gestation_days": 1,
-            "estimated_date_delivery": "1759-08-14",
-            "estimated_date_delivery_string": "Tue 14 August, 1759",
+            "gestation_days": 0,
+            "estimated_date_delivery": "1759-08-15",
+            "estimated_date_delivery_string": "Wed 15 August, 1759",
             "sex": "female"
         },
         "measurement_dates": {
             "observation_date": "1759-06-06",
             "chronological_decimal_age": 0.15331964407939766,
-            "corrected_decimal_age": -0.188911704312115,
+            "corrected_decimal_age": -0.19164955509924708,
             "chronological_calendar_age": "1 month, 3 weeks and 5 days",
             "corrected_calendar_age": null,
             "corrected_gestational_age": {
                 "corrected_gestation_weeks": 30,
-                "corrected_gestation_days": 1
+                "corrected_gestation_days": 0
             },
             "comments": {
                 "clinician_corrected_decimal_age_comment": "Your child has been born below the threshold of the charts.",
@@ -1183,17 +1183,17 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
             "chronological_decimal_age_error": "The due date is after the observation date - a calendar age cannot be calculated."
         },
         "child_observation_value": {
-            "measurement_method": "weight",
-            "observation_value": 5.0,
+            "measurement_method": "ofc",
+            "observation_value": 32.0,
             "observation_value_error": null
         },
         "measurement_calculated_values": {
-            "corrected_sds": 13.431192367839726,
-            "corrected_centile": 100.0,
-            "corrected_centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
-            "chronological_sds": 0.006268604108103806,
-            "chronological_centile": 50.3,
-            "chronological_centile_band": "This weight measurement is on or near the 50th centile.",
+            "corrected_sds": 2.5105769974019165,
+            "corrected_centile": 99.4,
+            "corrected_centile_band": "This head circumference measurement is on or near the 99.6th centile.",
+            "chronological_sds": -4.987855574354214,
+            "chronological_centile": 0.0,
+            "chronological_centile_band": "This head circumference measurement is below the normal range",
             "corrected_measurement_error": null,
             "chronological_measurement_error": null,
             "corrected_percentage_median_bmi": null,
@@ -1203,10 +1203,10 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
             "centile_data": {
                 "chronological_decimal_age_data": {
                     "x": 0.15331964407939766,
-                    "y": 5.0,
+                    "y": 32.0,
                     "b": null,
-                    "centile": 50.3,
-                    "sds": 0.006268604108103806,
+                    "centile": 0.0,
+                    "sds": -4.987855574354214,
                     "bone_age_label": null,
                     "events_text": null,
                     "bone_age_type": null,
@@ -1218,15 +1218,15 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is on or near the 50th centile.",
+                    "centile_band": "This head circumference measurement is below the normal range",
                     "observation_value_error": null
                 },
                 "corrected_decimal_age_data": {
-                    "x": -0.188911704312115,
-                    "y": 5.0,
+                    "x": -0.19164955509924708,
+                    "y": 32.0,
                     "b": null,
-                    "centile": 100.0,
-                    "sds": 13.431192367839726,
+                    "centile": 99.4,
+                    "sds": 2.5105769974019165,
                     "bone_age_label": null,
                     "events_text": null,
                     "bone_age_type": null,
@@ -1235,20 +1235,20 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "observation_error": null,
                     "age_type": "corrected_age",
                     "calendar_age": null,
-                    "corrected_gestational_age": "30 + 1 weeks",
+                    "corrected_gestational_age": "30 + 0 weeks",
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
+                    "centile_band": "This head circumference measurement is on or near the 99.6th centile.",
                     "observation_value_error": null
                 }
             },
             "sds_data": {
                 "chronological_decimal_age_data": {
                     "x": 0.15331964407939766,
-                    "y": 0.006268604108103806,
+                    "y": -4.987855574354214,
                     "b": null,
-                    "centile": 50.3,
+                    "centile": 0.0,
                     "sds": null,
                     "bone_age_label": null,
                     "events_text": null,
@@ -1261,14 +1261,14 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is on or near the 50th centile.",
+                    "centile_band": "This head circumference measurement is below the normal range",
                     "observation_value_error": null
                 },
                 "corrected_decimal_age_data": {
-                    "x": -0.188911704312115,
-                    "y": 13.431192367839726,
+                    "x": -0.19164955509924708,
+                    "y": 2.5105769974019165,
                     "b": null,
-                    "centile": 100.0,
+                    "centile": 99.4,
                     "sds": null,
                     "bone_age_label": null,
                     "events_text": null,
@@ -1278,11 +1278,11 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "observation_error": null,
                     "age_type": "corrected_age",
                     "calendar_age": null,
-                    "corrected_gestational_age": "30 + 1 weeks",
+                    "corrected_gestational_age": "30 + 0 weeks",
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
+                    "centile_band": "This head circumference measurement is on or near the 99.6th centile.",
                     "observation_value_error": null
                 }
             }
@@ -1302,20 +1302,20 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
         "birth_data": {
             "birth_date": "1759-04-11",
             "gestation_weeks": 22,
-            "gestation_days": 1,
-            "estimated_date_delivery": "1759-08-14",
-            "estimated_date_delivery_string": "Tue 14 August, 1759",
+            "gestation_days": 0,
+            "estimated_date_delivery": "1759-08-15",
+            "estimated_date_delivery_string": "Wed 15 August, 1759",
             "sex": "female"
         },
         "measurement_dates": {
             "observation_date": "1759-06-13",
             "chronological_decimal_age": 0.17248459958932238,
-            "corrected_decimal_age": -0.1697467488021903,
+            "corrected_decimal_age": -0.17248459958932238,
             "chronological_calendar_age": "2 months and 2 days",
             "corrected_calendar_age": null,
             "corrected_gestational_age": {
                 "corrected_gestation_weeks": 31,
-                "corrected_gestation_days": 1
+                "corrected_gestation_days": 0
             },
             "comments": {
                 "clinician_corrected_decimal_age_comment": "Your child has been born below the threshold of the charts.",
@@ -1327,17 +1327,17 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
             "chronological_decimal_age_error": "The due date is after the observation date - a calendar age cannot be calculated."
         },
         "child_observation_value": {
-            "measurement_method": "weight",
-            "observation_value": 5.2,
+            "measurement_method": "ofc",
+            "observation_value": 32.3,
             "observation_value_error": null
         },
         "measurement_calculated_values": {
-            "corrected_sds": 11.779289886667083,
-            "corrected_centile": 100.0,
-            "corrected_centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
-            "chronological_sds": 0.023473022718324743,
-            "chronological_centile": 50.9,
-            "chronological_centile_band": "This weight measurement is on or near the 50th centile.",
+            "corrected_sds": 2.1764813577887088,
+            "corrected_centile": 98.5,
+            "corrected_centile_band": "This head circumference measurement is between the 98th and 99.6th centiles.",
+            "chronological_sds": -4.983974556739063,
+            "chronological_centile": 0.0,
+            "chronological_centile_band": "This head circumference measurement is below the normal range",
             "corrected_measurement_error": null,
             "chronological_measurement_error": null,
             "corrected_percentage_median_bmi": null,
@@ -1347,10 +1347,10 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
             "centile_data": {
                 "chronological_decimal_age_data": {
                     "x": 0.17248459958932238,
-                    "y": 5.2,
+                    "y": 32.3,
                     "b": null,
-                    "centile": 50.9,
-                    "sds": 0.023473022718324743,
+                    "centile": 0.0,
+                    "sds": -4.983974556739063,
                     "bone_age_label": null,
                     "events_text": null,
                     "bone_age_type": null,
@@ -1362,15 +1362,15 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is on or near the 50th centile.",
+                    "centile_band": "This head circumference measurement is below the normal range",
                     "observation_value_error": null
                 },
                 "corrected_decimal_age_data": {
-                    "x": -0.1697467488021903,
-                    "y": 5.2,
+                    "x": -0.17248459958932238,
+                    "y": 32.3,
                     "b": null,
-                    "centile": 100.0,
-                    "sds": 11.779289886667083,
+                    "centile": 98.5,
+                    "sds": 2.1764813577887088,
                     "bone_age_label": null,
                     "events_text": null,
                     "bone_age_type": null,
@@ -1379,20 +1379,20 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "observation_error": null,
                     "age_type": "corrected_age",
                     "calendar_age": null,
-                    "corrected_gestational_age": "31 + 1 weeks",
+                    "corrected_gestational_age": "31 + 0 weeks",
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
+                    "centile_band": "This head circumference measurement is between the 98th and 99.6th centiles.",
                     "observation_value_error": null
                 }
             },
             "sds_data": {
                 "chronological_decimal_age_data": {
                     "x": 0.17248459958932238,
-                    "y": 0.023473022718324743,
+                    "y": -4.983974556739063,
                     "b": null,
-                    "centile": 50.9,
+                    "centile": 0.0,
                     "sds": null,
                     "bone_age_label": null,
                     "events_text": null,
@@ -1405,14 +1405,14 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is on or near the 50th centile.",
+                    "centile_band": "This head circumference measurement is below the normal range",
                     "observation_value_error": null
                 },
                 "corrected_decimal_age_data": {
-                    "x": -0.1697467488021903,
-                    "y": 11.779289886667083,
+                    "x": -0.17248459958932238,
+                    "y": 2.1764813577887088,
                     "b": null,
-                    "centile": 100.0,
+                    "centile": 98.5,
                     "sds": null,
                     "bone_age_label": null,
                     "events_text": null,
@@ -1422,11 +1422,11 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "observation_error": null,
                     "age_type": "corrected_age",
                     "calendar_age": null,
-                    "corrected_gestational_age": "31 + 1 weeks",
+                    "corrected_gestational_age": "31 + 0 weeks",
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
+                    "centile_band": "This head circumference measurement is between the 98th and 99.6th centiles.",
                     "observation_value_error": null
                 }
             }
@@ -1446,20 +1446,20 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
         "birth_data": {
             "birth_date": "1759-04-11",
             "gestation_weeks": 22,
-            "gestation_days": 1,
-            "estimated_date_delivery": "1759-08-14",
-            "estimated_date_delivery_string": "Tue 14 August, 1759",
+            "gestation_days": 0,
+            "estimated_date_delivery": "1759-08-15",
+            "estimated_date_delivery_string": "Wed 15 August, 1759",
             "sex": "female"
         },
         "measurement_dates": {
             "observation_date": "1759-06-20",
             "chronological_decimal_age": 0.19164955509924708,
-            "corrected_decimal_age": -0.15058179329226556,
+            "corrected_decimal_age": -0.15331964407939766,
             "chronological_calendar_age": "2 months, 1 week and 2 days",
             "corrected_calendar_age": null,
             "corrected_gestational_age": {
                 "corrected_gestation_weeks": 32,
-                "corrected_gestation_days": 1
+                "corrected_gestation_days": 0
             },
             "comments": {
                 "clinician_corrected_decimal_age_comment": "Your child has been born below the threshold of the charts.",
@@ -1471,17 +1471,17 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
             "chronological_decimal_age_error": "The due date is after the observation date - a calendar age cannot be calculated."
         },
         "child_observation_value": {
-            "measurement_method": "weight",
-            "observation_value": 5.4,
+            "measurement_method": "ofc",
+            "observation_value": 32.6,
             "observation_value_error": null
         },
         "measurement_calculated_values": {
-            "corrected_sds": 10.42198698633706,
-            "corrected_centile": 100.0,
-            "corrected_centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
-            "chronological_sds": 0.055214815052567395,
-            "chronological_centile": 52.2,
-            "chronological_centile_band": "This weight measurement is on or near the 50th centile.",
+            "corrected_sds": 1.8829818790396426,
+            "corrected_centile": 97.0,
+            "corrected_centile_band": "This head circumference measurement is on or near the 98th centile.",
+            "chronological_sds": -4.9686624746986805,
+            "chronological_centile": 0.0,
+            "chronological_centile_band": "This head circumference measurement is below the normal range",
             "corrected_measurement_error": null,
             "chronological_measurement_error": null,
             "corrected_percentage_median_bmi": null,
@@ -1491,10 +1491,10 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
             "centile_data": {
                 "chronological_decimal_age_data": {
                     "x": 0.19164955509924708,
-                    "y": 5.4,
+                    "y": 32.6,
                     "b": null,
-                    "centile": 52.2,
-                    "sds": 0.055214815052567395,
+                    "centile": 0.0,
+                    "sds": -4.9686624746986805,
                     "bone_age_label": null,
                     "events_text": null,
                     "bone_age_type": null,
@@ -1506,15 +1506,15 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is on or near the 50th centile.",
+                    "centile_band": "This head circumference measurement is below the normal range",
                     "observation_value_error": null
                 },
                 "corrected_decimal_age_data": {
-                    "x": -0.15058179329226556,
-                    "y": 5.4,
+                    "x": -0.15331964407939766,
+                    "y": 32.6,
                     "b": null,
-                    "centile": 100.0,
-                    "sds": 10.42198698633706,
+                    "centile": 97.0,
+                    "sds": 1.8829818790396426,
                     "bone_age_label": null,
                     "events_text": null,
                     "bone_age_type": null,
@@ -1523,20 +1523,20 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "observation_error": null,
                     "age_type": "corrected_age",
                     "calendar_age": null,
-                    "corrected_gestational_age": "32 + 1 weeks",
+                    "corrected_gestational_age": "32 + 0 weeks",
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
+                    "centile_band": "This head circumference measurement is on or near the 98th centile.",
                     "observation_value_error": null
                 }
             },
             "sds_data": {
                 "chronological_decimal_age_data": {
                     "x": 0.19164955509924708,
-                    "y": 0.055214815052567395,
+                    "y": -4.9686624746986805,
                     "b": null,
-                    "centile": 52.2,
+                    "centile": 0.0,
                     "sds": null,
                     "bone_age_label": null,
                     "events_text": null,
@@ -1549,14 +1549,14 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is on or near the 50th centile.",
+                    "centile_band": "This head circumference measurement is below the normal range",
                     "observation_value_error": null
                 },
                 "corrected_decimal_age_data": {
-                    "x": -0.15058179329226556,
-                    "y": 10.42198698633706,
+                    "x": -0.15331964407939766,
+                    "y": 1.8829818790396426,
                     "b": null,
-                    "centile": 100.0,
+                    "centile": 97.0,
                     "sds": null,
                     "bone_age_label": null,
                     "events_text": null,
@@ -1566,11 +1566,11 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "observation_error": null,
                     "age_type": "corrected_age",
                     "calendar_age": null,
-                    "corrected_gestational_age": "32 + 1 weeks",
+                    "corrected_gestational_age": "32 + 0 weeks",
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
+                    "centile_band": "This head circumference measurement is on or near the 98th centile.",
                     "observation_value_error": null
                 }
             }
@@ -1590,20 +1590,20 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
         "birth_data": {
             "birth_date": "1759-04-11",
             "gestation_weeks": 22,
-            "gestation_days": 1,
-            "estimated_date_delivery": "1759-08-14",
-            "estimated_date_delivery_string": "Tue 14 August, 1759",
+            "gestation_days": 0,
+            "estimated_date_delivery": "1759-08-15",
+            "estimated_date_delivery_string": "Wed 15 August, 1759",
             "sex": "female"
         },
         "measurement_dates": {
             "observation_date": "1759-06-27",
             "chronological_decimal_age": 0.2108145106091718,
-            "corrected_decimal_age": -0.13141683778234087,
+            "corrected_decimal_age": -0.13415468856947296,
             "chronological_calendar_age": "2 months, 2 weeks and 2 days",
             "corrected_calendar_age": null,
             "corrected_gestational_age": {
                 "corrected_gestation_weeks": 33,
-                "corrected_gestation_days": 1
+                "corrected_gestation_days": 0
             },
             "comments": {
                 "clinician_corrected_decimal_age_comment": "Your child has been born below the threshold of the charts.",
@@ -1615,17 +1615,17 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
             "chronological_decimal_age_error": "The due date is after the observation date - a calendar age cannot be calculated."
         },
         "child_observation_value": {
-            "measurement_method": "weight",
-            "observation_value": 5.5,
+            "measurement_method": "ofc",
+            "observation_value": 32.8,
             "observation_value_error": null
         },
         "measurement_calculated_values": {
-            "corrected_sds": 9.086716996078607,
-            "corrected_centile": 100.0,
-            "corrected_centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
-            "chronological_sds": -0.041882351405530184,
-            "chronological_centile": 48.3,
-            "chronological_centile_band": "This weight measurement is on or near the 50th centile.",
+            "corrected_sds": 1.5576174376496619,
+            "corrected_centile": 94.0,
+            "corrected_centile_band": "This head circumference measurement is between the 91st and 98th centiles.",
+            "chronological_sds": -5.020389518068269,
+            "chronological_centile": 0.0,
+            "chronological_centile_band": "This head circumference measurement is below the normal range",
             "corrected_measurement_error": null,
             "chronological_measurement_error": null,
             "corrected_percentage_median_bmi": null,
@@ -1635,10 +1635,10 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
             "centile_data": {
                 "chronological_decimal_age_data": {
                     "x": 0.2108145106091718,
-                    "y": 5.5,
+                    "y": 32.8,
                     "b": null,
-                    "centile": 48.3,
-                    "sds": -0.041882351405530184,
+                    "centile": 0.0,
+                    "sds": -5.020389518068269,
                     "bone_age_label": null,
                     "events_text": null,
                     "bone_age_type": null,
@@ -1650,15 +1650,15 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is on or near the 50th centile.",
+                    "centile_band": "This head circumference measurement is below the normal range",
                     "observation_value_error": null
                 },
                 "corrected_decimal_age_data": {
-                    "x": -0.13141683778234087,
-                    "y": 5.5,
+                    "x": -0.13415468856947296,
+                    "y": 32.8,
                     "b": null,
-                    "centile": 100.0,
-                    "sds": 9.086716996078607,
+                    "centile": 94.0,
+                    "sds": 1.5576174376496619,
                     "bone_age_label": null,
                     "events_text": null,
                     "bone_age_type": null,
@@ -1667,20 +1667,20 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "observation_error": null,
                     "age_type": "corrected_age",
                     "calendar_age": null,
-                    "corrected_gestational_age": "33 + 1 weeks",
+                    "corrected_gestational_age": "33 + 0 weeks",
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
+                    "centile_band": "This head circumference measurement is between the 91st and 98th centiles.",
                     "observation_value_error": null
                 }
             },
             "sds_data": {
                 "chronological_decimal_age_data": {
                     "x": 0.2108145106091718,
-                    "y": -0.041882351405530184,
+                    "y": -5.020389518068269,
                     "b": null,
-                    "centile": 48.3,
+                    "centile": 0.0,
                     "sds": null,
                     "bone_age_label": null,
                     "events_text": null,
@@ -1693,14 +1693,14 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is on or near the 50th centile.",
+                    "centile_band": "This head circumference measurement is below the normal range",
                     "observation_value_error": null
                 },
                 "corrected_decimal_age_data": {
-                    "x": -0.13141683778234087,
-                    "y": 9.086716996078607,
+                    "x": -0.13415468856947296,
+                    "y": 1.5576174376496619,
                     "b": null,
-                    "centile": 100.0,
+                    "centile": 94.0,
                     "sds": null,
                     "bone_age_label": null,
                     "events_text": null,
@@ -1710,11 +1710,11 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "observation_error": null,
                     "age_type": "corrected_age",
                     "calendar_age": null,
-                    "corrected_gestational_age": "33 + 1 weeks",
+                    "corrected_gestational_age": "33 + 0 weeks",
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
+                    "centile_band": "This head circumference measurement is between the 91st and 98th centiles.",
                     "observation_value_error": null
                 }
             }
@@ -1734,20 +1734,20 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
         "birth_data": {
             "birth_date": "1759-04-11",
             "gestation_weeks": 22,
-            "gestation_days": 1,
-            "estimated_date_delivery": "1759-08-14",
-            "estimated_date_delivery_string": "Tue 14 August, 1759",
+            "gestation_days": 0,
+            "estimated_date_delivery": "1759-08-15",
+            "estimated_date_delivery_string": "Wed 15 August, 1759",
             "sex": "female"
         },
         "measurement_dates": {
             "observation_date": "1759-07-04",
             "chronological_decimal_age": 0.2299794661190965,
-            "corrected_decimal_age": -0.11225188227241616,
+            "corrected_decimal_age": -0.11498973305954825,
             "chronological_calendar_age": "2 months, 3 weeks and 2 days",
             "corrected_calendar_age": null,
             "corrected_gestational_age": {
                 "corrected_gestation_weeks": 34,
-                "corrected_gestation_days": 1
+                "corrected_gestation_days": 0
             },
             "comments": {
                 "clinician_corrected_decimal_age_comment": "Your child has been born below the threshold of the charts.",
@@ -1759,17 +1759,17 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
             "chronological_decimal_age_error": "The due date is after the observation date - a calendar age cannot be calculated."
         },
         "child_observation_value": {
-            "measurement_method": "weight",
-            "observation_value": 5.7,
+            "measurement_method": "ofc",
+            "observation_value": 33.1,
             "observation_value_error": null
         },
         "measurement_calculated_values": {
-            "corrected_sds": 8.252850456328668,
-            "corrected_centile": 100.0,
-            "corrected_centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
-            "chronological_sds": 0.016191410801641964,
-            "chronological_centile": 50.6,
-            "chronological_centile_band": "This weight measurement is on or near the 50th centile.",
+            "corrected_sds": 1.333717183931485,
+            "corrected_centile": 90.9,
+            "corrected_centile_band": "This head circumference measurement is on or near the 91st centile.",
+            "chronological_sds": -4.980611781613565,
+            "chronological_centile": 0.0,
+            "chronological_centile_band": "This head circumference measurement is below the normal range",
             "corrected_measurement_error": null,
             "chronological_measurement_error": null,
             "corrected_percentage_median_bmi": null,
@@ -1779,10 +1779,10 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
             "centile_data": {
                 "chronological_decimal_age_data": {
                     "x": 0.2299794661190965,
-                    "y": 5.7,
+                    "y": 33.1,
                     "b": null,
-                    "centile": 50.6,
-                    "sds": 0.016191410801641964,
+                    "centile": 0.0,
+                    "sds": -4.980611781613565,
                     "bone_age_label": null,
                     "events_text": null,
                     "bone_age_type": null,
@@ -1794,15 +1794,15 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is on or near the 50th centile.",
+                    "centile_band": "This head circumference measurement is below the normal range",
                     "observation_value_error": null
                 },
                 "corrected_decimal_age_data": {
-                    "x": -0.11225188227241616,
-                    "y": 5.7,
+                    "x": -0.11498973305954825,
+                    "y": 33.1,
                     "b": null,
-                    "centile": 100.0,
-                    "sds": 8.252850456328668,
+                    "centile": 90.9,
+                    "sds": 1.333717183931485,
                     "bone_age_label": null,
                     "events_text": null,
                     "bone_age_type": null,
@@ -1811,20 +1811,20 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "observation_error": null,
                     "age_type": "corrected_age",
                     "calendar_age": null,
-                    "corrected_gestational_age": "34 + 1 weeks",
+                    "corrected_gestational_age": "34 + 0 weeks",
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
+                    "centile_band": "This head circumference measurement is on or near the 91st centile.",
                     "observation_value_error": null
                 }
             },
             "sds_data": {
                 "chronological_decimal_age_data": {
                     "x": 0.2299794661190965,
-                    "y": 0.016191410801641964,
+                    "y": -4.980611781613565,
                     "b": null,
-                    "centile": 50.6,
+                    "centile": 0.0,
                     "sds": null,
                     "bone_age_label": null,
                     "events_text": null,
@@ -1837,14 +1837,14 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is on or near the 50th centile.",
+                    "centile_band": "This head circumference measurement is below the normal range",
                     "observation_value_error": null
                 },
                 "corrected_decimal_age_data": {
-                    "x": -0.11225188227241616,
-                    "y": 8.252850456328668,
+                    "x": -0.11498973305954825,
+                    "y": 1.333717183931485,
                     "b": null,
-                    "centile": 100.0,
+                    "centile": 90.9,
                     "sds": null,
                     "bone_age_label": null,
                     "events_text": null,
@@ -1854,11 +1854,11 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "observation_error": null,
                     "age_type": "corrected_age",
                     "calendar_age": null,
-                    "corrected_gestational_age": "34 + 1 weeks",
+                    "corrected_gestational_age": "34 + 0 weeks",
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
+                    "centile_band": "This head circumference measurement is on or near the 91st centile.",
                     "observation_value_error": null
                 }
             }
@@ -1878,20 +1878,20 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
         "birth_data": {
             "birth_date": "1759-04-11",
             "gestation_weeks": 22,
-            "gestation_days": 1,
-            "estimated_date_delivery": "1759-08-14",
-            "estimated_date_delivery_string": "Tue 14 August, 1759",
+            "gestation_days": 0,
+            "estimated_date_delivery": "1759-08-15",
+            "estimated_date_delivery_string": "Wed 15 August, 1759",
             "sex": "female"
         },
         "measurement_dates": {
             "observation_date": "1759-07-11",
             "chronological_decimal_age": 0.24914442162902123,
-            "corrected_decimal_age": -0.09308692676249145,
+            "corrected_decimal_age": -0.09582477754962354,
             "chronological_calendar_age": "3 months",
             "corrected_calendar_age": null,
             "corrected_gestational_age": {
                 "corrected_gestation_weeks": 35,
-                "corrected_gestation_days": 1
+                "corrected_gestation_days": 0
             },
             "comments": {
                 "clinician_corrected_decimal_age_comment": "Your child has been born below the threshold of the charts.",
@@ -1903,17 +1903,17 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
             "chronological_decimal_age_error": "The due date is after the observation date - a calendar age cannot be calculated."
         },
         "child_observation_value": {
-            "measurement_method": "weight",
-            "observation_value": 5.9,
+            "measurement_method": "ofc",
+            "observation_value": 33.3,
             "observation_value_error": null
         },
         "measurement_calculated_values": {
-            "corrected_sds": 7.614349102975943,
-            "corrected_centile": 100.0,
-            "corrected_centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
-            "chronological_sds": 0.08194898515794831,
-            "chronological_centile": 53.3,
-            "chronological_centile_band": "This weight measurement is on or near the 50th centile.",
+            "corrected_sds": 1.0690320845660555,
+            "corrected_centile": 85.7,
+            "corrected_centile_band": "This head circumference measurement is between the 75th and 91st centiles.",
+            "chronological_sds": -5.013056833285605,
+            "chronological_centile": 0.0,
+            "chronological_centile_band": "This head circumference measurement is below the normal range",
             "corrected_measurement_error": null,
             "chronological_measurement_error": null,
             "corrected_percentage_median_bmi": null,
@@ -1923,10 +1923,10 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
             "centile_data": {
                 "chronological_decimal_age_data": {
                     "x": 0.24914442162902123,
-                    "y": 5.9,
+                    "y": 33.3,
                     "b": null,
-                    "centile": 53.3,
-                    "sds": 0.08194898515794831,
+                    "centile": 0.0,
+                    "sds": -5.013056833285605,
                     "bone_age_label": null,
                     "events_text": null,
                     "bone_age_type": null,
@@ -1938,15 +1938,15 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is on or near the 50th centile.",
+                    "centile_band": "This head circumference measurement is below the normal range",
                     "observation_value_error": null
                 },
                 "corrected_decimal_age_data": {
-                    "x": -0.09308692676249145,
-                    "y": 5.9,
+                    "x": -0.09582477754962354,
+                    "y": 33.3,
                     "b": null,
-                    "centile": 100.0,
-                    "sds": 7.614349102975943,
+                    "centile": 85.7,
+                    "sds": 1.0690320845660555,
                     "bone_age_label": null,
                     "events_text": null,
                     "bone_age_type": null,
@@ -1955,20 +1955,20 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "observation_error": null,
                     "age_type": "corrected_age",
                     "calendar_age": null,
-                    "corrected_gestational_age": "35 + 1 weeks",
+                    "corrected_gestational_age": "35 + 0 weeks",
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
+                    "centile_band": "This head circumference measurement is between the 75th and 91st centiles.",
                     "observation_value_error": null
                 }
             },
             "sds_data": {
                 "chronological_decimal_age_data": {
                     "x": 0.24914442162902123,
-                    "y": 0.08194898515794831,
+                    "y": -5.013056833285605,
                     "b": null,
-                    "centile": 53.3,
+                    "centile": 0.0,
                     "sds": null,
                     "bone_age_label": null,
                     "events_text": null,
@@ -1981,14 +1981,14 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is on or near the 50th centile.",
+                    "centile_band": "This head circumference measurement is below the normal range",
                     "observation_value_error": null
                 },
                 "corrected_decimal_age_data": {
-                    "x": -0.09308692676249145,
-                    "y": 7.614349102975943,
+                    "x": -0.09582477754962354,
+                    "y": 1.0690320845660555,
                     "b": null,
-                    "centile": 100.0,
+                    "centile": 85.7,
                     "sds": null,
                     "bone_age_label": null,
                     "events_text": null,
@@ -1998,11 +1998,11 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "observation_error": null,
                     "age_type": "corrected_age",
                     "calendar_age": null,
-                    "corrected_gestational_age": "35 + 1 weeks",
+                    "corrected_gestational_age": "35 + 0 weeks",
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
+                    "centile_band": "This head circumference measurement is between the 75th and 91st centiles.",
                     "observation_value_error": null
                 }
             }
@@ -2022,20 +2022,20 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
         "birth_data": {
             "birth_date": "1759-04-11",
             "gestation_weeks": 22,
-            "gestation_days": 1,
-            "estimated_date_delivery": "1759-08-14",
-            "estimated_date_delivery_string": "Tue 14 August, 1759",
+            "gestation_days": 0,
+            "estimated_date_delivery": "1759-08-15",
+            "estimated_date_delivery_string": "Wed 15 August, 1759",
             "sex": "female"
         },
         "measurement_dates": {
             "observation_date": "1759-07-18",
             "chronological_decimal_age": 0.2683093771389459,
-            "corrected_decimal_age": -0.07392197125256673,
+            "corrected_decimal_age": -0.07665982203969883,
             "chronological_calendar_age": "3 months and 1 week",
             "corrected_calendar_age": null,
             "corrected_gestational_age": {
                 "corrected_gestation_weeks": 36,
-                "corrected_gestation_days": 1
+                "corrected_gestation_days": 0
             },
             "comments": {
                 "clinician_corrected_decimal_age_comment": "Your child has been born below the threshold of the charts.",
@@ -2047,17 +2047,17 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
             "chronological_decimal_age_error": "The due date is after the observation date - a calendar age cannot be calculated."
         },
         "child_observation_value": {
-            "measurement_method": "weight",
-            "observation_value": 6.0,
+            "measurement_method": "ofc",
+            "observation_value": 33.6,
             "observation_value_error": null
         },
         "measurement_calculated_values": {
-            "corrected_sds": 6.9779576706023985,
-            "corrected_centile": 100.0,
-            "corrected_centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
-            "chronological_sds": 0.023819390474867086,
-            "chronological_centile": 51.0,
-            "chronological_centile_band": "This weight measurement is on or near the 50th centile.",
+            "corrected_sds": 0.9130564244458975,
+            "corrected_centile": 81.9,
+            "corrected_centile_band": "This head circumference measurement is between the 75th and 91st centiles.",
+            "chronological_sds": -4.949974976623921,
+            "chronological_centile": 0.0,
+            "chronological_centile_band": "This head circumference measurement is below the normal range",
             "corrected_measurement_error": null,
             "chronological_measurement_error": null,
             "corrected_percentage_median_bmi": null,
@@ -2067,10 +2067,10 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
             "centile_data": {
                 "chronological_decimal_age_data": {
                     "x": 0.2683093771389459,
-                    "y": 6.0,
+                    "y": 33.6,
                     "b": null,
-                    "centile": 51.0,
-                    "sds": 0.023819390474867086,
+                    "centile": 0.0,
+                    "sds": -4.949974976623921,
                     "bone_age_label": null,
                     "events_text": null,
                     "bone_age_type": null,
@@ -2082,15 +2082,15 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is on or near the 50th centile.",
+                    "centile_band": "This head circumference measurement is below the normal range",
                     "observation_value_error": null
                 },
                 "corrected_decimal_age_data": {
-                    "x": -0.07392197125256673,
-                    "y": 6.0,
+                    "x": -0.07665982203969883,
+                    "y": 33.6,
                     "b": null,
-                    "centile": 100.0,
-                    "sds": 6.9779576706023985,
+                    "centile": 81.9,
+                    "sds": 0.9130564244458975,
                     "bone_age_label": null,
                     "events_text": null,
                     "bone_age_type": null,
@@ -2099,20 +2099,20 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "observation_error": null,
                     "age_type": "corrected_age",
                     "calendar_age": null,
-                    "corrected_gestational_age": "36 + 1 weeks",
+                    "corrected_gestational_age": "36 + 0 weeks",
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
+                    "centile_band": "This head circumference measurement is between the 75th and 91st centiles.",
                     "observation_value_error": null
                 }
             },
             "sds_data": {
                 "chronological_decimal_age_data": {
                     "x": 0.2683093771389459,
-                    "y": 0.023819390474867086,
+                    "y": -4.949974976623921,
                     "b": null,
-                    "centile": 51.0,
+                    "centile": 0.0,
                     "sds": null,
                     "bone_age_label": null,
                     "events_text": null,
@@ -2125,14 +2125,14 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is on or near the 50th centile.",
+                    "centile_band": "This head circumference measurement is below the normal range",
                     "observation_value_error": null
                 },
                 "corrected_decimal_age_data": {
-                    "x": -0.07392197125256673,
-                    "y": 6.9779576706023985,
+                    "x": -0.07665982203969883,
+                    "y": 0.9130564244458975,
                     "b": null,
-                    "centile": 100.0,
+                    "centile": 81.9,
                     "sds": null,
                     "bone_age_label": null,
                     "events_text": null,
@@ -2142,11 +2142,11 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "observation_error": null,
                     "age_type": "corrected_age",
                     "calendar_age": null,
-                    "corrected_gestational_age": "36 + 1 weeks",
+                    "corrected_gestational_age": "36 + 0 weeks",
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
+                    "centile_band": "This head circumference measurement is between the 75th and 91st centiles.",
                     "observation_value_error": null
                 }
             }
@@ -2166,20 +2166,20 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
         "birth_data": {
             "birth_date": "1759-04-11",
             "gestation_weeks": 22,
-            "gestation_days": 1,
-            "estimated_date_delivery": "1759-08-14",
-            "estimated_date_delivery_string": "Tue 14 August, 1759",
+            "gestation_days": 0,
+            "estimated_date_delivery": "1759-08-15",
+            "estimated_date_delivery_string": "Wed 15 August, 1759",
             "sex": "female"
         },
         "measurement_dates": {
             "observation_date": "1759-07-25",
             "chronological_decimal_age": 0.2874743326488706,
-            "corrected_decimal_age": -0.05475701574264202,
+            "corrected_decimal_age": -0.057494866529774126,
             "chronological_calendar_age": "3 months and 2 weeks",
             "corrected_calendar_age": null,
             "corrected_gestational_age": {
                 "corrected_gestation_weeks": 37,
-                "corrected_gestation_days": 1
+                "corrected_gestation_days": 0
             },
             "comments": {
                 "clinician_corrected_decimal_age_comment": "Your child has been born below the threshold of the charts.",
@@ -2191,17 +2191,17 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
             "chronological_decimal_age_error": "The due date is after the observation date - a calendar age cannot be calculated."
         },
         "child_observation_value": {
-            "measurement_method": "weight",
-            "observation_value": 6.1,
+            "measurement_method": "ofc",
+            "observation_value": 33.8,
             "observation_value_error": null
         },
         "measurement_calculated_values": {
-            "corrected_sds": 6.533069089462194,
-            "corrected_centile": 100.0,
-            "corrected_centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
-            "chronological_sds": -0.02490003339453346,
-            "chronological_centile": 49.0,
-            "chronological_centile_band": "This weight measurement is on or near the 50th centile.",
+            "corrected_sds": 0.7112060016347265,
+            "corrected_centile": 76.2,
+            "corrected_centile_band": "This head circumference measurement is on or near the 75th centile.",
+            "chronological_sds": -4.964175586922364,
+            "chronological_centile": 0.0,
+            "chronological_centile_band": "This head circumference measurement is below the normal range",
             "corrected_measurement_error": null,
             "chronological_measurement_error": null,
             "corrected_percentage_median_bmi": null,
@@ -2211,10 +2211,10 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
             "centile_data": {
                 "chronological_decimal_age_data": {
                     "x": 0.2874743326488706,
-                    "y": 6.1,
+                    "y": 33.8,
                     "b": null,
-                    "centile": 49.0,
-                    "sds": -0.02490003339453346,
+                    "centile": 0.0,
+                    "sds": -4.964175586922364,
                     "bone_age_label": null,
                     "events_text": null,
                     "bone_age_type": null,
@@ -2226,15 +2226,15 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is on or near the 50th centile.",
+                    "centile_band": "This head circumference measurement is below the normal range",
                     "observation_value_error": null
                 },
                 "corrected_decimal_age_data": {
-                    "x": -0.05475701574264202,
-                    "y": 6.1,
+                    "x": -0.057494866529774126,
+                    "y": 33.8,
                     "b": null,
-                    "centile": 100.0,
-                    "sds": 6.533069089462194,
+                    "centile": 76.2,
+                    "sds": 0.7112060016347265,
                     "bone_age_label": null,
                     "events_text": null,
                     "bone_age_type": null,
@@ -2243,20 +2243,20 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "observation_error": null,
                     "age_type": "corrected_age",
                     "calendar_age": null,
-                    "corrected_gestational_age": "37 + 1 weeks",
+                    "corrected_gestational_age": "37 + 0 weeks",
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
+                    "centile_band": "This head circumference measurement is on or near the 75th centile.",
                     "observation_value_error": null
                 }
             },
             "sds_data": {
                 "chronological_decimal_age_data": {
                     "x": 0.2874743326488706,
-                    "y": -0.02490003339453346,
+                    "y": -4.964175586922364,
                     "b": null,
-                    "centile": 49.0,
+                    "centile": 0.0,
                     "sds": null,
                     "bone_age_label": null,
                     "events_text": null,
@@ -2269,14 +2269,14 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is on or near the 50th centile.",
+                    "centile_band": "This head circumference measurement is below the normal range",
                     "observation_value_error": null
                 },
                 "corrected_decimal_age_data": {
-                    "x": -0.05475701574264202,
-                    "y": 6.533069089462194,
+                    "x": -0.057494866529774126,
+                    "y": 0.7112060016347265,
                     "b": null,
-                    "centile": 100.0,
+                    "centile": 76.2,
                     "sds": null,
                     "bone_age_label": null,
                     "events_text": null,
@@ -2286,11 +2286,11 @@ export const prematureTwentyTwoWeeksWeight: Measurement[]=[
                     "observation_error": null,
                     "age_type": "corrected_age",
                     "calendar_age": null,
-                    "corrected_gestational_age": "37 + 1 weeks",
+                    "corrected_gestational_age": "37 + 0 weeks",
                     "lay_comment": "Your child has been born below the threshold of the charts.",
                     "clinician_comment": "Your child has been born below the threshold of the charts.",
                     "age_error": null,
-                    "centile_band": "This weight measurement is well above the normal range. Please review its accuracy.",
+                    "centile_band": "This head circumference measurement is on or near the 75th centile.",
                     "observation_value_error": null
                 }
             }
