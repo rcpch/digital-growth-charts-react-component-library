@@ -202,7 +202,7 @@ describe("All tests relate to rendering the text in the height/length centile ch
     
     it("should render age x axis label text correctly.", () => {
       render(<CentileChart {...props} />);
-      expect(screen.queryByText("Gestation or postnatal weeks / months")).toBeInTheDocument()
+      expect(screen.queryByText("Gestation or postnatal weeks / months (shown as lollipops)")).toBeInTheDocument()
     });
     
 });

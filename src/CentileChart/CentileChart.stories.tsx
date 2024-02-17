@@ -117,15 +117,15 @@ export const WithOFCAndNoData = () => (
     />
 );
 
-export const WithTwoMeasurementsFromBirthOverTwoYears = () => (
+export const WithPrematureFemaleHeights = () => (
     <CentileChart 
         chartsVersion="bar"
         reference="uk-who"
         title="Simon"
         subtitle="rules"
-        measurementMethod="weight"
-        sex="male"
-        childMeasurements={twoHeightMeasurements}
+        measurementMethod="height"
+        sex="female"
+        childMeasurements={prematureThreeMonths}
         midParentalHeightData={midParentalHeights}
         enableZoom={true}
         styles={monochromeStyles}
@@ -237,7 +237,7 @@ export const WithMeasurementsToNineYears = () => (
     />
 );
 
-export const WithPrematureFemaleHeights = () => (
+export const WithExtremePrematureFemaleHeights = () => (
     <CentileChart 
         chartsVersion="baz"
         reference="uk-who"
