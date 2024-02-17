@@ -452,7 +452,7 @@ function getRelevantDataSets(
         }
 
         const dataSetRanges = [
-            [-0.33, 0.0383],
+            [-0.345, 0.0383],
             [0.0383, 2],
             [2, 4],
             [4, 21],

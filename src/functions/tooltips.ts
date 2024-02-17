@@ -41,13 +41,10 @@ export function tooltipText(
     // flag passed in from user - if clinician, show clinician age advice strings, else show child/family advice 
     const comment = clinicianFocus ? clinician_comment : lay_comment;
 
-    if (corrected_decimal_age_error){
+    if (corrected_decimal_age_error && age_type === 'corrected_age'){
         return corrected_decimal_age_error
     }
-    // if (chronological_decimal_age_error){
-    //     return chronological_decimal_age_error
-    // }
-    if (corrected_measurement_error){
+    if (corrected_measurement_error && age_type === 'corrected_age'){
         let corrected_gestational_age=''
         if (gestational_age){
             const finalCorrectedString = comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
@@ -123,7 +120,7 @@ export function tooltipText(
         }
     }
     if (centile_band) {
-        
+
         // bone age text
         if ((childName==="chronologicalboneage" || childName === "correctedboneage") && b){
             let concatenatedText = "Bone Age: "
