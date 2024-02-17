@@ -68,7 +68,7 @@ import { labelIndexInterval } from '../functions/labelIndexInterval';
 import { referenceText } from '../functions/referenceText';
 
 // allows two top level containers: zoom and voronoi
-const VictoryZoomVoronoiContainer = createContainer<VictoryZoomContainerProps, VictoryVoronoiContainerProps>(
+const VictoryZoomVoronoiContainer:any = createContainer(
     'zoom',
     'voronoi',
 );
