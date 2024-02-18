@@ -21,22 +21,22 @@ Below is a list of tests that are implemented or need implementing
 ---------
 Props
 ---------
-- Boy chart presented if sex is 'male'
-- Girl chart presented if sex is 'female'
-- UK-WHO chart presented if reference is 'uk-who'
-- Trisomy 21 chart presented if reference is 'trisomy-21'
-- Turner chart presented if reference is 'turner'
-- Height chart presented if measurementMethod is 'height'
-- Weight chart presented if measurementMethod is 'weight'
-- BMI chart presented if measurementMethod is 'bmi'
-- Head circumference chart presented if measurementMethod is 'ofc'
+-[ ] Boy chart presented if sex is 'male'
+-[ ] Girl chart presented if sex is 'female'
+-[ ] UK-WHO chart presented if reference is 'uk-who'
+-[ ] Trisomy 21 chart presented if reference is 'trisomy-21'
+-[ ] Turner chart presented if reference is 'turner'
+-[ ] Height chart presented if measurementMethod is 'height'
+-[ ] Weight chart presented if measurementMethod is 'weight'
+-[ ] BMI chart presented if measurementMethod is 'bmi'
+-[ ] Head circumference chart presented if measurementMethod is 'ofc'
 
 ---------
 Labels
 ---------
--[ ] Title text renders corrects
--[ ] Subtitle text renders corrects
--[ ] Version text renders corrects
+-[X] Title text renders correctly
+-[ ] Subtitle text renders correctly
+-[ ] Version text renders correctly
 -[ ] Y axis lable text renders correctly - height
 -[ ] Y axis lable text renders correctly - weight
 -[ ] Y axis lable text renders correctly - bmi
