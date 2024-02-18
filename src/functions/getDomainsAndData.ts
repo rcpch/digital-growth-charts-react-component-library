@@ -271,6 +271,7 @@ function childMeasurementRanges(
             measurement.measurement_calculated_values.chronological_measurement_error
                 ? true
                 : false;
+        
         if (!errorsPresent) {
             if (showCorrected && !showChronological) {
                 chronologicalX = correctedX;
@@ -301,6 +302,7 @@ function childMeasurementRanges(
             console.warn('Measurements considered invalid by the API given to the chart. The chart will ignore them.');
         }
     }
+    
     return { lowestChildX, highestChildX, lowestChildY, highestChildY };
 }
 
@@ -629,10 +631,13 @@ function getDomainsAndData(
                 }
                 if(lowestChildX < twoWeeksPostnatal && lowestChildX >= gestWeeks37){
                     absoluteBottomX = lowestChildX-totalMinPadding.prem;
+                } else if(lowestChildX < gestWeeks37){
+                    absoluteBottomX = lowestChildX-totalMinPadding.prem
                 }
-                
-                
+            } else {
+                absoluteBottomX = lowestChildX-totalMinPadding.prem
             }
+
 
             // work out most appropriate highest and lowest x coords for domain setting:
             let unroundedLowestX = 0;

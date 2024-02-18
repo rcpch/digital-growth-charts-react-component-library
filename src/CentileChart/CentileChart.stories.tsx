@@ -12,6 +12,8 @@ import { smallChildJustOverTwo } from "../testParameters/measurements/smallChild
 import { prematureTwentyTwoWeeksWeight } from "../testParameters/measurements/prematureTwentyTwoWeeks"
 import { prematureTwentyTwoWeeksHeight } from "../testParameters/measurements/prematureTwentyTwoWeeksHeight"
 import { prematureTwentyTwoWeeksOFC } from "../testParameters/measurements/prematureTwentyTwoWeeksOFC"
+import { prematureGirlOverThreeHeight } from "../testParameters/measurements/prematureGirlOverThreeHeight"
+import { prematureGirlOverFourHeight } from "../testParameters/measurements/prematureGirlOverFourHeight"
 import { turnerHeightOneYearToEleven } from "../testParameters/measurements/turnerHeightOneYearToEleven";
 
 export default {
@@ -247,6 +249,46 @@ export const WithExtremePrematureFemaleHeights = () => (
         measurementMethod="height"
         sex="female"
         childMeasurements={prematureTwentyTwoWeeksHeight}
+        midParentalHeightData={midParentalHeights}
+        enableZoom={true}
+        styles={rcpch3Styles}
+        enableExport={true}
+        exportChartCallback={()=>null}
+        clinicianFocus={true}
+        showCentileLabels={true}
+        showSDSLabels={true}
+    />
+);
+
+export const WithPrematureGirlOverThreeHeight = () => (
+    <CentileChart 
+        chartsVersion="7.0.0"
+        reference="uk-who"
+        title="Premature Girl"
+        subtitle="Height over 3y"
+        measurementMethod="height"
+        sex="female"
+        childMeasurements={prematureGirlOverThreeHeight}
+        midParentalHeightData={midParentalHeights}
+        enableZoom={true}
+        styles={rcpch3Styles}
+        enableExport={true}
+        exportChartCallback={()=>null}
+        clinicianFocus={true}
+        showCentileLabels={true}
+        showSDSLabels={true}
+    />
+);
+
+export const WithPrematureGirlOverFourHeight = () => (
+    <CentileChart 
+        chartsVersion="7.0.0"
+        reference="uk-who"
+        title="Premature Girl"
+        subtitle="Height over 4y"
+        measurementMethod="height"
+        sex="female"
+        childMeasurements={prematureGirlOverFourHeight}
         midParentalHeightData={midParentalHeights}
         enableZoom={true}
         styles={rcpch3Styles}
