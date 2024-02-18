@@ -1,5 +1,6 @@
 import * as React from "react";
-import { fireEvent, getByTestId, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, getByText, render, screen, waitFor, queryAllByTestId, queryByTestId, getByTestId } from "@testing-library/react";
+import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom';
 
 import CentileChart from "./CentileChart";
@@ -292,7 +293,7 @@ describe("All tests relating to rendering the text in the weight centile chart f
     expect(screen.queryByText("TestChartSubtitle")).toBeInTheDocument()
   });
 
-  it("should render weight y axis label text correcttly", () => {
+  it("should render weight y axis label text correctly", () => {
     render(<CentileChart {...props} />);
     expect(screen.queryByText("Weight (kg)")).toBeInTheDocument();
   });
@@ -327,9 +328,17 @@ describe("All test relating to plotting in the weight centile chart for a toddle
       showSDSLabels: false
     };
   });
+
   it("should plot 73 x points for chronological age", () => {
     render(<CentileChart {...props} />);
     expect(screen.getAllByTestId('chronologicalMeasurementPoint')).toHaveLength(73);
-  }
-  )
-})
+  });
+  
+  it("should show tooltip on mouseover of 6th measurement.", async () => {
+    const baseDom = render(<CentileChart {...props} />);
+    
+    userEvent.click(screen.getAllByTestId('chronologicalMeasurementPoint')[6]);
+    expect(await screen.getByTestId('tooltip')).toHaveTextContent("Chronological age: 4 months, 4 weeks and 2 days on 09/09/1759");
+  });
+
+});

@@ -276,6 +276,7 @@ function CentileChart({
                     domain={computedDomains}
                     containerComponent={
                         <VictoryZoomVoronoiContainer
+                            data-testid="label-container"
                             containerRef={ref => { chartRef.current=ref} }
                             allowZoom={allowZooming}
                             allowPan={allowZooming}
