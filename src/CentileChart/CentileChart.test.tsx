@@ -11,10 +11,12 @@ prematureThreeMonths - a girl born at 30+2, length
 prematureTwentyTwoWeeks - - a girl born at 22 weeks | to demonstrate lack of data
 PrematureTwentyTwoWeeksHeight - a girl born at 22 weeks
 PrematureTwentyTwoWeeksOFC - a girl born at 22 weeks
+termToAYearGirlOFC - a girl born term to a year of age
 smallChildJustOverTwo - a boy, term, height from birth to 2y
 twoWeightMeasurements - a boy weight, term birth and 2 y
 twoToEight - a girl, heights
 towToEightWeight - a boy
+turnerHeightOneYearToEleven - a girl with Turner's from a year to 11 y
 
 Below is a list of tests that are implemented or need implementing
 
@@ -35,23 +37,22 @@ Props
 Labels
 ---------
 -[X] Title text renders correctly
--[ ] Subtitle text renders correctly
--[ ] Version text renders correctly
--[ ] Y axis lable text renders correctly - height
--[ ] Y axis lable text renders correctly - weight
--[ ] Y axis lable text renders correctly - bmi
--[ ] Y axis lable text renders correctly - OFC
--[ ] X axis lable text renders correctly - premature infant
--[ ] X axis lable text renders correctly - infant
--[ ] X axis lable text renders correctly - child
--[ ] X axis lable text renders correctly - adolescent
--[ ] reference attribution text renders correctly - UK-WHO
--[ ] reference attribution text renders correctly - Trisomy 21
--[ ] reference attribution text renders correctly - Turner
--[ ] early puberty cut off text renders correctly - boys
--[ ] early puberty cut off text renders correctly - girls
--[ ] late puberty cut off text renders correctly - boys
--[ ] late puberty cut off text renders correctly - girls
+-[X] Subtitle text renders correctly
+-[X] Version text renders correctly
+-[X] Y axis lable text renders correctly - height
+-[X] Y axis lable text renders correctly - weight
+-[X] Y axis lable text renders correctly - bmi
+-[X] Y axis lable text renders correctly - OFC
+-[X] X axis lable text renders correctly - premature infant (Gestation or postnatal weeks / months (shown as lollipops))
+-[X] X axis lable text renders correctly - infant (Age (in years and months (shown as lollipops)))
+-[X] X axis lable text renders correctly - child (age in years)
+-[X] reference attribution text renders correctly - UK-WHO
+-[X] reference attribution text renders correctly - Trisomy 21
+-[X] reference attribution text renders correctly - Turner
+-[X] early puberty cut off text renders correctly - boys
+-[X] early puberty cut off text renders correctly - girls
+-[X] late puberty cut off text renders correctly - boys
+-[X] late puberty cut off text renders correctly - girls
 
 ------------------
 Measurement Points
@@ -221,6 +222,8 @@ import { MidParentalHeightObject } from "../interfaces/MidParentalHeightObject";
 import { monochromeStyles } from '../testParameters/styles/monochromeStyles'
 import {prematureThreeMonths} from '../testParameters/measurements/prematureThreeMonths';
 import { twoToEightWeight } from "../testParameters/measurements/twoToEightWeight";
+import { termToAYearGirlOFC } from "../testParameters/measurements/termToAYearGirlOFC";
+import { turnerHeightOneYearToEleven } from "../testParameters/measurements/turnerHeightOneYearToEleven";
 
 describe("All tests relate to rendering the text in the height centile chart for an older boy.", () => {
   let props: CentileChartProps;
@@ -229,7 +232,7 @@ describe("All tests relate to rendering the text in the height centile chart for
 
   beforeEach(() => {
     props = {
-      chartsVersion: "ChartVersion",
+      chartsVersion: "7.0.0",
       reference: 'uk-who',
       title: 'TestChartTitle',
       subtitle: 'TestChartSubtitle',
@@ -255,6 +258,11 @@ describe("All tests relate to rendering the text in the height centile chart for
     it("should render subtitle text correctly", () => {
       render(<CentileChart {...props} />);
       expect(screen.queryByText("TestChartSubtitle")).toBeInTheDocument()
+    });
+    
+    it("should render version text correctly", () => {
+      render(<CentileChart {...props} />);
+      expect(screen.queryByText("7.0.0")).toBeInTheDocument()
     });
     
     it("should render height y axis label text correctly.", () => {
@@ -355,8 +363,9 @@ describe("All tests relate to rendering the text in the height centile chart for
 
     it("should render Turner reference attribution label text correctly.", () => {
       props.reference="turner"
+      props.sex="female"
       render(<CentileChart {...props} />);
-      expect(screen.queryByText("Lyon, Preece and Grant (1985)")).toBeInTheDocument()
+      expect(screen.queryByText("UK Turner reference data, 1985. Lyon, Preece and Grant (1985).")).toBeInTheDocument()
     });
 
     it("centile labels should render.", () => {
@@ -412,7 +421,7 @@ describe("All tests relate to rendering the text in the height/length centile ch
       expect(screen.queryByText("Height / Length (cm)")).toBeInTheDocument()
     });
     
-    it("should render age x axis label text correctly.", () => {
+    it("should render age x axis label text correctly for premature infant.", () => {
       render(<CentileChart {...props} />);
       expect(screen.queryByText("Gestation or postnatal weeks / months (shown as lollipops)")).toBeInTheDocument()
     });
@@ -516,7 +525,7 @@ describe("All tests relating to rendering the text in the weight centile chart f
 
 });
 
-describe("All test relating to plotting in the weight centile chart for a toddler", () => {
+describe("All test relating to plotting in the weight centile chart for a toddler between two and eight years.", () => {
   let props: CentileChartProps;
   const midparentalHeight: MidParentalHeightObject = {}
 
@@ -543,6 +552,68 @@ describe("All test relating to plotting in the weight centile chart for a toddle
   it("should plot 73 x points for chronological age", () => {
     render(<CentileChart {...props} />);
     expect(screen.getAllByTestId('chronologicalMeasurementPoint')).toHaveLength(73);
+  });
+
+});
+
+describe("All test relating to plotting in the OFC centile chart for a girl from term to a year of age.", () => {
+  let props: CentileChartProps;
+  const midparentalHeight: MidParentalHeightObject = {}
+
+  beforeEach(() => {
+    props = {
+      chartsVersion: "7.0.0",
+      reference: "uk-who",
+      title: "TestChartTitle",
+      subtitle: "TestChartSubtitle",
+      measurementMethod: "ofc",
+      sex: 'female',
+      childMeasurements: termToAYearGirlOFC,
+      midParentalHeightData: midparentalHeight,
+      enableZoom: false,
+      styles: monochromeStyles,
+      enableExport: false,
+      exportChartCallback: ()=>null,
+      clinicianFocus: false,
+      showCentileLabels: false,
+      showSDSLabels: false
+    };
+  });
+
+  it("should plot x axis correctly in the first year of life.", () => {
+    render(<CentileChart {...props} />);
+    expect(screen.getByText('Age (in years and months (shown as lollipops))')).toBeInTheDocument();
+  });
+
+});
+
+describe("All tests relating to plotting height centile chart for a girl from term to a year of age.", () => {
+  let props: CentileChartProps;
+  const midparentalHeight: MidParentalHeightObject = {}
+
+  beforeEach(() => {
+    props = {
+      chartsVersion: "7.0.0",
+      reference: "turner",
+      title: "TestChartTitle",
+      subtitle: "TestChartSubtitle",
+      measurementMethod: "height",
+      sex: 'female',
+      childMeasurements: turnerHeightOneYearToEleven,
+      midParentalHeightData: midparentalHeight,
+      enableZoom: false,
+      styles: monochromeStyles,
+      enableExport: false,
+      exportChartCallback: ()=>null,
+      clinicianFocus: false,
+      showCentileLabels: false,
+      showSDSLabels: false
+    };
+  });
+
+  it("should plot turner reference text correctly.", () => {
+    render(<CentileChart {...props} />);
+    expect(screen.getByText('UK Turner reference data, 1985. Lyon, Preece and Grant (1985).')).toBeInTheDocument();
   });
 
 });

@@ -12,6 +12,7 @@ import { smallChildJustOverTwo } from "../testParameters/measurements/smallChild
 import { prematureTwentyTwoWeeksWeight } from "../testParameters/measurements/prematureTwentyTwoWeeks"
 import { prematureTwentyTwoWeeksHeight } from "../testParameters/measurements/prematureTwentyTwoWeeksHeight"
 import { prematureTwentyTwoWeeksOFC } from "../testParameters/measurements/prematureTwentyTwoWeeksOFC"
+import { turnerHeightOneYearToEleven } from "../testParameters/measurements/turnerHeightOneYearToEleven";
 
 export default {
     title: "CentileChart"
@@ -246,6 +247,26 @@ export const WithExtremePrematureFemaleHeights = () => (
         measurementMethod="height"
         sex="female"
         childMeasurements={prematureTwentyTwoWeeksHeight}
+        midParentalHeightData={midParentalHeights}
+        enableZoom={true}
+        styles={rcpch3Styles}
+        enableExport={true}
+        exportChartCallback={()=>null}
+        clinicianFocus={true}
+        showCentileLabels={true}
+        showSDSLabels={true}
+    />
+);
+
+export const WithTurnerFemaleHeights = () => (
+    <CentileChart 
+        chartsVersion="7.0.0"
+        reference="turner"
+        title="Turner Syndrome Child"
+        subtitle="One to Eleven years"
+        measurementMethod="height"
+        sex="female"
+        childMeasurements={turnerHeightOneYearToEleven}
         midParentalHeightData={midParentalHeights}
         enableZoom={true}
         styles={rcpch3Styles}
