@@ -1,6 +1,217 @@
+/*
+Tests for Centile Chart
+This is a test suite which applies only to the centile chart component.
+The centile chart component is a complex component, made of several subcomponents that need tests of their own
+Tests here therefore are more integration test, rather than unit tests
+
+Bundled in are several fictional children against which to test. These are found in the testParameters folder.
+They are also used in storybook:
+
+prematureThreeMonths - a girl born at 30+2, length
+prematureTwentyTwoWeeks - - a girl born at 22 weeks | to demonstrate lack of data
+PrematureTwentyTwoWeeksHeight - a girl born at 22 weeks
+PrematureTwentyTwoWeeksOFC - a girl born at 22 weeks
+smallChildJustOverTwo - a boy, term, height from birth to 2y
+twoWeightMeasurements - a boy weight, term birth and 2 y
+twoToEight - a girl, heights
+towToEightWeight - a boy
+
+Below is a list of tests that are implemented or need implementing
+
+---------
+Props
+---------
+- Boy chart presented if sex is 'male'
+- Girl chart presented if sex is 'female'
+- UK-WHO chart presented if reference is 'uk-who'
+- Trisomy 21 chart presented if reference is 'trisomy-21'
+- Turner chart presented if reference is 'turner'
+- Height chart presented if measurementMethod is 'height'
+- Weight chart presented if measurementMethod is 'weight'
+- BMI chart presented if measurementMethod is 'bmi'
+- Head circumference chart presented if measurementMethod is 'ofc'
+
+---------
+Labels
+---------
+-[ ] Title text renders corrects
+-[ ] Subtitle text renders corrects
+-[ ] Version text renders corrects
+-[ ] Y axis lable text renders correctly - height
+-[ ] Y axis lable text renders correctly - weight
+-[ ] Y axis lable text renders correctly - bmi
+-[ ] Y axis lable text renders correctly - OFC
+-[ ] X axis lable text renders correctly - premature infant
+-[ ] X axis lable text renders correctly - infant
+-[ ] X axis lable text renders correctly - child
+-[ ] X axis lable text renders correctly - adolescent
+-[ ] reference attribution text renders correctly - UK-WHO
+-[ ] reference attribution text renders correctly - Trisomy 21
+-[ ] reference attribution text renders correctly - Turner
+-[ ] early puberty cut off text renders correctly - boys
+-[ ] early puberty cut off text renders correctly - girls
+-[ ] late puberty cut off text renders correctly - boys
+-[ ] late puberty cut off text renders correctly - girls
+
+------------------
+Measurement Points
+------------------
+These are important to ensure data points are not lost when swapping from one reference to another.
+Do not include tests for tooltips on mouseover which are collected in events.
+
+-[ ] correct number of measurement points render for preterm infant
+-[ ] correct number of measurement points render for preterm infant now over 42 weeks
+-[ ] correct number of measurement points render for preterm infant now over 2 years
+-[ ] correct number of measurement points render for preterm infant now over 4 years
+-[ ] correct number of measurement points render for term infant
+-[ ] correct number of measurement points render for term infant now over 2y
+-[ ] correct number of measurement points render for term infant now over 4
+
+-[ ] padding is applied to lowest measurement and the chart truncated
+-[ ] padding is applied to highest measurement and the chart truncated
+
+---------
+Centiles
+---------
+One each of these needed for every measurement method and every sex
+-[ ] centile line renders for 0.4th centile
+-[ ] centile line renders for 2nd centile
+-[ ] centile line renders for 9th centile
+-[ ] centile line renders for 25th centile
+-[ ] centile line renders for 50th centile
+-[ ] centile line renders for 75th centile
+-[ ] centile line renders for 91st centile
+-[ ] centile line renders for 98th centile
+-[ ] centile line renders for 99.6th centile
+
+-------------
+BMI SDS Lines
+-------------
+-[ ] -4.0 SDS line renders for BMI
+-[ ] -3.0 SDS line renders for BMI
+-[ ] +3.0 SDS line renders for BMI
+-[ ] +3.33 SDS line renders for BMI
+-[ ] +3.67 SDS line renders for BMI
+-[ ] +4.0 SDS line renders for BMI
+
+---------
+Events
+---------
+*MouseOver*
+
+!measurements!
+-[ ] chronological age is correct
+-[ ] chronological age renders on hover over chronological data point
+-[ ] corrected age does not render on hover over chronological data point
+-[ ] corrected age is correct
+-[ ] corrected age renders on hover over corrected data point
+-[ ] chronological age does not render on hover over corrected data point
+-[ ] no tooltip appears on hover over link line between chronological and corrected measurement points
+-[ ] SDS render in tooltip if clinicianFocus is true
+-[ ] SDS do not render in tooltip if clinicianFocus is false
+-[ ] clinician age advice renders in tooltip if clinicianFocus is true
+-[ ] lay age advice renders in tooltip if clinicianFocus is false
+-[ ] corrected gestational age renders in tooltip if baby is born less than 37 weeks
+-[ ] corrected gestational age does not render in tooltip if baby is born less than 37 weeks but is over 42 weeks corrected
+-[ ] measurement date follows dd MMM YYYY format
+
+Errors are generated in the API, but tests are needed to ensure they are presented correctly
+-[ ] measurement error is reported if baby is <23 weeks for weight at time of measurement
+-[ ] measurement error is reported if baby is <25 weeks for length at time of measurement
+-[ ] measurement error is reported if baby is <23 weeks for head circumference at time of measurement
+-[ ] measurement error is reported if baby is <42 weeks for BMI at time of measurement
+-[ ] measurement is plotted at 22 weeks and over for length
+-[ ] measurement is plotted at 22 weeks and over for weight
+-[ ] measurement is plotted at 22 weeks and over for head circumference
+-[ ] measurement is not plotted below 2 weeks and for BMI
+-[ ] measurement is not plotted >20 y for height
+-[ ] measurement is not plotted >20 y for weight
+-[ ] measurement is not plotted >20 y for BMI
+-[ ] measurement is not plotted >18 y for head circumference in boys
+-[ ] measurement is not plotted >17 y for head circumference in girls
+
+!bone ages!
+-[ ] correct bone age renders when supplied
+-[ ] correct SDS renders when supplied
+-[ ] correct centile renders when supplied
+-[ ] correct comment renders when supplied
+-[ ] bone age renders with grey link line
+-[ ] bone age renders with associated corrected age (chronological age is false)
+-[ ] bone age renders with associated chronological age (corrected age is false)
+-[ ] bone age renders with associated corrected age (both ages are true)
+
+!growth chart events!
+-[ ] correct event text renders when supplied
+-[ ] event caret renders when text supplied
+
+!midparental heights!
+-[ ] correct midparental height rendered for a girl
+-[ ] correct midparental height rendered for a boy
+-[ ] upper limit midparental height tooltip data renders
+-[ ] lower limit midparental height tooltip data renders
+-[ ] median midparental height tooltip data renders
+
+!thresholds!
+-[ ] transition from UK-WHO to UK90 tooltip renders at 4 y
+-[ ] transition from lying to standing tooltip renders at 2 y height - boys
+-[ ] transition from lying to standing tooltip renders at 2 y height - girls
+-[ ] notification of term thresholds tooltip renders at 37-42 weeks - boys
+-[ ] notification of term thresholds tooltip renders at 37-42 weeks - girls
+-[ ] notification of late puberty area threshold - boys
+-[ ] notification of late puberty area threshold - girls
+
+!centiles!
+One each of these needed for every measurement method and every sex
+-[ ] centile label renders for 0.4th centile
+-[ ] centile label renders for 2nd centile
+-[ ] centile label renders for 9th centile
+-[ ] centile label renders for 25th centile
+-[ ] centile label renders for 50th centile
+-[ ] centile label renders for 75th centile
+-[ ] centile label renders for 91st centile
+-[ ] centile label renders for 98th centile
+-[ ] centile label renders for 99.6th centile
+
+-[ ] -4.0 SDS label renders for BMI
+-[ ] -3.0 SDS label renders for BMI
+-[ ] +3.0 SDS label renders for BMI
+-[ ] +3.33 SDS label renders for BMI
+-[ ] +3.67 SDS label renders for BMI
+-[ ] +4.0 SDS label renders for BMI
+
+*Corrected/Chronological Ages Toggle Button*
+-[ ] corrected measurements only rendered when 'corrected' toggle clicked
+-[ ] chronological measurements only rendered when 'chronological' toggle clicked
+-[ ] corrected and chronological measurements both rendered when 'both' toggle clicked
+
+*Life Course View Button*
+-[ ] Life course view button renders if full life course not visible
+-[ ] Life course view button does not render if full life course is visible
+-[ ] Life course view button icon toggles on press
+-[ ] Life course view toggles on button press
+-[ ] Description text appears on hover over button
+-[ ] Zoom disabled in life course view
+
+*Paste Button*
+-[ ] Paste button present if enableExport prop is true
+-[ ] Paste button absent if enableExport prop is true
+-[ ] 'copied' text appears and fades on click
+-[ ] Description text appears on hover over button
+-[ ] Grey rim animates round button edge on hover over button
+-[ ] exportChartCallback triggered on click
+-[ ] correct SVG of chart present when exportChartCallback triggered on click
+
+*Zoom*
+-[ ] Zoom function enabled if enableZoom prop is true
+-[ ] Zoom function disabled if enableZoom prop is false
+-[ ] Reset zoom button disabled if zoom not applied
+-[ ] Reset zoom button enabled if zoom applied
+-[ ] Chart domains reset if Reset zoom button pressed
+
+*/
+
 import * as React from "react";
-import { fireEvent, getByText, render, screen, waitFor, queryAllByTestId, queryByTestId, getByTestId } from "@testing-library/react";
-import userEvent from '@testing-library/user-event'
+import { fireEvent,render, screen } from "@testing-library/react";
 import '@testing-library/jest-dom';
 
 import CentileChart from "./CentileChart";

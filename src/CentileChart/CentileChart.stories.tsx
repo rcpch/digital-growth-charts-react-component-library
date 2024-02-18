@@ -5,7 +5,7 @@ import { monochromeStyles } from "../testParameters/styles/monochromeStyles";
 import { rcpch1Styles } from "../testParameters/styles/rcpch1Styles";
 import { rcpch2Styles } from "../testParameters/styles/rcpch2Styles";
 import { rcpch3Styles } from "../testParameters/styles/rcpch3Styles";
-import { twoHeightMeasurements } from "../testParameters/measurements/twoHeightMeasurements"
+import { twoWeightMeasurements } from "../testParameters/measurements/twoWeightMeasurements"
 import { twoToEight } from "../testParameters/measurements/twoToEight"
 import { prematureThreeMonths } from "../testParameters/measurements/prematureThreeMonths"
 import { smallChildJustOverTwo } from "../testParameters/measurements/smallChildJustOverTwo"

@@ -1,6 +1,6 @@
 import { Measurement } from "../../interfaces/RCPCHMeasurementObject"
 
-export const twoHeightMeasurements:Measurement[] = [
+export const twoWeightMeasurements:Measurement[] = [
     {
     "birth_data": {
         "birth_date": "2020-01-23",
