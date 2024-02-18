@@ -116,7 +116,6 @@ function CentileChart({
         [storedChildMeasurements, sex, measurementMethod, reference, showCorrectedAge, showChronologicalAge],
     );
 
-
     const updatedData = useMemo(() => getVisibleData(sex, measurementMethod, reference, userDomains), [
         sex,
         measurementMethod,
@@ -600,14 +599,7 @@ function CentileChart({
                     {/* create a series for each child measurements data point: a circle for chronological age, a cross for corrected */}
                     {/* If data points are close together, reduce the size of the point */}
 
-                    {childMeasurements.map((childMeasurement: Measurement, index) => {
-                        // if (
-                        //     childMeasurement.measurement_calculated_values.corrected_measurement_error ||
-                        //     childMeasurement.measurement_calculated_values.chronological_measurement_error
-                        // ) {
-                        //     return null;
-                        // }
-                        
+                    {childMeasurements.map((childMeasurement: Measurement, index) => {    
 
                         const chronData: any = {
                             age_type: 'chronological_age',

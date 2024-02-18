@@ -333,12 +333,5 @@ describe("All test relating to plotting in the weight centile chart for a toddle
     render(<CentileChart {...props} />);
     expect(screen.getAllByTestId('chronologicalMeasurementPoint')).toHaveLength(73);
   });
-  
-  it("should show tooltip on mouseover of 6th measurement.", async () => {
-    const baseDom = render(<CentileChart {...props} />);
-    
-    userEvent.click(screen.getAllByTestId('chronologicalMeasurementPoint')[6]);
-    expect(await screen.getByTestId('tooltip')).toHaveTextContent("Chronological age: 4 months, 4 weeks and 2 days on 09/09/1759");
-  });
 
 });

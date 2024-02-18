@@ -18,7 +18,7 @@ export default {
 };
 
 export const WithHeightAndNoData = () => (
-    <CentileChart 
+    <CentileChart
         chartsVersion="testChart"
         reference="uk-who"
         title="Simon"
@@ -28,7 +28,7 @@ export const WithHeightAndNoData = () => (
         childMeasurements={[]}
         midParentalHeightData={midParentalHeights}
         enableZoom={true}
-        styles={rcpch2Styles}
+        styles={rcpch3Styles}
         enableExport={true}
         exportChartCallback={()=>null}
         clinicianFocus={true}

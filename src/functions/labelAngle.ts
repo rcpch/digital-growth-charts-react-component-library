@@ -33,6 +33,8 @@ export function labelAngle(data:any, index:any, chartScaleType: 'prem' | 'infant
         ageDiff = (x1-x0)*40;
     } else if (x1 < 2.0 && chartScaleType === 'infant') {
         ageDiff = (x1-x0)*100;
+    } else if (x1 < 0.383 && chartScaleType === 'prem') {
+        ageDiff = (x1-x0)*25;
     }
     if (measurementMethod === 'bmi') {
         ageDiff = (x1-x0) * 2;
