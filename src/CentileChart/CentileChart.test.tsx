@@ -79,25 +79,25 @@ Do not include tests for tooltips on mouseover which are collected in events.
 Centiles
 ---------
 One each of these needed for every measurement method and every sex
--[x] centile line renders for 0.4th centile
--[x] centile line renders for 2nd centile
--[x] centile line renders for 9th centile
--[x] centile line renders for 25th centile
--[x] centile line renders for 50th centile
--[x] centile line renders for 75th centile
--[x] centile line renders for 91st centile
--[x] centile line renders for 98th centile
--[x] centile line renders for 99.6th centile
+-[X] centile line renders for 0.4th centile
+-[X] centile line renders for 2nd centile
+-[X] centile line renders for 9th centile
+-[X] centile line renders for 25th centile
+-[X] centile line renders for 50th centile
+-[X] centile line renders for 75th centile
+-[X] centile line renders for 91st centile
+-[X] centile line renders for 98th centile
+-[X] centile line renders for 99.6th centile
 
 -------------
 BMI SDS Lines
 -------------
--[ ] -4.0 SDS line renders for BMI
--[ ] -3.0 SDS line renders for BMI
--[ ] +3.0 SDS line renders for BMI
--[ ] +3.33 SDS line renders for BMI
--[ ] +3.67 SDS line renders for BMI
--[ ] +4.0 SDS line renders for BMI
+-[X] -4.0 SDS line renders for BMI
+-[X] -3.0 SDS line renders for BMI
+-[X] +3.0 SDS line renders for BMI
+-[X] +3.33 SDS line renders for BMI
+-[X] +3.67 SDS line renders for BMI
+-[X] +4.0 SDS line renders for BMI
 
 ---------
 Events
@@ -269,7 +269,7 @@ describe("All tests relate to rendering the centile lines in the height centile 
         props.measurementMethod = item
         const chart = <CentileChart {...props} />
         render(chart);
-        // expect(screen.getByTestId("reference-0-centile-0.4")).toBeInTheDocument()
+        expect(screen.queryByTestId("reference-0-centile-0.4-measurement-"+item)).toBeInTheDocument()
         expect(screen.queryByTestId("reference-1-centile-0.4-measurement-"+item)).toBeInTheDocument()
         expect(screen.queryByTestId("reference-2-centile-0.4-measurement-"+item)).toBeInTheDocument()
         expect(screen.queryByTestId("reference-3-centile-0.4-measurement-"+item)).toBeInTheDocument()
@@ -281,7 +281,7 @@ describe("All tests relate to rendering the centile lines in the height centile 
         props.measurementMethod = item
         const chart = <CentileChart {...props} />
         render(chart);
-        // expect(screen.getByTestId("reference-0-centile-2")).toBeInTheDocument()
+        expect(screen.queryByTestId("reference-0-centile-2-measurement-"+props.measurementMethod)).toBeInTheDocument()
         expect(screen.queryByTestId("reference-1-centile-2-measurement-"+props.measurementMethod)).toBeInTheDocument()
         expect(screen.queryByTestId("reference-2-centile-2-measurement-"+props.measurementMethod)).toBeInTheDocument()
         expect(screen.queryByTestId("reference-3-centile-2-measurement-"+props.measurementMethod)).toBeInTheDocument()
@@ -293,7 +293,7 @@ describe("All tests relate to rendering the centile lines in the height centile 
         props.measurementMethod = item
         const chart = <CentileChart {...props} />
         render(chart);
-        // expect(screen.getByTestId("reference-0-centile-9")).toBeInTheDocument()
+        expect(screen.getByTestId("reference-0-centile-9-measurement-"+props.measurementMethod)).toBeInTheDocument()
         expect(screen.getByTestId("reference-1-centile-9-measurement-"+props.measurementMethod)).toBeInTheDocument()
         expect(screen.getByTestId("reference-2-centile-9-measurement-"+props.measurementMethod)).toBeInTheDocument()
         expect(screen.getByTestId("reference-3-centile-9-measurement-"+props.measurementMethod)).toBeInTheDocument()
@@ -305,7 +305,7 @@ describe("All tests relate to rendering the centile lines in the height centile 
         props.measurementMethod = item
         const chart = <CentileChart {...props} />
         render(chart);
-        // expect(screen.getByTestId("reference-0-centile-25")).toBeInTheDocument()
+        expect(screen.getByTestId("reference-0-centile-25-measurement-"+props.measurementMethod)).toBeInTheDocument()
         expect(screen.getByTestId("reference-1-centile-25-measurement-"+props.measurementMethod)).toBeInTheDocument()
         expect(screen.getByTestId("reference-2-centile-25-measurement-"+props.measurementMethod)).toBeInTheDocument()
         expect(screen.getByTestId("reference-3-centile-25-measurement-"+props.measurementMethod)).toBeInTheDocument()
@@ -317,7 +317,7 @@ describe("All tests relate to rendering the centile lines in the height centile 
         props.measurementMethod = item
         const chart = <CentileChart {...props} />
         render(chart);
-        // expect(screen.getByTestId("reference-0-unevenCentileLine-1")).toBeInTheDocument()
+        expect(screen.getByTestId("reference-0-centile-50-measurement-"+props.measurementMethod)).toBeInTheDocument()
         expect(screen.getByTestId("reference-1-centile-50-measurement-"+props.measurementMethod)).toBeInTheDocument()
         expect(screen.getByTestId("reference-2-centile-50-measurement-"+props.measurementMethod)).toBeInTheDocument()
         expect(screen.getByTestId("reference-3-centile-50-measurement-"+props.measurementMethod)).toBeInTheDocument()
@@ -329,7 +329,7 @@ describe("All tests relate to rendering the centile lines in the height centile 
         props.measurementMethod = item
         const chart = <CentileChart {...props} />
         render(chart);
-        // expect(screen.getByTestId("reference-0-centile-75")).toBeInTheDocument()
+        expect(screen.getByTestId("reference-0-centile-75-measurement-"+props.measurementMethod)).toBeInTheDocument()
         expect(screen.getByTestId("reference-1-centile-75-measurement-"+props.measurementMethod)).toBeInTheDocument()
         expect(screen.getByTestId("reference-2-centile-75-measurement-"+props.measurementMethod)).toBeInTheDocument()
         expect(screen.getByTestId("reference-3-centile-75-measurement-"+props.measurementMethod)).toBeInTheDocument()
@@ -341,7 +341,7 @@ describe("All tests relate to rendering the centile lines in the height centile 
         props.measurementMethod = item
         const chart = <CentileChart {...props} />
         render(chart);
-        // expect(screen.getByTestId("reference-0-centile-91")).toBeInTheDocument()
+        expect(screen.getByTestId("reference-0-centile-91-measurement-"+props.measurementMethod)).toBeInTheDocument()
         expect(screen.getByTestId("reference-1-centile-91-measurement-"+props.measurementMethod)).toBeInTheDocument()
         expect(screen.getByTestId("reference-2-centile-91-measurement-"+props.measurementMethod)).toBeInTheDocument()
         expect(screen.getByTestId("reference-3-centile-91-measurement-"+props.measurementMethod)).toBeInTheDocument()
@@ -353,7 +353,7 @@ describe("All tests relate to rendering the centile lines in the height centile 
         props.measurementMethod = item
         const chart = <CentileChart {...props} />
         render(chart);
-        // expect(screen.getByTestId("reference-0-centile-98")).toBeInTheDocument()
+        expect(screen.getByTestId("reference-0-centile-98-measurement-"+props.measurementMethod)).toBeInTheDocument()
         expect(screen.getByTestId("reference-1-centile-98-measurement-"+props.measurementMethod)).toBeInTheDocument()
         expect(screen.getByTestId("reference-2-centile-98-measurement-"+props.measurementMethod)).toBeInTheDocument()
         expect(screen.getByTestId("reference-3-centile-98-measurement-"+props.measurementMethod)).toBeInTheDocument()
@@ -365,13 +365,52 @@ describe("All tests relate to rendering the centile lines in the height centile 
         props.measurementMethod = item
         const chart = <CentileChart {...props} />
         render(chart);
-        // expect(screen.getByTestId("reference-0-centile-99.6")).toBeInTheDocument()
+        expect(screen.getByTestId("reference-0-centile-99.6-measurement-"+props.measurementMethod)).toBeInTheDocument()
         expect(screen.getByTestId("reference-1-centile-99.6-measurement-"+props.measurementMethod)).toBeInTheDocument()
         expect(screen.getByTestId("reference-2-centile-99.6-measurement-"+props.measurementMethod)).toBeInTheDocument()
         expect(screen.getByTestId("reference-3-centile-99.6-measurement-"+props.measurementMethod)).toBeInTheDocument()
       });
     });
     
+});
+
+describe("All tests relate to rendering the SDS lines in the BMI centile chart with no data.", () => {
+  let props: CentileChartProps;
+
+  const midparentalHeight: MidParentalHeightObject = {}
+
+  beforeEach(() => {
+    props = {
+      chartsVersion: "7.0.0",
+      reference: 'uk-who',
+      title: 'TestChartTitle',
+      subtitle: 'TestChartSubtitle',
+      measurementMethod: 'bmi',
+      sex: 'male',
+      childMeasurements: [],
+      midParentalHeightData: midparentalHeight,
+      enableZoom: false,
+      styles: monochromeStyles,
+      enableExport: false,
+      exportChartCallback: ()=>null,
+      clinicianFocus: false,
+      showCentileLabels: false,
+      showSDSLabels: false
+    };
+  });
+
+    const sdsLines = [-5,-4, 3, 3.33, 3.67, 4]
+
+    sdsLines.forEach((sdsLine, index)=>{
+      it("should render the "+sdsLine+" line",()=>{
+        const chart = <CentileChart {...props} />
+        render(chart);
+        expect(screen.queryByTestId("reference-1-centile-"+sdsLine+"-bmisds")).toBeInTheDocument()
+        expect(screen.queryByTestId("reference-2-centile-"+sdsLine+"-bmisds")).toBeInTheDocument()
+        expect(screen.queryByTestId("reference-3-centile-"+sdsLine+"-bmisds")).toBeInTheDocument()
+      });
+    });
+
 });
 
 describe("All tests relate to rendering the text in the height centile chart for an older boy.", () => {

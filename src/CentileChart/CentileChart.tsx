@@ -534,10 +534,11 @@ function CentileChart({
                                         {sdsReferenceData.map((sdsLine: ICentile, sdsIndex: number) => {
 
                                             // BMI charts have SDS lines at -5, -4, -3, 3, 3.33, 3.67, 4
-
+                                            
                                                 // sds line is dashed
                                                 return (
                                                     <VictoryLine
+                                                        data-testid={'reference-'+index+'-centile-'+sdsLine.sds+'-bmisds'}
                                                         name={'sdsLine-'+ sdsIndex}
                                                         key={sdsLine.sds + '-' + sdsIndex}
                                                         padding={{ top: 20, bottom: 20 }}
