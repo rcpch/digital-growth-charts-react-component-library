@@ -461,10 +461,9 @@ function CentileChart({
 
                                         if (centileIndex % 2 === 0) {
                                             // even index - centile is dashed
-
                                             return (
                                                 <VictoryLine
-                                                    data-testid='evenCentileLine'
+                                                    data-testid={'reference-'+referenceIndex+'-centile-'+centile.centile+'-measurement-'+measurementMethod}
                                                     name={'centileLine-'+ centileIndex}
                                                     key={centile.centile + '-' + centileIndex}
                                                     padding={{ top: 20, bottom: 20 }}
@@ -492,7 +491,7 @@ function CentileChart({
                                             // uneven index - centile is continuous
                                             return (
                                                 <VictoryLine
-                                                    data-testid='unevenCentileLine'
+                                                    data-testid={'reference-'+referenceIndex+'-centile-'+centile.centile+'-measurement-'+measurementMethod}
                                                     name={'centileLine-'+ centileIndex}
                                                     key={centile.centile + '-' + centileIndex}
                                                     padding={{ top: 20, bottom: 20 }}

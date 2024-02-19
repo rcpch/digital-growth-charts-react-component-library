@@ -79,15 +79,15 @@ Do not include tests for tooltips on mouseover which are collected in events.
 Centiles
 ---------
 One each of these needed for every measurement method and every sex
--[ ] centile line renders for 0.4th centile
--[ ] centile line renders for 2nd centile
--[ ] centile line renders for 9th centile
--[ ] centile line renders for 25th centile
--[ ] centile line renders for 50th centile
--[ ] centile line renders for 75th centile
--[ ] centile line renders for 91st centile
--[ ] centile line renders for 98th centile
--[ ] centile line renders for 99.6th centile
+-[x] centile line renders for 0.4th centile
+-[x] centile line renders for 2nd centile
+-[x] centile line renders for 9th centile
+-[x] centile line renders for 25th centile
+-[x] centile line renders for 50th centile
+-[x] centile line renders for 75th centile
+-[x] centile line renders for 91st centile
+-[x] centile line renders for 98th centile
+-[x] centile line renders for 99.6th centile
 
 -------------
 BMI SDS Lines
@@ -232,6 +232,147 @@ import { termToOverFourYearsGirlHeight } from "../testParameters/measurements/te
 import { turnerHeightOneYearToEleven } from "../testParameters/measurements/turnerHeightOneYearToEleven";
 import { prematureTwentyTwoWeeksWeight } from "../testParameters/measurements/prematureTwentyTwoWeeks";
 import { prematureGirlOverFourHeight } from "../testParameters/measurements/prematureGirlOverFourHeight";
+
+describe("All tests relate to rendering the centile lines in the height centile chart with no data.", () => {
+  let props: CentileChartProps;
+
+  const midparentalHeight: MidParentalHeightObject = {}
+
+  beforeEach(() => {
+    props = {
+      chartsVersion: "7.0.0",
+      reference: 'uk-who',
+      title: 'TestChartTitle',
+      subtitle: 'TestChartSubtitle',
+      measurementMethod: 'height',
+      sex: 'male',
+      childMeasurements: [],
+      midParentalHeightData: midparentalHeight,
+      enableZoom: false,
+      styles: monochromeStyles,
+      enableExport: false,
+      exportChartCallback: ()=>null,
+      clinicianFocus: false,
+      showCentileLabels: false,
+      showSDSLabels: false
+    };
+  });
+  
+  enum MeasurementMethods {
+    'height'= 'height', 'weight'='weight', 'bmi'='bmi', 'ofc'='ofc'
+  }
+
+  const measurementMethods = [MeasurementMethods.height, MeasurementMethods.weight, MeasurementMethods.bmi, MeasurementMethods.ofc];
+
+    it("should render 0.4th centile", () => {
+      measurementMethods.forEach((item, index) =>{
+        props.measurementMethod = item
+        const chart = <CentileChart {...props} />
+        render(chart);
+        // expect(screen.getByTestId("reference-0-centile-0.4")).toBeInTheDocument()
+        expect(screen.queryByTestId("reference-1-centile-0.4-measurement-"+item)).toBeInTheDocument()
+        expect(screen.queryByTestId("reference-2-centile-0.4-measurement-"+item)).toBeInTheDocument()
+        expect(screen.queryByTestId("reference-3-centile-0.4-measurement-"+item)).toBeInTheDocument()
+      })
+    });
+    
+    it("should render 2nd centile", () => {
+      measurementMethods.forEach((item, index) =>{
+        props.measurementMethod = item
+        const chart = <CentileChart {...props} />
+        render(chart);
+        // expect(screen.getByTestId("reference-0-centile-2")).toBeInTheDocument()
+        expect(screen.queryByTestId("reference-1-centile-2-measurement-"+props.measurementMethod)).toBeInTheDocument()
+        expect(screen.queryByTestId("reference-2-centile-2-measurement-"+props.measurementMethod)).toBeInTheDocument()
+        expect(screen.queryByTestId("reference-3-centile-2-measurement-"+props.measurementMethod)).toBeInTheDocument()
+      });
+    });
+    
+    it("should render 9th centile", () => {
+      measurementMethods.forEach((item, index) =>{
+        props.measurementMethod = item
+        const chart = <CentileChart {...props} />
+        render(chart);
+        // expect(screen.getByTestId("reference-0-centile-9")).toBeInTheDocument()
+        expect(screen.getByTestId("reference-1-centile-9-measurement-"+props.measurementMethod)).toBeInTheDocument()
+        expect(screen.getByTestId("reference-2-centile-9-measurement-"+props.measurementMethod)).toBeInTheDocument()
+        expect(screen.getByTestId("reference-3-centile-9-measurement-"+props.measurementMethod)).toBeInTheDocument()
+      });
+    });
+    
+    it("should render 25th centile", () => {
+      measurementMethods.forEach((item, index) =>{
+        props.measurementMethod = item
+        const chart = <CentileChart {...props} />
+        render(chart);
+        // expect(screen.getByTestId("reference-0-centile-25")).toBeInTheDocument()
+        expect(screen.getByTestId("reference-1-centile-25-measurement-"+props.measurementMethod)).toBeInTheDocument()
+        expect(screen.getByTestId("reference-2-centile-25-measurement-"+props.measurementMethod)).toBeInTheDocument()
+        expect(screen.getByTestId("reference-3-centile-25-measurement-"+props.measurementMethod)).toBeInTheDocument()
+      });
+    });
+    
+    it("should render 50th centile", () => {
+      measurementMethods.forEach((item, index) =>{
+        props.measurementMethod = item
+        const chart = <CentileChart {...props} />
+        render(chart);
+        // expect(screen.getByTestId("reference-0-unevenCentileLine-1")).toBeInTheDocument()
+        expect(screen.getByTestId("reference-1-centile-50-measurement-"+props.measurementMethod)).toBeInTheDocument()
+        expect(screen.getByTestId("reference-2-centile-50-measurement-"+props.measurementMethod)).toBeInTheDocument()
+        expect(screen.getByTestId("reference-3-centile-50-measurement-"+props.measurementMethod)).toBeInTheDocument()
+      });
+    });
+    
+    it("should render 75th centile", () => {
+      measurementMethods.forEach((item, index) =>{
+        props.measurementMethod = item
+        const chart = <CentileChart {...props} />
+        render(chart);
+        // expect(screen.getByTestId("reference-0-centile-75")).toBeInTheDocument()
+        expect(screen.getByTestId("reference-1-centile-75-measurement-"+props.measurementMethod)).toBeInTheDocument()
+        expect(screen.getByTestId("reference-2-centile-75-measurement-"+props.measurementMethod)).toBeInTheDocument()
+        expect(screen.getByTestId("reference-3-centile-75-measurement-"+props.measurementMethod)).toBeInTheDocument()
+      });
+    });
+    
+    it("should render 91st centile", () => {
+      measurementMethods.forEach((item, index) =>{
+        props.measurementMethod = item
+        const chart = <CentileChart {...props} />
+        render(chart);
+        // expect(screen.getByTestId("reference-0-centile-91")).toBeInTheDocument()
+        expect(screen.getByTestId("reference-1-centile-91-measurement-"+props.measurementMethod)).toBeInTheDocument()
+        expect(screen.getByTestId("reference-2-centile-91-measurement-"+props.measurementMethod)).toBeInTheDocument()
+        expect(screen.getByTestId("reference-3-centile-91-measurement-"+props.measurementMethod)).toBeInTheDocument()
+      });
+    });
+    
+    it("should render 98th centile", () => {
+      measurementMethods.forEach((item, index) =>{
+        props.measurementMethod = item
+        const chart = <CentileChart {...props} />
+        render(chart);
+        // expect(screen.getByTestId("reference-0-centile-98")).toBeInTheDocument()
+        expect(screen.getByTestId("reference-1-centile-98-measurement-"+props.measurementMethod)).toBeInTheDocument()
+        expect(screen.getByTestId("reference-2-centile-98-measurement-"+props.measurementMethod)).toBeInTheDocument()
+        expect(screen.getByTestId("reference-3-centile-98-measurement-"+props.measurementMethod)).toBeInTheDocument()
+      });
+    });
+    
+    it("should render 99.6th centile", () => {
+      measurementMethods.forEach((item, index) =>{
+        props.measurementMethod = item
+        const chart = <CentileChart {...props} />
+        render(chart);
+        // expect(screen.getByTestId("reference-0-centile-99.6")).toBeInTheDocument()
+        expect(screen.getByTestId("reference-1-centile-99.6-measurement-"+props.measurementMethod)).toBeInTheDocument()
+        expect(screen.getByTestId("reference-2-centile-99.6-measurement-"+props.measurementMethod)).toBeInTheDocument()
+        expect(screen.getByTestId("reference-3-centile-99.6-measurement-"+props.measurementMethod)).toBeInTheDocument()
+      });
+    });
+    
+});
 
 describe("All tests relate to rendering the text in the height centile chart for an older boy.", () => {
   let props: CentileChartProps;
@@ -564,7 +705,7 @@ describe("All test relating to plotting in the weight centile chart for a toddle
 
 });
 
-describe("All tests relating to plotting in the heigh centile chart for a premature girl to three months of age.", () => {
+describe("All tests relating to plotting in the height centile chart for a premature girl to three months of age.", () => {
   let props: CentileChartProps;
   const midparentalHeight: MidParentalHeightObject = {}
 
@@ -803,7 +944,7 @@ describe("All tests relating to plotting height centile chart for a term girl un
     };
   });
   
-  it("should plot 14 x points for chronological age.", () => {
+  it("should plot 14 dot points for chronological age.", () => {
     render(<CentileChart {...props} />);
     expect(screen.queryAllByTestId('chronologicalMeasurementPoint')).toHaveLength(14);
   });
