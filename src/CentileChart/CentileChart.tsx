@@ -819,6 +819,7 @@ function CentileChart({
                                             $color={styles.toggleStyle.activeColour}
                                             size={5}
                                             onClick={exportPressed}
+                                            data-testid="copy-button"
                                         >
                                             <ShareIcon/>
                                         </StyledShareButton>

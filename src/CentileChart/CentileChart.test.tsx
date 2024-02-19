@@ -198,12 +198,12 @@ One each of these needed for every measurement method and every sex
 -[ ] Zoom disabled in life course view
 
 *Paste Button*
--[ ] Paste button present if enableExport prop is true
--[ ] Paste button absent if enableExport prop is true
--[ ] 'copied' text appears and fades on click
--[ ] Description text appears on hover over button
--[ ] Grey rim animates round button edge on hover over button
--[ ] exportChartCallback triggered on click
+-[x] Paste button present if enableExport prop is true
+-[x] Paste button absent if enableExport prop is false
+-[x] Description text appears on hover over button
+-[x] 'copied' text appears and fades on click
+-[-] Grey rim animates round button edge on hover over button
+-[x] exportChartCallback triggered on click
 -[ ] correct SVG of chart present when exportChartCallback triggered on click
 
 *Zoom*
@@ -216,7 +216,7 @@ One each of these needed for every measurement method and every sex
 */
 
 import * as React from "react";
-import { fireEvent,render, screen } from "@testing-library/react";
+import { fireEvent,getByTestId,queryByTestId,render, screen } from "@testing-library/react";
 import '@testing-library/jest-dom';
 
 import CentileChart from "./CentileChart";
@@ -994,3 +994,114 @@ describe("All tests relating to plotting height centile chart for a term girl un
   });
 
 });
+
+
+// Paste button tests
+
+describe("All tests relating to testing the copy button", () => {
+  let props: CentileChartProps;
+  const midparentalHeight: MidParentalHeightObject = {}
+
+  beforeEach(() => {
+    props = {
+      chartsVersion: "7.0.0",
+      reference: 'uk-who',
+      title: 'TestChartTitle',
+      subtitle: 'TestChartSubtitle',
+      measurementMethod: 'height',
+      sex: 'male',
+      childMeasurements: [],
+      midParentalHeightData: midparentalHeight,
+      enableZoom: false,
+      styles: monochromeStyles,
+      enableExport: true,
+      exportChartCallback: ()=>null,
+      clinicianFocus: false,
+      showCentileLabels: false,
+      showSDSLabels: false
+    };
+  });
+
+    it("should show that paste button is present if enableExport prop is true", () => {
+      render(<CentileChart {...props} />);
+      expect(screen.queryByTestId("copy-button")).toBeInTheDocument();
+    })
+    it("should show the Copy Graph text upon hovering", () => {
+      render(<CentileChart {...props} />);
+      fireEvent.mouseEnter(screen.getByTestId('copy-button'));
+      expect(screen.queryByText("Copy Graph"));
+    })
+    it("should show the 'copied' text upon clicking and then it should fade", () => {
+      render(<CentileChart {...props} />);
+      fireEvent.click(screen.getByTestId('copy-button'));
+      expect(screen.queryByText('Copied!'));
+    })
+    it("should show the grey rim around copy button on hover", () => {
+      render(<CentileChart {...props} />);
+      fireEvent.mouseEnter(screen.getByTestId('copy-button'));
+      expect(screen.getByTestId('copy-button')).toHaveStyle('color: #b3b3b3');
+    })
+
+})
+
+describe("Tests relating to exportChartCallback function", () => {
+  const mockExportChartCallback = jest.fn();
+  let props: CentileChartProps;
+  const midparentalHeight: MidParentalHeightObject = {}
+
+  beforeEach(() => {
+    props = {
+      chartsVersion: "7.0.0",
+      reference: 'uk-who',
+      title: 'TestChartTitle',
+      subtitle: 'TestChartSubtitle',
+      measurementMethod: 'height',
+      sex: 'male',
+      childMeasurements: [],
+      midParentalHeightData: midparentalHeight,
+      enableZoom: false,
+      styles: monochromeStyles,
+      enableExport: true,
+      exportChartCallback: mockExportChartCallback,
+      clinicianFocus: false,
+      showCentileLabels: false,
+      showSDSLabels: false
+    };
+  });
+
+  it("should trigger exportChartCallback function onclick", () => {
+    render(<CentileChart {...props} />);
+    fireEvent.click(screen.getByTestId('copy-button'));
+    expect(mockExportChartCallback).toHaveBeenCalled();
+  })
+})
+
+describe("Tests relating to negative settings on the copy button", () => {
+  let props: CentileChartProps;
+  const midparentalHeight: MidParentalHeightObject = {}
+
+  beforeEach(() => {
+    props = {
+      chartsVersion: "7.0.0",
+      reference: 'uk-who',
+      title: 'TestChartTitle',
+      subtitle: 'TestChartSubtitle',
+      measurementMethod: 'height',
+      sex: 'male',
+      childMeasurements: [],
+      midParentalHeightData: midparentalHeight,
+      enableZoom: false,
+      styles: monochromeStyles,
+      enableExport: false,
+      exportChartCallback: ()=>null,
+      clinicianFocus: false,
+      showCentileLabels: false,
+      showSDSLabels: false
+    };
+  });
+
+  it("should show that the paste button is absent if enableExport is false", () => {
+    render(<CentileChart {...props} />);
+    expect(screen.queryByTestId('copy-button')).not.toBeInTheDocument();
+  })
+})
