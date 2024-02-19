@@ -11,11 +11,14 @@ prematureThreeMonths - a girl born at 30+2, length
 prematureTwentyTwoWeeks - - a girl born at 22 weeks | to demonstrate lack of data
 PrematureTwentyTwoWeeksHeight - a girl born at 22 weeks
 PrematureTwentyTwoWeeksOFC - a girl born at 22 weeks
-termToAYearGirlOFC - a girl born term to a year of age
+termToAYearGirlHeight - a girl born term to a year of age
 smallChildJustOverTwo - a boy, term, height from birth to 2y
 twoWeightMeasurements - a boy weight, term birth and 2 y
 twoToEight - a girl, heights
-towToEightWeight - a boy
+twoToEightWeight - a boy
+termToAYearYearsGirlHeight - a girl from term to over a year
+termToTwoYearsGirlHeight - a girl from term to over 2 years
+termToOverFourYearsGirlHeight - a girl from term to over 4 years
 turnerHeightOneYearToEleven - a girl with Turner's from a year to 11 y
 
 Below is a list of tests that are implemented or need implementing
@@ -43,7 +46,8 @@ Labels
 -[X] Y axis lable text renders correctly - weight
 -[X] Y axis lable text renders correctly - bmi
 -[X] Y axis lable text renders correctly - OFC
--[X] X axis lable text renders correctly - premature infant (Gestation or postnatal weeks / months (shown as lollipops))
+-[X] X axis lable text renders correctly - premature infant (Gestation weeks)
+-[X] X axis lable text renders correctly - premature infant after term (Gestation or postnatal weeks / months (shown as lollipops))
 -[X] X axis lable text renders correctly - infant (Age (in years and months (shown as lollipops)))
 -[X] X axis lable text renders correctly - child (age in years)
 -[X] reference attribution text renders correctly - UK-WHO
@@ -60,13 +64,13 @@ Measurement Points
 These are important to ensure data points are not lost when swapping from one reference to another.
 Do not include tests for tooltips on mouseover which are collected in events.
 
--[X] correct number of measurement points render for preterm infant
+-[X] correct number of measurement points render for preterm infant under term
 -[X] correct number of measurement points render for preterm infant now over 42 weeks
 -[X] correct number of measurement points render for preterm infant now over 2 years
 -[X] correct number of measurement points render for preterm infant now over 4 years
--[ ] correct number of measurement points render for term infant
--[ ] correct number of measurement points render for term infant now over 2y
--[ ] correct number of measurement points render for term infant now over 4
+-[X] correct number of measurement points render for term infant under 2 y
+-[X] correct number of measurement points render for term infant now over 2y
+-[X] correct number of measurement points render for term infant now over 4
 
 -[ ] padding is applied to lowest measurement and the chart truncated
 -[ ] padding is applied to highest measurement and the chart truncated
@@ -222,7 +226,9 @@ import { MidParentalHeightObject } from "../interfaces/MidParentalHeightObject";
 import { monochromeStyles } from '../testParameters/styles/monochromeStyles'
 import {prematureThreeMonths} from '../testParameters/measurements/prematureThreeMonths';
 import { twoToEightWeight } from "../testParameters/measurements/twoToEightWeight";
-import { termToAYearGirlOFC } from "../testParameters/measurements/termToAYearGirlOFC";
+import { termToAYearGirlHeight } from "../testParameters/measurements/termToAYearGirlHeight";
+import { termToTwoYearsGirlHeight } from "../testParameters/measurements/termToTwoYearsGirlHeight";
+import { termToOverFourYearsGirlHeight } from "../testParameters/measurements/termToOverFourYearsGirlHeight";
 import { turnerHeightOneYearToEleven } from "../testParameters/measurements/turnerHeightOneYearToEleven";
 import { prematureTwentyTwoWeeksWeight } from "../testParameters/measurements/prematureTwentyTwoWeeks";
 import { prematureGirlOverFourHeight } from "../testParameters/measurements/prematureGirlOverFourHeight";
@@ -558,7 +564,7 @@ describe("All test relating to plotting in the weight centile chart for a toddle
 
 });
 
-describe("All test relating to plotting in the OFC centile chart for a girl from term to a year of age.", () => {
+describe("All tests relating to plotting in the heigh centile chart for a premature girl to three months of age.", () => {
   let props: CentileChartProps;
   const midparentalHeight: MidParentalHeightObject = {}
 
@@ -568,9 +574,9 @@ describe("All test relating to plotting in the OFC centile chart for a girl from
       reference: "uk-who",
       title: "TestChartTitle",
       subtitle: "TestChartSubtitle",
-      measurementMethod: "ofc",
+      measurementMethod: "height",
       sex: 'female',
-      childMeasurements: termToAYearGirlOFC,
+      childMeasurements: prematureThreeMonths,
       midParentalHeightData: midparentalHeight,
       enableZoom: false,
       styles: monochromeStyles,
@@ -584,7 +590,7 @@ describe("All test relating to plotting in the OFC centile chart for a girl from
 
   it("should plot x axis correctly in the first year of life.", () => {
     render(<CentileChart {...props} />);
-    expect(screen.getByText('Age (in years and months (shown as lollipops))')).toBeInTheDocument();
+    expect(screen.getByText('Gestation or postnatal weeks / months (shown as lollipops)')).toBeInTheDocument();
   });
 
 });
@@ -644,6 +650,11 @@ describe("All tests relating to plotting weight centile chart for an extremely p
     };
   });
 
+  it("should plot x axis correctly in the first year of life.", () => {
+    render(<CentileChart {...props} />);
+    expect(screen.getByText('Gestation (weeks)')).toBeInTheDocument();
+  });
+
   it("should plot 16 x points for corrected age.", () => {
     render(<CentileChart {...props} />);
     fireEvent.click(screen.getByTestId('adjusted'));
@@ -692,6 +703,114 @@ describe("All tests relating to plotting weight centile chart for an extremely p
     render(<CentileChart {...props} />);
     fireEvent.click(screen.getByTestId('unadjusted'));
     expect(screen.queryAllByTestId('chronologicalMeasurementPoint')).toHaveLength(14);
+  });
+
+});
+
+describe("All tests relating to plotting height centile chart for a term girl until a year.", () => {
+  let props: CentileChartProps;
+  const midparentalHeight: MidParentalHeightObject = {}
+
+  beforeEach(() => {
+    props = {
+      chartsVersion: "7.0.0",
+      reference: "uk-who",
+      title: "Term Girl",
+      subtitle: "Now a year",
+      measurementMethod: "height",
+      sex: 'female',
+      childMeasurements: termToAYearGirlHeight,
+      midParentalHeightData: midparentalHeight,
+      enableZoom: false,
+      styles: monochromeStyles,
+      enableExport: false,
+      exportChartCallback: ()=>null,
+      clinicianFocus: false,
+      showCentileLabels: false,
+      showSDSLabels: false
+    };
+  });
+  
+  it("should plot 85 x points for chronological age.", () => {
+    render(<CentileChart {...props} />);
+    expect(screen.queryAllByTestId('chronologicalMeasurementPoint')).toHaveLength(85);
+  });
+  
+  it("should plot 0 x points for corrected age.", () => {
+    render(<CentileChart {...props} />);
+    expect(screen.queryAllByTestId('correctedMeasurementPoint')).toHaveLength(0);
+  });
+
+});
+
+describe("All tests relating to plotting height centile chart for a term girl until over two years.", () => {
+  let props: CentileChartProps;
+  const midparentalHeight: MidParentalHeightObject = {}
+
+  beforeEach(() => {
+    props = {
+      chartsVersion: "7.0.0",
+      reference: "uk-who",
+      title: "Term Girl",
+      subtitle: "Now over 2 years",
+      measurementMethod: "height",
+      sex: 'female',
+      childMeasurements: termToTwoYearsGirlHeight,
+      midParentalHeightData: midparentalHeight,
+      enableZoom: false,
+      styles: monochromeStyles,
+      enableExport: false,
+      exportChartCallback: ()=>null,
+      clinicianFocus: false,
+      showCentileLabels: false,
+      showSDSLabels: false
+    };
+  });
+  
+  it("should plot 7 x points for chronological age.", () => {
+    render(<CentileChart {...props} />);
+    expect(screen.queryAllByTestId('chronologicalMeasurementPoint')).toHaveLength(7);
+  });
+  
+  it("should plot 0 x points for corrected age.", () => {
+    render(<CentileChart {...props} />);
+    expect(screen.queryAllByTestId('correctedMeasurementPoint')).toHaveLength(0);
+  });
+
+});
+
+describe("All tests relating to plotting height centile chart for a term girl until over four years.", () => {
+  let props: CentileChartProps;
+  const midparentalHeight: MidParentalHeightObject = {}
+
+  beforeEach(() => {
+    props = {
+      chartsVersion: "7.0.0",
+      reference: "uk-who",
+      title: "Term Girl",
+      subtitle: "Now over 4 years",
+      measurementMethod: "height",
+      sex: 'female',
+      childMeasurements: termToOverFourYearsGirlHeight,
+      midParentalHeightData: midparentalHeight,
+      enableZoom: false,
+      styles: monochromeStyles,
+      enableExport: false,
+      exportChartCallback: ()=>null,
+      clinicianFocus: false,
+      showCentileLabels: false,
+      showSDSLabels: false
+    };
+  });
+  
+  it("should plot 14 x points for chronological age.", () => {
+    render(<CentileChart {...props} />);
+    expect(screen.queryAllByTestId('chronologicalMeasurementPoint')).toHaveLength(14);
+  });
+  
+  it("should plot 0 x points for corrected age.", () => {
+    render(<CentileChart {...props} />);
+    expect(screen.queryAllByTestId('correctedMeasurementPoint')).toHaveLength(0);
   });
 
 });

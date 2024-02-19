@@ -14,6 +14,9 @@ import { prematureTwentyTwoWeeksHeight } from "../testParameters/measurements/pr
 import { prematureTwentyTwoWeeksOFC } from "../testParameters/measurements/prematureTwentyTwoWeeksOFC"
 import { prematureGirlOverThreeHeight } from "../testParameters/measurements/prematureGirlOverThreeHeight"
 import { prematureGirlOverFourHeight } from "../testParameters/measurements/prematureGirlOverFourHeight"
+import { termToAYearGirlHeight } from "../testParameters/measurements/termToAYearGirlHeight"
+import { termToTwoYearsGirlHeight } from "../testParameters/measurements/termToTwoYearsGirlHeight"
+import { termToOverFourYearsGirlHeight } from "../testParameters/measurements/termToOverFourYearsGirlHeight"
 import { turnerHeightOneYearToEleven } from "../testParameters/measurements/turnerHeightOneYearToEleven";
 
 export default {
@@ -289,6 +292,66 @@ export const WithPrematureGirlOverFourHeight = () => (
         measurementMethod="height"
         sex="female"
         childMeasurements={prematureGirlOverFourHeight}
+        midParentalHeightData={midParentalHeights}
+        enableZoom={true}
+        styles={rcpch3Styles}
+        enableExport={true}
+        exportChartCallback={()=>null}
+        clinicianFocus={true}
+        showCentileLabels={true}
+        showSDSLabels={true}
+    />
+);
+
+export const WithTermToAYearGirlHeight = () => (
+    <CentileChart 
+        chartsVersion="7.0.0"
+        reference="uk-who"
+        title="Term Girl"
+        subtitle="Height to a year"
+        measurementMethod="height"
+        sex="female"
+        childMeasurements={termToAYearGirlHeight}
+        midParentalHeightData={midParentalHeights}
+        enableZoom={true}
+        styles={rcpch3Styles}
+        enableExport={true}
+        exportChartCallback={()=>null}
+        clinicianFocus={true}
+        showCentileLabels={true}
+        showSDSLabels={true}
+    />
+);
+
+export const WithTermToTwoYearsGirlHeight = () => (
+    <CentileChart 
+        chartsVersion="7.0.0"
+        reference="uk-who"
+        title="Term Girl"
+        subtitle="Height to two years"
+        measurementMethod="height"
+        sex="female"
+        childMeasurements={termToTwoYearsGirlHeight}
+        midParentalHeightData={midParentalHeights}
+        enableZoom={true}
+        styles={rcpch3Styles}
+        enableExport={true}
+        exportChartCallback={()=>null}
+        clinicianFocus={true}
+        showCentileLabels={true}
+        showSDSLabels={true}
+    />
+);
+
+export const WithTermToOverFourYearsGirlHeight = () => (
+    <CentileChart 
+        chartsVersion="7.0.0"
+        reference="uk-who"
+        title="Term Girl"
+        subtitle="Height to over four years"
+        measurementMethod="height"
+        sex="female"
+        childMeasurements={termToOverFourYearsGirlHeight}
         midParentalHeightData={midParentalHeights}
         enableZoom={true}
         styles={rcpch3Styles}
