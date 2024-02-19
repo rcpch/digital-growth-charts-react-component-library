@@ -832,7 +832,7 @@ function CentileChart({
                                         >
                                             <ShareIcon/>
                                         </StyledShareButton>
-                                        <div className='tooltip'>Copy Graph</div>
+                                        <div className='tooltip'>Copy Chart</div>
                                     </StyledButtonTooltip>
                                     <CopiedLabel
                                         $active={active}

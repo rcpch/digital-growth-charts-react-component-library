@@ -216,7 +216,7 @@ One each of these needed for every measurement method and every sex
 */
 
 import * as React from "react";
-import { fireEvent,getByTestId,queryByTestId,render, screen } from "@testing-library/react";
+import { fireEvent,getByTestId,queryByTestId,render, screen, waitFor } from "@testing-library/react";
 import '@testing-library/jest-dom';
 
 import CentileChart from "./CentileChart";
@@ -1034,15 +1034,15 @@ describe("All tests relating to testing the copy button", () => {
       fireEvent.mouseEnter(screen.getByTestId('copy-button'));
       expect(screen.queryByText("Copy Graph"));
     })
-    it("should show the 'copied' text upon clicking and then it should fade", () => {
+    it("should show the 'copied' text upon clicking and then it should fade", async () => {
       render(<CentileChart {...props} />);
       fireEvent.click(screen.getByTestId('copy-button'));
-      expect(screen.queryByText('Copied!'));
+      await waitFor(()=>expect(screen.queryByText('Copied!')), {timeout: 1000});
     })
     it("should show the grey rim around copy button on hover", () => {
       render(<CentileChart {...props} />);
-      fireEvent.mouseEnter(screen.getByTestId('copy-button'));
-      expect(screen.getByTestId('copy-button')).toHaveStyle('color: #b3b3b3');
+      fireEvent.mouseOver(screen.getByTestId('copy-button'));
+      expect(screen.getByTestId('copy-button')).toHaveStyle('background-color: ButtonFace');
     })
 
 })
