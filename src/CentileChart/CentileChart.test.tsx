@@ -232,6 +232,9 @@ import { termToOverFourYearsGirlHeight } from "../testParameters/measurements/te
 import { turnerHeightOneYearToEleven } from "../testParameters/measurements/turnerHeightOneYearToEleven";
 import { prematureTwentyTwoWeeksWeight } from "../testParameters/measurements/prematureTwentyTwoWeeks";
 import { prematureGirlOverFourHeight } from "../testParameters/measurements/prematureGirlOverFourHeight";
+import { termGirlWithSingleHeightMeasurementAndBoneAgeAndEvent } from "../testParameters/measurements/termGirlWithSingleHeightMeasurementAndBoneAgeAndEvent";
+
+import { VictoryScatter } from "victory";
 
 describe("All tests relate to rendering the centile lines in the height centile chart with no data.", () => {
   let props: CentileChartProps;
@@ -991,6 +994,39 @@ describe("All tests relating to plotting height centile chart for a term girl un
   it("should plot 0 x points for corrected age.", () => {
     render(<CentileChart {...props} />);
     expect(screen.queryAllByTestId('correctedMeasurementPoint')).toHaveLength(0);
+  });
+
+});
+
+describe("All tests relate to a single height measurement in a term girl now 4 years old with an advanced bone age and some events.", () => {
+  let props: CentileChartProps;
+  const midparentalHeight: MidParentalHeightObject = {}
+
+  beforeEach(() => {
+    props = {
+      chartsVersion: "7.0.0",
+      reference: "uk-who",
+      title: "Term Girl",
+      subtitle: "Now over 4 years with advanced bone age",
+      measurementMethod: "height",
+      sex: 'female',
+      childMeasurements: termGirlWithSingleHeightMeasurementAndBoneAgeAndEvent,
+      midParentalHeightData: midparentalHeight,
+      enableZoom: false,
+      styles: monochromeStyles,
+      enableExport: false,
+      exportChartCallback: ()=>null,
+      clinicianFocus: false,
+      showCentileLabels: false,
+      showSDSLabels: false
+    };
+  });
+  
+  it("Chronological age should be correct.", () => {
+    const chart = render(<CentileChart {...props} />);
+    expect(chart.queryAllByTestId('chronologicalMeasurementPoint')).toHaveLength(1);
+    // 4.167008898015058 age
+    
   });
 
 });

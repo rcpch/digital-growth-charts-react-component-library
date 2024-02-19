@@ -5,6 +5,7 @@ import { monochromeStyles } from "../testParameters/styles/monochromeStyles";
 import { rcpch1Styles } from "../testParameters/styles/rcpch1Styles";
 import { rcpch2Styles } from "../testParameters/styles/rcpch2Styles";
 import { rcpch3Styles } from "../testParameters/styles/rcpch3Styles";
+import { termGirlWithSingleHeightMeasurementAndBoneAgeAndEvent } from "../testParameters/measurements/termGirlWithSingleHeightMeasurementAndBoneAgeAndEvent"
 import { twoWeightMeasurements } from "../testParameters/measurements/twoWeightMeasurements"
 import { twoToEight } from "../testParameters/measurements/twoToEight"
 import { prematureThreeMonths } from "../testParameters/measurements/prematureThreeMonths"
@@ -112,6 +113,26 @@ export const WithOFCAndNoData = () => (
         measurementMethod="ofc"
         sex="female"
         childMeasurements={[]}
+        midParentalHeightData={midParentalHeights}
+        enableZoom={true}
+        styles={monochromeStyles}
+        enableExport={true}
+        exportChartCallback={()=>null}
+        clinicianFocus={true}
+        showCentileLabels={true}
+        showSDSLabels={true}
+    />
+);
+
+export const WithTermBoyAndSingleHeightMeasurementAndBoneAgeAndEvent = () => (
+    <CentileChart 
+        chartsVersion="bar"
+        reference="uk-who"
+        title="Simon"
+        subtitle="rules"
+        measurementMethod="height"
+        sex="female"
+        childMeasurements={termGirlWithSingleHeightMeasurementAndBoneAgeAndEvent}
         midParentalHeightData={midParentalHeights}
         enableZoom={true}
         styles={monochromeStyles}

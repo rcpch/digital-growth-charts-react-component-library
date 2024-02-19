@@ -662,6 +662,7 @@ function CentileChart({
                                         showChronologicalAge && !showCorrectedAge ?
                                         // Events against chronological age only if corrected age not showing
                                         <VictoryScatter
+                                            key={"item-"+index}
                                             name="eventcaret"
                                             data={[{x: childMeasurement.measurement_dates.chronological_decimal_age, y: childMeasurement.child_observation_value.observation_value}]}
                                             dataComponent={
@@ -673,6 +674,7 @@ function CentileChart({
                                         :
                                         // Events against corrected age
                                         <VictoryScatter
+                                            key={"item-"+index}
                                             name="eventcaret"
                                             data={[{x: childMeasurement.measurement_dates.corrected_decimal_age, y: childMeasurement.child_observation_value.observation_value}]}
                                             dataComponent={
@@ -686,6 +688,7 @@ function CentileChart({
 
                                 { showChronologicalAge && childMeasurement.bone_age.bone_age && ( showChronologicalAge || showCorrectedAge ) && !( showCorrectedAge && showChronologicalAge ) && // bone age linked to chronological age
                                     <VictoryScatter // bone age
+                                        key={"item-"+index}
                                         name="chronologicalboneage"
                                         data={[chronData]}
                                         x={"b"}
@@ -702,6 +705,7 @@ function CentileChart({
 
                                 { showCorrectedAge && childMeasurement.bone_age.bone_age &&  // bone age linked to corrected age
                                     <VictoryScatter // bone age
+                                        key={"item-"+index}
                                         name="correctedboneage"
                                         data={[correctData]}
                                         x={"b"}
@@ -717,13 +721,14 @@ function CentileChart({
                                 }
                                 { showChronologicalAge && !showCorrectedAge && childMeasurement.bone_age.bone_age &&// bone age line linked to chronological age
                                     <VictoryLine // bone age link line
+                                        key={"item-"+index}
                                         name="chronologicalboneagelinkline"
                                         data={[{x: chronData.x, y: chronData.y}, {x: chronData.b, y: chronData.y}]}
                                         style={{
                                             data: {
                                                 strokeWidth: 2,
                                                 stroke: '#A9A9A9',
-                                                strokeDasharray: '3, 3',
+                                                strokeDasharray: '5, 3',
                                             }
                                         }}
                                     />
@@ -731,6 +736,7 @@ function CentileChart({
 
                                 { showCorrectedAge && childMeasurement.bone_age.bone_age && // bone age line linked to corrected age
                                     <VictoryLine // bone age link line
+                                        key={"item-"+index}
                                         name="correctedboneagelinkline"
                                         data={[{x: correctData.x, y: correctData.y}, {x: correctData.b, y: correctData.y}]}
                                         style={{
@@ -744,6 +750,7 @@ function CentileChart({
                                 }
                                 { showChronologicalAge && (
                                     <VictoryScatter // chronological age
+                                        key={"item-"+index}
                                         data-testid='chronologicalMeasurementPoint'
                                         data={[chronData]}
                                         symbol="circle"
@@ -753,6 +760,7 @@ function CentileChart({
                                 )}
                                 { showCorrectedAge && (
                                     <VictoryScatter // corrected age - a custom component that renders a cross
+                                        key={"item-"+index}
                                         data-testid='correctedMeasurementXPoint'
                                         data={[correctData]}
                                         dataComponent={
@@ -768,6 +776,7 @@ function CentileChart({
                                 { showChronologicalAge &&
                                     showCorrectedAge && ( // only show the line if both cross and dot are rendered
                                         <VictoryLine
+                                            key={"item-"+index}
                                             name="linkLine"
                                             style={styles.measurementLinkLine}
                                             data={[chronData, correctData]}
