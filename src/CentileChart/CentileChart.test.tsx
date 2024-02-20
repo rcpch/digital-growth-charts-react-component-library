@@ -185,9 +185,9 @@ One each of these needed for every measurement method and every sex
 -[ ] +4.0 SDS label renders for BMI
 
 *Corrected/Chronological Ages Toggle Button*
--[ ] corrected measurements only rendered when 'corrected' toggle clicked
--[ ] chronological measurements only rendered when 'chronological' toggle clicked
--[ ] corrected and chronological measurements both rendered when 'both' toggle clicked
+-[X] corrected measurements only rendered when 'corrected' toggle clicked
+-[X] chronological measurements only rendered when 'chronological' toggle clicked
+-[X] corrected and chronological measurements both rendered when 'both' toggle clicked
 
 *Life Course View Button*
 -[ ] Life course view button renders if full life course not visible
