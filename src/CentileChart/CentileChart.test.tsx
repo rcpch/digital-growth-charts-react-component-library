@@ -207,8 +207,11 @@ One each of these needed for every measurement method and every sex
 -[ ] correct SVG of chart present when exportChartCallback triggered on click
 
 *Zoom*
--[ ] Zoom function enabled if enableZoom prop is true
--[ ] Zoom function disabled if enableZoom prop is false
+-[x] Zoom function enabled if enableZoom prop is true
+-[x] Show description text if on hover over button
+-[x] Zoom function disabled if enableZoom prop is false
+-[x] Reset zoom button appears if zoom applied
+The following tests need considerations and about their implementations
 -[ ] Reset zoom button disabled if zoom not applied
 -[ ] Reset zoom button enabled if zoom applied
 -[ ] Chart domains reset if Reset zoom button pressed
@@ -1141,3 +1144,72 @@ describe("All tests relate to a single height measurement in a term girl now 4 y
   });
 
 });
+
+describe("All tests relating to the zoom functionality where enableZoom needs to be true", () => {
+  let props: CentileChartProps;
+  const midparentalHeight: MidParentalHeightObject = {}
+
+  beforeEach(() => {
+    props = {
+      chartsVersion: "7.0.0",
+      reference: "uk-who",
+      title: "Term Girl",
+      subtitle: "Now over 4 years with advanced bone age",
+      measurementMethod: "height",
+      sex: 'female',
+      childMeasurements: termGirlWithSingleHeightMeasurementAndBoneAgeAndEvent,
+      midParentalHeightData: midparentalHeight,
+      enableZoom: true,
+      styles: monochromeStyles,
+      enableExport: false,
+      exportChartCallback: ()=>null,
+      clinicianFocus: false,
+      showCentileLabels: false,
+      showSDSLabels: false
+    };
+  });
+  it("should show the zoom button when enablezoom is true", () => {
+    render(<CentileChart {...props} />);
+    expect(screen.queryByTestId('zoom-button')).toBeInTheDocument();
+  });
+  it("should show the Toggle Full Lifespan text upon hovering", () => {
+    render(<CentileChart {...props} />);
+    fireEvent.mouseEnter(screen.getByTestId('zoom-button'));
+    expect(screen.queryByText("Toggle Full Lifespan"));
+  });
+  it("should show the Reset Zoom button if zoom is applied", () => {
+    render(<CentileChart {...props} />);
+    fireEvent.click(screen.getByTestId('zoom-button'));
+    expect(screen.queryByTestId("resetzoom-button")).toBeInTheDocument();
+  })
+})
+
+describe("Tests relating to negative settings on the zoom button", () => {
+  let props: CentileChartProps;
+  const midparentalHeight: MidParentalHeightObject = {}
+
+  beforeEach(() => {
+    props = {
+      chartsVersion: "7.0.0",
+      reference: 'uk-who',
+      title: 'TestChartTitle',
+      subtitle: 'TestChartSubtitle',
+      measurementMethod: 'height',
+      sex: 'male',
+      childMeasurements: [],
+      midParentalHeightData: midparentalHeight,
+      enableZoom: false,
+      styles: monochromeStyles,
+      enableExport: false,
+      exportChartCallback: ()=>null,
+      clinicianFocus: false,
+      showCentileLabels: false,
+      showSDSLabels: false
+    };
+  });
+
+  it("should show that the zoom button is absent if enableZoom is false", () => {
+    render(<CentileChart {...props} />);
+    expect(screen.queryByTestId('resetzoom-button')).not.toBeInTheDocument();
+  })
+})

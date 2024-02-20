@@ -808,6 +808,7 @@ function CentileChart({
                                         onClick={()=> fullScreenPressed()}
                                         $color={styles.toggleStyle.activeColour}
                                         size={5}
+                                        data-testid="zoom-button"
                                     >
                                         { fullScreen ?
                                             <FullScreenIcon/>
@@ -866,6 +867,7 @@ function CentileChart({
                     {/* {allowZooming && ( */}
                             <ResetZoomContainer
                                 $isHidden={!allowZooming}
+                                data-testid="resetzoom-button"
                         >
                                 <StyledResetZoomButton
                                     $activeColour={styles.toggleStyle.activeColour}
