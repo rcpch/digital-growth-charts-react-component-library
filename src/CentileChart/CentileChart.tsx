@@ -15,6 +15,7 @@ import {
     VictoryArea,
     Rect,
     DomainPropType,
+    VictoryPortal,
 } from 'victory';
 
 // helper functions
@@ -661,28 +662,32 @@ function CentileChart({
 
                                         showChronologicalAge && !showCorrectedAge ?
                                         // Events against chronological age only if corrected age not showing
-                                        <VictoryScatter
-                                            key={"item-"+index}
-                                            name="eventcaret"
-                                            data={[{x: childMeasurement.measurement_dates.chronological_decimal_age, y: childMeasurement.child_observation_value.observation_value}]}
-                                            dataComponent={
-                                                <EventCaret
-                                                    eventsText={childMeasurement.events_data.events_text}
-                                                />
-                                            }
-                                        />
+                                        <VictoryPortal>
+                                            <VictoryScatter
+                                                key={"item-"+index}
+                                                name="eventcaret"
+                                                data={[{x: childMeasurement.measurement_dates.chronological_decimal_age, y: childMeasurement.child_observation_value.observation_value}]}
+                                                dataComponent={
+                                                    <EventCaret
+                                                        eventsText={childMeasurement.events_data.events_text}
+                                                    />
+                                                }
+                                            />
+                                        </VictoryPortal>
                                         :
                                         // Events against corrected age
-                                        <VictoryScatter
-                                            key={"item-"+index}
-                                            name="eventcaret"
-                                            data={[{x: childMeasurement.measurement_dates.corrected_decimal_age, y: childMeasurement.child_observation_value.observation_value}]}
-                                            dataComponent={
-                                                <EventCaret
-                                                    eventsText={childMeasurement.events_data.events_text}
-                                                />
-                                            }
-                                        />
+                                        <VictoryPortal>
+                                            <VictoryScatter
+                                                key={"item-"+index}
+                                                name="eventcaret"
+                                                data={[{x: childMeasurement.measurement_dates.corrected_decimal_age, y: childMeasurement.child_observation_value.observation_value}]}
+                                                dataComponent={
+                                                    <EventCaret
+                                                        eventsText={childMeasurement.events_data.events_text}
+                                                    />
+                                                }
+                                            />
+                                        </VictoryPortal>
                                     )
                                 }
 
