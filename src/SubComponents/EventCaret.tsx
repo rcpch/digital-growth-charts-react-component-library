@@ -11,6 +11,11 @@ export const EventCaret = (props: any) => {
         cornerY = y-265;
         inverted=true;
     }
+    let finalX=x
+    if (finalX < 150){
+        finalX += 100;
+    }
+    
     const coords =  x-15 + " " + cornerY + " " + x + " " + peakY + " " + (x+15) + " " + cornerY
     return (
         <svg>
@@ -21,9 +26,9 @@ export const EventCaret = (props: any) => {
                 fill="none"
                 pointerEvents="visible"
             />
-            <text x={x} y={inverted ? (peakY-textHeight-25):(peakY+25)} textAnchor="middle" color="#A9A9A9">
+            <text x={finalX} y={inverted ? (peakY-textHeight-25):(peakY+25)} textAnchor="middle" color="#A9A9A9">
                 {eventsText.map((eventText: string, index) => {
-                    return <tspan key={eventText} x={x} dy={15}>{eventText}</tspan>
+                    return <tspan key={eventText} x={finalX} dy={15}>{eventText}</tspan>
                 })}
             </text>
         </svg>
