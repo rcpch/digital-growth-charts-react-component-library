@@ -123,6 +123,7 @@ function CentileChart({
         reference,
         userDomains,
     ]);
+    
 
     // get the highest reference index of visible centile data
     let maxVisibleReferenceIndex: number = null;
@@ -282,6 +283,7 @@ function CentileChart({
                             allowPan={allowZooming}
                             onZoomDomainChange={handleZoomChange}
                             zoomDomain={domains}
+                            style={styles.toolTipMain}
                             labelComponent={
                                 <VictoryTooltip
                                     data-testid='tooltip'
@@ -289,7 +291,6 @@ function CentileChart({
                                     pointerLength={5}
                                     cornerRadius={0}
                                     flyoutStyle={styles.toolTipFlyout}
-                                    style={styles.toolTipMain}
                                 />
                             }
                             labels={({ datum }) => {

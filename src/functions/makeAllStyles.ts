@@ -55,11 +55,15 @@ function makeAllStyles(
         },
         toolTipMain: {
             textAnchor: 'start',
-            stroke: chartStyle?.tooltipTextStyle?.colour ?? black,
-            strokeWidth: chartStyle?.tooltipTextStyle?.size ?? 0.25,
-            fill: chartStyle?.tooltipTextStyle?.colour ?? black,
-            fontFamily: chartStyle?.tooltipTextStyle?.name ?? 'Montserrat',
-            fontWeight: chartStyle?.tooltipTextStyle?.weight ?? 'normal',
+            data:{
+                stroke: chartStyle?.tooltipTextStyle?.colour ?? black,
+                strokeWidth: chartStyle?.tooltipTextStyle?.size ?? 0.25,
+                fill: chartStyle?.tooltipTextStyle?.colour ?? black,
+            },
+            labels:{
+                fontFamily: chartStyle?.tooltipTextStyle?.name ?? 'Montserrat',
+                fontWeight: chartStyle?.tooltipTextStyle?.weight ?? 'normal',
+            }
         },
         chartTitle: {
             fontFamily: chartStyle?.titleStyle?.name ?? 'Arial',
