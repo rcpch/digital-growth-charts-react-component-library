@@ -54,16 +54,11 @@ function makeAllStyles(
             fill: chartStyle?.tooltipBackgroundColour ?? midGrey,
         },
         toolTipMain: {
-            textAnchor: 'start',
-            data:{
-                stroke: chartStyle?.tooltipTextStyle?.colour ?? black,
-                strokeWidth: chartStyle?.tooltipTextStyle?.size ?? 0.25,
-                fill: chartStyle?.tooltipTextStyle?.colour ?? black,
-            },
-            labels:{
-                fontFamily: chartStyle?.tooltipTextStyle?.name ?? 'Montserrat',
-                fontWeight: chartStyle?.tooltipTextStyle?.weight ?? 'normal',
-            }
+            textAnchor: "start",
+            strokeWidth: chartStyle?.tooltipTextStyle?.colour ?? black,
+            fill: chartStyle?.tooltipTextStyle?.size ?? 0.25,
+            fontFamily: chartStyle?.tooltipTextStyle?.name ?? 'Montserrat',
+            fontWeight: chartStyle?.tooltipTextStyle?.weight ?? 'normal',
         },
         chartTitle: {
             fontFamily: chartStyle?.titleStyle?.name ?? 'Arial',
@@ -179,8 +174,9 @@ function makeAllStyles(
             },
         },
         centileLabel: {
-            fill: centileStyle?.centileStroke ?? black,
-            fontSize: centileStyle?.centileStroke == black ? 8 : 6
+            fontSize: centileStyle?.centileStroke == black ? 12 : 8,
+            fontFamily: 'Arial',
+            fill: centileStyle?.centileStroke ?? black
         },
         heightSDS: {
             data: {

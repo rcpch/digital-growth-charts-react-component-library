@@ -20,7 +20,6 @@ export const rcpch2Styles = {
     },
     "toolTipMain": {
         "textAnchor": "start",
-        "stroke": "#FFFFFF",
         "strokeWidth": 0.25,
         "fill": "#FFFFFF",
         "fontFamily": "Montserrat",

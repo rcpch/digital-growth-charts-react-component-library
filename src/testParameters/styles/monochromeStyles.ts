@@ -20,7 +20,6 @@ export const monochromeStyles = {
     },
     "toolTipMain": {
         "textAnchor": "start",
-        "stroke": "#000000",
         "strokeWidth": 0.25,
         "fill": "#000000",
         "fontFamily": "Montserrat",
@@ -129,7 +128,7 @@ export const monochromeStyles = {
             "strokeWidth": 1,
             "strokeLinecap": "round",
             "strokeDasharray": "5 5"
-        }
+        },
     },
     "dashedCentile": {
         "data": {
@@ -148,7 +147,7 @@ export const monochromeStyles = {
     },
     "centileLabel": {
         "fill": "#000000",
-        "fontSize": 10
+        "fontSize": 10,
     },
     "heightSDS": {
         "data": {
