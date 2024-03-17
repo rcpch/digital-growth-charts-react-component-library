@@ -64,6 +64,7 @@ import { labelAngle } from '../functions/labelAngle';
 import addOrdinalSuffix from '../functions/addOrdinalSuffix';
 import { labelIndexInterval } from '../functions/labelIndexInterval';
 import { referenceText } from '../functions/referenceText';
+import fonts from '../fonts/fonts';
 
 // allows two top level containers: zoom and voronoi
 const VictoryZoomVoronoiContainer:any = createContainer(
@@ -113,17 +114,6 @@ function CentileChart({
             ),
         [storedChildMeasurements, sex, measurementMethod, reference, showCorrectedAge, showChronologicalAge],
     );
-
-    
-
-    const updatedData = useMemo(() => getVisibleData(sex, measurementMethod, reference, userDomains), [
-        sex,
-        measurementMethod,
-        reference,
-        userDomains,
-    ]);
-    
-    
 
     // get the highest reference index of visible centile data
     let maxVisibleReferenceIndex: number = null;
@@ -797,7 +787,7 @@ function CentileChart({
                 </VictoryChart>
                 <ChartTitle
                     fontSize={8}
-                    fontFamily={'Montserrat'}
+                    fontFamily={'Arial'}
                     color={'#000000'}
                     fontWeight={'200'}
                     fontStyle='normal'

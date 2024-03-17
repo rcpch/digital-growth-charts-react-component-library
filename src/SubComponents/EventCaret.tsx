@@ -26,7 +26,7 @@ export const EventCaret = (props: any) => {
                 fill="none"
                 pointerEvents="visible"
             />
-            <text x={finalX} y={inverted ? (peakY-textHeight-25):(peakY+25)} textAnchor="middle" color="#A9A9A9">
+            <text x={finalX} y={inverted ? (peakY-textHeight-25):(peakY+25)} textAnchor="middle" color="#A9A9A9" fontFamily='Montserrat'>
                 {eventsText.map((eventText: string, index) => {
                     return <tspan key={eventText} x={finalX} dy={15}>{eventText}</tspan>
                 })}
