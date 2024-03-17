@@ -21,6 +21,7 @@ import { termToTwoYearsGirlHeight } from "../testParameters/measurements/termToT
 import { termToOverFourYearsGirlHeight } from "../testParameters/measurements/termToOverFourYearsGirlHeight"
 import { turnerHeightOneYearToEleven } from "../testParameters/measurements/turnerHeightOneYearToEleven";
 import { beforeDueDateError } from "../testParameters/measurements/beforeDueDateError";
+import { termBabyGirlWeight } from "../testParameters/measurements/termBabyGirlWeight";
 
 export default {
     title: "CentileChart"
@@ -415,6 +416,26 @@ export const WithBeforeDueDateError = () => (
         measurementMethod="height"
         sex="female"
         childMeasurements={beforeDueDateError}
+        midParentalHeightData={midParentalHeights}
+        enableZoom={true}
+        styles={rcpch3Styles}
+        enableExport={true}
+        exportChartCallback={()=>null}
+        clinicianFocus={true}
+        showCentileLabels={true}
+        showSDSLabels={true}
+    />
+);
+
+export const WithTermBabyGirlWeight = () => (
+    <CentileChart 
+        chartsVersion="7.0.0"
+        reference="uk-who"
+        title="UKWHO Child"
+        subtitle="Term Girl"
+        measurementMethod="weight"
+        sex="female"
+        childMeasurements={termBabyGirlWeight}
         midParentalHeightData={midParentalHeights}
         enableZoom={true}
         styles={rcpch3Styles}
