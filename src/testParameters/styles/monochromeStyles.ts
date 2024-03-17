@@ -21,6 +21,7 @@ export const monochromeStyles = {
     "toolTipMain": {
         "textAnchor": "end",
         "strokeWidth": 0.25,
+        "fontSize": 16,
         "fill": "#000000",
         "fontFamily": "Montserrat",
         "fontWeight": "normal"
@@ -271,7 +272,13 @@ export const chartObject: ChartStyle =  {
 
 export const measurementObjects: MeasurementStyle = {
     "measurementFill": "#000000",
-    "highlightedMeasurementFill": "#000000"
+    "highlightedMeasurementFill": "#000000",
+    "eventTextStyle": {
+        "name": "Montserrat",
+        "colour": "#000000",
+        "size": 14,
+        "weight": "normal"
+    }
 }
 
 export const centilesObject: CentileStyle = {

@@ -55,8 +55,9 @@ function makeAllStyles(
         },
         toolTipMain: {
             textAnchor: "start",
-            strokeWidth: chartStyle?.tooltipTextStyle?.colour ?? black,
-            fill: chartStyle?.tooltipTextStyle?.size ?? 0.25,
+            fontSize: chartStyle?.tooltipTextStyle?.size ?? 10,
+            strokeWidth: 0.25,
+            fill: chartStyle?.tooltipTextStyle?.colour ?? black,
             fontFamily: chartStyle?.tooltipTextStyle?.name ?? 'Montserrat',
             fontWeight: chartStyle?.tooltipTextStyle?.weight ?? 'normal',
         },
@@ -244,6 +245,9 @@ function makeAllStyles(
             data: {
                 fill: measurementStyle?.highlightedMeasurementFill ?? black
             }
+        },
+        eventText: {
+            fontFamily: measurementStyle.eventTextStyle.size ?? 14
         },
         toggleStyle: {
             activeColour: chartStyle?.toggleButtonActiveColour ?? darkPink,

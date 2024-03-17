@@ -282,7 +282,7 @@ function CentileChart({
                                     pointerLength={5}
                                     cornerRadius={0}
                                     flyoutStyle={styles.toolTipFlyout}
-                                    style={{textAnchor:'start'}}
+                                    style={{textAnchor:'start', fontSize: styles.toolTipMain.fontSize }}
                                 />
                             }
                             labels={({ datum }) => {
