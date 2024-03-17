@@ -19,7 +19,7 @@ export const rcpch3Styles = {
         "fill": "#fdc300"
     },
     "toolTipMain": {
-        "textAnchor": "start",
+        "textAnchor": "end",
         "strokeWidth": 0.25,
         "fill": "#000000",
         "fontFamily": "Montserrat",
