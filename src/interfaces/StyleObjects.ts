@@ -17,6 +17,7 @@ export interface ChartStyle {
 export interface MeasurementStyle {
     measurementFill?: string;
     highlightedMeasurementFill?: string;
+    eventTextStyle?: TextStyle
 }
 export interface CentileStyle {
     sdsStroke?: string;

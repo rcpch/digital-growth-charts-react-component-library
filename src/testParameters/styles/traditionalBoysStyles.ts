@@ -19,8 +19,7 @@ export const traditionalBoysStyles = {
         "fill": "#66c8eb"
     },
     "toolTipMain": {
-        "textAnchor": "start",
-        "stroke": "#000000",
+        "textAnchor": "end",
         "strokeWidth": 0.25,
         "fill": "#000000",
         "fontFamily": "Montserrat",

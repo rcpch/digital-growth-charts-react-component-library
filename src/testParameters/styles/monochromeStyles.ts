@@ -19,9 +19,9 @@ export const monochromeStyles = {
         "fill": "#b3b3b3"
     },
     "toolTipMain": {
-        "textAnchor": "start",
-        "stroke": "#000000",
+        "textAnchor": "end",
         "strokeWidth": 0.25,
+        "fontSize": 16,
         "fill": "#000000",
         "fontFamily": "Montserrat",
         "fontWeight": "normal"
@@ -129,7 +129,7 @@ export const monochromeStyles = {
             "strokeWidth": 1,
             "strokeLinecap": "round",
             "strokeDasharray": "5 5"
-        }
+        },
     },
     "dashedCentile": {
         "data": {
@@ -148,7 +148,7 @@ export const monochromeStyles = {
     },
     "centileLabel": {
         "fill": "#000000",
-        "fontSize": 10
+        "fontSize": 10,
     },
     "heightSDS": {
         "data": {
@@ -272,7 +272,13 @@ export const chartObject: ChartStyle =  {
 
 export const measurementObjects: MeasurementStyle = {
     "measurementFill": "#000000",
-    "highlightedMeasurementFill": "#000000"
+    "highlightedMeasurementFill": "#000000",
+    "eventTextStyle": {
+        "name": "Montserrat",
+        "colour": "#000000",
+        "size": 14,
+        "weight": "normal"
+    }
 }
 
 export const centilesObject: CentileStyle = {

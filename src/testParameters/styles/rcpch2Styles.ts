@@ -19,8 +19,7 @@ export const rcpch2Styles = {
         "fill": "#3366cc"
     },
     "toolTipMain": {
-        "textAnchor": "start",
-        "stroke": "#FFFFFF",
+        "textAnchor": "end",
         "strokeWidth": 0.25,
         "fill": "#FFFFFF",
         "fontFamily": "Montserrat",

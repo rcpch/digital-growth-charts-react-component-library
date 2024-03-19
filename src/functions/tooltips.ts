@@ -81,6 +81,15 @@ export function tooltipText(
 
     // l represent labels that represent reference transitions, puberty area or sds labels for the BMI SDS lines
     if (l) {
+        
+        if (x <= 0.038329911019849415 && x >= -0.057494866529774126 && measurementMethod === 'weight' && reference === 'uk-who'){
+            // 37 weeks gest - 42
+            if (childName.includes("centileLine")){
+                // these are the centile labels   
+                    return `${addOrdinalSuffix(l)} centile`;
+            }
+            return l;   
+        }
         // reference transit point or puberty shaded area labels
         if (x === 0.0383 && reference === 'uk-who') {
             return 'Transit point from\nUK90 to WHO data';
@@ -112,7 +121,8 @@ export function tooltipText(
 
         if (childName.includes("centileLine")){
             // these are the centile labels
-            if (datum._voronoiX < 20 && y != null){
+            
+            if (datum.x < 20 && y != null){
                 // fix for duplicate text if tooltip called from mouse point where x > chart area or 
                 // y is ull - situations when hovering below the chart in areas where centile data do not exist
                 return `${addOrdinalSuffix(l)} centile`;

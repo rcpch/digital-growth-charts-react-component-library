@@ -266,11 +266,11 @@ function childMeasurementRanges(
         let chronologicalX = measurement.plottable_data.centile_data.chronological_decimal_age_data.x;
         let correctedY = measurement.plottable_data.centile_data.corrected_decimal_age_data.y;
         let chronologicalY = measurement.plottable_data.centile_data.chronological_decimal_age_data.y;
-        const errorsPresent =
-            measurement.measurement_calculated_values.corrected_measurement_error ||
-            measurement.measurement_calculated_values.chronological_measurement_error
-                ? true
-                : false;
+        const errorsPresent = false;
+            // measurement.measurement_calculated_values.corrected_measurement_error ||
+            // measurement.measurement_calculated_values.chronological_measurement_error
+            //     ? true
+            //     : false;
         
         if (!errorsPresent) {
             if (showCorrected && !showChronological) {

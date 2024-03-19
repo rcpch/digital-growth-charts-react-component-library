@@ -19,8 +19,7 @@ export const traditionalGirlsStyles = {
         "fill": "#df99c4"
     },
     "toolTipMain": {
-        "textAnchor": "start",
-        "stroke": "#000000",
+        "textAnchor": "end",
         "strokeWidth": 0.25,
         "fill": "#000000",
         "fontFamily": "Montserrat",

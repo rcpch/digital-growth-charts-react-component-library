@@ -7,13 +7,10 @@ import {
     VictoryGroup,
     VictoryLine,
     VictoryScatter,
-    VictoryVoronoiContainerProps,
-    VictoryZoomContainerProps,
     VictoryTooltip,
     VictoryAxis,
     VictoryLabel,
     VictoryArea,
-    Rect,
     DomainPropType,
     VictoryPortal,
 } from 'victory';
@@ -67,6 +64,7 @@ import { labelAngle } from '../functions/labelAngle';
 import addOrdinalSuffix from '../functions/addOrdinalSuffix';
 import { labelIndexInterval } from '../functions/labelIndexInterval';
 import { referenceText } from '../functions/referenceText';
+import fonts from '../fonts/fonts';
 
 // allows two top level containers: zoom and voronoi
 const VictoryZoomVoronoiContainer:any = createContainer(
@@ -118,13 +116,6 @@ function CentileChart({
             ),
         [storedChildMeasurements, sex, measurementMethod, reference, showCorrectedAge, showChronologicalAge],
     );
-
-    const updatedData = useMemo(() => getVisibleData(sex, measurementMethod, reference, userDomains), [
-        sex,
-        measurementMethod,
-        reference,
-        userDomains,
-    ]);
 
     // get the highest reference index of visible centile data
     let maxVisibleReferenceIndex: number = null;
@@ -240,6 +231,7 @@ function CentileChart({
     const handleZoomChange = (domain: DomainPropType) => {
         setUserDomains(domain);
     };
+    
 
 
     // always reset zoom to default when measurements array changes
@@ -282,6 +274,7 @@ function CentileChart({
                             allowPan={allowZooming}
                             onZoomDomainChange={handleZoomChange}
                             zoomDomain={domains}
+                            style={styles.toolTipMain}
                             labelComponent={
                                 <VictoryTooltip
                                     data-testid='tooltip'
@@ -289,7 +282,7 @@ function CentileChart({
                                     pointerLength={5}
                                     cornerRadius={0}
                                     flyoutStyle={styles.toolTipFlyout}
-                                    style={styles.toolTipMain}
+                                    style={{textAnchor:'start', fontSize: styles.toolTipMain.fontSize }}
                                 />
                             }
                             labels={({ datum }) => {
@@ -480,7 +473,7 @@ function CentileChart({
                                                             }
                                                             style={styles.centileLabel}
                                                             backgroundStyle={{fill:'white'}}
-                                                            backgroundPadding={{top: 0, bottom: 0, left: 3, right:3}}
+                                                            backgroundPadding={{top: 1, bottom: 1, left: 3, right:3}}
                                                             textAnchor={'middle'}
                                                             verticalAnchor={'middle'}
                                                             dy={0}
@@ -490,6 +483,7 @@ function CentileChart({
                                             );
                                         } else {
                                             // uneven index - centile is continuous
+                                            
                                             return (
                                                 <VictoryLine
                                                     data-testid={'reference-'+referenceIndex+'-centile-'+centile.centile+'-measurement-'+measurementMethod}
@@ -497,7 +491,7 @@ function CentileChart({
                                                     key={centile.centile + '-' + centileIndex}
                                                     padding={{ top: 20, bottom: 20 }}
                                                     data={centile.data}
-                                                    style={styles.continuousCentile}
+                                                    style={{...styles.continuousCentile}}
                                                     labels={ (props: { index: number; })=> showCentileLabels && labelIndexInterval(chartScaleType, props.index) && props.index > 0 ? [addOrdinalSuffix(centile.centile)]: null}
                                                     labelComponent={
                                                         <VictoryLabel
@@ -506,7 +500,7 @@ function CentileChart({
                                                                     return labelAngle(centile.data, index, chartScaleType, measurementMethod);
                                                                 }
                                                             }
-                                                            style={styles.centileLabel}
+                                                            style={[{ fill: styles.centileLabel.fill, fontFamily: styles.centileLabel.fontFamily, fontSize: styles.centileLabel.fontSize }]}
                                                             backgroundStyle={{fill:'white'}}
                                                             backgroundPadding={{top: 0, bottom: 0, left: 3, right:3}}
                                                             textAnchor={'middle'}
@@ -793,7 +787,7 @@ function CentileChart({
                 </VictoryChart>
                 <ChartTitle
                     fontSize={8}
-                    fontFamily={'Montserrat'}
+                    fontFamily={'Arial'}
                     color={'#000000'}
                     fontWeight={'200'}
                     fontStyle='normal'
