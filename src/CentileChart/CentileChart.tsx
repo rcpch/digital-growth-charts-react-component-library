@@ -45,7 +45,7 @@ import { ButtonContainer } from '../SubComponents/ButtonContainer';
 import { TwoButtonContainer } from '../SubComponents/TwoButtonContainer';
 import { ChartTitle } from '../SubComponents/ChartTitle';
 import { LogoContainer } from '../SubComponents/LogoContainer';
-import { VersionLabel } from '../SubComponents/VersionLabel';
+import { IndividualLogoContainer } from '../SubComponents/IndividualLogoContainer';
 import { MainContainer } from '../SubComponents/MainContainer';
 
 // RCPCH Icon:
@@ -103,6 +103,8 @@ function CentileChart({
     const chartRef=useRef<any>();
     const [active, setActive] = useState(false);
     const [fullScreen, setFullScreen]=useState(true);
+
+    // save & destruct domains and data on initial render and when dependencies change
 
     let { bmiSDSData, centileData, computedDomains, chartScaleType } = useMemo(
         () =>
@@ -248,19 +250,17 @@ function CentileChart({
     return (
         <MainContainer>
             <LogoContainer>
-                <div>
+                <IndividualLogoContainer>
                     <img src={icon} width={24} height={24} />
-                    <VersionLabel
-                        fontFamily={styles.chartTitle.fontFamily}
-                    >{chartsVersion}</VersionLabel>
-                </div>
-                <img src={ukca} width={18} height={18}/>
+                </IndividualLogoContainer>
+                <TitleContainer>
+                    <ChartTitle {...styles.chartTitle}>{title}</ChartTitle>
+                    <ChartTitle {...styles.chartSubTitle}>{subtitle}</ChartTitle>
+                </TitleContainer>
+                <IndividualLogoContainer>
+                    <img src={ukca} width={18} height={18}/>
+                </IndividualLogoContainer>
             </LogoContainer>
-
-            <TitleContainer>
-                <ChartTitle {...styles.chartTitle}>{title}</ChartTitle>
-                <ChartTitle {...styles.chartSubTitle}>{subtitle}</ChartTitle>
-            </TitleContainer>
 
             <ChartContainer>
 
