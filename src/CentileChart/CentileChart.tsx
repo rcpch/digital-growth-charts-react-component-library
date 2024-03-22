@@ -44,6 +44,8 @@ import { ChartTitle } from '../SubComponents/ChartTitle';
 import { LogoContainer } from '../SubComponents/LogoContainer';
 import { IndividualLogoContainer } from '../SubComponents/IndividualLogoContainer';
 import { MainContainer } from '../SubComponents/MainContainer';
+import { TopContainer } from '../SubComponents/TopContainer';
+import { VersionLabel } from '../SubComponents/VersionLabel';
 
 // RCPCH Icon:
 import icon from '../images/icon.png';
@@ -241,18 +243,26 @@ function CentileChart({
 
     return (
         <MainContainer>
-            <LogoContainer>
-                <IndividualLogoContainer>
-                    <img src={icon} width={24} height={24} />
-                </IndividualLogoContainer>
+            <TopContainer>
+                <LogoContainer>
+                    <IndividualLogoContainer>
+                        <img src={icon} width={24} height={24} />
+                    </IndividualLogoContainer>
+                    <VersionLabel
+                        fontFamily={styles.chartTitle.fontFamily}
+                    >{chartsVersion}</VersionLabel>
+                    <IndividualLogoContainer>
+                        <img src={ukca} width={18} height={18}/>
+                    </IndividualLogoContainer>
+                </LogoContainer>
+                
                 <TitleContainer>
                     <ChartTitle {...styles.chartTitle}>{title}</ChartTitle>
                     <ChartTitle {...styles.chartSubTitle}>{subtitle}</ChartTitle>
                 </TitleContainer>
-                <IndividualLogoContainer>
-                    <img src={ukca} width={18} height={18}/>
-                </IndividualLogoContainer>
-            </LogoContainer>
+
+                <LogoContainer></LogoContainer>
+            </TopContainer>
 
             <ChartContainer>
 
