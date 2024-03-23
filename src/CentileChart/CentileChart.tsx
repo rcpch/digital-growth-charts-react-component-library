@@ -463,6 +463,12 @@ function CentileChart({
 
                                         // BMI charts also have SDS lines at -5, -4, -3, -2, 2, 3, 4, 5
 
+                                        if (centile.data.length < 1){
+                                            // prevents a css `width` infinity error if no data presented to centile line
+                                            return
+                                        }
+                                        
+
                                         if (centileIndex % 2 === 0) {
                                             // even index - centile is dashed
                                             return (
