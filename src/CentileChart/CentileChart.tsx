@@ -545,6 +545,11 @@ function CentileChart({
                                         {sdsReferenceData.map((sdsLine: ICentile, sdsIndex: number) => {
 
                                             // BMI charts have SDS lines at -5, -4, -3, 3, 3.33, 3.67, 4
+
+                                            if (sdsLine.data.length < 1){
+                                                // prevents a css `width` infinity error if no data presented to sds line
+                                                return
+                                            }
                                             
                                                 // sds line is dashed
                                                 return (
