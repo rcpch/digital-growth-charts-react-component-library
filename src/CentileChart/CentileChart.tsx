@@ -66,7 +66,6 @@ import { labelAngle } from '../functions/labelAngle';
 import addOrdinalSuffix from '../functions/addOrdinalSuffix';
 import { labelIndexInterval } from '../functions/labelIndexInterval';
 import { referenceText } from '../functions/referenceText';
-import fonts from '../fonts/fonts';
 
 // allows two top level containers: zoom and voronoi
 const VictoryZoomVoronoiContainer:any = createContainer(
@@ -438,7 +437,7 @@ function CentileChart({
                     }
 
                     {/* Render the centiles - loop through the data set, create a line for each centile */}
-                    {/* On the old charts the 50th centile was thicker and darker and this lead parents to believe it was therefore */}
+                    {/* On the old charts the 50th centile was thicker and darker and this led parents to believe it was therefore */}
                     {/* the line their children should follow. This was a design mistake, since it does not matter which line the child is on  */}
                     {/* so long as they follow it. The middle line was therefore 'de-emphasised' on the newer charts. */}
                     {/* For each reference data set, there are 9 centiles. The 0.4th, 9th, 50th, 91st, 99.6th are all dashed. */}
@@ -674,7 +673,7 @@ function CentileChart({
                             <VictoryGroup key={'measurement' + index}>
 
                                 { childMeasurement.events_data.events_text && childMeasurement.events_data.events_text.length > 0 && (
-
+                                        
                                         showChronologicalAge && !showCorrectedAge ?
                                         // Events against chronological age only if corrected age not showing
                                         <VictoryPortal>
@@ -685,6 +684,7 @@ function CentileChart({
                                                 dataComponent={
                                                     <EventCaret
                                                         eventsText={childMeasurement.events_data.events_text}
+                                                        style={styles.eventTextStyle}
                                                     />
                                                 }
                                             />
@@ -699,6 +699,7 @@ function CentileChart({
                                                 dataComponent={
                                                     <EventCaret
                                                         eventsText={childMeasurement.events_data.events_text}
+                                                        style={styles.eventTextStyle}
                                                     />
                                                 }
                                             />

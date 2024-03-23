@@ -418,7 +418,7 @@ export const WithBeforeDueDateError = () => (
         childMeasurements={beforeDueDateError}
         midParentalHeightData={midParentalHeights}
         enableZoom={true}
-        styles={rcpch3Styles}
+        styles={rcpch1Styles}
         enableExport={true}
         exportChartCallback={()=>null}
         clinicianFocus={true}

@@ -1,4 +1,6 @@
-export function labelAngle(data:any, index:any, chartScaleType: 'prem' | 'infant' | 'smallChild' | 'biggerChild' = 'biggerChild', measurementMethod: 'height' | 'weight' | 'ofc' | 'bmi', domains: any):number{
+import { Domains } from '../interfaces/Domains';
+
+export function labelAngle(data:any, index:any, chartScaleType: 'prem' | 'infant' | 'smallChild' | 'biggerChild' = 'biggerChild', measurementMethod: 'height' | 'weight' | 'ofc' | 'bmi', domains: Domains):number{
     /* 
     returns the angle in radians of a centile or sds line label using the gradient of the line
 
@@ -40,7 +42,6 @@ export function labelAngle(data:any, index:any, chartScaleType: 'prem' | 'infant
         }
         if (chartScaleType ==='prem'){
             ageDiff = xDiff*100
-            console.log(earlierBack, lastItem);
         }
         if (chartScaleType ==='infant'){
             ageDiff = xDiff*100

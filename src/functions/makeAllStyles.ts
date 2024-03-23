@@ -246,8 +246,11 @@ function makeAllStyles(
                 fill: measurementStyle?.highlightedMeasurementFill ?? black
             }
         },
-        eventText: {
-            fontFamily: measurementStyle.eventTextStyle.size ?? 14
+        eventTextStyle: {
+            size: measurementStyle.eventTextStyle.size ?? 14,
+            name: measurementStyle.eventTextStyle.name ?? 'Montserrat',
+            colour: measurementStyle.eventTextStyle.colour ?? black,
+            weight: 'normal'
         },
         toggleStyle: {
             activeColour: chartStyle?.toggleButtonActiveColour ?? darkPink,

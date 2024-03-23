@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 export const EventCaret = (props: any) => {
-    const { x, y, eventsText } = props;
+    const { x, y, eventsText, style} = props;
     const textHeight = 15* eventsText.length;
     let inverted=false;
     let peakY = y+85
@@ -15,22 +15,24 @@ export const EventCaret = (props: any) => {
     if (finalX < 150){
         finalX += 100;
     }
-    
+
     const coords =  x-15 + " " + cornerY + " " + x + " " + peakY + " " + (x+15) + " " + cornerY
     return (
-        <svg>
-            <polyline
-                points={coords}
-                stroke="#A9A9A9"
-                strokeWidth={4}
-                fill="none"
-                pointerEvents="visible"
-            />
-            <text x={finalX} y={inverted ? (peakY-textHeight-25):(peakY+25)} textAnchor="middle" color="#A9A9A9" fontFamily='Montserrat'>
+        <text x={finalX} y={inverted ? (peakY-textHeight-25):(peakY+25)} textAnchor="middle" fontFamily={style.name} fontSize={style.size} fontWeight={style.weight} fill={style.colour}>
+                <polyline
+                    points={coords}
+                    stroke="#A9A9A9"
+                    strokeWidth={4}
+                    fill="none"
+                    pointerEvents="visible"
+                />
+                
                 {eventsText.map((eventText: string, index) => {
                     return <tspan key={eventText} x={finalX} dy={15}>{eventText}</tspan>
                 })}
+
             </text>
-        </svg>
     )
 }
+
+

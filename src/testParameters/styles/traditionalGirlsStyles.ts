@@ -224,5 +224,11 @@ export const traditionalGirlsStyles = {
         "fontSize": 14,
         "fontWeight": "normal",
         "fontStyle": "normal"
+    },
+    "eventTextStyle": {
+        "name": "Montserrat",
+        "colour": "#000000",
+        "size": 14,
+        "weight": "normal"
     }
 }
