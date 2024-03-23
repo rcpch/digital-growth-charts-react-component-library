@@ -207,6 +207,12 @@ export function tooltipText(
         } else {
             // over 42 weeks
             // if no errors, return the ages, measurement and calculations
+            let percentageMedianBMI = ""
+            if (measurementMethod==="bmi"){
+                console.log(datum);
+                
+                percentageMedianBMI = `Percentage median BMI: ${measurementMethod}`
+            }
             
             // sds in square brackets
             const sds_string = `[SDS: ${sds > 0 ? '+' + Math.round(sds*1000)/1000 : Math.round(sds*1000)/1000 }]`;

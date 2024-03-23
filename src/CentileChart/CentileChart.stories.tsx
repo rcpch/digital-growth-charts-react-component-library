@@ -11,6 +11,7 @@ import { twoWeightMeasurements } from "../testParameters/measurements/twoWeightM
 import { twoToEight } from "../testParameters/measurements/twoToEight"
 import { twoToEightWeight } from "../testParameters/measurements/twoToEightWeight"
 import { twoToEightOFC } from "../testParameters/measurements/twoToEightOFC"
+import { twoToEightGirlBMI } from "../testParameters/measurements/twoToEightYearsGirlBMI"
 import { prematureThreeMonths } from "../testParameters/measurements/prematureThreeMonths"
 import { smallChildJustOverTwo } from "../testParameters/measurements/smallChildJustOverTwo"
 import { prematureTwentyTwoWeeksWeight } from "../testParameters/measurements/prematureTwentyTwoWeeks"
@@ -298,6 +299,26 @@ export const WithOFCMeasurementsTwoToEightYears = () => (
         measurementMethod="ofc"
         sex="female"
         childMeasurements={twoToEightOFC}
+        midParentalHeightData={midParentalHeights}
+        enableZoom={true}
+        styles={monochromeStyles}
+        enableExport={true}
+        exportChartCallback={()=>null}
+        clinicianFocus={true}
+        showCentileLabels={true}
+        showSDSLabels={true}
+    />
+);
+
+export const WithBMIMeasurementsTwoToEightYears = () => (
+    <CentileChart 
+        chartsVersion="7.0.0"
+        reference="uk-who"
+        title={"BMI Two to Nine Girl"}
+        subtitle="UK-WHO"
+        measurementMethod="bmi"
+        sex="female"
+        childMeasurements={twoToEightGirlBMI}
         midParentalHeightData={midParentalHeights}
         enableZoom={true}
         styles={monochromeStyles}

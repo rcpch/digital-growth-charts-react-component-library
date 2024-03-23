@@ -21,7 +21,7 @@ export const monochromeStyles = {
     "toolTipMain": {
         "textAnchor": "end",
         "strokeWidth": 0.25,
-        "fontSize": 16,
+        "fontSize": 32,
         "fill": "#000000",
         "fontFamily": "Montserrat",
         "fontWeight": "normal"
