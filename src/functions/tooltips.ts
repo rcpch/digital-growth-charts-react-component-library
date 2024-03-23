@@ -36,6 +36,8 @@ export function tooltipText(
         bone_age_sds,
         bone_age_centile,
         bone_age_type,
+        corrected_percentage_median_bmi,
+        chronological_percentage_median_bmi
     } = datum;
 
     // flag passed in from user - if clinician, show clinician age advice strings, else show child/family advice 
@@ -207,11 +209,11 @@ export function tooltipText(
         } else {
             // over 42 weeks
             // if no errors, return the ages, measurement and calculations
-            let percentageMedianBMI = ""
+            let correctedPercentageMedianBMI = ""
+            let chronologicalPercentageMedianBMI = ""
             if (measurementMethod==="bmi"){
-                console.log(datum);
-                
-                percentageMedianBMI = `Percentage median BMI: ${measurementMethod}`
+                correctedPercentageMedianBMI = `Percentage median BMI: ${Math.round(corrected_percentage_median_bmi)}%`
+                chronologicalPercentageMedianBMI = `Percentage median BMI: ${Math.round(chronological_percentage_median_bmi)}%`
             }
             
             // sds in square brackets
@@ -219,7 +221,7 @@ export function tooltipText(
             
             if (age_type === 'corrected_age' && x > 0.0383) {
                 const finalCorrectedString = comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
-                return `Corrected age: ${calendar_age} on ${observation_date}\n${finalCorrectedString}\n${y} ${measurementSuffix(measurementMethod)} ${ clinicianFocus ? sds_string : '\n' + finalCentile}`;
+                return `Corrected age: ${calendar_age} on ${observation_date}\n${finalCorrectedString}\n${y} ${measurementSuffix(measurementMethod)} ${ clinicianFocus ? sds_string : '\n' + finalCentile}\n${correctedPercentageMedianBMI}`;
             }
             if (age_type === 'chronological_age') {
                 
@@ -227,7 +229,7 @@ export function tooltipText(
                     .replaceAll(', ', ',\n')
                     .replaceAll('. ', '.\n')
                     .replaceAll('account ', 'account\n');
-                return `Chronological age: ${calendar_age} on ${observation_date}\n${finalChronologicalString}\n${y} ${measurementSuffix(measurementMethod)} ${ clinicianFocus ? sds_string : '\n' + finalCentile}`;
+                return `Chronological age: ${calendar_age} on ${observation_date}\n${finalChronologicalString}\n${y} ${measurementSuffix(measurementMethod)} ${ clinicianFocus ? sds_string : '\n' + finalCentile}\n${chronologicalPercentageMedianBMI}`;
             }
         }
     }

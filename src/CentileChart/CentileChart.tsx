@@ -636,7 +636,8 @@ function CentileChart({
                             chronological_decimal_age_error: childMeasurement.measurement_dates.chronological_decimal_age_error,
                             x: childMeasurement.measurement_dates.chronological_decimal_age,
                             y: childMeasurement.child_observation_value.observation_value,
-                            sds: childMeasurement.measurement_calculated_values.chronological_sds
+                            sds: childMeasurement.measurement_calculated_values.chronological_sds,
+                            chronological_percentage_median_bmi: childMeasurement.measurement_calculated_values.chronological_percentage_median_bmi
                         };
                         const correctData: any = {
                             age_type: 'corrected_age',
@@ -658,7 +659,8 @@ function CentileChart({
                             corrected_decimal_age_error: childMeasurement.measurement_dates.corrected_decimal_age_error,
                             x: childMeasurement.measurement_dates.corrected_decimal_age,
                             y: childMeasurement.child_observation_value.observation_value,
-                            sds: childMeasurement.measurement_calculated_values.corrected_sds
+                            sds: childMeasurement.measurement_calculated_values.corrected_sds,
+                            corrected_percentage_median_bmi: childMeasurement.measurement_calculated_values.corrected_percentage_median_bmi
                         };
 
                         if (isChartCrowded) {
