@@ -484,7 +484,7 @@ function CentileChart({
                                                         <VictoryLabel
                                                             angle={
                                                                 ({index})=>{
-                                                                    return labelAngle(centile.data, index, chartScaleType, measurementMethod);
+                                                                    return labelAngle(centile.data, index, chartScaleType, measurementMethod, domains);
                                                                 }
                                                             }
                                                             style={styles.centileLabel}
@@ -513,7 +513,7 @@ function CentileChart({
                                                         <VictoryLabel
                                                             angle={
                                                                 ({index})=>{
-                                                                    return labelAngle(centile.data, index, chartScaleType, measurementMethod);
+                                                                    return labelAngle(centile.data, index, chartScaleType, measurementMethod, domains);
                                                                 }
                                                             }
                                                             style={[{ fill: styles.centileLabel.fill, fontFamily: styles.centileLabel.fontFamily, fontSize: styles.centileLabel.fontSize }]}
@@ -565,7 +565,7 @@ function CentileChart({
                                                             <VictoryLabel
                                                                 angle={
                                                                     ({index})=>{
-                                                                        return labelAngle(sdsLine.data, index, chartScaleType, measurementMethod);
+                                                                        return labelAngle(sdsLine.data, index, chartScaleType, measurementMethod, domains);
                                                                     }
                                                                 }
                                                                 style={{fill: styles.sdsLine.data.stroke, fontSize: 10.0}}
