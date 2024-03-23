@@ -690,12 +690,8 @@ function getDomainsAndData(
             let errorString = 'No valid measurements entered. Error message from the server: ';
             for (const measurement of childMeasurements) {
                 if (measurement.measurement_calculated_values.corrected_measurement_error && measurement.measurement_dates.corrected_decimal_age < gestWeeks22) {
-                    // if (measurement.measurement_calculated_values.corrected_measurement_error == "UK-WHO data does not exist below 23 weeks gestation." && measurement.measurement_dates.corrected_gestational_age.corrected_gestation_weeks >= 22){
-                    //     return;
-                    // } else {
-                        errorString += ` ${measurement.measurement_calculated_values.corrected_measurement_error}`;
-                        throw new Error(errorString);
-                    // }
+                    errorString += ` ${measurement.measurement_calculated_values.corrected_measurement_error}`;
+                    throw new Error(errorString);
                 }
             }
         }

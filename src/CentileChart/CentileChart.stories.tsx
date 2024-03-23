@@ -9,6 +9,8 @@ import { rcpch3Styles } from "../testParameters/styles/rcpch3Styles";
 import { termGirlWithSingleHeightMeasurementAndBoneAgeAndEvent } from "../testParameters/measurements/termGirlWithSingleHeightMeasurementAndBoneAgeAndEvent"
 import { twoWeightMeasurements } from "../testParameters/measurements/twoWeightMeasurements"
 import { twoToEight } from "../testParameters/measurements/twoToEight"
+import { twoToEightWeight } from "../testParameters/measurements/twoToEightWeight"
+import { twoToEightOFC } from "../testParameters/measurements/twoToEightOFC"
 import { prematureThreeMonths } from "../testParameters/measurements/prematureThreeMonths"
 import { smallChildJustOverTwo } from "../testParameters/measurements/smallChildJustOverTwo"
 import { prematureTwentyTwoWeeksWeight } from "../testParameters/measurements/prematureTwentyTwoWeeks"
@@ -247,15 +249,55 @@ export const WithMeasurementsAtExtremePrematurityOFC = () => (
     />
 );
 
-export const WithMeasurementsToNineYears = () => (
+export const WithHeightMeasurementsTwoToEightYears = () => (
     <CentileChart 
         chartsVersion="baz"
         reference="uk-who"
-        title={"Simon "+monochromeStyles.chartHeight + `${monochromeStyles.chartWidth}`}
+        title={"Height Girl Two to Eight y"}
         subtitle="rules"
         measurementMethod="height"
         sex="female"
         childMeasurements={twoToEight}
+        midParentalHeightData={midParentalHeights}
+        enableZoom={true}
+        styles={monochromeStyles}
+        enableExport={true}
+        exportChartCallback={()=>null}
+        clinicianFocus={true}
+        showCentileLabels={true}
+        showSDSLabels={true}
+    />
+);
+
+export const WithWeightMeasurementsTwoToEightYears = () => (
+    <CentileChart 
+        chartsVersion="baz"
+        reference="uk-who"
+        title={"Weight Two to Nine Boy"}
+        subtitle="UK-WHO"
+        measurementMethod="weight"
+        sex="male"
+        childMeasurements={twoToEightWeight}
+        midParentalHeightData={midParentalHeights}
+        enableZoom={true}
+        styles={monochromeStyles}
+        enableExport={true}
+        exportChartCallback={()=>null}
+        clinicianFocus={true}
+        showCentileLabels={true}
+        showSDSLabels={true}
+    />
+);
+
+export const WithOFCMeasurementsTwoToEightYears = () => (
+    <CentileChart 
+        chartsVersion="baz"
+        reference="uk-who"
+        title={"OFC Two to Nine Boy"}
+        subtitle="UK-WHO"
+        measurementMethod="ofc"
+        sex="female"
+        childMeasurements={twoToEightOFC}
         midParentalHeightData={midParentalHeights}
         enableZoom={true}
         styles={monochromeStyles}
