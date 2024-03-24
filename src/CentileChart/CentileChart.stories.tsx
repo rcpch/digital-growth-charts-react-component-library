@@ -1,33 +1,33 @@
 // Generated with util/create-component.js
-import * as React from "react";
-import CentileChart from "./CentileChart";
-import RCPCHChart from "../RCPCHChart";
-import { monochromeStyles } from "../testParameters/styles/monochromeStyles";
-import { rcpch1Styles } from "../testParameters/styles/rcpch1Styles";
-import { rcpch2Styles } from "../testParameters/styles/rcpch2Styles";
-import { rcpch3Styles } from "../testParameters/styles/rcpch3Styles";
-import { termGirlWithSingleHeightMeasurementAndBoneAgeAndEvent } from "../testParameters/measurements/termGirlWithSingleHeightMeasurementAndBoneAgeAndEvent"
-import { twoWeightMeasurements } from "../testParameters/measurements/twoWeightMeasurements"
-import { twoToEight } from "../testParameters/measurements/twoToEight"
-import { twoToEightWeight } from "../testParameters/measurements/twoToEightWeight"
-import { twoToEightOFC } from "../testParameters/measurements/twoToEightOFC"
-import { twoToEightGirlBMI } from "../testParameters/measurements/twoToEightYearsGirlBMI"
-import { prematureThreeMonths } from "../testParameters/measurements/prematureThreeMonths"
-import { smallChildJustOverTwo } from "../testParameters/measurements/smallChildJustOverTwo"
-import { prematureTwentyTwoWeeksWeight } from "../testParameters/measurements/prematureTwentyTwoWeeks"
-import { prematureTwentyTwoWeeksHeight } from "../testParameters/measurements/prematureTwentyTwoWeeksHeight"
-import { prematureTwentyTwoWeeksOFC } from "../testParameters/measurements/prematureTwentyTwoWeeksOFC"
-import { prematureGirlOverThreeHeight } from "../testParameters/measurements/prematureGirlOverThreeHeight"
-import { prematureGirlOverFourHeight } from "../testParameters/measurements/prematureGirlOverFourHeight"
-import { termToAYearGirlHeight } from "../testParameters/measurements/termToAYearGirlHeight"
-import { termToTwoYearsGirlHeight } from "../testParameters/measurements/termToTwoYearsGirlHeight"
-import { termToOverFourYearsGirlHeight } from "../testParameters/measurements/termToOverFourYearsGirlHeight"
-import { turnerHeightOneYearToEleven } from "../testParameters/measurements/turnerHeightOneYearToEleven";
-import { beforeDueDateError } from "../testParameters/measurements/beforeDueDateError";
-import { termBabyGirlWeight } from "../testParameters/measurements/termBabyGirlWeight";
+import * as React from 'react';
+import CentileChart from './CentileChart';
+import RCPCHChart from '../RCPCHChart';
+import { monochromeStyles } from '../testParameters/styles/monochromeStyles';
+import { rcpch1Styles } from '../testParameters/styles/rcpch1Styles';
+import { rcpch2Styles } from '../testParameters/styles/rcpch2Styles';
+import { rcpch3Styles } from '../testParameters/styles/rcpch3Styles';
+import { termGirlWithSingleHeightMeasurementAndBoneAgeAndEvent } from '../testParameters/measurements/termGirlWithSingleHeightMeasurementAndBoneAgeAndEvent';
+import { twoWeightMeasurements } from '../testParameters/measurements/twoWeightMeasurements';
+import { twoToEight } from '../testParameters/measurements/twoToEight';
+import { twoToEightWeight } from '../testParameters/measurements/twoToEightWeight';
+import { twoToEightOFC } from '../testParameters/measurements/twoToEightOFC';
+import { twoToEightGirlBMI } from '../testParameters/measurements/twoToEightYearsGirlBMI';
+import { prematureThreeMonths } from '../testParameters/measurements/prematureThreeMonths';
+import { smallChildJustOverTwo } from '../testParameters/measurements/smallChildJustOverTwo';
+import { prematureTwentyTwoWeeksWeight } from '../testParameters/measurements/prematureTwentyTwoWeeks';
+import { prematureTwentyTwoWeeksHeight } from '../testParameters/measurements/prematureTwentyTwoWeeksHeight';
+import { prematureTwentyTwoWeeksOFC } from '../testParameters/measurements/prematureTwentyTwoWeeksOFC';
+import { prematureGirlOverThreeHeight } from '../testParameters/measurements/prematureGirlOverThreeHeight';
+import { prematureGirlOverFourHeight } from '../testParameters/measurements/prematureGirlOverFourHeight';
+import { termToAYearGirlHeight } from '../testParameters/measurements/termToAYearGirlHeight';
+import { termToTwoYearsGirlHeight } from '../testParameters/measurements/termToTwoYearsGirlHeight';
+import { termToOverFourYearsGirlHeight } from '../testParameters/measurements/termToOverFourYearsGirlHeight';
+import { turnerHeightOneYearToEleven } from '../testParameters/measurements/turnerHeightOneYearToEleven';
+import { beforeDueDateError } from '../testParameters/measurements/beforeDueDateError';
+import { termBabyGirlWeight } from '../testParameters/measurements/termBabyGirlWeight';
 
 export default {
-    title: "CentileChart"
+    title: 'CentileChart',
 };
 
 export const WithHeightAndNoData = () => (
@@ -43,7 +43,7 @@ export const WithHeightAndNoData = () => (
         enableZoom={true}
         styles={rcpch3Styles}
         enableExport={true}
-        exportChartCallback={()=>null}
+        exportChartCallback={() => null}
         clinicianFocus={true}
         showCentileLabels={true}
         showSDSLabels={true}
@@ -51,7 +51,7 @@ export const WithHeightAndNoData = () => (
 );
 
 export const WithTurnerHeightAndNoData = () => (
-    <CentileChart 
+    <CentileChart
         chartsVersion="testChart"
         reference="turner"
         title="Simon"
@@ -63,7 +63,7 @@ export const WithTurnerHeightAndNoData = () => (
         enableZoom={true}
         styles={rcpch3Styles}
         enableExport={true}
-        exportChartCallback={()=>null}
+        exportChartCallback={() => null}
         clinicianFocus={true}
         showCentileLabels={true}
         showSDSLabels={true}
@@ -71,7 +71,7 @@ export const WithTurnerHeightAndNoData = () => (
 );
 
 export const WithWeightAndNoData = () => (
-    <CentileChart 
+    <CentileChart
         chartsVersion="bar"
         reference="uk-who"
         title="Simon"
@@ -83,7 +83,7 @@ export const WithWeightAndNoData = () => (
         enableZoom={true}
         styles={rcpch3Styles}
         enableExport={true}
-        exportChartCallback={()=>null}
+        exportChartCallback={() => null}
         clinicianFocus={true}
         showCentileLabels={true}
         showSDSLabels={true}
@@ -91,7 +91,7 @@ export const WithWeightAndNoData = () => (
 );
 
 export const WithBMIAndNoData = () => (
-    <CentileChart 
+    <CentileChart
         chartsVersion="bar"
         reference="uk-who"
         title="Simon"
@@ -103,7 +103,7 @@ export const WithBMIAndNoData = () => (
         enableZoom={true}
         styles={monochromeStyles}
         enableExport={true}
-        exportChartCallback={()=>null}
+        exportChartCallback={() => null}
         clinicianFocus={true}
         showCentileLabels={true}
         showSDSLabels={true}
@@ -111,7 +111,7 @@ export const WithBMIAndNoData = () => (
 );
 
 export const WithOFCAndNoData = () => (
-    <CentileChart 
+    <CentileChart
         chartsVersion="bar"
         reference="uk-who"
         title="Simon"
@@ -123,7 +123,7 @@ export const WithOFCAndNoData = () => (
         enableZoom={true}
         styles={monochromeStyles}
         enableExport={true}
-        exportChartCallback={()=>null}
+        exportChartCallback={() => null}
         clinicianFocus={true}
         showCentileLabels={true}
         showSDSLabels={true}
@@ -131,7 +131,7 @@ export const WithOFCAndNoData = () => (
 );
 
 export const WithTermBoyAndSingleHeightMeasurementAndBoneAgeAndEvent = () => (
-    <CentileChart 
+    <CentileChart
         chartsVersion="bar"
         reference="uk-who"
         title="Simon"
@@ -143,7 +143,7 @@ export const WithTermBoyAndSingleHeightMeasurementAndBoneAgeAndEvent = () => (
         enableZoom={true}
         styles={monochromeStyles}
         enableExport={true}
-        exportChartCallback={()=>null}
+        exportChartCallback={() => null}
         clinicianFocus={true}
         showCentileLabels={true}
         showSDSLabels={true}
@@ -151,7 +151,7 @@ export const WithTermBoyAndSingleHeightMeasurementAndBoneAgeAndEvent = () => (
 );
 
 export const WithPrematureFemaleHeights = () => (
-    <CentileChart 
+    <CentileChart
         chartsVersion="bar"
         reference="uk-who"
         title="Simon"
@@ -163,7 +163,7 @@ export const WithPrematureFemaleHeights = () => (
         enableZoom={true}
         styles={monochromeStyles}
         enableExport={true}
-        exportChartCallback={()=>null}
+        exportChartCallback={() => null}
         clinicianFocus={true}
         showCentileLabels={true}
         showSDSLabels={true}
@@ -171,7 +171,7 @@ export const WithPrematureFemaleHeights = () => (
 );
 
 export const WithMeasurementsFromBirthOverTwoYears = () => (
-    <CentileChart 
+    <CentileChart
         chartsVersion="bar"
         reference="uk-who"
         title="Simon"
@@ -183,7 +183,7 @@ export const WithMeasurementsFromBirthOverTwoYears = () => (
         enableZoom={true}
         styles={monochromeStyles}
         enableExport={true}
-        exportChartCallback={()=>null}
+        exportChartCallback={() => null}
         clinicianFocus={true}
         showCentileLabels={true}
         showSDSLabels={true}
@@ -191,7 +191,7 @@ export const WithMeasurementsFromBirthOverTwoYears = () => (
 );
 
 export const WithMeasurementsAtExtremePrematurityWeight = () => (
-    <CentileChart 
+    <CentileChart
         chartsVersion="bar"
         reference="uk-who"
         title="Simon"
@@ -203,7 +203,7 @@ export const WithMeasurementsAtExtremePrematurityWeight = () => (
         enableZoom={true}
         styles={rcpch1Styles}
         enableExport={true}
-        exportChartCallback={()=>null}
+        exportChartCallback={() => null}
         clinicianFocus={true}
         showCentileLabels={true}
         showSDSLabels={true}
@@ -211,7 +211,7 @@ export const WithMeasurementsAtExtremePrematurityWeight = () => (
 );
 
 export const WithMeasurementsAtExtremePrematurity = () => (
-    <CentileChart 
+    <CentileChart
         chartsVersion="bar"
         reference="uk-who"
         title="Simon"
@@ -223,7 +223,7 @@ export const WithMeasurementsAtExtremePrematurity = () => (
         enableZoom={true}
         styles={rcpch1Styles}
         enableExport={true}
-        exportChartCallback={()=>null}
+        exportChartCallback={() => null}
         clinicianFocus={true}
         showCentileLabels={true}
         showSDSLabels={true}
@@ -231,7 +231,7 @@ export const WithMeasurementsAtExtremePrematurity = () => (
 );
 
 export const WithMeasurementsAtExtremePrematurityOFC = () => (
-    <CentileChart 
+    <CentileChart
         chartsVersion="bar"
         reference="uk-who"
         title="Simon"
@@ -243,7 +243,7 @@ export const WithMeasurementsAtExtremePrematurityOFC = () => (
         enableZoom={true}
         styles={rcpch1Styles}
         enableExport={true}
-        exportChartCallback={()=>null}
+        exportChartCallback={() => null}
         clinicianFocus={true}
         showCentileLabels={true}
         showSDSLabels={true}
@@ -251,10 +251,10 @@ export const WithMeasurementsAtExtremePrematurityOFC = () => (
 );
 
 export const WithHeightMeasurementsTwoToEightYears = () => (
-    <CentileChart 
+    <CentileChart
         chartsVersion="baz"
         reference="uk-who"
-        title={"Height Girl Two to Eight y"}
+        title={'Height Girl Two to Eight y'}
         subtitle="rules"
         measurementMethod="height"
         sex="female"
@@ -263,7 +263,7 @@ export const WithHeightMeasurementsTwoToEightYears = () => (
         enableZoom={true}
         styles={monochromeStyles}
         enableExport={true}
-        exportChartCallback={()=>null}
+        exportChartCallback={() => null}
         clinicianFocus={true}
         showCentileLabels={true}
         showSDSLabels={true}
@@ -271,10 +271,10 @@ export const WithHeightMeasurementsTwoToEightYears = () => (
 );
 
 export const WithWeightMeasurementsTwoToEightYears = () => (
-    <CentileChart 
+    <CentileChart
         chartsVersion="baz"
         reference="uk-who"
-        title={"Weight Two to Nine Boy"}
+        title={'Weight Two to Nine Boy'}
         subtitle="UK-WHO"
         measurementMethod="weight"
         sex="male"
@@ -283,7 +283,7 @@ export const WithWeightMeasurementsTwoToEightYears = () => (
         enableZoom={true}
         styles={monochromeStyles}
         enableExport={true}
-        exportChartCallback={()=>null}
+        exportChartCallback={() => null}
         clinicianFocus={true}
         showCentileLabels={true}
         showSDSLabels={true}
@@ -291,10 +291,10 @@ export const WithWeightMeasurementsTwoToEightYears = () => (
 );
 
 export const WithOFCMeasurementsTwoToEightYears = () => (
-    <CentileChart 
+    <CentileChart
         chartsVersion="baz"
         reference="uk-who"
-        title={"OFC Two to Nine Boy"}
+        title={'OFC Two to Nine Boy'}
         subtitle="UK-WHO"
         measurementMethod="ofc"
         sex="female"
@@ -303,7 +303,7 @@ export const WithOFCMeasurementsTwoToEightYears = () => (
         enableZoom={true}
         styles={monochromeStyles}
         enableExport={true}
-        exportChartCallback={()=>null}
+        exportChartCallback={() => null}
         clinicianFocus={true}
         showCentileLabels={true}
         showSDSLabels={true}
@@ -311,10 +311,10 @@ export const WithOFCMeasurementsTwoToEightYears = () => (
 );
 
 export const WithBMIMeasurementsTwoToEightYears = () => (
-    <CentileChart 
+    <CentileChart
         chartsVersion="7.0.0"
         reference="uk-who"
-        title={"BMI Two to Nine Girl"}
+        title={'BMI Two to Nine Girl'}
         subtitle="UK-WHO"
         measurementMethod="bmi"
         sex="female"
@@ -323,7 +323,7 @@ export const WithBMIMeasurementsTwoToEightYears = () => (
         enableZoom={true}
         styles={monochromeStyles}
         enableExport={true}
-        exportChartCallback={()=>null}
+        exportChartCallback={() => null}
         clinicianFocus={true}
         showCentileLabels={true}
         showSDSLabels={true}
@@ -331,10 +331,10 @@ export const WithBMIMeasurementsTwoToEightYears = () => (
 );
 
 export const WithExtremePrematureFemaleHeights = () => (
-    <CentileChart 
+    <CentileChart
         chartsVersion="baz"
         reference="uk-who"
-        title={"Simon"}
+        title={'Simon'}
         subtitle="rules"
         measurementMethod="height"
         sex="female"
@@ -343,7 +343,7 @@ export const WithExtremePrematureFemaleHeights = () => (
         enableZoom={true}
         styles={rcpch3Styles}
         enableExport={true}
-        exportChartCallback={()=>null}
+        exportChartCallback={() => null}
         clinicianFocus={true}
         showCentileLabels={true}
         showSDSLabels={true}
@@ -351,7 +351,7 @@ export const WithExtremePrematureFemaleHeights = () => (
 );
 
 export const WithPrematureGirlOverThreeHeight = () => (
-    <CentileChart 
+    <CentileChart
         chartsVersion="7.0.0"
         reference="uk-who"
         title="Premature Girl"
@@ -363,7 +363,7 @@ export const WithPrematureGirlOverThreeHeight = () => (
         enableZoom={true}
         styles={rcpch3Styles}
         enableExport={true}
-        exportChartCallback={()=>null}
+        exportChartCallback={() => null}
         clinicianFocus={true}
         showCentileLabels={true}
         showSDSLabels={true}
@@ -371,7 +371,7 @@ export const WithPrematureGirlOverThreeHeight = () => (
 );
 
 export const WithPrematureGirlOverFourHeight = () => (
-    <CentileChart 
+    <CentileChart
         chartsVersion="7.0.0"
         reference="uk-who"
         title="Premature Girl"
@@ -383,7 +383,7 @@ export const WithPrematureGirlOverFourHeight = () => (
         enableZoom={true}
         styles={rcpch3Styles}
         enableExport={true}
-        exportChartCallback={()=>null}
+        exportChartCallback={() => null}
         clinicianFocus={true}
         showCentileLabels={true}
         showSDSLabels={true}
@@ -391,7 +391,7 @@ export const WithPrematureGirlOverFourHeight = () => (
 );
 
 export const WithTermToAYearGirlHeight = () => (
-    <CentileChart 
+    <CentileChart
         chartsVersion="7.0.0"
         reference="uk-who"
         title="Term Girl"
@@ -403,7 +403,7 @@ export const WithTermToAYearGirlHeight = () => (
         enableZoom={true}
         styles={rcpch3Styles}
         enableExport={true}
-        exportChartCallback={()=>null}
+        exportChartCallback={() => null}
         clinicianFocus={true}
         showCentileLabels={true}
         showSDSLabels={true}
@@ -411,7 +411,7 @@ export const WithTermToAYearGirlHeight = () => (
 );
 
 export const WithTermToTwoYearsGirlHeight = () => (
-    <CentileChart 
+    <CentileChart
         chartsVersion="7.0.0"
         reference="uk-who"
         title="Term Girl"
@@ -423,7 +423,7 @@ export const WithTermToTwoYearsGirlHeight = () => (
         enableZoom={true}
         styles={rcpch3Styles}
         enableExport={true}
-        exportChartCallback={()=>null}
+        exportChartCallback={() => null}
         clinicianFocus={true}
         showCentileLabels={true}
         showSDSLabels={true}
@@ -431,7 +431,7 @@ export const WithTermToTwoYearsGirlHeight = () => (
 );
 
 export const WithTermToOverFourYearsGirlHeight = () => (
-    <CentileChart 
+    <CentileChart
         chartsVersion="7.0.0"
         reference="uk-who"
         title="Term Girl"
@@ -443,7 +443,7 @@ export const WithTermToOverFourYearsGirlHeight = () => (
         enableZoom={true}
         styles={rcpch3Styles}
         enableExport={true}
-        exportChartCallback={()=>null}
+        exportChartCallback={() => null}
         clinicianFocus={true}
         showCentileLabels={true}
         showSDSLabels={true}
@@ -451,7 +451,7 @@ export const WithTermToOverFourYearsGirlHeight = () => (
 );
 
 export const WithTurnerFemaleHeights = () => (
-    <CentileChart 
+    <CentileChart
         chartsVersion="7.0.0"
         reference="turner"
         title="Turner Syndrome Child"
@@ -463,7 +463,7 @@ export const WithTurnerFemaleHeights = () => (
         enableZoom={true}
         styles={rcpch3Styles}
         enableExport={true}
-        exportChartCallback={()=>null}
+        exportChartCallback={() => null}
         clinicianFocus={true}
         showCentileLabels={true}
         showSDSLabels={true}
@@ -471,7 +471,7 @@ export const WithTurnerFemaleHeights = () => (
 );
 
 export const WithBeforeDueDateError = () => (
-    <CentileChart 
+    <CentileChart
         chartsVersion="7.0.0"
         reference="uk-who"
         title="UKWHO Child"
@@ -483,7 +483,7 @@ export const WithBeforeDueDateError = () => (
         enableZoom={true}
         styles={rcpch1Styles}
         enableExport={true}
-        exportChartCallback={()=>null}
+        exportChartCallback={() => null}
         clinicianFocus={true}
         showCentileLabels={true}
         showSDSLabels={true}
@@ -491,7 +491,7 @@ export const WithBeforeDueDateError = () => (
 );
 
 export const WithTermBabyGirlWeight = () => (
-    <CentileChart 
+    <CentileChart
         chartsVersion="7.0.0"
         reference="uk-who"
         title="UKWHO Child"
@@ -503,14 +503,13 @@ export const WithTermBabyGirlWeight = () => (
         enableZoom={true}
         styles={rcpch3Styles}
         enableExport={true}
-        exportChartCallback={()=>null}
+        exportChartCallback={() => null}
         clinicianFocus={true}
         showCentileLabels={true}
         showSDSLabels={true}
     />
 );
 
-
 // props
 
-const midParentalHeights = {}
+const midParentalHeights = {};
