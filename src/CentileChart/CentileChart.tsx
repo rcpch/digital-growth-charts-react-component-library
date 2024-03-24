@@ -466,8 +466,8 @@ function CentileChart({
                                             // prevents a css `width` infinity error if no data presented to centile line
                                             return
                                         }
-                                        
 
+                                        
                                         if (centileIndex % 2 === 0) {
                                             // even index - centile is dashed
                                             return (
