@@ -1,3 +1,12 @@
+/*
+This function is called on instantiation of RCPCHChart within RCPCHChar.tsx.
+User style props are passed in as RCPCH defined interfaces to address styling to the different properties of the chart. These are:
+AxisStyle, CentileStyle, SDSStyle, ChartStyle, GridlineStyle, MeasurementStyle
+
+Most of the properties in each of the interfaces are optionals, as users may not want to alter everything. This function therefore instantiates defaults
+where user values have not been provided.
+This creates a styles object that is passed to the chart.
+*/
 import { AxisStyle, CentileStyle, SDSStyle, ChartStyle, GridlineStyle, MeasurementStyle } from '../interfaces/StyleObjects';
 import { setOpacity } from './setOpacity';
 
