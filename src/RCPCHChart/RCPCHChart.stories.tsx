@@ -4,6 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import RCPCHChart from './RCPCHChart.tsx';
 import { twoToEight } from '../testParameters/measurements/twoToEight';
 import { traditionalBoyAxisStyles, traditionalBoyChartStyles, traditionalBoyGridlineStyle, traditionalBoyCentileStyle, traditionalBoyMeasurementStyle, traditionalBoySDSStyle } from '../testParameters/styles/traditionalBoysStyles';
+import { traditionalGirlAxisStyles, traditionalGirlChartStyles, traditionalGirlGridlineStyle, traditionalGirlCentileStyle, traditionalGirlMeasurementStyle, traditionalGirlSDSStyle } from '../testParameters/styles/traditionalGirlsStyles';
 
 const meta: Meta<typeof RCPCHChart> = {
   component: RCPCHChart,
@@ -24,12 +25,12 @@ export const CentileChart: Story = {
     measurementsArray: twoToEight,
     midParentalHeightData: {},
     enableZoom: true,
-    chartStyle: traditionalBoyChartStyles,
-    axisStyle: traditionalBoyAxisStyles,
-    gridlineStyle: traditionalBoyGridlineStyle,
-    centileStyle: traditionalBoyCentileStyle,
-    sdsStyle: traditionalBoySDSStyle,
-    measurementStyle: traditionalBoyMeasurementStyle,
+    chartStyle: traditionalGirlChartStyles,
+    axisStyle: traditionalGirlAxisStyles,
+    gridlineStyle: traditionalGirlGridlineStyle,
+    centileStyle: traditionalGirlCentileStyle,
+    sdsStyle: traditionalGirlSDSStyle,
+    measurementStyle: traditionalGirlMeasurementStyle,
     chartType: 'centile',
     enableExport: false,
     exportChartCallback: ()=>{},

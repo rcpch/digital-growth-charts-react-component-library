@@ -31,7 +31,7 @@ export const traditionalBoyChartStyles: ChartStyle = {
         bottom: 40
     },
     titleStyle: {
-        name: "Montserrat", 
+        name: "Arial", 
         colour: "#000000",
         size: 14,
         weight: 'bold'
@@ -39,8 +39,8 @@ export const traditionalBoyChartStyles: ChartStyle = {
     subTitleStyle: {
         name: "Arial",
         colour: "#000000",
-        size: 14,
-        weight: 'normal'
+        size: 12,
+        weight: 'italic'
     },
     tooltipBackgroundColour: "#66c8eb",
     tooltipStroke: "#66c8eb",

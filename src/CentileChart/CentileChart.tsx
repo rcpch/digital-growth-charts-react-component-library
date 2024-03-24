@@ -288,10 +288,13 @@ function CentileChart({
                                 <VictoryTooltip
                                     data-testid='tooltip'
                                     constrainToVisibleArea
+                                    backgroundPadding={5}
                                     pointerLength={5}
                                     cornerRadius={0}
                                     flyoutStyle={styles.toolTipFlyout}
-                                    style={{textAnchor:'start', fontSize: styles.toolTipMain.fontSize }}
+                                    style={{
+                                        textAnchor:'start'
+                                    }}
                                 />
                             }
                             labels={({ datum }) => {

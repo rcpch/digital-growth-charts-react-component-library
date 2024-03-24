@@ -69,6 +69,7 @@ function makeAllStyles(
             fill: chartStyle?.tooltipTextStyle?.colour ?? black,
             fontFamily: chartStyle?.tooltipTextStyle?.name ?? 'Montserrat',
             fontWeight: chartStyle?.tooltipTextStyle?.weight ?? 'normal',
+            backgroundPadding: 5
         },
         chartTitle: {
             fontFamily: chartStyle?.titleStyle?.name ?? 'Arial',
