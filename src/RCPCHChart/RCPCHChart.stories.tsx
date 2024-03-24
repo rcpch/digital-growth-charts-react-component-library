@@ -35,7 +35,6 @@ export const CentileChart: Story = {
     enableExport: false,
     exportChartCallback: ()=>{},
     clinicianFocus: false,
-    showCentileLabels: true,
-    showSDSLabels: false
+    showCentileLabels: true
   },
 };
