@@ -1,5 +1,108 @@
 import { AxisStyle, CentileStyle, ChartStyle, GridlineStyle, MeasurementStyle, SDSStyle } from "../../interfaces/StyleObjects"
 
+/*
+The following styles are provided to the RCPCHChart component, and match what the users should be passing in.
+*/
+
+export const rCPCH2AxisStyles: AxisStyle = {
+    axisStroke: "#000000",
+    axisLabelTextStyle: {
+        name: "Arial", 
+        colour: "#000000",
+        size: 10,
+        weight: 'normal'
+    },
+    tickLabelTextStyle: {
+        name: "Arial", 
+        colour: "#000000",
+        size: 8,
+        weight: 'normal'
+    }
+} 
+
+export const rCPCH2ChartStyles: ChartStyle = {
+    backgroundColour: "#FFFFFF",
+    width: 1000,
+    height: 800,
+    padding: {
+        left: 50,
+        right: 50,
+        top: 25,
+        bottom: 40
+    },
+    titleStyle: {
+        name: "Arial", 
+        colour: "#000000",
+        size: 14,
+        weight: 'bold'
+    },
+    subTitleStyle: {
+        name: "Arial",
+        colour: "#000000",
+        size: 12,
+        weight: 'italic'
+    },
+    tooltipBackgroundColour: "#fdc300",
+    tooltipStroke: "#fdc300",
+    tooltipTextStyle: {
+        name: "Montserrat",
+        colour: "#000000",
+        size: 12,
+        weight: 'normal'
+    },
+    termFill: "#CDCDCD",
+    termStroke: "#CDCDCD",
+    toggleButtonInactiveColour: "#c6bddd",
+    toggleButtonActiveColour: "#7159aa",
+    toggleButtonTextStyle: {
+        name: "Arial",
+        colour: "#000000",
+        size: 14,
+        weight: 'normal'
+    }
+}
+
+export const rCPCH2GridlineStyle: GridlineStyle = {
+    gridlines: true,
+    stroke: "#d9d9d9",
+    strokeWidth: 0.25,
+    dashed: false
+}
+
+export const rCPCH2CentileStyle: CentileStyle = {
+    sdsStroke: "#A9A9A9",
+    sdsStrokeWidth: 1.5,
+    centileStroke: "#7159aa",
+    centileStrokeWidth: 1.5,
+    delayedPubertyAreaFill: "#c6bddd",
+    midParentalCentileStrokeWidth: 1.5,
+    midParentalCentileStroke: "#ff8000",
+    midParentalAreaFill: "#c6bddd",
+}
+
+export const rCPCH2MeasurementStyle: MeasurementStyle = {
+    measurementFill: "#000000",
+    highlightedMeasurementFill: "#ff8000",
+    eventTextStyle: {
+        name: "Montserrat",
+        colour: "#000000",
+        size: 12,
+        weight: 'normal'
+    }
+}
+export const rCPCH2SDSStyle: SDSStyle = {
+    lineStrokeWidth: 1.5,
+    heightStroke: "#ff8000ff",
+    weightStroke: "#ff80007f",
+    ofcStroke: "#ff80003f",
+    bmiStroke: "#ff80001f",
+}
+
+/*
+The following styles are provided to the CentileChart component, and are a step downstream from the user. 
+The user style props, passed into the RCPCHChart component, have been processed by the makeAllStyles function and returned in this format
+*/
+
 export const rcpch2Styles = {
     "chartHeight": 800,
     "chartWidth": 1000,

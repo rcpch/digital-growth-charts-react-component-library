@@ -42,8 +42,8 @@ export const rCPCH1ChartStyles: ChartStyle = {
         size: 12,
         weight: 'italic'
     },
-    tooltipBackgroundColour: "#66c8eb",
-    tooltipStroke: "#66c8eb",
+    tooltipBackgroundColour: "#fdc300",
+    tooltipStroke: "#fdc300",
     tooltipTextStyle: {
         name: "Montserrat",
         colour: "#000000",
@@ -52,8 +52,8 @@ export const rCPCH1ChartStyles: ChartStyle = {
     },
     termFill: "#CDCDCD",
     termStroke: "#CDCDCD",
-    toggleButtonInactiveColour: "#66c8eb",
-    toggleButtonActiveColour: "#00a3de",
+    toggleButtonInactiveColour: "#c6bddd",
+    toggleButtonActiveColour: "#7159aa",
     toggleButtonTextStyle: {
         name: "Arial",
         colour: "#000000",
@@ -72,17 +72,17 @@ export const rCPCH1GridlineStyle: GridlineStyle = {
 export const rCPCH1CentileStyle: CentileStyle = {
     sdsStroke: "#A9A9A9",
     sdsStrokeWidth: 1.5,
-    centileStroke: "#00a3de",
+    centileStroke: "#7159aa",
     centileStrokeWidth: 1.5,
-    delayedPubertyAreaFill: "#66c8eb",
+    delayedPubertyAreaFill: "#c6bddd",
     midParentalCentileStrokeWidth: 1.5,
-    midParentalCentileStroke: "#00a3de",
-    midParentalAreaFill: "#00a3de",
+    midParentalCentileStroke: "#7159aa",
+    midParentalAreaFill: "#c6bddd",
 }
 
 export const rCPCH1MeasurementStyle: MeasurementStyle = {
     measurementFill: "#000000",
-    highlightedMeasurementFill: "#00a3de",
+    highlightedMeasurementFill: "#7159aa",
     eventTextStyle: {
         name: "Montserrat",
         colour: "#000000",
