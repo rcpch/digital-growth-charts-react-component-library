@@ -184,13 +184,21 @@ export function tooltipText(
             finalCentile = splitCentile.join(' ').replace('is\n ', 'is\n');
         }
         
+        const year=observation_date.split('/')[2]
+        const month=observation_date.split('/')[1]-1
+        const day=observation_date.split('/')[0]
+        const formatted_observation_date = new Date(year,month,day).toLocaleDateString("en-GB", {year: "numeric", month: "short", day: "numeric"});
+        
         // measurement data points
         if (x <= 0.0383) {
             // <= 42 weeks
             
+
             /// plots
             if (observation_value_error === null ) {
                 // && age_error === null temporarily removed from if statement as error in api return object for EDD < observation_date
+
+
                 let corrected_gestational_age=''
                 if (gestational_age){
                     corrected_gestational_age=`${gestational_age.corrected_gestation_weeks}+${gestational_age.corrected_gestation_days} weeks`
@@ -199,11 +207,11 @@ export function tooltipText(
                 const sds_string = `[SDS: ${sds > 0 ? '+' + Math.round(sds*1000)/1000 : Math.round(sds*1000)/1000 }]`;
                 if (age_type === 'corrected_age') {
                     const finalCorrectedString = comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
-                    return `${calendar_age}\nCorrected age: ${corrected_gestational_age} on ${observation_date}\n${finalCorrectedString}\n${y} ${measurementSuffix(measurementMethod)} ${ clinicianFocus ? sds_string : '\n' + finalCentile}`;
+                    return `${calendar_age}\nCorrected age: ${corrected_gestational_age} on ${formatted_observation_date}\n${finalCorrectedString}\n${y} ${measurementSuffix(measurementMethod)} ${ clinicianFocus ? sds_string : '\n' + finalCentile}`;
                 }
                 if (age_type === 'chronological_age') {
                     let finalChronologicalString = comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
-                    return `Chronological age: ${calendar_age}\n${observation_date}\n${finalChronologicalString}\n${y} ${measurementSuffix(measurementMethod)} ${ clinicianFocus ? sds_string : '\n' + finalCentile}`;
+                    return `Chronological age: ${calendar_age}\n${formatted_observation_date}\n${finalChronologicalString}\n${y} ${measurementSuffix(measurementMethod)} ${ clinicianFocus ? sds_string : '\n' + finalCentile}`;
                 }
             }
         } else {
@@ -221,7 +229,12 @@ export function tooltipText(
             
             if (age_type === 'corrected_age' && x > 0.0383) {
                 const finalCorrectedString = comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
-                return `Corrected age: ${calendar_age} on ${observation_date}\n${finalCorrectedString}\n${y} ${measurementSuffix(measurementMethod)} ${ clinicianFocus ? sds_string : '\n' + finalCentile}\n${correctedPercentageMedianBMI}`;
+                let returnString =  `Corrected age: ${calendar_age} on ${formatted_observation_date}\n${finalCorrectedString}\n${y} ${measurementSuffix(measurementMethod)} ${ clinicianFocus ? sds_string : '\n' + finalCentile}`;
+                if (measurementMethod==="bmi"){
+                    returnString += `\n${correctedPercentageMedianBMI}`
+                }
+                return returnString;
+
             }
             if (age_type === 'chronological_age') {
                 
@@ -229,7 +242,11 @@ export function tooltipText(
                     .replaceAll(', ', ',\n')
                     .replaceAll('. ', '.\n')
                     .replaceAll('account ', 'account\n');
-                return `Chronological age: ${calendar_age} on ${observation_date}\n${finalChronologicalString}\n${y} ${measurementSuffix(measurementMethod)} ${ clinicianFocus ? sds_string : '\n' + finalCentile}\n${chronologicalPercentageMedianBMI}`;
+                let returnString =  `Chronological age: ${calendar_age} on ${formatted_observation_date}\n${finalChronologicalString}\n${y} ${measurementSuffix(measurementMethod)} ${ clinicianFocus ? sds_string : '\n' + finalCentile}`;
+                if (measurementMethod === "bmi"){
+                    returnString += `\n${chronologicalPercentageMedianBMI}`;
+                }
+                return returnString;
             }
         }
     }
