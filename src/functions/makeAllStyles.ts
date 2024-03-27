@@ -185,8 +185,8 @@ function makeAllStyles(
             },
         },
         centileLabel: {
-            fontSize: centileStyle?.centileStroke == black ? 12 : 8,
-            fontFamily: 'Arial',
+            fontSize: 8,
+            fontFamily: 'Montserrat',
             fill: centileStyle?.centileStroke ?? black
         },
         heightSDS: {
