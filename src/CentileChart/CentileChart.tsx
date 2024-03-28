@@ -37,9 +37,10 @@ import RenderTickLabel from '../SubComponents/RenderTickLabel';
 import { TitleContainer } from '../SubComponents/TitleContainer';
 import { StyledRadioButtonGroup } from '../SubComponents/StyledRadioButtonGroup';
 import { StyledResetZoomButton } from '../SubComponents/StyledResetZoomButton';
+import { StyledGradientLabelsButton } from '../SubComponents/StyledGradientLabelsButton'
 import { StyledButtonTooltip } from '../SubComponents/StyledButtonTooltip';
 import { ButtonContainer } from '../SubComponents/ButtonContainer';
-import { TwoButtonContainer } from '../SubComponents/TwoButtonContainer';
+import { ThreeButtonContainer } from '../SubComponents/ThreeButtonContainer';
 import { ChartTitle } from '../SubComponents/ChartTitle';
 import { LogoContainer } from '../SubComponents/LogoContainer';
 import { IndividualLogoContainer } from '../SubComponents/IndividualLogoContainer';
@@ -66,6 +67,7 @@ import { labelAngle } from '../functions/labelAngle';
 import addOrdinalSuffix from '../functions/addOrdinalSuffix';
 import { labelIndexInterval } from '../functions/labelIndexInterval';
 import { referenceText } from '../functions/referenceText';
+import { GradientLabelsButtonWrapper } from '../SubComponents/GradientLabelsButtonWrapper';
 
 // allows two top level containers: zoom and voronoi
 const VictoryZoomVoronoiContainer:any = createContainer(
@@ -102,6 +104,7 @@ function CentileChart({
     const chartRef=useRef<any>();
     const [active, setActive] = useState(false);
     const [fullScreen, setFullScreen]=useState(true);
+    const [centileLabels, setCentileLabels] = useState(false);
 
     // save & destruct domains and data on initial render and when dependencies change
 
@@ -232,6 +235,12 @@ function CentileChart({
     const handleZoomChange = (domain: DomainPropType) => {
         setUserDomains(domain);
     };
+
+    const renderGradientLabels = () => {
+        if (showCentileLabels) {
+            setCentileLabels(!centileLabels);
+        }
+    }
     
 
 
@@ -481,7 +490,7 @@ function CentileChart({
                                                     padding={{ top: 20, bottom: 20 }}
                                                     data={centile.data}
                                                     style={styles.dashedCentile}
-                                                    labels={ (props: { index: number; }) => showCentileLabels && labelIndexInterval(chartScaleType, props.index) && props.index > 0 ? [addOrdinalSuffix(centile.centile)]: null}
+                                                    labels={ (props: { index: number; }) => centileLabels && labelIndexInterval(chartScaleType, props.index) && props.index > 0 ? [addOrdinalSuffix(centile.centile)]: null}
                                                     labelComponent={
                                                         <VictoryLabel
                                                             angle={
@@ -510,7 +519,7 @@ function CentileChart({
                                                     padding={{ top: 20, bottom: 20 }}
                                                     data={centile.data}
                                                     style={{...styles.continuousCentile}}
-                                                    labels={ (props: { index: number; })=> showCentileLabels && labelIndexInterval(chartScaleType, props.index) && props.index > 0 ? [addOrdinalSuffix(centile.centile)]: null}
+                                                    labels={ (props: { index: number; })=> centileLabels && labelIndexInterval(chartScaleType, props.index) && props.index > 0 ? [addOrdinalSuffix(centile.centile)]: null}
                                                     labelComponent={
                                                         <VictoryLabel
                                                             angle={
@@ -825,7 +834,7 @@ function CentileChart({
 
                 <ButtonContainer>
 
-                    <TwoButtonContainer>
+                    <ThreeButtonContainer>
                     {/* Creates the Zoom to see whole lifespan button */}
                     { childMeasurements.length > 0 &&
                             <FullScreenButtonWrapper>
@@ -870,8 +879,26 @@ function CentileChart({
                             </ShareButtonWrapper>
                         )
                     }
+                    {/* Creates the Centile Label toggle button */}
+                    { showCentileLabels && (
+                        <GradientLabelsButtonWrapper>
+                            <StyledButtonTooltip>
+                                <StyledGradientLabelsButton
+                                    $color={styles.toggleStyle.activeColour}
+                                    size={5}
+                                    onClick={renderGradientLabels}
+                                    data-testid="gradient-labels-button"
+                                >
+                                    <div className='tooltip'>Show Centile Labels</div>
 
-                    </TwoButtonContainer>
+                                </StyledGradientLabelsButton>
+                                
+                            </StyledButtonTooltip>
+                        </GradientLabelsButtonWrapper>
+                    )}
+
+
+                    </ThreeButtonContainer>
 
                     {showToggle && (
                             <StyledRadioButtonGroup
