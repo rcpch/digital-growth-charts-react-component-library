@@ -1,3 +1,12 @@
+/*
+This function is called on instantiation of RCPCHChart within RCPCHChar.tsx.
+User style props are passed in as RCPCH defined interfaces to address styling to the different properties of the chart. These are:
+AxisStyle, CentileStyle, SDSStyle, ChartStyle, GridlineStyle, MeasurementStyle
+
+Most of the properties in each of the interfaces are optionals, as users may not want to alter everything. This function therefore instantiates defaults
+where user values have not been provided.
+This creates a styles object that is passed to the chart.
+*/
 import { AxisStyle, CentileStyle, SDSStyle, ChartStyle, GridlineStyle, MeasurementStyle } from '../interfaces/StyleObjects';
 import { setOpacity } from './setOpacity';
 
@@ -54,12 +63,13 @@ function makeAllStyles(
             fill: chartStyle?.tooltipBackgroundColour ?? midGrey,
         },
         toolTipMain: {
-            textAnchor: 'start',
-            stroke: chartStyle?.tooltipTextStyle?.colour ?? black,
-            strokeWidth: chartStyle?.tooltipTextStyle?.size ?? 0.25,
+            textAnchor: "start",
+            fontSize: chartStyle?.tooltipTextStyle?.size ?? 10,
+            strokeWidth: 0.25,
             fill: chartStyle?.tooltipTextStyle?.colour ?? black,
             fontFamily: chartStyle?.tooltipTextStyle?.name ?? 'Montserrat',
             fontWeight: chartStyle?.tooltipTextStyle?.weight ?? 'normal',
+            backgroundPadding: 5
         },
         chartTitle: {
             fontFamily: chartStyle?.titleStyle?.name ?? 'Arial',
@@ -175,8 +185,9 @@ function makeAllStyles(
             },
         },
         centileLabel: {
-            fill: centileStyle?.centileStroke ?? black,
-            fontSize: centileStyle?.centileStroke == black ? 8 : 6
+            fontSize: 8,
+            fontFamily: 'Montserrat',
+            fill: centileStyle?.centileStroke ?? black
         },
         heightSDS: {
             data: {
@@ -244,6 +255,12 @@ function makeAllStyles(
             data: {
                 fill: measurementStyle?.highlightedMeasurementFill ?? black
             }
+        },
+        eventTextStyle: {
+            size: measurementStyle?.eventTextStyle?.size ?? 14,
+            name: measurementStyle?.eventTextStyle?.name ?? 'Montserrat',
+            colour: measurementStyle?.eventTextStyle?.colour ?? black,
+            weight: 'normal'
         },
         toggleStyle: {
             activeColour: chartStyle?.toggleButtonActiveColour ?? darkPink,

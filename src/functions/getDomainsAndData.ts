@@ -266,11 +266,12 @@ function childMeasurementRanges(
         let chronologicalX = measurement.plottable_data.centile_data.chronological_decimal_age_data.x;
         let correctedY = measurement.plottable_data.centile_data.corrected_decimal_age_data.y;
         let chronologicalY = measurement.plottable_data.centile_data.chronological_decimal_age_data.y;
-        const errorsPresent =
-            measurement.measurement_calculated_values.corrected_measurement_error ||
-            measurement.measurement_calculated_values.chronological_measurement_error
-                ? true
-                : false;
+        const errorsPresent = false;
+            // measurement.measurement_calculated_values.corrected_measurement_error ||
+            // measurement.measurement_calculated_values.chronological_measurement_error
+            //     ? true
+            //     : false;
+        
         if (!errorsPresent) {
             if (showCorrected && !showChronological) {
                 chronologicalX = correctedX;
@@ -301,6 +302,7 @@ function childMeasurementRanges(
             console.warn('Measurements considered invalid by the API given to the chart. The chart will ignore them.');
         }
     }
+    
     return { lowestChildX, highestChildX, lowestChildY, highestChildY };
 }
 
@@ -452,7 +454,7 @@ function getRelevantDataSets(
         }
 
         const dataSetRanges = [
-            [-0.33, 0.0383],
+            [-0.345, 0.0383],
             [0.0383, 2],
             [2, 4],
             [4, 21],
@@ -536,8 +538,9 @@ function getDomainsAndData(
         const twoWeeksPostnatal = 0.038329911019849415;
         const gestWeeks37 = -0.057494866529774126;
         const gestWeeks24 = -0.306639288158795;
-        const gestWeeks22 = -0.33;
         let absoluteBottomX = twoWeeksPostnatal;
+        const gestWeeks23 = -0.33;
+        const gestWeeks22 = -0.345;
         let absoluteHighX = 20.05;
         let agePadding = totalMinPadding.biggerChild;
         if (reference === 'uk-who') {
@@ -598,9 +601,9 @@ function getDomainsAndData(
                 absoluteBottomX = gestWeeks22;
                 agePadding = totalMinPadding.prem;
                 absoluteHighX = twoWeeksPostnatal;
-                if (measurementMethod === 'height') {
-                    absoluteBottomX = gestWeeks24;
-                }
+                // if (measurementMethod === 'height') {
+                //     absoluteBottomX = gestWeeks24;
+                // }
                 if (difference > totalMinPadding.prem) {
                     internalChartScaleType = 'infant';
                 } else {
@@ -612,7 +615,8 @@ function getDomainsAndData(
                 if (lowestChildX >= gestWeeks37 && lowestChildX < twoWeeksPostnatal && reference === 'uk-who') {
                     absoluteBottomX = gestWeeks37;
                 } else if (lowestChildX < gestWeeks37) {
-                    absoluteBottomX = measurementMethod === 'height' ? gestWeeks24 : gestWeeks22;
+                    // absoluteBottomX = measurementMethod === 'height' ? gestWeeks24 : gestWeeks22;
+                    absoluteBottomX = gestWeeks22;
                 }
                 if (difference > totalMinPadding.infant) {
                     internalChartScaleType = 'smallChild';
@@ -627,10 +631,13 @@ function getDomainsAndData(
                 }
                 if(lowestChildX < twoWeeksPostnatal && lowestChildX >= gestWeeks37){
                     absoluteBottomX = lowestChildX-totalMinPadding.prem;
+                } else if(lowestChildX < gestWeeks37){
+                    absoluteBottomX = lowestChildX-totalMinPadding.prem
                 }
-                
-                
+            } else {
+                absoluteBottomX = lowestChildX-totalMinPadding.prem
             }
+
 
             // work out most appropriate highest and lowest x coords for domain setting:
             let unroundedLowestX = 0;
@@ -661,6 +668,7 @@ function getDomainsAndData(
 
             const xTickValues = getTickValuesForChartScaling(internalChartScaleType);
 
+
             if (lowestXForDomain !== absoluteBottomX) {
                 const arrayForOrdering = [...xTickValues];
                 arrayForOrdering.push(unroundedLowestX);
@@ -681,7 +689,7 @@ function getDomainsAndData(
         } else {
             let errorString = 'No valid measurements entered. Error message from the server: ';
             for (const measurement of childMeasurements) {
-                if (measurement.measurement_calculated_values.corrected_measurement_error) {
+                if (measurement.measurement_calculated_values.corrected_measurement_error && measurement.measurement_dates.corrected_decimal_age < gestWeeks22) {
                     errorString += ` ${measurement.measurement_calculated_values.corrected_measurement_error}`;
                     throw new Error(errorString);
                 }
@@ -820,5 +828,6 @@ export const delayedPubertyData = {
     male: ukwhoHeightMaleCentileData.centile_data[3].uk90_child.male.height[0].data, //ukwhoData.uk90_child.male.height[0].data,
     female: ukwhoHeightFemaleCentileData.centile_data[3].uk90_child.female.height[0].data //ukwhoData.uk90_child.female.height[0].data,
 };
+
 
 export { getVisibleData, getDomainsAndData };

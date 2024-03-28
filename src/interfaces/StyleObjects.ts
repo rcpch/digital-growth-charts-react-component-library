@@ -17,10 +17,11 @@ export interface ChartStyle {
 export interface MeasurementStyle {
     measurementFill?: string;
     highlightedMeasurementFill?: string;
+    eventTextStyle?: TextStyle;
 }
 export interface CentileStyle {
     sdsStroke?: string;
-    sdsStrokeWidth?: string;
+    sdsStrokeWidth?: number;
     centileStroke?: string;
     centileStrokeWidth?: number;
     delayedPubertyAreaFill?: string;

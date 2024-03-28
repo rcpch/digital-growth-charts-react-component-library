@@ -1,5 +1,5 @@
 import Montserrat from './Montserrat/Montserrat-Regular.ttf';
-import Arial from './Arial/ari.ttf'
+import Arial from './Arial/ARI.ttf'
 const montserratRegular = Montserrat
 const arialRegular = Arial
 const fonts = {

@@ -7,14 +7,12 @@ import {
     VictoryGroup,
     VictoryLine,
     VictoryScatter,
-    VictoryVoronoiContainerProps,
-    VictoryZoomContainerProps,
     VictoryTooltip,
     VictoryAxis,
     VictoryLabel,
     VictoryArea,
-    Rect,
     DomainPropType,
+    VictoryPortal,
 } from 'victory';
 
 // helper functions
@@ -39,13 +37,16 @@ import RenderTickLabel from '../SubComponents/RenderTickLabel';
 import { TitleContainer } from '../SubComponents/TitleContainer';
 import { StyledRadioButtonGroup } from '../SubComponents/StyledRadioButtonGroup';
 import { StyledResetZoomButton } from '../SubComponents/StyledResetZoomButton';
+import { StyledGradientLabelsButton } from '../SubComponents/StyledGradientLabelsButton'
 import { StyledButtonTooltip } from '../SubComponents/StyledButtonTooltip';
 import { ButtonContainer } from '../SubComponents/ButtonContainer';
-import { TwoButtonContainer } from '../SubComponents/TwoButtonContainer';
+import { ThreeButtonContainer } from '../SubComponents/ThreeButtonContainer';
 import { ChartTitle } from '../SubComponents/ChartTitle';
 import { LogoContainer } from '../SubComponents/LogoContainer';
-import { VersionLabel } from '../SubComponents/VersionLabel';
+import { IndividualLogoContainer } from '../SubComponents/IndividualLogoContainer';
 import { MainContainer } from '../SubComponents/MainContainer';
+import { TopContainer } from '../SubComponents/TopContainer';
+import { VersionLabel } from '../SubComponents/VersionLabel';
 
 // RCPCH Icon:
 import icon from '../images/icon.png';
@@ -66,9 +67,10 @@ import { labelAngle } from '../functions/labelAngle';
 import addOrdinalSuffix from '../functions/addOrdinalSuffix';
 import { labelIndexInterval } from '../functions/labelIndexInterval';
 import { referenceText } from '../functions/referenceText';
+import { GradientLabelsButtonWrapper } from '../SubComponents/GradientLabelsButtonWrapper';
 
 // allows two top level containers: zoom and voronoi
-const VictoryZoomVoronoiContainer = createContainer<VictoryZoomContainerProps, VictoryVoronoiContainerProps>(
+const VictoryZoomVoronoiContainer:any = createContainer(
     'zoom',
     'voronoi',
 );
@@ -102,6 +104,9 @@ function CentileChart({
     const chartRef=useRef<any>();
     const [active, setActive] = useState(false);
     const [fullScreen, setFullScreen]=useState(true);
+    const [centileLabels, setCentileLabels] = useState(false);
+
+    // save & destruct domains and data on initial render and when dependencies change
 
     let { bmiSDSData, centileData, computedDomains, chartScaleType } = useMemo(
         () =>
@@ -115,14 +120,6 @@ function CentileChart({
             ),
         [storedChildMeasurements, sex, measurementMethod, reference, showCorrectedAge, showChronologicalAge],
     );
-
-
-    const updatedData = useMemo(() => getVisibleData(sex, measurementMethod, reference, userDomains), [
-        sex,
-        measurementMethod,
-        reference,
-        userDomains,
-    ]);
 
     // get the highest reference index of visible centile data
     let maxVisibleReferenceIndex: number = null;
@@ -239,6 +236,13 @@ function CentileChart({
         setUserDomains(domain);
     };
 
+    const renderGradientLabels = () => {
+        if (showCentileLabels) {
+            setCentileLabels(!centileLabels);
+        }
+    }
+    
+
 
     // always reset zoom to default when measurements array changes
     useLayoutEffect(() => {
@@ -247,20 +251,26 @@ function CentileChart({
 
     return (
         <MainContainer>
-            <LogoContainer>
-                <div>
-                    <img src={icon} width={24} height={24} />
+            <TopContainer>
+                <LogoContainer>
+                    <IndividualLogoContainer>
+                        <img src={icon} width={24} height={24} />
+                    </IndividualLogoContainer>
                     <VersionLabel
                         fontFamily={styles.chartTitle.fontFamily}
                     >{chartsVersion}</VersionLabel>
-                </div>
-                <img src={ukca} width={18} height={18}/>
-            </LogoContainer>
+                    <IndividualLogoContainer>
+                        <img src={ukca} width={18} height={18}/>
+                    </IndividualLogoContainer>
+                </LogoContainer>
+                
+                <TitleContainer>
+                    <ChartTitle {...styles.chartTitle}>{title}</ChartTitle>
+                    <ChartTitle {...styles.chartSubTitle}>{subtitle}</ChartTitle>
+                </TitleContainer>
 
-            <TitleContainer>
-                <ChartTitle {...styles.chartTitle}>{title}</ChartTitle>
-                <ChartTitle {...styles.chartSubTitle}>{subtitle}</ChartTitle>
-            </TitleContainer>
+                <LogoContainer></LogoContainer>
+            </TopContainer>
 
             <ChartContainer>
 
@@ -276,19 +286,24 @@ function CentileChart({
                     domain={computedDomains}
                     containerComponent={
                         <VictoryZoomVoronoiContainer
+                            data-testid="label-container"
                             containerRef={ref => { chartRef.current=ref} }
                             allowZoom={allowZooming}
                             allowPan={allowZooming}
                             onZoomDomainChange={handleZoomChange}
                             zoomDomain={domains}
+                            style={styles.toolTipMain}
                             labelComponent={
                                 <VictoryTooltip
                                     data-testid='tooltip'
                                     constrainToVisibleArea
+                                    backgroundPadding={5}
                                     pointerLength={5}
                                     cornerRadius={0}
                                     flyoutStyle={styles.toolTipFlyout}
-                                    style={styles.toolTipMain}
+                                    style={{
+                                        textAnchor:'start'
+                                    }}
                                 />
                             }
                             labels={({ datum }) => {
@@ -434,7 +449,7 @@ function CentileChart({
                     }
 
                     {/* Render the centiles - loop through the data set, create a line for each centile */}
-                    {/* On the old charts the 50th centile was thicker and darker and this lead parents to believe it was therefore */}
+                    {/* On the old charts the 50th centile was thicker and darker and this led parents to believe it was therefore */}
                     {/* the line their children should follow. This was a design mistake, since it does not matter which line the child is on  */}
                     {/* so long as they follow it. The middle line was therefore 'de-emphasised' on the newer charts. */}
                     {/* For each reference data set, there are 9 centiles. The 0.4th, 9th, 50th, 91st, 99.6th are all dashed. */}
@@ -459,28 +474,33 @@ function CentileChart({
 
                                         // BMI charts also have SDS lines at -5, -4, -3, -2, 2, 3, 4, 5
 
+                                        if (centile.data.length < 1){
+                                            // prevents a css `width` infinity error if no data presented to centile line
+                                            return
+                                        }
+
+                                        
                                         if (centileIndex % 2 === 0) {
                                             // even index - centile is dashed
-
                                             return (
                                                 <VictoryLine
-                                                    data-testid='evenCentileLine'
+                                                    data-testid={'reference-'+referenceIndex+'-centile-'+centile.centile+'-measurement-'+measurementMethod}
                                                     name={'centileLine-'+ centileIndex}
                                                     key={centile.centile + '-' + centileIndex}
                                                     padding={{ top: 20, bottom: 20 }}
                                                     data={centile.data}
                                                     style={styles.dashedCentile}
-                                                    labels={ (props: { index: number; }) => showCentileLabels && labelIndexInterval(chartScaleType, props.index) && props.index > 0 ? [addOrdinalSuffix(centile.centile)]: null}
+                                                    labels={ (props: { index: number; }) => centileLabels && labelIndexInterval(chartScaleType, props.index) && props.index > 0 ? [addOrdinalSuffix(centile.centile)]: null}
                                                     labelComponent={
                                                         <VictoryLabel
                                                             angle={
                                                                 ({index})=>{
-                                                                    return labelAngle(centile.data, index, chartScaleType);
+                                                                    return labelAngle(centile.data, index, chartScaleType, measurementMethod, domains);
                                                                 }
                                                             }
                                                             style={styles.centileLabel}
                                                             backgroundStyle={{fill:'white'}}
-                                                            backgroundPadding={{top: 0, bottom: 0, left: 3, right:3}}
+                                                            backgroundPadding={{top: 1, bottom: 1, left: 3, right:3}}
                                                             textAnchor={'middle'}
                                                             verticalAnchor={'middle'}
                                                             dy={0}
@@ -490,23 +510,24 @@ function CentileChart({
                                             );
                                         } else {
                                             // uneven index - centile is continuous
+                                            
                                             return (
                                                 <VictoryLine
-                                                    data-testid='unevenCentileLine'
+                                                    data-testid={'reference-'+referenceIndex+'-centile-'+centile.centile+'-measurement-'+measurementMethod}
                                                     name={'centileLine-'+ centileIndex}
                                                     key={centile.centile + '-' + centileIndex}
                                                     padding={{ top: 20, bottom: 20 }}
                                                     data={centile.data}
-                                                    style={styles.continuousCentile}
-                                                    labels={ (props: { index: number; })=> showCentileLabels && labelIndexInterval(chartScaleType, props.index) && props.index > 0 ? [addOrdinalSuffix(centile.centile)]: null}
+                                                    style={{...styles.continuousCentile}}
+                                                    labels={ (props: { index: number; })=> centileLabels && labelIndexInterval(chartScaleType, props.index) && props.index > 0 ? [addOrdinalSuffix(centile.centile)]: null}
                                                     labelComponent={
                                                         <VictoryLabel
                                                             angle={
                                                                 ({index})=>{
-                                                                    return labelAngle(centile.data, index, chartScaleType);
+                                                                    return labelAngle(centile.data, index, chartScaleType, measurementMethod, domains);
                                                                 }
                                                             }
-                                                            style={styles.centileLabel}
+                                                            style={[{ fill: styles.centileLabel.fill, fontFamily: styles.centileLabel.fontFamily, fontSize: styles.centileLabel.fontSize }]}
                                                             backgroundStyle={{fill:'white'}}
                                                             backgroundPadding={{top: 0, bottom: 0, left: 3, right:3}}
                                                             textAnchor={'middle'}
@@ -536,9 +557,15 @@ function CentileChart({
 
                                             // BMI charts have SDS lines at -5, -4, -3, 3, 3.33, 3.67, 4
 
+                                            if (sdsLine.data.length < 1){
+                                                // prevents a css `width` infinity error if no data presented to sds line
+                                                return
+                                            }
+                                            
                                                 // sds line is dashed
                                                 return (
                                                     <VictoryLine
+                                                        data-testid={'reference-'+index+'-centile-'+sdsLine.sds+'-bmisds'}
                                                         name={'sdsLine-'+ sdsIndex}
                                                         key={sdsLine.sds + '-' + sdsIndex}
                                                         padding={{ top: 20, bottom: 20 }}
@@ -549,7 +576,7 @@ function CentileChart({
                                                             <VictoryLabel
                                                                 angle={
                                                                     ({index})=>{
-                                                                        return labelAngle(sdsLine.data, index, chartScaleType);
+                                                                        return labelAngle(sdsLine.data, index, chartScaleType, measurementMethod, domains);
                                                                     }
                                                                 }
                                                                 style={{fill: styles.sdsLine.data.stroke, fontSize: 10.0}}
@@ -599,13 +626,7 @@ function CentileChart({
                     {/* create a series for each child measurements data point: a circle for chronological age, a cross for corrected */}
                     {/* If data points are close together, reduce the size of the point */}
 
-                    {childMeasurements.map((childMeasurement: Measurement, index) => {
-                        if (
-                            childMeasurement.measurement_calculated_values.corrected_measurement_error ||
-                            childMeasurement.measurement_calculated_values.chronological_measurement_error
-                        ) {
-                            return null;
-                        }
+                    {childMeasurements.map((childMeasurement: Measurement, index) => {    
 
                         const chronData: any = {
                             age_type: 'chronological_age',
@@ -623,9 +644,12 @@ function CentileChart({
                             lay_comment: childMeasurement.measurement_dates.comments.lay_chronological_decimal_age_comment,
                             observation_date: new Date(childMeasurement.measurement_dates.observation_date).toLocaleDateString('en-UK'),
                             observation_value_error: childMeasurement.child_observation_value.observation_value_error,
+                            chronological_measurement_error: childMeasurement.measurement_calculated_values.chronological_measurement_error,
+                            chronological_decimal_age_error: childMeasurement.measurement_dates.chronological_decimal_age_error,
                             x: childMeasurement.measurement_dates.chronological_decimal_age,
                             y: childMeasurement.child_observation_value.observation_value,
-                            sds: childMeasurement.measurement_calculated_values.chronological_sds
+                            sds: childMeasurement.measurement_calculated_values.chronological_sds,
+                            chronological_percentage_median_bmi: childMeasurement.measurement_calculated_values.chronological_percentage_median_bmi
                         };
                         const correctData: any = {
                             age_type: 'corrected_age',
@@ -643,11 +667,13 @@ function CentileChart({
                             lay_comment: childMeasurement.measurement_dates.comments.lay_corrected_decimal_age_comment,
                             observation_date: new Date(childMeasurement.measurement_dates.observation_date).toLocaleDateString('en-UK'),
                             observation_value_error: childMeasurement.child_observation_value.observation_value_error,
+                            corrected_measurement_error: childMeasurement.measurement_calculated_values.corrected_measurement_error,
+                            corrected_decimal_age_error: childMeasurement.measurement_dates.corrected_decimal_age_error,
                             x: childMeasurement.measurement_dates.corrected_decimal_age,
                             y: childMeasurement.child_observation_value.observation_value,
-                            sds: childMeasurement.measurement_calculated_values.corrected_sds
+                            sds: childMeasurement.measurement_calculated_values.corrected_sds,
+                            corrected_percentage_median_bmi: childMeasurement.measurement_calculated_values.corrected_percentage_median_bmi
                         };
-
 
                         if (isChartCrowded) {
                             chronData.size = 1.5;
@@ -661,34 +687,43 @@ function CentileChart({
                             <VictoryGroup key={'measurement' + index}>
 
                                 { childMeasurement.events_data.events_text && childMeasurement.events_data.events_text.length > 0 && (
-
+                                        
                                         showChronologicalAge && !showCorrectedAge ?
                                         // Events against chronological age only if corrected age not showing
-                                        <VictoryScatter
-                                            name="eventcaret"
-                                            data={[{x: childMeasurement.measurement_dates.chronological_decimal_age, y: childMeasurement.child_observation_value.observation_value}]}
-                                            dataComponent={
-                                                <EventCaret
-                                                    eventsText={childMeasurement.events_data.events_text}
-                                                />
-                                            }
-                                        />
+                                        <VictoryPortal>
+                                            <VictoryScatter
+                                                key={"item-"+index}
+                                                name="eventcaret"
+                                                data={[{x: childMeasurement.measurement_dates.chronological_decimal_age, y: childMeasurement.child_observation_value.observation_value}]}
+                                                dataComponent={
+                                                    <EventCaret
+                                                        eventsText={childMeasurement.events_data.events_text}
+                                                        style={styles.eventTextStyle}
+                                                    />
+                                                }
+                                            />
+                                        </VictoryPortal>
                                         :
                                         // Events against corrected age
-                                        <VictoryScatter
-                                            name="eventcaret"
-                                            data={[{x: childMeasurement.measurement_dates.corrected_decimal_age, y: childMeasurement.child_observation_value.observation_value}]}
-                                            dataComponent={
-                                                <EventCaret
-                                                    eventsText={childMeasurement.events_data.events_text}
-                                                />
-                                            }
-                                        />
+                                        <VictoryPortal>
+                                            <VictoryScatter
+                                                key={"item-"+index}
+                                                name="eventcaret"
+                                                data={[{x: childMeasurement.measurement_dates.corrected_decimal_age, y: childMeasurement.child_observation_value.observation_value}]}
+                                                dataComponent={
+                                                    <EventCaret
+                                                        eventsText={childMeasurement.events_data.events_text}
+                                                        style={styles.eventTextStyle}
+                                                    />
+                                                }
+                                            />
+                                        </VictoryPortal>
                                     )
                                 }
 
                                 { showChronologicalAge && childMeasurement.bone_age.bone_age && ( showChronologicalAge || showCorrectedAge ) && !( showCorrectedAge && showChronologicalAge ) && // bone age linked to chronological age
                                     <VictoryScatter // bone age
+                                        key={"item-"+index}
                                         name="chronologicalboneage"
                                         data={[chronData]}
                                         x={"b"}
@@ -705,6 +740,7 @@ function CentileChart({
 
                                 { showCorrectedAge && childMeasurement.bone_age.bone_age &&  // bone age linked to corrected age
                                     <VictoryScatter // bone age
+                                        key={"item-"+index}
                                         name="correctedboneage"
                                         data={[correctData]}
                                         x={"b"}
@@ -720,13 +756,14 @@ function CentileChart({
                                 }
                                 { showChronologicalAge && !showCorrectedAge && childMeasurement.bone_age.bone_age &&// bone age line linked to chronological age
                                     <VictoryLine // bone age link line
+                                        key={"item-"+index}
                                         name="chronologicalboneagelinkline"
                                         data={[{x: chronData.x, y: chronData.y}, {x: chronData.b, y: chronData.y}]}
                                         style={{
                                             data: {
                                                 strokeWidth: 2,
                                                 stroke: '#A9A9A9',
-                                                strokeDasharray: '3, 3',
+                                                strokeDasharray: '5, 3',
                                             }
                                         }}
                                     />
@@ -734,6 +771,7 @@ function CentileChart({
 
                                 { showCorrectedAge && childMeasurement.bone_age.bone_age && // bone age line linked to corrected age
                                     <VictoryLine // bone age link line
+                                        key={"item-"+index}
                                         name="correctedboneagelinkline"
                                         data={[{x: correctData.x, y: correctData.y}, {x: correctData.b, y: correctData.y}]}
                                         style={{
@@ -747,6 +785,7 @@ function CentileChart({
                                 }
                                 { showChronologicalAge && (
                                     <VictoryScatter // chronological age
+                                        key={"item-"+index}
                                         data-testid='chronologicalMeasurementPoint'
                                         data={[chronData]}
                                         symbol="circle"
@@ -756,6 +795,7 @@ function CentileChart({
                                 )}
                                 { showCorrectedAge && (
                                     <VictoryScatter // corrected age - a custom component that renders a cross
+                                        key={"item-"+index}
                                         data-testid='correctedMeasurementXPoint'
                                         data={[correctData]}
                                         dataComponent={
@@ -771,6 +811,7 @@ function CentileChart({
                                 { showChronologicalAge &&
                                     showCorrectedAge && ( // only show the line if both cross and dot are rendered
                                         <VictoryLine
+                                            key={"item-"+index}
                                             name="linkLine"
                                             style={styles.measurementLinkLine}
                                             data={[chronData, correctData]}
@@ -782,7 +823,7 @@ function CentileChart({
                 </VictoryChart>
                 <ChartTitle
                     fontSize={8}
-                    fontFamily={'Montserrat'}
+                    fontFamily={'Arial'}
                     color={'#000000'}
                     fontWeight={'200'}
                     fontStyle='normal'
@@ -793,7 +834,7 @@ function CentileChart({
 
                 <ButtonContainer>
 
-                    <TwoButtonContainer>
+                    <ThreeButtonContainer>
                     {/* Creates the Zoom to see whole lifespan button */}
                     { childMeasurements.length > 0 &&
                             <FullScreenButtonWrapper>
@@ -802,6 +843,7 @@ function CentileChart({
                                         onClick={()=> fullScreenPressed()}
                                         $color={styles.toggleStyle.activeColour}
                                         size={5}
+                                        data-testid="zoom-button"
                                     >
                                         { fullScreen ?
                                             <FullScreenIcon/>
@@ -822,10 +864,11 @@ function CentileChart({
                                             $color={styles.toggleStyle.activeColour}
                                             size={5}
                                             onClick={exportPressed}
+                                            data-testid="copy-button"
                                         >
                                             <ShareIcon/>
                                         </StyledShareButton>
-                                        <div className='tooltip'>Copy Graph</div>
+                                        <div className='tooltip'>Copy Chart</div>
                                     </StyledButtonTooltip>
                                     <CopiedLabel
                                         $active={active}
@@ -836,8 +879,26 @@ function CentileChart({
                             </ShareButtonWrapper>
                         )
                     }
+                    {/* Creates the Centile Label toggle button */}
+                    { showCentileLabels && (
+                        <GradientLabelsButtonWrapper>
+                            <StyledButtonTooltip>
+                                <StyledGradientLabelsButton
+                                    $color={styles.toggleStyle.activeColour}
+                                    size={5}
+                                    onClick={renderGradientLabels}
+                                    data-testid="gradient-labels-button"
+                                >
+                                    <div className='tooltip'>Show Centile Labels</div>
 
-                    </TwoButtonContainer>
+                                </StyledGradientLabelsButton>
+                                
+                            </StyledButtonTooltip>
+                        </GradientLabelsButtonWrapper>
+                    )}
+
+
+                    </ThreeButtonContainer>
 
                     {showToggle && (
                             <StyledRadioButtonGroup
@@ -859,6 +920,7 @@ function CentileChart({
                     {/* {allowZooming && ( */}
                             <ResetZoomContainer
                                 $isHidden={!allowZooming}
+                                data-testid="resetzoom-button"
                         >
                                 <StyledResetZoomButton
                                     $activeColour={styles.toggleStyle.activeColour}

@@ -9,7 +9,7 @@ export function labelIndexInterval(chartScaleType: 'prem' | 'infant' | 'smallChi
         case "smallChild":
             return index%30==0;
         case "biggerChild":
-            return index%50==0;
+            return index%40==0;
         default:
             return index%50==0;
     }

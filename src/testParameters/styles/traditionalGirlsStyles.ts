@@ -1,8 +1,115 @@
 import { AxisStyle, CentileStyle, ChartStyle, GridlineStyle, MeasurementStyle, SDSStyle } from "../../interfaces/StyleObjects"
 
+/*
+The following styles are provided to the RCPCHChart component, and match what the users should be passing in.
+*/
+
+export const traditionalGirlAxisStyles: AxisStyle = {
+    axisStroke: "#000000",
+    axisLabelTextStyle: {
+        name: "Arial", 
+        colour: "#000000",
+        size: 10,
+        weight: 'normal'
+    },
+    tickLabelTextStyle: {
+        name: "Arial", 
+        colour: "#000000",
+        size: 8,
+        weight: 'normal'
+    }
+} 
+
+export const traditionalGirlChartStyles: ChartStyle = {
+    backgroundColour: "#FFFFFF",
+    width: 1000,
+    height: 800,
+    padding: {
+        left: 50,
+        right: 50,
+        top: 25,
+        bottom: 40
+    },
+    titleStyle: {
+        name: "Arial", 
+        colour: "#000000",
+        size: 14,
+        weight: 'bold'
+    },
+    subTitleStyle: {
+        name: "Arial",
+        colour: "#000000",
+        size: 12,
+        weight: 'italic'
+    },
+    tooltipBackgroundColour: "#df99c4",
+    tooltipStroke: "#df99c4",
+    tooltipTextStyle: {
+        name: "Montserrat",
+        colour: "#000000",
+        size: 12,
+        weight: 'normal'
+    },
+    termFill: "#CDCDCD",
+    termStroke: "#CDCDCD",
+    toggleButtonInactiveColour: "#df99c4",
+    toggleButtonActiveColour: "#c9559d",
+    toggleButtonTextStyle: {
+        name: "Arial",
+        colour: "#000000",
+        size: 14,
+        weight: 'normal'
+    }
+}
+
+export const traditionalGirlGridlineStyle: GridlineStyle = {
+    gridlines: true,
+    stroke: "#d9d9d9",
+    strokeWidth: 0.25,
+    dashed: false
+}
+
+export const traditionalGirlCentileStyle: CentileStyle = {
+    sdsStroke: "#A9A9A9",
+    sdsStrokeWidth: 1.5,
+    centileStroke: "#c9559d",
+    centileStrokeWidth: 1.5,
+    delayedPubertyAreaFill: "#df99c4",
+    midParentalCentileStrokeWidth: 1.5,
+    midParentalCentileStroke: "#df99c4",
+    midParentalAreaFill: "##df99c4",
+}
+
+export const traditionalGirlMeasurementStyle: MeasurementStyle = {
+    measurementFill: "#000000",
+    highlightedMeasurementFill: "#c9559d",
+    eventTextStyle: {
+        name: "Montserrat",
+        colour: "#000000",
+        size: 12,
+        weight: 'normal'
+    }
+}
+export const traditionalGirlSDSStyle: SDSStyle = {
+    lineStrokeWidth: 1.5,
+    heightStroke: "#c9559dff",
+    weightStroke: "#c9559d7f",
+    ofcStroke: "#c9559d3f",
+    bmiStroke: "#c9559d1f",
+}
+
+
+
+
+
+/*
+The following styles are provided to the CentileChart component, and are a step downstream from the user. 
+The user style props, passed into the RCPCHChart component, have been processed by the makeAllStyles function and returned in this format
+*/
+
 export const traditionalGirlsStyles = {
-    "chartHeight": 475,
-    "chartWidth": 700,
+    "chartHeight": 800,
+    "chartWidth": 1000,
     "chartPadding": {
         "left": 50,
         "right": 50,
@@ -19,8 +126,7 @@ export const traditionalGirlsStyles = {
         "fill": "#df99c4"
     },
     "toolTipMain": {
-        "textAnchor": "start",
-        "stroke": "#000000",
+        "textAnchor": "end",
         "strokeWidth": 0.25,
         "fill": "#000000",
         "fontFamily": "Montserrat",
@@ -225,5 +331,11 @@ export const traditionalGirlsStyles = {
         "fontSize": 14,
         "fontWeight": "normal",
         "fontStyle": "normal"
+    },
+    "eventTextStyle": {
+        "name": "Montserrat",
+        "colour": "#000000",
+        "size": 14,
+        "weight": "normal"
     }
 }

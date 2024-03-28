@@ -8,5 +8,5 @@ export const VersionLabel = styled.p<{
     font-weight: 200;
     font-style: italic;
     padding: 0px;
-    color: #A9A9A();
+    color: "#A9A9A";
 `;
