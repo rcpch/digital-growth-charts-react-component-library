@@ -59,6 +59,7 @@ import { ShareButtonWrapper } from '../SubComponents/ShareButtonWrapper';
 import { FullScreenButtonWrapper } from '../SubComponents/FullScreenButtonWrapper';
 import { ShareIcon } from '../SubComponents/ShareIcon';
 import { CopiedLabel } from '../SubComponents/CopiedLabel';
+import { CentileLabelIcon } from '../SubComponents/CentileLabelIcon';
 import { ChartContainer } from '../SubComponents/ChartContainer';
 import { FullScreenIcon } from '../SubComponents/FullScreenIcon';
 import { CloseFullScreenIcon } from '../SubComponents/CloseFullScreenIcon';
@@ -835,69 +836,70 @@ function CentileChart({
                 <ButtonContainer>
 
                     <ThreeButtonContainer>
-                    {/* Creates the Zoom to see whole lifespan button */}
-                    { childMeasurements.length > 0 &&
-                            <FullScreenButtonWrapper>
+                        
+                        {/* Creates the Centile Label toggle button */}
+                        { showCentileLabels && (
+                            <GradientLabelsButtonWrapper>
                                 <StyledButtonTooltip>
-                                    <StyledFullScreenButton
-                                        onClick={()=> fullScreenPressed()}
+                                    <StyledGradientLabelsButton
                                         $color={styles.toggleStyle.activeColour}
                                         size={5}
-                                        data-testid="zoom-button"
+                                        onClick={renderGradientLabels}
+                                        data-testid="gradient-labels-button"
                                     >
-                                        { fullScreen ?
-                                            <FullScreenIcon/>
-                                            :
-                                            <CloseFullScreenIcon/>
-                                        }
-                                    </StyledFullScreenButton>
-                                    <div className='tooltip'>Toggle Full Lifespan</div>
+                                        <CentileLabelIcon/>
+                                        <div className='tooltip'>Show Centile Labels</div>
+                                    </StyledGradientLabelsButton>
+                                    
                                 </StyledButtonTooltip>
-                            </FullScreenButtonWrapper>
-                    }
+                            </GradientLabelsButtonWrapper>
+                        )}
 
-                    {/* Creates the Copy button */}
-                    { enableExport && (
-                            <ShareButtonWrapper>
+                        {/* Creates the Zoom to see whole lifespan button */}
+                        { childMeasurements.length > 0 &&
+                                <FullScreenButtonWrapper>
                                     <StyledButtonTooltip>
-                                        <StyledShareButton
+                                        <StyledFullScreenButton
+                                            onClick={()=> fullScreenPressed()}
                                             $color={styles.toggleStyle.activeColour}
                                             size={5}
-                                            onClick={exportPressed}
-                                            data-testid="copy-button"
+                                            data-testid="zoom-button"
                                         >
-                                            <ShareIcon/>
-                                        </StyledShareButton>
-                                        <div className='tooltip'>Copy Chart</div>
+                                            { fullScreen ?
+                                                <FullScreenIcon/>
+                                                :
+                                                <CloseFullScreenIcon/>
+                                            }
+                                        </StyledFullScreenButton>
+                                        <div className='tooltip'>Toggle Full Lifespan</div>
                                     </StyledButtonTooltip>
-                                    <CopiedLabel
-                                        $active={active}
-                                        onAnimationEnd={labelFadeEnd}
-                                    >
-                                        Copied!
-                                    </CopiedLabel>
-                            </ShareButtonWrapper>
-                        )
-                    }
-                    {/* Creates the Centile Label toggle button */}
-                    { showCentileLabels && (
-                        <GradientLabelsButtonWrapper>
-                            <StyledButtonTooltip>
-                                <StyledGradientLabelsButton
-                                    $color={styles.toggleStyle.activeColour}
-                                    size={5}
-                                    onClick={renderGradientLabels}
-                                    data-testid="gradient-labels-button"
-                                >
-                                    <div className='tooltip'>Show Centile Labels</div>
+                                </FullScreenButtonWrapper>
+                        }
 
-                                </StyledGradientLabelsButton>
-                                
-                            </StyledButtonTooltip>
-                        </GradientLabelsButtonWrapper>
-                    )}
-
-
+                        {/* Creates the Copy button */}
+                        { enableExport && (
+                                <ShareButtonWrapper>
+                                        <StyledButtonTooltip>
+                                            <StyledShareButton
+                                                $color={styles.toggleStyle.activeColour}
+                                                size={5}
+                                                onClick={exportPressed}
+                                                data-testid="copy-button"
+                                            >
+                                                <ShareIcon/>
+                                            </StyledShareButton>
+                                            <div className='tooltip'>Copy Chart</div>
+                                        </StyledButtonTooltip>
+                                        <CopiedLabel
+                                            $active={active}
+                                            onAnimationEnd={labelFadeEnd}
+                                        >
+                                            Copied!
+                                        </CopiedLabel>
+                                </ShareButtonWrapper>
+                            )
+                        }
+                    
                     </ThreeButtonContainer>
 
                     {showToggle && (
