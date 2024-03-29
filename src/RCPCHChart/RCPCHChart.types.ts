@@ -3,7 +3,7 @@ import { MidParentalHeightObject } from '../interfaces/MidParentalHeightObject';
 import { AxisStyle, CentileStyle, ChartStyle, GridlineStyle, MeasurementStyle, SDSStyle } from '../interfaces/StyleObjects';
 
 export interface RCPCHChartProps {
-    title: string;
+    // title: string;
     subtitle: string;
     measurementMethod: 'height' | 'weight' | 'ofc' | 'bmi';
     reference: 'uk-who' | 'turner' | 'trisomy-21';
@@ -11,12 +11,14 @@ export interface RCPCHChartProps {
     measurementsArray: Measurement[];
     midParentalHeightData?: MidParentalHeightObject | undefined;
     enableZoom?: boolean;
-    chartStyle?: ChartStyle;
-    axisStyle?: AxisStyle;
-    gridlineStyle?: GridlineStyle;
-    centileStyle?: CentileStyle;
-    sdsStyle?: SDSStyle;
-    measurementStyle?: MeasurementStyle;
+    // chartStyle?: ChartStyle;
+    // axisStyle?: AxisStyle;
+    // gridlineStyle?: GridlineStyle;
+    // centileStyle?: CentileStyle;
+    // sdsStyle?: SDSStyle;
+    // measurementStyle?: MeasurementStyle;
+    theme?: 'monochrome' | 'traditional' | 'tanner1' | 'tanner2' | 'tanner3' | 'custom';
+    themeStyles?: {};
     chartType?: 'centile' | 'sds';
     enableExport?: boolean | undefined;
     exportChartCallback(svg?: any): any;

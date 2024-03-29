@@ -56,8 +56,17 @@ export interface Padding {
     bottom?: number;
 }
 export interface TextStyle {
-    name?: string;
+    name?: string; // fontFamily
     colour?: string;
     size?: number;
     weight?: 'bold' | 'italic' | 'normal';
+}
+
+export interface ThemeStyles {
+    chartStyle?: ChartStyle;
+    axisStyle?: AxisStyle;
+    gridlineStyle?: GridlineStyle;
+    centileStyle?: CentileStyle;
+    sdsStyle?: SDSStyle;
+    measurementStyle?: MeasurementStyle;
 }

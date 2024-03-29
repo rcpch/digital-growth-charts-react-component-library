@@ -261,12 +261,9 @@ function CentileChart({
                     </IndividualLogoContainer>
                 </LogoContainer>
                 
-                <TitleContainer>
-                    <ChartTitle {...styles.chartTitle}>{title}</ChartTitle>
-                    <ChartTitle {...styles.chartSubTitle}>{subtitle}</ChartTitle>
-                </TitleContainer>
+                
 
-                <LogoContainer></LogoContainer>
+                {/* <LogoContainer></LogoContainer> */}
             </TopContainer>
 
             <ChartContainer>
@@ -274,6 +271,10 @@ function CentileChart({
                 {/* The VictoryChart is the parent component. It contains a Voronoi container, which groups data sets together for the purposes of tooltips */}
                 {/* It has an animation object and the domains are the thresholds of ages rendered. This is calculated from the child data supplied by the user. */}
                 {/* Tooltips are here as it is the parent component. More information of tooltips in centiles below. */}
+                <TitleContainer>
+                    <ChartTitle {...styles.chartTitle}>{title}</ChartTitle>
+                    <ChartTitle {...styles.chartSubTitle}>{subtitle}</ChartTitle>
+                </TitleContainer>
 
                 <VictoryChart
                     width={styles.chartWidth}

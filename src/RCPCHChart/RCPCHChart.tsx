@@ -29,18 +29,25 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     measurementsArray,
     midParentalHeightData,
     enableZoom = true,
-    chartStyle,
-    axisStyle,
-    gridlineStyle,
-    centileStyle,
-    sdsStyle,
-    measurementStyle,
+    // chartStyle,
+    // axisStyle,
+    // gridlineStyle,
+    // centileStyle,
+    // sdsStyle,
+    // measurementStyle,
+    theme = 'monochrome',
+    themeStyles: ThemeStyles = {},
     chartType,
     enableExport,
     exportChartCallback,
     clinicianFocus
 }) => {
-    const styles = makeAllStyles(chartStyle, axisStyle, gridlineStyle, centileStyle, sdsStyle, measurementStyle);
+
+    const chosenTheme = createStylesFromTheme(theme=theme, sex=sex);
+
+    const styles = makeAllStyles(chosenTheme.chartStyle, chosenTheme.axisStyle, chosenTheme.gridlineStyle, chosenTheme.centileStyle, chosenTheme.sdsStyle, chosenTheme.measurementStyle);
+
+    
     
     clinicianFocus = defineNonStylePropDefaults('clinicianFocus', clinicianFocus);
     enableExport = defineNonStylePropDefaults('enableExport', enableExport);

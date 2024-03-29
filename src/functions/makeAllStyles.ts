@@ -48,10 +48,10 @@ function makeAllStyles(
         chartHeight: chartStyle?.height ?? 475,
         chartWidth: chartStyle?.width ?? 700,
         chartPadding: {
-            left: chartStyle?.padding?.left ?? 50,
-            right: chartStyle?.padding?.right ?? 50,
-            top: chartStyle?.padding?.top ?? 25,
-            bottom: chartStyle?.padding?.bottom ?? 40,
+            left: chartStyle?.padding?.left ?? 0,
+            right: chartStyle?.padding?.right ?? 0,
+            top: chartStyle?.padding?.top ?? 0,
+            bottom: chartStyle?.padding?.bottom ?? 0,
         },
         chartMisc: {
             background: {
