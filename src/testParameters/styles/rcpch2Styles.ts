@@ -25,8 +25,8 @@ export const rCPCH2ChartStyles: ChartStyle = {
     width: 1000,
     height: 800,
     padding: {
-        left: 50,
-        right: 50,
+        left: 0,
+        right: 0,
         top: 25,
         bottom: 40
     },
