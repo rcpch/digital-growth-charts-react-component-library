@@ -299,7 +299,10 @@ function CentileChart({
                                     cornerRadius={0}
                                     flyoutStyle={styles.toolTipFlyout}
                                     style={{
-                                        textAnchor:'start'
+                                        textAnchor: "start",
+                                        fontFamily: styles.toolTipMain.fontFamily,
+                                        fontWeight: styles.toolTipMain.fontWeight,
+                                        fill: styles.toolTipMain.fill
                                     }}
                                 />
                             }

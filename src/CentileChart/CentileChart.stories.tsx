@@ -6,6 +6,7 @@ import { monochromeStyles } from '../testParameters/styles/monochromeStyles';
 import { rcpch1Styles } from '../testParameters/styles/rcpch1Styles';
 import { rcpch2Styles } from '../testParameters/styles/rcpch2Styles';
 import { rcpch3Styles } from '../testParameters/styles/rcpch3Styles';
+import { traditionalBoysStyles } from '../testParameters/styles/traditionalBoysStyles';
 import { termGirlWithSingleHeightMeasurementAndBoneAgeAndEvent } from '../testParameters/measurements/termGirlWithSingleHeightMeasurementAndBoneAgeAndEvent';
 import { twoWeightMeasurements } from '../testParameters/measurements/twoWeightMeasurements';
 import { twoToEight } from '../testParameters/measurements/twoToEight';
@@ -41,7 +42,7 @@ export const WithHeightAndNoData = () => (
         childMeasurements={[]}
         midParentalHeightData={midParentalHeights}
         enableZoom={true}
-        styles={rcpch3Styles}
+        styles={traditionalBoysStyles}
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
@@ -131,7 +132,7 @@ export const WithTermBoyAndSingleHeightMeasurementAndBoneAgeAndEvent = () => (
         childMeasurements={termGirlWithSingleHeightMeasurementAndBoneAgeAndEvent}
         midParentalHeightData={midParentalHeights}
         enableZoom={true}
-        styles={monochromeStyles}
+        styles={rcpch2Styles}
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}

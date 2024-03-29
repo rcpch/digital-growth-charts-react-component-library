@@ -46,7 +46,7 @@ export const traditionalBoyChartStyles: ChartStyle = {
     tooltipStroke: "#66c8eb",
     tooltipTextStyle: {
         name: "Montserrat",
-        colour: "#000000",
+        colour: "#FFFFFF",
         size: 12,
         weight: 'normal'
     },
@@ -92,10 +92,10 @@ export const traditionalBoyMeasurementStyle: MeasurementStyle = {
 }
 export const traditionalBoySDSStyle: SDSStyle = {
     lineStrokeWidth: 1.5,
-    heightStroke: "#00a3deff",
-    weightStroke: "#00a3de7f",
-    ofcStroke: "#00a3de3f",
-    bmiStroke: "#00a3de1f",
+    heightStroke: "#a3deff",
+    weightStroke: "#a3de7f",
+    ofcStroke: "#a3de3f",
+    bmiStroke: "#a3de1f",
 }
 
 /*
@@ -122,9 +122,9 @@ export const traditionalBoysStyles = {
         "fill": "#66c8eb"
     },
     "toolTipMain": {
-        "textAnchor": "end",
+        "textAnchor": "start",
         "strokeWidth": 0.25,
-        "fill": "#000000",
+        "fill": "#FFFFFF",
         "fontFamily": "Montserrat",
         "fontWeight": "normal"
     },
