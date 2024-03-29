@@ -6,32 +6,43 @@ import * as RCPCHChartStories from './RCPCHChart.stories.tsx';
 
 # RCPCHChart
 
-An `RCPCHChart` instance is a wrapper component that receives user props and uses these to create either a CentileChart or an SDSChart. 
+An `RCPCHChart` instance is a wrapper component that receives user props and uses these to create either a CentileChart or an SDSChart.
+
+<Canvas of={RCPCHChartStories.CentileChart} />
+
+## Props
 
 The prop to define which chart type is rendered is: `chartType?: 'centile' | 'sds'`
 
 Other props are:
 
-- `title: string;` the title of the chart : could include patient name and identifiers
-- `subtitle: string;` the subtitle of the chart - could include the measurement method, the reference
-- `measurementMethod: 'height' | 'weight' | 'ofc' | 'bmi';` *must* be one of the options provided
-- `reference: 'uk-who' | 'turner' | 'trisomy-21';` *must* be one of the options provided
-- `sex: 'male' | 'female';` *must* be one of the options provided
-- `measurementsArray: Measurement[];` array of measurements returned from RCPCH Growth API. This should not be edited or manipulated.
-- `midParentalHeightData?: MidParentalHeightObject | undefined;` an RCPCH object returned from the RCPCH Growth API. Should not be edited or manipulated
-- `enableZoom?: boolean;` Allows the user to zoom and pan the charts if set to true. If disabled, hides the buttons associated with this.
-- `chartStyle?: ChartStyle;` As above
-- `axisStyle?: AxisStyle;` These are addressed below
-- `gridlineStyle?: GridlineStyle;` These are addressed below
-- `centileStyle?: CentileStyle;` These are addressed below
-- `sdsStyle?: SDSStyle;` These are addressed below
-- `measurementStyle?: MeasurementStyle;` These are addressed below
-- `chartType?: 'centile' | 'sds';` These are addressed below
-- `enableExport?: boolean | undefined;` Cut/Paste button. Returns an SVG snapshot of the chart (without title) if set to true. If false, the buttons associated with this are hidden.
-- `exportChartCallback(svg?: any): any;` Names the function within the client to return the exported SVG to.
-- `clinicianFocus?: boolean | undefined | null;` Toggles tooltip advice between those aimed at clinicians and those more appropriate for patients/lay people.
-- `showCentileLabels?: boolean | undefined | null;` Toggle to show or hide the centile labels.
-- `showSDSLabels?: boolean | undefined | null;` Toggle to show or hide the SDS labels.
+-   `title: string;` the title of the chart : could include patient name and identifiers
+-   `subtitle: string;` the subtitle of the chart - could include the measurement method, the reference
+-   `measurementMethod: 'height' | 'weight' | 'ofc' | 'bmi';` _must_ be one of the options provided
+-   `reference: 'uk-who' | 'turner' | 'trisomy-21';` _must_ be one of the options provided
+-   `sex: 'male' | 'female';` _must_ be one of the options provided
+-   `measurementsArray: Measurement[];` array of measurements returned from RCPCH Growth API. This should not be edited or manipulated.
+-   `midParentalHeightData?: MidParentalHeightObject | undefined;` an RCPCH object returned from the RCPCH Growth API. Should not be edited or manipulated
+-   `enableZoom?: boolean;` Allows the user to zoom and pan the charts if set to true. If disabled, hides the buttons associated with this.
+-   `chartStyle?: ChartStyle;` As above
+-   `axisStyle?: AxisStyle;` These are addressed below
+-   `gridlineStyle?: GridlineStyle;` These are addressed below
+-   `centileStyle?: CentileStyle;` These are addressed below
+-   `sdsStyle?: SDSStyle;` These are addressed below
+-   `measurementStyle?: MeasurementStyle;` These are addressed below
+-   `chartType?: 'centile' | 'sds';` These are addressed below
+-   `enableExport?: boolean | undefined;` Cut/Paste button. Returns an SVG snapshot of the chart (without title) if set to true. If false, the buttons associated with this are hidden.
+-   `exportChartCallback(svg?: any): any;` Names the function within the client to return the exported SVG to.
+-   `clinicianFocus?: boolean | undefined | null;` Toggles tooltip advice between those aimed at clinicians and those more appropriate for patients/lay people.
+-   `showCentileLabels?: boolean | undefined | null;` Toggle to show or hide the centile labels.
+-   `showSDSLabels?: boolean | undefined | null;` Toggle to show or hide the SDS labels.
 
+### Style Props
 
-<Canvas of={RCPCHChartStories.CentileChart} />
+The RCPCH have created some suggested themes:
+
+1. Monochrome (default)
+2. Traditional: this uses the preexisting pink and blue colours present on the paper charts
+3. Tanner 1: Purple and yellow
+4. Tanner 2: Orange and blue
+5. Tanner 3: Red and yellow
