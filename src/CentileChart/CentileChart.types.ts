@@ -31,6 +31,4 @@ export interface CentileChartProps {
     enableExport?: boolean;
     exportChartCallback(svg: any): any;
     clinicianFocus?: boolean | undefined | null;
-    showCentileLabels?: boolean | undefined | null;
-    showSDSLabels?: boolean | undefined | null;
 }

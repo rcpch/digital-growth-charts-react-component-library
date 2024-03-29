@@ -33,8 +33,6 @@ export const CentileChart: Story = {
     measurementStyle: traditionalGirlMeasurementStyle,
     chartType: 'centile',
     enableExport: false,
-    exportChartCallback: ()=>{},
-    clinicianFocus: false,
-    showCentileLabels: true
+    exportChartCallback: ()=>{}
   },
 };

@@ -21,8 +21,6 @@ describe("RCPCHChart", () => {
       enableExport: false,
       exportChartCallback: ()=>null,
       clinicianFocus: false,
-      showCentileLabels: false,
-      showSDSLabels: false,
       measurementsArray: [],
       chartStyle: chartObject,
       axisStyle: axesObject,

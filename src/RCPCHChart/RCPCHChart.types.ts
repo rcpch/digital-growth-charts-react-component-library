@@ -21,5 +21,4 @@ export interface RCPCHChartProps {
     enableExport?: boolean | undefined;
     exportChartCallback(svg?: any): any;
     clinicianFocus?: boolean | undefined | null;
-    showCentileLabels?: boolean | undefined | null;
 }

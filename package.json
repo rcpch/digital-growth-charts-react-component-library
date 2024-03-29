@@ -2,9 +2,9 @@
   "name": "digital-growth-chart-react-component-library",
   "version": "7.0.0",
   "description": "A React component library for the RCPCH digital growth charts using Rollup, TypeScript and Styled-Components",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/index.d.ts",
+  "main": "build/index.js",
+  "module": "build/esm.index.js",
+  "types": "build/index.d.ts",
   "scripts": {
     "test": "jest --env=jsdom",
     "build": "rollup -c --bundleConfigAsCjs",

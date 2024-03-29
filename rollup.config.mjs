@@ -9,23 +9,25 @@ import copy from 'rollup-plugin-copy';
 import json from '@rollup/plugin-json';
 import versionInjector from 'rollup-plugin-version-injector';
 import image from '@rollup/plugin-image';
+import dts from 'rollup-plugin-dts';
 
 const packageJson = require('./package.json');
 
 export default [
     {
         input: 'src/index.ts',
+        external: ['react', 'react-dom', 'styled-components'],
         output: [
             {
                 file: packageJson.main,
                 format: 'cjs',
                 sourcemap: true,
             },
-            // {
-            //   file: packageJson.module,
-            //   format: "esm",
-            //   sourcemap: true,
-            // },
+            {
+                file: packageJson.module,
+                format: 'esm',
+                sourcemap: true,
+            },
         ],
         plugins: [
             peerDepsExternal(),
@@ -57,14 +59,12 @@ export default [
         ],
         external: ['react', 'react-dom', 'styled-components'],
     },
-    // {
-    //   input: "src/index.ts",
-    //   output: [
-    //     { file: "dist/types.d.ts", format: "es" },
-    //     { dir: "output", format: "cjs" },
-    //   ],
-    //   plugins: [dts.default()],
-    // },
+    {
+        input: 'src/index.ts',
+        output: [
+            { file: 'build/types.d.ts', format: 'es' },
+            // { dir: 'build', format: 'cjs' },
+        ],
+        plugins: [dts.default()],
+    },
 ];
-
-// typescript({ useTsconfigDeclarationDir: true }),

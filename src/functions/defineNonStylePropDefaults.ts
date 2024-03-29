@@ -9,9 +9,6 @@ function defineNonStylePropDefaults(
     if (propName === 'clinicianFocus' || propName === 'enableExport'){
         return propValue === undefined ? false : propValue;
     }
-    if (propName === 'showCentileLabels' || propName === 'showSDSLabels'){
-        return propValue === undefined ? false : propValue;
-    }
     if (propName === 'chartType'){
         return propValue === undefined ? 'centile' : propValue;
     }

@@ -92,9 +92,7 @@ function CentileChart({
     styles,
     enableExport,
     exportChartCallback,
-    clinicianFocus,
-    showCentileLabels,
-    showSDSLabels
+    clinicianFocus
 }: CentileChartProps) {
     const [userDomains, setUserDomains] = useState(null);
 
@@ -238,9 +236,7 @@ function CentileChart({
     };
 
     const renderGradientLabels = () => {
-        if (showCentileLabels) {
-            setCentileLabels(!centileLabels);
-        }
+        setCentileLabels(!centileLabels);
     }
     
 
@@ -572,7 +568,7 @@ function CentileChart({
                                                         padding={{ top: 20, bottom: 20 }}
                                                         data={sdsLine.data}
                                                         style={styles.sdsLine}
-                                                        labels={ (props: { index: number; })=> showSDSLabels && labelIndexInterval(chartScaleType, props.index) && props.index > 0 ? [sdsLine.sds]: null}
+                                                        labels={ (props: { index: number; })=> centileLabels && labelIndexInterval(chartScaleType, props.index) && props.index > 0 ? [sdsLine.sds]: null}
                                                         labelComponent={
                                                             <VictoryLabel
                                                                 angle={
@@ -838,7 +834,7 @@ function CentileChart({
                     <ThreeButtonContainer>
                         
                         {/* Creates the Centile Label toggle button */}
-                        { showCentileLabels && (
+                        { 
                             <GradientLabelsButtonWrapper>
                                 <StyledButtonTooltip>
                                     <StyledGradientLabelsButton
@@ -853,7 +849,7 @@ function CentileChart({
                                     
                                 </StyledButtonTooltip>
                             </GradientLabelsButtonWrapper>
-                        )}
+                        }
 
                         {/* Creates the Zoom to see whole lifespan button */}
                         { childMeasurements.length > 0 &&

@@ -45,7 +45,6 @@ export const WithHeightAndNoData = () => (
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
-        showCentileLabels={true}
     />
 );
 
@@ -64,7 +63,6 @@ export const WithTurnerHeightAndNoData = () => (
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
-        showCentileLabels={true}
     />
 );
 
@@ -83,7 +81,6 @@ export const WithWeightAndNoData = () => (
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
-        showCentileLabels={true}
     />
 );
 
@@ -102,7 +99,6 @@ export const WithBMIAndNoData = () => (
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
-        showCentileLabels={true}
     />
 );
 
@@ -121,7 +117,6 @@ export const WithOFCAndNoData = () => (
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
-        showCentileLabels={true}
     />
 );
 
@@ -140,7 +135,6 @@ export const WithTermBoyAndSingleHeightMeasurementAndBoneAgeAndEvent = () => (
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
-        showCentileLabels={true}
     />
 );
 
@@ -159,7 +153,6 @@ export const WithPrematureFemaleHeights = () => (
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
-        showCentileLabels={true}
     />
 );
 
@@ -178,7 +171,6 @@ export const WithMeasurementsFromBirthOverTwoYears = () => (
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
-        showCentileLabels={true}
     />
 );
 
@@ -197,7 +189,6 @@ export const WithMeasurementsAtExtremePrematurityWeight = () => (
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
-        showCentileLabels={true}
     />
 );
 
@@ -216,7 +207,6 @@ export const WithMeasurementsAtExtremePrematurity = () => (
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
-        showCentileLabels={true}
     />
 );
 
@@ -235,7 +225,6 @@ export const WithMeasurementsAtExtremePrematurityOFC = () => (
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
-        showCentileLabels={true}
     />
 );
 
@@ -254,7 +243,6 @@ export const WithHeightMeasurementsTwoToEightYears = () => (
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
-        showCentileLabels={true}
     />
 );
 
@@ -273,7 +261,6 @@ export const WithWeightMeasurementsTwoToEightYears = () => (
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
-        showCentileLabels={true}
     />
 );
 
@@ -292,7 +279,6 @@ export const WithOFCMeasurementsTwoToEightYears = () => (
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
-        showCentileLabels={true}
     />
 );
 
@@ -311,7 +297,6 @@ export const WithBMIMeasurementsTwoToEightYears = () => (
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
-        showCentileLabels={true}
     />
 );
 
@@ -330,7 +315,6 @@ export const WithExtremePrematureFemaleHeights = () => (
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
-        showCentileLabels={true}
     />
 );
 
@@ -349,7 +333,6 @@ export const WithPrematureGirlOverThreeHeight = () => (
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
-        showCentileLabels={true}
     />
 );
 
@@ -368,7 +351,6 @@ export const WithPrematureGirlOverFourHeight = () => (
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
-        showCentileLabels={true}
     />
 );
 
@@ -387,7 +369,6 @@ export const WithTermToAYearGirlHeight = () => (
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
-        showCentileLabels={true}
     />
 );
 
@@ -406,7 +387,6 @@ export const WithTermToTwoYearsGirlHeight = () => (
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
-        showCentileLabels={true}
     />
 );
 
@@ -425,7 +405,6 @@ export const WithTermToOverFourYearsGirlHeight = () => (
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
-        showCentileLabels={true}
     />
 );
 
@@ -444,7 +423,6 @@ export const WithTurnerFemaleHeights = () => (
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
-        showCentileLabels={true}
     />
 );
 
@@ -463,7 +441,6 @@ export const WithBeforeDueDateError = () => (
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
-        showCentileLabels={true}
     />
 );
 
@@ -482,7 +459,6 @@ export const WithTermBabyGirlWeight = () => (
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
-        showCentileLabels={true}
     />
 );
 

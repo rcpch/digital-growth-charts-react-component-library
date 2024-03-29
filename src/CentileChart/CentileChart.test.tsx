@@ -257,8 +257,6 @@ describe("All tests relate to rendering the centile lines in the height centile 
       enableExport: false,
       exportChartCallback: ()=>null,
       clinicianFocus: false,
-      showCentileLabels: false,
-      showSDSLabels: false
     };
   });
   
@@ -390,8 +388,6 @@ describe("All tests relate to rendering the SDS lines in the BMI centile chart w
       enableExport: false,
       exportChartCallback: ()=>null,
       clinicianFocus: false,
-      showCentileLabels: false,
-      showSDSLabels: false
     };
   });
 
@@ -429,8 +425,6 @@ describe("All tests relate to rendering the text in the height centile chart for
       enableExport: false,
       exportChartCallback: ()=>null,
       clinicianFocus: false,
-      showCentileLabels: false,
-      showSDSLabels: false
     };
   });
     
@@ -524,9 +518,7 @@ describe("All tests relate to rendering the text in the height centile chart for
       styles: monochromeStyles,
       enableExport: false,
       exportChartCallback: ()=>null,
-      clinicianFocus: false,
-      showCentileLabels: true,
-      showSDSLabels: false
+      clinicianFocus: false
     };
   });
     
@@ -552,16 +544,16 @@ describe("All tests relate to rendering the text in the height centile chart for
       expect(screen.queryByText("UK Turner reference data, 1985. Lyon, Preece and Grant (1985).")).toBeInTheDocument()
     });
 
-    it("centile labels should render.", () => {
-      render(<CentileChart {...props} />);
-      expect(screen.getAllByText("99.6th")[0]).toBeInTheDocument()
-    });
+    // it("centile labels should render.", () => {
+    //   render(<CentileChart {...props} />);
+    //   expect(screen.getAllByText("99.6th")[0]).toBeInTheDocument()
+    // });
 
-    it("centile labels should not render.", () => {
-      props.showCentileLabels=false;
-      render(<CentileChart {...props} />);
-      expect(screen.queryAllByText("99.6th")[0]).toBeUndefined();
-    });
+    // it("centile labels should not render.", () => {
+    //   props.showCentileLabels=false;
+    //   render(<CentileChart {...props} />);
+    //   expect(screen.queryAllByText("99.6th")[0]).toBeUndefined();
+    // });
     
 });
 
@@ -585,8 +577,6 @@ describe("All tests relate to rendering the text in the height/length centile ch
       enableExport: false,
       exportChartCallback: ()=>null,
       clinicianFocus: false,
-      showCentileLabels: false,
-      showSDSLabels: false
     };
   });
     
@@ -632,8 +622,6 @@ describe("All tests relate to plotting in the height/length centile chart for a 
       enableExport: false,
       exportChartCallback: ()=>null,
       clinicianFocus: false,
-      showCentileLabels: false,
-      showSDSLabels: false
     };
   });
 
@@ -682,8 +670,6 @@ describe("All tests relating to rendering the text in the weight centile chart f
       enableExport: false,
       exportChartCallback: ()=>null,
       clinicianFocus: false,
-      showCentileLabels: false,
-      showSDSLabels: false
     };
   });
 
@@ -728,8 +714,6 @@ describe("All test relating to plotting in the weight centile chart for a toddle
       enableExport: false,
       exportChartCallback: ()=>null,
       clinicianFocus: false,
-      showCentileLabels: false,
-      showSDSLabels: false
     };
   });
 
@@ -759,8 +743,6 @@ describe("All tests relating to plotting in the height centile chart for a prema
       enableExport: false,
       exportChartCallback: ()=>null,
       clinicianFocus: false,
-      showCentileLabels: false,
-      showSDSLabels: false
     };
   });
 
@@ -790,8 +772,6 @@ describe("All tests relating to plotting height centile chart for a girl with Tu
       enableExport: false,
       exportChartCallback: ()=>null,
       clinicianFocus: false,
-      showCentileLabels: false,
-      showSDSLabels: false
     };
   });
 
@@ -821,8 +801,6 @@ describe("All tests relating to plotting weight centile chart for an extremely p
       enableExport: false,
       exportChartCallback: ()=>null,
       clinicianFocus: false,
-      showCentileLabels: false,
-      showSDSLabels: false
     };
   });
 
@@ -864,8 +842,6 @@ describe("All tests relating to plotting weight centile chart for an extremely p
       enableExport: false,
       exportChartCallback: ()=>null,
       clinicianFocus: false,
-      showCentileLabels: false,
-      showSDSLabels: false
     };
   });
 
@@ -901,9 +877,7 @@ describe("All tests relating to plotting height centile chart for a term girl un
       styles: monochromeStyles,
       enableExport: false,
       exportChartCallback: ()=>null,
-      clinicianFocus: false,
-      showCentileLabels: false,
-      showSDSLabels: false
+      clinicianFocus: false
     };
   });
   
@@ -938,8 +912,6 @@ describe("All tests relating to plotting height centile chart for a term girl un
       enableExport: false,
       exportChartCallback: ()=>null,
       clinicianFocus: false,
-      showCentileLabels: false,
-      showSDSLabels: false
     };
   });
   
@@ -974,8 +946,6 @@ describe("All tests relating to plotting height centile chart for a term girl un
       enableExport: false,
       exportChartCallback: ()=>null,
       clinicianFocus: false,
-      showCentileLabels: false,
-      showSDSLabels: false
     };
   });
   
@@ -1012,9 +982,7 @@ describe("All tests relating to testing the copy button", () => {
       styles: monochromeStyles,
       enableExport: true,
       exportChartCallback: ()=>null,
-      clinicianFocus: false,
-      showCentileLabels: false,
-      showSDSLabels: false
+      clinicianFocus: false
     };
   });
 
@@ -1060,8 +1028,6 @@ describe("Tests relating to exportChartCallback function", () => {
       enableExport: true,
       exportChartCallback: mockExportChartCallback,
       clinicianFocus: false,
-      showCentileLabels: false,
-      showSDSLabels: false
     };
   });
 
@@ -1091,8 +1057,6 @@ describe("Tests relating to negative settings on the copy button", () => {
       enableExport: false,
       exportChartCallback: ()=>null,
       clinicianFocus: false,
-      showCentileLabels: false,
-      showSDSLabels: false
     };
   });
 
@@ -1121,8 +1085,6 @@ describe("All tests relate to a single height measurement in a term girl now 4 y
       enableExport: false,
       exportChartCallback: ()=>null,
       clinicianFocus: false,
-      showCentileLabels: false,
-      showSDSLabels: false
     };
   });
   
@@ -1153,9 +1115,7 @@ describe("All tests relating to the zoom functionality where enableZoom needs to
       styles: monochromeStyles,
       enableExport: false,
       exportChartCallback: ()=>null,
-      clinicianFocus: false,
-      showCentileLabels: false,
-      showSDSLabels: false
+      clinicianFocus: false
     };
   });
   it("should show the zoom button when enablezoom is true", () => {
@@ -1193,8 +1153,6 @@ describe("Tests relating to negative settings on the zoom button", () => {
       enableExport: false,
       exportChartCallback: ()=>null,
       clinicianFocus: false,
-      showCentileLabels: false,
-      showSDSLabels: false
     };
   });
 
