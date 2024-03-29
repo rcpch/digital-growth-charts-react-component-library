@@ -1,6 +1,6 @@
 export interface ChartStyle {
-    backgroundColour?: string;
-    width?: number;
+    backgroundColour?: string; //? remove
+    width?: number; 
     height?: number;
     padding?: Padding;
     titleStyle?: TextStyle;
