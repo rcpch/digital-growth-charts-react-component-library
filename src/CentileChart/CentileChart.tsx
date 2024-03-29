@@ -302,7 +302,8 @@ function CentileChart({
                                         textAnchor: "start",
                                         fontFamily: styles.toolTipMain.fontFamily,
                                         fontWeight: styles.toolTipMain.fontWeight,
-                                        fill: styles.toolTipMain.fill
+                                        fill: styles.toolTipMain.fill,
+                                        fontSize: styles.toolTipMain.fontSize
                                     }}
                                 />
                             }

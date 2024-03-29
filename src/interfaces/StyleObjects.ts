@@ -1,18 +1,18 @@
 export interface ChartStyle {
-    backgroundColour?: string;
-    width?: number;
-    height?: number;
-    padding?: Padding;
-    titleStyle?: TextStyle;
-    subTitleStyle?: TextStyle;
-    tooltipBackgroundColour?: string;
-    tooltipStroke?: string;
-    tooltipTextStyle?: TextStyle; // the text size is not in pts, but is a strokeWidth as text is an svg
-    termFill?: string;
-    termStroke?: string;
-    toggleButtonInactiveColour: string;
-    toggleButtonActiveColour: string;
-    toggleButtonTextStyle: TextStyle;
+    backgroundColour?: string; //background colour of chart
+    width?: number; // DEPRECATE - SET TO 800
+    height?: number; // DEPRECATE - SET TO 1000
+    padding?: Padding; // DEPRECATE - SET TO 0
+    titleStyle?: TextStyle; // style of text in title: includes fontFamily, fontSize, colour, weight (regular/bold/italic)
+    subTitleStyle?: TextStyle; // style of text in subtitle: includes fontFamily, fontSize, colour, weight (regular/bold/italic)
+    tooltipBackgroundColour?: string; //background colour of tooltip
+    tooltipStroke?: string; //border colour of tooltip
+    tooltipTextStyle?: TextStyle; // tooltip text: includes fontFamily, fontSize, colour, weight (regular/bold/italic)
+    termFill?: string; // background colour of weight term area
+    termStroke?: string; // border colour of weight term area
+    toggleButtonInactiveColour: string; // buttons - inactive colour
+    toggleButtonActiveColour: string; // buttons - active colour
+    toggleButtonTextStyle: TextStyle; // buttons text: includes fontFamily, fontSize, colour, weight (regular/bold/italic)
 }
 export interface MeasurementStyle {
     measurementFill?: string;
