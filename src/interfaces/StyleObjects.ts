@@ -15,9 +15,9 @@ export interface ChartStyle {
     toggleButtonTextStyle: TextStyle; // buttons text: includes fontFamily, fontSize, colour, weight (regular/bold/italic)
 }
 export interface MeasurementStyle {
-    measurementFill?: string;
-    highlightedMeasurementFill?: string;
-    eventTextStyle?: TextStyle;
+    measurementFill?: string; // measurement point fill colour
+    highlightedMeasurementFill?: string; // measurement point fill colour when hightlighted (SDS charts)
+    eventTextStyle?: TextStyle; // styles for text of events: includes fontFamily, fontSize, colour, weight (regular/bold/italic)
 }
 export interface CentileStyle {
     sdsStroke?: string;

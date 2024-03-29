@@ -260,7 +260,7 @@ function makeAllStyles(
             size: measurementStyle?.eventTextStyle?.size ?? 14,
             name: measurementStyle?.eventTextStyle?.name ?? 'Montserrat',
             colour: measurementStyle?.eventTextStyle?.colour ?? black,
-            weight: 'normal'
+            weight: measurementStyle?.eventTextStyle?.weight ?? 'normal'
         },
         toggleStyle: {
             activeColour: chartStyle?.toggleButtonActiveColour ?? darkPink,
