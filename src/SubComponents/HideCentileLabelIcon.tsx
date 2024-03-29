@@ -1,11 +1,37 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import styled, {keyframes} from 'styled-components';
 import Icon from './Icon'
+
+const fadeIn = keyframes`
+  from {
+    transform: scale(.25);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+`;
+
+const fadeOut = keyframes`
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  to {
+    transform: scale(.25);
+    opacity: 0;
+  }
+`;
 
 const Svg = styled(Icon)` 
   width: 16px; 
   height: 16px;
+  animation: ${fadeOut} .25s linear forwards, ${fadeIn} .25s linear forwards;
 `;
+
 
 export const HideCentileLabelIcon = ()=>(
     <Svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white"  viewBox="0 0 800 800" preserveAspectRatio="xMidYMid meet">
