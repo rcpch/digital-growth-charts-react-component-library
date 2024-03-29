@@ -59,7 +59,8 @@ import { ShareButtonWrapper } from '../SubComponents/ShareButtonWrapper';
 import { FullScreenButtonWrapper } from '../SubComponents/FullScreenButtonWrapper';
 import { ShareIcon } from '../SubComponents/ShareIcon';
 import { CopiedLabel } from '../SubComponents/CopiedLabel';
-import { CentileLabelIcon } from '../SubComponents/CentileLabelIcon';
+import { ShowCentileLabelIcon } from '../SubComponents/ShowCentileLabelIcon';
+import { HideCentileLabelIcon } from '../SubComponents/HideCentileLabelIcon';
 import { ChartContainer } from '../SubComponents/ChartContainer';
 import { FullScreenIcon } from '../SubComponents/FullScreenIcon';
 import { CloseFullScreenIcon } from '../SubComponents/CloseFullScreenIcon';
@@ -843,7 +844,11 @@ function CentileChart({
                                         onClick={renderGradientLabels}
                                         data-testid="gradient-labels-button"
                                     >
-                                        <CentileLabelIcon/>
+                                        { centileLabels ?
+                                            <HideCentileLabelIcon/>
+                                            :
+                                            <ShowCentileLabelIcon/>
+                                        }
                                         <div className='tooltip'>Show Centile Labels</div>
                                     </StyledGradientLabelsButton>
                                     
