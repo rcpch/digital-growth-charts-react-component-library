@@ -37,15 +37,19 @@ export default [
             }),
             typescript(),
             terser(),
-            postcss(),
+            postcss({
+                extract: true, // Extract CSS to separate file
+                modules: false, // Disable CSS modules
+                minimize: true, // Minimize CSS
+                // Add custom PostCSS plugins if needed
+            }),
             json(),
             versionInjector(),
             image(),
-            // copy({
-            //     targets: [{ src: 'src/fonts/**/*', dest: 'build/assets/fonts' }],
-            // }),
+            copy({
+                targets: [{ src: 'src/fonts/**/*', dest: 'build/fonts/' }],
+            }),
         ],
-        external: ['react', 'react-dom', 'styled-components'],
     },
     {
         input: 'src/index.ts',

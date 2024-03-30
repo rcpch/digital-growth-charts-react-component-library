@@ -51,14 +51,6 @@ function makeAllStyles(
         };
     }
     return { 
-        chartHeight: 800,
-        chartWidth: 1000,
-        chartPadding: {
-            left: 0,
-            right: 0,
-            top: 0,
-            bottom: 0,
-        },
         chartMisc: {
             background: {
                 fill: chartStyle?.backgroundColour ?? white,
@@ -69,8 +61,7 @@ function makeAllStyles(
             fill: chartStyle?.tooltipBackgroundColour ?? midGrey, // tooltip backgroundcolour
         },
         toolTipMain: {
-            fontSize: chartStyle?.tooltipTextStyle?.size ?? 10,
-            strokeWidth: 0.25,
+            fontSize: chartStyle?.tooltipTextStyle?.size ?? 14,
             fill: chartStyle?.tooltipTextStyle?.colour ?? black,
             fontFamily: chartStyle?.tooltipTextStyle?.name ?? 'Montserrat',
             fontWeight: chartStyle?.tooltipTextStyle?.weight ?? 'normal',

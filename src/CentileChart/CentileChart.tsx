@@ -73,6 +73,7 @@ import ukca from '../images/ukca.png';
 
 // styles - imports fonts 
 import '../global.css';
+// import GlobalFonts from '../fonts/fonts'
 
 // allows two top level containers: zoom and voronoi
 const VictoryZoomVoronoiContainer:any = createContainer(
@@ -243,8 +244,6 @@ function CentileChart({
         setCentileLabels(!centileLabels);
     }
     
-
-
     // always reset zoom to default when measurements array changes
     useLayoutEffect(() => {
         setUserDomains(null);
@@ -269,6 +268,8 @@ function CentileChart({
 
             <ChartContainer>
 
+                {/* <GlobalFonts></GlobalFonts> */}
+
                 <TitleContainer>
                     <ChartTitle {...styles.chartTitle}>{title}</ChartTitle>
                     <ChartTitle {...styles.chartSubTitle}>{subtitle}</ChartTitle>
@@ -279,9 +280,8 @@ function CentileChart({
                 {/* Tooltips are here as it is the parent component. More information of tooltips in centiles below. */}
 
                 <VictoryChart
-                    width={styles.chartWidth}
-                    height={styles.chartHeight-35}
-                    padding={styles.chartPadding}
+                    width={1000}
+                    height={800}
                     style={styles.chartMisc}
                     domain={computedDomains}
                     containerComponent={
@@ -300,13 +300,7 @@ function CentileChart({
                                     pointerLength={5}
                                     cornerRadius={0}
                                     flyoutStyle={styles.toolTipFlyout}
-                                    style={{
-                                        textAnchor: "start",
-                                        fontFamily: styles.toolTipMain.fontFamily,
-                                        fontWeight: styles.toolTipMain.fontWeight,
-                                        fill: styles.toolTipMain.fill,
-                                        fontSize: styles.toolTipMain.fontSize
-                                    }}
+                                    style={styles.toolTipMain}
                                 />
                             }
                             labels={({ datum }) => {
