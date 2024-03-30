@@ -3,8 +3,7 @@ import { MidParentalHeightObject } from '../interfaces/MidParentalHeightObject';
 import { AxisStyle, CentileStyle, ChartStyle, GridlineStyle, MeasurementStyle, SDSStyle } from '../interfaces/StyleObjects';
 
 export interface RCPCHChartProps {
-    title: string; // DEPRECATE - SET TO `reference - measurementMethod`
-    subtitle: string;
+    title: string; 
     measurementMethod: 'height' | 'weight' | 'ofc' | 'bmi';
     reference: 'uk-who' | 'turner' | 'trisomy-21';
     sex: 'male' | 'female';

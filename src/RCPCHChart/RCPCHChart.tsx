@@ -16,13 +16,14 @@ import makeAllStyles from '../functions/makeAllStyles';
 import ErrorBoundary from '../SubComponents/ErrorBoundary';
 import { ClientMeasurementObject } from '../interfaces/ClientMeasurementObject';
 import defineNonStylePropDefaults from '../functions/defineNonStylePropDefaults';
+import { nameForReference } from '../functions/nameForReference'
+import { nameForMeasurementMethod } from '../functions/nameForMeasurementMethod';
 
 // const VERSION_LOG = '[VI]Version: {version} - built on {date}[/VI]'; 
 const VERSION = '[VI]v{version}[/VI]'; // uses version injector plugin to Rollup to report package.json version
 
 const RCPCHChart: React.FC<RCPCHChartProps> = ({
     title,
-    subtitle,
     measurementMethod,
     reference,
     sex,
@@ -48,7 +49,10 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     
     // uncomment in development
     console.log("loading from locally...");
-    
+
+    // create subtitle from sex, reference and measurementMethod
+    const subtitleReferenceMeasurementMethod = `${nameForReference(reference)} - ${nameForMeasurementMethod(measurementMethod)}`
+    const subtitle = sex==="male" ? `Boys - ${subtitleReferenceMeasurementMethod}` : `"Girls - ${subtitleReferenceMeasurementMethod}`
     
     let isCentile=(chartType === "centile" || chartType === undefined);
     

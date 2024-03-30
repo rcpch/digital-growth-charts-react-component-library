@@ -1,5 +1,3 @@
-import { Domains } from "../interfaces/Domains";
-
 export const referenceText = (reference: 'uk-who'|'trisomy-21'|'turner'):string=>{
     /*
     Returns attribution text against supplied reference prop
