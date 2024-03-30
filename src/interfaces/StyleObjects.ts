@@ -39,7 +39,7 @@ export interface SDSStyle {
 }
 export interface GridlineStyle {
     gridlines?: boolean; // show or hide gridlines
-    stroke?: string; // DEPRECATE - gridline colour
+    stroke?: string; // gridline colour
     strokeWidth?: number; // DEPRECATE  - gridline width
     dashed?: boolean; // DEPRECATE - dashed vs continuous gridlines
 }
