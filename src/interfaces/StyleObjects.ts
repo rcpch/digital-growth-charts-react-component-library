@@ -20,33 +20,33 @@ export interface MeasurementStyle {
     eventTextStyle?: TextStyle; // styles for text of events: includes fontFamily, fontSize, colour, weight (regular/bold/italic)
 }
 export interface CentileStyle {
-    sdsStroke?: string;
-    sdsStrokeWidth?: number;
-    centileStroke?: string;
-    centileStrokeWidth?: number;
-    delayedPubertyAreaFill?: string;
-    midParentalCentileStrokeWidth?: number;
-    midParentalCentileStroke?: string;
-    midParentalAreaFill?: string;
+    sdsStroke?: string; // sds line colour
+    sdsStrokeWidth?: number; // DEPRECATE - SDS line width
+    centileStroke?: string; // centile line colour
+    centileStrokeWidth?: number; // DEPRECATE - Centile line width
+    delayedPubertyAreaFill?: string; // delayed puberty area colour
+    midParentalCentileStrokeWidth?: number; // DEPRECATE - MPH centile line thickness
+    midParentalCentileStroke?: string; // Midparental height centile line colour
+    midParentalAreaFill?: string; // Midparental height area colour
 }
 
 export interface SDSStyle {
-    lineStrokeWidth?: number;
-    heightStroke?: string;
-    weightStroke?: string;
-    ofcStroke?: string;
-    bmiStroke?: string;
+    lineStrokeWidth?: number; // DEPRECATE - SDS line width
+    heightStroke?: string; // sds line colour
+    weightStroke?: string; // sds line colour
+    ofcStroke?: string; // sds line colour
+    bmiStroke?: string; // sds line colour
 }
 export interface GridlineStyle {
-    gridlines?: boolean;
-    stroke?: string;
-    strokeWidth?: number;
-    dashed?: boolean;
+    gridlines?: boolean; // show or hide gridlines
+    stroke?: string; // DEPRECATE - gridline colour
+    strokeWidth?: number; // DEPRECATE  - gridline width
+    dashed?: boolean; // DEPRECATE - dashed vs continuous gridlines
 }
 export interface AxisStyle {
-    axisStroke?: string;
-    axisLabelTextStyle?: TextStyle;
-    tickLabelTextStyle?: TextStyle;
+    axisStroke?: string; // Axis colour
+    axisLabelTextStyle?: TextStyle; // Axis label text: : includes fontFamily, fontSize, colour, weight (regular/bold/italic)
+    tickLabelTextStyle?: TextStyle; // Tick label text : includes fontFamily, fontSize, colour, weight (regular/bold/italic)
 }
 
 export interface Padding {
