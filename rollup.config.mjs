@@ -1,15 +1,14 @@
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
-// import dts from "rollup-plugin-dts";
 import terser from '@rollup/plugin-terser';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import postcss from 'rollup-plugin-postcss';
-import copy from 'rollup-plugin-copy';
 import json from '@rollup/plugin-json';
 import versionInjector from 'rollup-plugin-version-injector';
 import image from '@rollup/plugin-image';
 import dts from 'rollup-plugin-dts';
+import copy from 'rollup-plugin-copy';
 
 const packageJson = require('./package.json');
 
@@ -39,32 +38,18 @@ export default [
             typescript(),
             terser(),
             postcss(),
-            copy({
-                targets: [
-                    {
-                        src: 'src/variables.scss',
-                        dest: 'build',
-                        rename: 'variables.scss',
-                    },
-                    {
-                        src: 'src/typography.scss',
-                        dest: 'build',
-                        rename: 'typography.scss',
-                    },
-                ],
-            }),
             json(),
             versionInjector(),
             image(),
+            // copy({
+            //     targets: [{ src: 'src/fonts/**/*', dest: 'build/assets/fonts' }],
+            // }),
         ],
         external: ['react', 'react-dom', 'styled-components'],
     },
     {
         input: 'src/index.ts',
-        output: [
-            { file: 'build/types.d.ts', format: 'es' },
-            // { dir: 'build', format: 'cjs' },
-        ],
+        output: [{ file: 'build/types.d.ts', format: 'es' }],
         plugins: [dts.default()],
     },
 ];

@@ -1,10 +1,17 @@
 /*
 This function is called on instantiation of RCPCHChart within RCPCHChar.tsx.
-User style props are passed in as RCPCH defined interfaces to address styling to the different properties of the chart. These are:
+
+This is refactored in version 7.0.0
+Users pass in one of 6 RCPCH defined themes: 'monochrome', 'traditional', 'tanner1', 'tanner2', 'tanner3', 'custom'
+The themes define styles for a series of exposed chart attributes. If the 'custom' theme is chosen, 'monochrome' is used as the basis for default styles.
+Any of the exposed attributes can be personalised.
+
+These are categorised into 6 interfaces:
 AxisStyle, CentileStyle, SDSStyle, ChartStyle, GridlineStyle, MeasurementStyle
 
-Most of the properties in each of the interfaces are optionals, as users may not want to alter everything. This function therefore instantiates defaults
-where user values have not been provided.
+Most of the properties in each of the interfaces are optionals, as users may not want to alter everything. 
+
+This function therefore instantiates defaults where user values have not been provided.
 This creates a styles object that is passed to the chart.
 */
 import { AxisStyle, CentileStyle, SDSStyle, ChartStyle, GridlineStyle, MeasurementStyle } from '../interfaces/StyleObjects';
@@ -15,8 +22,6 @@ const white = '#FFFFFF';
 const midGrey = '#b3b3b3';
 const lightGrey = '#d9d9d9';
 const lightLightGrey = "#f3f3f3";
-const lightPink = '#E497C1';
-const darkPink = '#cb3083';
 
 function makeAllStyles(
     chartStyle?: ChartStyle,
@@ -26,6 +31,7 @@ function makeAllStyles(
     sdsStyle?: SDSStyle,
     measurementStyle?: MeasurementStyle,
 ) {
+
     let newGridlineStyle = {
         stroke: lightGrey,
         strokeWidth: 0.25,
@@ -45,13 +51,13 @@ function makeAllStyles(
         };
     }
     return { 
-        chartHeight: chartStyle?.height ?? 475,
-        chartWidth: chartStyle?.width ?? 700,
+        chartHeight: 800,
+        chartWidth: 1000,
         chartPadding: {
-            left: chartStyle?.padding?.left ?? 50,
-            right: chartStyle?.padding?.right ?? 50,
-            top: chartStyle?.padding?.top ?? 25,
-            bottom: chartStyle?.padding?.bottom ?? 40,
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0,
         },
         chartMisc: {
             background: {
@@ -59,17 +65,16 @@ function makeAllStyles(
             },
         },
         toolTipFlyout: {
-            stroke: chartStyle?.tooltipStroke ?? midGrey,
-            fill: chartStyle?.tooltipBackgroundColour ?? midGrey,
+            stroke: chartStyle?.tooltipStroke ?? midGrey, // tooltip border colour
+            fill: chartStyle?.tooltipBackgroundColour ?? midGrey, // tooltip backgroundcolour
         },
         toolTipMain: {
-            textAnchor: "start",
             fontSize: chartStyle?.tooltipTextStyle?.size ?? 10,
             strokeWidth: 0.25,
             fill: chartStyle?.tooltipTextStyle?.colour ?? black,
             fontFamily: chartStyle?.tooltipTextStyle?.name ?? 'Montserrat',
             fontWeight: chartStyle?.tooltipTextStyle?.weight ?? 'normal',
-            backgroundPadding: 5
+            textAnchor: "start"
         },
         chartTitle: {
             fontFamily: chartStyle?.titleStyle?.name ?? 'Arial',
@@ -263,8 +268,8 @@ function makeAllStyles(
             weight: measurementStyle?.eventTextStyle?.weight ?? 'normal'
         },
         toggleStyle: {
-            activeColour: chartStyle?.toggleButtonActiveColour ?? darkPink,
-            inactiveColour: chartStyle?.toggleButtonInactiveColour ?? lightPink,
+            activeColour: chartStyle?.toggleButtonActiveColour ?? black,
+            inactiveColour: chartStyle?.toggleButtonInactiveColour ?? midGrey,
             fontFamily: chartStyle?.toggleButtonTextStyle?.name ?? 'Arial',
             color: chartStyle?.toggleButtonTextStyle?.colour ?? white,
             fontSize: chartStyle?.toggleButtonTextStyle?.size ?? 14,

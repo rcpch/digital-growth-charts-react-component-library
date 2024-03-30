@@ -1,6 +1,0 @@
-$font-family: 'Montserrat', Helvetica, Arial, sans-serif;
-
-@mixin font-defaults {
-    font-family: $font-family;
-    src: local('Montserrat'), url('./fonts/Montserrat/Montserrat-Medium.ttf');
-}

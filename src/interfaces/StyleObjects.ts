@@ -1,8 +1,5 @@
 export interface ChartStyle {
     backgroundColour?: string; //background colour of chart
-    width?: number; // DEPRECATE - SET TO 800
-    height?: number; // DEPRECATE - SET TO 1000
-    padding?: Padding; // DEPRECATE - SET TO 0
     titleStyle?: TextStyle; // style of text in title: includes fontFamily, fontSize, colour, weight (regular/bold/italic)
     subTitleStyle?: TextStyle; // style of text in subtitle: includes fontFamily, fontSize, colour, weight (regular/bold/italic)
     tooltipBackgroundColour?: string; //background colour of tooltip

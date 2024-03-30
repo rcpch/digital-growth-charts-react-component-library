@@ -22,14 +22,6 @@ export const rCPCH1AxisStyles: AxisStyle = {
 
 export const rCPCH1ChartStyles: ChartStyle = {
     backgroundColour: "#FFFFFF",
-    width: 1000,
-    height: 800,
-    padding: {
-        left: 0,
-        right: 0,
-        top: 25,
-        bottom: 40
-    },
     titleStyle: {
         name: "Arial", 
         colour: "#000000",
@@ -104,14 +96,6 @@ The user style props, passed into the RCPCHChart component, have been processed 
 */
 
 export const rcpch1Styles = {
-    "chartHeight": 800,
-    "chartWidth": 1000,
-    "chartPadding": {
-        "left": 50,
-        "right": 50,
-        "top": 25,
-        "bottom": 40
-    },
     "chartMisc": {
         "background": {
             "fill": "#FFFFFF"

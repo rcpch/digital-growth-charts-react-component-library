@@ -24,6 +24,11 @@ import defaultToggles from '../functions/defaultToggles';
 import { tooltipText } from '../functions/tooltips';
 import { delayedPubertyThreshold, makePubertyThresholds, lowerPubertyBorder } from '../functions/DelayedPuberty';
 import { getFilteredMidParentalHeightData } from '../functions/getFilteredMidParentalHeightData';
+import { isCrowded } from '../functions/isCrowded';
+import { labelAngle } from '../functions/labelAngle';
+import addOrdinalSuffix from '../functions/addOrdinalSuffix';
+import { labelIndexInterval } from '../functions/labelIndexInterval';
+import { referenceText } from '../functions/referenceText';
 
 // interfaces & props
 import { CentileChartProps } from './CentileChart.types';
@@ -47,11 +52,6 @@ import { IndividualLogoContainer } from '../SubComponents/IndividualLogoContaine
 import { MainContainer } from '../SubComponents/MainContainer';
 import { TopContainer } from '../SubComponents/TopContainer';
 import { VersionLabel } from '../SubComponents/VersionLabel';
-
-// RCPCH Icon:
-import icon from '../images/icon.png';
-import ukca from '../images/ukca.png';
-import { isCrowded } from '../functions/isCrowded';
 import { EventCaret } from '../SubComponents/EventCaret';
 import { StyledShareButton } from '../SubComponents/StyledShareButton';
 import { StyledFullScreenButton } from '../SubComponents/StyledFullScreenButton';
@@ -65,11 +65,14 @@ import { ChartContainer } from '../SubComponents/ChartContainer';
 import { FullScreenIcon } from '../SubComponents/FullScreenIcon';
 import { CloseFullScreenIcon } from '../SubComponents/CloseFullScreenIcon';
 import { ResetZoomContainer } from '../SubComponents/ResetZoomContainer';
-import { labelAngle } from '../functions/labelAngle';
-import addOrdinalSuffix from '../functions/addOrdinalSuffix';
-import { labelIndexInterval } from '../functions/labelIndexInterval';
-import { referenceText } from '../functions/referenceText';
 import { GradientLabelsButtonWrapper } from '../SubComponents/GradientLabelsButtonWrapper';
+
+// RCPCH Icon:
+import icon from '../images/icon.png';
+import ukca from '../images/ukca.png';
+
+// styles - imports fonts 
+import '../global.css';
 
 // allows two top level containers: zoom and voronoi
 const VictoryZoomVoronoiContainer:any = createContainer(
@@ -289,7 +292,6 @@ function CentileChart({
                             allowPan={allowZooming}
                             onZoomDomainChange={handleZoomChange}
                             zoomDomain={domains}
-                            style={styles.toolTipMain}
                             labelComponent={
                                 <VictoryTooltip
                                     data-testid='tooltip'
