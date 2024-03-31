@@ -6,6 +6,7 @@ import { symbolForMeasurementType } from "./symbolForMeasurementType";
 import { VictoryLegendDatum } from "../interfaces/VictoryLegendData";
 
 export const selectedMeasurementMethods = (childMeasurements: ClientMeasurementObject, styles: { [key: string]: any }) => {
+    
     const finalList: VictoryLegendDatum[]=[];
     if (childMeasurements.height.length > 0){
         const symbol=symbolForMeasurementType("height");

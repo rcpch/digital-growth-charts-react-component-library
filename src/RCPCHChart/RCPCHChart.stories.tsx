@@ -13,7 +13,27 @@ export default meta;
 
 type Story = StoryObj<typeof RCPCHChart>;
 
-export const SDSChart: Story = {};
+export const SDSChart: Story = {
+  args: {
+    title: 'Patient Name - Hospital Number',
+    measurementMethod: 'height',
+    reference: 'uk-who',
+    sex: 'female',
+    measurementsArray: twoToEight,
+    midParentalHeightData: {},
+    enableZoom: true,
+    chartStyle: traditionalGirlChartStyles,
+    axisStyle: traditionalGirlAxisStyles,
+    gridlineStyle: traditionalGirlGridlineStyle,
+    centileStyle: traditionalGirlCentileStyle,
+    sdsStyle: traditionalGirlSDSStyle,
+    measurementStyle: traditionalGirlMeasurementStyle,
+    chartType: 'sds',
+    enableExport: false,
+    exportChartCallback: ()=>{},
+    clinicianFocus: true
+  }
+};
 
 export const CentileChart: Story = {
   args: {

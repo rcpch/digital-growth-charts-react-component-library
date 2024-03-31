@@ -63,11 +63,8 @@ export const traditionalBoyGridlineStyle: GridlineStyle = {
 
 export const traditionalBoyCentileStyle: CentileStyle = {
     sdsStroke: "#A9A9A9",
-    sdsStrokeWidth: 1.5,
     centileStroke: "#00a3de",
-    centileStrokeWidth: 1.5,
     delayedPubertyAreaFill: "#66c8eb",
-    midParentalCentileStrokeWidth: 1.5,
     midParentalCentileStroke: "#00a3de",
     midParentalAreaFill: "#00a3de",
 }
@@ -83,7 +80,6 @@ export const traditionalBoyMeasurementStyle: MeasurementStyle = {
     }
 }
 export const traditionalBoySDSStyle: SDSStyle = {
-    lineStrokeWidth: 1.5,
     heightStroke: "#a3deff",
     weightStroke: "#a3de7f",
     ofcStroke: "#a3de3f",

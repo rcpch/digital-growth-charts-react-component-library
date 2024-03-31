@@ -56,7 +56,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     const subtitle = sex==="male" ? `Boys - ${subtitleReferenceMeasurementMethod}` : `Girls - ${subtitleReferenceMeasurementMethod}`
     
     let isCentile=(chartType === "centile" || chartType === undefined);
-    
+
     if (isCentile){
         return (
             <ErrorBoundary styles={styles}>
@@ -79,7 +79,6 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
         );
     } else {
         const castArray = measurementsArray as ClientMeasurementObject;
-        
         return (
             <ErrorBoundary styles={styles}>
                 <SDSChart

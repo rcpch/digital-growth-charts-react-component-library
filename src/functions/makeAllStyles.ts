@@ -90,6 +90,7 @@ function makeAllStyles(
                 padding: 20,
                 fill: axisStyle?.axisLabelTextStyle?.colour ?? black,
                 fontFamily: axisStyle?.axisLabelTextStyle?.name ?? 'Arial',
+                fontStyle: axisStyle?.axisLabelTextStyle?.style ?? 'normal',
             },
             ticks: {
                 stroke: axisStyle?.tickLabelTextStyle?.colour ?? black,
@@ -100,6 +101,7 @@ function makeAllStyles(
                 fill: axisStyle?.tickLabelTextStyle?.colour ?? black,
                 color: axisStyle?.tickLabelTextStyle?.colour ?? black,
                 fontFamily: axisStyle?.axisLabelTextStyle?.name ?? 'Arial',
+                fontStyle: axisStyle?.axisLabelTextStyle?.style ?? 'normal',
             },
             grid: {
                 ...newGridlineStyle,
@@ -109,6 +111,7 @@ function makeAllStyles(
             fill: axisStyle?.tickLabelTextStyle?.colour ?? black,
             fontSize: axisStyle?.tickLabelTextStyle?.size ?? 8,
             fontFamily: axisStyle?.tickLabelTextStyle?.name ?? 'Arial',
+            fontStyle: axisStyle?.axisLabelTextStyle?.style ?? 'normal',
         },
         yAxis: {
             axis: {
@@ -120,6 +123,7 @@ function makeAllStyles(
                 padding: 25,
                 fill: axisStyle?.axisLabelTextStyle?.colour ?? black,
                 fontFamily: axisStyle?.axisLabelTextStyle?.name ?? 'Arial',
+                fontStyle: axisStyle?.axisLabelTextStyle?.style ?? 'normal',
             },
             ticks: {
                 stroke: axisStyle?.tickLabelTextStyle?.colour ?? black,
@@ -129,6 +133,7 @@ function makeAllStyles(
                 padding: 5,
                 fill: axisStyle?.tickLabelTextStyle?.colour ?? black,
                 fontFamily: axisStyle?.axisLabelTextStyle?.name ?? 'Arial',
+                fontStyle: axisStyle?.axisLabelTextStyle?.style ?? 'normal',
             },
             grid: {
                 ...newGridlineStyle,
@@ -138,7 +143,7 @@ function makeAllStyles(
             data: {
                 stroke: centileStyle?.delayedPubertyAreaFill ?? midGrey,
                 fill: centileStyle?.delayedPubertyAreaFill ?? midGrey,
-                strokeWidth: centileStyle?.centileStrokeWidth ?? 0.5,
+                strokeWidth: 0.5,
             },
         },
         delayedPubertyThresholdLine: {
@@ -156,7 +161,7 @@ function makeAllStyles(
         sdsLine: {  // these are the sds lines on the BMI chart
             data: {
                 stroke: centileStyle?.sdsStroke ?? '#A9A9A9',
-                strokeWidth: centileStyle?.sdsStrokeWidth ?? 1.0,
+                strokeWidth: 1.0,
                 strokeLinecap: 'round',
                 strokeDasharray: '5 5',
             }
@@ -164,7 +169,7 @@ function makeAllStyles(
         dashedCentile: {
             data: {
                 stroke: centileStyle?.centileStroke ?? black,
-                strokeWidth: centileStyle?.centileStrokeWidth ?? 1.5,
+                strokeWidth: 1.5,
                 strokeLinecap: 'round',
                 strokeDasharray: '5 5',
             },
@@ -172,7 +177,7 @@ function makeAllStyles(
         continuousCentile: {
             data: {
                 stroke: centileStyle?.centileStroke ?? black,
-                strokeWidth: centileStyle?.centileStrokeWidth ?? 1.5,
+                strokeWidth: 1.5,
                 strokeLinecap: 'round',
             },
         },
@@ -184,35 +189,35 @@ function makeAllStyles(
         heightSDS: {
             data: {
                 stroke: sdsStyle?.heightStroke ?? setOpacity(centileStyle?.centileStroke ?? black, 1.0),
-                strokeWidth: centileStyle?.centileStrokeWidth ?? 1.5,
+                strokeWidth: 1.5,
                 strokeLinecap: 'round',
             }
         },
         weightSDS: {
             data: {
                 stroke: sdsStyle?.weightStroke ?? setOpacity(centileStyle?.centileStroke ?? black, 0.5),
-                strokeWidth: centileStyle?.centileStrokeWidth ?? 1.5,
+                strokeWidth: 1.5,
                 strokeLinecap: 'round',
             }
         },
         ofcSDS: {
             data: {
                 stroke: sdsStyle?.ofcStroke ?? setOpacity(centileStyle?.centileStroke ?? black, 0.25),
-                strokeWidth: centileStyle?.centileStrokeWidth ?? 1.5,
+                strokeWidth: 1.5,
                 strokeLinecap: 'round',
             }
         },
         bmiSDS: {
             data: {
                 stroke: sdsStyle?.bmiStroke ?? setOpacity(centileStyle?.centileStroke ?? black, 0.125),
-                strokeWidth: centileStyle?.centileStrokeWidth ?? 1.5,
+                strokeWidth: 1.5,
                 strokeLinecap: 'round',
             }
         },
         midParentalCentile: {
             data: {
                 stroke: centileStyle?.midParentalCentileStroke ?? black,
-                strokeWidth: centileStyle?.midParentalCentileStrokeWidth ?? 1.5,
+                strokeWidth: 1.5,
                 strokeLinecap: 'round',
                 strokeOpacity: 1.0,
             }
@@ -220,7 +225,7 @@ function makeAllStyles(
         midParentalSDS: {
             data: {
                 stroke: centileStyle?.midParentalCentileStroke ?? black,
-                strokeWidth: centileStyle?.midParentalCentileStrokeWidth ?? 1.5,
+                strokeWidth: 1.5,
                 strokeLinecap: 'round',
                 strokeOpacity: 1.0,
                 strokeDasharray: '2 5'

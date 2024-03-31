@@ -63,11 +63,8 @@ export const rCPCH2GridlineStyle: GridlineStyle = {
 
 export const rCPCH2CentileStyle: CentileStyle = {
     sdsStroke: "#A9A9A9",
-    sdsStrokeWidth: 1.5,
     centileStroke: "#7159aa",
-    centileStrokeWidth: 1.5,
     delayedPubertyAreaFill: "#c6bddd",
-    midParentalCentileStrokeWidth: 1.5,
     midParentalCentileStroke: "#ff8000",
     midParentalAreaFill: "#c6bddd",
 }
@@ -83,7 +80,6 @@ export const rCPCH2MeasurementStyle: MeasurementStyle = {
     }
 }
 export const rCPCH2SDSStyle: SDSStyle = {
-    lineStrokeWidth: 1.5,
     heightStroke: "#ff8000ff",
     weightStroke: "#ff80007f",
     ofcStroke: "#ff80003f",

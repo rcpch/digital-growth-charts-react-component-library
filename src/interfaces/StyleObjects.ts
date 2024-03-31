@@ -12,23 +12,19 @@ export interface ChartStyle {
     toggleButtonTextStyle: TextStyle; // buttons text: includes fontFamily, fontSize, colour, weight (regular/bold/italic)
 }
 export interface MeasurementStyle {
-    measurementFill?: string; // measurement point fill colour
+    measurementFill?: string; // measurement point fill colour - only apply to SDS charts
     highlightedMeasurementFill?: string; // measurement point fill colour when hightlighted (SDS charts)
     eventTextStyle?: TextStyle; // styles for text of events: includes fontFamily, fontSize, colour, weight (regular/bold/italic)
 }
 export interface CentileStyle {
     sdsStroke?: string; // sds line colour
-    sdsStrokeWidth?: number; // DEPRECATE - SDS line width
     centileStroke?: string; // centile line colour
-    centileStrokeWidth?: number; // DEPRECATE - Centile line width
     delayedPubertyAreaFill?: string; // delayed puberty area colour
-    midParentalCentileStrokeWidth?: number; // DEPRECATE - MPH centile line thickness
     midParentalCentileStroke?: string; // Midparental height centile line colour
     midParentalAreaFill?: string; // Midparental height area colour
 }
 
 export interface SDSStyle {
-    lineStrokeWidth?: number; // DEPRECATE - SDS line width
     heightStroke?: string; // sds line colour
     weightStroke?: string; // sds line colour
     ofcStroke?: string; // sds line colour
@@ -37,8 +33,8 @@ export interface SDSStyle {
 export interface GridlineStyle {
     gridlines?: boolean; // show or hide gridlines
     stroke?: string; // gridline colour
-    strokeWidth?: number; // DEPRECATE  - gridline width
-    dashed?: boolean; // DEPRECATE - dashed vs continuous gridlines
+    strokeWidth?: number; // gridline width
+    dashed?: boolean; // dashed vs continuous gridlines
 }
 export interface AxisStyle {
     axisStroke?: string; // Axis colour
@@ -46,12 +42,6 @@ export interface AxisStyle {
     tickLabelTextStyle?: TextStyle; // Tick label text : includes fontFamily, fontSize, colour, weight (regular/bold/italic)
 }
 
-export interface Padding {
-    left?: number;
-    right?: number;
-    top?: number;
-    bottom?: number;
-}
 export interface TextStyle {
     name?: string;
     colour?: string;

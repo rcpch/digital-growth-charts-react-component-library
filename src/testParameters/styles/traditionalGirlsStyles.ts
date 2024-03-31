@@ -57,17 +57,14 @@ export const traditionalGirlChartStyles: ChartStyle = {
 export const traditionalGirlGridlineStyle: GridlineStyle = {
     gridlines: true,
     stroke: "#d9d9d9",
-    strokeWidth: 0.25,
+    strokeWidth: 0.5,
     dashed: false
 }
 
 export const traditionalGirlCentileStyle: CentileStyle = {
     sdsStroke: "#A9A9A9",
-    sdsStrokeWidth: 1.5,
     centileStroke: "#c9559d",
-    centileStrokeWidth: 1.5,
     delayedPubertyAreaFill: "#df99c4",
-    midParentalCentileStrokeWidth: 1.5,
     midParentalCentileStroke: "#df99c4",
     midParentalAreaFill: "##df99c4",
 }
@@ -83,7 +80,6 @@ export const traditionalGirlMeasurementStyle: MeasurementStyle = {
     }
 }
 export const traditionalGirlSDSStyle: SDSStyle = {
-    lineStrokeWidth: 1.5,
     heightStroke: "#c9559dff",
     weightStroke: "#c9559d7f",
     ofcStroke: "#c9559d3f",

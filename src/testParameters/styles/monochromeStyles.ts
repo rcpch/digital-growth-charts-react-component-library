@@ -63,11 +63,8 @@ export const monochromeGridlineStyle: GridlineStyle = {
 
 export const monochromeCentileStyle: CentileStyle = {
     sdsStroke: "#A9A9A9",
-    sdsStrokeWidth: 1.5,
     centileStroke: "#000000",
-    centileStrokeWidth: 1.5,
     delayedPubertyAreaFill: "#b3b3b3",
-    midParentalCentileStrokeWidth: 1.5,
     midParentalCentileStroke: "#000000",
     midParentalAreaFill: "#b3b3b3",
 }
@@ -83,7 +80,6 @@ export const monochromeMeasurementStyle: MeasurementStyle = {
     }
 }
 export const monochromeSDSStyle: SDSStyle = {
-    lineStrokeWidth: 1.5,
     heightStroke: "#000000",
     weightStroke: "#000000",
     ofcStroke: "#000000",
@@ -362,9 +358,7 @@ export const measurementObjects: MeasurementStyle = {
 
 export const centilesObject: CentileStyle = {
     "centileStroke": "#000000",
-    "centileStrokeWidth": 1.5,
     "delayedPubertyAreaFill": "#b3b3b3",
-    "midParentalCentileStrokeWidth": 1.5,
     "midParentalAreaFill": "#b3b3b3"
 }
 
@@ -386,7 +380,6 @@ export const axesObject: AxisStyle = {
 }
 
 export const sdsObject: SDSStyle = {
-    "lineStrokeWidth": 1.5,
     "heightStroke": "#000000",
     "weightStroke": "#000000",
     "ofcStroke": "#000000",
