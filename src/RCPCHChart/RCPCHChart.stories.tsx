@@ -3,8 +3,6 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import RCPCHChart from './RCPCHChart.tsx';
 import { twoToEight } from '../testParameters/measurements/twoToEight';
-import { traditionalBoyAxisStyles, traditionalBoyChartStyles, traditionalBoyGridlineStyle, traditionalBoyCentileStyle, traditionalBoyMeasurementStyle, traditionalBoySDSStyle } from '../testParameters/styles/traditionalBoysStyles';
-import { traditionalGirlAxisStyles, traditionalGirlChartStyles, traditionalGirlGridlineStyle, traditionalGirlCentileStyle, traditionalGirlMeasurementStyle, traditionalGirlSDSStyle } from '../testParameters/styles/traditionalGirlsStyles';
 
 const meta: Meta<typeof RCPCHChart> = {
   component: RCPCHChart,
@@ -22,16 +20,12 @@ export const SDSChart: Story = {
     measurementsArray: twoToEight,
     midParentalHeightData: {},
     enableZoom: true,
-    chartStyle: traditionalGirlChartStyles,
-    axisStyle: traditionalGirlAxisStyles,
-    gridlineStyle: traditionalGirlGridlineStyle,
-    centileStyle: traditionalGirlCentileStyle,
-    sdsStyle: traditionalGirlSDSStyle,
-    measurementStyle: traditionalGirlMeasurementStyle,
     chartType: 'sds',
     enableExport: false,
     exportChartCallback: ()=>{},
-    clinicianFocus: true
+    clinicianFocus: true,
+    theme: 'monochrome',
+    customThemeStyles: {}
   }
 };
 
@@ -44,14 +38,10 @@ export const CentileChart: Story = {
     measurementsArray: twoToEight,
     midParentalHeightData: {},
     enableZoom: true,
-    chartStyle: traditionalGirlChartStyles,
-    axisStyle: traditionalGirlAxisStyles,
-    gridlineStyle: traditionalGirlGridlineStyle,
-    centileStyle: traditionalGirlCentileStyle,
-    sdsStyle: traditionalGirlSDSStyle,
-    measurementStyle: traditionalGirlMeasurementStyle,
     chartType: 'centile',
     enableExport: false,
-    exportChartCallback: ()=>{}
+    exportChartCallback: ()=>{},
+    theme: 'monochrome',
+    customThemeStyles: {}
   },
 };

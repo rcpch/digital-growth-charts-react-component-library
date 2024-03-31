@@ -54,14 +54,14 @@ export const traditionalBoyChartStyles: ChartStyle = {
     }
 }
 
-export const traditionalBoyGridlineStyle: GridlineStyle = {
+export const traditionalBoyGridlineStyles: GridlineStyle = {
     gridlines: true,
     stroke: "#d9d9d9",
     strokeWidth: 0.25,
     dashed: false
 }
 
-export const traditionalBoyCentileStyle: CentileStyle = {
+export const traditionalBoyCentileStyles: CentileStyle = {
     sdsStroke: "#A9A9A9",
     centileStroke: "#00a3de",
     delayedPubertyAreaFill: "#66c8eb",
@@ -69,7 +69,7 @@ export const traditionalBoyCentileStyle: CentileStyle = {
     midParentalAreaFill: "#00a3de",
 }
 
-export const traditionalBoyMeasurementStyle: MeasurementStyle = {
+export const traditionalBoyMeasurementStyles: MeasurementStyle = {
     measurementFill: "#000000",
     highlightedMeasurementFill: "#00a3de",
     eventTextStyle: {
@@ -79,7 +79,7 @@ export const traditionalBoyMeasurementStyle: MeasurementStyle = {
         style: 'normal'
     }
 }
-export const traditionalBoySDSStyle: SDSStyle = {
+export const traditionalBoySDSStyles: SDSStyle = {
     heightStroke: "#a3deff",
     weightStroke: "#a3de7f",
     ofcStroke: "#a3de3f",

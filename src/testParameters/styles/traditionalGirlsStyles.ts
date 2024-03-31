@@ -54,14 +54,14 @@ export const traditionalGirlChartStyles: ChartStyle = {
     }
 }
 
-export const traditionalGirlGridlineStyle: GridlineStyle = {
+export const traditionalGirlGridlineStyles: GridlineStyle = {
     gridlines: true,
     stroke: "#d9d9d9",
     strokeWidth: 0.5,
     dashed: false
 }
 
-export const traditionalGirlCentileStyle: CentileStyle = {
+export const traditionalGirlCentileStyles: CentileStyle = {
     sdsStroke: "#A9A9A9",
     centileStroke: "#c9559d",
     delayedPubertyAreaFill: "#df99c4",
@@ -69,7 +69,7 @@ export const traditionalGirlCentileStyle: CentileStyle = {
     midParentalAreaFill: "##df99c4",
 }
 
-export const traditionalGirlMeasurementStyle: MeasurementStyle = {
+export const traditionalGirlMeasurementStyles: MeasurementStyle = {
     measurementFill: "#000000",
     highlightedMeasurementFill: "#c9559d",
     eventTextStyle: {
@@ -79,7 +79,7 @@ export const traditionalGirlMeasurementStyle: MeasurementStyle = {
         style: 'normal'
     }
 }
-export const traditionalGirlSDSStyle: SDSStyle = {
+export const traditionalGirlSDSStyles: SDSStyle = {
     heightStroke: "#c9559dff",
     weightStroke: "#c9559d7f",
     ofcStroke: "#c9559d3f",

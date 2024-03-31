@@ -3,9 +3,9 @@ import * as React from 'react';
 import CentileChart from './CentileChart';
 import RCPCHChart from '../RCPCHChart';
 import { monochromeStyles } from '../testParameters/styles/monochromeStyles';
-import { rcpch1Styles } from '../testParameters/styles/rcpch1Styles';
-import { rcpch2Styles } from '../testParameters/styles/rcpch2Styles';
-import { rcpch3Styles } from '../testParameters/styles/rcpch3Styles';
+import { Tanner1Styles } from '../testParameters/styles/tanner1Styles';
+import { Tanner2Styles } from '../testParameters/styles/tanner2Styles';
+import { Tanner3Styles } from '../testParameters/styles/tanner3Styles';
 import { traditionalBoysStyles } from '../testParameters/styles/traditionalBoysStyles';
 import { termGirlWithSingleHeightMeasurementAndBoneAgeAndEvent } from '../testParameters/measurements/termGirlWithSingleHeightMeasurementAndBoneAgeAndEvent';
 import { twoWeightMeasurements } from '../testParameters/measurements/twoWeightMeasurements';
@@ -60,7 +60,7 @@ export const WithTurnerHeightAndNoData = () => (
         childMeasurements={[]}
         midParentalHeightData={midParentalHeights}
         enableZoom={true}
-        styles={rcpch3Styles}
+        styles={Tanner3Styles}
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
@@ -78,7 +78,7 @@ export const WithWeightAndNoData = () => (
         childMeasurements={[]}
         midParentalHeightData={midParentalHeights}
         enableZoom={true}
-        styles={rcpch3Styles}
+        styles={Tanner3Styles}
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
@@ -132,7 +132,7 @@ export const WithTermBoyAndSingleHeightMeasurementAndBoneAgeAndEvent = () => (
         childMeasurements={termGirlWithSingleHeightMeasurementAndBoneAgeAndEvent}
         midParentalHeightData={midParentalHeights}
         enableZoom={true}
-        styles={rcpch2Styles}
+        styles={Tanner2Styles}
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
@@ -186,7 +186,7 @@ export const WithMeasurementsAtExtremePrematurityWeight = () => (
         childMeasurements={prematureTwentyTwoWeeksWeight}
         midParentalHeightData={midParentalHeights}
         enableZoom={true}
-        styles={rcpch1Styles}
+        styles={Tanner1Styles}
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
@@ -204,7 +204,7 @@ export const WithMeasurementsAtExtremePrematurity = () => (
         childMeasurements={prematureTwentyTwoWeeksHeight}
         midParentalHeightData={midParentalHeights}
         enableZoom={true}
-        styles={rcpch1Styles}
+        styles={Tanner1Styles}
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
@@ -222,7 +222,7 @@ export const WithMeasurementsAtExtremePrematurityOFC = () => (
         childMeasurements={prematureTwentyTwoWeeksOFC}
         midParentalHeightData={midParentalHeights}
         enableZoom={true}
-        styles={rcpch1Styles}
+        styles={Tanner1Styles}
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
@@ -312,7 +312,7 @@ export const WithExtremePrematureFemaleHeights = () => (
         childMeasurements={prematureTwentyTwoWeeksHeight}
         midParentalHeightData={midParentalHeights}
         enableZoom={true}
-        styles={rcpch3Styles}
+        styles={Tanner3Styles}
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
@@ -330,7 +330,7 @@ export const WithPrematureGirlOverThreeHeight = () => (
         childMeasurements={prematureGirlOverThreeHeight}
         midParentalHeightData={midParentalHeights}
         enableZoom={true}
-        styles={rcpch3Styles}
+        styles={Tanner3Styles}
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
@@ -348,7 +348,7 @@ export const WithPrematureGirlOverFourHeight = () => (
         childMeasurements={prematureGirlOverFourHeight}
         midParentalHeightData={midParentalHeights}
         enableZoom={true}
-        styles={rcpch3Styles}
+        styles={Tanner3Styles}
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
@@ -366,7 +366,7 @@ export const WithTermToAYearGirlHeight = () => (
         childMeasurements={termToAYearGirlHeight}
         midParentalHeightData={midParentalHeights}
         enableZoom={true}
-        styles={rcpch3Styles}
+        styles={Tanner3Styles}
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
@@ -384,7 +384,7 @@ export const WithTermToTwoYearsGirlHeight = () => (
         childMeasurements={termToTwoYearsGirlHeight}
         midParentalHeightData={midParentalHeights}
         enableZoom={true}
-        styles={rcpch3Styles}
+        styles={Tanner3Styles}
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
@@ -402,7 +402,7 @@ export const WithTermToOverFourYearsGirlHeight = () => (
         childMeasurements={termToOverFourYearsGirlHeight}
         midParentalHeightData={midParentalHeights}
         enableZoom={true}
-        styles={rcpch3Styles}
+        styles={Tanner3Styles}
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
@@ -420,7 +420,7 @@ export const WithTurnerFemaleHeights = () => (
         childMeasurements={turnerHeightOneYearToEleven}
         midParentalHeightData={midParentalHeights}
         enableZoom={true}
-        styles={rcpch3Styles}
+        styles={Tanner3Styles}
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
@@ -438,7 +438,7 @@ export const WithBeforeDueDateError = () => (
         childMeasurements={beforeDueDateError}
         midParentalHeightData={midParentalHeights}
         enableZoom={true}
-        styles={rcpch1Styles}
+        styles={Tanner1Styles}
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}
@@ -456,7 +456,7 @@ export const WithTermBabyGirlWeight = () => (
         childMeasurements={termBabyGirlWeight}
         midParentalHeightData={midParentalHeights}
         enableZoom={true}
-        styles={rcpch3Styles}
+        styles={Tanner3Styles}
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}

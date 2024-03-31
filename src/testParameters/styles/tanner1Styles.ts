@@ -4,7 +4,7 @@ import { AxisStyle, CentileStyle, ChartStyle, GridlineStyle, MeasurementStyle, S
 The following styles are provided to the RCPCHChart component, and match what the users should be passing in.
 */
 
-export const rCPCH1AxisStyles: AxisStyle = {
+export const Tanner1AxisStyles: AxisStyle = {
     axisStroke: "#000000",
     axisLabelTextStyle: {
         name: "Arial", 
@@ -20,7 +20,7 @@ export const rCPCH1AxisStyles: AxisStyle = {
     }
 } 
 
-export const rCPCH1ChartStyles: ChartStyle = {
+export const Tanner1ChartStyles: ChartStyle = {
     backgroundColour: "#FFFFFF",
     titleStyle: {
         name: "Arial", 
@@ -54,14 +54,14 @@ export const rCPCH1ChartStyles: ChartStyle = {
     }
 }
 
-export const rCPCH1GridlineStyle: GridlineStyle = {
+export const Tanner1GridlineStyles: GridlineStyle = {
     gridlines: true,
     stroke: "#d9d9d9",
     strokeWidth: 0.25,
     dashed: false
 }
 
-export const rCPCH1CentileStyle: CentileStyle = {
+export const Tanner1CentileStyles: CentileStyle = {
     sdsStroke: "#A9A9A9",
     centileStroke: "#7159aa",
     delayedPubertyAreaFill: "#c6bddd",
@@ -69,7 +69,7 @@ export const rCPCH1CentileStyle: CentileStyle = {
     midParentalAreaFill: "#c6bddd",
 }
 
-export const rCPCH1MeasurementStyle: MeasurementStyle = {
+export const Tanner1MeasurementStyles: MeasurementStyle = {
     measurementFill: "#000000",
     highlightedMeasurementFill: "#7159aa",
     eventTextStyle: {
@@ -79,7 +79,7 @@ export const rCPCH1MeasurementStyle: MeasurementStyle = {
         style: 'normal'
     }
 }
-export const rCPCH1SDSStyle: SDSStyle = {
+export const Tanner1SDSStyles: SDSStyle = {
     heightStroke: "#7159aaff",
     weightStroke: "#7159aa7f",
     ofcStroke: "#7159aa3f",
@@ -91,7 +91,7 @@ The following styles are provided to the CentileChart component, and are a step 
 The user style props, passed into the RCPCHChart component, have been processed by the makeAllStyles function and returned in this format
 */
 
-export const rcpch1Styles = {
+export const Tanner1Styles = {
     "chartMisc": {
         "background": {
             "fill": "#FFFFFF"

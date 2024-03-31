@@ -4,7 +4,7 @@ import { AxisStyle, CentileStyle, ChartStyle, GridlineStyle, MeasurementStyle, S
 The following styles are provided to the RCPCHChart component, and match what the users should be passing in.
 */
 
-export const rCPCH2AxisStyles: AxisStyle = {
+export const Tanner3AxisStyles: AxisStyle = {
     axisStroke: "#000000",
     axisLabelTextStyle: {
         name: "Arial", 
@@ -20,7 +20,7 @@ export const rCPCH2AxisStyles: AxisStyle = {
     }
 } 
 
-export const rCPCH2ChartStyles: ChartStyle = {
+export const Tanner3ChartStyles: ChartStyle = {
     backgroundColour: "#FFFFFF",
     titleStyle: {
         name: "Arial", 
@@ -44,8 +44,8 @@ export const rCPCH2ChartStyles: ChartStyle = {
     },
     termFill: "#CDCDCD",
     termStroke: "#CDCDCD",
-    toggleButtonInactiveColour: "#c6bddd",
-    toggleButtonActiveColour: "#7159aa",
+    toggleButtonInactiveColour: "#f59c99",
+    toggleButtonActiveColour: "#e60700",
     toggleButtonTextStyle: {
         name: "Arial",
         colour: "#000000",
@@ -54,22 +54,22 @@ export const rCPCH2ChartStyles: ChartStyle = {
     }
 }
 
-export const rCPCH2GridlineStyle: GridlineStyle = {
+export const Tanner3GridlineStyles: GridlineStyle = {
     gridlines: true,
     stroke: "#d9d9d9",
     strokeWidth: 0.25,
     dashed: false
 }
 
-export const rCPCH2CentileStyle: CentileStyle = {
+export const Tanner3CentileStyles: CentileStyle = {
     sdsStroke: "#A9A9A9",
-    centileStroke: "#7159aa",
-    delayedPubertyAreaFill: "#c6bddd",
-    midParentalCentileStroke: "#ff8000",
-    midParentalAreaFill: "#c6bddd",
+    centileStroke: "#e60700",
+    delayedPubertyAreaFill: "#f59c99",
+    midParentalCentileStroke: "#e60700",
+    midParentalAreaFill: "#f59c99",
 }
 
-export const rCPCH2MeasurementStyle: MeasurementStyle = {
+export const Tanner3MeasurementStyles: MeasurementStyle = {
     measurementFill: "#000000",
     highlightedMeasurementFill: "#ff8000",
     eventTextStyle: {
@@ -79,11 +79,11 @@ export const rCPCH2MeasurementStyle: MeasurementStyle = {
         style: 'normal'
     }
 }
-export const rCPCH2SDSStyle: SDSStyle = {
-    heightStroke: "#ff8000ff",
-    weightStroke: "#ff80007f",
-    ofcStroke: "#ff80003f",
-    bmiStroke: "#ff80001f",
+export const Tanner3SDSStyles: SDSStyle = {
+    heightStroke: "#e60700ff",
+    weightStroke: "#e607007f",
+    ofcStroke: "#e607003f",
+    bmiStroke: "#e607001f",
 }
 
 /*
@@ -91,20 +91,20 @@ The following styles are provided to the CentileChart component, and are a step 
 The user style props, passed into the RCPCHChart component, have been processed by the makeAllStyles function and returned in this format
 */
 
-export const rcpch2Styles = {
+export const Tanner3Styles = {
     "chartMisc": {
         "background": {
             "fill": "#FFFFFF"
         }
     },
     "toolTipFlyout": {
-        "stroke": "#3366cc",
-        "fill": "#3366cc"
+        "stroke": "#fdc300",
+        "fill": "#fdc300"
     },
     "toolTipMain": {
         "textAnchor": "end",
         "strokeWidth": 0.25,
-        "fill": "#FFFFFF",
+        "fill": "#000000",
         "fontFamily": "Montserrat",
         "fontWeight": "normal"
     },
@@ -136,17 +136,17 @@ export const rcpch2Styles = {
         "axisLabel": {
             "fontSize": 10,
             "padding": 20,
-            "fill": "000000",
+            "fill": "#000000",
             "fontFamily": "Arial"
         },
         "ticks": {
-            "stroke": "000000"
+            "stroke": "#000000"
         },
         "tickLabels": {
             "fontSize": 8,
             "padding": 5,
-            "fill": "000000",
-            "color": "000000",
+            "fill": "#000000",
+            "color": "#000000",
             "fontFamily": "Arial"
         },
         "grid": {
@@ -156,7 +156,7 @@ export const rcpch2Styles = {
         }
     },
     "xTicklabel": {
-        "fill": "000000",
+        "fill": "#000000",
         "fontSize": 8,
         "fontFamily": "Arial"
     },
@@ -168,16 +168,16 @@ export const rcpch2Styles = {
         "axisLabel": {
             "fontSize": 10,
             "padding": 25,
-            "fill": "000000",
+            "fill": "#000000",
             "fontFamily": "Arial"
         },
         "ticks": {
-            "stroke": "000000"
+            "stroke": "#000000"
         },
         "tickLabels": {
             "fontSize": 8,
             "padding": 5,
-            "fill": "000000",
+            "fill": "#000000",
             "fontFamily": "Arial"
         },
         "grid": {
@@ -188,8 +188,8 @@ export const rcpch2Styles = {
     },
     "delayedPubertyArea": {
         "data": {
-            "stroke": "#ffc080",
-            "fill": "#ffc080",
+            "stroke": "#f59c99",
+            "fill": "#f59c99",
             "strokeWidth": 1.5
         }
     },
@@ -201,7 +201,7 @@ export const rcpch2Styles = {
     },
     "delayedPubertyThresholdLabel": {
         "fontSize": 9,
-        "fill": "000000",
+        "fill": "#000000",
         "fontFamily": "Arial",
         "textAlign": "start"
     },
@@ -215,7 +215,7 @@ export const rcpch2Styles = {
     },
     "dashedCentile": {
         "data": {
-            "stroke": "#ff8000",
+            "stroke": "#e60700",
             "strokeWidth": 1.5,
             "strokeLinecap": "round",
             "strokeDasharray": "5 5"
@@ -223,46 +223,46 @@ export const rcpch2Styles = {
     },
     "continuousCentile": {
         "data": {
-            "stroke": "#ff8000",
+            "stroke": "#e60700",
             "strokeWidth": 1.5,
             "strokeLinecap": "round"
         }
     },
     "centileLabel": {
-        "fill": "#ff8000",
+        "fill": "#e60700",
         "fontSize": 6
     },
     "heightSDS": {
         "data": {
-            "stroke": "#ff8000ff",
+            "stroke": "#e60700ff",
             "strokeWidth": 1.5,
             "strokeLinecap": "round"
         }
     },
     "weightSDS": {
         "data": {
-            "stroke": "#ff80007f",
+            "stroke": "#e607007f",
             "strokeWidth": 1.5,
             "strokeLinecap": "round"
         }
     },
     "ofcSDS": {
         "data": {
-            "stroke": "#ff80003f",
+            "stroke": "#e607003f",
             "strokeWidth": 1.5,
             "strokeLinecap": "round"
         }
     },
     "bmiSDS": {
         "data": {
-            "stroke": "#ff80001f",
+            "stroke": "#e607001f",
             "strokeWidth": 1.5,
             "strokeLinecap": "round"
         }
     },
     "midParentalCentile": {
         "data": {
-            "stroke": "#ff8000",
+            "stroke": "#e60700",
             "strokeWidth": 1.5,
             "strokeLinecap": "round",
             "strokeOpacity": 1
@@ -270,7 +270,7 @@ export const rcpch2Styles = {
     },
     "midParentalSDS": {
         "data": {
-            "stroke": "#ff8000",
+            "stroke": "#e60700",
             "strokeWidth": 1.5,
             "strokeLinecap": "round",
             "strokeOpacity": 1,
@@ -279,7 +279,7 @@ export const rcpch2Styles = {
     },
     "midParentalArea": {
         "data": {
-            "fill": "#ffc080",
+            "fill": "#f59c99",
             "opacity": 0.5
         }
     },
@@ -296,12 +296,12 @@ export const rcpch2Styles = {
     },
     "highlightedMeasurementFill": {
         "data": {
-            "fill": "#ff8000"
+            "fill": "#e60700"
         }
     },
     "toggleStyle": {
-        "activeColour": "#ff8000",
-        "inactiveColour": "#ffc080",
+        "activeColour": "#e60700",
+        "inactiveColour": "#f59c99",
         "fontFamily": "Arial",
         "color": "#FFFFFF",
         "fontSize": 14,

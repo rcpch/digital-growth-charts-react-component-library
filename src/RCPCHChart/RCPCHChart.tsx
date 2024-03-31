@@ -18,6 +18,7 @@ import { ClientMeasurementObject } from '../interfaces/ClientMeasurementObject';
 import defineNonStylePropDefaults from '../functions/defineNonStylePropDefaults';
 import { nameForReference } from '../functions/nameForReference'
 import { nameForMeasurementMethod } from '../functions/nameForMeasurementMethod';
+import { stylesForTheme } from '../functions/stylesForTheme';
 
 // const VERSION_LOG = '[VI]Version: {version} - built on {date}[/VI]'; 
 const VERSION = '[VI]v{version}[/VI]'; // uses version injector plugin to Rollup to report package.json version
@@ -30,18 +31,30 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     measurementsArray,
     midParentalHeightData,
     enableZoom = true,
-    chartStyle,
-    axisStyle,
-    gridlineStyle,
-    centileStyle,
-    sdsStyle,
-    measurementStyle,
     chartType,
     enableExport,
     exportChartCallback,
-    clinicianFocus
-}) => {    
+    clinicianFocus,
+    theme,
+    customThemeStyles
+}) => {
 
+    // get styles for each theme
+    let all_styles = stylesForTheme(theme=theme, sex=sex);
+
+    // replace any styles with custom styles provided by user
+    for (const requested_style in all_styles){
+        for (const property in customThemeStyles[requested_style]){
+            if(property != undefined){
+                requested_style[property]=customThemeStyles[requested_style][property]
+            }
+        }
+    }
+
+    // spread styles into individual objects
+    const { chartStyle, axisStyle, gridlineStyle, centileStyle, sdsStyle, measurementStyle } = all_styles
+
+    // make granular styles to pass into charts
     const styles = makeAllStyles(chartStyle, axisStyle, gridlineStyle, centileStyle, sdsStyle, measurementStyle);
     
     clinicianFocus = defineNonStylePropDefaults('clinicianFocus', clinicianFocus);
