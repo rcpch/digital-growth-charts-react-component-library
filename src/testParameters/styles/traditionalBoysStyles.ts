@@ -10,13 +10,13 @@ export const traditionalBoyAxisStyles: AxisStyle = {
         name: "Arial", 
         colour: "#000000",
         size: 10,
-        weight: 'normal'
+        style: 'normal'
     },
     tickLabelTextStyle: {
         name: "Arial", 
         colour: "#000000",
         size: 8,
-        weight: 'normal'
+        style: 'normal'
     }
 } 
 
@@ -26,13 +26,13 @@ export const traditionalBoyChartStyles: ChartStyle = {
         name: "Arial", 
         colour: "#000000",
         size: 14,
-        weight: 'bold'
+        style: 'bold'
     },
     subTitleStyle: {
         name: "Arial",
         colour: "#000000",
         size: 12,
-        weight: 'italic'
+        style: 'italic'
     },
     tooltipBackgroundColour: "#66c8eb",
     tooltipStroke: "#66c8eb",
@@ -40,7 +40,7 @@ export const traditionalBoyChartStyles: ChartStyle = {
         name: "Montserrat",
         colour: "#FFFFFF",
         size: 12,
-        weight: 'normal'
+        style: 'normal'
     },
     termFill: "#CDCDCD",
     termStroke: "#CDCDCD",
@@ -50,7 +50,7 @@ export const traditionalBoyChartStyles: ChartStyle = {
         name: "Arial",
         colour: "#000000",
         size: 14,
-        weight: 'normal'
+        style: 'normal'
     }
 }
 
@@ -79,7 +79,7 @@ export const traditionalBoyMeasurementStyle: MeasurementStyle = {
         name: "Montserrat",
         colour: "#000000",
         size: 12,
-        weight: 'normal'
+        style: 'normal'
     }
 }
 export const traditionalBoySDSStyle: SDSStyle = {
@@ -316,6 +316,6 @@ export const traditionalBoysStyles = {
         "name": "Montserrat",
         "colour": "#000000",
         "size": 14,
-        "weight": "normal"
+        "style": "normal"
     }
 }

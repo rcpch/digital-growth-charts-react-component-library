@@ -142,7 +142,7 @@ export const twoToEight: Measurement[] = [
             "bone_age_text": null
         },
         "events_data": {
-            "events_text": null
+            "events_text": ['Very clever diagnosis made']
         }
     },
     {

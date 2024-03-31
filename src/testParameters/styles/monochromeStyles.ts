@@ -10,13 +10,13 @@ export const monochromeAxisStyles: AxisStyle = {
         name: "Arial", 
         colour: "#000000",
         size: 10,
-        weight: 'normal'
+        style: 'normal'
     },
     tickLabelTextStyle: {
         name: "Arial", 
         colour: "#000000",
         size: 8,
-        weight: 'normal'
+        style: 'normal'
     }
 } 
 
@@ -26,13 +26,13 @@ export const monochromeChartStyles: ChartStyle = {
         name: "Arial", 
         colour: "#000000",
         size: 14,
-        weight: 'bold'
+        style: 'bold'
     },
     subTitleStyle: {
         name: "Arial",
         colour: "#000000",
         size: 12,
-        weight: 'italic'
+        style: 'italic'
     },
     tooltipBackgroundColour: "#b3b3b3",
     tooltipStroke: "#b3b3b3",
@@ -40,7 +40,7 @@ export const monochromeChartStyles: ChartStyle = {
         name: "Montserrat",
         colour: "#000000",
         size: 12,
-        weight: 'normal'
+        style: 'normal'
     },
     termFill: "#CDCDCD",
     termStroke: "#CDCDCD",
@@ -50,7 +50,7 @@ export const monochromeChartStyles: ChartStyle = {
         name: "Arial",
         colour: "#000000",
         size: 14,
-        weight: 'normal'
+        style: 'normal'
     }
 }
 
@@ -79,7 +79,7 @@ export const monochromeMeasurementStyle: MeasurementStyle = {
         name: "Montserrat",
         colour: "#000000",
         size: 12,
-        weight: 'normal'
+        style: 'normal'
     }
 }
 export const monochromeSDSStyle: SDSStyle = {
@@ -321,13 +321,13 @@ export const chartObject: ChartStyle =  {
         "name": "Arial",
         "colour": "#000000",
         "size": 14,
-        "weight": "bold"
+        "style": "bold"
     },
     "subTitleStyle": {
         "name": "Arial",
         "colour": "#000000",
         "size": 14,
-        "weight": "normal"
+        "style": "normal"
     },
     "tooltipBackgroundColour": "#b3b3b3",
     "tooltipStroke": "#b3b3b3",
@@ -335,7 +335,7 @@ export const chartObject: ChartStyle =  {
         "name": "Montserrat",
         "colour": "#000000",
         "size": 0.25,
-        "weight": "normal"
+        "style": "normal"
     },
     "termFill": "#CDCDCD",
     "termStroke": "#CDCDCD",
@@ -345,7 +345,7 @@ export const chartObject: ChartStyle =  {
         "name": "Montserrat",
         "colour": "#000000",
         "size": 0.25,
-        "weight": "normal"
+        "style": "normal"
     }
 }
 
@@ -356,7 +356,7 @@ export const measurementObjects: MeasurementStyle = {
         "name": "Montserrat",
         "colour": "#000000",
         "size": 14,
-        "weight": "normal"
+        "style": "normal"
     }
 }
 
@@ -381,7 +381,7 @@ export const axesObject: AxisStyle = {
         "name": "Arial",
         "colour": "000000",
         "size": 10,
-        "weight": "normal"
+        "style": "normal"
     },
 }
 

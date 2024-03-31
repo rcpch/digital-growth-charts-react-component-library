@@ -17,8 +17,7 @@ export const SDSChart: Story = {};
 
 export const CentileChart: Story = {
   args: {
-    title: 'CentileChart',
-    subtitle: 'UK-WHO chart',
+    title: 'Patient Name - Hospital Number',
     measurementMethod: 'height',
     reference: 'uk-who',
     sex: 'female',

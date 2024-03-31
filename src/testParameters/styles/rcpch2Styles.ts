@@ -10,13 +10,13 @@ export const rCPCH2AxisStyles: AxisStyle = {
         name: "Arial", 
         colour: "#000000",
         size: 10,
-        weight: 'normal'
+        style: 'normal'
     },
     tickLabelTextStyle: {
         name: "Arial", 
         colour: "#000000",
         size: 8,
-        weight: 'normal'
+        style: 'normal'
     }
 } 
 
@@ -26,13 +26,13 @@ export const rCPCH2ChartStyles: ChartStyle = {
         name: "Arial", 
         colour: "#000000",
         size: 14,
-        weight: 'bold'
+        style: 'bold'
     },
     subTitleStyle: {
         name: "Arial",
         colour: "#000000",
         size: 12,
-        weight: 'italic'
+        style: 'italic'
     },
     tooltipBackgroundColour: "#fdc300",
     tooltipStroke: "#fdc300",
@@ -40,7 +40,7 @@ export const rCPCH2ChartStyles: ChartStyle = {
         name: "Montserrat",
         colour: "#000000",
         size: 12,
-        weight: 'normal'
+        style: 'normal'
     },
     termFill: "#CDCDCD",
     termStroke: "#CDCDCD",
@@ -50,7 +50,7 @@ export const rCPCH2ChartStyles: ChartStyle = {
         name: "Arial",
         colour: "#000000",
         size: 14,
-        weight: 'normal'
+        style: 'normal'
     }
 }
 
@@ -79,7 +79,7 @@ export const rCPCH2MeasurementStyle: MeasurementStyle = {
         name: "Montserrat",
         colour: "#000000",
         size: 12,
-        weight: 'normal'
+        style: 'normal'
     }
 }
 export const rCPCH2SDSStyle: SDSStyle = {
@@ -316,6 +316,6 @@ export const rcpch2Styles = {
         "name": "Montserrat",
         "colour": "#000000",
         "size": 14,
-        "weight": "normal"
+        "style": "normal"
     }
 }
