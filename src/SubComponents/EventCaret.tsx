@@ -1,4 +1,5 @@
 import * as React from 'react';
+import '../global.css';
 
 export const EventCaret = (props: any) => {
     const { x, y, eventsText, style} = props;
@@ -26,7 +27,7 @@ export const EventCaret = (props: any) => {
                 fill="none"
                 pointerEvents="visible"
             />
-            <text x={finalX} y={inverted ? (peakY-textHeight-25):(peakY+25)} textAnchor="middle" fontFamily={style.name} fontSize={style.size} fontWeight={style.weight} fill={style.colour}>
+            <text x={finalX} y={inverted ? (peakY-textHeight-25):(peakY+25)} textAnchor="middle" fontFamily={style.name} fontSize={style.size} fontStyle={style.style} fill={style.colour}>
                     {eventsText.map((eventText: string, index) => {
                         return <tspan key={eventText} x={finalX} dy={15}>{eventText}</tspan>
                     })}

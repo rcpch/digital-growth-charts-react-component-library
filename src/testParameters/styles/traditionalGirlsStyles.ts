@@ -78,7 +78,7 @@ export const traditionalGirlMeasurementStyle: MeasurementStyle = {
     eventTextStyle: {
         name: "Montserrat",
         colour: "#000000",
-        size: 12,
+        size: 16,
         style: 'normal'
     }
 }
