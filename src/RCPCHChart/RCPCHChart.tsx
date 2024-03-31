@@ -57,7 +57,6 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     
     let isCentile=(chartType === "centile" || chartType === undefined);
     
-    
     if (isCentile){
         return (
             <ErrorBoundary styles={styles}>

@@ -848,7 +848,11 @@ function CentileChart({
                                             :
                                             <ShowCentileLabelIcon/>
                                         }
-                                        <div className='tooltip'>Show Centile Labels</div>
+                                        { centileLabels ? 
+                                            <div className='tooltip'>Hide Centile Labels</div>
+                                            :
+                                            <div className='tooltip'>Show Centile Labels</div>
+                                        }
                                     </StyledGradientLabelsButton>
                                     
                                 </StyledButtonTooltip>
