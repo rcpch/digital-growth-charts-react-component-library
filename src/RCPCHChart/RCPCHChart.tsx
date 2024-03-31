@@ -40,7 +40,8 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     enableExport,
     exportChartCallback,
     clinicianFocus
-}) => {
+}) => {    
+
     const styles = makeAllStyles(chartStyle, axisStyle, gridlineStyle, centileStyle, sdsStyle, measurementStyle);
     
     clinicianFocus = defineNonStylePropDefaults('clinicianFocus', clinicianFocus);
@@ -52,7 +53,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
 
     // create subtitle from sex, reference and measurementMethod
     const subtitleReferenceMeasurementMethod = `${nameForReference(reference)} - ${nameForMeasurementMethod(measurementMethod)}`
-    const subtitle = sex==="male" ? `Boys - ${subtitleReferenceMeasurementMethod}` : `"Girls - ${subtitleReferenceMeasurementMethod}`
+    const subtitle = sex==="male" ? `Boys - ${subtitleReferenceMeasurementMethod}` : `Girls - ${subtitleReferenceMeasurementMethod}`
     
     let isCentile=(chartType === "centile" || chartType === undefined);
     

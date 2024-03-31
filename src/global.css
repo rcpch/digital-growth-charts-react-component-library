@@ -18,3 +18,23 @@
     font-weight: italic;
     font-style: italic;
 }
+@font-face {
+    font-family: 'Arial';
+    src: url("./fonts/Arial/ARI.ttf") format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Arial';
+    src: url("./fonts/Arial/ARIALBD.TTF") format('truetype');
+    font-weight: bold;
+    font-style: bold;
+}
+
+@font-face {
+    font-family: 'Arial';
+    src: url("./fonts/Arial/ARIALI.TTF") format('truetype');
+    font-weight: italic;
+    font-style: italic;
+}

@@ -64,24 +64,20 @@ function makeAllStyles(
             fontSize: chartStyle?.tooltipTextStyle?.size ?? 14,
             fill: chartStyle?.tooltipTextStyle?.colour ?? black,
             fontFamily: chartStyle?.tooltipTextStyle?.name ?? 'Montserrat',
-            fontWeight: chartStyle?.tooltipTextStyle?.weight ?? 'normal',
+            fontStyle: chartStyle?.tooltipTextStyle?.style ?? 'normal',
             textAnchor: "start"
         },
         chartTitle: {
             fontFamily: chartStyle?.titleStyle?.name ?? 'Arial',
             color: chartStyle?.titleStyle?.colour ?? black,
             fontSize: chartStyle?.titleStyle?.size ?? 14,
-            fontWeight:
-                chartStyle?.titleStyle?.weight === 'italic' ? 'normal' : chartStyle?.titleStyle?.weight ?? 'bold',
-            fontStyle: chartStyle?.titleStyle?.weight === 'italic' ? 'italic' : 'normal',
+            fontStyle: chartStyle?.titleStyle?.style === 'italic' ? 'italic' : 'normal',
         },
         chartSubTitle: {
             fontFamily: chartStyle?.subTitleStyle?.name ?? 'Arial',
             color: chartStyle?.subTitleStyle?.colour ?? black,
             fontSize: chartStyle?.subTitleStyle?.size ?? 14,
-            fontWeight:
-                chartStyle?.subTitleStyle?.weight === 'italic' ? 'normal' : chartStyle?.titleStyle?.weight ?? 'normal',
-            fontStyle: chartStyle?.subTitleStyle?.weight === 'italic' ? 'italic' : 'normal',
+            fontStyle: chartStyle?.subTitleStyle?.style === 'italic' ? 'italic' : 'normal',
         },
         termArea: { data: { fill: chartStyle?.termFill ?? midGrey, stroke: chartStyle?.termStroke ?? midGrey } },
         xAxis: {
@@ -256,7 +252,7 @@ function makeAllStyles(
             size: measurementStyle?.eventTextStyle?.size ?? 14,
             name: measurementStyle?.eventTextStyle?.name ?? 'Montserrat',
             colour: measurementStyle?.eventTextStyle?.colour ?? black,
-            weight: measurementStyle?.eventTextStyle?.weight ?? 'normal'
+            weight: measurementStyle?.eventTextStyle?.style ?? 'normal'
         },
         toggleStyle: {
             activeColour: chartStyle?.toggleButtonActiveColour ?? black,
@@ -264,11 +260,7 @@ function makeAllStyles(
             fontFamily: chartStyle?.toggleButtonTextStyle?.name ?? 'Arial',
             color: chartStyle?.toggleButtonTextStyle?.colour ?? white,
             fontSize: chartStyle?.toggleButtonTextStyle?.size ?? 14,
-            fontWeight:
-                chartStyle?.toggleButtonTextStyle?.weight === 'italic'
-                    ? 'normal'
-                    : chartStyle?.toggleButtonTextStyle?.weight ?? 'normal',
-            fontStyle: chartStyle?.toggleButtonTextStyle?.weight === 'italic' ? 'italic' : 'normal',
+            fontStyle: chartStyle?.toggleButtonTextStyle?.style === 'italic' ? 'italic' : 'normal',
         },
     };
 }
