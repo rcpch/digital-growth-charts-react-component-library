@@ -47,7 +47,6 @@ import xAxisLabel from '../functions/xAxisLabel';
 import tailoredXTickValues from '../functions/tailoredXTickValues';
 import defaultToggles from '../functions/defaultToggles';
 import { sdsTooltipText } from "../functions/sdsTooltipText";
-import { createSDSPointMouseOverObject } from '../functions/sdsPointMouseOverObject';
 import { generateMidParentalHeightSDSData } from "../functions/generateMidParentalHeightSDSData";
 import { symbolForMeasurementType } from "../functions/symbolForMeasurementType";
 import { selectedMeasurementMethods } from "../functions/buildListOfMeasurementMethods";
@@ -231,8 +230,6 @@ const SDSChart: React.FC<SDSChartProps> = (
         setActive(false);
     };
 
-    const chartEvents = createSDSPointMouseOverObject(styles); // highlight a given series on mouseover
-
     return (
         <MainContainer>
             <TopContainer>
@@ -295,7 +292,6 @@ const SDSChart: React.FC<SDSChartProps> = (
                         }
                     />
                 }
-                events={chartEvents}  // create events objects for each measurement that will highlight datapoints on mouse hover
             >
                 
                     {
@@ -375,7 +371,6 @@ const SDSChart: React.FC<SDSChartProps> = (
                             // if there is no data for this measurement, do not run this code as leads to css errors
                             return;
                         }
-                        
                         
                         return (
                             <VictoryGroup
