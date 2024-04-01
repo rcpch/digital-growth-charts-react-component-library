@@ -1,0 +1,437 @@
+import { Canvas, Meta } from '@storybook/blocks';
+
+import * as RCPCHChartStories from './RCPCHChart.stories.tsx';
+
+<Meta of={RCPCHChartStories} />
+
+# `<RCPCHChart {...props}/>`
+
+An `RCPCHChart` instance is a wrapper component that receives user props and uses these to create either a CentileChart or an SDSChart.
+
+<Canvas of={RCPCHChartStories.CentileChart} />
+
+## Props
+
+The prop to define which chart type is rendered is: `chartType?: 'centile' | 'sds'`
+
+Other props are:
+
+-   `title: string;` the title of the chart : could include patient name and identifiers
+-   `measurementMethod: 'height' | 'weight' | 'ofc' | 'bmi';` _must_ be one of the options provided
+-   `reference: 'uk-who' | 'turner' | 'trisomy-21';` _must_ be one of the options provided
+-   `sex: 'male' | 'female';` _must_ be one of the options provided
+-   `measurements: { measurementMethod: Measurement[]};` array of measurements returned from RCPCH Growth API. This should not be edited or manipulated. **NOTE this has changed in v7.0.0**
+-   `midParentalHeightData?: MidParentalHeightObject | undefined;` an RCPCH object returned from the RCPCH Growth API. Should not be edited or manipulated
+-   `enableZoom?: boolean;` Allows the user to zoom and pan the charts if set to true. If disabled, hides the buttons associated with this.
+-   `chartType?: 'centile' | 'sds';` These are addressed below
+-   `enableExport?: boolean | undefined;` Cut/Paste button. Returns an SVG snapshot of the chart (without title) if set to true. If false, the buttons associated with this are hidden.
+-   `exportChartCallback(svg?: any): any;` Names the function within the client to return the exported SVG to.
+-   `clinicianFocus?: boolean | undefined | null;` Toggles tooltip advice between those aimed at clinicians and those more appropriate for patients/lay people.
+-   `theme?: 'monochrome' | 'traditional' | 'tanner1' | 'tanner2' | 'tanner3' | 'custom'`
+-   `customThemeStyles?`: discussed below
+
+### `measurements`
+
+**Note in v7.0.0 this prop has changed**. Formerly `measurementsArray`, the structure has changed to conform to the following structure:
+
+```js
+{
+    height?: Measurement[]
+    weight?: Measurment[]
+    bmi?: Measurement[]
+    ofc?: Measurement[]
+}
+```
+
+Measurements should be passed to the component through the `measurements` prop using this structure.
+
+This aligns the SDS and centile charts to accept the same structure. SDS and centile charts differ,
+in that SDS charts multiple measurement methods on a single chart, whereas centile charts must have one instance for each measurement method.
+
+#### Example
+
+An array of height measurements for a girl returned from the RCPCH Growth API:
+
+```js
+<RCPCHChart
+    reference={'uk-who'}
+    measurementMethod={'height'}
+    sex={'female'}
+    title={"Arthur Scargill - 12345678A"}
+    measurements={
+        height: [
+            {
+                birth_data: {
+                    ...
+                },
+                bone_age: {
+                    ...
+                },
+                child_observation_value: {
+                    ...
+                },
+                events_data: {
+                    ...
+                },
+                measurement_calculated_values: {
+                    ...
+                },
+                measurement_dates: {
+                    ...
+                },
+                plottable_data: {
+                    ...
+                }
+            },
+            ...
+        ]
+    } // this is the plottable child data
+    midParentalHeightData={[]} // this is the optional plottable midparental height data from the RCPCH API
+    theme={'traditional'}
+    enableZoom
+    chartType={'centile'}
+    enableExport={false}
+    exportChartCallback={()=>{}} // this is a callback for the export chart function if true
+    clinicianFocus={false}
+/>
+```
+
+In the same way, an implementation for the sds charts would be:
+
+```js
+<RCPCHChart
+    reference={'uk-who'}
+    measurementMethod={'height'}
+    sex={'female'}
+    title={"Arthur Scargill - 12345678A"}
+    measurements={
+        height: [
+            {
+                birth_data: {
+                    ...
+                },
+                bone_age: {
+                    ...
+                },
+                child_observation_value: {
+                    ...
+                },
+                events_data: {
+                    ...
+                },
+                measurement_calculated_values: {
+                    ...
+                },
+                measurement_dates: {
+                    ...
+                },
+                plottable_data: {
+                    ...
+                }
+            },
+            ...
+        ],
+        weight: [
+            {
+                birth_data: {
+                    ...
+                },
+                bone_age: {
+                    ...
+                },
+                child_observation_value: {
+                    ...
+                },
+                events_data: {
+                    ...
+                },
+                measurement_calculated_values: {
+                    ...
+                },
+                measurement_dates: {
+                    ...
+                },
+                plottable_data: {
+                    ...
+                }
+            },
+            ...
+        ],
+        ofc: [],
+        bmi: []
+    } // this is the plottable child data
+    midParentalHeightData={[]} // this is the optional plottable midparental height data from the RCPCH API
+    theme={'traditional'}
+    enableZoom
+    chartType={'sds'}
+    enableExport={false}
+    exportChartCallback={()=>{}} // this is a callback for the export chart function if true
+    clinicianFocus={false}
+/>
+```
+
+For information the structure of the Measurement interface is provided here. This matches the response object from the RCPCH Growth API, therefore implementers should not need to use this interface:
+
+```js
+export interface Measurement {
+    birth_data: {
+        birth_date: string;
+        estimated_date_delivery: string;
+        estimated_date_delivery_string: string;
+        gestation_weeks: number;
+        gestation_days: number;
+        sex: 'male' | 'female';
+    };
+    child_observation_value: {
+        measurement_method: 'height' | 'weight' | 'bmi' | 'ofc';
+        observation_value: number;
+        observation_value_error?: string;
+    };
+    measurement_dates: {
+        chronological_calendar_age: string;
+        chronological_decimal_age: number;
+        corrected_calendar_age: string;
+        corrected_decimal_age: number;
+        corrected_gestational_age?: {
+            corrected_gestation_weeks?: number;
+            corrected_gestation_days?: number;
+        };
+        comments?:{
+            clinician_corrected_decimal_age_comment?: string;
+            lay_corrected_decimal_age_comment?: string;
+            clinician_chronological_decimal_age_comment: string;
+            lay_chronological_decimal_age_comment: string;
+        }
+        observation_date: string;
+        corrected_decimal_age_error?: string;
+        chronological_decimal_age_error?: string;
+    };
+    measurement_calculated_values: {
+        chronological_centile: number;
+        chronological_centile_band: string;
+        chronological_measurement_error?: string;
+        chronological_sds: number;
+        corrected_centile: number;
+        corrected_centile_band: string;
+        corrected_measurement_error?: string;
+        corrected_percentage_median_bmi?: number
+        chronological_percentage_median_bmi?: number
+        corrected_sds: number;
+    };
+    plottable_data: {
+        centile_data: {
+            chronological_decimal_age_data: {
+                age_error?: string;
+                age_type: 'chronological_age' | 'corrected_age';
+                calendar_age: string;
+                centile_band: string;
+                clinician_comment: string;
+                lay_comment: string;
+                observation_error?: string;
+                observation_value_error?: string;
+                x: number;
+                y: number;
+                b?: number;
+                centile?: number;
+                sds?: number;
+                bone_age_label?: string;
+                events_text?: string[];
+                bone_age_type?: string;
+                bone_age_sds?: number;
+                bone_age_centile?: number;
+            };
+            corrected_decimal_age_data: {
+                age_error?: string;
+                age_type: 'chronological_age' | 'corrected_age';
+                calendar_age: string;
+                centile_band: string;
+                clinician_comment: string;
+                lay_comment: string;
+                observation_error?: string;
+                observation_value_error?: string;
+                x: number;
+                y: number;
+                b?: number;
+                centile?: number;
+                sds?: number;
+                bone_age_label?: string;
+                events_text?: string[];
+                bone_age_type?: string;
+                bone_age_sds?: number;
+                bone_age_centile?: number;
+                corrected_gestational_age?: string;
+            };
+        };
+        sds_data: {
+            chronological_decimal_age_data: {
+                age_error?: string;
+                age_type: 'chronological_age' | 'corrected_age';
+                calendar_age: string;
+                centile_band: string;
+                clinician_comment: string;
+                lay_comment: string;
+                observation_error?: string;
+                observation_value_error?: string;
+                x: number;
+                y: number;
+                b?: number;
+                centile: number;
+                sds: number;
+                bone_age_label?: string;
+                events_text?: string[];
+                bone_age_sds?: number;
+                bone_age_type?: string;
+                bone_age_centile?: number;
+            };
+            corrected_decimal_age_data: {
+                age_error?: string;
+                age_type: 'chronological_age' | 'corrected_age';
+                calendar_age: string;
+                centile_band: string;
+                clinician_comment: string;
+                lay_comment: string;
+                observation_error?: string;
+                observation_value_error?: string;
+                x: number;
+                y: number;
+                b?: number;
+                centile: number;
+                sds: number;
+                bone_age_label?: string;
+                bone_age_type?: string;
+                events_text?: string[];
+                bone_age_sds?: number;
+                bone_age_centile?: number;
+                corrected_gestational_age?: string;
+            };
+        };
+    };
+    bone_age: {
+        bone_age?: number;
+        bone_age_type?: string;
+        bone_age_centile?: number;
+        bone_age_sds?: number;
+        bone_age_text?: string;
+    };
+    events_data: {
+        events_text?: string[];
+    };
+}
+```
+
+### Themes vs Styles
+
+Themes are collections of styles. The RCPCH have created some suggested themes:
+
+1. Monochrome (default)
+2. Traditional: this uses the preexisting pink and blue colours present on the paper charts
+3. Tanner 1: Purple and yellow
+4. Tanner 2: Orange and blue
+5. Tanner 3: Red and yellow
+6. Custom
+
+These themes all have predefined attributes for `fontFamily`, `color`, `size`, `stroke` and `strokeWidth` for different aspects of the charts.
+If these attributes are too prescriptive and users would like either to build their own theme,
+or override styles within an existing theme, this can be done by passing in custom styles through the `customThemeStyles` prop.
+
+All attributes are optional, therefore only those attributes where changes are requested need be passed in. The keys for the `customThemeStyles` object are as follows:
+
+-   `chartStyle?: ChartStyle;`
+-   `axisStyle?: AxisStyle;`
+-   `gridlineStyle?: GridlineStyle;`
+-   `centileStyle?: CentileStyle;`
+-   `sdsStyle?: SDSStyle;`
+-   `measurementStyle?: MeasurementStyle;`
+
+The attributes of each of these are below:
+
+#### `ChartStyle`
+
+-   `backgroundColour?: string;` //background colour of chart
+-   `titleStyle?: TextStyle `| undefined; // style of text in title: includes fontFamily, fontSize, colour, weight (regular/bold/italic)
+-   `subTitleStyle?: TextStyle `| undefined; // style of text in subtitle: includes fontFamily, fontSize, colour, weight (regular/bold/italic)
+-   `tooltipBackgroundColour?: string;` //background colour of tooltip
+-   `tooltipStroke?: string;` //border colour of tooltip
+-   `tooltipTextStyle?: TextStyle `| undefined; // tooltip text: includes fontFamily, fontSize, colour, weight (regular/bold/italic)
+-   `termFill?: string;` // background colour of weight term area
+-   `termStroke?: string;` // border colour of weight term area
+-   `toggleButtonInactiveColour?: string;` // buttons - inactive colour
+-   `toggleButtonActiveColour?: string;` // buttons - active colour
+-   `toggleButtonTextStyle?: TextStyle | undefined;` // buttons text: includes fontFamily, fontSize, colour, weight (regular/bold/italic)
+
+#### `MeasurementStyle`
+
+-   `measurementFill?: string;` // measurement point fill colour - only apply to SDS charts
+-   `highlightedMeasurementFill?: string;` // measurement point fill colour when hightlighted (SDS charts)
+-   `eventTextStyle?: TextStyle;` // styles for text of events: includes fontFamily, fontSize, colour, weight (regular/bold/italic)
+
+#### `CentileStyle`
+
+-   `sdsStroke?: string;` // sds line colour
+-   `centileStroke?: string;` // centile line colour
+-   `delayedPubertyAreaFill?: string;` // delayed puberty area colour
+-   `midParentalCentileStroke?: string;` // Midparental height centile line colour
+-   `midParentalAreaFill?: string;` // Midparental height area colour
+
+#### `SDSStyle`
+
+-   `heightStroke?: string;` // sds line colour
+-   `weightStroke?: string;` // sds line colour
+-   `ofcStroke?: string;` // sds line colour
+-   `bmiStroke?: string;` // sds line colour
+
+#### `GridlineStyle`
+
+-   `gridlines?: boolean;` // show or hide gridlines
+-   `stroke?: string;` // gridline colour
+-   `strokeWidth?: number;` // gridline width
+-   `dashed?: boolean;` // dashed vs continuous gridlines
+
+#### `AxisStyle`
+
+-   `axisStroke?: string;` // Axis colour
+-   `axisLabelTextStyle?: TextStyle | undefined;` // Axis label text: : includes fontFamily, fontSize, colour, weight (regular/bold/italic)
+-   `tickLabelTextStyle?: TextStyle | undefined;` // Tick label text : includes fontFamily, fontSize, colour, weight (regular/bold/italic)
+
+#### `TextStyle`
+
+-   `name?: string;`
+-   `colour?: string;`
+-   `size?: number;`
+-   `style?: 'bold' | 'italic' | 'normal';`
+
+For example, if a user wished to override the background colour of the existing 'monochrome' theme:
+
+```js
+const customChartStyle: ChartStyle = {
+  backgroundColour: "tomato"
+}
+
+const customStyles = {
+  chartStyle: customChartStyle
+}
+```
+
+And in the JSX:
+
+```js
+<RCPCHChart
+    reference={'uk-who'}
+    measurementMethod={'height'}
+    sex={'female'}
+    title={'Arthur Scargill - 12345678A'}
+    measurements={[]} // this is the plottable child data
+    midParentalHeightData={[]} // this is the optional plottable midparental height data from the RCPCH API
+    theme={'monochrome'}
+    customThemeStyles={customStyles} <---- override styles here
+    enableZoom
+    chartType={'centile'}
+    enableExport={false}
+    exportChartCallback={() => {}} // this is a callback for the export chart function if true
+    clinicianFocus={false}
+/>
+```
+
+yields:
+
+<Canvas of={RCPCHChartStories.TomatoCentileChart} />

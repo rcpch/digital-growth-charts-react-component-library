@@ -1,15 +1,17 @@
-import { ICentile } from "../interfaces/CentilesObject";
+import { ICentile, UKWHOReferences } from "../interfaces/CentilesObject";
+import { ClientMidparentalCentilesObject } from "../interfaces/ClientMidparentalCentilesObject";
+import { MidParentalHeightObject } from "../interfaces/MidParentalHeightObject";
 import { Measurement } from "../interfaces/RCPCHMeasurementObject";
 
 export const getFilteredMidParentalHeightData = (
     reference: string,
     childMeasurements: Measurement[],
-    midParentalHeightData,
-    sex
+    midParentalHeightData: MidParentalHeightObject,
+    sex: 'male' | 'female',
 ) => {
 
     if(reference !== "uk-who"){
-        console.log("Not UK-WHO");
+        // console.log("Not UK-WHO");
         return
     }
     
@@ -38,8 +40,8 @@ export const getFilteredMidParentalHeightData = (
             }
         }
 
-        let newReferenceObject = [];
-        midParentalHeightData.mid_parental_height_centile_data.map((referenceData, index) => {
+        let newReferenceObject: ClientMidparentalCentilesObject[]  = [];
+        midParentalHeightData.mid_parental_height_centile_data.map((referenceData: UKWHOReferences, index) => {
 
                 // get the midparental centile data
             const centiles = referenceData.uk90_preterm || referenceData.uk_who_infant || referenceData.uk_who_child || referenceData.uk90_child;

@@ -1,6 +1,3 @@
-// import ukwhoData from '../chartdata/uk_who_chart_data';
-// import turnerData from '../chartdata/turners_chart_data';
-// import trisomy21Data from '../chartdata/trisomy21Data';
 
 import { ukwhoHeightMaleCentileData } from '../chartdata/uk_who_height_male_centile_data';
 import { ukwhoHeightFemaleCentileData } from '../chartdata/uk_who_height_female_centile_data';
@@ -20,9 +17,9 @@ import { trisomy21BMIFemaleSDSData } from '../chartdata/trisomy21_bmi_female_sds
 import totalMinPadding from './totalMinPadding';
 import { getTickValuesForChartScaling } from './tailoredXTickValues';
 import { Measurement } from '../interfaces/RCPCHMeasurementObject';
-import { Domains } from '../interfaces/Domains';
+import { Domains, IDomainSex } from '../interfaces/Domains';
 
-import { IPlottedCentileMeasurement, ReferenceGroup, UKWHOReferences, Reference } from '../interfaces/CentilesObject';
+import { IPlottedCentileMeasurement, Reference, ICentile } from '../interfaces/CentilesObject';
 import deepCopy from './deepCopy';
 import { ClientMeasurementObject } from '../interfaces/ClientMeasurementObject';
 import { trisomy21HeightMaleCentileData } from '../chartdata/trisomy21_height_male_centile_data';
@@ -56,48 +53,48 @@ type ExtremeValues = {
 
 const blankDataset = [
     [
-        { centile: 0.4, data: [], sds: -2.67 },
-        { centile: 2, data: [], sds: -2 },
-        { centile: 9, data: [], sds: -1.33 },
-        { centile: 25, data: [], sds: -0.67 },
-        { centile: 50, data: [], sds: 0 },
-        { centile: 75, data: [], sds: 0.67 },
-        { centile: 91, data: [], sds: 1.33 },
-        { centile: 98, data: [], sds: 2 },
+        { centile: 0.4, data: [] as ICentile[], sds: -2.67 },
+        { centile: 2, data: [] as ICentile[], sds: -2 },
+        { centile: 9, data: [] as ICentile[], sds: -1.33 },
+        { centile: 25, data: [] as ICentile[], sds: -0.67 },
+        { centile: 50, data: [] as ICentile[], sds: 0 },
+        { centile: 75, data: [] as ICentile[], sds: 0.67 },
+        { centile: 91, data: [] as ICentile[], sds: 1.33 },
+        { centile: 98, data: [] as ICentile[], sds: 2 },
+        { centile: 99.6, data: [] as ICentile[], sds: 2.67 },
+    ],
+    [
+        { centile: 0.4, data: [] as ICentile[], sds: -2.67 },
+        { centile: 2, data: [] as ICentile[], sds: -2 },
+        { centile: 9, data: [] as ICentile[], sds: -1.33 },
+        { centile: 25, data: [] as ICentile[], sds: -0.67 },
+        { centile: 50, data: [] as ICentile[], sds: 0 },
+        { centile: 75, data: [] as ICentile[], sds: 0.67 },
+        { centile: 91, data: [] as ICentile[], sds: 1.33 },
+        { centile: 98, data: [] as ICentile[], sds: 2 },
         { centile: 99.6, data: [], sds: 2.67 },
     ],
     [
-        { centile: 0.4, data: [], sds: -2.67 },
-        { centile: 2, data: [], sds: -2 },
-        { centile: 9, data: [], sds: -1.33 },
-        { centile: 25, data: [], sds: -0.67 },
-        { centile: 50, data: [], sds: 0 },
-        { centile: 75, data: [], sds: 0.67 },
-        { centile: 91, data: [], sds: 1.33 },
-        { centile: 98, data: [], sds: 2 },
-        { centile: 99.6, data: [], sds: 2.67 },
+        { centile: 0.4, data: [] as ICentile[], sds: -2.67 },
+        { centile: 2, data: [] as ICentile[], sds: -2 },
+        { centile: 9, data: [] as ICentile[], sds: -1.33 },
+        { centile: 25, data: [] as ICentile[], sds: -0.67 },
+        { centile: 50, data: [] as ICentile[], sds: 0 },
+        { centile: 75, data: [] as ICentile[], sds: 0.67 },
+        { centile: 91, data: [] as ICentile[], sds: 1.33 },
+        { centile: 98, data: [] as ICentile[], sds: 2 },
+        { centile: 99.6, data: [] as ICentile[], sds: 2.67 },
     ],
     [
-        { centile: 0.4, data: [], sds: -2.67 },
-        { centile: 2, data: [], sds: -2 },
-        { centile: 9, data: [], sds: -1.33 },
-        { centile: 25, data: [], sds: -0.67 },
-        { centile: 50, data: [], sds: 0 },
-        { centile: 75, data: [], sds: 0.67 },
-        { centile: 91, data: [], sds: 1.33 },
-        { centile: 98, data: [], sds: 2 },
-        { centile: 99.6, data: [], sds: 2.67 },
-    ],
-    [
-        { centile: 0.4, data: [], sds: -2.67 },
-        { centile: 2, data: [], sds: -2 },
-        { centile: 9, data: [], sds: -1.33 },
-        { centile: 25, data: [], sds: -0.67 },
-        { centile: 50, data: [], sds: 0 },
-        { centile: 75, data: [], sds: 0.67 },
-        { centile: 91, data: [], sds: 1.33 },
-        { centile: 98, data: [], sds: 2 },
-        { centile: 99.6, data: [], sds: 2.67 },
+        { centile: 0.4, data: [] as ICentile[], sds: -2.67 },
+        { centile: 2, data: [] as ICentile[], sds: -2 },
+        { centile: 9, data: [] as ICentile[], sds: -1.33 },
+        { centile: 25, data: [] as ICentile[], sds: -0.67 },
+        { centile: 50, data: [] as ICentile[], sds: 0 },
+        { centile: 75, data: [] as ICentile[], sds: 0.67 },
+        { centile: 91, data: [] as ICentile[], sds: 1.33 },
+        { centile: 98, data: [] as ICentile[], sds: 2 },
+        { centile: 99.6, data: [] as ICentile[], sds: 2.67 },
     ],
 ];
 
@@ -106,90 +103,91 @@ function makeDefaultDomains(
     reference: 'uk-who' | 'trisomy-21' | 'turner',
     measurementMethod: 'height' | 'weight' | 'bmi' | 'ofc',
 ) {
-    const all = {
-        male: {
+    const all: IDomainSex = {
+        'male': {
             'uk-who': {
-                height: {
+                'height': {
                     x: [0.038329911019849415, 20.05],
                     y: [36.841246, 204.840832],
                 },
-                weight: {
+                'weight': {
                     x: [0.038329911019849415, 20.05],
                     y: [0, 109.984056],
                 },
-                bmi: {
+                'bmi': {
                     x: [0.038329911019849415, 20.05],
                     y: [8.878608, 34.219536000000005],
                 },
-                ofc: {
+                'ofc': {
                     x: [0.038329911019849415, 18.05],
                     y: [30.716032000000002, 63.533944000000005],
                 },
             },
             'trisomy-21': {
-                height: {
+                'height': {
                     x: [-0.01, 20.05],
                     y: [33.456711999999996, 185.010504],
                 },
-                weight: {
+                'weight': {
                     x: [-0.01, 20.05],
                     y: [0, 113.55046],
                 },
-                bmi: {
+                'bmi': {
                     x: [-0.01, 18.87],
                     y: [0, 67.871482],
                 },
-                ofc: {
+                'ofc': {
                     x: [-0.01, 18.05],
                     y: [28.033898999999998, 59.464058],
                 },
             },
         },
-        female: {
+        'female': {
             'uk-who': {
-                height: {
+                'height': {
                     x: [0.038329911019849415, 20.05],
                     y: [37.106385, 187.74047],
                 },
-                weight: {
+                'weight': {
                     x: [0.038329911019849415, 20.05],
                     y: [0, 94.233692],
                 },
-                bmi: {
+                'bmi': {
                     x: [0.038329911019849415, 20.05],
                     y: [8.569247, 34.568174],
                 },
-                ofc: {
+                'ofc': {
                     x: [0.038329911019849415, 17.05],
                     y: [30.280771, 60.829982],
                 },
             },
             'trisomy-21': {
-                height: {
+                'height': {
                     x: [-0.01, 20.05],
                     y: [34.805428, 170.823076],
                 },
-                weight: {
+                'weight': {
                     x: [-0.01, 20.05],
                     y: [0, 110.50604799999999],
                 },
-                bmi: {
+                'bmi': {
                     x: [-0.01, 18.87],
                     y: [0, 48.775794],
                 },
-                ofc: {
+                'ofc': {
                     x: [-0.01, 18.05],
                     y: [27.716357000000002, 56.751594],
                 },
             },
-            turner: {
-                height: {
+            'turner': {
+                'height': {
                     x: [0.99, 20.05],
                     y: [54.450081, 169.723302],
                 },
             },
         },
     };
+    
     return all[sex][reference][measurementMethod];
 }
 
@@ -268,11 +266,12 @@ function childMeasurementRanges(
         let chronologicalX = measurement.plottable_data.centile_data.chronological_decimal_age_data.x;
         let correctedY = measurement.plottable_data.centile_data.corrected_decimal_age_data.y;
         let chronologicalY = measurement.plottable_data.centile_data.chronological_decimal_age_data.y;
-        const errorsPresent =
-            measurement.measurement_calculated_values.corrected_measurement_error ||
-            measurement.measurement_calculated_values.chronological_measurement_error
-                ? true
-                : false;
+        const errorsPresent = false;
+            // measurement.measurement_calculated_values.corrected_measurement_error ||
+            // measurement.measurement_calculated_values.chronological_measurement_error
+            //     ? true
+            //     : false;
+        
         if (!errorsPresent) {
             if (showCorrected && !showChronological) {
                 chronologicalX = correctedX;
@@ -303,6 +302,7 @@ function childMeasurementRanges(
             console.warn('Measurements considered invalid by the API given to the chart. The chart will ignore them.');
         }
     }
+    
     return { lowestChildX, highestChildX, lowestChildY, highestChildY };
 }
 
@@ -454,7 +454,7 @@ function getRelevantDataSets(
         }
 
         const dataSetRanges = [
-            [-0.33, 0.0383],
+            [-0.345, 0.0383],
             [0.0383, 2],
             [2, 4],
             [4, 21],
@@ -538,8 +538,9 @@ function getDomainsAndData(
         const twoWeeksPostnatal = 0.038329911019849415;
         const gestWeeks37 = -0.057494866529774126;
         const gestWeeks24 = -0.306639288158795;
-        const gestWeeks22 = -0.33;
         let absoluteBottomX = twoWeeksPostnatal;
+        const gestWeeks23 = -0.33;
+        const gestWeeks22 = -0.345;
         let absoluteHighX = 20.05;
         let agePadding = totalMinPadding.biggerChild;
         if (reference === 'uk-who') {
@@ -600,9 +601,9 @@ function getDomainsAndData(
                 absoluteBottomX = gestWeeks22;
                 agePadding = totalMinPadding.prem;
                 absoluteHighX = twoWeeksPostnatal;
-                if (measurementMethod === 'height') {
-                    absoluteBottomX = gestWeeks24;
-                }
+                // if (measurementMethod === 'height') {
+                //     absoluteBottomX = gestWeeks24;
+                // }
                 if (difference > totalMinPadding.prem) {
                     internalChartScaleType = 'infant';
                 } else {
@@ -614,7 +615,8 @@ function getDomainsAndData(
                 if (lowestChildX >= gestWeeks37 && lowestChildX < twoWeeksPostnatal && reference === 'uk-who') {
                     absoluteBottomX = gestWeeks37;
                 } else if (lowestChildX < gestWeeks37) {
-                    absoluteBottomX = measurementMethod === 'height' ? gestWeeks24 : gestWeeks22;
+                    // absoluteBottomX = measurementMethod === 'height' ? gestWeeks24 : gestWeeks22;
+                    absoluteBottomX = gestWeeks22;
                 }
                 if (difference > totalMinPadding.infant) {
                     internalChartScaleType = 'smallChild';
@@ -629,8 +631,13 @@ function getDomainsAndData(
                 }
                 if(lowestChildX < twoWeeksPostnatal && lowestChildX >= gestWeeks37){
                     absoluteBottomX = lowestChildX-totalMinPadding.prem;
+                } else if(lowestChildX < gestWeeks37){
+                    absoluteBottomX = lowestChildX-totalMinPadding.prem
                 }
+            } else {
+                absoluteBottomX = lowestChildX-totalMinPadding.prem
             }
+
 
             // work out most appropriate highest and lowest x coords for domain setting:
             let unroundedLowestX = 0;
@@ -661,6 +668,7 @@ function getDomainsAndData(
 
             const xTickValues = getTickValuesForChartScaling(internalChartScaleType);
 
+
             if (lowestXForDomain !== absoluteBottomX) {
                 const arrayForOrdering = [...xTickValues];
                 arrayForOrdering.push(unroundedLowestX);
@@ -681,7 +689,7 @@ function getDomainsAndData(
         } else {
             let errorString = 'No valid measurements entered. Error message from the server: ';
             for (const measurement of childMeasurements) {
-                if (measurement.measurement_calculated_values.corrected_measurement_error) {
+                if (measurement.measurement_calculated_values.corrected_measurement_error && measurement.measurement_dates.corrected_decimal_age < gestWeeks22) {
                     errorString += ` ${measurement.measurement_calculated_values.corrected_measurement_error}`;
                     throw new Error(errorString);
                 }
@@ -773,7 +781,7 @@ function getDomainsAndData(
         bmiSDSData: finalSDSData,
         centileData: finalCentileData,
         computedDomains: internalDomains,
-        chartScaleType: internalChartScaleType,
+        chartScaleType: internalChartScaleType
     };
 }
 
@@ -794,11 +802,11 @@ function getVisibleData(
         case xDifference <= totalMinPadding.prem:
             chartScaleType = 'prem';
             break;
-        case xDifference <= totalMinPadding.infant:
-            chartScaleType = 'infant';
-            break;
-        case xDifference <= totalMinPadding.smallChild:
-            chartScaleType = 'smallChild';
+            case xDifference <= totalMinPadding.infant:
+                chartScaleType = 'infant';
+                break;
+                case xDifference <= totalMinPadding.smallChild:
+                    chartScaleType = 'smallChild';
             break;
     }
     const relevantCentileDataSets = getRelevantDataSets(sex, measurementMethod, reference, lowestX, highestX, false);
@@ -820,5 +828,6 @@ export const delayedPubertyData = {
     male: ukwhoHeightMaleCentileData.centile_data[3].uk90_child.male.height[0].data, //ukwhoData.uk90_child.male.height[0].data,
     female: ukwhoHeightFemaleCentileData.centile_data[3].uk90_child.female.height[0].data //ukwhoData.uk90_child.female.height[0].data,
 };
+
 
 export { getVisibleData, getDomainsAndData };

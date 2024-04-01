@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-function RenderTickLabel(props) {
+function RenderTickLabel(props: any) {
     const x = props.x;
     const y = props.y;
     const text = props.text;
@@ -9,7 +9,8 @@ function RenderTickLabel(props) {
     const lowerX = props.domains.x[0];
 
     const tickColour = style.fill === '000000' ? 'black' : style.fill;
-
+    
+    // Creates a dashed tick to be used to increment the timespan along the x axis
     const Dash = () => {
         return (
             <svg>
@@ -17,11 +18,13 @@ function RenderTickLabel(props) {
             </svg>
         );
     };
+    // Creates a lollipop to display the number of months along the x axis
     const LolliPop = ({ textLabel }: { textLabel: number }) => {
         if (text !== lowerX) {
             return (
                 <svg>
                     <g>
+                        <title>{textLabel} month{textLabel > 1 ? `s` : null} </title>
                         <text
                             x={x}
                             y={y - 18}

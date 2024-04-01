@@ -1,12 +1,17 @@
-import { VictoryLegend, VictoryLegendProps } from "victory";
+import { VictoryLegendProps } from "victory";
+import { ClientMeasurementObject } from "../interfaces/ClientMeasurementObject";
+import { ClientStyle } from "../interfaces/ClientStyleObjects";
 import { nameForMeasurementMethod } from "./nameForMeasurementMethod";
 import { symbolForMeasurementType } from "./symbolForMeasurementType";
+import { VictoryLegendDatum } from "../interfaces/VictoryLegendData";
 
-export const selectedMeasurementMethods = (childMeasurements, styles) => {
-    const finalList=[];
+export const selectedMeasurementMethods = (childMeasurements: ClientMeasurementObject, styles: { [key: string]: any }) => {
+    
+    const finalList: VictoryLegendDatum[]=[];
     if (childMeasurements.height.length > 0){
         const symbol=symbolForMeasurementType("height");
         const name=nameForMeasurementMethod("height");
+        
         finalList.push({
             name: name,
             symbol: {
@@ -60,5 +65,6 @@ export const selectedMeasurementMethods = (childMeasurements, styles) => {
             }
         });
     }
+    
     return finalList;
 }

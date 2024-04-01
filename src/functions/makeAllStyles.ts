@@ -1,3 +1,19 @@
+/*
+This function is called on instantiation of RCPCHChart within RCPCHChar.tsx.
+
+This is refactored in version 7.0.0
+Users pass in one of 6 RCPCH defined themes: 'monochrome', 'traditional', 'tanner1', 'tanner2', 'tanner3', 'custom'
+The themes define styles for a series of exposed chart attributes. If the 'custom' theme is chosen, 'monochrome' is used as the basis for default styles.
+Any of the exposed attributes can be personalised.
+
+These are categorised into 6 interfaces:
+AxisStyle, CentileStyle, SDSStyle, ChartStyle, GridlineStyle, MeasurementStyle
+
+Most of the properties in each of the interfaces are optionals, as users may not want to alter everything. 
+
+This function therefore instantiates defaults where user values have not been provided.
+This creates a styles object that is passed to the chart.
+*/
 import { AxisStyle, CentileStyle, SDSStyle, ChartStyle, GridlineStyle, MeasurementStyle } from '../interfaces/StyleObjects';
 import { setOpacity } from './setOpacity';
 
@@ -6,8 +22,10 @@ const white = '#FFFFFF';
 const midGrey = '#b3b3b3';
 const lightGrey = '#d9d9d9';
 const lightLightGrey = "#f3f3f3";
-const lightPink = '#E497C1';
-const darkPink = '#cb3083';
+const aquaGreen ='#00BDAA'
+const orange = '#FF8000'
+const purple = '#7159AA'
+const strongGreen = '#66CC33'
 
 function makeAllStyles(
     chartStyle?: ChartStyle,
@@ -17,6 +35,7 @@ function makeAllStyles(
     sdsStyle?: SDSStyle,
     measurementStyle?: MeasurementStyle,
 ) {
+
     let newGridlineStyle = {
         stroke: lightGrey,
         strokeWidth: 0.25,
@@ -30,52 +49,39 @@ function makeAllStyles(
         };
     } else if (gridlineStyle?.gridlines === false) {
         newGridlineStyle = {
-            stroke: undefined,
+            stroke: '',
             strokeWidth: 0,
             strokeDasharray: '',
         };
     }
-    return {
-        chartHeight: chartStyle?.height ?? 475,
-        chartWidth: chartStyle?.width ?? 700,
-        chartPadding: {
-            left: chartStyle?.padding?.left ?? 50,
-            right: chartStyle?.padding?.right ?? 50,
-            top: chartStyle?.padding?.top ?? 25,
-            bottom: chartStyle?.padding?.bottom ?? 40,
-        },
+    return { 
         chartMisc: {
             background: {
                 fill: chartStyle?.backgroundColour ?? white,
             },
         },
         toolTipFlyout: {
-            stroke: chartStyle?.tooltipStroke ?? midGrey,
-            fill: chartStyle?.tooltipBackgroundColour ?? midGrey,
+            stroke: chartStyle?.tooltipStroke ?? midGrey, // tooltip border colour
+            fill: chartStyle?.tooltipBackgroundColour ?? midGrey, // tooltip backgroundcolour
         },
         toolTipMain: {
-            textAnchor: 'start',
-            stroke: chartStyle?.tooltipTextStyle?.colour ?? black,
-            strokeWidth: chartStyle?.tooltipTextStyle?.size ?? 0.25,
+            fontSize: chartStyle?.tooltipTextStyle?.size ?? 14,
             fill: chartStyle?.tooltipTextStyle?.colour ?? black,
             fontFamily: chartStyle?.tooltipTextStyle?.name ?? 'Montserrat',
-            fontWeight: chartStyle?.tooltipTextStyle?.weight ?? 'normal',
+            fontStyle: chartStyle?.tooltipTextStyle?.style ?? 'normal',
+            textAnchor: "start"
         },
         chartTitle: {
             fontFamily: chartStyle?.titleStyle?.name ?? 'Arial',
             color: chartStyle?.titleStyle?.colour ?? black,
             fontSize: chartStyle?.titleStyle?.size ?? 14,
-            fontWeight:
-                chartStyle?.titleStyle?.weight === 'italic' ? 'normal' : chartStyle?.titleStyle?.weight ?? 'bold',
-            fontStyle: chartStyle?.titleStyle?.weight === 'italic' ? 'italic' : 'normal',
+            fontStyle: chartStyle?.titleStyle?.style === 'italic' ? 'italic' : 'normal',
         },
         chartSubTitle: {
             fontFamily: chartStyle?.subTitleStyle?.name ?? 'Arial',
             color: chartStyle?.subTitleStyle?.colour ?? black,
             fontSize: chartStyle?.subTitleStyle?.size ?? 14,
-            fontWeight:
-                chartStyle?.subTitleStyle?.weight === 'italic' ? 'normal' : chartStyle?.titleStyle?.weight ?? 'normal',
-            fontStyle: chartStyle?.subTitleStyle?.weight === 'italic' ? 'italic' : 'normal',
+            fontStyle: chartStyle?.subTitleStyle?.style === 'italic' ? 'italic' : 'normal',
         },
         termArea: { data: { fill: chartStyle?.termFill ?? midGrey, stroke: chartStyle?.termStroke ?? midGrey } },
         xAxis: {
@@ -88,6 +94,7 @@ function makeAllStyles(
                 padding: 20,
                 fill: axisStyle?.axisLabelTextStyle?.colour ?? black,
                 fontFamily: axisStyle?.axisLabelTextStyle?.name ?? 'Arial',
+                fontStyle: axisStyle?.axisLabelTextStyle?.style ?? 'normal',
             },
             ticks: {
                 stroke: axisStyle?.tickLabelTextStyle?.colour ?? black,
@@ -98,6 +105,7 @@ function makeAllStyles(
                 fill: axisStyle?.tickLabelTextStyle?.colour ?? black,
                 color: axisStyle?.tickLabelTextStyle?.colour ?? black,
                 fontFamily: axisStyle?.axisLabelTextStyle?.name ?? 'Arial',
+                fontStyle: axisStyle?.axisLabelTextStyle?.style ?? 'normal',
             },
             grid: {
                 ...newGridlineStyle,
@@ -107,6 +115,7 @@ function makeAllStyles(
             fill: axisStyle?.tickLabelTextStyle?.colour ?? black,
             fontSize: axisStyle?.tickLabelTextStyle?.size ?? 8,
             fontFamily: axisStyle?.tickLabelTextStyle?.name ?? 'Arial',
+            fontStyle: axisStyle?.axisLabelTextStyle?.style ?? 'normal',
         },
         yAxis: {
             axis: {
@@ -118,6 +127,7 @@ function makeAllStyles(
                 padding: 25,
                 fill: axisStyle?.axisLabelTextStyle?.colour ?? black,
                 fontFamily: axisStyle?.axisLabelTextStyle?.name ?? 'Arial',
+                fontStyle: axisStyle?.axisLabelTextStyle?.style ?? 'normal',
             },
             ticks: {
                 stroke: axisStyle?.tickLabelTextStyle?.colour ?? black,
@@ -127,6 +137,7 @@ function makeAllStyles(
                 padding: 5,
                 fill: axisStyle?.tickLabelTextStyle?.colour ?? black,
                 fontFamily: axisStyle?.axisLabelTextStyle?.name ?? 'Arial',
+                fontStyle: axisStyle?.axisLabelTextStyle?.style ?? 'normal',
             },
             grid: {
                 ...newGridlineStyle,
@@ -136,7 +147,7 @@ function makeAllStyles(
             data: {
                 stroke: centileStyle?.delayedPubertyAreaFill ?? midGrey,
                 fill: centileStyle?.delayedPubertyAreaFill ?? midGrey,
-                strokeWidth: centileStyle?.centileStrokeWidth ?? 0.5,
+                strokeWidth: 0.5,
             },
         },
         delayedPubertyThresholdLine: {
@@ -154,7 +165,7 @@ function makeAllStyles(
         sdsLine: {  // these are the sds lines on the BMI chart
             data: {
                 stroke: centileStyle?.sdsStroke ?? '#A9A9A9',
-                strokeWidth: centileStyle?.sdsStrokeWidth ?? 1.0,
+                strokeWidth: 1.0,
                 strokeLinecap: 'round',
                 strokeDasharray: '5 5',
             }
@@ -162,7 +173,7 @@ function makeAllStyles(
         dashedCentile: {
             data: {
                 stroke: centileStyle?.centileStroke ?? black,
-                strokeWidth: centileStyle?.centileStrokeWidth ?? 1.5,
+                strokeWidth: 1.5,
                 strokeLinecap: 'round',
                 strokeDasharray: '5 5',
             },
@@ -170,42 +181,47 @@ function makeAllStyles(
         continuousCentile: {
             data: {
                 stroke: centileStyle?.centileStroke ?? black,
-                strokeWidth: centileStyle?.centileStrokeWidth ?? 1.5,
+                strokeWidth: 1.5,
                 strokeLinecap: 'round',
             },
         },
+        centileLabel: {
+            fontSize: 6,
+            fontFamily: 'Montserrat',
+            fill: centileStyle?.centileStroke ?? black
+        },
         heightSDS: {
             data: {
-                stroke: sdsStyle?.heightStroke ?? setOpacity(centileStyle?.centileStroke ?? black, 1.0),
-                strokeWidth: centileStyle?.centileStrokeWidth ?? 1.5,
+                stroke: aquaGreen,
+                strokeWidth: 1.5,
                 strokeLinecap: 'round',
             }
         },
         weightSDS: {
             data: {
-                stroke: sdsStyle?.weightStroke ?? setOpacity(centileStyle?.centileStroke ?? black, 0.5),
-                strokeWidth: centileStyle?.centileStrokeWidth ?? 1.5,
+                stroke: orange,
+                strokeWidth: 1.5,
                 strokeLinecap: 'round',
             }
         },
         ofcSDS: {
             data: {
-                stroke: sdsStyle?.ofcStroke ?? setOpacity(centileStyle?.centileStroke ?? black, 0.25),
-                strokeWidth: centileStyle?.centileStrokeWidth ?? 1.5,
+                stroke: purple,
+                strokeWidth: 1.5,
                 strokeLinecap: 'round',
             }
         },
         bmiSDS: {
             data: {
-                stroke: sdsStyle?.bmiStroke ?? setOpacity(centileStyle?.centileStroke ?? black, 0.125),
-                strokeWidth: centileStyle?.centileStrokeWidth ?? 1.5,
+                stroke: strongGreen,
+                strokeWidth: 1.5,
                 strokeLinecap: 'round',
             }
         },
         midParentalCentile: {
             data: {
                 stroke: centileStyle?.midParentalCentileStroke ?? black,
-                strokeWidth: centileStyle?.midParentalCentileStrokeWidth ?? 1.5,
+                strokeWidth: 1.5,
                 strokeLinecap: 'round',
                 strokeOpacity: 1.0,
             }
@@ -213,7 +229,7 @@ function makeAllStyles(
         midParentalSDS: {
             data: {
                 stroke: centileStyle?.midParentalCentileStroke ?? black,
-                strokeWidth: centileStyle?.midParentalCentileStrokeWidth ?? 1.5,
+                strokeWidth: 1.5,
                 strokeLinecap: 'round',
                 strokeOpacity: 1.0,
                 strokeDasharray: '2 5'
@@ -241,17 +257,19 @@ function makeAllStyles(
                 fill: measurementStyle?.highlightedMeasurementFill ?? black
             }
         },
+        eventTextStyle: {
+            size: measurementStyle?.eventTextStyle?.size ?? 14,
+            name: measurementStyle?.eventTextStyle?.name ?? 'Montserrat',
+            colour: measurementStyle?.eventTextStyle?.colour ?? black,
+            style: measurementStyle?.eventTextStyle?.style ?? 'normal'
+        },
         toggleStyle: {
-            activeColour: chartStyle?.toggleButtonActiveColour ?? darkPink,
-            inactiveColour: chartStyle?.toggleButtonInactiveColour ?? lightPink,
+            activeColour: chartStyle?.toggleButtonActiveColour ?? black,
+            inactiveColour: chartStyle?.toggleButtonInactiveColour ?? midGrey,
             fontFamily: chartStyle?.toggleButtonTextStyle?.name ?? 'Arial',
             color: chartStyle?.toggleButtonTextStyle?.colour ?? white,
             fontSize: chartStyle?.toggleButtonTextStyle?.size ?? 14,
-            fontWeight:
-                chartStyle?.toggleButtonTextStyle?.weight === 'italic'
-                    ? 'normal'
-                    : chartStyle?.toggleButtonTextStyle?.weight ?? 'normal',
-            fontStyle: chartStyle?.toggleButtonTextStyle?.weight === 'italic' ? 'italic' : 'normal',
+            fontStyle: chartStyle?.toggleButtonTextStyle?.style === 'italic' ? 'italic' : 'normal',
         },
     };
 }

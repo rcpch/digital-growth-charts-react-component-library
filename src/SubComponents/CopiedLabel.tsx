@@ -2,16 +2,16 @@ import styled from 'styled-components';
 import { keyframes, css } from 'styled-components';
 
 export const CopiedLabel = styled.h6<{
-    active: boolean;
+    $active: boolean;
 }>
 `
 flex-grow:0;
 text-align: center;
 margin-left: 5px;
 opacity: 0;
-visibility: ${props => props.active ? `visible` : `hidden`};
+visibility: ${({$active}) => $active ? `visible` : `hidden`};
 animation: ${
-    props => (props.active ?
+    ({$active}) => ($active ?
         css`
         ${fadeInAnimation}
         fadeIn 5s;

@@ -30,9 +30,9 @@ class ErrorBoundary extends React.Component {
         return { hasError: true };
     }
 
-    componentDidCatch(error, errorInfo) {
+    componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
         console.error({ error: error.message, errorInfo: errorInfo });
-        this.setState({ errorMessage: error.message });
+        this.setState({ errorMessage: error.message });   
     }
 
     handleClick() {
@@ -53,9 +53,11 @@ class ErrorBoundary extends React.Component {
                         >
                             {!this.state.showError ? 'Show Details' : 'Hide Details'}
                         </StyledErrorButton>
-                        <ChartTitle show={this.state.showError} {...this.props.styles.chartSubTitle}>
-                            {this.state.errorMessage}
-                        </ChartTitle>
+                        { this.state.showError &&
+                            <ChartTitle {...this.props.styles.chartSubTitle}>
+                                {this.state.errorMessage}
+                            </ChartTitle>
+                        }
                     </TextContainer>
                 </ErrorContainer>
             );
@@ -69,7 +71,7 @@ const ErrorContainer = styled.div<{ height: number; width: number }>`
     display: block;
     margin: auto;
     height: ${({ height }) => height}px;
-    width: ${({ width }) => width}px;
+    width: ${({ width }) => width == Infinity ? 0 : width}px;
 `;
 
 const TextContainer = styled.div`

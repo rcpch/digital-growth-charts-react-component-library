@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Point } from 'victory';
 
-export const XPoint = (props) => {
+export const XPoint = (props: any) => {
     const transform = `rotate(45, ${props.x}, ${props.y})`;
     
     let crossColour = props?.colour ?? 'black';

@@ -16,43 +16,72 @@ import makeAllStyles from '../functions/makeAllStyles';
 import ErrorBoundary from '../SubComponents/ErrorBoundary';
 import { ClientMeasurementObject } from '../interfaces/ClientMeasurementObject';
 import defineNonStylePropDefaults from '../functions/defineNonStylePropDefaults';
+import { nameForReference } from '../functions/nameForReference'
+import { nameForMeasurementMethod } from '../functions/nameForMeasurementMethod';
+import { stylesForTheme } from '../functions/stylesForTheme';
 
 // const VERSION_LOG = '[VI]Version: {version} - built on {date}[/VI]'; 
 const VERSION = '[VI]v{version}[/VI]'; // uses version injector plugin to Rollup to report package.json version
 
 const RCPCHChart: React.FC<RCPCHChartProps> = ({
     title,
-    subtitle,
     measurementMethod,
     reference,
     sex,
-    measurementsArray,
+    measurements,
     midParentalHeightData,
     enableZoom = true,
-    chartStyle,
-    axisStyle,
-    gridlineStyle,
-    centileStyle,
-    sdsStyle,
-    measurementStyle,
     chartType,
     enableExport,
     exportChartCallback,
-    clinicianFocus
+    clinicianFocus,
+    theme,
+    customThemeStyles
 }) => {
-    const styles = makeAllStyles(chartStyle, axisStyle, gridlineStyle, centileStyle, sdsStyle, measurementStyle);
-    
+
     clinicianFocus = defineNonStylePropDefaults('clinicianFocus', clinicianFocus);
     enableExport = defineNonStylePropDefaults('enableExport', enableExport);
     chartType = defineNonStylePropDefaults('chartType', chartType);
+
+    // get styles for each theme
+    let all_styles = stylesForTheme(theme=theme, sex=sex);
+
+    if(customThemeStyles != undefined){
+        // replace any default theme styles with custom styles if provided by user
+        // custom styles must be provided in the correct format
+        for (const theme_style in all_styles){
+            for (const property in customThemeStyles[theme_style]){
+                if(property != undefined){
+                    all_styles[theme_style][property] = customThemeStyles[theme_style][property];
+                }
+            }
+        }
+    }
+
+
+    // spread styles into individual objects
+    const { chartStyle, axisStyle, gridlineStyle, centileStyle, sdsStyle, measurementStyle } = all_styles
+
+    // make granular styles to pass into charts
+    const styles = makeAllStyles(chartStyle, axisStyle, gridlineStyle, centileStyle, sdsStyle, measurementStyle);
+    
     
     // uncomment in development
     // console.log("loading from locally...");
+
+    // create subtitle from sex, reference and measurementMethod
+    const subtitleReferenceMeasurementMethod = `${nameForReference(reference)} - ${nameForMeasurementMethod(measurementMethod)}`
+    const subtitle = sex==="male" ? `Boys - ${subtitleReferenceMeasurementMethod}` : `Girls - ${subtitleReferenceMeasurementMethod}`
     
     let isCentile=(chartType === "centile" || chartType === undefined);
-    
-    
+
     if (isCentile){
+        /* Centile charts as of 7.0.0 receive the measurements array as a different structure:
+        {
+            [measurementMethod]: [...],
+        }
+        */
+
         return (
             <ErrorBoundary styles={styles}>
                 <CentileChart
@@ -60,7 +89,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
                     reference={reference}
                     title={title}
                     subtitle={subtitle}
-                    childMeasurements={measurementsArray || []}
+                    childMeasurements={ measurements[measurementMethod] }
                     midParentalHeightData={midParentalHeightData || {}}
                     measurementMethod={measurementMethod}
                     sex={sex}
@@ -73,7 +102,16 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
             </ErrorBoundary>
         );
     } else {
-        const castArray = measurementsArray as ClientMeasurementObject;
+        /* Since the SDS chart shows multiple measurement methods on a single chart, it receives the measurements array as a different structure:
+        {
+            height?: [],
+            weight?: [],
+            bmi?: [],
+            ofc?: [],
+        }
+        */
+        const castArray = measurements as ClientMeasurementObject;
+
         
         return (
             <ErrorBoundary styles={styles}>
@@ -90,6 +128,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
                     styles={styles}
                     enableExport={enableExport}
                     exportChartCallback={exportChartCallback}
+                    clinicianFocus={clinicianFocus}
                 />
             </ErrorBoundary>
         );

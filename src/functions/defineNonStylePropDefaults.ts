@@ -1,7 +1,3 @@
-import { Measurement } from "../interfaces/RCPCHMeasurementObject"
-import { MidParentalHeightObject } from "../interfaces/MidParentalHeightObject"
-
-
 function defineNonStylePropDefaults(
     propName: string,
     propValue: any

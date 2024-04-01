@@ -14,6 +14,11 @@ export const ukwhoWeightFemaleCentileData: ReferenceGroup = {
                             "data": [
                                 {
                                     "l": "0.4",
+                                    "x": -0.33,
+                                    "y": null
+                                },
+                                {
+                                    "l": "0.4",
                                     "x": -0.3258,
                                     "y": 0.2724
                                 },
@@ -123,6 +128,11 @@ export const ukwhoWeightFemaleCentileData: ReferenceGroup = {
                             "sds": -2.0,
                             "centile": 2.0,
                             "data": [
+                                {
+                                    "l": "2.0",
+                                    "x": -0.33,
+                                    "y": null
+                                },
                                 {
                                     "l": "2.0",
                                     "x": -0.3258,
@@ -236,6 +246,11 @@ export const ukwhoWeightFemaleCentileData: ReferenceGroup = {
                             "data": [
                                 {
                                     "l": "9.0",
+                                    "x": -0.33,
+                                    "y": null
+                                },
+                                {
+                                    "l": "9.0",
                                     "x": -0.3258,
                                     "y": 0.4237
                                 },
@@ -345,6 +360,11 @@ export const ukwhoWeightFemaleCentileData: ReferenceGroup = {
                             "sds": -0.67,
                             "centile": 25.0,
                             "data": [
+                                {
+                                    "l": "25.0",
+                                    "x": -0.33,
+                                    "y": null
+                                },
                                 {
                                     "l": "25.0",
                                     "x": -0.3258,
@@ -458,6 +478,11 @@ export const ukwhoWeightFemaleCentileData: ReferenceGroup = {
                             "data": [
                                 {
                                     "l": "50.0",
+                                    "x": -0.33,
+                                    "y": null
+                                },
+                                {
+                                    "l": "50.0",
                                     "x": -0.3258,
                                     "y": 0.5589
                                 },
@@ -567,6 +592,11 @@ export const ukwhoWeightFemaleCentileData: ReferenceGroup = {
                             "sds": 0.67,
                             "centile": 75.0,
                             "data": [
+                                {
+                                    "l": "75.0",
+                                    "x": -0.33,
+                                    "y": null
+                                },
                                 {
                                     "l": "75.0",
                                     "x": -0.3258,
@@ -680,6 +710,11 @@ export const ukwhoWeightFemaleCentileData: ReferenceGroup = {
                             "data": [
                                 {
                                     "l": "91.0",
+                                    "x": -0.33,
+                                    "y": null
+                                },
+                                {
+                                    "l": "91.0",
                                     "x": -0.3258,
                                     "y": 0.684
                                 },
@@ -791,6 +826,11 @@ export const ukwhoWeightFemaleCentileData: ReferenceGroup = {
                             "data": [
                                 {
                                     "l": "98.0",
+                                    "x": -0.33,
+                                    "y": null
+                                },
+                                {
+                                    "l": "98.0",
                                     "x": -0.3258,
                                     "y": 0.7438
                                 },
@@ -900,6 +940,11 @@ export const ukwhoWeightFemaleCentileData: ReferenceGroup = {
                             "sds": 2.67,
                             "centile": 99.6,
                             "data": [
+                                {
+                                    "l": "99.6",
+                                    "x": -0.33,
+                                    "y": null
+                                },
                                 {
                                     "l": "99.6",
                                     "x": -0.3258,

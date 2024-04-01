@@ -1,16 +1,18 @@
+import { Datum } from 'victory';
 import { measurementSuffix } from '../functions/measurementSuffix';
+import { MidParentalHeightObject } from '../interfaces/MidParentalHeightObject';
 import addOrdinalSuffix from './addOrdinalSuffix';
 
 export function tooltipText(
     reference: string,
     measurementMethod: string,
-    datum: any,
-    midParentalHeightData,
+    datum: Datum,
+    midParentalHeightData: MidParentalHeightObject,
     clinicianFocus: boolean, // flag passed in from user - defines if tooltip text aimed at clinicians or families
-    sex: string
+    sex: 'male' | 'female'
 ): string {
 
-    const {
+    const { 
         childName,
         x, // the decimal age
         l, // labels
@@ -21,6 +23,9 @@ export function tooltipText(
         gestational_age,
         y,
         observation_value_error,
+        corrected_measurement_error,
+        corrected_decimal_age_error,
+        chronological_decimal_age_error,
         age_error,
         lay_comment,
         clinician_comment,
@@ -31,7 +36,26 @@ export function tooltipText(
         bone_age_sds,
         bone_age_centile,
         bone_age_type,
+        corrected_percentage_median_bmi,
+        chronological_percentage_median_bmi
     } = datum;
+
+    // flag passed in from user - if clinician, show clinician age advice strings, else show child/family advice 
+    const comment = clinicianFocus ? clinician_comment : lay_comment;
+
+    if (corrected_decimal_age_error && age_type === 'corrected_age'){
+        return corrected_decimal_age_error
+    }
+    if (corrected_measurement_error && age_type === 'corrected_age'){
+        let corrected_gestational_age=''
+        if (gestational_age){
+            const finalCorrectedString = comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
+            corrected_gestational_age=`${gestational_age.corrected_gestation_weeks}+${gestational_age.corrected_gestation_days} weeks`
+            return `${calendar_age}\nCorrected age: ${corrected_gestational_age} on ${observation_date}\n${finalCorrectedString}\n${y}${measurementSuffix(measurementMethod)}\n${corrected_measurement_error}`;
+        }
+        const finalCorrectedString = comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
+        return `Corrected age: ${calendar_age} on ${observation_date}\n${finalCorrectedString}\n${y} ${measurementSuffix(measurementMethod)} ${corrected_measurement_error}`;
+    }
 
     // midparental height labels
     if (midParentalHeightData){
@@ -59,6 +83,15 @@ export function tooltipText(
 
     // l represent labels that represent reference transitions, puberty area or sds labels for the BMI SDS lines
     if (l) {
+        
+        if (x <= 0.038329911019849415 && x >= -0.057494866529774126 && measurementMethod === 'weight' && reference === 'uk-who'){
+            // 37 weeks gest - 42
+            if (childName.includes("centileLine")){
+                // these are the centile labels   
+                    return `${addOrdinalSuffix(l)} centile`;
+            }
+            return l;   
+        }
         // reference transit point or puberty shaded area labels
         if (x === 0.0383 && reference === 'uk-who') {
             return 'Transit point from\nUK90 to WHO data';
@@ -68,11 +101,11 @@ export function tooltipText(
         }
         if (x === 2 && measurementMethod === 'height' && reference == 'uk-who') {
             // step down at 2 y where children measured standing (height), not lying (length)
-            return "Measure length until x 2;\nMeasure height after age 2.\nA child’s height is usually\nslightly less than their length.";
+            return "Measure length until age 2y;\nMeasure height after age 2y.\nA child’s height is usually\nslightly less than their length.";
         }
         if (x === 2 && measurementMethod === 'height' && reference == 'uk-who') {
             // step down at 2 y where children measured standing (height), not lying (length)
-            return "Measure length until x 2;\nMeasure height after age 2.\nA child’s height is usually\nslightly less than their length.";
+            return "Measure length until age 2y;\nMeasure height after age 2y.\nA child’s height is usually\nslightly less than their length.";
         }
         if (l === 'For all Children plotted in this shaded area see instructions.' && reference == 'uk-who') {
             // delayed puberty if plotted in this area
@@ -90,15 +123,15 @@ export function tooltipText(
 
         if (childName.includes("centileLine")){
             // these are the centile labels
-            if (datum._voronoiX < 20){
-                // fix for duplicate text if tooltip called from mouse point where x > chart area
+            
+            if (datum.x < 20 && y != null){
+                // fix for duplicate text if tooltip called from mouse point where x > chart area or 
+                // y is ull - situations when hovering below the chart in areas where centile data do not exist
                 return `${addOrdinalSuffix(l)} centile`;
             }
         }
     }
     if (centile_band) {
-        // flag passed in from user - if clinician, show clinician age advice strings, else show child/family advice 
-        const comment = clinicianFocus ? clinician_comment : lay_comment;
 
         // bone age text
         if ((childName==="chronologicalboneage" || childName === "correctedboneage") && b){
@@ -150,38 +183,22 @@ export function tooltipText(
             splitCentile[wantedIndex] = 'is\n';
             finalCentile = splitCentile.join(' ').replace('is\n ', 'is\n');
         }
-
-        if (observation_value_error === null && age_error === null) {
-            const year=observation_date.split('/')[2]
-            const month=observation_date.split('/')[1]-1
-            const day=observation_date.split('/')[0]
-
-            // sds in square brackets
-            const formatted_observation_date = new Date(year,month,day).toLocaleDateString("en-GB", {year: "numeric", month: "short", day: "numeric"});
-            const sds_string = `[SDS: ${sds > 0 ? '+' + Math.round(sds*1000)/1000 : Math.round(sds*1000)/1000 }]`;
-            if (age_type === 'corrected_age' && x > 0.0383) {
-                const finalCorrectedString = comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
-                return `Corrected age: ${calendar_age} on ${formatted_observation_date}\n${finalCorrectedString}\n${y} ${measurementSuffix(measurementMethod)} ${ clinicianFocus ? sds_string : '\n' + finalCentile}`;
-            }
-            if (age_type === 'chronological_age') {
-                let finalChronologicalString = comment
-                    .replaceAll(', ', ',\n')
-                    .replaceAll('. ', '.\n')
-                    .replaceAll('account ', 'account\n');
-                return `Chronological age: ${calendar_age} on ${formatted_observation_date}\n${finalChronologicalString}\n${y} ${measurementSuffix(measurementMethod)} ${ clinicianFocus ? sds_string : '\n' + finalCentile}`;
-            }
-        }
+        
+        const year=observation_date.split('/')[2]
+        const month=observation_date.split('/')[1]-1
+        const day=observation_date.split('/')[0]
+        const formatted_observation_date = new Date(year,month,day).toLocaleDateString("en-GB", {year: "numeric", month: "short", day: "numeric"});
+        
         // measurement data points
         if (x <= 0.0383) {
-
             // <= 42 weeks
+            
+
             /// plots
             if (observation_value_error === null ) {
-                const year=observation_date.split('/')[2]
-                const month=observation_date.split('/')[1]-1
-                const day=observation_date.split('/')[0]
                 // && age_error === null temporarily removed from if statement as error in api return object for EDD < observation_date
-                const formatted_observation_date = new Date(year,month,day).toLocaleDateString("en-GB", {year: "numeric", month: "short", day: "numeric"});
+
+
                 let corrected_gestational_age=''
                 if (gestational_age){
                     corrected_gestational_age=`${gestational_age.corrected_gestation_weeks}+${gestational_age.corrected_gestation_days} weeks`
@@ -196,6 +213,40 @@ export function tooltipText(
                     let finalChronologicalString = comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
                     return `Chronological age: ${calendar_age}\n${formatted_observation_date}\n${finalChronologicalString}\n${y} ${measurementSuffix(measurementMethod)} ${ clinicianFocus ? sds_string : '\n' + finalCentile}`;
                 }
+            }
+        } else {
+            // over 42 weeks
+            // if no errors, return the ages, measurement and calculations
+            let correctedPercentageMedianBMI = ""
+            let chronologicalPercentageMedianBMI = ""
+            if (measurementMethod==="bmi"){
+                correctedPercentageMedianBMI = `Percentage median BMI: ${Math.round(corrected_percentage_median_bmi)}%`
+                chronologicalPercentageMedianBMI = `Percentage median BMI: ${Math.round(chronological_percentage_median_bmi)}%`
+            }
+            
+            // sds in square brackets
+            const sds_string = `[SDS: ${sds > 0 ? '+' + Math.round(sds*1000)/1000 : Math.round(sds*1000)/1000 }]`;
+            
+            if (age_type === 'corrected_age' && x > 0.0383) {
+                const finalCorrectedString = comment.replaceAll(', ', ',\n').replaceAll('. ', '.\n');
+                let returnString =  `Corrected age: ${calendar_age} on ${formatted_observation_date}\n${finalCorrectedString}\n${y} ${measurementSuffix(measurementMethod)} ${ clinicianFocus ? sds_string : '\n' + finalCentile}`;
+                if (measurementMethod==="bmi"){
+                    returnString += `\n${correctedPercentageMedianBMI}`
+                }
+                return returnString;
+
+            }
+            if (age_type === 'chronological_age') {
+                
+                let finalChronologicalString = comment
+                    .replaceAll(', ', ',\n')
+                    .replaceAll('. ', '.\n')
+                    .replaceAll('account ', 'account\n');
+                let returnString =  `Chronological age: ${calendar_age} on ${formatted_observation_date}\n${finalChronologicalString}\n${y} ${measurementSuffix(measurementMethod)} ${ clinicianFocus ? sds_string : '\n' + finalCentile}`;
+                if (measurementMethod === "bmi"){
+                    returnString += `\n${chronologicalPercentageMedianBMI}`;
+                }
+                return returnString;
             }
         }
     }

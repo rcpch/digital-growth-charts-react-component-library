@@ -1,7 +1,8 @@
 import * as React from 'react';
+import '../global.css';
 
-export const EventCaret = (props) => {
-    const { x, y, eventsText } = props;
+export const EventCaret = (props: any) => {
+    const { x, y, eventsText, style} = props;
     const textHeight = 15* eventsText.length;
     let inverted=false;
     let peakY = y+85
@@ -11,6 +12,11 @@ export const EventCaret = (props) => {
         cornerY = y-265;
         inverted=true;
     }
+    let finalX=x
+    if (finalX < 150){
+        finalX += 100;
+    }
+
     const coords =  x-15 + " " + cornerY + " " + x + " " + peakY + " " + (x+15) + " " + cornerY
     return (
         <svg>
@@ -21,11 +27,13 @@ export const EventCaret = (props) => {
                 fill="none"
                 pointerEvents="visible"
             />
-            <text x={x} y={inverted ? (peakY-textHeight-25):(peakY+25)} textAnchor="middle" color="#A9A9A9">
-                {eventsText.map(eventText => {
-                    return <tspan x={x} dy={15}>{eventText}</tspan>
-                })}
+            <text x={finalX} y={inverted ? (peakY-textHeight-25):(peakY+25)} textAnchor="middle" fontFamily={style.name} fontSize={style.size} fontStyle={style.style} fill={style.colour}>
+                    {eventsText.map((eventText: string, index) => {
+                        return <tspan key={eventText} x={finalX} dy={15}>{eventText}</tspan>
+                    })}
             </text>
         </svg>
     )
 }
+
+

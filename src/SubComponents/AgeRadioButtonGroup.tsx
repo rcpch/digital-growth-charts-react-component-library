@@ -1,9 +1,10 @@
 import * as React from 'react';
 
-export const AgeRadioButtonGroup = (props) => {
+export const AgeRadioButtonGroup = (props: any) => {
     return (
         <div onChange={props.handleClick} className={props.className}>
             <input
+                data-testid='adjusted'
                 type="radio"
                 id="adjusted"
                 value="adjusted"
@@ -12,6 +13,7 @@ export const AgeRadioButtonGroup = (props) => {
             />
             <label htmlFor="adjusted">Corrected Age</label>
             <input
+                data-testid='unadjusted'
                 type="radio"
                 id="unadjusted"
                 value="unadjusted"
@@ -20,6 +22,7 @@ export const AgeRadioButtonGroup = (props) => {
             />
             <label htmlFor="unadjusted">Chronological Age</label>
             <input
+                data-testid='both'
                 type="radio"
                 id="both"
                 value="both"

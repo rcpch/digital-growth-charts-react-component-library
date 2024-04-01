@@ -1,5 +1,5 @@
 export const nameForMeasurementMethod = (measurementMethod: string): string =>{
-    let name="Height";
+    let name="Height/Length";
     if (measurementMethod==="weight"){
         name="Weight";
     }

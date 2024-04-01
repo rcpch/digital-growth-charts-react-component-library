@@ -20,6 +20,9 @@ export function isCrowded(domains: any, childMeasurements: Measurement[]) {
         }
     }
     const currentDomainInterval = domains.x[1] - domains.x[0];
+    if (smallestInterval === null) {
+       return true;
+    }
     const ratio = smallestInterval / currentDomainInterval;
     return ratio < 0.01 ? true : false;
 }
