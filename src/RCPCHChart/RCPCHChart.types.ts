@@ -1,13 +1,14 @@
 import { Measurement } from '../interfaces/RCPCHMeasurementObject';
 import { MidParentalHeightObject } from '../interfaces/MidParentalHeightObject';
 import { AxisStyle, CentileStyle, ChartStyle, GridlineStyle, MeasurementStyle, SDSStyle } from '../interfaces/StyleObjects';
+import { ClientMeasurementObject } from '../interfaces/ClientMeasurementObject';
 
 export interface RCPCHChartProps {
     title: string; 
     measurementMethod: 'height' | 'weight' | 'ofc' | 'bmi';
     reference: 'uk-who' | 'turner' | 'trisomy-21';
     sex: 'male' | 'female';
-    measurementsArray: Measurement[];
+    measurements: ClientMeasurementObject;
     midParentalHeightData?: MidParentalHeightObject | undefined;
     enableZoom?: boolean;
     chartType?: 'centile' | 'sds';

@@ -13,7 +13,7 @@ export default meta;
 type Story = StoryObj<typeof RCPCHChart>;
 
 const customChartStyle: ChartStyle = {
-  backgroundColour: "#e4f6e6"
+  backgroundColour: "tomato"
 }
 
 const customStyles = {
@@ -26,7 +26,12 @@ export const SDSChart: Story = {
     measurementMethod: 'height',
     reference: 'uk-who',
     sex: 'female',
-    measurementsArray: twoToEight,
+    measurements: {
+      height: twoToEight,
+      weight: [],
+      bmi: [],
+      ofc: []
+    },
     midParentalHeightData: {},
     enableZoom: true,
     chartType: 'sds',
@@ -44,7 +49,7 @@ export const CentileChart: Story = {
     measurementMethod: 'height',
     reference: 'uk-who',
     sex: 'female',
-    measurementsArray: twoToEight,
+    measurements: {height: twoToEight},
     midParentalHeightData: {},
     enableZoom: true,
     chartType: 'centile',
@@ -55,19 +60,21 @@ export const CentileChart: Story = {
   },
 };
 
-export const GreenCentileChart: Story = {
+export const TomatoCentileChart: Story = {
   args: {
     title: 'Patient Name - Hospital Number',
     measurementMethod: 'height',
     reference: 'uk-who',
     sex: 'female',
-    measurementsArray: twoToEight,
+    measurements: {
+      height: twoToEight
+    },
     midParentalHeightData: {},
     enableZoom: true,
     chartType: 'centile',
     enableExport: false,
     exportChartCallback: ()=>{},
-    theme: 'traditional',
+    theme: 'monochrome',
     customThemeStyles: customStyles
   },
 };

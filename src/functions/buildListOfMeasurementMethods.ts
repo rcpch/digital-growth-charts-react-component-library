@@ -11,6 +11,7 @@ export const selectedMeasurementMethods = (childMeasurements: ClientMeasurementO
     if (childMeasurements.height.length > 0){
         const symbol=symbolForMeasurementType("height");
         const name=nameForMeasurementMethod("height");
+        
         finalList.push({
             name: name,
             symbol: {
@@ -64,5 +65,6 @@ export const selectedMeasurementMethods = (childMeasurements: ClientMeasurementO
             }
         });
     }
+    
     return finalList;
 }

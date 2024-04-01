@@ -121,13 +121,12 @@ const SDSChart: React.FC<SDSChartProps> = (
     
     const [legendSelections, setLegendSelections] = useState(legendMeasurements);
     
-    
-    
     let termAreaData: null | any[] = null;
     
     const shadedTermAreaText =
     'Babies born in this shaded area\nare term. It is normal for\nbabies to lose weight over\nthe first two weeks of life.\nMedical review should be sought\nif weight has dropped by more\nthan 10% of birth weight or\nweight is still below birth weight\nthree weeks after birth.';
     
+
     let { computedDomains, chartScaleType } = useMemo(
         () =>
             getDomainsAndData(

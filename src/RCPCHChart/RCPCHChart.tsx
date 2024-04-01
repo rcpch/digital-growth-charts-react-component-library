@@ -28,7 +28,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     measurementMethod,
     reference,
     sex,
-    measurementsArray,
+    measurements,
     midParentalHeightData,
     enableZoom = true,
     chartType,
@@ -76,6 +76,9 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     let isCentile=(chartType === "centile" || chartType === undefined);
 
     if (isCentile){
+
+        const measurementsArray = measurements[measurementMethod] != undefined ? measurements[measurementMethod] : []
+
         return (
             <ErrorBoundary styles={styles}>
                 <CentileChart
@@ -83,7 +86,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
                     reference={reference}
                     title={title}
                     subtitle={subtitle}
-                    childMeasurements={measurementsArray || []}
+                    childMeasurements={ measurementsArray }
                     midParentalHeightData={midParentalHeightData || {}}
                     measurementMethod={measurementMethod}
                     sex={sex}
@@ -96,7 +99,17 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
             </ErrorBoundary>
         );
     } else {
-        const castArray = measurementsArray as ClientMeasurementObject;
+        /* Since the SDS chart shows multiple measurement methods on a single chart, it receives the measurements array as a different structure:
+        {
+            height?: [],
+            weight?: [],
+            bmi?: [],
+            ofc?: [],
+        }
+        */
+        const castArray = measurements as ClientMeasurementObject;
+
+        
         return (
             <ErrorBoundary styles={styles}>
                 <SDSChart
