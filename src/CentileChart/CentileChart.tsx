@@ -268,8 +268,6 @@ function CentileChart({
 
             <ChartContainer>
 
-                {/* <GlobalFonts></GlobalFonts> */}
-
                 <TitleContainer>
                     <ChartTitle {...styles.chartTitle}>{title}</ChartTitle>
                     <ChartTitle {...styles.chartSubTitle}>{subtitle}</ChartTitle>

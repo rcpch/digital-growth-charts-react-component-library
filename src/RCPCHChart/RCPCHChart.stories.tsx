@@ -38,7 +38,7 @@ export const SDSChart: Story = {
     enableExport: false,
     exportChartCallback: ()=>{},
     clinicianFocus: true,
-    theme: 'monochrome',
+    theme: 'tanner3',
     customThemeStyles: {}
   }
 };

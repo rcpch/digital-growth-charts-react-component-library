@@ -76,8 +76,11 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     let isCentile=(chartType === "centile" || chartType === undefined);
 
     if (isCentile){
-
-        const measurementsArray = measurements[measurementMethod] != undefined ? measurements[measurementMethod] : []
+        /* Centile charts as of 7.0.0 receive the measurements array as a different structure:
+        {
+            [measurementMethod]: [...],
+        }
+        */
 
         return (
             <ErrorBoundary styles={styles}>
@@ -86,7 +89,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
                     reference={reference}
                     title={title}
                     subtitle={subtitle}
-                    childMeasurements={ measurementsArray }
+                    childMeasurements={ measurements[measurementMethod] }
                     midParentalHeightData={midParentalHeightData || {}}
                     measurementMethod={measurementMethod}
                     sex={sex}
