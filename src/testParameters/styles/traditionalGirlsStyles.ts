@@ -48,7 +48,7 @@ export const traditionalGirlChartStyles: ChartStyle = {
     toggleButtonActiveColour: "#c9559d",
     toggleButtonTextStyle: {
         name: "Arial",
-        colour: "#000000",
+        colour: "#FFFFFF",
         size: 14,
         style: 'normal'
     }
