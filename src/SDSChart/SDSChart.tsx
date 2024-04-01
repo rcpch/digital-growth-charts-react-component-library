@@ -344,10 +344,6 @@ const SDSChart: React.FC<SDSChartProps> = (
                         makeAllStyles function.
                         Each line is associated with a scatter also, whose symbol varies
                         */
-                        if (measurementTypeItem.measurementTypeData.length == 0){
-                            // if there is no data for this measurement, do not run this code as leads to css errors
-                            return;
-                        }
 
                         let measurementStyles;
                         let linkLineStyles: Line;
@@ -373,13 +369,18 @@ const SDSChart: React.FC<SDSChartProps> = (
                             linkLineStyles=styles?.ofcSDS;
                             showData=showOFC;
                         }
+
+                        if (measurementTypeItem.measurementTypeData.length == 0 || !showData){
+                            // if there is no data for this measurement, do not run this code as leads to css errors
+                            return;
+                        }
                         
                         
                         return (
                             <VictoryGroup
                                 key={measurementTypeItem.measurementType+"-"+itemIndex}
                             >
-                                { showChronologicalAge && showData &&
+                                { showChronologicalAge && showData && measurementTypeItem.measurementTypeData.length > 0 &&
                                     <VictoryGroup 
                                         key={`chronological-${itemIndex}`}
                                         name={`chronological-${measurementTypeItem.measurementType}-group`}
@@ -412,7 +413,7 @@ const SDSChart: React.FC<SDSChartProps> = (
                                         />
                                     </VictoryGroup>
                                 }
-                                { showCorrectedAge && showData &&
+                                { showCorrectedAge && showData && measurementTypeItem.measurementTypeData.length > 0 &&
                                 <VictoryGroup 
                                         key={`corrected-${itemIndex}`}
                                         name={`corrected-${measurementTypeItem.measurementType}-group`}
@@ -445,7 +446,7 @@ const SDSChart: React.FC<SDSChartProps> = (
                                 </VictoryGroup>
                                 }
 
-                                { showCorrectedAge && showChronologicalAge && showData &&
+                                { showCorrectedAge && showChronologicalAge && showData && measurementTypeItem.measurementTypeData.length > 0 &&
                                     measurementTypeItem.measurementTypeData.map((measurement, index)=>{
                                         const chron = {...measurement.plottable_data.sds_data.chronological_decimal_age_data};
                                         const correct = {...measurement.plottable_data.sds_data.corrected_decimal_age_data};
