@@ -48,7 +48,7 @@ export const Tanner3ChartStyles: ChartStyle = {
     toggleButtonActiveColour: "#e60700",
     toggleButtonTextStyle: {
         name: "Arial",
-        colour: "#000000",
+        colour: "#FFFFFF",
         size: 14,
         style: 'normal'
     }

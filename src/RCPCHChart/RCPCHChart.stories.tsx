@@ -2,8 +2,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import RCPCHChart from './RCPCHChart.tsx';
-import { twoToEight } from '../testParameters/measurements/twoToEight';
 import { ChartStyle } from '../interfaces/StyleObjects.ts';
+
+// data
+import { twoToEight } from '../testParameters/measurements/twoToEight';
+import { prematureGirlOverThreeHeight } from '../testParameters/measurements/prematureGirlOverThreeHeight.ts';
 
 const meta: Meta<typeof RCPCHChart> = {
   component: RCPCHChart,
@@ -76,5 +79,27 @@ export const TomatoCentileChart: Story = {
     exportChartCallback: ()=>{},
     theme: 'monochrome',
     customThemeStyles: customStyles
+  },
+};
+
+export const PrematureSDSChart: Story = {
+  args: {
+    title: 'Patient Name - Hospital Number',
+    measurementMethod: 'height',
+    reference: 'uk-who',
+    sex: 'female',
+    measurements: {
+      height: prematureGirlOverThreeHeight,
+      weight: [],
+      bmi: [],
+      ofc: []
+    },
+    midParentalHeightData: {},
+    enableZoom: true,
+    chartType: 'sds',
+    enableExport: false,
+    exportChartCallback: ()=>{},
+    theme: 'tanner3',
+    customThemeStyles: {}
   },
 };

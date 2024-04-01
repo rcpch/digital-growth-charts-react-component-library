@@ -56,6 +56,7 @@ import { referenceText } from '../functions/referenceText';
 
 // style sheets
 import "../global.css";
+import { StyledButtonTooltip } from '../SubComponents/StyledButtonTooltip';
 
 const SDSChart: React.FC<SDSChartProps> = (
     { 
@@ -567,32 +568,49 @@ const SDSChart: React.FC<SDSChartProps> = (
 
         {(showToggle || enableExport) && (
             <ButtonContainer>
-                { enableExport && (
+            
+                {/* Creates the Copy button - note if user has disabled this, must have an empty div to allow the toggle buttons to remain in the center */}
+                    { enableExport ? (
                         <ShareButtonWrapper>
-                            <StyledShareButton 
-                                color={styles.toggleStyle.activeColour}
-                                size={5}
-                                onClick={exportPressed}
-                            >
-                                <ShareIcon/>
-                            </StyledShareButton>
-                            <CopiedLabel
-                                $active={active}
-                                onAnimationEnd={labelFadeEnd}
-                            >
-                                Copied!
-                            </CopiedLabel>
+                                <StyledButtonTooltip>
+                                    <StyledShareButton
+                                        $color={styles.toggleStyle.activeColour}
+                                        size={5}
+                                        onClick={exportPressed}
+                                        data-testid="copy-button"
+                                    >
+                                        <ShareIcon/>
+                                    </StyledShareButton>
+                                    <div className='tooltip'>Copy Chart</div>
+                                </StyledButtonTooltip>
+                                <CopiedLabel
+                                    $active={active}
+                                    onAnimationEnd={labelFadeEnd}
+                                >
+                                    Copied!
+                                </CopiedLabel>
                         </ShareButtonWrapper>
-                    )}
+                    ) : <div></div>}
+                    
                     {showToggle && (
                         <StyledRadioButtonGroup
-                            {...styles.toggleStyle}
+                            $activeColour={styles.toggleStyle.activeColour}
+                            $inactiveColour={styles.toggleStyle.inactiveColour}
+                            $fontFamily={styles.toggleStyle.fontFamily}
+                            $fontSize={styles.toggleStyle.fontSize}
+                            $fontWeight={styles.toggleStyle.fontWeight}
+                            $fontStyle={styles.toggleStyle.fontStyle}
+                            $color={styles.toggleStyle.color}
+                            $className={"toggleButtons"}
                             handleClick={onSelectRadioButton}
                             correctedAge={showCorrectedAge}
                             chronologicalAge={showChronologicalAge}
-                            className="toggleButtons"
                         />
                     )}
+
+                    <div></div>
+                    {/* using flexbox on a single row and the space-between attribute, so must have an 'invisible' div */}
+            
             </ButtonContainer>
         )}
     </MainContainer>
