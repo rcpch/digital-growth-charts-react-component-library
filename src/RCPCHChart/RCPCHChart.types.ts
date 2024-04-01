@@ -14,7 +14,7 @@ export interface RCPCHChartProps {
     enableExport?: boolean | undefined;
     exportChartCallback(svg?: any): any;
     clinicianFocus?: boolean | undefined | null;
-    theme?: 'monochrome' | 'traditional' | 'tanner1' | 'tanner2' | 'tanner3' | 'custom'
+    theme?: 'monochrome' | 'traditional' | 'tanner1' | 'tanner2' | 'tanner3' | 'custom';
     customThemeStyles?: {
         chartStyle?: ChartStyle 
         axisStyle?: AxisStyle

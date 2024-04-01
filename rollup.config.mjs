@@ -11,11 +11,24 @@ import dts from 'rollup-plugin-dts';
 import copy from 'rollup-plugin-copy';
 
 const packageJson = require('./package.json');
+const production = !process.env.ROLLUP_WATCH;
+
+let external = ['styled-components'];
+let globals = {};
+
+if (production) {
+    external = [...external, 'react', 'react-dom'];
+    globals = {
+        react: 'React',
+        'react-dom': 'ReactDOM',
+        ...globals,
+    };
+}
 
 export default [
     {
         input: 'src/index.ts',
-        external: ['react', 'react-dom', 'styled-components'],
+        external,
         output: [
             {
                 file: packageJson.main,

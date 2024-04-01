@@ -182,7 +182,7 @@ function makeAllStyles(
             },
         },
         centileLabel: {
-            fontSize: 8,
+            fontSize: 6,
             fontFamily: 'Montserrat',
             fill: centileStyle?.centileStroke ?? black
         },

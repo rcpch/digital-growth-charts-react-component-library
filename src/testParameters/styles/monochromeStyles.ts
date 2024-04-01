@@ -1,7 +1,7 @@
 import { AxisStyle, CentileStyle, ChartStyle, GridlineStyle, MeasurementStyle, SDSStyle } from "../../interfaces/StyleObjects"
 
 /*
-The following styles are provided to the RCPCHChart component, and match what the users should be passing in.
+The following styles are provided to the RCPCHChart component, and define the styles in the Monochrome theme
 */
 
 export const monochromeAxisStyles: AxisStyle = {
@@ -48,7 +48,7 @@ export const monochromeChartStyles: ChartStyle = {
     toggleButtonActiveColour: "#000000",
     toggleButtonTextStyle: {
         name: "Arial",
-        colour: "#000000",
+        colour: "#FFFFFF",
         size: 14,
         style: 'normal'
     }

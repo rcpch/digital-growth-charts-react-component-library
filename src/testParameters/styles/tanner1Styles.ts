@@ -1,7 +1,7 @@
 import { AxisStyle, CentileStyle, ChartStyle, GridlineStyle, MeasurementStyle, SDSStyle } from "../../interfaces/StyleObjects"
 
 /*
-The following styles are provided to the RCPCHChart component, and match what the users should be passing in.
+The following styles are provided to the RCPCHChart component, and define the styles in the Tanner 1 theme
 */
 
 export const Tanner1AxisStyles: AxisStyle = {

@@ -39,18 +39,25 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     customThemeStyles
 }) => {
 
+    clinicianFocus = defineNonStylePropDefaults('clinicianFocus', clinicianFocus);
+    enableExport = defineNonStylePropDefaults('enableExport', enableExport);
+    chartType = defineNonStylePropDefaults('chartType', chartType);
+
     // get styles for each theme
     let all_styles = stylesForTheme(theme=theme, sex=sex);
 
-    // replace any default theme styles with custom styles provided by user
-    // custom styles must be provided in the correct format
-    for (const theme_style in all_styles){
-        for (const property in customThemeStyles[theme_style]){
-            if(property != undefined){
-                all_styles[theme_style][property] = customThemeStyles[theme_style][property];
+    if(customThemeStyles != undefined){
+        // replace any default theme styles with custom styles if provided by user
+        // custom styles must be provided in the correct format
+        for (const theme_style in all_styles){
+            for (const property in customThemeStyles[theme_style]){
+                if(property != undefined){
+                    all_styles[theme_style][property] = customThemeStyles[theme_style][property];
+                }
             }
         }
     }
+
 
     // spread styles into individual objects
     const { chartStyle, axisStyle, gridlineStyle, centileStyle, sdsStyle, measurementStyle } = all_styles
@@ -58,9 +65,6 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     // make granular styles to pass into charts
     const styles = makeAllStyles(chartStyle, axisStyle, gridlineStyle, centileStyle, sdsStyle, measurementStyle);
     
-    clinicianFocus = defineNonStylePropDefaults('clinicianFocus', clinicianFocus);
-    enableExport = defineNonStylePropDefaults('enableExport', enableExport);
-    chartType = defineNonStylePropDefaults('chartType', chartType);
     
     // uncomment in development
     console.log("loading from locally...");
