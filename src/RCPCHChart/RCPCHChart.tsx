@@ -42,11 +42,12 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     // get styles for each theme
     let all_styles = stylesForTheme(theme=theme, sex=sex);
 
-    // replace any styles with custom styles provided by user
-    for (const requested_style in all_styles){
-        for (const property in customThemeStyles[requested_style]){
+    // replace any default theme styles with custom styles provided by user
+    // custom styles must be provided in the correct format
+    for (const theme_style in all_styles){
+        for (const property in customThemeStyles[theme_style]){
             if(property != undefined){
-                requested_style[property]=customThemeStyles[requested_style][property]
+                all_styles[theme_style][property] = customThemeStyles[theme_style][property];
             }
         }
     }

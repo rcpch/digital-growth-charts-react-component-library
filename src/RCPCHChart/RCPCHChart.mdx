@@ -4,7 +4,7 @@ import * as RCPCHChartStories from './RCPCHChart.stories.tsx';
 
 <Meta of={RCPCHChartStories} />
 
-# RCPCHChart
+# `<RCPCHChart {...props}/>`
 
 An `RCPCHChart` instance is a wrapper component that receives user props and uses these to create either a CentileChart or an SDSChart.
 
@@ -17,30 +17,131 @@ The prop to define which chart type is rendered is: `chartType?: 'centile' | 'sd
 Other props are:
 
 -   `title: string;` the title of the chart : could include patient name and identifiers
--   `subtitle: string;` the subtitle of the chart - could include the measurement method, the reference
 -   `measurementMethod: 'height' | 'weight' | 'ofc' | 'bmi';` _must_ be one of the options provided
 -   `reference: 'uk-who' | 'turner' | 'trisomy-21';` _must_ be one of the options provided
 -   `sex: 'male' | 'female';` _must_ be one of the options provided
 -   `measurementsArray: Measurement[];` array of measurements returned from RCPCH Growth API. This should not be edited or manipulated.
 -   `midParentalHeightData?: MidParentalHeightObject | undefined;` an RCPCH object returned from the RCPCH Growth API. Should not be edited or manipulated
 -   `enableZoom?: boolean;` Allows the user to zoom and pan the charts if set to true. If disabled, hides the buttons associated with this.
--   `chartStyle?: ChartStyle;` As above
--   `axisStyle?: AxisStyle;` These are addressed below
--   `gridlineStyle?: GridlineStyle;` These are addressed below
--   `centileStyle?: CentileStyle;` These are addressed below
--   `sdsStyle?: SDSStyle;` These are addressed below
--   `measurementStyle?: MeasurementStyle;` These are addressed below
 -   `chartType?: 'centile' | 'sds';` These are addressed below
 -   `enableExport?: boolean | undefined;` Cut/Paste button. Returns an SVG snapshot of the chart (without title) if set to true. If false, the buttons associated with this are hidden.
 -   `exportChartCallback(svg?: any): any;` Names the function within the client to return the exported SVG to.
 -   `clinicianFocus?: boolean | undefined | null;` Toggles tooltip advice between those aimed at clinicians and those more appropriate for patients/lay people.
+-   `theme?: 'monochrome' | 'traditional' | 'tanner1' | 'tanner2' | 'tanner3' | 'custom'`
+-   `customThemeStyles?`: discussed below
 
-### Style Props
+### Themes vs Styles
 
-The RCPCH have created some suggested themes:
+Themes are collections of styles. The RCPCH have created some suggested themes:
 
 1. Monochrome (default)
 2. Traditional: this uses the preexisting pink and blue colours present on the paper charts
 3. Tanner 1: Purple and yellow
 4. Tanner 2: Orange and blue
 5. Tanner 3: Red and yellow
+6. Custom
+
+These themes all have predefined attributes for `fontFamily`, `color`, `size`, `stroke` and `strokeWidth` for different aspects of the charts.
+If these attributes are too prescriptive and users would like either to build their own theme,
+or override styles within an existing theme, this can be done by passing in custom styles through the `customThemeStyles` prop.
+
+All attributes are optional, therefore only those attributes where changes are requested need be passed in. The keys for the `customThemeStyles` object are as follows:
+
+-   `chartStyle?: ChartStyle;`
+-   `axisStyle?: AxisStyle;`
+-   `gridlineStyle?: GridlineStyle;`
+-   `centileStyle?: CentileStyle;`
+-   `sdsStyle?: SDSStyle;`
+-   `measurementStyle?: MeasurementStyle;`
+
+The attributes of each of these are below:
+
+#### `ChartStyle`
+
+-   `backgroundColour?: string;` //background colour of chart
+-   `titleStyle?: TextStyle `| undefined; // style of text in title: includes fontFamily, fontSize, colour, weight (regular/bold/italic)
+-   `subTitleStyle?: TextStyle `| undefined; // style of text in subtitle: includes fontFamily, fontSize, colour, weight (regular/bold/italic)
+-   `tooltipBackgroundColour?: string;` //background colour of tooltip
+-   `tooltipStroke?: string;` //border colour of tooltip
+-   `tooltipTextStyle?: TextStyle `| undefined; // tooltip text: includes fontFamily, fontSize, colour, weight (regular/bold/italic)
+-   `termFill?: string;` // background colour of weight term area
+-   `termStroke?: string;` // border colour of weight term area
+-   `toggleButtonInactiveColour?: string;` // buttons - inactive colour
+-   `toggleButtonActiveColour?: string;` // buttons - active colour
+-   `toggleButtonTextStyle?: TextStyle | undefined;` // buttons text: includes fontFamily, fontSize, colour, weight (regular/bold/italic)
+
+#### `MeasurementStyle`
+
+    `measurementFill?: string;` // measurement point fill colour - only apply to SDS charts
+    `highlightedMeasurementFill?: string;` // measurement point fill colour when hightlighted (SDS charts)
+    `eventTextStyle?: TextStyle;` // styles for text of events: includes fontFamily, fontSize, colour, weight (regular/bold/italic)
+
+#### `CentileStyle`
+
+    `sdsStroke?: string;` // sds line colour
+    `centileStroke?: string;` // centile line colour
+    `delayedPubertyAreaFill?: string;` // delayed puberty area colour
+    `midParentalCentileStroke?: string;` // Midparental height centile line colour
+    `midParentalAreaFill?: string;` // Midparental height area colour
+
+#### `SDSStyle`
+
+    `heightStroke?: string;` // sds line colour
+    `weightStroke?: string;` // sds line colour
+    `ofcStroke?: string;` // sds line colour
+    `bmiStroke?: string;` // sds line colour
+
+#### `GridlineStyle`
+
+    `gridlines?: boolean;` // show or hide gridlines
+    `stroke?: string;` // gridline colour
+    `strokeWidth?: number;` // gridline width
+    `dashed?: boolean;` // dashed vs continuous gridlines
+
+#### `AxisStyle`
+
+    `axisStroke?: string;` // Axis colour
+    `axisLabelTextStyle?: TextStyle | undefined;` // Axis label text: : includes fontFamily, fontSize, colour, weight (regular/bold/italic)
+    `tickLabelTextStyle?: TextStyle | undefined;` // Tick label text : includes fontFamily, fontSize, colour, weight (regular/bold/italic)
+
+#### `TextStyle`
+
+    `name?: string;`
+    `colour?: string;`
+    `size?: number;`
+    `style?: 'bold' | 'italic' | 'normal';`
+
+For example, if a user wished to override the background colour of the existing 'Traditional':
+
+```
+const customChartStyle: ChartStyle = {
+  backgroundColour: "tomato"
+}
+
+const customStyles = {
+  chartStyle: customChartStyle
+}
+```
+
+And in the JSX:
+
+```
+<RCPCHChart
+    reference={'uk-who'}
+    measurementMethod={'height'}
+    sex={'female'}
+    title={"Arthur Scargill - 12345678A"}
+    measurementsArray={[]} // this is the plottable child data
+    midParentalHeightData={[]} // this is the optional plottable midparental height data from the RCPCH API
+    theme={'traditional'}
+    enableZoom
+    chartType={'centile'}
+    enableExport={false}
+    exportChartCallback={()=>{}} // this is a callback for the export chart function if true
+    clinicianFocus={false}
+/>
+```
+
+yields:
+
+<Canvas of={RCPCHChartStories.GreenCentileChart} />

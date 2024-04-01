@@ -1,15 +1,15 @@
 export interface ChartStyle {
     backgroundColour?: string; //background colour of chart
-    titleStyle?: TextStyle; // style of text in title: includes fontFamily, fontSize, colour, weight (regular/bold/italic)
-    subTitleStyle?: TextStyle; // style of text in subtitle: includes fontFamily, fontSize, colour, weight (regular/bold/italic)
+    titleStyle?: TextStyle | undefined; // style of text in title: includes fontFamily, fontSize, colour, weight (regular/bold/italic)
+    subTitleStyle?: TextStyle | undefined; // style of text in subtitle: includes fontFamily, fontSize, colour, weight (regular/bold/italic)
     tooltipBackgroundColour?: string; //background colour of tooltip
     tooltipStroke?: string; //border colour of tooltip
-    tooltipTextStyle?: TextStyle; // tooltip text: includes fontFamily, fontSize, colour, weight (regular/bold/italic)
+    tooltipTextStyle?: TextStyle | undefined; // tooltip text: includes fontFamily, fontSize, colour, weight (regular/bold/italic)
     termFill?: string; // background colour of weight term area
     termStroke?: string; // border colour of weight term area
-    toggleButtonInactiveColour: string; // buttons - inactive colour
-    toggleButtonActiveColour: string; // buttons - active colour
-    toggleButtonTextStyle: TextStyle; // buttons text: includes fontFamily, fontSize, colour, weight (regular/bold/italic)
+    toggleButtonInactiveColour?: string; // buttons - inactive colour
+    toggleButtonActiveColour?: string; // buttons - active colour
+    toggleButtonTextStyle?: TextStyle | undefined; // buttons text: includes fontFamily, fontSize, colour, weight (regular/bold/italic)
 }
 export interface MeasurementStyle {
     measurementFill?: string; // measurement point fill colour - only apply to SDS charts
@@ -38,8 +38,8 @@ export interface GridlineStyle {
 }
 export interface AxisStyle {
     axisStroke?: string; // Axis colour
-    axisLabelTextStyle?: TextStyle; // Axis label text: : includes fontFamily, fontSize, colour, weight (regular/bold/italic)
-    tickLabelTextStyle?: TextStyle; // Tick label text : includes fontFamily, fontSize, colour, weight (regular/bold/italic)
+    axisLabelTextStyle?: TextStyle | undefined; // Axis label text: : includes fontFamily, fontSize, colour, weight (regular/bold/italic)
+    tickLabelTextStyle?: TextStyle | undefined; // Tick label text : includes fontFamily, fontSize, colour, weight (regular/bold/italic)
 }
 
 export interface TextStyle {

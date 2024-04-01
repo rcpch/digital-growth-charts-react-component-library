@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import RCPCHChart from './RCPCHChart.tsx';
 import { twoToEight } from '../testParameters/measurements/twoToEight';
+import { ChartStyle } from '../interfaces/StyleObjects.ts';
 
 const meta: Meta<typeof RCPCHChart> = {
   component: RCPCHChart,
@@ -10,6 +11,14 @@ const meta: Meta<typeof RCPCHChart> = {
 export default meta;
 
 type Story = StoryObj<typeof RCPCHChart>;
+
+const customChartStyle: ChartStyle = {
+  backgroundColour: "#e4f6e6"
+}
+
+const customStyles = {
+  chartStyle: customChartStyle
+}
 
 export const SDSChart: Story = {
   args: {
@@ -43,5 +52,22 @@ export const CentileChart: Story = {
     exportChartCallback: ()=>{},
     theme: 'monochrome',
     customThemeStyles: {}
+  },
+};
+
+export const GreenCentileChart: Story = {
+  args: {
+    title: 'Patient Name - Hospital Number',
+    measurementMethod: 'height',
+    reference: 'uk-who',
+    sex: 'female',
+    measurementsArray: twoToEight,
+    midParentalHeightData: {},
+    enableZoom: true,
+    chartType: 'centile',
+    enableExport: false,
+    exportChartCallback: ()=>{},
+    theme: 'traditional',
+    customThemeStyles: customStyles
   },
 };

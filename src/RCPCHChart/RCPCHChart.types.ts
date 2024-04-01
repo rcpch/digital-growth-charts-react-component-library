@@ -16,7 +16,7 @@ export interface RCPCHChartProps {
     clinicianFocus?: boolean | undefined | null;
     theme?: 'monochrome' | 'traditional' | 'tanner1' | 'tanner2' | 'tanner3' | 'custom'
     customThemeStyles?: {
-        chartStyle?: ChartStyle
+        chartStyle?: ChartStyle 
         axisStyle?: AxisStyle
         gridlineStyle?: GridlineStyle
         measurementStyle?: MeasurementStyle
