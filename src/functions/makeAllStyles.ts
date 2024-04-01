@@ -22,6 +22,10 @@ const white = '#FFFFFF';
 const midGrey = '#b3b3b3';
 const lightGrey = '#d9d9d9';
 const lightLightGrey = "#f3f3f3";
+const aquaGreen ='#00BDAA'
+const orange = '#FF8000'
+const purple = '#7159AA'
+const strongGreen = '#66CC33'
 
 function makeAllStyles(
     chartStyle?: ChartStyle,
@@ -188,28 +192,28 @@ function makeAllStyles(
         },
         heightSDS: {
             data: {
-                stroke: sdsStyle?.heightStroke ?? setOpacity(centileStyle?.centileStroke ?? black, 1.0),
+                stroke: aquaGreen,
                 strokeWidth: 1.5,
                 strokeLinecap: 'round',
             }
         },
         weightSDS: {
             data: {
-                stroke: sdsStyle?.weightStroke ?? setOpacity(centileStyle?.centileStroke ?? black, 0.5),
+                stroke: orange,
                 strokeWidth: 1.5,
                 strokeLinecap: 'round',
             }
         },
         ofcSDS: {
             data: {
-                stroke: sdsStyle?.ofcStroke ?? setOpacity(centileStyle?.centileStroke ?? black, 0.25),
+                stroke: purple,
                 strokeWidth: 1.5,
                 strokeLinecap: 'round',
             }
         },
         bmiSDS: {
             data: {
-                stroke: sdsStyle?.bmiStroke ?? setOpacity(centileStyle?.centileStroke ?? black, 0.125),
+                stroke: strongGreen,
                 strokeWidth: 1.5,
                 strokeLinecap: 'round',
             }

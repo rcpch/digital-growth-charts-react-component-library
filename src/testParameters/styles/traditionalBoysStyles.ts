@@ -39,7 +39,7 @@ export const traditionalBoyChartStyles: ChartStyle = {
     tooltipTextStyle: {
         name: "Montserrat",
         colour: "#FFFFFF",
-        size: 12,
+        size: 14,
         style: 'normal'
     },
     termFill: "#CDCDCD",

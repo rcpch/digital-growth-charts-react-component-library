@@ -7,6 +7,7 @@ import { ChartStyle } from '../interfaces/StyleObjects.ts';
 // data
 import { twoToEight } from '../testParameters/measurements/twoToEight';
 import { prematureGirlOverThreeHeight } from '../testParameters/measurements/prematureGirlOverThreeHeight.ts';
+import { sdsTenYearGirlData } from '../testParameters/measurements/sdsTenYearGirlData'
 
 const meta: Meta<typeof RCPCHChart> = {
   component: RCPCHChart,
@@ -103,3 +104,21 @@ export const PrematureSDSChart: Story = {
     customThemeStyles: {}
   },
 };
+
+export const MultipleMeasurementSDSChart: Story = {
+  args: {
+    title: 'Patient Name - Hospital Number',
+    measurementMethod: 'height',
+    reference: 'uk-who',
+    sex: 'female',
+    measurements: sdsTenYearGirlData,
+    midParentalHeightData: {},
+    enableZoom: true,
+    chartType: 'sds',
+    enableExport: false,
+    exportChartCallback: ()=>{},
+    theme: 'monochrome',
+    customThemeStyles: {}
+  },
+
+}
