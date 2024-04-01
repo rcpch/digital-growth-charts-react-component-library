@@ -39,7 +39,7 @@ export const Tanner3ChartStyles: ChartStyle = {
     tooltipTextStyle: {
         name: "Montserrat",
         colour: "#000000",
-        size: 12,
+        size: 14,
         style: 'normal'
     },
     termFill: "#CDCDCD",
