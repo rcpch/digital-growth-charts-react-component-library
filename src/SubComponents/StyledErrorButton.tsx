@@ -9,7 +9,7 @@ export const StyledErrorButton = styled.button<{
     fontStyle: string;
     color: string;
     $enabled: boolean;
-    margin?: string;
+    $margin?: string;
 }>`
     align-self: flex-end;
     background-color: ${({$inactiveColour, $activeColour, $enabled }) => ($enabled ? $activeColour : $inactiveColour)};
