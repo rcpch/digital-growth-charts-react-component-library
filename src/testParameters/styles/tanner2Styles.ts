@@ -34,11 +34,11 @@ export const Tanner2ChartStyles: ChartStyle = {
         size: 12,
         style: 'italic'
     },
-    tooltipBackgroundColour: "#fdc300",
-    tooltipStroke: "#fdc300",
+    tooltipBackgroundColour: "#3366cc",
+    tooltipStroke: "##3366cc",
     tooltipTextStyle: {
         name: "Montserrat",
-        colour: "#000000",
+        colour: "#FFFFFF",
         size: 14,
         style: 'normal'
     },
@@ -63,10 +63,10 @@ export const Tanner2GridlineStyles: GridlineStyle = {
 
 export const Tanner2CentileStyles: CentileStyle = {
     sdsStroke: "#A9A9A9",
-    centileStroke: "#7159aa",
-    delayedPubertyAreaFill: "#c6bddd",
+    centileStroke: "#ff8000",
+    delayedPubertyAreaFill: "#ffc080",
     midParentalCentileStroke: "#ff8000",
-    midParentalAreaFill: "#c6bddd",
+    midParentalAreaFill: "#ffc080",
 }
 
 export const Tanner2MeasurementStyles: MeasurementStyle = {
@@ -80,10 +80,10 @@ export const Tanner2MeasurementStyles: MeasurementStyle = {
     }
 }
 export const Tanner2SDSStyles: SDSStyle = {
-    heightStroke: "#ff8000ff",
-    weightStroke: "#ff80007f",
-    ofcStroke: "#ff80003f",
-    bmiStroke: "#ff80001f",
+    heightStroke: "#7159aa",
+    weightStroke: "#ff8000",
+    ofcStroke: "#e60700",
+    bmiStroke: "#c2a712",
 }
 
 /*
@@ -234,28 +234,28 @@ export const Tanner2Styles = {
     },
     "heightSDS": {
         "data": {
-            "stroke": "#ff8000ff",
+            "stroke": "#7159aa",
             "strokeWidth": 1.5,
             "strokeLinecap": "round"
         }
     },
     "weightSDS": {
         "data": {
-            "stroke": "#ff80007f",
+            "stroke": "#ff8000",
             "strokeWidth": 1.5,
             "strokeLinecap": "round"
         }
     },
     "ofcSDS": {
         "data": {
-            "stroke": "#ff80003f",
+            "stroke": "#e60700",
             "strokeWidth": 1.5,
             "strokeLinecap": "round"
         }
     },
     "bmiSDS": {
         "data": {
-            "stroke": "#ff80001f",
+            "stroke": "#c2a712",
             "strokeWidth": 1.5,
             "strokeLinecap": "round"
         }

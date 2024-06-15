@@ -102,7 +102,8 @@ function CentileChart({
     const [userDomains, setUserDomains] = useState(null);
 
     const [storedChildMeasurements, setStoredChildMeasurements] = useState(childMeasurements)
-    const { defaultShowCorrected, defaultShowChronological, showToggle } = defaultToggles(childMeasurements);
+    const { defaultShowCorrected, defaultShowChronological, showToggle } = { defaultShowCorrected: true, defaultShowChronological: false, showToggle: true };
+    // const { defaultShowCorrected, defaultShowChronological, showToggle } = defaultToggles(childMeasurements);
     const [showChronologicalAge, setShowChronologicalAge] = useState(defaultShowChronological);
     const [showCorrectedAge, setShowCorrectedAge] = useState(defaultShowCorrected);
     const chartRef=useRef<any>();
@@ -221,17 +222,22 @@ function CentileChart({
             case 'unadjusted':
                 setShowChronologicalAge(true);
                 setShowCorrectedAge(false);
+                
                 break;
             case 'adjusted':
-                setShowChronologicalAge(false);
-                setShowCorrectedAge(true);
-                break;
+                    setShowChronologicalAge(false);
+                    setShowCorrectedAge(true);
+                    
+                    break;
             case 'both':
-                setShowChronologicalAge(true);
-                setShowCorrectedAge(true);
+                    setShowChronologicalAge(true);
+                    setShowCorrectedAge(true);
+                   
                 break;
             default:
                 console.warn('Fall through case on toggle adjusted age function');
+
+            
         }
         setUserDomains(null);
     };
@@ -243,7 +249,7 @@ function CentileChart({
     const renderGradientLabels = () => {
         setCentileLabels(!centileLabels);
     }
-    
+
     // always reset zoom to default when measurements array changes
     useLayoutEffect(() => {
         setUserDomains(null);
@@ -297,8 +303,8 @@ function CentileChart({
                                     backgroundPadding={5}
                                     pointerLength={5}
                                     cornerRadius={0}
-                                    flyoutStyle={styles.toolTipFlyout}
-                                    style={styles.toolTipMain}
+                                    flyoutStyle={{...styles.toolTipFlyout}}
+                                    style={{...styles.toolTipMain}}
                                 />
                             }
                             labels={({ datum }) => {
@@ -456,88 +462,90 @@ function CentileChart({
                     {/* Tooltips are found in the parent element (VictoryChart). Tooltips included: */}
                     {/* 1 for each centile, 1 for the shaded area, 1 at 2years to indicate children are measured standing leading */}
                     {/* to a step down in height weight and bmi in the data set. There is another tool tip at 4 years to indicate transition from datasets. */}
+                    
+                        {centileData &&
+                            centileData.map((referenceData, referenceIndex) => {
 
-                    {centileData &&
-                        centileData.map((referenceData, referenceIndex) => {
-
-                            return (
-                                <VictoryGroup
-                                    key={'centileDataBlock' + referenceIndex}
-                                    name='centileLineGroup'
-                                >
-                                    {referenceData.map((centile: ICentile, centileIndex: number) => {
-
-                                        // BMI charts also have SDS lines at -5, -4, -3, -2, 2, 3, 4, 5
-
-                                        if (centile.data.length < 1){
-                                            // prevents a css `width` infinity error if no data presented to centile line
-                                            return
-                                        }
-
+                                return (
+                                    <VictoryGroup
+                                        key={'centileDataBlock' + referenceIndex}
+                                        name='centileLineGroup'
+                                    >
                                         
-                                        if (centileIndex % 2 === 0) {
-                                            // even index - centile is dashed
-                                            return (
-                                                <VictoryLine
-                                                    data-testid={'reference-'+referenceIndex+'-centile-'+centile.centile+'-measurement-'+measurementMethod}
-                                                    name={'centileLine-'+ centileIndex}
-                                                    key={centile.centile + '-' + centileIndex}
-                                                    padding={{ top: 20, bottom: 20 }}
-                                                    data={centile.data}
-                                                    style={styles.dashedCentile}
-                                                    labels={ (props: { index: number; }) => centileLabels && labelIndexInterval(chartScaleType, props.index) && props.index > 0 ? [addOrdinalSuffix(centile.centile)]: null}
-                                                    labelComponent={
-                                                        <VictoryLabel
-                                                            angle={
-                                                                ({index})=>{
-                                                                    return labelAngle(centile.data, index, chartScaleType, measurementMethod, domains);
-                                                                }
+                                        { referenceData.map((centile: ICentile, centileIndex: number) => {
+
+                                            // BMI charts also have SDS lines at -5, -4, -3, -2, 2, 3, 4, 5
+
+                                            if (centile.data.length < 1){
+                                                // prevents a css `width` infinity error if no data presented to centile line
+                                                return
+                                            }
+
+                                            if (centileIndex % 2 === 0) {
+                                                // even index - centile is dashed
+                                                    
+                                                    return (
+                                                        <VictoryLine
+                                                            data-testid={'reference-'+referenceIndex+'-centile-'+centile.centile+'-measurement-'+measurementMethod}
+                                                            name={'centileLine-'+ centileIndex}
+                                                            key={centile.centile + '-' + centileIndex}
+                                                            padding={{ top: 20, bottom: 20 }}
+                                                            data={centile.data}
+                                                            style={{...styles.dashedCentile}}
+                                                            labels={ (props: { index: number; }) => centileLabels && labelIndexInterval(chartScaleType, props.index) && props.index > 0 ? [addOrdinalSuffix(centile.centile)]: null}
+                                                            labelComponent={
+                                                                <VictoryLabel
+                                                                    angle={
+                                                                        ({index})=>{
+                                                                            return labelAngle(centile.data, index, chartScaleType, measurementMethod, domains);
+                                                                        }
+                                                                    }
+                                                                    style={styles.centileLabel}
+                                                                    backgroundStyle={{fill:'white'}}
+                                                                    backgroundPadding={{top: 1, bottom: 1, left: 3, right:3}}
+                                                                    textAnchor={'middle'}
+                                                                    verticalAnchor={'middle'}
+                                                                    dy={0}
+                                                                />
                                                             }
-                                                            style={styles.centileLabel}
-                                                            backgroundStyle={{fill:'white'}}
-                                                            backgroundPadding={{top: 1, bottom: 1, left: 3, right:3}}
-                                                            textAnchor={'middle'}
-                                                            verticalAnchor={'middle'}
-                                                            dy={0}
                                                         />
-                                                    }
-                                                />
-                                            );
-                                        } else {
-                                            // uneven index - centile is continuous
-                                            
-                                            return (
-                                                <VictoryLine
-                                                    data-testid={'reference-'+referenceIndex+'-centile-'+centile.centile+'-measurement-'+measurementMethod}
-                                                    name={'centileLine-'+ centileIndex}
-                                                    key={centile.centile + '-' + centileIndex}
-                                                    padding={{ top: 20, bottom: 20 }}
-                                                    data={centile.data}
-                                                    style={{...styles.continuousCentile}}
-                                                    labels={ (props: { index: number; })=> centileLabels && labelIndexInterval(chartScaleType, props.index) && props.index > 0 ? [addOrdinalSuffix(centile.centile)]: null}
-                                                    labelComponent={
-                                                        <VictoryLabel
-                                                            angle={
-                                                                ({index})=>{
-                                                                    return labelAngle(centile.data, index, chartScaleType, measurementMethod, domains);
+                                                    );
+                                                
+                                            } else{
+                                                // uneven index - centile is continuous
+                                                
+                                                return (
+                                                    <VictoryLine
+                                                        data-testid={'reference-'+referenceIndex+'-centile-'+centile.centile+'-measurement-'+measurementMethod}
+                                                        name={'centileLine-'+ centileIndex}
+                                                        key={centile.centile + '-' + centileIndex}
+                                                        padding={{ top: 20, bottom: 20 }}
+                                                        data={centile.data}
+                                                        style={{...styles.continuousCentile}}
+                                                        labels={ (props: { index: number; })=> centileLabels && labelIndexInterval(chartScaleType, props.index) && props.index > 0 ? [addOrdinalSuffix(centile.centile)]: null}
+                                                        labelComponent={
+                                                            <VictoryLabel
+                                                                angle={
+                                                                    ({index})=>{
+                                                                        return labelAngle(centile.data, index, chartScaleType, measurementMethod, domains);
+                                                                    }
                                                                 }
-                                                            }
-                                                            style={[{ fill: styles.centileLabel.fill, fontFamily: styles.centileLabel.fontFamily, fontSize: styles.centileLabel.fontSize }]}
-                                                            backgroundStyle={{fill:'white'}}
-                                                            backgroundPadding={{top: 0, bottom: 0, left: 3, right:3}}
-                                                            textAnchor={'middle'}
-                                                            verticalAnchor={'middle'}
-                                                            dy={0}
-                                                        />
-                                                    }
-                                                />
-                                            );
-                                        }
-                                    })}
-                                </VictoryGroup>
-                            );
-                        })
-                    }
+                                                                style={[{ fill: styles.centileLabel.fill, fontFamily: styles.centileLabel.fontFamily, fontSize: styles.centileLabel.fontSize }]}
+                                                                backgroundStyle={{fill:'white'}}
+                                                                backgroundPadding={{top: 0, bottom: 0, left: 3, right:3}}
+                                                                textAnchor={'middle'}
+                                                                verticalAnchor={'middle'}
+                                                                dy={0}
+                                                            />
+                                                        }
+                                                    />
+                                                );
+                                            }
+                                        })}
+                                    </VictoryGroup>
+                                );
+                            })
+                        }
 
                     {
                         /* BMI SDS lines */
@@ -556,7 +564,7 @@ function CentileChart({
                                                 // prevents a css `width` infinity error if no data presented to sds line
                                                 return
                                             }
-                                            
+                                                
                                                 // sds line is dashed
                                                 return (
                                                     <VictoryLine
@@ -914,7 +922,7 @@ function CentileChart({
                                 $fontStyle={styles.toggleStyle.fontStyle}
                                 $color={styles.toggleStyle.color}
                                 $className={"toggleButtons"}
-                                handleClick={onSelectRadioButton}
+                                handleClickAgeRadio={onSelectRadioButton}
                                 correctedAge={showCorrectedAge}
                                 chronologicalAge={showChronologicalAge}
                             />
