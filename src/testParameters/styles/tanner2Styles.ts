@@ -44,8 +44,8 @@ export const Tanner2ChartStyles: ChartStyle = {
     },
     termFill: "#CDCDCD",
     termStroke: "#CDCDCD",
-    toggleButtonInactiveColour: "#c6bddd",
-    toggleButtonActiveColour: "#7159aa",
+    toggleButtonInactiveColour: "#ffc080",
+    toggleButtonActiveColour: "#ff8000",
     toggleButtonTextStyle: {
         name: "Arial",
         colour: "#FFFFFF",

@@ -42,7 +42,7 @@ export const SDSChart: Story = {
     enableExport: false,
     exportChartCallback: ()=>{},
     clinicianFocus: true,
-    theme: 'tanner3',
+    theme: 'tanner2',
     customThemeStyles: {}
   }
 };
@@ -59,7 +59,7 @@ export const CentileChart: Story = {
     chartType: 'centile',
     enableExport: false,
     exportChartCallback: ()=>{},
-    theme: 'monochrome',
+    theme: 'tanner2',
     customThemeStyles: {}
   },
 };
