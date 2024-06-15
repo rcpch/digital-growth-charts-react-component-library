@@ -14,6 +14,8 @@ export const StyledResetZoomButton = styled.button<{
     align-self: flex-end;
     background-color: ${({$enabled, $activeColour, $inactiveColour}) => ($enabled ? $activeColour : $inactiveColour)};
     border: 2px solid ${({$enabled, $activeColour, $inactiveColour}) => ($enabled ? $activeColour : $inactiveColour)};
+    border-radius: 0px;
+    margin: ${({ $margin }) => $margin};
     font-family: Arial;
     font-size: 14px;
     min-height: 30px;

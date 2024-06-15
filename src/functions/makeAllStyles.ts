@@ -270,6 +270,7 @@ function makeAllStyles(
             color: chartStyle?.toggleButtonTextStyle?.colour ?? white,
             fontSize: chartStyle?.toggleButtonTextStyle?.size ?? 14,
             fontStyle: chartStyle?.toggleButtonTextStyle?.style === 'italic' ? 'italic' : 'normal',
+            margin: 0
         },
     };
 }
