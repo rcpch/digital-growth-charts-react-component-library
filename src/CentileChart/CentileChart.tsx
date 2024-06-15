@@ -101,9 +101,8 @@ function CentileChart({
 }: CentileChartProps) {
     const [userDomains, setUserDomains] = useState(null);
 
-    const [storedChildMeasurements, setStoredChildMeasurements] = useState(childMeasurements)
-    const { defaultShowCorrected, defaultShowChronological, showToggle } = { defaultShowCorrected: true, defaultShowChronological: false, showToggle: true };
-    // const { defaultShowCorrected, defaultShowChronological, showToggle } = defaultToggles(childMeasurements);
+    const [storedChildMeasurements, setStoredChildMeasurements] = useState(childMeasurements);
+    const { defaultShowCorrected, defaultShowChronological, showToggle } = defaultToggles(childMeasurements);
     const [showChronologicalAge, setShowChronologicalAge] = useState(defaultShowChronological);
     const [showCorrectedAge, setShowCorrectedAge] = useState(defaultShowCorrected);
     const chartRef=useRef<any>();
