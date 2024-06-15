@@ -100,7 +100,7 @@ export const PrematureSDSChart: Story = {
     chartType: 'sds',
     enableExport: false,
     exportChartCallback: ()=>{},
-    theme: 'tanner3',
+    theme: 'tanner2',
     customThemeStyles: {}
   },
 };
