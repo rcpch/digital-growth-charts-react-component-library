@@ -597,7 +597,7 @@ const SDSChart: React.FC<SDSChartProps> = (
                             $fontStyle={styles.toggleStyle.fontStyle}
                             $color={styles.toggleStyle.color}
                             $className={"toggleButtons"}
-                            handleClick={onSelectRadioButton}
+                            handleClickAgeRadio={onSelectRadioButton}
                             correctedAge={showCorrectedAge}
                             chronologicalAge={showChronologicalAge}
                         />
