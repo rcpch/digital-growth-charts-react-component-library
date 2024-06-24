@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+import { CommonButton } from './CommonButton';
 
-export const StyledFullScreenButton = styled.button<{
+export const StyledFullScreenButton = styled(CommonButton)<{
     $color?: string,
     size?: number
 }>`

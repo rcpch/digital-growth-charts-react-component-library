@@ -1005,7 +1005,14 @@ describe("All tests relating to testing the copy button", () => {
       fireEvent.mouseOver(screen.getByTestId('copy-button'));
       expect(screen.getByTestId('copy-button')).toHaveStyle('background-color: ButtonFace');
     })
-
+    it("should not trigger form submission when copy button clicked", () => {
+      const onSubmit = jest.fn();
+      render(<form onSubmit={onSubmit}>
+        <CentileChart {...props} />
+      </form>);
+      fireEvent.click(screen.getByTestId('copy-button'));
+      expect(onSubmit).not.toHaveBeenCalled();
+    });
 })
 
 describe("Tests relating to exportChartCallback function", () => {
@@ -1132,6 +1139,14 @@ describe("All tests relating to the zoom functionality where enableZoom needs to
     fireEvent.click(screen.getByTestId('zoom-button'));
     expect(screen.queryByTestId("resetzoom-button")).toBeInTheDocument();
   })
+  it("should not trigger form submission when zoom button clicked", () => {
+    const onSubmit = jest.fn();
+    render(<form onSubmit={onSubmit}>
+      <CentileChart {...props} />
+    </form>);
+    fireEvent.click(screen.getByTestId('zoom-button'));
+    expect(onSubmit).not.toHaveBeenCalled();
+  });
 })
 
 describe("Tests relating to negative settings on the zoom button", () => {

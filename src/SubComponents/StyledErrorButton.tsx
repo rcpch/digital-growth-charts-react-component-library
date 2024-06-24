@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+import { CommonButton } from './CommonButton';
 
-export const StyledErrorButton = styled.button<{
+export const StyledErrorButton = styled(CommonButton)<{
     $activeColour: string;
     $inactiveColour: string;
     fontFamily: string;
