@@ -160,7 +160,7 @@ export function tooltipText(
                 if (bone_age_type==='bonexpert'){
                     concatenatedText+="\nBoneXpert";
                 }
-                if (bone_age_label.length > 0) {
+                if (bone_age_label && bone_age_label.length > 0) {
                     concatenatedText+="\n"+bone_age_label
                 }
             }
