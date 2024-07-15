@@ -13,7 +13,6 @@ describe("RCPCHChart", () => {
     props = {
       reference: 'uk-who',
       title: 'TestChartTitle',
-      subtitle: 'TestChartSubtitle',
       measurementMethod: 'height',
       sex: 'male',
       midParentalHeightData: {},
@@ -21,14 +20,16 @@ describe("RCPCHChart", () => {
       enableExport: false,
       exportChartCallback: ()=>null,
       clinicianFocus: false,
-      measurementsArray: [],
-      chartStyle: chartObject,
-      axisStyle: axesObject,
-      gridlineStyle: gridlinesObject,
-      centileStyle: centilesObject,
-      sdsStyle: sdsObject,
-      measurementStyle: measurementObjects,
+      measurements: {},
       chartType:'centile',
+      customThemeStyles: {
+        chartStyle: chartObject,
+        axisStyle: axesObject,
+        gridlineStyle: gridlinesObject,
+        centileStyle: centilesObject,
+        sdsStyle: sdsObject,
+        measurementStyle: measurementObjects,
+      }
     };
   });
 
