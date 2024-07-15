@@ -1176,3 +1176,35 @@ describe("Tests relating to negative settings on the zoom button", () => {
     expect(screen.queryByTestId('resetzoom-button')).not.toBeInTheDocument();
   })
 })
+
+describe("Tests relating to the gradient labels button", () => {
+  let props: CentileChartProps;
+  const midparentalHeight: MidParentalHeightObject = {}
+
+  beforeEach(() => {
+    props = {
+      chartsVersion: "7.0.0",
+      reference: "uk-who",
+      title: "Term Girl",
+      subtitle: "Now over 4 years with advanced bone age",
+      measurementMethod: "height",
+      sex: 'female',
+      childMeasurements: termGirlWithSingleHeightMeasurementAndBoneAgeAndEvent,
+      midParentalHeightData: midparentalHeight,
+      enableZoom: true,
+      styles: monochromeStyles,
+      enableExport: false,
+      exportChartCallback: ()=>null,
+      clinicianFocus: false
+    };
+  });
+
+  it("should not trigger form submission when gradient labels clicked", () => {
+    const onSubmit = jest.fn();
+    render(<form onSubmit={onSubmit}>
+      <CentileChart {...props} />
+    </form>);
+    fireEvent.click(screen.getByTestId('gradient-labels-button'));
+    expect(onSubmit).not.toHaveBeenCalled();
+  });
+})
