@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+import { CommonButton } from './CommonButton';
 
-export const StyledResetZoomButton = styled.button<{
+export const StyledResetZoomButton = styled(CommonButton)<{
     $activeColour: string;
     $inactiveColour: string;
     $fontFamily: string;

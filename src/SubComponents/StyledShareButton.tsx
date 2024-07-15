@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+import { CommonButton } from './CommonButton';
 
-export const StyledShareButton = styled.button<{
+export const StyledShareButton = styled(CommonButton)<{
     $color?: string,
     size?: number
 }>`
