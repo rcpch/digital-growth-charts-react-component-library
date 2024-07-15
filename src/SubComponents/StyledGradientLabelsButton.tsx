@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+import { CommonButton } from './CommonButton';
 
-export const StyledGradientLabelsButton = styled.button<{
+export const StyledGradientLabelsButton = styled(CommonButton)<{
     $color?: string,
     size?: number
 }>`
