@@ -681,8 +681,8 @@ function CentileChart({
                             chronData.size = 1.5;
                             correctData.size = 1.5;
                         } else {
-                            chronData.size = 3;
-                            correctData.size = 3;
+                            chronData.size = 3.5;
+                            correctData.size = 3.5;
                         }
 
                         return (
