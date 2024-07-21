@@ -31,6 +31,7 @@ import { trisomy21WeightFemaleCentileData } from '../chartdata/trisomy21_weight_
 import { trisomy21OFCMaleCentileData } from '../chartdata/trisomy21_ofc_male_centile_data';
 import { trisomy21OFCFemaleCentileData } from '../chartdata/trisomy21_ofc_female_centile_data';
 import { turnerHeightFemaleCentileData } from '../chartdata/turner_height_female_centile_data';
+import { LineSegment } from 'victory';
 
 type CentileLabelValues = {
     0.4: { value: number; workingX: number };
@@ -302,7 +303,7 @@ function childMeasurementRanges(
             console.warn('Measurements considered invalid by the API given to the chart. The chart will ignore them.');
         }
     }
-    
+
     return { lowestChildX, highestChildX, lowestChildY, highestChildY };
 }
 
