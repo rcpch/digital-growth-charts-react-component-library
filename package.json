@@ -1,6 +1,6 @@
 {
   "name": "@rcpch/digital-growth-charts-react-component-library",
-  "version": "7.0.6",
+  "version": "7.0.8",
   "description": "A React component library for the RCPCH digital growth charts using Rollup, TypeScript and Styled-Components",
   "main": "build/index.js",
   "module": "build/esm.index.js",
