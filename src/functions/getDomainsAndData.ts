@@ -351,6 +351,7 @@ function updateCoordsOfExtremeValues(
     d: IPlottedCentileMeasurement,
     native = false,
 ): void {
+    
     // transition points can lead to inaccurate coords for centile labels, therefore don't include 2 or 4 years old
     if (!native || (d.x !== 4 && d.x !== 2)) {
         if (extremeValues.lowestY > d.y) {
@@ -358,6 +359,11 @@ function updateCoordsOfExtremeValues(
         }
 
         if (extremeValues.highestY < d.y) {
+            extremeValues.highestY = d.y;
+        }
+        // this is necessary because in the BMI dataset (esp Trisomy-21), the values for Y ramp up to infinitity towards the end of the dataset
+        // this is a hack to prevent the chart from scaling to infinity - see discussion in #93 about the nature of SDS calculation when L is 0 or negative
+        if (extremeValues.highestY > 500){
             extremeValues.highestY = d.y;
         }
 
