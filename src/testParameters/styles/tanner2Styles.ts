@@ -285,7 +285,7 @@ export const Tanner2Styles = {
     },
     "measurementPoint": {
         "data": {
-            "fill": "#000000"
+            "fill": "#000000",
         }
     },
     "measurementLinkLine": {
