@@ -15,7 +15,6 @@ This function therefore instantiates defaults where user values have not been pr
 This creates a styles object that is passed to the chart.
 */
 import { AxisStyle, CentileStyle, SDSStyle, ChartStyle, GridlineStyle, MeasurementStyle } from '../interfaces/StyleObjects';
-import montserratRegular from '../fonts/Montserrat/Montserrat-Regular.ttf';
 
 const black = '#000000';
 const white = '#FFFFFF';
@@ -67,7 +66,7 @@ function makeAllStyles(
         toolTipMain: {
             fontSize: chartStyle?.tooltipTextStyle?.size ?? 14,
             fill: chartStyle?.tooltipTextStyle?.colour ?? black,
-            fontFamily: chartStyle?.tooltipTextStyle?.name ?? montserratRegular,
+            fontFamily: chartStyle?.tooltipTextStyle?.name ?? 'Montserrat',
             fontStyle: chartStyle?.tooltipTextStyle?.style ?? 'normal',
             textAnchor: "start"
         },
@@ -187,7 +186,7 @@ function makeAllStyles(
         },
         centileLabel: {
             fontSize: 6,
-            fontFamily: montserratRegular,
+            fontFamily: 'Montserrat',
             fill: centileStyle?.centileStroke ?? black
         },
         heightSDS: {
@@ -259,7 +258,7 @@ function makeAllStyles(
         },
         eventTextStyle: {
             size: measurementStyle?.eventTextStyle?.size ?? 14,
-            name: measurementStyle?.eventTextStyle?.name ?? montserratRegular,
+            name: measurementStyle?.eventTextStyle?.name ?? 'Montserrat',
             colour: measurementStyle?.eventTextStyle?.colour ?? black,
             style: measurementStyle?.eventTextStyle?.style ?? 'normal'
         },
