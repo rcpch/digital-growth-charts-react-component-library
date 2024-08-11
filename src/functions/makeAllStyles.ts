@@ -15,7 +15,7 @@ This function therefore instantiates defaults where user values have not been pr
 This creates a styles object that is passed to the chart.
 */
 import { AxisStyle, CentileStyle, SDSStyle, ChartStyle, GridlineStyle, MeasurementStyle } from '../interfaces/StyleObjects';
-import { setOpacity } from './setOpacity';
+import montserratRegular from '../fonts/Montserrat/Montserrat-Regular.ttf';
 
 const black = '#000000';
 const white = '#FFFFFF';
@@ -67,7 +67,7 @@ function makeAllStyles(
         toolTipMain: {
             fontSize: chartStyle?.tooltipTextStyle?.size ?? 14,
             fill: chartStyle?.tooltipTextStyle?.colour ?? black,
-            fontFamily: chartStyle?.tooltipTextStyle?.name ?? 'Montserrat',
+            fontFamily: chartStyle?.tooltipTextStyle?.name ?? montserratRegular,
             fontStyle: chartStyle?.tooltipTextStyle?.style ?? 'normal',
             textAnchor: "start"
         },
@@ -187,7 +187,7 @@ function makeAllStyles(
         },
         centileLabel: {
             fontSize: 6,
-            fontFamily: 'Montserrat',
+            fontFamily: montserratRegular,
             fill: centileStyle?.centileStroke ?? black
         },
         heightSDS: {
@@ -241,7 +241,7 @@ function makeAllStyles(
                 opacity: 0.5
             }
         },
-        measurementPoint: {
+        measurementPoint: { // these are the points on the chart where measurements are plotted: note that the size is dynamically set based on the isCrowded function
             data: {
                 fill: measurementStyle?.measurementFill ?? black,
             },
@@ -252,14 +252,14 @@ function makeAllStyles(
                 strokeWidth: 1.25,
             },
         },
-        highlightedMeasurementFill: {
+        highlightedMeasurementFill: { // these are the points on the chart where measurements are plotted: note that the size is dynamically set based on the isCrowded function
             data: {
-                fill: measurementStyle?.highlightedMeasurementFill ?? black
+                fill: measurementStyle?.highlightedMeasurementFill ?? black,
             }
         },
         eventTextStyle: {
             size: measurementStyle?.eventTextStyle?.size ?? 14,
-            name: measurementStyle?.eventTextStyle?.name ?? 'Montserrat',
+            name: measurementStyle?.eventTextStyle?.name ?? montserratRegular,
             colour: measurementStyle?.eventTextStyle?.colour ?? black,
             style: measurementStyle?.eventTextStyle?.style ?? 'normal'
         },

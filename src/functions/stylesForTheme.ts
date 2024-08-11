@@ -5,7 +5,6 @@ import { Tanner3AxisStyles, Tanner3ChartStyles, Tanner3GridlineStyles, Tanner3Ce
 import { traditionalBoyAxisStyles, traditionalBoyChartStyles, traditionalBoyGridlineStyles, traditionalBoyCentileStyles, traditionalBoyMeasurementStyles, traditionalBoySDSStyles } from '../testParameters/styles/traditionalBoysStyles';
 import { traditionalGirlAxisStyles, traditionalGirlChartStyles, traditionalGirlGridlineStyles, traditionalGirlCentileStyles, traditionalGirlMeasurementStyles, traditionalGirlSDSStyles } from '../testParameters/styles/traditionalGirlsStyles';
 import { ChartStyle, AxisStyle, GridlineStyle, CentileStyle, SDSStyle, MeasurementStyle } from '../interfaces/StyleObjects';
-import { Exception } from 'sass';
 
 export const stylesForTheme = (theme: 'monochrome' | 'traditional' | 'tanner1' | 'tanner2' | 'tanner3' | 'custom', sex: 'male' | 'female')=>{
     // Returns the styles objects for a theme. If custom is selected, monochrome is selected to be customized later
