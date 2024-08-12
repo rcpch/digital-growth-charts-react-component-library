@@ -51,7 +51,7 @@ export { ukwhoBMIFemaleCentileData }
 export { ukwhoBMIMaleSDSData }
 export { ukwhoBMIFemaleSDSData }
 
-export { ukwhoCustomData }
+// export { ukwhoCustomData }
 
 export { trisomy21HeightMaleCentileData }
 export { trisomy21HeightFemaleCentileData }
