@@ -40,6 +40,11 @@ export function tooltipText(
         chronological_percentage_median_bmi
     } = datum;
 
+    if (datum.y === null) {
+        return
+    }
+    
+
     // flag passed in from user - if clinician, show clinician age advice strings, else show child/family advice 
     const comment = clinicianFocus ? clinician_comment : lay_comment;
 

@@ -26,6 +26,7 @@ import { termToOverFourYearsGirlHeight } from '../testParameters/measurements/te
 import { turnerHeightOneYearToEleven } from '../testParameters/measurements/turnerHeightOneYearToEleven';
 import { beforeDueDateError } from '../testParameters/measurements/beforeDueDateError';
 import { termBabyGirlWeight } from '../testParameters/measurements/termBabyGirlWeight';
+import { trisomy21HighBMI } from '../testParameters/measurements/trisomy21HighBMI';
 
 export default {
     title: 'CentileChart',
@@ -454,6 +455,24 @@ export const WithTermBabyGirlWeight = () => (
         measurementMethod="weight"
         sex="female"
         childMeasurements={termBabyGirlWeight}
+        midParentalHeightData={midParentalHeights}
+        enableZoom={true}
+        styles={Tanner3Styles}
+        enableExport={true}
+        exportChartCallback={() => null}
+        clinicianFocus={true}
+    />
+);
+
+export const WithTrisomy21HighBMI = () => (
+    <CentileChart
+        chartsVersion="7.0.0"
+        reference="trisomy-21"
+        title="Trisomy 21 Child"
+        subtitle="High BMI Boy"
+        measurementMethod="bmi"
+        sex="male"
+        childMeasurements={trisomy21HighBMI}
         midParentalHeightData={midParentalHeights}
         enableZoom={true}
         styles={Tanner3Styles}

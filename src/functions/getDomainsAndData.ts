@@ -31,6 +31,7 @@ import { trisomy21WeightFemaleCentileData } from '../chartdata/trisomy21_weight_
 import { trisomy21OFCMaleCentileData } from '../chartdata/trisomy21_ofc_male_centile_data';
 import { trisomy21OFCFemaleCentileData } from '../chartdata/trisomy21_ofc_female_centile_data';
 import { turnerHeightFemaleCentileData } from '../chartdata/turner_height_female_centile_data';
+import { LineSegment } from 'victory';
 
 type CentileLabelValues = {
     0.4: { value: number; workingX: number };
@@ -302,7 +303,7 @@ function childMeasurementRanges(
             console.warn('Measurements considered invalid by the API given to the chart. The chart will ignore them.');
         }
     }
-    
+
     return { lowestChildX, highestChildX, lowestChildY, highestChildY };
 }
 
@@ -351,6 +352,7 @@ function updateCoordsOfExtremeValues(
     d: IPlottedCentileMeasurement,
     native = false,
 ): void {
+    
     // transition points can lead to inaccurate coords for centile labels, therefore don't include 2 or 4 years old
     if (!native || (d.x !== 4 && d.x !== 2)) {
         if (extremeValues.lowestY > d.y) {
@@ -358,6 +360,11 @@ function updateCoordsOfExtremeValues(
         }
 
         if (extremeValues.highestY < d.y) {
+            extremeValues.highestY = d.y;
+        }
+        // this is necessary because in the BMI dataset (esp Trisomy-21), the values for Y ramp up to infinitity towards the end of the dataset
+        // this is a hack to prevent the chart from scaling to infinity - see discussion in #93 about the nature of SDS calculation when L is 0 or negative
+        if (extremeValues.highestY > 500){
             extremeValues.highestY = d.y;
         }
 
