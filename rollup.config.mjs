@@ -9,9 +9,8 @@ import versionInjector from 'rollup-plugin-version-injector';
 import image from '@rollup/plugin-image';
 import dts from 'rollup-plugin-dts';
 import copy from 'rollup-plugin-copy';
-
-const packageJson = require('./package.json');
-const production = !process.env.ROLLUP_WATCH;
+import packageJson from './package.json';
+import url from '@rollup/plugin-url';
 
 let external = ['styled-components'];
 let globals = {};
@@ -54,11 +53,16 @@ export default [
                 extract: true, // Extract CSS to separate file
                 modules: false, // Disable CSS modules
                 minimize: true, // Minimize CSS
-                // Add custom PostCSS plugins if needed
             }),
             json(),
             versionInjector(),
             image(),
+            url({
+                include: ['**/*.woff', '**/*.woff2', '**/*.ttf', '**/*.eot', '**/*.svg', '**/*.otf'],
+                limit: 10000, // Adjust the limit as needed
+                emitFiles: true,
+                fileName: 'fonts/[name][extname]',
+            }),
             copy({
                 targets: [{ src: 'src/fonts/**/*', dest: 'build/fonts/' }],
             }),
