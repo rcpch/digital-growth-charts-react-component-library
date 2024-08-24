@@ -678,11 +678,11 @@ function CentileChart({
                         };
 
                         if (isChartCrowded) {
-                            chronData.size = 1.5;
-                            correctData.size = 1.5;
-                        } else {
                             chronData.size = 3.5;
                             correctData.size = 3.5;
+                        } else {
+                            chronData.size = 4.5;
+                            correctData.size = 4.5;
                         }
 
                         return (

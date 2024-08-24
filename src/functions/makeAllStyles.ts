@@ -15,7 +15,6 @@ This function therefore instantiates defaults where user values have not been pr
 This creates a styles object that is passed to the chart.
 */
 import { AxisStyle, CentileStyle, SDSStyle, ChartStyle, GridlineStyle, MeasurementStyle } from '../interfaces/StyleObjects';
-import { setOpacity } from './setOpacity';
 
 const black = '#000000';
 const white = '#FFFFFF';
@@ -241,7 +240,7 @@ function makeAllStyles(
                 opacity: 0.5
             }
         },
-        measurementPoint: {
+        measurementPoint: { // these are the points on the chart where measurements are plotted: note that the size is dynamically set based on the isCrowded function
             data: {
                 fill: measurementStyle?.measurementFill ?? black,
             },
@@ -252,9 +251,9 @@ function makeAllStyles(
                 strokeWidth: 1.25,
             },
         },
-        highlightedMeasurementFill: {
+        highlightedMeasurementFill: { // these are the points on the chart where measurements are plotted: note that the size is dynamically set based on the isCrowded function
             data: {
-                fill: measurementStyle?.highlightedMeasurementFill ?? black
+                fill: measurementStyle?.highlightedMeasurementFill ?? black,
             }
         },
         eventTextStyle: {
