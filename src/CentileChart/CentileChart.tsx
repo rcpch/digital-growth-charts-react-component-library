@@ -71,10 +71,6 @@ import { GradientLabelsButtonWrapper } from '../SubComponents/GradientLabelsButt
 import icon from '../images/icon.png';
 import ukca from '../images/ukca.png';
 
-// styles - imports fonts 
-import '../global.css';
-// import GlobalFonts from '../fonts/fonts'
-
 // allows two top level containers: zoom and voronoi
 const VictoryZoomVoronoiContainer:any = createContainer(
     'zoom',
@@ -109,6 +105,9 @@ function CentileChart({
     const [active, setActive] = useState(false);
     const [fullScreen, setFullScreen]=useState(true);
     const [centileLabels, setCentileLabels] = useState(false);
+
+    console.log(styles);
+    
 
     // save & destruct domains and data on initial render and when dependencies change
 

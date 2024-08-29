@@ -9,6 +9,7 @@ import versionInjector from 'rollup-plugin-version-injector';
 import image from '@rollup/plugin-image';
 import dts from 'rollup-plugin-dts';
 import copy from 'rollup-plugin-copy';
+import url from '@rollup/plugin-url';
 
 const packageJson = require('./package.json');
 const production = !process.env.ROLLUP_WATCH;
@@ -42,6 +43,7 @@ export default [
             },
         ],
         plugins: [
+            postcss(),
             peerDepsExternal(),
             resolve(),
             commonjs({
@@ -50,23 +52,23 @@ export default [
             }),
             typescript(),
             terser(),
-            postcss({
-                extract: true, // Extract CSS to separate file
-                modules: false, // Disable CSS modules
-                minimize: true, // Minimize CSS
-                // Add custom PostCSS plugins if needed
+            url({
+                include: ['**/*.ttf'], // Handle TTF fonts
+                limit: 10000, // Inline files smaller than 10k, otherwise export as file
+                emitFiles: true, // Emit files for larger fonts
             }),
             json(),
             versionInjector(),
             image(),
             copy({
-                targets: [{ src: 'src/fonts/**/*', dest: 'build/fonts/' }],
+                targets: [{ src: './fonts/**/*', dest: 'build/fonts/' }],
             }),
         ],
     },
     {
         input: 'src/index.ts',
         output: [{ file: 'build/types.d.ts', format: 'es' }],
+        external: [/\.css$/],
         plugins: [dts.default()],
     },
 ];

@@ -3,10 +3,6 @@ import * as React from 'react';
 // props and interfaces
 import { RCPCHChartProps } from './RCPCHChart.types';
 
-
-// style sheets
-import './RCPCHChart.scss';
-
 // components
 import CentileChart from '../CentileChart';
 import SDSChart from '../SDSChart/SDSChart';

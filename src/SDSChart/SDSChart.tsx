@@ -54,7 +54,6 @@ import { measurementMethodForName } from "../functions/measurementMethodForName"
 import { referenceText } from '../functions/referenceText';
 
 // style sheets
-import "../global.css";
 import { StyledButtonTooltip } from '../SubComponents/StyledButtonTooltip';
 
 const SDSChart: React.FC<SDSChartProps> = (
