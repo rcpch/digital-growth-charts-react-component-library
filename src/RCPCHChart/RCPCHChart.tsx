@@ -1,5 +1,7 @@
 // packages/libraries
 import * as React from 'react';
+import { createGlobalStyle } from 'styled-components';
+
 // props and interfaces
 import { RCPCHChartProps } from './RCPCHChart.types';
 
@@ -16,8 +18,39 @@ import { nameForReference } from '../functions/nameForReference'
 import { nameForMeasurementMethod } from '../functions/nameForMeasurementMethod';
 import { stylesForTheme } from '../functions/stylesForTheme';
 
+// Supports weights 400-700
+import '@fontsource/montserrat';
+import '@fontsource/dancing-script';
+
 // const VERSION_LOG = '[VI]Version: {version} - built on {date}[/VI]'; 
 const VERSION = '[VI]v{version}[/VI]'; // uses version injector plugin to Rollup to report package.json version
+
+const GlobalStyle = createGlobalStyle`
+  @font-face {
+    font-family: 'Montserrat';
+    src: local('Montserrat'), local('Montserrat-Regular'),
+         url('public/fonts/montserrat/montserrat-latin-400-normal.woff2') format('woff2'),
+         url('public/fonts/montserrat/montserrat-latin-400-normal.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Dancing Script';
+    src: local('Dancing Script'),
+         url('public/fonts/dancing-script/dancing-script-latin-400-normal.woff2') format('woff2'),
+         url('public/fonts/dancing-script/dancing-script-latin-400-normal.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  body {
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Arial', sans-serif;
+}`;
 
 const RCPCHChart: React.FC<RCPCHChartProps> = ({
     title,
@@ -80,6 +113,8 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
 
         return (
             <ErrorBoundary styles={styles}>
+                <GlobalStyle />
+                <h1 style={{fontFamily: 'Dancing Script'}}>FUCK</h1>
                 <CentileChart
                     chartsVersion={VERSION}
                     reference={reference}
@@ -111,6 +146,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
         
         return (
             <ErrorBoundary styles={styles}>
+                <GlobalStyle />
                 <SDSChart
                     chartsVersion={VERSION}
                     reference={reference}

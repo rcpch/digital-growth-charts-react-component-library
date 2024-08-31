@@ -15,6 +15,8 @@ import {
     VictoryPortal,
 } from 'victory';
 
+import { createGlobalStyle } from 'styled-components';
+
 // helper functions
 import { getDomainsAndData, getVisibleData } from '../functions/getDomainsAndData';
 import { yAxisLabel } from '../functions/yAxisLabel';
@@ -105,9 +107,6 @@ function CentileChart({
     const [active, setActive] = useState(false);
     const [fullScreen, setFullScreen]=useState(true);
     const [centileLabels, setCentileLabels] = useState(false);
-
-    console.log(styles);
-    
 
     // save & destruct domains and data on initial render and when dependencies change
 

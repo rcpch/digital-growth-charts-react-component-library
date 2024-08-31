@@ -8,6 +8,7 @@ import json from '@rollup/plugin-json';
 import versionInjector from 'rollup-plugin-version-injector';
 import image from '@rollup/plugin-image';
 import dts from 'rollup-plugin-dts';
+import autoprefixer from 'autoprefixer';
 import copy from 'rollup-plugin-copy';
 import url from '@rollup/plugin-url';
 
@@ -43,7 +44,12 @@ export default [
             },
         ],
         plugins: [
-            postcss(),
+            postcss({
+                plugins: [autoprefixer()],
+                extensions: ['.css'],
+                minimize: true,
+                extract: true, // Include styles in the JS bundle
+            }),
             peerDepsExternal(),
             resolve(),
             commonjs({
@@ -52,23 +58,35 @@ export default [
             }),
             typescript(),
             terser(),
-            url({
-                include: ['**/*.ttf'], // Handle TTF fonts
-                limit: 10000, // Inline files smaller than 10k, otherwise export as file
-                emitFiles: true, // Emit files for larger fonts
-            }),
             json(),
             versionInjector(),
             image(),
+            url({
+                include: ['**/*.woff', '**/*.woff2', '**/*.ttf', '**/*.eot', '**/*.svg'],
+                limit: 10000, // Adjust the limit as needed
+                emitFiles: true,
+                fileName: '[dirname][name][extname]', // Preserve the original file name
+            }),
             copy({
-                targets: [{ src: './fonts/**/*', dest: 'build/fonts/' }],
+                // copy the fonts from node_modules/@fontsource/montserrat/files/* to dist/fonts/*
+                targets: [
+                    {
+                        src: 'node_modules/@fontsource/montserrat/files/*',
+                        dest: 'dist/fonts/montserrat',
+                    },
+                    {
+                        src: 'node_modules/@fontsource/dancing-script/files/*',
+                        dest: 'dist/fonts/dancing-script',
+                    },
+                ],
             }),
         ],
     },
     {
         input: 'src/index.ts',
-        output: [{ file: 'build/types.d.ts', format: 'es' }],
-        external: [/\.css$/],
+        output: [{ file: 'dist/types.d.ts', format: 'es' }],
+        // external: [/\.css$/],
+        external: [],
         plugins: [dts.default()],
     },
 ];

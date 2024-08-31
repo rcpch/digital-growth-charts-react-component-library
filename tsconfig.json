@@ -13,6 +13,6 @@
         "esModuleInterop": true,
         "typeRoots": ["./src/@types", "./node_modules/@types"]
     },
-    "include": ["src/**/*", "src/chartdata/reference-data.d.ts"],
-    "exclude": ["node_modules", "build", "storybook-static", "src/**/*.stories.tsx", "src/**/*.test.tsx"]
+    "include": ["src/**/*", "src/chartdata/reference-data.d.ts", "src/assett/fonts/fonts.d.ts"],
+    "exclude": ["node_modules", "dist", "storybook-static", "src/**/*.stories.tsx", "src/**/*.test.tsx"]
 }
