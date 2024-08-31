@@ -35,15 +35,6 @@ const GlobalStyle = createGlobalStyle`
     font-style: normal;
   }
 
-  @font-face {
-    font-family: 'Dancing Script';
-    src: local('Dancing Script'),
-         url('public/fonts/dancing-script/dancing-script-latin-400-normal.woff2') format('woff2'),
-         url('public/fonts/dancing-script/dancing-script-latin-400-normal.woff') format('woff');
-    font-weight: 400;
-    font-style: normal;
-  }
-
   body {
     font-family: 'Montserrat', sans-serif;
   }
@@ -114,7 +105,6 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
         return (
             <ErrorBoundary styles={styles}>
                 <GlobalStyle />
-                <h1 style={{fontFamily: 'Dancing Script'}}>FUCK</h1>
                 <CentileChart
                     chartsVersion={VERSION}
                     reference={reference}
