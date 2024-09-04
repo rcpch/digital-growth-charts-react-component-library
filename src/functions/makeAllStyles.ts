@@ -18,9 +18,11 @@ import { AxisStyle, CentileStyle, SDSStyle, ChartStyle, GridlineStyle, Measureme
 
 const black = '#000000';
 const white = '#FFFFFF';
+const darkGrey = '#808080';
 const midGrey = '#b3b3b3';
 const lightGrey = '#d9d9d9';
 const lightLightGrey = "#f3f3f3";
+const charcoal = "#4d4d4d";
 const aquaGreen ='#00BDAA'
 const orange = '#FF8000'
 const purple = '#7159AA'
@@ -73,14 +75,14 @@ function makeAllStyles(
             textAnchor: "start"
         },
         chartTitle: {
-            fontFamily:  chartStyle?.titleStyle?.name ?? 'Arial',
+            fontFamily:  chartStyle?.titleStyle?.name ?? 'Montserrat',
             fontWeight: chartStyle?.subTitleStyle?.weight ?? 700,
             color: chartStyle?.titleStyle?.colour ?? black,
             fontSize: chartStyle?.titleStyle?.size ?? 14,
             fontStyle: chartStyle?.titleStyle?.style === 'italic' ? 'italic' : 'normal',
         },
         chartSubTitle: {
-            fontFamily: chartStyle?.subTitleStyle?.name ?? 'Arial', 
+            fontFamily: chartStyle?.subTitleStyle?.name ?? 'Montserrat', 
             fontWeight: chartStyle?.subTitleStyle?.weight ?? 700,
             color: chartStyle?.subTitleStyle?.colour ?? black,
             fontSize: chartStyle?.subTitleStyle?.size ?? 14,
@@ -160,7 +162,7 @@ function makeAllStyles(
         },
         delayedPubertyThresholdLine: {
             data: {
-                stroke: measurementStyle?.measurementFill ?? black,
+                stroke: charcoal,
                 strokeWidth: 1,
             },
         },
@@ -170,6 +172,12 @@ function makeAllStyles(
             fontFamily: axisStyle?.axisThresholdLabelTextStyle?.name ?? 'Arial',
             fontWeight: axisStyle?.axisThresholdLabelTextStyle?.weight ?? 400,
             textAlign: 'start',
+        },
+        nondisjunctionThresholdLine: {
+            data: {
+                stroke: charcoal,
+                strokeWidth: 1,
+            },
         },
         sdsLine: {  // these are the sds lines on the BMI chart
             data: {
