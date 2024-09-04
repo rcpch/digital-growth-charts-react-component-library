@@ -23,6 +23,7 @@ import tailoredXTickValues from '../functions/tailoredXTickValues';
 import defaultToggles from '../functions/defaultToggles';
 import { tooltipText } from '../functions/tooltips';
 import { delayedPubertyThreshold, makePubertyThresholds, lowerPubertyBorder } from '../functions/DelayedPuberty';
+import { nondisjunctionThresholds, makeNonDisjunctionThresholds } from '../functions/nondisjunctionLines';
 import { getFilteredMidParentalHeightData } from '../functions/getFilteredMidParentalHeightData';
 import { isCrowded } from '../functions/isCrowded';
 import { labelAngle } from '../functions/labelAngle';
@@ -158,9 +159,13 @@ function CentileChart({
     const isChartCrowded = isCrowded(domains, childMeasurements);
 
     let pubertyThresholds: null | any[] = null;
+    let nondisjunctionThresholds: null | any[] = null;
 
     if (reference === 'uk-who' && measurementMethod === 'height') {
         pubertyThresholds = makePubertyThresholds(domains, sex);
+    }
+    if (reference === 'uk-who') {
+        nondisjunctionThresholds = makeNonDisjunctionThresholds(domains, sex)
     }
 
     const filteredMidParentalHeightData = useMemo(() => getFilteredMidParentalHeightData(reference, childMeasurements, midParentalHeightData, sex),[
@@ -615,6 +620,34 @@ function CentileChart({
                                                     dx={5}
                                                     dy={10}
                                                     style={styles.delayedPubertyThresholdLabel}
+                                                />
+                                            }
+                                        />
+                                    );
+                                } else {
+                                    return null;
+                                }
+                            })
+                    }
+
+                    {
+                        //  nondisjunction lines uk90->uk-who->uk-who
+                        nondisjunctionThresholds !== null &&
+                            nondisjunctionThresholds.map((dataArray) => {
+                                if (dataArray[0].x > domains.x[0] && dataArray[1].x < domains.x[1]) {
+                                    return (
+                                        <VictoryLine
+                                            key={dataArray[0].x}
+                                            name={`nondisjunction-${dataArray[0].x}`}
+                                            style={styles.nondisjunctionThresholdLine}
+                                            data={dataArray}
+                                            labelComponent={
+                                                <VictoryLabel
+                                                    textAnchor="start"
+                                                    angle={-90}
+                                                    dx={5}
+                                                    dy={10}
+                                                    style={styles.nondisjunctionThresholdLabel}
                                                 />
                                             }
                                         />
