@@ -947,6 +947,34 @@ function CentileChart({
                             })
                     }
 
+                    {
+                        //  nondisjunction lines uk90->uk-who->uk-who
+                        nondisjunctionThresholds !== null &&
+                            nondisjunctionThresholds.map((dataArray) => {
+                                if (dataArray[0].x > domains.x[0] && dataArray[1].x < domains.x[1]) {
+                                    return (
+                                        <VictoryLine
+                                            key={dataArray[0].x}
+                                            name={`nondisjunction-${dataArray[0].x}`}
+                                            style={styles.nondisjunctionThresholdLine}
+                                            data={dataArray}
+                                            labelComponent={
+                                                <VictoryLabel
+                                                    textAnchor="start"
+                                                    angle={-90}
+                                                    dx={5}
+                                                    dy={10}
+                                                    style={styles.nondisjunctionThresholdLabel}
+                                                />
+                                            }
+                                        />
+                                    );
+                                } else {
+                                    return null;
+                                }
+                            })
+                    }
+
                     {/* create a series for each child measurements data point: a circle for chronological age, a cross for corrected */}
                     {/* If data points are close together, reduce the size of the point */}
 
