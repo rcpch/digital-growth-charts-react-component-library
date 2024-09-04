@@ -19,7 +19,6 @@ import { AxisStyle, CentileStyle, SDSStyle, ChartStyle, GridlineStyle, Measureme
 const black = '#000000';
 const white = '#FFFFFF';
 const darkGrey = '#808080';
-const darkGrey = '#808080';
 const midGrey = '#b3b3b3';
 const lightGrey = '#d9d9d9';
 const lightLightGrey = "#f3f3f3";
