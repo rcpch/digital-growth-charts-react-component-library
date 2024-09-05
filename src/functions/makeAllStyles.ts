@@ -66,18 +66,18 @@ function makeAllStyles(
         toolTipMain: {
             fontSize: chartStyle?.tooltipTextStyle?.size ?? 14,
             fill: chartStyle?.tooltipTextStyle?.colour ?? black,
-            fontFamily: chartStyle?.tooltipTextStyle?.name ?? 'Montserrat',
+            fontFamily: 'Montserrat', // chartStyle?.tooltipTextStyle?.name ??
             fontStyle: chartStyle?.tooltipTextStyle?.style ?? 'normal',
             textAnchor: "start"
         },
         chartTitle: {
-            fontFamily: chartStyle?.titleStyle?.name ?? 'Arial',
+            fontFamily: 'Montserrat-Bold', //chartStyle?.titleStyle?.name ?? 'Arial'
             color: chartStyle?.titleStyle?.colour ?? black,
             fontSize: chartStyle?.titleStyle?.size ?? 14,
             fontStyle: chartStyle?.titleStyle?.style === 'italic' ? 'italic' : 'normal',
         },
         chartSubTitle: {
-            fontFamily: chartStyle?.subTitleStyle?.name ?? 'Arial',
+            fontFamily: 'Montserrat-Italic', //chartStyle?.subTitleStyle?.name ?? 'Arial'
             color: chartStyle?.subTitleStyle?.colour ?? black,
             fontSize: chartStyle?.subTitleStyle?.size ?? 14,
             fontStyle: chartStyle?.subTitleStyle?.style === 'italic' ? 'italic' : 'normal',

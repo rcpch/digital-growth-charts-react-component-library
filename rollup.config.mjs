@@ -8,9 +8,6 @@ import json from '@rollup/plugin-json';
 import versionInjector from 'rollup-plugin-version-injector';
 import image from '@rollup/plugin-image';
 import dts from 'rollup-plugin-dts';
-import autoprefixer from 'autoprefixer';
-import copy from 'rollup-plugin-copy';
-import url from '@rollup/plugin-url';
 
 const packageJson = require('./package.json');
 const production = !process.env.ROLLUP_WATCH;
@@ -45,10 +42,7 @@ export default [
         ],
         plugins: [
             postcss({
-                plugins: [autoprefixer()],
                 extensions: ['.css'],
-                minimize: true,
-                extract: true, // Include styles in the JS bundle
             }),
             peerDepsExternal(),
             resolve(),
@@ -61,31 +55,11 @@ export default [
             json(),
             versionInjector(),
             image(),
-            url({
-                include: ['**/*.woff', '**/*.woff2', '**/*.ttf', '**/*.eot', '**/*.svg'],
-                limit: 10000, // Adjust the limit as needed
-                emitFiles: true,
-                fileName: '[dirname][name][extname]', // Preserve the original file name
-            }),
-            copy({
-                // copy the fonts from node_modules/@fontsource/montserrat/files/* to dist/fonts/*
-                targets: [
-                    {
-                        src: 'node_modules/@fontsource/montserrat/files/*',
-                        dest: 'dist/fonts/montserrat',
-                    },
-                    {
-                        src: 'node_modules/@fontsource/dancing-script/files/*',
-                        dest: 'dist/fonts/dancing-script',
-                    },
-                ],
-            }),
         ],
     },
     {
         input: 'src/index.ts',
         output: [{ file: 'dist/types.d.ts', format: 'es' }],
-        // external: [/\.css$/],
         external: [],
         plugins: [dts.default()],
     },

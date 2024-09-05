@@ -1,5 +1,6 @@
 // packages/libraries
 import * as React from 'react';
+
 import { createGlobalStyle } from 'styled-components';
 
 // props and interfaces
@@ -18,9 +19,10 @@ import { nameForReference } from '../functions/nameForReference'
 import { nameForMeasurementMethod } from '../functions/nameForMeasurementMethod';
 import { stylesForTheme } from '../functions/stylesForTheme';
 
-// Supports weights 400-700
-import '@fontsource/montserrat';
-import '@fontsource/dancing-script';
+
+import { montserratRegular } from '../fonts/montserrat-b64';
+import { montserratBold } from '../fonts/montserrat-bold-b64';
+import { montserratItalic } from '../fonts/montserrat-italic-b64';
 
 // const VERSION_LOG = '[VI]Version: {version} - built on {date}[/VI]'; 
 const VERSION = '[VI]v{version}[/VI]'; // uses version injector plugin to Rollup to report package.json version
@@ -28,11 +30,23 @@ const VERSION = '[VI]v{version}[/VI]'; // uses version injector plugin to Rollup
 const GlobalStyle = createGlobalStyle`
   @font-face {
     font-family: 'Montserrat';
-    src: local('Montserrat'), local('Montserrat-Regular'),
-         url('public/fonts/montserrat/montserrat-latin-400-normal.woff2') format('woff2'),
-         url('public/fonts/montserrat/montserrat-latin-400-normal.woff') format('woff');
+    src: url(${montserratRegular}) format('ttf'),
     font-weight: 400;
     font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Montserrat-Bold';
+    src: url(${montserratBold}) format('ttf'),
+    font-weight: 700;
+    font-style: bold;
+  }
+  
+  @font-face {
+    font-family: 'Montserrat-Italic';
+    src: url(${montserratItalic}) format('ttf'),
+    font-weight: 400;
+    font-style: italic;
   }
 
   body {
@@ -40,7 +54,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }`;
 
 const RCPCHChart: React.FC<RCPCHChartProps> = ({

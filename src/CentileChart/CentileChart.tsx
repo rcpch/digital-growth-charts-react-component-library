@@ -15,8 +15,6 @@ import {
     VictoryPortal,
 } from 'victory';
 
-import { createGlobalStyle } from 'styled-components';
-
 // helper functions
 import { getDomainsAndData, getVisibleData } from '../functions/getDomainsAndData';
 import { yAxisLabel } from '../functions/yAxisLabel';
@@ -251,6 +249,8 @@ function CentileChart({
     useLayoutEffect(() => {
         setUserDomains(null);
     }, [storedChildMeasurements]);
+
+
 
     return (
         <MainContainer>

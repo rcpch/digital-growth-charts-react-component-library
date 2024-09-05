@@ -30,7 +30,6 @@
     "react-dom": "18.2.0"
   },
   "dependencies": {
-    "@fontsource/montserrat": "^5.0.19",
     "sass": "1.70.0",
     "styled-components": "6.1.8",
     "victory": "36.9.1"
