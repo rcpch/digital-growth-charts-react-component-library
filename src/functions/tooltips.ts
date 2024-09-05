@@ -89,14 +89,6 @@ export function tooltipText(
     // l represent labels that represent reference transitions, puberty area or sds labels for the BMI SDS lines
     if (l) {
         
-        if (x <= 0.038329911019849415 && x >= -0.057494866529774126 && measurementMethod === 'weight' && reference === 'uk-who'){
-            // 37 weeks gest - 42
-            if (childName.includes("centileLine")){
-                // these are the centile labels   
-                    return `${addOrdinalSuffix(l)} centile`;
-            }
-            return l;   
-        }
         // reference transit point or puberty shaded area labels
         if (x === 0.0383 && reference === 'uk-who') {
             return 'Transit point from\nUK90 to WHO data';
@@ -119,6 +111,11 @@ export function tooltipText(
             } else {
                 return 'If a plot falls here, pubertal assessment will be required\nand mid-parental centile should be assessed.\nIf they are in puberty or completing puberty,\nthey are below the 0.4th centile and should be referred.\nIn most instances a prepubertal girl plotted in this area\nis growing normally, but comparison with the mid-parental\ncentile and growth trajectory will assist the assessment\nof whether further investigation is needed.';
             }
+        }
+
+        // Term shaded area text
+        if (x < 0.038329911019849415 && x > -0.057494866529774126 && reference ==='uk-who' && measurementMethod === 'weight'){
+            return `${addOrdinalSuffix(l)} centile: \n Babies born in this shaded area\nare term. It is normal for\nbabies to lose weight over\nthe first two weeks of life.\nMedical review should be sought\nif weight has dropped by more\nthan 10% of birth weight or\nweight is still below birth weight\nthree weeks after birth.`;
         }
         
         // BMI SDS labels
