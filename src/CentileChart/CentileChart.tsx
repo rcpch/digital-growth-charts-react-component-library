@@ -300,7 +300,9 @@ function CentileChart({
                                     backgroundPadding={5}
                                     pointerLength={5}
                                     cornerRadius={0}
-                                    flyoutStyle={{...styles.toolTipFlyout}}
+                                    flyoutStyle={{
+                                        ...styles.toolTipFlyout,
+                                    }}
                                     style={{...styles.toolTipMain}}
                                 />
                             }

@@ -10,21 +10,15 @@ const config: StorybookConfig = {
         '@storybook/addon-interactions',
         '@storybook/addon-mdx-gfm',
         '@storybook/addon-webpack5-compiler-babel',
-        {
-            name: '@storybook/addon-styling-webpack',
-            options: {
-              rules: [
-                // Replaces existing CSS rules with given rule
-                {
-                  test: /\.css$/,
-                  use: [
-                    'style-loader',
-                    'css-loader',
-                  ],
-                }
-              ]
-            }
-          }
+        // {
+        //     name: '@storybook/addon-styling-webpack',
+        //     options: {
+        //       rules: [
+        //         // Replaces existing CSS rules with given rule
+        //         // s
+        //       ]
+        //     }
+        //   }
     ],
     framework: {
         name: '@storybook/react-webpack5',
