@@ -1,11 +1,10 @@
 // packages/libraries
 import * as React from 'react';
+
+import { createGlobalStyle } from 'styled-components';
+
 // props and interfaces
 import { RCPCHChartProps } from './RCPCHChart.types';
-
-
-// style sheets
-import './RCPCHChart.scss';
 
 // components
 import CentileChart from '../CentileChart';
@@ -20,8 +19,43 @@ import { nameForReference } from '../functions/nameForReference'
 import { nameForMeasurementMethod } from '../functions/nameForMeasurementMethod';
 import { stylesForTheme } from '../functions/stylesForTheme';
 
+
+import { montserratRegular } from '../fonts/montserrat-b64';
+import { montserratBold } from '../fonts/montserrat-bold-b64';
+import { montserratItalic } from '../fonts/montserrat-italic-b64';
+
 // const VERSION_LOG = '[VI]Version: {version} - built on {date}[/VI]'; 
 const VERSION = '[VI]v{version}[/VI]'; // uses version injector plugin to Rollup to report package.json version
+
+const GlobalStyle = createGlobalStyle`
+  @font-face {
+    font-family: 'Montserrat';
+    src: url(${montserratRegular}) format('truetype'),
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Montserrat-Bold';
+    src: url(${montserratBold}) format('truetype'),
+    font-weight: 700;
+    font-style: bold;
+  }
+  
+  @font-face {
+    font-family: 'Montserrat-Italic';
+    src: url(${montserratItalic}) format('truetype'),
+    font-weight: 400;
+    font-style: italic;
+  }
+
+  body {
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+}`;
 
 const RCPCHChart: React.FC<RCPCHChartProps> = ({
     title,
@@ -84,6 +118,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
 
         return (
             <ErrorBoundary styles={styles}>
+                <GlobalStyle />
                 <CentileChart
                     chartsVersion={VERSION}
                     reference={reference}
@@ -115,6 +150,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
         
         return (
             <ErrorBoundary styles={styles}>
+                <GlobalStyle />
                 <SDSChart
                     chartsVersion={VERSION}
                     reference={reference}

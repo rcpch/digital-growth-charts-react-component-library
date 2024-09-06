@@ -71,10 +71,6 @@ import { GradientLabelsButtonWrapper } from '../SubComponents/GradientLabelsButt
 import icon from '../images/icon.png';
 import ukca from '../images/ukca.png';
 
-// styles - imports fonts 
-import '../global.css';
-// import GlobalFonts from '../fonts/fonts'
-
 // allows two top level containers: zoom and voronoi
 const VictoryZoomVoronoiContainer:any = createContainer(
     'zoom',
@@ -250,6 +246,8 @@ function CentileChart({
         setUserDomains(null);
     }, [storedChildMeasurements]);
 
+
+
     return (
         <MainContainer>
             <TopContainer>
@@ -298,7 +296,9 @@ function CentileChart({
                                     backgroundPadding={5}
                                     pointerLength={5}
                                     cornerRadius={0}
-                                    flyoutStyle={{...styles.toolTipFlyout}}
+                                    flyoutStyle={{
+                                        ...styles.toolTipFlyout,
+                                    }}
                                     style={{...styles.toolTipMain}}
                                 />
                             }

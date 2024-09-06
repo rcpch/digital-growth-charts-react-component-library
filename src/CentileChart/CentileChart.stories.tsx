@@ -1,7 +1,6 @@
 // Generated with util/create-component.js
 import * as React from 'react';
 import CentileChart from './CentileChart';
-import RCPCHChart from '../RCPCHChart';
 import { monochromeStyles } from '../testParameters/styles/monochromeStyles';
 import { Tanner1Styles } from '../testParameters/styles/tanner1Styles';
 import { Tanner2Styles } from '../testParameters/styles/tanner2Styles';

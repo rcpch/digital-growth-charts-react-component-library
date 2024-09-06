@@ -71,13 +71,13 @@ function makeAllStyles(
             textAnchor: "start"
         },
         chartTitle: {
-            fontFamily: chartStyle?.titleStyle?.name ?? 'Arial',
+            fontFamily:  chartStyle?.titleStyle?.name ?? 'Arial',
             color: chartStyle?.titleStyle?.colour ?? black,
             fontSize: chartStyle?.titleStyle?.size ?? 14,
             fontStyle: chartStyle?.titleStyle?.style === 'italic' ? 'italic' : 'normal',
         },
         chartSubTitle: {
-            fontFamily: chartStyle?.subTitleStyle?.name ?? 'Arial',
+            fontFamily: chartStyle?.subTitleStyle?.name ?? 'Arial', 
             color: chartStyle?.subTitleStyle?.colour ?? black,
             fontSize: chartStyle?.subTitleStyle?.size ?? 14,
             fontStyle: chartStyle?.subTitleStyle?.style === 'italic' ? 'italic' : 'normal',

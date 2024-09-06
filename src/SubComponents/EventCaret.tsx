@@ -1,5 +1,4 @@
 import * as React from 'react';
-import '../global.css';
 
 export const EventCaret = (props: any) => {
     const { x, y, eventsText, style} = props;
