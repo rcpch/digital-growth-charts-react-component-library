@@ -30,21 +30,21 @@ const VERSION = '[VI]v{version}[/VI]'; // uses version injector plugin to Rollup
 const GlobalStyle = createGlobalStyle`
   @font-face {
     font-family: 'Montserrat';
-    src: url(${montserratRegular}) format('ttf'),
+    src: url(${montserratRegular}) format('truetype'),
     font-weight: 400;
     font-style: normal;
   }
   
   @font-face {
     font-family: 'Montserrat-Bold';
-    src: url(${montserratBold}) format('ttf'),
+    src: url(${montserratBold}) format('truetype'),
     font-weight: 700;
     font-style: bold;
   }
   
   @font-face {
     font-family: 'Montserrat-Italic';
-    src: url(${montserratItalic}) format('ttf'),
+    src: url(${montserratItalic}) format('truetype'),
     font-weight: 400;
     font-style: italic;
   }
