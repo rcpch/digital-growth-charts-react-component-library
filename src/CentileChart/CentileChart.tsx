@@ -312,6 +312,10 @@ function CentileChart({
                                     backgroundPadding={5}
                                     pointerLength={5}
                                     cornerRadius={0}
+                                    flyoutHeight={(datum) => {
+                                        const numberOfLines = datum.text.length;
+                                        return numberOfLines * 18;    // 18 is the line height
+                                    }}
                                     flyoutStyle={{
                                         ...styles.toolTipFlyout,
                                     }}

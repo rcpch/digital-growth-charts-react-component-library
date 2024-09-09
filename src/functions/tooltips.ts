@@ -130,7 +130,14 @@ export function tooltipText(
             let returnStringList = [];
             // delayed puberty if plotted in this area
             if (sex==='male'){
-                returnStringList.push('If a plot falls here, pubertal assessment will be required and mid-parental centile should be assessed. If they are in puberty or completing puberty, they are below the 0.4th centile and should be referred. In most instances a prepubertIn most instances a prepubertal boy plotted in this area is growing normally, but comparison with the mid-parental centile and growth trajectory will assist the assessment of whether further investigation is needed.');
+                returnStringList.push('If a plot falls here, pubertal assessment will be required');
+                returnStringList.push('and mid-parental centile should be assessed.');
+                returnStringList.push('If they are in puberty or completing puberty,');
+                returnStringList.push('they are below the 0.4th centile and should be referred.');
+                returnStringList.push('In most instances a prepubertal boy plotted in this area');
+                returnStringList.push('is growing normally, but comparison with the mid-parental');
+                returnStringList.push('centile and growth trajectory will assist the assessment');
+                returnStringList.push('of whether further investigation is needed.');
                 return returnStringList;
             } else {
                 returnStringList.push('If a plot falls here, pubertal assessment will be required');
