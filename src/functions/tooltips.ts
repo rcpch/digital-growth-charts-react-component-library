@@ -64,12 +64,13 @@ export function tooltipText(
             corrected_gestational_age=`${gestational_age.corrected_gestation_weeks}+${gestational_age.corrected_gestation_days} weeks`
             returnStringList.push(`${calendar_age}\nCorrected age: ${corrected_gestational_age} on ${observation_date}`)
             returnStringList.push(`${comment}`)
-            returnStringList.push(`${y}${measurementSuffix(measurementMethod)}`)
+            returnStringList.push(`${y} ${measurementSuffix(measurementMethod)}`)
             returnStringList.push(`${corrected_measurement_error}`)
         }
         returnStringList.push(`Corrected age: ${calendar_age} on ${observation_date}`)
         returnStringList.push(`${comment}`)
-        returnStringList.push(`${y} ${measurementSuffix(measurementMethod)} ${corrected_measurement_error}`)
+        returnStringList.push(`${y} ${measurementSuffix(measurementMethod)}`)
+        returnStringList.push(`${corrected_measurement_error}`)
         return returnStringList;
     }
 
@@ -155,7 +156,7 @@ export function tooltipText(
         // Term shaded area text
         if (x < 0.038329911019849415 && x > -0.057494866529774126 && reference ==='uk-who' && measurementMethod === 'weight'){
             let returnStringList = [];
-            returnStringList.push(`${addOrdinalSuffix(l)} centile:`);
+            // returnStringList.push(`${addOrdinalSuffix(l)} centile:`);
             returnStringList.push('Babies born in this shaded area');
             returnStringList.push('are term. It is normal for');
             returnStringList.push('babies to lose weight over');
@@ -192,13 +193,13 @@ export function tooltipText(
         // bone age text
         if ((childName==="chronologicalboneage" || childName === "correctedboneage") && b){
             let returnStringList = [];
-            returnStringList.push( "Bone Age: ${b.toString()} yrs")
+            returnStringList.push( `Bone Age: ${b.toString()} yrs`)
             
             if (bone_age_sds && !isNaN(bone_age_sds)) {
-                returnStringList.push("SDS: ${bone_age_sds.toString()}");
+                returnStringList.push(`SDS: ${bone_age_sds.toString()}`);
             }
             if (bone_age_centile && !isNaN(bone_age_centile)) {
-                returnStringList.push("Centile: ${bone_age_centile.toString()}");
+                returnStringList.push(`Centile: ${bone_age_centile.toString()}`);
             }
             if (bone_age_type && bone_age_type.length > 0) {
                 if (bone_age_type==="greulich-pyle"){
@@ -264,15 +265,15 @@ export function tooltipText(
                 const sds_string = `[SDS: ${sds > 0 ? '+' + Math.round(sds*1000)/1000 : Math.round(sds*1000)/1000 }]`;
                 if (age_type === 'corrected_age') {
                     returnStringList.push(`Corrected age: ${calendar_age} on ${formatted_observation_date} on ${formatted_observation_date}`)
-                    returnStringList.push(`${comment} ${y}`)
-                    returnStringList.push(`${measurementSuffix(measurementMethod)}`);
+                    returnStringList.push(`${comment}`)
+                    returnStringList.push(`${y} ${measurementSuffix(measurementMethod)}`);
                     returnStringList.push(`${ clinicianFocus ? sds_string : finalCentile}`);
                     return returnStringList;
                 }
                 if (age_type === 'chronological_age') {
                     returnStringList.push(`Chronological age: ${calendar_age} on ${formatted_observation_date}`)
-                    returnStringList.push(`${comment} ${y}`)
-                    returnStringList.push(`${measurementSuffix(measurementMethod)}`);
+                    returnStringList.push(`${comment}`)
+                    returnStringList.push(`${y} ${measurementSuffix(measurementMethod)}`);
                     returnStringList.push(`${ clinicianFocus ? sds_string : finalCentile}`);
                     return returnStringList;
                 }
