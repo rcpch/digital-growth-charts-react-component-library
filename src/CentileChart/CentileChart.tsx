@@ -289,6 +289,22 @@ function CentileChart({
                             allowPan={allowZooming}
                             onZoomDomainChange={handleZoomChange}
                             zoomDomain={domains}
+                            labels={({ datum }) => {
+                                // This the tool tip text, and accepts a large number of arguments
+                                // tool tips return contextual information for each datapoint, as well as the centile
+                                // and SDS lines, as well as bone ages, events and midparental heights
+                                const tooltipTextList = tooltipText(
+                                    reference,
+                                    measurementMethod,
+                                    datum,
+                                    midParentalHeightData,
+                                    clinicianFocus,
+                                    sex
+                                )
+                                if (tooltipTextList){
+                                    return tooltipTextList.join('\n').replace(/^\s+|\s+$/g, '');
+                                } 
+                            }}
                             labelComponent={
                                 <VictoryTooltip
                                     data-testid='tooltip'
@@ -296,25 +312,15 @@ function CentileChart({
                                     backgroundPadding={5}
                                     pointerLength={5}
                                     cornerRadius={0}
+                                    flyoutHeight={(datum) => {
+                                        const numberOfLines = datum.text.length;
+                                        return numberOfLines * 18;    // 18 is the line height
+                                    }}
                                     flyoutStyle={{
                                         ...styles.toolTipFlyout,
                                     }}
                                     style={{...styles.toolTipMain}}
                                 />
-                            }
-                            labels={({ datum }) => {
-                                // This the tool tip text, and accepts a large number of arguments
-                                // tool tips return contextual information for each datapoint, as well as the centile
-                                // and SDS lines, as well as bone ages, events and midparental heights
-                                    return tooltipText(
-                                        reference,
-                                        measurementMethod,
-                                        datum,
-                                        midParentalHeightData,
-                                        clinicianFocus,
-                                        sex
-                                    )
-                                }
                             }
                             voronoiBlacklist={['linkLine', 'chronologicalboneagelinkline', 'correctedboneagelinkline', 'areaMPH']}
                         />
@@ -688,7 +694,6 @@ function CentileChart({
                                         
                                         showChronologicalAge && !showCorrectedAge ?
                                         // Events against chronological age only if corrected age not showing
-                                        <VictoryPortal>
                                             <VictoryScatter
                                                 key={"item-"+index}
                                                 name="eventcaret"
@@ -700,10 +705,9 @@ function CentileChart({
                                                     />
                                                 }
                                             />
-                                        </VictoryPortal>
                                         :
                                         // Events against corrected age
-                                        <VictoryPortal>
+                                        
                                             <VictoryScatter
                                                 key={"item-"+index}
                                                 name="eventcaret"
@@ -715,7 +719,7 @@ function CentileChart({
                                                     />
                                                 }
                                             />
-                                        </VictoryPortal>
+                                        
                                     )
                                 }
 
