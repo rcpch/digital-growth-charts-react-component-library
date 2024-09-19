@@ -33,6 +33,12 @@ import { turnerHeightFemaleCentileData } from '../chartdata/turner_height_female
 
 import { cdcHeightMaleCentileData } from '../chartdata/cdc_height_male_centile_data';
 import { cdcHeightFemaleCentileData } from '../chartdata/cdc_height_female_centile_data';
+import { cdcWeightMaleCentileData } from '../chartdata/cdc_weight_male_centile_data';
+import { cdcWeightFemaleCentileData } from '../chartdata/cdc_weight_female_centile_data';
+import { cdcOFCMaleCentileData } from '../chartdata/cdc_ofc_male_centile_data';
+import { cdcOFCFemaleCentileData } from '../chartdata/cdc_ofc_female_centile_data';
+import { cdcBMIMaleCentileData } from '../chartdata/cdc_bmi_male_centile_data';
+import { cdcBMIFemaleCentileData } from '../chartdata/cdc_bmi_female_centile_data';
 
 type CentileLabelValues = {
     0.4: { value: number; workingX: number };
@@ -102,7 +108,7 @@ const blankDataset = [
 
 function makeDefaultDomains(
     sex: 'male' | 'female',
-    reference: 'uk-who' | 'trisomy-21' | 'turner',
+    reference: 'uk-who' | 'trisomy-21' | 'turner' | 'cdc',
     measurementMethod: 'height' | 'weight' | 'bmi' | 'ofc',
 ) {
     const all: IDomainSex = {
@@ -143,23 +149,41 @@ function makeDefaultDomains(
                     y: [28.033898999999998, 59.464058],
                 },
             },
+            'cdc': {
+                'height': {
+                    x: [-0.01, 20.05],
+                    y: [33.456711999999996, 192],
+                },
+                'weight': {
+                    x: [-0.01, 20.05],
+                    y: [0, 113.55046],
+                },
+                'bmi': {
+                    x: [-0.01, 18.87],
+                    y: [0, 67.871482],
+                },
+                'ofc': {
+                    x: [-0.01, 18.05],
+                    y: [28.033898999999998, 59.464058],
+                },
+            }
         },
         'female': {
             'uk-who': {
                 'height': {
-                    x: [0.038329911019849415, 20.05],
+                    x: [-0.01, 20.05],
                     y: [37.106385, 187.74047],
                 },
                 'weight': {
-                    x: [0.038329911019849415, 20.05],
+                    x: [-0.01, 20.05],
                     y: [0, 94.233692],
                 },
                 'bmi': {
-                    x: [0.038329911019849415, 20.05],
+                    x: [-0.01, 20.05],
                     y: [8.569247, 34.568174],
                 },
                 'ofc': {
-                    x: [0.038329911019849415, 17.05],
+                    x: [-0.01, 3.05],
                     y: [30.280771, 60.829982],
                 },
             },
@@ -187,8 +211,26 @@ function makeDefaultDomains(
                     y: [54.450081, 169.723302],
                 },
             },
+            'cdc': {
+                'height': {
+                    x: [-0.01, 20.05],
+                    y: [37.106385, 187.74047],
+                },
+                'weight': {
+                    x: [-0.01, 20.05],
+                    y: [0, 94.233692],
+                },
+                'bmi': {
+                    x: [-0.01, 20.05],
+                    y: [8.569247, 34.568174],
+                },
+                'ofc': {
+                    x: [-0.01, 3],
+                    y: [30.280771, 60.829982],
+                },
+            },
         },
-    };
+    };;
     
     return all[sex][reference][measurementMethod];
 }
@@ -443,7 +485,7 @@ function truncate(rawDataSet: any[], lowerX: number, upperX: number, extremeValu
 function getRelevantDataSets(
     sex: 'male' | 'female',
     measurementMethod: 'height' | 'weight' | 'bmi' | 'ofc',
-    reference: 'uk-who' | 'trisomy-21' | 'turner',
+    reference: 'uk-who' | 'trisomy-21' | 'turner' | 'cdc',
     lowestChildX: number,
     highestChildX: number,
     isSDS: boolean
@@ -532,9 +574,15 @@ function getRelevantDataSets(
         let cdcData: Reference[]
         if (measurementMethod === 'height'){
             cdcData = sex =="male" ? cdcHeightMaleCentileData.centile_data : cdcHeightFemaleCentileData.centile_data;
-            const blankSubSet = deepCopy(blankDataset[0]);
-            return [cdcData[0]['cdc'][sex][measurementMethod], blankSubSet, blankSubSet, blankSubSet];
+        } else if (measurementMethod === 'weight'){
+            cdcData = sex == "male" ? cdcWeightMaleCentileData.centile_data : cdcWeightFemaleCentileData.centile_data;
+        } else if (measurementMethod === 'ofc'){
+            cdcData = sex == "male" ? cdcOFCMaleCentileData.centile_data : cdcOFCFemaleCentileData.centile_data;
+        } else if (measurementMethod === 'bmi'){
+            cdcData = sex == "male" ? cdcBMIMaleCentileData.centile_data : cdcBMIFemaleCentileData.centile_data;
         }
+        const blankSubSet = deepCopy(blankDataset[0]);
+        return [cdcData[0]['cdc'][sex][measurementMethod], blankSubSet, blankSubSet, blankSubSet];
     } else {
         throw new Error('No valid reference given to getRelevantDataSets');
     }
@@ -545,7 +593,7 @@ function getDomainsAndData(
     childMeasurements: Measurement[],
     sex: 'male' | 'female',
     measurementMethod: 'height' | 'weight' | 'bmi' | 'ofc',
-    reference: 'uk-who' | 'trisomy-21' | 'turner',
+    reference: 'uk-who' | 'trisomy-21' | 'turner' | 'cdc',
     showCorrected: boolean,
     showChronological: boolean
 ) {
@@ -586,6 +634,14 @@ function getDomainsAndData(
 
         if (reference === 'turner') {
             absoluteBottomX = 0.99;
+        }
+
+        if (reference === 'cdc') {
+            absoluteBottomX = -0.01;
+            absoluteHighX = 20.05;
+            if (measurementMethod === 'ofc') {
+                absoluteHighX = 3;
+            }
         }
 
         let lowestXForDomain = absoluteBottomX;
@@ -780,7 +836,9 @@ function getDomainsAndData(
             y: [finalLowestY, finalHighestY],
         };
     } else {
+        
         internalDomains = makeDefaultDomains(sex, reference, measurementMethod);
+        
         finalCentileData = getRelevantDataSets(
             sex,
             measurementMethod,
@@ -810,7 +868,7 @@ function getDomainsAndData(
 function getVisibleData(
     sex: 'male' | 'female',
     measurementMethod: 'height' | 'weight' | 'bmi' | 'ofc',
-    reference: 'uk-who' | 'trisomy-21' | 'turner',
+    reference: 'uk-who' | 'trisomy-21' | 'turner' | 'cdc',
     domains: any,
 ) {
     if (!domains) {

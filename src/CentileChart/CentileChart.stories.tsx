@@ -49,6 +49,24 @@ export const WithHeightAndNoData = () => (
     />
 );
 
+export const WithCDCMaleHeightAndNoData = () => (
+    <CentileChart
+        chartsVersion="testChart"
+        reference="cdc"
+        title="Patient"
+        subtitle="Name - CDC"
+        measurementMethod="height"
+        sex="male"
+        childMeasurements={[]}
+        midParentalHeightData={midParentalHeights}
+        enableZoom={true}
+        styles={traditionalBoysStyles}
+        enableExport={true}
+        exportChartCallback={() => null}
+        clinicianFocus={true}
+    />
+);
+
 export const WithTurnerHeightAndNoData = () => (
     <CentileChart
         chartsVersion="testChart"
