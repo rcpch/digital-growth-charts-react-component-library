@@ -28,7 +28,7 @@ import { termBabyGirlWeight } from '../testParameters/measurements/termBabyGirlW
 import { trisomy21HighBMI } from '../testParameters/measurements/trisomy21HighBMI';
 
 export default {
-    title: 'CentileChart',
+    title: 'Centile Chart',
 };
 
 export const WithHeightAndNoData = () => (

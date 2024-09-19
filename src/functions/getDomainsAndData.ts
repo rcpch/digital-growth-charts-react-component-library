@@ -31,6 +31,9 @@ import { trisomy21OFCMaleCentileData } from '../chartdata/trisomy21_ofc_male_cen
 import { trisomy21OFCFemaleCentileData } from '../chartdata/trisomy21_ofc_female_centile_data';
 import { turnerHeightFemaleCentileData } from '../chartdata/turner_height_female_centile_data';
 
+import { cdcHeightMaleCentileData } from '../chartdata/cdc_height_male_centile_data';
+import { cdcHeightFemaleCentileData } from '../chartdata/cdc_height_female_centile_data';
+
 type CentileLabelValues = {
     0.4: { value: number; workingX: number };
     2: { value: number; workingX: number };
@@ -525,6 +528,13 @@ function getRelevantDataSets(
             throw new Error('No centile lines have rendered, as only height data is supported for turner reference.');
         }
         return [turnerData[0]['turners-syndrome'].female.height, blankSubSet, blankSubSet, blankSubSet];
+    } else if(reference === 'cdc'){
+        let cdcData: Reference[]
+        if (measurementMethod === 'height'){
+            cdcData = sex =="male" ? cdcHeightMaleCentileData.centile_data : cdcHeightFemaleCentileData.centile_data;
+            const blankSubSet = deepCopy(blankDataset[0]);
+            return [cdcData[0]['cdc'][sex][measurementMethod], blankSubSet, blankSubSet, blankSubSet];
+        }
     } else {
         throw new Error('No valid reference given to getRelevantDataSets');
     }
@@ -837,7 +847,7 @@ function getVisibleData(
 }
 
 export const delayedPubertyData = {
-    male: ukwhoHeightMaleCentileData.centile_data[3].uk90_child.male.height[0].data, //ukwhoData.uk90_child.male.height[0].data,
+    male:  ukwhoHeightMaleCentileData.centile_data[3].uk90_child.male.height[0].data, //ukwhoData.uk90_child.male.height[0].data,
     female: ukwhoHeightFemaleCentileData.centile_data[3].uk90_child.female.height[0].data //ukwhoData.uk90_child.female.height[0].data,
 };
 

@@ -19,7 +19,7 @@ export type Results = {
 };
 export interface CentileChartProps {
     chartsVersion?: string;
-    reference: 'uk-who' | 'turner' | 'trisomy-21';
+    reference: 'uk-who' | 'turner' | 'trisomy-21' | 'cdc';
     title: string;
     subtitle: string;
     measurementMethod: 'height' | 'weight' | 'ofc' | 'bmi';

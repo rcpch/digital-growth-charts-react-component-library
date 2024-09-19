@@ -47,11 +47,28 @@ export const SDSChart: Story = {
   }
 };
 
-export const CentileChart: Story = {
+export const UKWHOCentileChart: Story = {
   args: {
     title: 'Patient Name - Hospital Number',
     measurementMethod: 'height',
     reference: 'uk-who',
+    sex: 'female',
+    measurements: {height: twoToEight},
+    midParentalHeightData: {},
+    enableZoom: true,
+    chartType: 'centile',
+    enableExport: false,
+    exportChartCallback: ()=>{},
+    theme: 'tanner2',
+    customThemeStyles: {}
+  },
+};
+
+export const CDCCentileChart: Story = {
+  args: {
+    title: 'Patient Name - Hospital Number',
+    measurementMethod: 'height',
+    reference: 'cdc',
     sex: 'female',
     measurements: {height: twoToEight},
     midParentalHeightData: {},
