@@ -67,6 +67,60 @@ export const WithCDCMaleHeightAndNoData = () => (
     />
 );
 
+export const WithCDCMaleWeightAndNoData = () => (
+    <CentileChart
+        chartsVersion="testChart"
+        reference="cdc"
+        title="Patient"
+        subtitle="Name - CDC"
+        measurementMethod="weight"
+        sex="male"
+        childMeasurements={[]}
+        midParentalHeightData={midParentalHeights}
+        enableZoom={true}
+        styles={traditionalBoysStyles}
+        enableExport={true}
+        exportChartCallback={() => null}
+        clinicianFocus={true}
+    />
+);
+
+export const WithCDCMaleBMIAndNoData = () => (
+    <CentileChart
+        chartsVersion="testChart"
+        reference="cdc"
+        title="Patient"
+        subtitle="Name - CDC"
+        measurementMethod="bmi"
+        sex="male"
+        childMeasurements={[]}
+        midParentalHeightData={midParentalHeights}
+        enableZoom={true}
+        styles={traditionalBoysStyles}
+        enableExport={true}
+        exportChartCallback={() => null}
+        clinicianFocus={true}
+    />
+);
+
+export const WithCDCMaleOFCAndNoData = () => (
+    <CentileChart
+        chartsVersion="testChart"
+        reference="cdc"
+        title="Patient"
+        subtitle="Name - CDC"
+        measurementMethod="ofc"
+        sex="male"
+        childMeasurements={[]}
+        midParentalHeightData={midParentalHeights}
+        enableZoom={true}
+        styles={traditionalBoysStyles}
+        enableExport={true}
+        exportChartCallback={() => null}
+        clinicianFocus={true}
+    />
+);
+
 export const WithTurnerHeightAndNoData = () => (
     <CentileChart
         chartsVersion="testChart"
