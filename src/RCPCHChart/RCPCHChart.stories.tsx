@@ -84,6 +84,44 @@ export const CentileChartUKWHOGirlsWeight: Story = {
   },
 };
 
+export const CentileChartUKWHOGirlsBMI: Story = {
+  args: {
+    title: 'Patient Name - Hospital Number',
+    measurementMethod: 'bmi',
+    reference: 'uk-who',
+    sex: 'female',
+    measurements: {
+      bmi: []
+    },
+    midParentalHeightData: {},
+    enableZoom: true,
+    chartType: 'centile',
+    enableExport: false,
+    exportChartCallback: ()=>{},
+    theme: 'tanner2',
+    customThemeStyles: {}
+  },
+};
+
+export const CentileChartUKWHOGirlsHeadCircumference: Story = {
+  args: {
+    title: 'Patient Name - Hospital Number',
+    measurementMethod: 'ofc',
+    reference: 'uk-who',
+    sex: 'female',
+    measurements: {
+      weight: []
+    },
+    midParentalHeightData: {},
+    enableZoom: true,
+    chartType: 'centile',
+    enableExport: false,
+    exportChartCallback: ()=>{},
+    theme: 'tanner2',
+    customThemeStyles: {}
+  },
+};
+
 export const CentileChartCDCGirlsHeight: Story = {
   args: {
     title: 'Patient Name - Hospital Number',

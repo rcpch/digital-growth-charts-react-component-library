@@ -695,6 +695,10 @@ function getDomainsAndData(
     let finalSDSData: any[] = [];
     let internalDomains: Domains;
 
+    if (childMeasurements == null){
+        throw new Error(`No child measurements provided to getDomainsAndData. Did you pass the child measurements array to the '${measurementMethod}' prop?`);
+    }
+
     if (childMeasurements.length > 0) {
         const twoWeeksPostnatal = 0.038329911019849415;
         const gestWeeks37 = -0.057494866529774126;

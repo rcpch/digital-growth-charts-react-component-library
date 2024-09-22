@@ -553,7 +553,7 @@ function CentileChart({
 
                     {
                         /* BMI SDS lines */
-                        measurementMethod === "bmi" && bmiSDSData &&
+                        measurementMethod === "bmi" && bmiSDSData && reference === "uk-who" && // only render for UK-WHO BMI charts since other references do not have SDS lines
                             bmiSDSData.map((sdsReferenceData, index) => {
                                 return (
                                     <VictoryGroup
