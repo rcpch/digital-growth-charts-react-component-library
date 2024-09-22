@@ -6,6 +6,7 @@ import { Tanner1Styles } from '../testParameters/styles/tanner1Styles';
 import { Tanner2Styles } from '../testParameters/styles/tanner2Styles';
 import { Tanner3Styles } from '../testParameters/styles/tanner3Styles';
 import { traditionalBoysStyles } from '../testParameters/styles/traditionalBoysStyles';
+import { traditionalGirlsStyles } from '../testParameters/styles/traditionalGirlsStyles';
 import { termGirlWithSingleHeightMeasurementAndBoneAgeAndEvent } from '../testParameters/measurements/termGirlWithSingleHeightMeasurementAndBoneAgeAndEvent';
 import { twoWeightMeasurements } from '../testParameters/measurements/twoWeightMeasurements';
 import { twoToEight } from '../testParameters/measurements/twoToEight';
@@ -49,18 +50,18 @@ export const WithHeightAndNoData = () => (
     />
 );
 
-export const WithCDCMaleHeightAndNoData = () => (
+export const WithCDCFemaleHeightAndNoData = () => (
     <CentileChart
         chartsVersion="testChart"
         reference="cdc"
         title="Patient"
         subtitle="Name - CDC"
         measurementMethod="height"
-        sex="male"
+        sex="female"
         childMeasurements={[]}
         midParentalHeightData={midParentalHeights}
         enableZoom={true}
-        styles={traditionalBoysStyles}
+        styles={traditionalGirlsStyles}
         enableExport={true}
         exportChartCallback={() => null}
         clinicianFocus={true}

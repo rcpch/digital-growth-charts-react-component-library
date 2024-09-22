@@ -64,20 +64,23 @@ export const UKWHOCentileChart: Story = {
   },
 };
 
-export const CDCCentileChart: Story = {
+export const CDCGirlsHeightCentileChart: Story = {
   args: {
     title: 'Patient Name - Hospital Number',
     measurementMethod: 'height',
     reference: 'cdc',
     sex: 'female',
-    measurements: {height: twoToEight},
+    measurements: {
+      height: twoToEight
+    },
     midParentalHeightData: {},
     enableZoom: true,
     chartType: 'centile',
     enableExport: false,
     exportChartCallback: ()=>{},
     theme: 'tanner2',
-    customThemeStyles: {}
+    customThemeStyles: {},
+    clinicianFocus: true
   },
 };
 

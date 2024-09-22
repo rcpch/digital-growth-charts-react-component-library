@@ -12,7 +12,6 @@ import {
     VictoryLabel,
     VictoryArea,
     DomainPropType,
-    VictoryPortal,
 } from 'victory';
 
 // helper functions
@@ -140,7 +139,8 @@ function CentileChart({
                 minimumArrayLength = 6;
                 break;
         }
-        if (item[0].data.length > minimumArrayLength){
+        
+        if (item[0].data !== null && item[0].data.length > minimumArrayLength){
             maxVisibleReferenceIndex = index;
         }
     });
@@ -466,7 +466,7 @@ function CentileChart({
                     
                         {centileData &&
                             centileData.map((referenceData, referenceIndex) => {
-
+                                
                                 return (
                                     <VictoryGroup
                                         key={'centileDataBlock' + referenceIndex}
@@ -477,14 +477,14 @@ function CentileChart({
 
                                             // BMI charts also have SDS lines at -5, -4, -3, -2, 2, 3, 4, 5
 
-                                            if (centile.data.length < 1){
+                                            if (centile.data !== null && centile.data.length < 1){
                                                 // prevents a css `width` infinity error if no data presented to centile line
                                                 return
                                             }
 
                                             if (centileIndex % 2 === 0) {
                                                 // even index - centile is dashed
-                                                    
+                                                
                                                     return (
                                                         <VictoryLine
                                                             data-testid={'reference-'+referenceIndex+'-centile-'+centile.centile+'-measurement-'+measurementMethod}

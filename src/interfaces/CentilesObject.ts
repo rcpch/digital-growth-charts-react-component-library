@@ -4,6 +4,10 @@ export interface UKWHOReferences {
     "uk_who_child"?:  ISexChoice
     "uk90_child"?:  ISexChoice
 }
+export interface CDCReferences {
+    "cdc_infant"?:  ISexChoice
+    "cdc_child"?:  ISexChoice
+}
 export interface ReferenceGroup {
     centile_data?: Reference[]
 }
