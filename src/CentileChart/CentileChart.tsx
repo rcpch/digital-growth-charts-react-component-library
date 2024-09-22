@@ -467,7 +467,18 @@ function CentileChart({
                     
                         {centileData &&
                             centileData.map((referenceData, referenceIndex) => {
+
+                                if (reference === "cdc"){
+                                    if(referenceIndex === 0 || (measurementMethod === "ofc" && referenceIndex > 1)){
+                                    // this is a hack that needs fixing in future. It arrises because of the null data in the CDC neonate dataset (Fenton). Once the data is fixed, this can be removed. Only for weight is renders a line in the under ones.
+                                    // it also removes the duplicate tooltips in the head circumference chart
+                                        return
+                                    }
+                                }
+
+                                console.log(referenceIndex);
                                 
+
                                 return (
                                     <VictoryGroup
                                         key={'centileDataBlock' + referenceIndex}
