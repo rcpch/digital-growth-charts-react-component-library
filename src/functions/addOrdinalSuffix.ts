@@ -3,9 +3,9 @@ const addOrdinalSuffix = (inputNumber: number | string): string => {
     let answerNumber: string = inputNumber.toString();
     let workingNumber = Number(inputNumber);
     if (Number.isInteger(workingNumber) === false) {
-        workingNumber *= 10;
+        workingNumber *= 100;
         if (Number.isInteger(workingNumber) === false) {
-            throw Error('Only integers or numbers to 1 decimal place are supported');
+            throw Error('Only integers or numbers to 2 decimal places are supported');
         }
     } else {
         answerNumber = answerNumber.split(".")[0]; // this is an integer - remove the decimal point

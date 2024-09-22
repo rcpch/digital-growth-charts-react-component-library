@@ -139,7 +139,7 @@ export const CentileChartUKWHOGirlsHeadCircumference: Story = {
   },
 };
 
-export const CentileChartCDCGirlsHeight: Story = {
+export const CentileChartCDCGirlsHeightWithMeasurements: Story = {
   args: {
     title: 'Patient Name - Hospital Number',
     measurementMethod: 'height',
@@ -154,6 +154,26 @@ export const CentileChartCDCGirlsHeight: Story = {
     enableExport: false,
     exportChartCallback: ()=>{},
     theme: 'tanner2',
+    customThemeStyles: {},
+    clinicianFocus: true
+  },
+};
+
+export const CentileChartCDCGirlsHeight: Story = {
+  args: {
+    title: 'Patient Name - Hospital Number',
+    measurementMethod: 'height',
+    reference: 'cdc',
+    sex: 'female',
+    measurements: {
+      height: []
+    },
+    midParentalHeightData: {},
+    enableZoom: true,
+    chartType: 'centile',
+    enableExport: false,
+    exportChartCallback: ()=>{},
+    theme: 'tanner1',
     customThemeStyles: {},
     clinicianFocus: true
   },

@@ -182,6 +182,7 @@ export function tooltipText(
             if (datum.x < 20 && y != null){
                 // fix for duplicate text if tooltip called from mouse point where x > chart area or 
                 // y is null - situations when hovering below the chart in areas where centile data do not exist
+                
                 let returnStringList = [];
                 returnStringList.push(`${addOrdinalSuffix(l)} centile`);
                 return returnStringList;
