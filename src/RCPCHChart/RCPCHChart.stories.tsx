@@ -11,6 +11,7 @@ import { sdsTenYearGirlData } from '../testParameters/measurements/sdsTenYearGir
 
 const meta: Meta<typeof RCPCHChart> = {
   component: RCPCHChart,
+  title: 'RCPCHChart',
 };
 export default meta;
 
@@ -24,7 +25,7 @@ const customStyles = {
   chartStyle: customChartStyle
 }
 
-export const SDSChart: Story = {
+export const SDSChartUKWHO: Story = {
   args: {
     title: 'Patient Name - Hospital Number',
     measurementMethod: 'height',
@@ -47,7 +48,7 @@ export const SDSChart: Story = {
   }
 };
 
-export const UKWHOCentileChart: Story = {
+export const CentileChartUKWHOGirlsHeight: Story = {
   args: {
     title: 'Patient Name - Hospital Number',
     measurementMethod: 'height',
@@ -64,7 +65,7 @@ export const UKWHOCentileChart: Story = {
   },
 };
 
-export const CDCGirlsHeightCentileChart: Story = {
+export const CentileChartCDCGirlsHeight: Story = {
   args: {
     title: 'Patient Name - Hospital Number',
     measurementMethod: 'height',
@@ -72,6 +73,146 @@ export const CDCGirlsHeightCentileChart: Story = {
     sex: 'female',
     measurements: {
       height: twoToEight
+    },
+    midParentalHeightData: {},
+    enableZoom: true,
+    chartType: 'centile',
+    enableExport: false,
+    exportChartCallback: ()=>{},
+    theme: 'tanner2',
+    customThemeStyles: {},
+    clinicianFocus: true
+  },
+};
+
+export const CentileChartCDCBoysHeight: Story = {
+  args: {
+    title: 'Patient Name - Hospital Number',
+    measurementMethod: 'height',
+    reference: 'cdc',
+    sex: 'male',
+    measurements: {
+      height: []
+    },
+    midParentalHeightData: {},
+    enableZoom: true,
+    chartType: 'centile',
+    enableExport: false,
+    exportChartCallback: ()=>{},
+    theme: 'tanner2',
+    customThemeStyles: {},
+    clinicianFocus: true
+  },
+};
+
+export const CentileChartCDCGirlsWeight: Story = {
+  args: {
+    title: 'Patient Name - Hospital Number',
+    measurementMethod: 'weight',
+    reference: 'cdc',
+    sex: 'female',
+    measurements: {
+      weight: []
+    },
+    midParentalHeightData: {},
+    enableZoom: true,
+    chartType: 'centile',
+    enableExport: false,
+    exportChartCallback: ()=>{},
+    theme: 'tanner2',
+    customThemeStyles: {},
+    clinicianFocus: true
+  },
+};
+
+export const CentileChartCDCBoysWeight: Story = {
+  args: {
+    title: 'Patient Name - Hospital Number',
+    measurementMethod: 'weight',
+    reference: 'cdc',
+    sex: 'male',
+    measurements: {
+      weight: []
+    },
+    midParentalHeightData: {},
+    enableZoom: true,
+    chartType: 'centile',
+    enableExport: false,
+    exportChartCallback: ()=>{},
+    theme: 'tanner2',
+    customThemeStyles: {},
+    clinicianFocus: true
+  },
+};
+
+export const CentileChartCDCGirlsBMI: Story = {
+  args: {
+    title: 'Patient Name - Hospital Number',
+    measurementMethod: 'bmi',
+    reference: 'cdc',
+    sex: 'female',
+    measurements: {
+      bmi: []
+    },
+    midParentalHeightData: {},
+    enableZoom: true,
+    chartType: 'centile',
+    enableExport: false,
+    exportChartCallback: ()=>{},
+    theme: 'tanner2',
+    customThemeStyles: {},
+    clinicianFocus: true
+  },
+};
+
+export const CentileChartCDCBoysBMI: Story = {
+  args: {
+    title: 'Patient Name - Hospital Number',
+    measurementMethod: 'bmi',
+    reference: 'cdc',
+    sex: 'male',
+    measurements: {
+      bmi: []
+    },
+    midParentalHeightData: {},
+    enableZoom: true,
+    chartType: 'centile',
+    enableExport: false,
+    exportChartCallback: ()=>{},
+    theme: 'tanner2',
+    customThemeStyles: {},
+    clinicianFocus: true
+  },
+};
+
+export const CentileChartCDCGirlsHeadCircumference: Story = {
+  args: {
+    title: 'Patient Name - Hospital Number',
+    measurementMethod: 'ofc',
+    reference: 'cdc',
+    sex: 'female',
+    measurements: {
+      ofc: []
+    },
+    midParentalHeightData: {},
+    enableZoom: true,
+    chartType: 'centile',
+    enableExport: false,
+    exportChartCallback: ()=>{},
+    theme: 'tanner2',
+    customThemeStyles: {},
+    clinicianFocus: true
+  },
+};
+
+export const CentileChartCDCBoysHeadCircumference: Story = {
+  args: {
+    title: 'Patient Name - Hospital Number',
+    measurementMethod: 'ofc',
+    reference: 'cdc',
+    sex: 'male',
+    measurements: {
+      ofc: []
     },
     midParentalHeightData: {},
     enableZoom: true,

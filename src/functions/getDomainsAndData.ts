@@ -52,6 +52,27 @@ type CentileLabelValues = {
     99.6: { value: number; workingX: number };
 };
 
+type ThreePercentCentileLabelValues = {
+    3: { value: number; workingX: number };
+    10: { value: number; workingX: number };
+    25: { value: number; workingX: number };
+    50: { value: number; workingX: number };
+    75: { value: number; workingX: number };
+    90: { value: number; workingX: number };
+    97: { value: number; workingX: number };
+};
+
+type EightyFivePercentCentileLabelValues = {
+    3: { value: number; workingX: number };
+    10: { value: number; workingX: number };
+    25: { value: number; workingX: number };
+    50: { value: number; workingX: number };
+    75: { value: number; workingX: number };
+    85: { value: number; workingX: number };
+    90: { value: number; workingX: number };
+    97: { value: number; workingX: number };
+};
+
 type ExtremeValues = {
     lowestY: number;
     highestY: number;
@@ -623,10 +644,10 @@ function getRelevantDataSets(
         const dataSetRanges = [
             [((22 * 7) - (40 * 7)) / 365.25, ((50 * 7) - (40 * 7)) / 365.25], // 22 weeks to 50 weeks
             [0, 2.0],
-            [2, 20],
+            [2.0, 20],
         ];
         let startingGroup = 0;
-        let endingGroup = 1;
+        let endingGroup = 2;
         for (let i = 0; i < dataSetRanges.length; i++) {
             const range = dataSetRanges[i];
             if (lowestChildX >= range[0] && lowestChildX < range[1]) {
@@ -640,7 +661,8 @@ function getRelevantDataSets(
                 endingGroup = i;
                 break;
             }
-        }        
+        }
+        
         const allData: any = [
             cdcData[0]['fenton'][sex][measurementMethod],
             cdcData[1]['cdc_infant'][sex][measurementMethod],
@@ -651,6 +673,7 @@ function getRelevantDataSets(
         for (let i = startingGroup; i <= endingGroup; i++) {
             returnArray.splice(i, 1, allData[i]);
         }
+        
         return returnArray;
     } else {
         throw new Error('No valid reference given to getRelevantDataSets');
