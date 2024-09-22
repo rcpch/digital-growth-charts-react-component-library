@@ -243,7 +243,7 @@ function makeDefaultDomains(
                     y: [8.569247, 34.568174],
                 },
                 'ofc': {
-                    x: [-0.01, 3.05],
+                    x: [-0.01, 17.05],
                     y: [30.280771, 60.829982],
                 },
             },
@@ -987,6 +987,7 @@ function getVisibleData(
     }
     const relevantCentileDataSets = getRelevantDataSets(sex, measurementMethod, reference, lowestX, highestX, false);
     const relevantSDSDataSets = getRelevantDataSets(sex, measurementMethod, reference, lowestX, highestX, true);
+
     let centileData = [];
     let sdsData = [];
     for (let referenceSet of relevantCentileDataSets) {

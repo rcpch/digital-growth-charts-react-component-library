@@ -144,7 +144,6 @@ function CentileChart({
             maxVisibleReferenceIndex = index;
         }
     });
-    
 
     const allowZooming = storedChildMeasurements.length > 0 && enableZoom ? true : false;
 

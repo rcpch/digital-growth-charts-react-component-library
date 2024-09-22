@@ -48,13 +48,30 @@ export const SDSChartUKWHO: Story = {
   }
 };
 
-export const CentileChartUKWHOGirlsHeight: Story = {
+export const CentileChartUKWHOGirlsHeightWithMeasurements: Story = {
   args: {
     title: 'Patient Name - Hospital Number',
     measurementMethod: 'height',
     reference: 'uk-who',
     sex: 'female',
     measurements: {height: twoToEight},
+    midParentalHeightData: {},
+    enableZoom: true,
+    chartType: 'centile',
+    enableExport: false,
+    exportChartCallback: ()=>{},
+    theme: 'tanner2',
+    customThemeStyles: {}
+  },
+};
+
+export const CentileChartUKWHOGirlsHeight: Story = {
+  args: {
+    title: 'Patient Name - Hospital Number',
+    measurementMethod: 'height',
+    reference: 'uk-who',
+    sex: 'female',
+    measurements: {height: []},
     midParentalHeightData: {},
     enableZoom: true,
     chartType: 'centile',
@@ -110,7 +127,7 @@ export const CentileChartUKWHOGirlsHeadCircumference: Story = {
     reference: 'uk-who',
     sex: 'female',
     measurements: {
-      weight: []
+      ofc: []
     },
     midParentalHeightData: {},
     enableZoom: true,
