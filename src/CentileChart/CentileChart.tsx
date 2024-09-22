@@ -476,9 +476,6 @@ function CentileChart({
                                     }
                                 }
 
-                                console.log(referenceIndex);
-                                
-
                                 return (
                                     <VictoryGroup
                                         key={'centileDataBlock' + referenceIndex}
