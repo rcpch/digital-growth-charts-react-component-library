@@ -294,6 +294,7 @@ function CentileChart({
                                 // This the tool tip text, and accepts a large number of arguments
                                 // tool tips return contextual information for each datapoint, as well as the centile
                                 // and SDS lines, as well as bone ages, events and midparental heights
+                                
                                 const tooltipTextList = tooltipText(
                                     reference,
                                     measurementMethod,
@@ -362,7 +363,7 @@ function CentileChart({
                     {/* Any measurements plotting here are likely due to delayed puberty */}
                     {/* The upper border is the 0.4th centile so this must come before the centiles */}
 
-                    {
+                    { reference==="uk-who" && measurementMethod === "height" &&
                         // delayed puberty area:
                         pubertyThresholds !== null && (
                             <VictoryArea
@@ -483,8 +484,9 @@ function CentileChart({
                                                 return
                                             }
 
-                                            if (centileIndex % 2 === 0) {
+                                            if (centileIndex %2) {
                                                 // even index - centile is dashed
+
                                                 
                                                     return (
                                                         <VictoryLine

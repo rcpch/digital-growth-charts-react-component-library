@@ -1,4 +1,4 @@
-export const referenceText = (reference: 'uk-who'|'trisomy-21'|'turner'):string=>{
+export const referenceText = (reference: 'uk-who'|'trisomy-21'|'turner'|'cdc'):string=>{
     /*
     Returns attribution text against supplied reference prop
     */

@@ -65,6 +65,25 @@ export const CentileChartUKWHOGirlsHeight: Story = {
   },
 };
 
+export const CentileChartUKWHOGirlsWeight: Story = {
+  args: {
+    title: 'Patient Name - Hospital Number',
+    measurementMethod: 'weight',
+    reference: 'uk-who',
+    sex: 'female',
+    measurements: {
+      weight: []
+    },
+    midParentalHeightData: {},
+    enableZoom: true,
+    chartType: 'centile',
+    enableExport: false,
+    exportChartCallback: ()=>{},
+    theme: 'tanner3',
+    customThemeStyles: {}
+  },
+};
+
 export const CentileChartCDCGirlsHeight: Story = {
   args: {
     title: 'Patient Name - Hospital Number',

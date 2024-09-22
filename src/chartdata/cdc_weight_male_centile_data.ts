@@ -2385,5 +2385,5 @@ export const cdcWeightMaleCentileData: ReferenceGroup = {
             }
         },
     ]
-    
+      
 };

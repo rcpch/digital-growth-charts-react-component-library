@@ -5,6 +5,7 @@ export interface UKWHOReferences {
     "uk90_child"?:  ISexChoice
 }
 export interface CDCReferences {
+    "fenton"? : ISexChoice
     "cdc_infant"?:  ISexChoice
     "cdc_child"?:  ISexChoice
 }
