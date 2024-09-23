@@ -64,13 +64,17 @@ type ThreePercentCentileLabelValues = {
 
 type EightyFivePercentCentileLabelValues = {
     3: { value: number; workingX: number };
+    5: { value: number; workingX: number };
     10: { value: number; workingX: number };
     25: { value: number; workingX: number };
     50: { value: number; workingX: number };
     75: { value: number; workingX: number };
     85: { value: number; workingX: number };
     90: { value: number; workingX: number };
-    97: { value: number; workingX: number };
+    98: { value: number; workingX: number };
+    99: { value: number; workingX: number };
+    999: { value: number; workingX: number };
+    9999: { value: number; workingX: number };
 };
 
 type ExtremeValues = {
@@ -220,7 +224,7 @@ function makeDefaultDomains(
                 },
                 'bmi': {
                     x: [-0.01, 18.87],
-                    y: [10, 40],
+                    y: [10, 55],
                 },
                 'ofc': {
                     x: [-0.01, 3.05],
@@ -282,7 +286,7 @@ function makeDefaultDomains(
                 },
                 'bmi': {
                     x: [-0.01, 20.05],
-                    y: [8.569247, 34.568174],
+                    y: [8.569247, 60],
                 },
                 'ofc': {
                     x: [-0.01, 3.05],
@@ -662,7 +666,7 @@ function getRelevantDataSets(
                 break;
             }
         }
-        
+
         const allData: any = [
             cdcData[0]['fenton'][sex][measurementMethod],
             cdcData[1]['cdc_infant'][sex][measurementMethod],
