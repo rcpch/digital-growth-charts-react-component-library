@@ -32,7 +32,8 @@
   "dependencies": {
     "sass": "1.70.0",
     "styled-components": "6.1.8",
-    "victory": "36.9.1"
+    "victory": "36.9.1",
+    "@rcpch/digital-growth-charts-react-component-library":"7.0.12"
   },
   "devDependencies": {
     "@babel/preset-react": "7.23.3",

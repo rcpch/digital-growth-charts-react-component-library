@@ -1,4 +1,4 @@
-export const nameForReference = (reference: 'uk-who'|'trisomy-21'|'turner'):string=>{
+export const nameForReference = (reference: 'uk-who'|'trisomy-21'|'turner'|'cdc'):string=>{
     /*
     Returns reference name against supplied reference prop
     */
