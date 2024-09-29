@@ -4,3 +4,6 @@ dist/
 storybook-static/
 .DS_Store
 .vscode
+
+src/chartdata/fenton/*.*
+src/testParameters/measurements/fenton/*.*
