@@ -737,7 +737,7 @@ function getDomainsAndData(
         }
 
         if (reference === 'cdc') {
-            absoluteBottomX = -0.01;
+            // absoluteBottomX = -0.01;
             absoluteHighX = 20.05;
             if (measurementMethod === 'ofc') {
                 absoluteHighX = 3;
@@ -774,7 +774,7 @@ function getDomainsAndData(
             const birthGestationWeeks = childMeasurements[0].birth_data.gestation_weeks;
 
             // set appropriate chart scale based on data:
-            if (birthGestationWeeks < 37 && highestChildX <= twoWeeksPostnatal && reference === 'uk-who') {
+            if (birthGestationWeeks < 37 && highestChildX <= twoWeeksPostnatal && (reference === 'uk-who')) {
                 // prem:
                 absoluteBottomX = gestWeeks22;
                 agePadding = totalMinPadding.prem;
@@ -790,7 +790,7 @@ function getDomainsAndData(
             } else if (highestChildX <= 2) {
                 //infant:
                 agePadding = totalMinPadding.infant;
-                if (lowestChildX >= gestWeeks37 && lowestChildX < twoWeeksPostnatal && reference === 'uk-who') {
+                if (lowestChildX >= gestWeeks37 && lowestChildX < twoWeeksPostnatal && (reference === 'uk-who')) {
                     absoluteBottomX = gestWeeks37;
                 } else if (lowestChildX < gestWeeks37) {
                     // absoluteBottomX = measurementMethod === 'height' ? gestWeeks24 : gestWeeks22;

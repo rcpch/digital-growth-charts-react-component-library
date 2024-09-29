@@ -73,6 +73,10 @@ export function tooltipText(
         returnStringList.push(`${corrected_measurement_error}`)
         return returnStringList;
     }
+    if (chronological_decimal_age_error && age_type === 'chronological_age'){
+        returnStringList.push(`${chronological_decimal_age_error}`);
+        return returnStringList;
+    }
 
     // midparental height labels
     if (midParentalHeightData){

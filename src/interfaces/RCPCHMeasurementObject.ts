@@ -101,7 +101,7 @@ export interface Measurement {
                 y: number;
                 b?: number;
                 centile: number;
-                sds: number;
+                sds?: number;
                 bone_age_label?: string;
                 events_text?: string[];
                 bone_age_sds?: number;
@@ -121,7 +121,7 @@ export interface Measurement {
                 y: number;
                 b?: number;
                 centile: number;
-                sds: number;
+                sds?: number;
                 bone_age_label?: string;
                 bone_age_type?: string;
                 events_text?: string[];

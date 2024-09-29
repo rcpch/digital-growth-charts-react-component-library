@@ -8,6 +8,8 @@ import { ChartStyle } from '../interfaces/StyleObjects.ts';
 import { twoToEight } from '../testParameters/measurements/twoToEight';
 import { prematureGirlOverThreeHeight } from '../testParameters/measurements/prematureGirlOverThreeHeight.ts';
 import { sdsTenYearGirlData } from '../testParameters/measurements/sdsTenYearGirlData'
+// import { cdcFentonGirlLength } from '../testParameters/measurements/fenton/cdcFentonGirlLength';
+// import { cdcFentonGirlWeight } from '../testParameters/measurements/fenton/cdcFentonGirlWeight.ts';
 
 const meta: Meta<typeof RCPCHChart> = {
   component: RCPCHChart,
@@ -178,6 +180,46 @@ export const CentileChartCDCGirlsHeight: Story = {
     clinicianFocus: true
   },
 };
+
+// export const CentileChartCDCFentonGirlsLength: Story = {
+//   args: {
+//     title: 'Patient Name - Hospital Number',
+//     measurementMethod: 'height',
+//     reference: 'cdc',
+//     sex: 'female',
+//     measurements: {
+//       height: cdcFentonGirlLength
+//     },
+//     midParentalHeightData: {},
+//     enableZoom: true,
+//     chartType: 'centile',
+//     enableExport: false,
+//     exportChartCallback: ()=>{},
+//     theme: 'tanner1',
+//     customThemeStyles: {},
+//     clinicianFocus: true
+//   },
+// };
+
+// export const CentileChartCDCFentonGirlsWeight: Story = {
+//   args: {
+//     title: 'Patient Name - Hospital Number',
+//     measurementMethod: 'weight',
+//     reference: 'cdc',
+//     sex: 'female',
+//     measurements: {
+//       weight: cdcFentonGirlWeight
+//     },
+//     midParentalHeightData: {},
+//     enableZoom: true,
+//     chartType: 'centile',
+//     enableExport: false,
+//     exportChartCallback: ()=>{},
+//     theme: 'tanner1',
+//     customThemeStyles: {},
+//     clinicianFocus: true
+//   },
+// };
 
 export const CentileChartCDCBoysHeight: Story = {
   args: {

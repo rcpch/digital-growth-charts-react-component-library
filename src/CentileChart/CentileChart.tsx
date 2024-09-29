@@ -117,6 +117,7 @@ function CentileChart({
             ),
         [storedChildMeasurements, sex, measurementMethod, reference, showCorrectedAge, showChronologicalAge],
     );
+        
 
     // get the highest reference index of visible centile data
     let maxVisibleReferenceIndex: number = null;
@@ -330,7 +331,7 @@ function CentileChart({
 
                     {
                         /* Term child shaded area: */
-                        termAreaData !== null && <VictoryArea style={styles.termArea} data={termAreaData} />
+                        termAreaData !== null && reference=="uk-who" && <VictoryArea style={styles.termArea} data={termAreaData} />
                     }
 
                     {/* X axis: */}
@@ -493,7 +494,6 @@ function CentileChart({
 
                                             if (centileIndex %2) {
                                                 // even index - centile is dashed
-
                                                 
                                                     return (
                                                         <VictoryLine
