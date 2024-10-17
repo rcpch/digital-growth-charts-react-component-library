@@ -168,7 +168,7 @@ function makeAllStyles(
             },
         },
         delayedPubertyThresholdLabel: {
-            fontSize: axisStyle?.axisThresholdLabelTextStyle?.size ?? 9,
+            fontSize: axisStyle?.axisThresholdLabelTextStyle?.size ?? (9) * (textMultiplier ?? 1),
             fill: axisStyle?.axisThresholdLabelTextStyle?.colour ?? black,
             fontFamily: axisStyle?.axisThresholdLabelTextStyle?.name ?? 'Arial',
             fontWeight: axisStyle?.axisThresholdLabelTextStyle?.weight ?? 400,
@@ -204,7 +204,7 @@ function makeAllStyles(
             },
         },
         centileLabel: {
-            fontSize: centileStyle.centileTextStyle?.size ?? 6,
+            fontSize: centileStyle.centileTextStyle?.size ?? (6) * (textMultiplier ?? 1),
             fontFamily: centileStyle.centileTextStyle?.name ?? 'Montserrat',
             fontWeight: centileStyle.centileTextStyle?.weight ?? 400,
             fill: centileStyle?.centileStroke ?? black,
