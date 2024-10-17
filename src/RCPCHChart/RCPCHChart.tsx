@@ -1,7 +1,7 @@
 // packages/libraries
 import * as React from 'react';
 
-import { createGlobalStyle } from 'styled-components';
+import { styled } from 'styled-components';
 
 // props and interfaces
 import { RCPCHChartProps } from './RCPCHChart.types';
@@ -27,7 +27,7 @@ import { montserratItalic } from '../fonts/montserrat-italic-b64';
 // const VERSION_LOG = '[VI]Version: {version} - built on {date}[/VI]'; 
 const VERSION = '[VI]v{version}[/VI]'; // uses version injector plugin to Rollup to report package.json version
 
-const GlobalStyle = createGlobalStyle`
+const GlobalStyle = styled.div`
   @font-face {
     font-family: 'Montserrat';
     src: url(${montserratRegular}) format('truetype'),
@@ -101,7 +101,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     
     
     // uncomment in development
-    // console.log("loading from locally...");
+    console.log("loading from locally...");
 
     // create subtitle from sex, reference and measurementMethod
     const subtitleReferenceMeasurementMethod = `${nameForReference(reference)} - ${nameForMeasurementMethod(measurementMethod)}`
@@ -118,7 +118,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
 
         return (
             <ErrorBoundary styles={styles}>
-                <GlobalStyle />
+                <GlobalStyle>
                 <CentileChart
                     chartsVersion={VERSION}
                     reference={reference}
@@ -134,6 +134,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
                     exportChartCallback={exportChartCallback}
                     clinicianFocus={clinicianFocus}
                 />
+                </GlobalStyle>
             </ErrorBoundary>
         );
     } else {
@@ -150,7 +151,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
         
         return (
             <ErrorBoundary styles={styles}>
-                <GlobalStyle />
+                <GlobalStyle>
                 <SDSChart
                     chartsVersion={VERSION}
                     reference={reference}
@@ -166,6 +167,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
                     exportChartCallback={exportChartCallback}
                     clinicianFocus={clinicianFocus}
                 />
+                </GlobalStyle>
             </ErrorBoundary>
         );
     }
