@@ -68,6 +68,9 @@ const SDSChart: React.FC<SDSChartProps> = (
         sex,
         enableZoom,
         styles,
+        height,
+        width,
+        textScaleFactor,
         enableExport,
         exportChartCallback
     }
@@ -257,8 +260,8 @@ const SDSChart: React.FC<SDSChartProps> = (
             {/* It has an animation object and the domains are the thresholds of ages rendered. This is calculated from the child data supplied by the user. */}
             {/* Tooltips are here as it is the parent component. More information of tooltips in centiles below. */}
             <VictoryChart
-                width={1000}
-                height={800}
+                width={width}
+                height={height}
                 style={styles.chartMisc}
                 containerComponent={
                     <VictoryVoronoiContainer
@@ -485,7 +488,12 @@ const SDSChart: React.FC<SDSChartProps> = (
                                 fill: "#FFFFFF"
                             },
                             title: {
-                                fontSize: 12,
+                                fontSize: 12*textScaleFactor,
+                                fontFamily: 'Montserrat',
+                                fontStyle: 'italic'
+                            },
+                            labels: {
+                                fontSize: 10*textScaleFactor,
                                 fontFamily: 'Montserrat',
                                 fontStyle: 'italic'
                             }

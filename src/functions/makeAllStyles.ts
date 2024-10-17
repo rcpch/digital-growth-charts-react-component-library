@@ -36,6 +36,7 @@ function makeAllStyles(
     sdsStyle?: SDSStyle,
     measurementStyle?: MeasurementStyle,
     referenceStyle?: ReferenceStyle,
+    textMultiplier?: number // this is used to scale text size based on the aspect ratio of the chart using the height and width. Default is 1
 ) {
 
     let newGridlineStyle = {
@@ -60,14 +61,14 @@ function makeAllStyles(
         chartMisc: {
             background: {
                 fill: chartStyle?.backgroundColour ?? white,
-            },
+            }
         },
         toolTipFlyout: {
             stroke: chartStyle?.tooltipStroke ?? midGrey, // tooltip border colour
             fill: chartStyle?.tooltipBackgroundColour ?? midGrey, // tooltip backgroundcolour
         },
         toolTipMain: {
-            fontSize: chartStyle?.tooltipTextStyle?.size ?? 14,
+            fontSize: (chartStyle?.tooltipTextStyle?.size ?? 14) * (textMultiplier ?? 1),
             fill: chartStyle?.tooltipTextStyle?.colour ?? black,
             fontFamily: chartStyle?.tooltipTextStyle?.name ?? 'Montserrat',
             fontWeight: chartStyle?.tooltipTextStyle?.weight ?? 400,
@@ -95,7 +96,7 @@ function makeAllStyles(
                 strokeWidth: 1.0,
             },
             axisLabel: {
-                fontSize: axisStyle?.axisLabelTextStyle?.size ?? 10,
+                fontSize: (axisStyle?.axisLabelTextStyle?.size ?? 10) * (textMultiplier ?? 1),
                 padding: 20,
                 fill: axisStyle?.axisLabelTextStyle?.colour ?? black,
                 fontFamily: axisStyle?.axisLabelTextStyle?.name ?? 'Arial',
@@ -106,11 +107,11 @@ function makeAllStyles(
                 stroke: axisStyle?.tickLabelTextStyle?.colour ?? black,
             },
             tickLabels: {
-                padding: axisStyle?.tickLabelTextStyle?.padding ?? 5,
+                fontSize: (axisStyle?.tickLabelTextStyle?.size ?? 8) * (textMultiplier ?? 1),
+                padding: 5,
                 fill: axisStyle?.tickLabelTextStyle?.colour ?? black,
                 color: axisStyle?.tickLabelTextStyle?.colour ?? black,
                 fontFamily: axisStyle?.axisLabelTextStyle?.name ?? 'Arial',
-                fontSize: axisStyle?.tickLabelTextStyle?.size ?? 8,
                 fontWeight: axisStyle?.axisLabelTextStyle?.weight ?? 400,
                 fontStyle: axisStyle?.axisLabelTextStyle?.style ?? 'normal',
             },
@@ -120,7 +121,7 @@ function makeAllStyles(
         },
         xTicklabel: {
             fill: axisStyle?.tickLabelTextStyle?.colour ?? black,
-            fontSize: axisStyle?.tickLabelTextStyle?.size ?? 8,
+            fontSize: (axisStyle?.tickLabelTextStyle?.size ?? 8) * (textMultiplier ?? 1),
             fontFamily: axisStyle?.tickLabelTextStyle?.name ?? 'Arial',
             fontWeight: axisStyle?.tickLabelTextStyle?.weight ?? 400,
             fontStyle: axisStyle?.axisLabelTextStyle?.style ?? 'normal',
@@ -131,7 +132,7 @@ function makeAllStyles(
                 strokeWidth: 1.0,
             },
             axisLabel: {
-                fontSize: axisStyle?.axisLabelTextStyle?.size ?? 10,
+                fontSize: (axisStyle?.axisLabelTextStyle?.size ?? 10) * (textMultiplier ?? 1),
                 padding: 25,
                 fill: axisStyle?.axisLabelTextStyle?.colour ?? black,
                 fontFamily: axisStyle?.axisLabelTextStyle?.name ?? 'Arial',
@@ -142,7 +143,7 @@ function makeAllStyles(
                 stroke: axisStyle?.tickLabelTextStyle?.colour ?? black,
             },
             tickLabels: {
-                fontSize: axisStyle?.tickLabelTextStyle?.size ?? 8,
+                fontSize: (axisStyle?.tickLabelTextStyle?.size ?? 8) * (textMultiplier ?? 1),
                 padding: 5,
                 fill: axisStyle?.tickLabelTextStyle?.colour ?? black,
                 fontFamily: axisStyle?.axisLabelTextStyle?.name ?? 'Arial',
@@ -276,7 +277,7 @@ function makeAllStyles(
             }
         },
         eventTextStyle: {
-            size: measurementStyle?.eventTextStyle?.size ?? 14,
+            size: (measurementStyle?.eventTextStyle?.size ?? 14) * (textMultiplier ?? 1),
             name: measurementStyle?.eventTextStyle?.name ?? 'Montserrat',
             colour: measurementStyle?.eventTextStyle?.colour ?? black,
             style: measurementStyle?.eventTextStyle?.style ?? 'normal'
