@@ -16,6 +16,8 @@ export interface RCPCHChartProps {
     exportChartCallback(svg?: any): any;
     clinicianFocus?: boolean | undefined | null;
     theme?: 'monochrome' | 'traditional' | 'tanner1' | 'tanner2' | 'tanner3' | 'custom';
+    height?: number
+    width?: number
     customThemeStyles?: {
         chartStyle?: ChartStyle 
         axisStyle?: AxisStyle

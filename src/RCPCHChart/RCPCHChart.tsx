@@ -1,11 +1,10 @@
 // packages/libraries
 import * as React from 'react';
+
+import { styled } from 'styled-components';
+
 // props and interfaces
 import { RCPCHChartProps } from './RCPCHChart.types';
-
-
-// style sheets
-import './RCPCHChart.scss';
 
 // components
 import CentileChart from '../CentileChart';
@@ -20,8 +19,43 @@ import { nameForReference } from '../functions/nameForReference'
 import { nameForMeasurementMethod } from '../functions/nameForMeasurementMethod';
 import { stylesForTheme } from '../functions/stylesForTheme';
 
+
+import { montserratRegular } from '../fonts/montserrat-b64';
+import { montserratBold } from '../fonts/montserrat-bold-b64';
+import { montserratItalic } from '../fonts/montserrat-italic-b64';
+
 // const VERSION_LOG = '[VI]Version: {version} - built on {date}[/VI]'; 
 const VERSION = '[VI]v{version}[/VI]'; // uses version injector plugin to Rollup to report package.json version
+
+const GlobalStyle = styled.div`
+  @font-face {
+    font-family: 'Montserrat';
+    src: url(${montserratRegular}) format('truetype'),
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Montserrat-Bold';
+    src: url(${montserratBold}) format('truetype'),
+    font-weight: 700;
+    font-style: bold;
+  }
+  
+  @font-face {
+    font-family: 'Montserrat-Italic';
+    src: url(${montserratItalic}) format('truetype'),
+    font-weight: 400;
+    font-style: italic;
+  }
+
+  body {
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+}`;
 
 const RCPCHChart: React.FC<RCPCHChartProps> = ({
     title,
@@ -36,7 +70,9 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     exportChartCallback,
     clinicianFocus,
     theme,
-    customThemeStyles
+    customThemeStyles,
+    height,
+    width
 }) => {
 
     clinicianFocus = defineNonStylePropDefaults('clinicianFocus', clinicianFocus);
@@ -62,8 +98,20 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     // spread styles into individual objects
     const { chartStyle, axisStyle, gridlineStyle, centileStyle, sdsStyle, measurementStyle } = all_styles
 
+    // use height and width if provided to set text size also - text in SVG does not scale with the chart so we need to adjust it
+    const referenceWidth = 1000;
+    const referenceHeight = 800;
+    const referenceGeometricMean = Math.sqrt(referenceWidth * referenceHeight);
+    let textScaleFactor = 1;
+    if (height != undefined && width != undefined){
+        // Calculate the geometric mean of width and height
+        const geometricMean = Math.sqrt(width * height);
+        // Use the geometric mean to create a scaling factor
+        textScaleFactor = geometricMean / referenceGeometricMean; 
+    }
+
     // make granular styles to pass into charts
-    const styles = makeAllStyles(chartStyle, axisStyle, gridlineStyle, centileStyle, sdsStyle, measurementStyle);
+    const styles = makeAllStyles(chartStyle, axisStyle, gridlineStyle, centileStyle, sdsStyle, measurementStyle, textScaleFactor);
     
     
     // uncomment in development
@@ -84,6 +132,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
 
         return (
             <ErrorBoundary styles={styles}>
+                <GlobalStyle>
                 <CentileChart
                     chartsVersion={VERSION}
                     reference={reference}
@@ -95,10 +144,14 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
                     sex={sex}
                     enableZoom={enableZoom}
                     styles={styles}
+                    height={height ?? 800}
+                    width={width ?? 1000}
+                    textScaleFactor={textScaleFactor}
                     enableExport={enableExport}
                     exportChartCallback={exportChartCallback}
                     clinicianFocus={clinicianFocus}
                 />
+                </GlobalStyle>
             </ErrorBoundary>
         );
     } else {
@@ -115,6 +168,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
         
         return (
             <ErrorBoundary styles={styles}>
+                <GlobalStyle>
                 <SDSChart
                     chartsVersion={VERSION}
                     reference={reference}
@@ -126,10 +180,14 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
                     sex={sex}
                     enableZoom={enableZoom}
                     styles={styles}
+                    height={height ?? 800}
+                    width={width ?? 1000}
+                    textScaleFactor={textScaleFactor}
                     enableExport={enableExport}
                     exportChartCallback={exportChartCallback}
                     clinicianFocus={clinicianFocus}
                 />
+                </GlobalStyle>
             </ErrorBoundary>
         );
     }

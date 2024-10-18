@@ -12,7 +12,6 @@ import {
     VictoryLabel,
     VictoryArea,
     DomainPropType,
-    VictoryPortal,
 } from 'victory';
 
 // helper functions
@@ -72,18 +71,12 @@ import { GradientLabelsButtonWrapper } from '../SubComponents/GradientLabelsButt
 import icon from '../images/icon.png';
 import ukca from '../images/ukca.png';
 
-// styles - imports fonts 
-import '../global.css';
-// import GlobalFonts from '../fonts/fonts'
-
 // allows two top level containers: zoom and voronoi
 const VictoryZoomVoronoiContainer:any = createContainer(
     'zoom',
     'voronoi',
 );
 
-const shadedTermAreaText =
-    'Babies born in this shaded area\nare term. It is normal for\nbabies to lose weight over\nthe first two weeks of life.\nMedical review should be sought\nif weight has dropped by more\nthan 10% of birth weight or\nweight is still below birth weight\nthree weeks after birth.';
 
 function CentileChart({
     chartsVersion,
@@ -96,6 +89,9 @@ function CentileChart({
     midParentalHeightData,
     enableZoom,
     styles,
+    height,
+    width,
+    textScaleFactor,
     enableExport,
     exportChartCallback,
     clinicianFocus
@@ -190,13 +186,11 @@ function CentileChart({
                 x: -0.057494866529774126,
                 y: domains.y[1],
                 y0: domains.y[0],
-                l: shadedTermAreaText,
             },
             {
                 x: 0.038329911019849415,
                 y: domains.y[1],
                 y0: domains.y[0],
-                l: shadedTermAreaText,
             },
         ];
     }
@@ -259,6 +253,8 @@ function CentileChart({
         setUserDomains(null);
     }, [storedChildMeasurements]);
 
+
+
     return (
         <MainContainer>
             <TopContainer>
@@ -288,8 +284,8 @@ function CentileChart({
                 {/* Tooltips are here as it is the parent component. More information of tooltips in centiles below. */}
 
                 <VictoryChart
-                    width={1000}
-                    height={800}
+                    width={width}
+                    height={height}
                     style={styles.chartMisc}
                     domain={computedDomains}
                     containerComponent={
@@ -300,6 +296,22 @@ function CentileChart({
                             allowPan={allowZooming}
                             onZoomDomainChange={handleZoomChange}
                             zoomDomain={domains}
+                            labels={({ datum }) => {
+                                // This the tool tip text, and accepts a large number of arguments
+                                // tool tips return contextual information for each datapoint, as well as the centile
+                                // and SDS lines, as well as bone ages, events and midparental heights
+                                const tooltipTextList = tooltipText(
+                                    reference,
+                                    measurementMethod,
+                                    datum,
+                                    midParentalHeightData,
+                                    clinicianFocus,
+                                    sex
+                                )
+                                if (tooltipTextList){
+                                    return tooltipTextList.join('\n').replace(/^\s+|\s+$/g, '');
+                                } 
+                            }}
                             labelComponent={
                                 <VictoryTooltip
                                     data-testid='tooltip'
@@ -307,23 +319,15 @@ function CentileChart({
                                     backgroundPadding={5}
                                     pointerLength={5}
                                     cornerRadius={0}
-                                    flyoutStyle={{...styles.toolTipFlyout}}
+                                    flyoutHeight={(datum) => {
+                                        const numberOfLines = datum.text.length;
+                                        return numberOfLines * 18 * textScaleFactor;    // 18 is the line height
+                                    }}
+                                    flyoutStyle={{
+                                        ...styles.toolTipFlyout,
+                                    }}
                                     style={{...styles.toolTipMain}}
                                 />
-                            }
-                            labels={({ datum }) => {
-                                // This the tool tip text, and accepts a large number of arguments
-                                // tool tips return contextual information for each datapoint, as well as the centile
-                                // and SDS lines, as well as bone ages, events and midparental heights
-                                    return tooltipText(
-                                        reference,
-                                        measurementMethod,
-                                        datum,
-                                        midParentalHeightData,
-                                        clinicianFocus,
-                                        sex
-                                    )
-                                }
                             }
                             voronoiBlacklist={['linkLine', 'chronologicalboneagelinkline', 'correctedboneagelinkline', 'areaMPH']}
                         />
@@ -725,7 +729,6 @@ function CentileChart({
                                         
                                         showChronologicalAge && !showCorrectedAge ?
                                         // Events against chronological age only if corrected age not showing
-                                        <VictoryPortal>
                                             <VictoryScatter
                                                 key={"item-"+index}
                                                 name="eventcaret"
@@ -737,10 +740,9 @@ function CentileChart({
                                                     />
                                                 }
                                             />
-                                        </VictoryPortal>
                                         :
                                         // Events against corrected age
-                                        <VictoryPortal>
+                                        
                                             <VictoryScatter
                                                 key={"item-"+index}
                                                 name="eventcaret"
@@ -752,7 +754,7 @@ function CentileChart({
                                                     />
                                                 }
                                             />
-                                        </VictoryPortal>
+                                        
                                     )
                                 }
 

@@ -21,7 +21,6 @@ import { Domains, IDomainSex } from '../interfaces/Domains';
 
 import { IPlottedCentileMeasurement, Reference, ICentile } from '../interfaces/CentilesObject';
 import deepCopy from './deepCopy';
-import { ClientMeasurementObject } from '../interfaces/ClientMeasurementObject';
 import { trisomy21HeightMaleCentileData } from '../chartdata/trisomy21_height_male_centile_data';
 import { trisomy21HeightFemaleCentileData } from '../chartdata/trisomy21_height_female_centile_data';
 import { trisomy21BMIFemaleCentileData } from '../chartdata/trisomy21_bmi_female_centile_data';
@@ -31,7 +30,6 @@ import { trisomy21WeightFemaleCentileData } from '../chartdata/trisomy21_weight_
 import { trisomy21OFCMaleCentileData } from '../chartdata/trisomy21_ofc_male_centile_data';
 import { trisomy21OFCFemaleCentileData } from '../chartdata/trisomy21_ofc_female_centile_data';
 import { turnerHeightFemaleCentileData } from '../chartdata/turner_height_female_centile_data';
-import { LineSegment } from 'victory';
 
 type CentileLabelValues = {
     0.4: { value: number; workingX: number };
@@ -267,11 +265,8 @@ function childMeasurementRanges(
         let chronologicalX = measurement.plottable_data.centile_data.chronological_decimal_age_data.x;
         let correctedY = measurement.plottable_data.centile_data.corrected_decimal_age_data.y;
         let chronologicalY = measurement.plottable_data.centile_data.chronological_decimal_age_data.y;
+        const boneAgeX = measurement.bone_age.bone_age;
         const errorsPresent = false;
-            // measurement.measurement_calculated_values.corrected_measurement_error ||
-            // measurement.measurement_calculated_values.chronological_measurement_error
-            //     ? true
-            //     : false;
         
         if (!errorsPresent) {
             if (showCorrected && !showChronological) {
@@ -297,6 +292,15 @@ function childMeasurementRanges(
                 }
                 if (lowestChildY > coord) {
                     lowestChildY = coord;
+                }
+            }
+            // if bone age is present and value is more extreme than the highest or lowest x, update:
+            if (boneAgeX) {
+                if (highestChildX < boneAgeX) {
+                    highestChildX = boneAgeX;
+                }
+                if (lowestChildX > boneAgeX) {
+                    lowestChildX = boneAgeX;
                 }
             }
         } else {
@@ -596,6 +600,7 @@ function getDomainsAndData(
         }
         if (errorFree) {
             const { lowestChildX, highestChildX, lowestChildY, highestChildY } = childCoordinates;
+            
             lowestYFromMeasurements = lowestChildY;
             highestYFromMeasurements = highestChildY;
             const difference = highestChildX - lowestChildX;
