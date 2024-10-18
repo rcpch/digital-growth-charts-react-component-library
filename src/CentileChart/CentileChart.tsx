@@ -964,7 +964,7 @@ function CentileChart({
                                                     angle={-90}
                                                     dx={5}
                                                     dy={10}
-                                                    style={styles.nondisjunctionThresholdLabel}
+                                                    style={styles.delayedPubertyThresholdLabel}
                                                 />
                                             }
                                         />
