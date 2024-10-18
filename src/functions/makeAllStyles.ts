@@ -18,9 +18,11 @@ import { AxisStyle, CentileStyle, SDSStyle, ChartStyle, GridlineStyle, Measureme
 
 const black = '#000000';
 const white = '#FFFFFF';
+const darkGrey = '#808080';
 const midGrey = '#b3b3b3';
 const lightGrey = '#d9d9d9';
 const lightLightGrey = "#f3f3f3";
+const charcoal = "#4d4d4d";
 const aquaGreen ='#00BDAA'
 const orange = '#FF8000'
 const purple = '#7159AA'
@@ -152,7 +154,7 @@ function makeAllStyles(
         },
         delayedPubertyThresholdLine: {
             data: {
-                stroke: measurementStyle?.measurementFill ?? black,
+                stroke: charcoal,
                 strokeWidth: 1,
             },
         },
@@ -161,6 +163,12 @@ function makeAllStyles(
             fill: axisStyle?.axisLabelTextStyle?.colour ?? black,
             fontFamily: axisStyle?.axisLabelTextStyle?.name ?? 'Arial',
             textAlign: 'start',
+        },
+        nondisjunctionThresholdLine: {
+            data: {
+                stroke: charcoal,
+                strokeWidth: 1,
+            },
         },
         sdsLine: {  // these are the sds lines on the BMI chart
             data: {

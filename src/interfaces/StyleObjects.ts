@@ -19,6 +19,8 @@ export interface MeasurementStyle {
 export interface CentileStyle {
     sdsStroke?: string; // sds line colour
     centileStroke?: string; // centile line colour
+    nondisjunctionThresholdLabel ?: string; // label for nondisjunctionThresholdLabel
+    nondisjunctionThresholdLine ?: string; // colour of nondisjunctionThresholdLine
     delayedPubertyAreaFill?: string; // delayed puberty area colour
     midParentalCentileStroke?: string; // Midparental height centile line colour
     midParentalAreaFill?: string; // Midparental height area colour
