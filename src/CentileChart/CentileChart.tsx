@@ -12,7 +12,6 @@ import {
     VictoryLabel,
     VictoryArea,
     DomainPropType,
-    VictoryPortal,
 } from 'victory';
 
 // helper functions
@@ -89,6 +88,9 @@ function CentileChart({
     midParentalHeightData,
     enableZoom,
     styles,
+    height,
+    width,
+    textScaleFactor,
     enableExport,
     exportChartCallback,
     clinicianFocus
@@ -277,8 +279,8 @@ function CentileChart({
                 {/* Tooltips are here as it is the parent component. More information of tooltips in centiles below. */}
 
                 <VictoryChart
-                    width={1000}
-                    height={800}
+                    width={width}
+                    height={height}
                     style={styles.chartMisc}
                     domain={computedDomains}
                     containerComponent={
@@ -314,7 +316,7 @@ function CentileChart({
                                     cornerRadius={0}
                                     flyoutHeight={(datum) => {
                                         const numberOfLines = datum.text.length;
-                                        return numberOfLines * 18;    // 18 is the line height
+                                        return numberOfLines * 18 * textScaleFactor;    // 18 is the line height
                                     }}
                                     flyoutStyle={{
                                         ...styles.toolTipFlyout,
