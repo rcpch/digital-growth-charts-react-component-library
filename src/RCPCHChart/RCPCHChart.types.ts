@@ -1,6 +1,6 @@
 import { Measurement } from '../interfaces/RCPCHMeasurementObject';
 import { MidParentalHeightObject } from '../interfaces/MidParentalHeightObject';
-import { AxisStyle, CentileStyle, ChartStyle, GridlineStyle, MeasurementStyle, SDSStyle } from '../interfaces/StyleObjects';
+import { AxisStyle, CentileStyle, ChartStyle, GridlineStyle, MeasurementStyle, ReferenceStyle, SDSStyle } from '../interfaces/StyleObjects';
 import { ClientMeasurementObject } from '../interfaces/ClientMeasurementObject';
 
 export interface RCPCHChartProps {
@@ -23,5 +23,6 @@ export interface RCPCHChartProps {
         measurementStyle?: MeasurementStyle
         centileStyle?: CentileStyle
         sdsStyle?: SDSStyle
+        referenceStyle?: ReferenceStyle;
     } // individual styles to override in each theme. If 'custom' theme is selected, 'monochrome' styles are defaulted and styles passed here override them 
 }

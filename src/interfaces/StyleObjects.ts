@@ -22,6 +22,7 @@ export interface CentileStyle {
     delayedPubertyAreaFill?: string; // delayed puberty area colour
     midParentalCentileStroke?: string; // Midparental height centile line colour
     midParentalAreaFill?: string; // Midparental height area colour
+    centileTextStyle?: Omit<TextStyle, 'colour' | 'style'> | undefined;
 }
 
 export interface SDSStyle {
@@ -38,13 +39,21 @@ export interface GridlineStyle {
 }
 export interface AxisStyle {
     axisStroke?: string; // Axis colour
+    axisThresholdLabelTextStyle?: TextStyle | undefined; // Axis label text: : includes fontFamily, fontSize, colour, weight (regular/bold/italic)
     axisLabelTextStyle?: TextStyle | undefined; // Axis label text: : includes fontFamily, fontSize, colour, weight (regular/bold/italic)
-    tickLabelTextStyle?: TextStyle | undefined; // Tick label text : includes fontFamily, fontSize, colour, weight (regular/bold/italic)
+    tickLabelTextStyle?: TickLabelTextStyle | undefined; // Tick label text : includes fontFamily, fontSize, colour, weight (regular/bold/italic)
 }
 
+export interface TickLabelTextStyle extends TextStyle {
+    padding?: number;
+}
+
+export interface ReferenceStyle extends TextStyle {}
 export interface TextStyle {
     name?: string;
     colour?: string;
     size?: number;
-    style?: 'bold' | 'italic' | 'normal';
+    style?: 'italic' | 'normal';
+    weight?: number;
 }
+

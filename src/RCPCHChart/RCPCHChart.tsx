@@ -94,10 +94,10 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
 
 
     // spread styles into individual objects
-    const { chartStyle, axisStyle, gridlineStyle, centileStyle, sdsStyle, measurementStyle } = all_styles
+    const { chartStyle, axisStyle, gridlineStyle, centileStyle, sdsStyle, measurementStyle, referenceStyle } = all_styles
 
     // make granular styles to pass into charts
-    const styles = makeAllStyles(chartStyle, axisStyle, gridlineStyle, centileStyle, sdsStyle, measurementStyle);
+    const styles = makeAllStyles(chartStyle, axisStyle, gridlineStyle, centileStyle, sdsStyle, measurementStyle, referenceStyle);
     
     
     // uncomment in development
