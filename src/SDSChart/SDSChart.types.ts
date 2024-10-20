@@ -1,5 +1,4 @@
 import { ClientMeasurementObject } from '../interfaces/ClientMeasurementObject';
-import { ClientStyle } from '../interfaces/ClientStyleObjects';
 import { MidParentalHeightObject } from '../interfaces/MidParentalHeightObject';
 export interface SDSChartProps {
     chartsVersion: string;
@@ -12,6 +11,9 @@ export interface SDSChartProps {
     sex: 'male' | 'female';
     enableZoom: boolean;
     styles: { [key: string]: any };
+    height?: number;
+    width?: number;
+    textScaleFactor?: number;
     enableExport: boolean;
     exportChartCallback(svg: any): any;
     clinicianFocus?: boolean | undefined | null;

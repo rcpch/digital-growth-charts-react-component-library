@@ -28,6 +28,9 @@ export interface CentileChartProps {
     midParentalHeightData?: MidParentalHeightObject | null;
     enableZoom?: boolean;
     styles: { [key: string]: any };
+    width?: number;
+    height?: number;
+    textScaleFactor?: number;
     enableExport?: boolean;
     exportChartCallback(svg: any): any;
     clinicianFocus?: boolean | undefined | null;

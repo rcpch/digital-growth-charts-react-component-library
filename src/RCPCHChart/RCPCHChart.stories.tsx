@@ -66,6 +66,8 @@ export const CentileChartUKWHOGirlsHeightWithMeasurements: Story = {
     enableExport: false,
     exportChartCallback: ()=>{},
     theme: 'tanner2',
+    height: 800,
+    width: 1000,
     customThemeStyles: {}
   },
 };

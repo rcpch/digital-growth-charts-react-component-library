@@ -1,6 +1,4 @@
-import { VictoryLegendProps } from "victory";
 import { ClientMeasurementObject } from "../interfaces/ClientMeasurementObject";
-import { ClientStyle } from "../interfaces/ClientStyleObjects";
 import { nameForMeasurementMethod } from "./nameForMeasurementMethod";
 import { symbolForMeasurementType } from "./symbolForMeasurementType";
 import { VictoryLegendDatum } from "../interfaces/VictoryLegendData";
