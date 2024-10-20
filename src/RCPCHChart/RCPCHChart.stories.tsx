@@ -9,6 +9,8 @@ import { twoToEight } from '../testParameters/measurements/twoToEight';
 import { prematureGirlOverThreeHeight } from '../testParameters/measurements/prematureGirlOverThreeHeight.ts';
 import { sdsTenYearGirlData } from '../testParameters/measurements/sdsTenYearGirlData'
 import { smallChildJustOverTwo } from '../testParameters/measurements/smallChildJustOverTwo';
+import { girlMidparentalheightCDC } from '../testParameters/measurements/girlMidparentalheightCDC.ts';
+import { girlMidparentalHeightUKWHO } from '../testParameters/measurements/girlMidparentalheightUKWHO.ts';
 // import { cdcFentonGirlLength } from '../testParameters/measurements/fenton/cdcFentonGirlLength';
 // import { cdcFentonGirlWeight } from '../testParameters/measurements/fenton/cdcFentonGirlWeight.ts';
 
@@ -352,6 +354,46 @@ export const CentileChartCDCBoysHeadCircumference: Story = {
       ofc: []
     },
     midParentalHeightData: {},
+    enableZoom: true,
+    chartType: 'centile',
+    enableExport: false,
+    exportChartCallback: ()=>{},
+    theme: 'tanner2',
+    customThemeStyles: {},
+    clinicianFocus: true
+  },
+};
+
+export const CentileChartCDCGirlMidparentalHeight: Story = {
+  args: {
+    title: 'Patient Name - Hospital Number',
+    measurementMethod: 'height',
+    reference: 'cdc',
+    sex: 'female',
+    measurements: {
+      height: []
+    },
+    midParentalHeightData: girlMidparentalheightCDC,
+    enableZoom: true,
+    chartType: 'centile',
+    enableExport: false,
+    exportChartCallback: ()=>{},
+    theme: 'tanner2',
+    customThemeStyles: {},
+    clinicianFocus: true
+  },
+};
+
+export const CentileChartUKWHOGirlMidparentalHeight: Story = {
+  args: {
+    title: 'Patient Name - Hospital Number',
+    measurementMethod: 'height',
+    reference: 'uk-who',
+    sex: 'female',
+    measurements: {
+      height: []
+    },
+    midParentalHeightData: girlMidparentalHeightUKWHO,
     enableZoom: true,
     chartType: 'centile',
     enableExport: false,

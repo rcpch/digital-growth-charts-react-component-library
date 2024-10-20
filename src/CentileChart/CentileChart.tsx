@@ -382,13 +382,17 @@ function CentileChart({
                     */
                     }
 
-                    { reference==="uk-who" && measurementMethod==="height" &&  filteredMidParentalHeightData &&
+                    { (reference==="uk-who" || reference==="cdc") && measurementMethod==="height" &&  filteredMidParentalHeightData &&
 
                         filteredMidParentalHeightData.map((reference, index)=>{
 
                             // this function filters the midparental height centile data to only those values
                             // one month either side of the most recent measurement, or 20 y if no measurements
                             // supplied.
+                            if (index === 0){
+                                // neonates - remove
+                                return 
+                            }
 
                             const lowerData = reference.lowerParentalCentile;
                             const midData = reference.midParentalCentile;
@@ -396,13 +400,19 @@ function CentileChart({
 
                             return (
                                 <VictoryGroup key={'midparentalCentileDataBlock' + index}>
-                                    {   upperData.map((centile: ICentile, centileIndex: number)=>{
+                                    {   
+                                        upperData.map((centile: ICentile, centileIndex: number)=>{
                                         // area lower and and upper boundaries
                                         const newData: any = centile.data.map((data, index) => {
                                             let o: any = Object.assign({}, data)
                                             o.y0 = lowerData[centileIndex].data[index].y
                                             return o;
                                         })
+                                        if (newData.length < 1){
+                                            // prevents a css `width` infinity error if no data presented to centile line;
+                                            return
+                                        }
+                                        
                                             return (
                                                 <VictoryArea
                                                     name="areaMPH"
@@ -414,6 +424,10 @@ function CentileChart({
                                         })
                                     }
                                     {   lowerData.map((lowercentile: ICentile, centileIndex: number) => {
+                                            if (lowercentile.data.length < 1){
+                                                // prevents a css `width` infinity error if no data presented to centile line
+                                                return
+                                            }
                                             return (
                                                 <VictoryLine
                                                     name="lowerCentileMPH"
@@ -425,6 +439,10 @@ function CentileChart({
                                             );
                                     })}
                                     {midData.map((centile: ICentile, centileIndex: number) => {
+                                            if (centile.data.length < 1){
+                                                // prevents a css `width` infinity error if no data presented to centile line
+                                                return
+                                            }
                                             return (
                                                 <VictoryLine
                                                     name="centileMPH"
@@ -436,6 +454,10 @@ function CentileChart({
                                             );
                                     })}
                                     {upperData.map((uppercentile: ICentile, centileIndex: number) => {
+                                            if (uppercentile.data.length < 1){
+                                                // prevents a css `width` infinity error if no data presented to centile line
+                                                return
+                                            }
                                             return (
                                                 <VictoryLine
                                                     name="upperCentileMPH"

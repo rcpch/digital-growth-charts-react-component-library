@@ -461,7 +461,7 @@ const SDSChart: React.FC<SDSChartProps> = (
                     
                  
                     {
-                        midParentalHeightData?.mid_parental_height_sds && reference==="uk-who" && measurementMethod==="height" &&
+                        midParentalHeightData?.mid_parental_height_sds && (reference==="uk-who" || reference === "cdc") && measurementMethod==="height" &&
                         // only show midparental line if data present and height is selected
                             <VictoryLine 
                                 name="mid-parental-sds"
