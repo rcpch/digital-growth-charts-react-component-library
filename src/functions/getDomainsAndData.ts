@@ -277,19 +277,19 @@ function makeDefaultDomains(
             },
             'cdc': {
                 'height': {
-                    x: [-0.01, 20.05],
+                    x: [-0.05, 20.05],
                     y: [37.106385, 187.74047],
                 },
                 'weight': {
-                    x: [-0.01, 20.05],
+                    x: [-0.05, 20.05],
                     y: [0, 94.233692],
                 },
                 'bmi': {
-                    x: [-0.01, 20.05],
+                    x: [-0.05, 20.05],
                     y: [8.569247, 60],
                 },
                 'ofc': {
-                    x: [-0.01, 3.05],
+                    x: [-0.05, 3.05],
                     y: [30.280771, 60.829982],
                 },
             },
@@ -531,7 +531,7 @@ function truncate(rawDataSet: any[], lowerX: number, upperX: number, extremeValu
     const truncatedDataSet: any[] = [];
     for (const originalCentileObject of rawDataSet) {
         const rawData = originalCentileObject.data;
-        if (rawData.length > 0) {
+        if (rawData && rawData.length > 0) {
             const centileString = originalCentileObject.centile;
             const truncatedData = filterData(rawData, lowerX, upperX, centileString, extremeValues, native);
             truncatedDataSet.push({
@@ -737,7 +737,7 @@ function getDomainsAndData(
         }
 
         if (reference === 'cdc') {
-            // absoluteBottomX = -0.01;
+            absoluteBottomX = -0.01;
             absoluteHighX = 20.05;
             if (measurementMethod === 'ofc') {
                 absoluteHighX = 3;

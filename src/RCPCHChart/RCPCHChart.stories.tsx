@@ -8,6 +8,7 @@ import { ChartStyle } from '../interfaces/StyleObjects.ts';
 import { twoToEight } from '../testParameters/measurements/twoToEight';
 import { prematureGirlOverThreeHeight } from '../testParameters/measurements/prematureGirlOverThreeHeight.ts';
 import { sdsTenYearGirlData } from '../testParameters/measurements/sdsTenYearGirlData'
+import { smallChildJustOverTwo } from '../testParameters/measurements/smallChildJustOverTwo';
 // import { cdcFentonGirlLength } from '../testParameters/measurements/fenton/cdcFentonGirlLength';
 // import { cdcFentonGirlWeight } from '../testParameters/measurements/fenton/cdcFentonGirlWeight.ts';
 
@@ -228,7 +229,7 @@ export const CentileChartCDCBoysHeight: Story = {
     reference: 'cdc',
     sex: 'male',
     measurements: {
-      height: []
+      height: smallChildJustOverTwo
     },
     midParentalHeightData: {},
     enableZoom: true,
