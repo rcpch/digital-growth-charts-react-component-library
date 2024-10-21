@@ -73,6 +73,10 @@ export function tooltipText(
         returnStringList.push(`${corrected_measurement_error}`)
         return returnStringList;
     }
+    if (chronological_decimal_age_error && age_type === 'chronological_age'){
+        returnStringList.push(`${chronological_decimal_age_error}`);
+        return returnStringList;
+    }
 
     // midparental height labels
     if (midParentalHeightData){
@@ -182,6 +186,7 @@ export function tooltipText(
             if (datum.x < 20 && y != null){
                 // fix for duplicate text if tooltip called from mouse point where x > chart area or 
                 // y is null - situations when hovering below the chart in areas where centile data do not exist
+                
                 let returnStringList = [];
                 returnStringList.push(`${addOrdinalSuffix(l)} centile`);
                 return returnStringList;

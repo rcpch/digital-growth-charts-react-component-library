@@ -6,6 +6,7 @@ import { Tanner1Styles } from '../testParameters/styles/tanner1Styles';
 import { Tanner2Styles } from '../testParameters/styles/tanner2Styles';
 import { Tanner3Styles } from '../testParameters/styles/tanner3Styles';
 import { traditionalBoysStyles } from '../testParameters/styles/traditionalBoysStyles';
+import { traditionalGirlsStyles } from '../testParameters/styles/traditionalGirlsStyles';
 import { termGirlWithSingleHeightMeasurementAndBoneAgeAndEvent } from '../testParameters/measurements/termGirlWithSingleHeightMeasurementAndBoneAgeAndEvent';
 import { twoWeightMeasurements } from '../testParameters/measurements/twoWeightMeasurements';
 import { twoToEight } from '../testParameters/measurements/twoToEight';
@@ -28,7 +29,7 @@ import { termBabyGirlWeight } from '../testParameters/measurements/termBabyGirlW
 import { trisomy21HighBMI } from '../testParameters/measurements/trisomy21HighBMI';
 
 export default {
-    title: 'CentileChart',
+    title: 'Centile Chart',
 };
 
 export const WithHeightAndNoData = () => (
@@ -38,6 +39,78 @@ export const WithHeightAndNoData = () => (
         title="Simon"
         subtitle="rules"
         measurementMethod="height"
+        sex="male"
+        childMeasurements={[]}
+        midParentalHeightData={midParentalHeights}
+        enableZoom={true}
+        styles={traditionalBoysStyles}
+        enableExport={true}
+        exportChartCallback={() => null}
+        clinicianFocus={true}
+    />
+);
+
+export const WithCDCFemaleHeightAndNoData = () => (
+    <CentileChart
+        chartsVersion="testChart"
+        reference="cdc"
+        title="Patient"
+        subtitle="Name - CDC"
+        measurementMethod="height"
+        sex="female"
+        childMeasurements={[]}
+        midParentalHeightData={midParentalHeights}
+        enableZoom={true}
+        styles={traditionalGirlsStyles}
+        enableExport={true}
+        exportChartCallback={() => null}
+        clinicianFocus={true}
+    />
+);
+
+export const WithCDCMaleWeightAndNoData = () => (
+    <CentileChart
+        chartsVersion="testChart"
+        reference="cdc"
+        title="Patient"
+        subtitle="Name - CDC"
+        measurementMethod="weight"
+        sex="male"
+        childMeasurements={[]}
+        midParentalHeightData={midParentalHeights}
+        enableZoom={true}
+        styles={traditionalBoysStyles}
+        enableExport={true}
+        exportChartCallback={() => null}
+        clinicianFocus={true}
+    />
+);
+
+export const WithCDCMaleBMIAndNoData = () => (
+    <CentileChart
+        chartsVersion="testChart"
+        reference="cdc"
+        title="Patient"
+        subtitle="Name - CDC"
+        measurementMethod="bmi"
+        sex="male"
+        childMeasurements={[]}
+        midParentalHeightData={midParentalHeights}
+        enableZoom={true}
+        styles={traditionalBoysStyles}
+        enableExport={true}
+        exportChartCallback={() => null}
+        clinicianFocus={true}
+    />
+);
+
+export const WithCDCMaleOFCAndNoData = () => (
+    <CentileChart
+        chartsVersion="testChart"
+        reference="cdc"
+        title="Patient"
+        subtitle="Name - CDC"
+        measurementMethod="ofc"
         sex="male"
         childMeasurements={[]}
         midParentalHeightData={midParentalHeights}

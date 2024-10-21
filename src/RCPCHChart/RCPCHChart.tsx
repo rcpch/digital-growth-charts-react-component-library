@@ -115,7 +115,10 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     
     
     // uncomment in development
-    // console.log("loading from locally...");
+    console.log("loading from locally...");
+    console.log("cdc branch...");
+    
+
 
     // create subtitle from sex, reference and measurementMethod
     const subtitleReferenceMeasurementMethod = `${nameForReference(reference)} - ${nameForMeasurementMethod(measurementMethod)}`

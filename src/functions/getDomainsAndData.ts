@@ -31,6 +31,15 @@ import { trisomy21OFCMaleCentileData } from '../chartdata/trisomy21_ofc_male_cen
 import { trisomy21OFCFemaleCentileData } from '../chartdata/trisomy21_ofc_female_centile_data';
 import { turnerHeightFemaleCentileData } from '../chartdata/turner_height_female_centile_data';
 
+import { cdcHeightMaleCentileData } from '../chartdata/cdc_height_male_centile_data';
+import { cdcHeightFemaleCentileData } from '../chartdata/cdc_height_female_centile_data';
+import { cdcWeightMaleCentileData } from '../chartdata/cdc_weight_male_centile_data';
+import { cdcWeightFemaleCentileData } from '../chartdata/cdc_weight_female_centile_data';
+import { cdcOFCMaleCentileData } from '../chartdata/cdc_ofc_male_centile_data';
+import { cdcOFCFemaleCentileData } from '../chartdata/cdc_ofc_female_centile_data';
+import { cdcBMIMaleCentileData } from '../chartdata/cdc_bmi_male_centile_data';
+import { cdcBMIFemaleCentileData } from '../chartdata/cdc_bmi_female_centile_data';
+
 type CentileLabelValues = {
     0.4: { value: number; workingX: number };
     2: { value: number; workingX: number };
@@ -41,6 +50,31 @@ type CentileLabelValues = {
     91: { value: number; workingX: number };
     98: { value: number; workingX: number };
     99.6: { value: number; workingX: number };
+};
+
+type ThreePercentCentileLabelValues = {
+    3: { value: number; workingX: number };
+    10: { value: number; workingX: number };
+    25: { value: number; workingX: number };
+    50: { value: number; workingX: number };
+    75: { value: number; workingX: number };
+    90: { value: number; workingX: number };
+    97: { value: number; workingX: number };
+};
+
+type EightyFivePercentCentileLabelValues = {
+    3: { value: number; workingX: number };
+    5: { value: number; workingX: number };
+    10: { value: number; workingX: number };
+    25: { value: number; workingX: number };
+    50: { value: number; workingX: number };
+    75: { value: number; workingX: number };
+    85: { value: number; workingX: number };
+    90: { value: number; workingX: number };
+    98: { value: number; workingX: number };
+    99: { value: number; workingX: number };
+    999: { value: number; workingX: number };
+    9999: { value: number; workingX: number };
 };
 
 type ExtremeValues = {
@@ -97,9 +131,48 @@ const blankDataset = [
     ],
 ];
 
+const blankCDCDataset = [
+    [
+        { centile: 3, data: [] as ICentile[], sds: -1.88 },
+        { centile: 10, data: [] as ICentile[], sds: -1.28 },
+        { centile: 25, data: [] as ICentile[], sds: -0.67 },
+        { centile: 50, data: [] as ICentile[], sds: 0 },
+        { centile: 75, data: [] as ICentile[], sds: 0.67 },
+        { centile: 90, data: [] as ICentile[], sds: 1.28 },
+        { centile: 97, data: [] as ICentile[], sds: 1.88 },
+    ],
+    [
+        { centile: 3, data: [] as ICentile[], sds: -1.88 },
+        { centile: 10, data: [] as ICentile[], sds: -1.28 },
+        { centile: 25, data: [] as ICentile[], sds: -0.67 },
+        { centile: 50, data: [] as ICentile[], sds: 0 },
+        { centile: 75, data: [] as ICentile[], sds: 0.67 },
+        { centile: 90, data: [] as ICentile[], sds: 1.28 },
+        { centile: 97, data: [] as ICentile[], sds: 1.88 },
+    ],
+    [
+        { centile: 3, data: [] as ICentile[], sds: -1.88 },
+        { centile: 10, data: [] as ICentile[], sds: -1.28 },
+        { centile: 25, data: [] as ICentile[], sds: -0.67 },
+        { centile: 50, data: [] as ICentile[], sds: 0 },
+        { centile: 75, data: [] as ICentile[], sds: 0.67 },
+        { centile: 90, data: [] as ICentile[], sds: 1.28 },
+        { centile: 97, data: [] as ICentile[], sds: 1.88 },
+    ],
+    [
+        { centile: 3, data: [] as ICentile[], sds: -1.88 },
+        { centile: 10, data: [] as ICentile[], sds: -1.28 },
+        { centile: 25, data: [] as ICentile[], sds: -0.67 },
+        { centile: 50, data: [] as ICentile[], sds: 0 },
+        { centile: 75, data: [] as ICentile[], sds: 0.67 },
+        { centile: 90, data: [] as ICentile[], sds: 1.28 },
+        { centile: 97, data: [] as ICentile[], sds: 1.88 },
+    ],
+]
+
 function makeDefaultDomains(
     sex: 'male' | 'female',
-    reference: 'uk-who' | 'trisomy-21' | 'turner',
+    reference: 'uk-who' | 'trisomy-21' | 'turner' | 'cdc',
     measurementMethod: 'height' | 'weight' | 'bmi' | 'ofc',
 ) {
     const all: IDomainSex = {
@@ -140,23 +213,41 @@ function makeDefaultDomains(
                     y: [28.033898999999998, 59.464058],
                 },
             },
+            'cdc': {
+                'height': {
+                    x: [-0.01, 20.05],
+                    y: [33.456711999999996, 192],
+                },
+                'weight': {
+                    x: [-0.01, 20.05],
+                    y: [0, 113.55046],
+                },
+                'bmi': {
+                    x: [-0.01, 18.87],
+                    y: [10, 55],
+                },
+                'ofc': {
+                    x: [-0.01, 3.05],
+                    y: [28.033898999999998, 59.464058],
+                },
+            }
         },
         'female': {
             'uk-who': {
                 'height': {
-                    x: [0.038329911019849415, 20.05],
+                    x: [-0.01, 20.05],
                     y: [37.106385, 187.74047],
                 },
                 'weight': {
-                    x: [0.038329911019849415, 20.05],
+                    x: [-0.01, 20.05],
                     y: [0, 94.233692],
                 },
                 'bmi': {
-                    x: [0.038329911019849415, 20.05],
+                    x: [-0.01, 20.05],
                     y: [8.569247, 34.568174],
                 },
                 'ofc': {
-                    x: [0.038329911019849415, 17.05],
+                    x: [-0.01, 3.05],
                     y: [30.280771, 60.829982],
                 },
             },
@@ -184,8 +275,26 @@ function makeDefaultDomains(
                     y: [54.450081, 169.723302],
                 },
             },
+            'cdc': {
+                'height': {
+                    x: [-0.05, 20.05],
+                    y: [37.106385, 187.74047],
+                },
+                'weight': {
+                    x: [-0.05, 20.05],
+                    y: [0, 94.233692],
+                },
+                'bmi': {
+                    x: [-0.05, 20.05],
+                    y: [8.569247, 60],
+                },
+                'ofc': {
+                    x: [-0.05, 3.05],
+                    y: [30.280771, 60.829982],
+                },
+            },
         },
-    };
+    };;
     
     return all[sex][reference][measurementMethod];
 }
@@ -422,7 +531,7 @@ function truncate(rawDataSet: any[], lowerX: number, upperX: number, extremeValu
     const truncatedDataSet: any[] = [];
     for (const originalCentileObject of rawDataSet) {
         const rawData = originalCentileObject.data;
-        if (rawData.length > 0) {
+        if (rawData && rawData.length > 0) {
             const centileString = originalCentileObject.centile;
             const truncatedData = filterData(rawData, lowerX, upperX, centileString, extremeValues, native);
             truncatedDataSet.push({
@@ -440,7 +549,7 @@ function truncate(rawDataSet: any[], lowerX: number, upperX: number, extremeValu
 function getRelevantDataSets(
     sex: 'male' | 'female',
     measurementMethod: 'height' | 'weight' | 'bmi' | 'ofc',
-    reference: 'uk-who' | 'trisomy-21' | 'turner',
+    reference: 'uk-who' | 'trisomy-21' | 'turner' | 'cdc',
     lowestChildX: number,
     highestChildX: number,
     isSDS: boolean
@@ -525,6 +634,51 @@ function getRelevantDataSets(
             throw new Error('No centile lines have rendered, as only height data is supported for turner reference.');
         }
         return [turnerData[0]['turners-syndrome'].female.height, blankSubSet, blankSubSet, blankSubSet];
+    } else if(reference === 'cdc'){
+        let cdcData: Reference[]
+        if (measurementMethod === 'height'){
+            cdcData = sex =="male" ? cdcHeightMaleCentileData.centile_data : cdcHeightFemaleCentileData.centile_data;
+        } else if (measurementMethod === 'weight'){
+            cdcData = sex == "male" ? cdcWeightMaleCentileData.centile_data : cdcWeightFemaleCentileData.centile_data;
+        } else if (measurementMethod === 'ofc'){
+            cdcData = sex == "male" ? cdcOFCMaleCentileData.centile_data : cdcOFCFemaleCentileData.centile_data;
+        } else if (measurementMethod === 'bmi'){
+            cdcData = sex == "male" ? cdcBMIMaleCentileData.centile_data : cdcBMIFemaleCentileData.centile_data;
+        }
+        const dataSetRanges = [
+            [((22 * 7) - (40 * 7)) / 365.25, ((50 * 7) - (40 * 7)) / 365.25], // 22 weeks to 50 weeks
+            [0, 2.0],
+            [2.0, 20],
+        ];
+        let startingGroup = 0;
+        let endingGroup = 2;
+        for (let i = 0; i < dataSetRanges.length; i++) {
+            const range = dataSetRanges[i];
+            if (lowestChildX >= range[0] && lowestChildX < range[1]) {
+                startingGroup = i;
+                break;
+            }
+        }
+        for (let i = 0; i < dataSetRanges.length; i++) {
+            const range = dataSetRanges[i];
+            if (highestChildX >= range[0] && highestChildX < range[1]) {
+                endingGroup = i;
+                break;
+            }
+        }
+
+        const allData: any = [
+            cdcData[0]['fenton'][sex][measurementMethod],
+            cdcData[1]['cdc_infant'][sex][measurementMethod],
+            cdcData[2]['cdc_child'][sex][measurementMethod],
+        ];
+        
+        let returnArray = deepCopy(blankCDCDataset);
+        for (let i = startingGroup; i <= endingGroup; i++) {
+            returnArray.splice(i, 1, allData[i]);
+        }
+        
+        return returnArray;
     } else {
         throw new Error('No valid reference given to getRelevantDataSets');
     }
@@ -535,7 +689,7 @@ function getDomainsAndData(
     childMeasurements: Measurement[],
     sex: 'male' | 'female',
     measurementMethod: 'height' | 'weight' | 'bmi' | 'ofc',
-    reference: 'uk-who' | 'trisomy-21' | 'turner',
+    reference: 'uk-who' | 'trisomy-21' | 'turner' | 'cdc',
     showCorrected: boolean,
     showChronological: boolean
 ) {
@@ -544,6 +698,10 @@ function getDomainsAndData(
     let finalCentileData: any[] = [];
     let finalSDSData: any[] = [];
     let internalDomains: Domains;
+
+    if (childMeasurements == null){
+        throw new Error(`No child measurements provided to getDomainsAndData. Did you pass the child measurements array to the '${measurementMethod}' prop?`);
+    }
 
     if (childMeasurements.length > 0) {
         const twoWeeksPostnatal = 0.038329911019849415;
@@ -578,6 +736,14 @@ function getDomainsAndData(
             absoluteBottomX = 0.99;
         }
 
+        if (reference === 'cdc') {
+            absoluteBottomX = -0.01;
+            absoluteHighX = 20.05;
+            if (measurementMethod === 'ofc') {
+                absoluteHighX = 3;
+            }
+        }
+
         let lowestXForDomain = absoluteBottomX;
         let highestXForDomain = absoluteHighX;
 
@@ -608,7 +774,7 @@ function getDomainsAndData(
             const birthGestationWeeks = childMeasurements[0].birth_data.gestation_weeks;
 
             // set appropriate chart scale based on data:
-            if (birthGestationWeeks < 37 && highestChildX <= twoWeeksPostnatal && reference === 'uk-who') {
+            if (birthGestationWeeks < 37 && highestChildX <= twoWeeksPostnatal && (reference === 'uk-who')) {
                 // prem:
                 absoluteBottomX = gestWeeks22;
                 agePadding = totalMinPadding.prem;
@@ -624,7 +790,7 @@ function getDomainsAndData(
             } else if (highestChildX <= 2) {
                 //infant:
                 agePadding = totalMinPadding.infant;
-                if (lowestChildX >= gestWeeks37 && lowestChildX < twoWeeksPostnatal && reference === 'uk-who') {
+                if (lowestChildX >= gestWeeks37 && lowestChildX < twoWeeksPostnatal && (reference === 'uk-who')) {
                     absoluteBottomX = gestWeeks37;
                 } else if (lowestChildX < gestWeeks37) {
                     // absoluteBottomX = measurementMethod === 'height' ? gestWeeks24 : gestWeeks22;
@@ -770,7 +936,9 @@ function getDomainsAndData(
             y: [finalLowestY, finalHighestY],
         };
     } else {
+        
         internalDomains = makeDefaultDomains(sex, reference, measurementMethod);
+        
         finalCentileData = getRelevantDataSets(
             sex,
             measurementMethod,
@@ -800,7 +968,7 @@ function getDomainsAndData(
 function getVisibleData(
     sex: 'male' | 'female',
     measurementMethod: 'height' | 'weight' | 'bmi' | 'ofc',
-    reference: 'uk-who' | 'trisomy-21' | 'turner',
+    reference: 'uk-who' | 'trisomy-21' | 'turner' | 'cdc',
     domains: any,
 ) {
     if (!domains) {
@@ -817,12 +985,13 @@ function getVisibleData(
             case xDifference <= totalMinPadding.infant:
                 chartScaleType = 'infant';
                 break;
-                case xDifference <= totalMinPadding.smallChild:
-                    chartScaleType = 'smallChild';
+            case xDifference <= totalMinPadding.smallChild:
+                chartScaleType = 'smallChild';
             break;
     }
     const relevantCentileDataSets = getRelevantDataSets(sex, measurementMethod, reference, lowestX, highestX, false);
     const relevantSDSDataSets = getRelevantDataSets(sex, measurementMethod, reference, lowestX, highestX, true);
+
     let centileData = [];
     let sdsData = [];
     for (let referenceSet of relevantCentileDataSets) {
@@ -837,7 +1006,7 @@ function getVisibleData(
 }
 
 export const delayedPubertyData = {
-    male: ukwhoHeightMaleCentileData.centile_data[3].uk90_child.male.height[0].data, //ukwhoData.uk90_child.male.height[0].data,
+    male:  ukwhoHeightMaleCentileData.centile_data[3].uk90_child.male.height[0].data, //ukwhoData.uk90_child.male.height[0].data,
     female: ukwhoHeightFemaleCentileData.centile_data[3].uk90_child.female.height[0].data //ukwhoData.uk90_child.female.height[0].data,
 };
 

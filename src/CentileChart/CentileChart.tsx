@@ -121,6 +121,7 @@ function CentileChart({
             ),
         [storedChildMeasurements, sex, measurementMethod, reference, showCorrectedAge, showChronologicalAge],
     );
+        
 
     // get the highest reference index of visible centile data
     let maxVisibleReferenceIndex: number = null;
@@ -143,7 +144,8 @@ function CentileChart({
                 minimumArrayLength = 6;
                 break;
         }
-        if (item[0].data.length > minimumArrayLength){
+        
+        if (item[0].data !== null && item[0].data.length > minimumArrayLength){
             maxVisibleReferenceIndex = index;
         }
     });
@@ -300,6 +302,7 @@ function CentileChart({
                                 // This the tool tip text, and accepts a large number of arguments
                                 // tool tips return contextual information for each datapoint, as well as the centile
                                 // and SDS lines, as well as bone ages, events and midparental heights
+                                
                                 const tooltipTextList = tooltipText(
                                     reference,
                                     measurementMethod,
@@ -336,7 +339,7 @@ function CentileChart({
 
                     {
                         /* Term child shaded area: */
-                        termAreaData !== null && <VictoryArea style={styles.termArea} data={termAreaData} />
+                        termAreaData !== null && reference=="uk-who" && <VictoryArea style={styles.termArea} data={termAreaData} />
                     }
 
                     {/* X axis: */}
@@ -368,7 +371,7 @@ function CentileChart({
                     {/* Any measurements plotting here are likely due to delayed puberty */}
                     {/* The upper border is the 0.4th centile so this must come before the centiles */}
 
-                    {
+                    { reference==="uk-who" && measurementMethod === "height" &&
                         // delayed puberty area:
                         pubertyThresholds !== null && (
                             <VictoryArea
@@ -387,13 +390,17 @@ function CentileChart({
                     */
                     }
 
-                    { reference==="uk-who" && measurementMethod==="height" &&  filteredMidParentalHeightData &&
+                    { (reference==="uk-who" || reference==="cdc") && measurementMethod==="height" &&  filteredMidParentalHeightData &&
 
                         filteredMidParentalHeightData.map((reference, index)=>{
 
                             // this function filters the midparental height centile data to only those values
                             // one month either side of the most recent measurement, or 20 y if no measurements
                             // supplied.
+                            if (index === 0){
+                                // neonates - remove
+                                return 
+                            }
 
                             const lowerData = reference.lowerParentalCentile;
                             const midData = reference.midParentalCentile;
@@ -401,13 +408,19 @@ function CentileChart({
 
                             return (
                                 <VictoryGroup key={'midparentalCentileDataBlock' + index}>
-                                    {   upperData.map((centile: ICentile, centileIndex: number)=>{
+                                    {   
+                                        upperData.map((centile: ICentile, centileIndex: number)=>{
                                         // area lower and and upper boundaries
                                         const newData: any = centile.data.map((data, index) => {
                                             let o: any = Object.assign({}, data)
                                             o.y0 = lowerData[centileIndex].data[index].y
                                             return o;
                                         })
+                                        if (newData.length < 1){
+                                            // prevents a css `width` infinity error if no data presented to centile line;
+                                            return
+                                        }
+                                        
                                             return (
                                                 <VictoryArea
                                                     name="areaMPH"
@@ -419,6 +432,10 @@ function CentileChart({
                                         })
                                     }
                                     {   lowerData.map((lowercentile: ICentile, centileIndex: number) => {
+                                            if (lowercentile.data.length < 1){
+                                                // prevents a css `width` infinity error if no data presented to centile line
+                                                return
+                                            }
                                             return (
                                                 <VictoryLine
                                                     name="lowerCentileMPH"
@@ -430,6 +447,10 @@ function CentileChart({
                                             );
                                     })}
                                     {midData.map((centile: ICentile, centileIndex: number) => {
+                                            if (centile.data.length < 1){
+                                                // prevents a css `width` infinity error if no data presented to centile line
+                                                return
+                                            }
                                             return (
                                                 <VictoryLine
                                                     name="centileMPH"
@@ -441,6 +462,10 @@ function CentileChart({
                                             );
                                     })}
                                     {upperData.map((uppercentile: ICentile, centileIndex: number) => {
+                                            if (uppercentile.data.length < 1){
+                                                // prevents a css `width` infinity error if no data presented to centile line
+                                                return
+                                            }
                                             return (
                                                 <VictoryLine
                                                     name="upperCentileMPH"
@@ -474,6 +499,14 @@ function CentileChart({
                         {centileData &&
                             centileData.map((referenceData, referenceIndex) => {
 
+                                if (reference === "cdc"){
+                                    if(referenceIndex === 0 || (measurementMethod === "ofc" && referenceIndex > 1)){
+                                    // this is a hack that needs fixing in future. It arrises because of the null data in the CDC neonate dataset (Fenton). Once the data is fixed, this can be removed. Only for weight is renders a line in the under ones.
+                                    // it also removes the duplicate tooltips in the head circumference chart
+                                        return
+                                    }
+                                }
+
                                 return (
                                     <VictoryGroup
                                         key={'centileDataBlock' + referenceIndex}
@@ -484,14 +517,14 @@ function CentileChart({
 
                                             // BMI charts also have SDS lines at -5, -4, -3, -2, 2, 3, 4, 5
 
-                                            if (centile.data.length < 1){
+                                            if (centile.data !== null && centile.data.length < 1){
                                                 // prevents a css `width` infinity error if no data presented to centile line
                                                 return
                                             }
 
-                                            if (centileIndex % 2 === 0) {
+                                            if (centileIndex %2) {
                                                 // even index - centile is dashed
-                                                    
+                                                
                                                     return (
                                                         <VictoryLine
                                                             data-testid={'reference-'+referenceIndex+'-centile-'+centile.centile+'-measurement-'+measurementMethod}
@@ -557,7 +590,7 @@ function CentileChart({
 
                     {
                         /* BMI SDS lines */
-                        measurementMethod === "bmi" && bmiSDSData &&
+                        measurementMethod === "bmi" && bmiSDSData && reference === "uk-who" && // only render for UK-WHO BMI charts since other references do not have SDS lines
                             bmiSDSData.map((sdsReferenceData, index) => {
                                 return (
                                     <VictoryGroup

@@ -1,6 +1,6 @@
 {
   "name": "@rcpch/digital-growth-charts-react-component-library",
-  "version": "7.0.13",
+  "version": "7.1.0",
   "description": "A React component library for the RCPCH digital growth charts using Rollup, TypeScript and Styled-Components",
   "main": "build/index.js",
   "module": "build/esm.index.js",
@@ -32,7 +32,8 @@
   "dependencies": {
     "sass": "1.70.0",
     "styled-components": "6.1.8",
-    "victory": "36.9.1"
+    "victory": "36.9.1",
+    "@rcpch/digital-growth-charts-react-component-library":"7.0.12"
   },
   "devDependencies": {
     "@babel/preset-react": "7.23.3",
