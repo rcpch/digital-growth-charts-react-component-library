@@ -115,8 +115,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     
     
     // uncomment in development
-    console.log("loading from locally...");
-    console.log("cdc branch...");
+    // console.log("loading from locally...");
     
 
 
