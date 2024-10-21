@@ -655,6 +655,375 @@ function CentileChart({
                                                     textAnchor="start"
                                                     angle={-90}
                                                     dx={5}
+                                                    dy={
+                                                        // adjusts margins relatively to font size
+                                                        styles.delayedPubertyThresholdLabel.fontSize
+                                                            ? styles.delayedPubertyThresholdLabel.fontSize * 1.15
+                                                            : 10
+                                                    }
+                                                    style={styles.delayedPubertyThresholdLabel}
+                                                />
+                                            }
+                                        />
+                                    );
+                                } else {
+                                    return null;
+                                }
+                            })
+                    }
+
+                    {
+                        //  nondisjunction lines uk90->uk-who->uk-who
+                        nondisjunctionThresholds !== null &&
+                            nondisjunctionThresholds.map((dataArray) => {
+                                if (dataArray[0].x > domains.x[0] && dataArray[1].x < domains.x[1]) {
+                                    return (
+                                        <VictoryLine
+                                            key={dataArray[0].x}
+                                            name={`nondisjunction-${dataArray[0].x}`}
+                                            style={styles.nondisjunctionThresholdLine}
+                                            data={dataArray}
+                                            labelComponent={
+                                                <VictoryLabel
+                                                    textAnchor="start"
+                                                    angle={-90}
+                                                    dx={5}
+                                                    dy={10}
+                                                    style={styles.delayedPubertyThresholdLabel}
+                                                />
+                                            }
+                                        />
+                                    );
+                                } else {
+                                    return null;
+                                }
+                            })
+                    }
+
+                    {
+                        //  nondisjunction lines uk90->uk-who->uk-who
+                        nondisjunctionThresholds !== null &&
+                            nondisjunctionThresholds.map((dataArray) => {
+                                if (dataArray[0].x > domains.x[0] && dataArray[1].x < domains.x[1]) {
+                                    return (
+                                        <VictoryLine
+                                            key={dataArray[0].x}
+                                            name={`nondisjunction-${dataArray[0].x}`}
+                                            style={styles.nondisjunctionThresholdLine}
+                                            data={dataArray}
+                                            labelComponent={
+                                                <VictoryLabel
+                                                    textAnchor="start"
+                                                    angle={-90}
+                                                    dx={5}
+                                                    dy={10}
+                                                    style={styles.delayedPubertyThresholdLabel}
+                                                />
+                                            }
+                                        />
+                                    );
+                                } else {
+                                    return null;
+                                }
+                            })
+                    }
+
+                    {
+                        //  nondisjunction lines uk90->uk-who->uk-who
+                        nondisjunctionThresholds !== null &&
+                            nondisjunctionThresholds.map((dataArray) => {
+                                if (dataArray[0].x > domains.x[0] && dataArray[1].x < domains.x[1]) {
+                                    return (
+                                        <VictoryLine
+                                            key={dataArray[0].x}
+                                            name={`nondisjunction-${dataArray[0].x}`}
+                                            style={styles.nondisjunctionThresholdLine}
+                                            data={dataArray}
+                                            labelComponent={
+                                                <VictoryLabel
+                                                    textAnchor="start"
+                                                    angle={-90}
+                                                    dx={5}
+                                                    dy={10}
+                                                    style={styles.delayedPubertyThresholdLabel}
+                                                />
+                                            }
+                                        />
+                                    );
+                                } else {
+                                    return null;
+                                }
+                            })
+                    }
+
+                    {
+                        //  nondisjunction lines uk90->uk-who->uk-who
+                        nondisjunctionThresholds !== null &&
+                            nondisjunctionThresholds.map((dataArray) => {
+                                if (dataArray[0].x > domains.x[0] && dataArray[1].x < domains.x[1]) {
+                                    return (
+                                        <VictoryLine
+                                            key={dataArray[0].x}
+                                            name={`nondisjunction-${dataArray[0].x}`}
+                                            style={styles.nondisjunctionThresholdLine}
+                                            data={dataArray}
+                                            labelComponent={
+                                                <VictoryLabel
+                                                    textAnchor="start"
+                                                    angle={-90}
+                                                    dx={5}
+                                                    dy={10}
+                                                    style={styles.delayedPubertyThresholdLabel}
+                                                />
+                                            }
+                                        />
+                                    );
+                                } else {
+                                    return null;
+                                }
+                            })
+                    }
+
+                    {
+                        //  nondisjunction lines uk90->uk-who->uk-who
+                        nondisjunctionThresholds !== null &&
+                            nondisjunctionThresholds.map((dataArray) => {
+                                if (dataArray[0].x > domains.x[0] && dataArray[1].x < domains.x[1]) {
+                                    return (
+                                        <VictoryLine
+                                            key={dataArray[0].x}
+                                            name={`nondisjunction-${dataArray[0].x}`}
+                                            style={styles.nondisjunctionThresholdLine}
+                                            data={dataArray}
+                                            labelComponent={
+                                                <VictoryLabel
+                                                    textAnchor="start"
+                                                    angle={-90}
+                                                    dx={5}
+                                                    dy={10}
+                                                    style={styles.delayedPubertyThresholdLabel}
+                                                />
+                                            }
+                                        />
+                                    );
+                                } else {
+                                    return null;
+                                }
+                            })
+                    }
+
+                    {
+                        //  nondisjunction lines uk90->uk-who->uk-who
+                        nondisjunctionThresholds !== null &&
+                            nondisjunctionThresholds.map((dataArray) => {
+                                if (dataArray[0].x > domains.x[0] && dataArray[1].x < domains.x[1]) {
+                                    return (
+                                        <VictoryLine
+                                            key={dataArray[0].x}
+                                            name={`nondisjunction-${dataArray[0].x}`}
+                                            style={styles.nondisjunctionThresholdLine}
+                                            data={dataArray}
+                                            labelComponent={
+                                                <VictoryLabel
+                                                    textAnchor="start"
+                                                    angle={-90}
+                                                    dx={5}
+                                                    dy={10}
+                                                    style={styles.delayedPubertyThresholdLabel}
+                                                />
+                                            }
+                                        />
+                                    );
+                                } else {
+                                    return null;
+                                }
+                            })
+                    }
+
+                    {
+                        //  nondisjunction lines uk90->uk-who->uk-who
+                        nondisjunctionThresholds !== null &&
+                            nondisjunctionThresholds.map((dataArray) => {
+                                if (dataArray[0].x > domains.x[0] && dataArray[1].x < domains.x[1]) {
+                                    return (
+                                        <VictoryLine
+                                            key={dataArray[0].x}
+                                            name={`nondisjunction-${dataArray[0].x}`}
+                                            style={styles.nondisjunctionThresholdLine}
+                                            data={dataArray}
+                                            labelComponent={
+                                                <VictoryLabel
+                                                    textAnchor="start"
+                                                    angle={-90}
+                                                    dx={5}
+                                                    dy={10}
+                                                    style={styles.delayedPubertyThresholdLabel}
+                                                />
+                                            }
+                                        />
+                                    );
+                                } else {
+                                    return null;
+                                }
+                            })
+                    }
+
+                    {
+                        //  nondisjunction lines uk90->uk-who->uk-who
+                        nondisjunctionThresholds !== null &&
+                            nondisjunctionThresholds.map((dataArray) => {
+                                if (dataArray[0].x > domains.x[0] && dataArray[1].x < domains.x[1]) {
+                                    return (
+                                        <VictoryLine
+                                            key={dataArray[0].x}
+                                            name={`nondisjunction-${dataArray[0].x}`}
+                                            style={styles.nondisjunctionThresholdLine}
+                                            data={dataArray}
+                                            labelComponent={
+                                                <VictoryLabel
+                                                    textAnchor="start"
+                                                    angle={-90}
+                                                    dx={5}
+                                                    dy={10}
+                                                    style={styles.delayedPubertyThresholdLabel}
+                                                />
+                                            }
+                                        />
+                                    );
+                                } else {
+                                    return null;
+                                }
+                            })
+                    }
+
+                    {
+                        //  nondisjunction lines uk90->uk-who->uk-who
+                        nondisjunctionThresholds !== null &&
+                            nondisjunctionThresholds.map((dataArray) => {
+                                if (dataArray[0].x > domains.x[0] && dataArray[1].x < domains.x[1]) {
+                                    return (
+                                        <VictoryLine
+                                            key={dataArray[0].x}
+                                            name={`nondisjunction-${dataArray[0].x}`}
+                                            style={styles.nondisjunctionThresholdLine}
+                                            data={dataArray}
+                                            labelComponent={
+                                                <VictoryLabel
+                                                    textAnchor="start"
+                                                    angle={-90}
+                                                    dx={5}
+                                                    dy={10}
+                                                    style={styles.delayedPubertyThresholdLabel}
+                                                />
+                                            }
+                                        />
+                                    );
+                                } else {
+                                    return null;
+                                }
+                            })
+                    }
+
+                    {
+                        //  nondisjunction lines uk90->uk-who->uk-who
+                        nondisjunctionThresholds !== null &&
+                            nondisjunctionThresholds.map((dataArray) => {
+                                if (dataArray[0].x > domains.x[0] && dataArray[1].x < domains.x[1]) {
+                                    return (
+                                        <VictoryLine
+                                            key={dataArray[0].x}
+                                            name={`nondisjunction-${dataArray[0].x}`}
+                                            style={styles.nondisjunctionThresholdLine}
+                                            data={dataArray}
+                                            labelComponent={
+                                                <VictoryLabel
+                                                    textAnchor="start"
+                                                    angle={-90}
+                                                    dx={5}
+                                                    dy={10}
+                                                    style={styles.delayedPubertyThresholdLabel}
+                                                />
+                                            }
+                                        />
+                                    );
+                                } else {
+                                    return null;
+                                }
+                            })
+                    }
+
+                    {
+                        //  nondisjunction lines uk90->uk-who->uk-who
+                        nondisjunctionThresholds !== null &&
+                            nondisjunctionThresholds.map((dataArray) => {
+                                if (dataArray[0].x > domains.x[0] && dataArray[1].x < domains.x[1]) {
+                                    return (
+                                        <VictoryLine
+                                            key={dataArray[0].x}
+                                            name={`nondisjunction-${dataArray[0].x}`}
+                                            style={styles.nondisjunctionThresholdLine}
+                                            data={dataArray}
+                                            labelComponent={
+                                                <VictoryLabel
+                                                    textAnchor="start"
+                                                    angle={-90}
+                                                    dx={5}
+                                                    dy={10}
+                                                    style={styles.delayedPubertyThresholdLabel}
+                                                />
+                                            }
+                                        />
+                                    );
+                                } else {
+                                    return null;
+                                }
+                            })
+                    }
+
+                    {
+                        //  nondisjunction lines uk90->uk-who->uk-who
+                        nondisjunctionThresholds !== null &&
+                            nondisjunctionThresholds.map((dataArray) => {
+                                if (dataArray[0].x > domains.x[0] && dataArray[1].x < domains.x[1]) {
+                                    return (
+                                        <VictoryLine
+                                            key={dataArray[0].x}
+                                            name={`nondisjunction-${dataArray[0].x}`}
+                                            style={styles.nondisjunctionThresholdLine}
+                                            data={dataArray}
+                                            labelComponent={
+                                                <VictoryLabel
+                                                    textAnchor="start"
+                                                    angle={-90}
+                                                    dx={5}
+                                                    dy={10}
+                                                    style={styles.delayedPubertyThresholdLabel}
+                                                />
+                                            }
+                                        />
+                                    );
+                                } else {
+                                    return null;
+                                }
+                            })
+                    }
+
+                    {
+                        //  nondisjunction lines uk90->uk-who->uk-who
+                        nondisjunctionThresholds !== null &&
+                            nondisjunctionThresholds.map((dataArray) => {
+                                if (dataArray[0].x > domains.x[0] && dataArray[1].x < domains.x[1]) {
+                                    return (
+                                        <VictoryLine
+                                            key={dataArray[0].x}
+                                            name={`nondisjunction-${dataArray[0].x}`}
+                                            style={styles.nondisjunctionThresholdLine}
+                                            data={dataArray}
+                                            labelComponent={
+                                                <VictoryLabel
+                                                    textAnchor="start"
+                                                    angle={-90}
+                                                    dx={5}
                                                     dy={10}
                                                     style={styles.delayedPubertyThresholdLabel}
                                                 />
@@ -892,12 +1261,14 @@ function CentileChart({
                     })}
                 </VictoryChart>
                 <ChartTitle
-                    fontSize={8}
-                    fontFamily={'Arial'}
-                    color={'#000000'}
-                    fontWeight={'200'}
-                    fontStyle='normal'
-                >{referenceText(reference)}</ChartTitle>
+                    fontSize={styles.referenceTextStyle.fontSize}
+                    fontFamily={styles.referenceTextStyle.fontFamily}
+                    color={styles.referenceTextStyle.color}
+                    fontWeight={styles.referenceTextStyle.fontWeight}
+                    fontStyle={styles.referenceTextStyle.fontStyle}
+                >
+                    {referenceText(reference)}
+                </ChartTitle>
             </ChartContainer>
 
             {(showToggle || allowZooming || enableExport || childMeasurements.length > 0) && (

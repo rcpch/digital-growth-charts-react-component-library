@@ -14,7 +14,7 @@ Most of the properties in each of the interfaces are optionals, as users may not
 This function therefore instantiates defaults where user values have not been provided.
 This creates a styles object that is passed to the chart.
 */
-import { AxisStyle, CentileStyle, SDSStyle, ChartStyle, GridlineStyle, MeasurementStyle } from '../interfaces/StyleObjects';
+import { AxisStyle, CentileStyle, SDSStyle, ChartStyle, GridlineStyle, MeasurementStyle, ReferenceStyle } from '../interfaces/StyleObjects';
 
 const black = '#000000';
 const white = '#FFFFFF';
@@ -35,6 +35,7 @@ function makeAllStyles(
     centileStyle?: CentileStyle,
     sdsStyle?: SDSStyle,
     measurementStyle?: MeasurementStyle,
+    referenceStyle?: ReferenceStyle,
     textMultiplier?: number // this is used to scale text size based on the aspect ratio of the chart using the height and width. Default is 1
 ) {
 
@@ -70,17 +71,20 @@ function makeAllStyles(
             fontSize: (chartStyle?.tooltipTextStyle?.size ?? 14) * (textMultiplier ?? 1),
             fill: chartStyle?.tooltipTextStyle?.colour ?? black,
             fontFamily: chartStyle?.tooltipTextStyle?.name ?? 'Montserrat',
+            fontWeight: chartStyle?.tooltipTextStyle?.weight ?? 400,
             fontStyle: chartStyle?.tooltipTextStyle?.style ?? 'normal',
             textAnchor: "start"
         },
         chartTitle: {
-            fontFamily:  chartStyle?.titleStyle?.name ?? 'Arial',
+            fontFamily:  chartStyle?.titleStyle?.name ?? 'Montserrat',
+            fontWeight: chartStyle?.subTitleStyle?.weight ?? 700,
             color: chartStyle?.titleStyle?.colour ?? black,
             fontSize: chartStyle?.titleStyle?.size ?? 14,
             fontStyle: chartStyle?.titleStyle?.style === 'italic' ? 'italic' : 'normal',
         },
         chartSubTitle: {
-            fontFamily: chartStyle?.subTitleStyle?.name ?? 'Arial', 
+            fontFamily: chartStyle?.subTitleStyle?.name ?? 'Montserrat', 
+            fontWeight: chartStyle?.subTitleStyle?.weight ?? 700,
             color: chartStyle?.subTitleStyle?.colour ?? black,
             fontSize: chartStyle?.subTitleStyle?.size ?? 14,
             fontStyle: chartStyle?.subTitleStyle?.style === 'italic' ? 'italic' : 'normal',
@@ -96,6 +100,7 @@ function makeAllStyles(
                 padding: 20,
                 fill: axisStyle?.axisLabelTextStyle?.colour ?? black,
                 fontFamily: axisStyle?.axisLabelTextStyle?.name ?? 'Arial',
+                fontWeight: axisStyle?.axisLabelTextStyle?.weight ?? 400,
                 fontStyle: axisStyle?.axisLabelTextStyle?.style ?? 'normal',
             },
             ticks: {
@@ -107,6 +112,7 @@ function makeAllStyles(
                 fill: axisStyle?.tickLabelTextStyle?.colour ?? black,
                 color: axisStyle?.tickLabelTextStyle?.colour ?? black,
                 fontFamily: axisStyle?.axisLabelTextStyle?.name ?? 'Arial',
+                fontWeight: axisStyle?.axisLabelTextStyle?.weight ?? 400,
                 fontStyle: axisStyle?.axisLabelTextStyle?.style ?? 'normal',
             },
             grid: {
@@ -117,6 +123,7 @@ function makeAllStyles(
             fill: axisStyle?.tickLabelTextStyle?.colour ?? black,
             fontSize: (axisStyle?.tickLabelTextStyle?.size ?? 8) * (textMultiplier ?? 1),
             fontFamily: axisStyle?.tickLabelTextStyle?.name ?? 'Arial',
+            fontWeight: axisStyle?.tickLabelTextStyle?.weight ?? 400,
             fontStyle: axisStyle?.axisLabelTextStyle?.style ?? 'normal',
         },
         yAxis: {
@@ -129,6 +136,7 @@ function makeAllStyles(
                 padding: 25,
                 fill: axisStyle?.axisLabelTextStyle?.colour ?? black,
                 fontFamily: axisStyle?.axisLabelTextStyle?.name ?? 'Arial',
+                fontWeight: axisStyle?.axisLabelTextStyle?.weight ?? 400,
                 fontStyle: axisStyle?.axisLabelTextStyle?.style ?? 'normal',
             },
             ticks: {
@@ -139,6 +147,7 @@ function makeAllStyles(
                 padding: 5,
                 fill: axisStyle?.tickLabelTextStyle?.colour ?? black,
                 fontFamily: axisStyle?.axisLabelTextStyle?.name ?? 'Arial',
+                fontWeight: axisStyle?.axisLabelTextStyle?.weight ?? 400,
                 fontStyle: axisStyle?.axisLabelTextStyle?.style ?? 'normal',
             },
             grid: {
@@ -159,9 +168,10 @@ function makeAllStyles(
             },
         },
         delayedPubertyThresholdLabel: {
-            fontSize: (9) * (textMultiplier ?? 1),
-            fill: axisStyle?.axisLabelTextStyle?.colour ?? black,
-            fontFamily: axisStyle?.axisLabelTextStyle?.name ?? 'Arial',
+            fontSize: axisStyle?.axisThresholdLabelTextStyle?.size ?? (9) * (textMultiplier ?? 1),
+            fill: axisStyle?.axisThresholdLabelTextStyle?.colour ?? black,
+            fontFamily: axisStyle?.axisThresholdLabelTextStyle?.name ?? 'Arial',
+            fontWeight: axisStyle?.axisThresholdLabelTextStyle?.weight ?? 400,
             textAlign: 'start',
         },
         nondisjunctionThresholdLine: {
@@ -194,9 +204,10 @@ function makeAllStyles(
             },
         },
         centileLabel: {
-            fontSize: (6) * (textMultiplier ?? 1),
-            fontFamily: 'Montserrat',
-            fill: centileStyle?.centileStroke ?? black
+            fontSize: centileStyle.centileTextStyle?.size ?? (6) * (textMultiplier ?? 1),
+            fontFamily: centileStyle.centileTextStyle?.name ?? 'Montserrat',
+            fontWeight: centileStyle.centileTextStyle?.weight ?? 400,
+            fill: centileStyle?.centileStroke ?? black,
         },
         heightSDS: {
             data: {
@@ -278,7 +289,15 @@ function makeAllStyles(
             color: chartStyle?.toggleButtonTextStyle?.colour ?? white,
             fontSize: chartStyle?.toggleButtonTextStyle?.size ?? 14,
             fontStyle: chartStyle?.toggleButtonTextStyle?.style === 'italic' ? 'italic' : 'normal',
+            fontWeight: chartStyle?.toggleButtonTextStyle?.weight ?? 400,
             margin: 0
+        },
+        referenceTextStyle: {
+            fontSize: referenceStyle?.size ?? 8,
+            fontFamily: referenceStyle?.name ?? 'Arial',
+            color: referenceStyle?.colour ?? black,
+            fontWeight: referenceStyle?.weight ?? 200,
+            fontStyle: referenceStyle?.style ?? 'normal',
         },
     };
 }
