@@ -503,13 +503,12 @@ export const CustomThemeStylesChart: Story = {
                   size: 16,
                   weight: 400,
               },
-              
               tooltipStroke: '#EBE1D3',
-              tooltipBackgroundColour: '#FFFDFD',
+              tooltipBackgroundColour: '#5a526b',
               tooltipTextStyle: {
-                  colour: '#706A80',
+                  colour: '#fffdfd',
                   name: 'sans-serif',
-                  size: 17,
+                  size: 14,
               },
           },
           axisStyle: {
@@ -543,6 +542,11 @@ export const CustomThemeStylesChart: Story = {
               gridlines: true,
           },
           centileStyle: {
+              centileTextStyle: {
+                name: 'sans-serif',
+                size: 12.5,
+                weight: 400,
+              },
               centileStroke: '#B89F81',
               midParentalAreaFill: '#B89F81',
               midParentalCentileStroke: '#B89F81',
