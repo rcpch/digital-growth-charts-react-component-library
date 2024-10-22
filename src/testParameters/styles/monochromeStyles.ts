@@ -26,7 +26,7 @@ export const monochromeChartStyles: ChartStyle = {
         name: "Arial", 
         colour: "#000000",
         size: 14,
-        style: 'bold'
+        weight: '700'
     },
     subTitleStyle: {
         name: "Arial",
@@ -317,7 +317,7 @@ export const chartObject: ChartStyle =  {
         "name": "Arial",
         "colour": "#000000",
         "size": 14,
-        "style": "bold"
+        "weight": "700"
     },
     "subTitleStyle": {
         "name": "Arial",

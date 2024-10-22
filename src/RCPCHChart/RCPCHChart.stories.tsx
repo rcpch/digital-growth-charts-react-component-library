@@ -484,7 +484,7 @@ export const CustomThemeStylesChart: Story = {
           chartStyle: {
               backgroundColour: '#FAF8F5',
               titleStyle: {
-                  weight: 600,
+                  weight: 800,
                   colour: '#706A80',
                   name: 'sans-serif',
                   size: 16,
@@ -523,7 +523,7 @@ export const CustomThemeStylesChart: Story = {
                   weight: 500,
                   colour: '#706A80',
                   name: 'sans-serif',
-                  size: 14,
+                  size: 15,
               },
               axisThresholdLabelTextStyle: {
                   weight: 500,
@@ -555,10 +555,10 @@ export const CustomThemeStylesChart: Story = {
           },
           measurementStyle: {
               eventTextStyle: {
-                  size: 16,
+                  size: 14,
                   name: 'sans-serif',
-                  weight: 500,
-                  colour: '#706A80',
+                  weight: 400,
+                  colour: '#760050',
               },
               highlightedMeasurementFill: '#B89F81',
               measurementFill: '#760050',

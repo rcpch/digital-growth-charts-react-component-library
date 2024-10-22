@@ -77,7 +77,7 @@ function makeAllStyles(
         },
         chartTitle: {
             fontFamily: chartStyle?.titleStyle?.name ?? 'Arial',
-            fontWeight: chartStyle?.subTitleStyle?.weight ?? 700,
+            fontWeight: chartStyle?.titleStyle?.weight ?? 700,
             color: chartStyle?.titleStyle?.colour ?? black,
             fontSize: chartStyle?.titleStyle?.size ?? 14,
             fontStyle: chartStyle?.titleStyle?.style === 'italic' ? 'italic' : 'normal',
