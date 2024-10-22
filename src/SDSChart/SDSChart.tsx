@@ -55,6 +55,8 @@ import { referenceText } from '../functions/referenceText';
 
 // style sheets
 import { StyledButtonTooltip } from '../SubComponents/StyledButtonTooltip';
+import { BottomContainer } from '../SubComponents/BottomContainer';
+import { BottomLogoContainer } from '../SubComponents/BottomLogoContainer';
 
 const SDSChart: React.FC<SDSChartProps> = (
     { 
@@ -72,7 +74,8 @@ const SDSChart: React.FC<SDSChartProps> = (
         width,
         textScaleFactor,
         enableExport,
-        exportChartCallback
+        exportChartCallback,
+        logoVariant = 'top'
     }
 ) => {
     const [userDomains, setUserDomains] = useState(null);
@@ -234,20 +237,22 @@ const SDSChart: React.FC<SDSChartProps> = (
 
     return (
         <MainContainer>
-            <TopContainer>
-                <LogoContainer>
-                    <IndividualLogoContainer>
-                        <img src={icon} width={24} height={24} />
-                    </IndividualLogoContainer>
-                    <VersionLabel
-                        fontFamily={styles.chartTitle.fontFamily}
-                    >{chartsVersion}</VersionLabel>
-                    <IndividualLogoContainer>
-                        <img src={ukca} width={18} height={18}/>
-                    </IndividualLogoContainer>
-                </LogoContainer>
-                
-            </TopContainer>
+            {logoVariant === 'top' && (
+                <TopContainer>
+                    <LogoContainer>
+                        <IndividualLogoContainer>
+                            <img src={icon} width={24} height={24} />
+                        </IndividualLogoContainer>
+                        <VersionLabel
+                            fontFamily={styles.chartTitle.fontFamily}
+                        >{chartsVersion}</VersionLabel>
+                        <IndividualLogoContainer>
+                            <img src={ukca} width={18} height={18}/>
+                        </IndividualLogoContainer>
+                    </LogoContainer>
+                    
+                </TopContainer>
+            )}
 
             <ChartContainer>
 
@@ -565,6 +570,30 @@ const SDSChart: React.FC<SDSChartProps> = (
                     fontWeight={'200'}
                     fontStyle='normal'
                 >{referenceText(reference)}</ChartTitle>
+
+            {logoVariant === 'legend' && (
+                <ChartTitle
+                    fontSize={8}
+                    fontFamily={'Arial'}
+                    color={'#000000'}
+                    fontWeight={'200'}
+                    fontStyle='normal'
+                >Powered by RCPCH. {chartsVersion}</ChartTitle>
+            )}
+
+            {logoVariant === 'bottom' && (
+                <BottomContainer>
+                    <BottomLogoContainer>
+                        <IndividualLogoContainer>
+                            <img src={icon} width={24} height={24} />
+                        </IndividualLogoContainer>
+                        <VersionLabel fontFamily={styles.chartTitle.fontFamily}>{chartsVersion}</VersionLabel>
+                        <IndividualLogoContainer>
+                            <img src={ukca} width={18} height={18}/>
+                        </IndividualLogoContainer>
+                    </BottomLogoContainer>
+                </BottomContainer>
+            )}
                 
         </ChartContainer>
 

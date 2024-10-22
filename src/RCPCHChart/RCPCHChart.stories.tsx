@@ -59,6 +59,7 @@ export const CentileChartUKWHOGirlsHeightWithMeasurements: Story = {
     measurementMethod: 'height',
     reference: 'uk-who',
     sex: 'female',
+    logoVariant: 'legend',
     measurements: {height: twoToEight},
     midParentalHeightData: {},
     enableZoom: true,

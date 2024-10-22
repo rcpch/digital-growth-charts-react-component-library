@@ -72,7 +72,8 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     theme,
     customThemeStyles,
     height,
-    width
+    width,
+    logoVariant = 'top',
 }) => {
 
     clinicianFocus = defineNonStylePropDefaults('clinicianFocus', clinicianFocus);
@@ -152,6 +153,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
                     enableExport={enableExport}
                     exportChartCallback={exportChartCallback}
                     clinicianFocus={clinicianFocus}
+                    logoVariant={logoVariant}
                 />
                 </GlobalStyle>
             </ErrorBoundary>

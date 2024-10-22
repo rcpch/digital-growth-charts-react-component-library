@@ -18,6 +18,7 @@ export interface RCPCHChartProps {
     theme?: 'monochrome' | 'traditional' | 'tanner1' | 'tanner2' | 'tanner3' | 'custom';
     height?: number
     width?: number
+    logoVariant?: 'top' | 'bottom' | 'legend';
     customThemeStyles?: {
         chartStyle?: ChartStyle 
         axisStyle?: AxisStyle

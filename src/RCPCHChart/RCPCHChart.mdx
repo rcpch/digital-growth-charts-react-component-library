@@ -20,6 +20,7 @@ Other props are:
 -   `measurementMethod: 'height' | 'weight' | 'ofc' | 'bmi';` _must_ be one of the options provided
 -   `reference: 'uk-who' | 'turner' | 'trisomy-21';` _must_ be one of the options provided
 -   `sex: 'male' | 'female';` _must_ be one of the options provided
+-   `logoVariant?: 'top' | 'bottom' | 'legend';` Where to place the logo. Top is the default
 -   `measurements: { measurementMethod: Measurement[]};` array of measurements returned from RCPCH Growth API. This should not be edited or manipulated. **NOTE this has changed in v7.0.0**
 -   `midParentalHeightData?: MidParentalHeightObject | undefined;` an RCPCH object returned from the RCPCH Growth API. Should not be edited or manipulated
 -   `enableZoom?: boolean;` Allows the user to zoom and pan the charts if set to true. If disabled, hides the buttons associated with this.
