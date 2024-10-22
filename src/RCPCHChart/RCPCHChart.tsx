@@ -96,7 +96,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
 
 
     // spread styles into individual objects
-    const { chartStyle, axisStyle, gridlineStyle, centileStyle, sdsStyle, measurementStyle } = all_styles
+    const { chartStyle, axisStyle, gridlineStyle, centileStyle, sdsStyle, measurementStyle, referenceStyle } = all_styles
 
     // use height and width if provided to set text size also - text in SVG does not scale with the chart so we need to adjust it
     const referenceWidth = 1000;
@@ -111,7 +111,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     }
 
     // make granular styles to pass into charts
-    const styles = makeAllStyles(chartStyle, axisStyle, gridlineStyle, centileStyle, sdsStyle, measurementStyle, textScaleFactor);
+    const styles = makeAllStyles(chartStyle, axisStyle, gridlineStyle, centileStyle, sdsStyle, measurementStyle, textScaleFactor, referenceStyle);
     
     
     // uncomment in development

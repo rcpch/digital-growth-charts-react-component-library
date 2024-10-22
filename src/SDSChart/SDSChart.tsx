@@ -559,11 +559,11 @@ const SDSChart: React.FC<SDSChartProps> = (
             </VictoryChart>
 
             <ChartTitle
-                    fontSize={8}
-                    fontFamily={'Arial'}
-                    color={'#000000'}
-                    fontWeight={'200'}
-                    fontStyle='normal'
+                    fontSize={styles.referenceTextStyle.fontSize}
+                    fontFamily={styles.referenceTextStyle.fontFamily}
+                    color={styles.referenceTextStyle.color}
+                    fontWeight={styles.referenceTextStyle.fontWeight}
+                    fontStyle={styles.referenceTextStyle.fontStyle}
                 >{referenceText(reference)}</ChartTitle>
                 
         </ChartContainer>
