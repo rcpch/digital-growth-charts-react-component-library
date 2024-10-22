@@ -180,6 +180,13 @@ function makeAllStyles(
                 strokeWidth: 1,
             },
         },
+        nondisjunctionThresholdLabel: {
+            fontSize: (axisStyle?.axisThresholdLabelTextStyle?.size ?? 9) * (textMultiplier ?? 1),
+            fill: axisStyle?.axisThresholdLabelTextStyle?.colour ?? black,
+            fontFamily: axisStyle?.axisThresholdLabelTextStyle?.name ?? 'Arial',
+            fontWeight: axisStyle?.axisThresholdLabelTextStyle?.weight ?? 400,
+            textAlign: 'start',
+        },
         sdsLine: {  // these are the sds lines on the BMI chart
             data: {
                 stroke: centileStyle?.sdsStroke ?? '#A9A9A9',

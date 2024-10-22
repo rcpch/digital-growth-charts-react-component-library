@@ -482,6 +482,7 @@ export const CustomThemeStylesChart: Story = {
       theme: 'custom',
       customThemeStyles: {
           chartStyle: {
+              backgroundColour: '#FAF8F5',
               titleStyle: {
                   weight: 600,
                   colour: '#706A80',
@@ -502,7 +503,7 @@ export const CustomThemeStylesChart: Story = {
                   size: 16,
                   weight: 400,
               },
-              backgroundColour: '#FAF8F5',
+              
               tooltipStroke: '#EBE1D3',
               tooltipBackgroundColour: '#FFFDFD',
               tooltipTextStyle: {
@@ -535,12 +536,6 @@ export const CustomThemeStylesChart: Story = {
                   colour: '#706A80',
               },
           },
-          referenceStyle: {
-              weight: 500,
-              colour: '#706A80',
-              name: 'sans-serif',
-              size: 13,
-          },
           gridlineStyle: {
               dashed: true,
               stroke: '#EDE7DD',
@@ -564,6 +559,12 @@ export const CustomThemeStylesChart: Story = {
               highlightedMeasurementFill: '#B89F81',
               measurementFill: '#760050',
           },
+          referenceStyle: {
+            weight: 500,
+            colour: '#706A80',
+            name: 'sans-serif',
+            size: 13,
+        },
       },
   },
 };

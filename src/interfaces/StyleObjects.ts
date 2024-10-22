@@ -44,7 +44,7 @@ export interface AxisStyle {
     axisThresholdLabelTextStyle?: TextStyle; // Axis label text: : includes fontFamily, fontSize, colour, style, weight
     axisThresholdLineStyle?: AxisThresholdLineStyle; // Axis line: includes colour
     axisLabelTextStyle?: TextStyle; // Axis label text: : includes fontFamily, fontSize, colour, style, weight
-    tickLabelTextStyle?: TickLabelTextStyle; // Tick label text : includes fontFamily, fontSize, colour, style, weight
+    tickLabelTextStyle?: TickLabelTextStyle; // Tick label text : includes fontFamily, fontSize, colour, style, weight and padding
 }
 
 export interface TickLabelTextStyle extends TextStyle {
