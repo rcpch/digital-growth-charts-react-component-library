@@ -63,6 +63,7 @@ function makeAllStyles(
                 fill: chartStyle?.backgroundColour ?? white,
             }
         },
+        toolTipBorderRadius: chartStyle?.tooltipBorderRadius ?? 0,
         toolTipFlyout: {
             stroke: chartStyle?.tooltipStroke ?? midGrey, // tooltip border colour
             fill: chartStyle?.tooltipBackgroundColour ?? midGrey, // tooltip backgroundcolour
@@ -298,6 +299,15 @@ function makeAllStyles(
             fontSize: chartStyle?.toggleButtonTextStyle?.size ?? 14,
             fontStyle: chartStyle?.toggleButtonTextStyle?.style === 'italic' ? 'italic' : 'normal',
             margin: 0
+        },
+        toggleTooltipStyle: {
+            backgroundColor: chartStyle?.toggleButtonTooltipStyle?.backgroundColour ?? '#333',
+            color: chartStyle?.toggleButtonTooltipStyle?.colour ?? '#fff',
+            fontSize: chartStyle?.toggleButtonTooltipStyle?.size ?? 14,
+            fontFamily: chartStyle?.toggleButtonTooltipStyle?.name ?? `'Montserrat', Helvetica, Arial, sans-serif;`,
+            fontWeight: chartStyle?.toggleButtonTooltipStyle?.weight ?? 400,
+            fontStyle: chartStyle?.toggleButtonTooltipStyle?.style ?? 'regular',
+            borderRadius: chartStyle?.toggleButtonTooltipStyle?.borderRadius ?? 4,
         },
         referenceTextStyle: {
             fontSize: referenceStyle?.size ?? 8,

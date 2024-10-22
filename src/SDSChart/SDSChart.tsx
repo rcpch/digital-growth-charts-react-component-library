@@ -270,7 +270,7 @@ const SDSChart: React.FC<SDSChartProps> = (
                             <VictoryTooltip
                                 constrainToVisibleArea
                                 pointerLength={5}
-                                cornerRadius={0}
+                                cornerRadius={styles.toolTipBorderRadius}
                                 flyoutStyle={styles.toolTipFlyout}
                                 style={styles.toolTipMain}
                             />   
@@ -574,7 +574,15 @@ const SDSChart: React.FC<SDSChartProps> = (
                 {/* Creates the Copy button - note if user has disabled this, must have an empty div to allow the toggle buttons to remain in the center */}
                     { enableExport ? (
                         <ShareButtonWrapper>
-                                <StyledButtonTooltip>
+                                <StyledButtonTooltip
+                                    backgroundColor={styles.toggleTooltipStyle.backgroundColor}
+                                    color={styles.toggleTooltipStyle.color}
+                                    fontSize={styles.toggleTooltipStyle.fontSize}
+                                    fontFamily={styles.toggleTooltipStyle.fontFamily}
+                                    fontWeight={styles.toggleTooltipStyle.fontWeight}
+                                    fontStyle={styles.toggleTooltipStyle.fontStyle}
+                                    borderRadius={styles.toggleTooltipStyle.borderRadius}
+                                >
                                     <StyledShareButton
                                         $color={styles.toggleStyle.activeColour}
                                         size={5}

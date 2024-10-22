@@ -452,7 +452,7 @@ const customStyles = {
     chartStyle: {
         backgroundColour: '#FAF8F5',
         titleStyle: {
-            weight: 600,
+            weight: 800,
             colour: '#706A80',
             name: 'sans-serif',
             size: 16,
@@ -463,6 +463,14 @@ const customStyles = {
             name: 'sans-serif',
             size: 13,
         },
+        tooltipStroke: '#5a526b',
+        tooltipBorderRadius: 4,
+        tooltipBackgroundColour: '#5a526b',
+        tooltipTextStyle: {
+            colour: '#fffdfd',
+            name: 'sans-serif',
+            size: 14,
+        },
         toggleButtonActiveColour: '#B89F81',
         toggleButtonInactiveColour: '#e8dbcc',
         toggleButtonTextStyle: {
@@ -471,14 +479,14 @@ const customStyles = {
             size: 16,
             weight: 400,
         },
-        
-        tooltipStroke: '#EBE1D3',
-        tooltipBackgroundColour: '#FFFDFD',
-        tooltipTextStyle: {
-            colour: '#706A80',
-            name: 'sans-serif',
-            size: 17,
-        },
+        toggleButtonTooltipStyle: {
+        backgroundColour: '#5a526b',
+        borderRadius: 4,
+        colour: 'white',
+        size: 14,
+        name: 'sans-serif',
+        weight: 400,
+        }
     },
     axisStyle: {
         axisStroke: '#EDE7DD',
@@ -492,7 +500,7 @@ const customStyles = {
             weight: 500,
             colour: '#706A80',
             name: 'sans-serif',
-            size: 14,
+            size: 15,
         },
         axisThresholdLabelTextStyle: {
             weight: 500,
@@ -512,9 +520,9 @@ const customStyles = {
     },
     centileStyle: {
         centileTextStyle: {
-            name: 'sans-serif',
-            size: 12.5,
-            weight: 400,
+        name: 'sans-serif',
+        size: 12.5,
+        weight: 400,
         },
         centileStroke: '#B89F81',
         midParentalAreaFill: '#B89F81',
@@ -524,19 +532,19 @@ const customStyles = {
     },
     measurementStyle: {
         eventTextStyle: {
-            size: 16,
+            size: 14,
             name: 'sans-serif',
-            weight: 500,
-            colour: '#706A80',
+            weight: 400,
+            colour: '#760050',
         },
         highlightedMeasurementFill: '#B89F81',
         measurementFill: '#760050',
     },
     referenceStyle: {
-    weight: 500,
-    colour: '#706A80',
-    name: 'sans-serif',
-    size: 13,
+        weight: 500,
+        colour: '#706A80',
+        name: 'sans-serif',
+        size: 13,
     },
 },
 ```

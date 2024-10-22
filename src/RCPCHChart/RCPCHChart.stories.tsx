@@ -477,8 +477,8 @@ export const CustomThemeStylesChart: Story = {
       midParentalHeightData: {},
       enableZoom: true,
       chartType: 'centile',
-      enableExport: false,
-      exportChartCallback: () => {},
+      enableExport: true,
+      exportChartCallback: (svg) => console.log(svg),
       theme: 'custom',
       customThemeStyles: {
           chartStyle: {
@@ -495,6 +495,14 @@ export const CustomThemeStylesChart: Story = {
                   name: 'sans-serif',
                   size: 13,
               },
+              tooltipStroke: '#5a526b',
+              tooltipBorderRadius: 4,
+              tooltipBackgroundColour: '#5a526b',
+              tooltipTextStyle: {
+                  colour: '#fffdfd',
+                  name: 'sans-serif',
+                  size: 14,
+              },
               toggleButtonActiveColour: '#B89F81',
               toggleButtonInactiveColour: '#e8dbcc',
               toggleButtonTextStyle: {
@@ -503,13 +511,14 @@ export const CustomThemeStylesChart: Story = {
                   size: 16,
                   weight: 400,
               },
-              tooltipStroke: '#EBE1D3',
-              tooltipBackgroundColour: '#5a526b',
-              tooltipTextStyle: {
-                  colour: '#fffdfd',
-                  name: 'sans-serif',
-                  size: 14,
-              },
+              toggleButtonTooltipStyle: {
+                backgroundColour: '#5a526b',
+                borderRadius: 4,
+                colour: 'white',
+                size: 14,
+                name: 'sans-serif',
+                weight: 400,
+              }
           },
           axisStyle: {
               axisStroke: '#EDE7DD',

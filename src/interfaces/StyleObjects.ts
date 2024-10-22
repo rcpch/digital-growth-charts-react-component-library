@@ -4,12 +4,14 @@ export interface ChartStyle {
     subTitleStyle?: TextStyle; // style of text in subtitle: includes fontFamily, fontSize, colour, style, weight
     tooltipBackgroundColour?: string; //background colour of tooltip
     tooltipStroke?: string; //border colour of tooltip
+    tooltipBorderRadius?: number; // border radius of tooltip
     tooltipTextStyle?: TextStyle; // tooltip text: includes fontFamily, fontSize, colour, style, weight
     termFill?: string; // background colour of weight term area
     termStroke?: string; // border colour of weight term area
     toggleButtonInactiveColour?: string; // buttons - inactive colour
     toggleButtonActiveColour?: string; // buttons - active colour
     toggleButtonTextStyle?: TextStyle; // buttons text: includes fontFamily, fontSize, colour, style, weight
+    toggleButtonTooltipStyle?: ToggleButtonTooltipStyle; 
 }
 export interface MeasurementStyle {
     measurementFill?: string; // measurement point fill colour - only apply to SDS charts
@@ -56,6 +58,12 @@ export interface AxisThresholdLineStyle {
 }
 
 export interface ReferenceStyle extends TextStyle {}
+
+export interface ToggleButtonTooltipStyle extends TextStyle {
+    backgroundColour?: string;
+    borderRadius?: number;
+}
+
 export interface TextStyle {
     name?: string;
     colour?: string;
