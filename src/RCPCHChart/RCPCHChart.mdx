@@ -18,7 +18,7 @@ Other props are:
 
 -   `title: string;` the title of the chart : could include patient name and identifiers
 -   `measurementMethod: 'height' | 'weight' | 'ofc' | 'bmi';` _must_ be one of the options provided
--   `reference: 'uk-who' | 'turner' | 'trisomy-21';` _must_ be one of the options provided
+-   `reference: 'uk-who' | 'turner' | 'trisomy-21' | 'cdc';` _must_ be one of the options provided
 -   `sex: 'male' | 'female';` _must_ be one of the options provided
 -   `measurements: { measurementMethod: Measurement[]};` array of measurements returned from RCPCH Growth API. This should not be edited or manipulated. **NOTE this has changed in v7.0.0**
 -   `midParentalHeightData?: MidParentalHeightObject | undefined;` an RCPCH object returned from the RCPCH Growth API. Should not be edited or manipulated
@@ -332,7 +332,7 @@ Themes are collections of styles. The RCPCH have created some suggested themes:
 5. Tanner 3: Red and yellow
 6. Custom
 
-These themes all have predefined attributes for `fontFamily`, `color`, `size`, `stroke` and `strokeWidth` for different aspects of the charts.
+These themes all have predefined attributes for `fontFamily`, `color`, `size`, `weight`, `stroke` and `strokeWidth` for different aspects of the charts.
 If these attributes are too prescriptive and users would like either to build their own theme,
 or override styles within an existing theme, this can be done by passing in custom styles through the `customThemeStyles` prop.
 
@@ -344,36 +344,40 @@ All attributes are optional, therefore only those attributes where changes are r
 -   `centileStyle?: CentileStyle;`
 -   `sdsStyle?: SDSStyle;`
 -   `measurementStyle?: MeasurementStyle;`
+-   `referenceStyle?: ReferenceStyle;`
 
 The attributes of each of these are below:
 
 #### `ChartStyle`
 
 -   `backgroundColour?: string;` //background colour of chart
--   `titleStyle?: TextStyle `| undefined; // style of text in title: includes fontFamily, fontSize, colour, weight (regular/bold/italic)
--   `subTitleStyle?: TextStyle `| undefined; // style of text in subtitle: includes fontFamily, fontSize, colour, weight (regular/bold/italic)
+-   `titleStyle?: TextStyle`; // style of text in title: includes fontFamily, fontSize, colour, style, weight
+-   `subTitleStyle?: TextStyle`; // style of text in subtitle: includes fontFamily, fontSize, colour, style, weight
 -   `tooltipBackgroundColour?: string;` //background colour of tooltip
 -   `tooltipStroke?: string;` //border colour of tooltip
--   `tooltipTextStyle?: TextStyle `| undefined; // tooltip text: includes fontFamily, fontSize, colour, weight (regular/bold/italic)
+-   `tooltipTextStyle?: TextStyle`; // tooltip text: includes fontFamily, fontSize, colour, style, weight
 -   `termFill?: string;` // background colour of weight term area
 -   `termStroke?: string;` // border colour of weight term area
 -   `toggleButtonInactiveColour?: string;` // buttons - inactive colour
 -   `toggleButtonActiveColour?: string;` // buttons - active colour
--   `toggleButtonTextStyle?: TextStyle | undefined;` // buttons text: includes fontFamily, fontSize, colour, weight (regular/bold/italic)
+-   `toggleButtonTextStyle?: TextStyle | undefined;` // buttons text: includes fontFamily, fontSize, colour, style, weight
 
 #### `MeasurementStyle`
 
 -   `measurementFill?: string;` // measurement point fill colour - only apply to SDS charts
 -   `highlightedMeasurementFill?: string;` // measurement point fill colour when hightlighted (SDS charts)
--   `eventTextStyle?: TextStyle;` // styles for text of events: includes fontFamily, fontSize, colour, weight (regular/bold/italic)
+-   `eventTextStyle?: TextStyle;` // styles for text of events: includes fontFamily, fontSize, colour, style, weight
 
 #### `CentileStyle`
 
 -   `sdsStroke?: string;` // sds line colour
 -   `centileStroke?: string;` // centile line colour
+-   `nondisjunctionThresholdLabel ?: string;` // label for nondisjunctionThresholdLabel
+-   `nondisjunctionThresholdLine ?: string;` // colour of nondisjunctionThresholdLine
 -   `delayedPubertyAreaFill?: string;` // delayed puberty area colour
 -   `midParentalCentileStroke?: string;` // Midparental height centile line colour
 -   `midParentalAreaFill?: string;` // Midparental height area colour
+-   `centileTextStyle?: Pick<TextStyle, 'name' | 'size' | 'weight'>;` // centile text style : includes name, size, weight
 
 #### `SDSStyle`
 
@@ -392,19 +396,22 @@ The attributes of each of these are below:
 #### `AxisStyle`
 
 -   `axisStroke?: string;` // Axis colour
--   `axisLabelTextStyle?: TextStyle | undefined;` // Axis label text: : includes fontFamily, fontSize, colour, weight (regular/bold/italic)
--   `tickLabelTextStyle?: TextStyle | undefined;` // Tick label text : includes fontFamily, fontSize, colour, weight (regular/bold/italic)
+-   `axisThresholdLabelTextStyle?: TextStyle;` // Axis label text: : includes fontFamily, fontSize, colour, style, weight
+-   `axisThresholdLineStyle?: AxisThresholdLineStyle;` // Axis line: includes colour
+-   `axisLabelTextStyle?: TextStyle;` // Axis label text: : includes fontFamily, fontSize, colour, style, weight
+-   `tickLabelTextStyle?: TickLabelTextStyle;` // Tick label text : includes fontFamily, fontSize, colour, style, weight and padding
 
 #### `TextStyle`
 
 -   `name?: string;`
 -   `colour?: string;`
 -   `size?: number;`
--   `style?: 'bold' | 'italic' | 'normal';`
+-   `style?: 'italic' | 'normal';`
+-   `weight?: number | string;`
 
 For example, if a user wished to override the background colour of the existing 'monochrome' theme:
 
-```js
+```tsx
 const customChartStyle: ChartStyle = {
   backgroundColour: "tomato"
 }
@@ -416,7 +423,7 @@ const customStyles = {
 
 And in the JSX:
 
-```js
+```tsx
 <RCPCHChart
     reference={'uk-who'}
     measurementMethod={'height'}
@@ -437,3 +444,111 @@ And in the JSX:
 yields:
 
 <Canvas of={RCPCHChartStories.TomatoCentileChart} />
+
+Or even build a whole new theme to match a custom Design System
+
+```tsx
+const customStyles = {
+    chartStyle: {
+        backgroundColour: '#FAF8F5',
+        titleStyle: {
+            weight: 800,
+            colour: '#706A80',
+            name: 'sans-serif',
+            size: 16,
+        },
+        subTitleStyle: {
+            weight: 400,
+            colour: '#706A80',
+            name: 'sans-serif',
+            size: 13,
+        },
+        tooltipStroke: '#5a526b',
+        tooltipBorderRadius: 4,
+        tooltipBackgroundColour: '#5a526b',
+        tooltipTextStyle: {
+            colour: '#fffdfd',
+            name: 'sans-serif',
+            size: 14,
+        },
+        toggleButtonActiveColour: '#B89F81',
+        toggleButtonInactiveColour: '#e8dbcc',
+        toggleButtonTextStyle: {
+            colour: 'white',
+            name: 'sans-serif',
+            size: 16,
+            weight: 400,
+        },
+        toggleButtonTooltipStyle: {
+        backgroundColour: '#5a526b',
+        borderRadius: 4,
+        colour: 'white',
+        size: 14,
+        name: 'sans-serif',
+        weight: 400,
+        }
+    },
+    axisStyle: {
+        axisStroke: '#EDE7DD',
+        tickLabelTextStyle: {
+            colour: '#706A80',
+            size: 12,
+            weight: 400,
+            name: 'sans-serif',
+        },
+        axisLabelTextStyle: {
+            weight: 500,
+            colour: '#706A80',
+            name: 'sans-serif',
+            size: 15,
+        },
+        axisThresholdLabelTextStyle: {
+            weight: 500,
+            colour: '#706A80',
+            name: 'sans-serif',
+            size: 12.5,
+        },
+        axisThresholdLineStyle: {
+            colour: '#706A80',
+        },
+    },
+    gridlineStyle: {
+        dashed: true,
+        stroke: '#EDE7DD',
+        strokeWidth: 1,
+        gridlines: true,
+    },
+    centileStyle: {
+        centileTextStyle: {
+        name: 'sans-serif',
+        size: 12.5,
+        weight: 400,
+        },
+        centileStroke: '#B89F81',
+        midParentalAreaFill: '#B89F81',
+        midParentalCentileStroke: '#B89F81',
+        delayedPubertyAreaFill: '#B89F81',
+        sdsStroke: '#B89F81',
+    },
+    measurementStyle: {
+        eventTextStyle: {
+            size: 14,
+            name: 'sans-serif',
+            weight: 400,
+            colour: '#760050',
+        },
+        highlightedMeasurementFill: '#B89F81',
+        measurementFill: '#760050',
+    },
+    referenceStyle: {
+        weight: 500,
+        colour: '#706A80',
+        name: 'sans-serif',
+        size: 13,
+    },
+},
+```
+
+yields:
+
+<Canvas of={RCPCHChartStories.CustomThemeStylesChart} />

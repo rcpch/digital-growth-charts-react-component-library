@@ -321,7 +321,7 @@ function CentileChart({
                                     constrainToVisibleArea
                                     backgroundPadding={5}
                                     pointerLength={5}
-                                    cornerRadius={0}
+                                    cornerRadius={styles.toolTipBorderRadius}
                                     flyoutHeight={(datum) => {
                                         const numberOfLines = datum.text.length;
                                         return numberOfLines * 18 * textScaleFactor;    // 18 is the line height
@@ -655,7 +655,12 @@ function CentileChart({
                                                     textAnchor="start"
                                                     angle={-90}
                                                     dx={5}
-                                                    dy={10}
+                                                    dy={
+                                                        // adjust label margins relatively to font size so text doesn't overlap the line
+                                                        styles.delayedPubertyThresholdLabel?.fontSize
+                                                            ? styles.delayedPubertyThresholdLabel.fontSize * 1.15
+                                                            : 10
+                                                    }
                                                     style={styles.delayedPubertyThresholdLabel}
                                                 />
                                             }
@@ -683,8 +688,13 @@ function CentileChart({
                                                     textAnchor="start"
                                                     angle={-90}
                                                     dx={5}
-                                                    dy={10}
-                                                    style={styles.delayedPubertyThresholdLabel}
+                                                    dy={
+                                                        // adjust label margins relatively to font size so text doesn't overlap the line
+                                                        styles.nondisjunctionThresholdLabel?.fontSize
+                                                            ? styles.nondisjunctionThresholdLabel.fontSize * 1.15
+                                                            : 10
+                                                    }
+                                                    style={styles.nondisjunctionThresholdLabel}
                                                 />
                                             }
                                         />
@@ -892,11 +902,11 @@ function CentileChart({
                     })}
                 </VictoryChart>
                 <ChartTitle
-                    fontSize={8}
-                    fontFamily={'Arial'}
-                    color={'#000000'}
-                    fontWeight={'200'}
-                    fontStyle='normal'
+                    fontSize={styles.referenceTextStyle.fontSize}
+                    fontFamily={styles.referenceTextStyle.fontFamily}
+                    color={styles.referenceTextStyle.color}
+                    fontWeight={styles.referenceTextStyle.fontWeight}
+                    fontStyle={styles.referenceTextStyle.fontStyle}
                 >{referenceText(reference)}</ChartTitle>
             </ChartContainer>
 
@@ -909,7 +919,15 @@ function CentileChart({
                         {/* Creates the Centile Label toggle button */}
                         { 
                             <GradientLabelsButtonWrapper>
-                                <StyledButtonTooltip>
+                                <StyledButtonTooltip
+                                    $backgroundColor={styles.toggleTooltipStyle.backgroundColor}
+                                    $color={styles.toggleTooltipStyle.color}
+                                    $fontSize={styles.toggleTooltipStyle.fontSize}
+                                    $fontFamily={styles.toggleTooltipStyle.fontFamily}
+                                    $fontWeight={styles.toggleTooltipStyle.fontWeight}
+                                    $fontStyle={styles.toggleTooltipStyle.fontStyle}
+                                    $borderRadius={styles.toggleTooltipStyle.borderRadius}
+                                >
                                     <StyledGradientLabelsButton
                                         $color={styles.toggleStyle.activeColour}
                                         size={5}
@@ -921,13 +939,13 @@ function CentileChart({
                                             :
                                             <ShowCentileLabelIcon/>
                                         }
-                                        { centileLabels ? 
-                                            <div className='tooltip'>Hide Centile Labels</div>
-                                            :
-                                            <div className='tooltip'>Show Centile Labels</div>
-                                        }
-                                    </StyledGradientLabelsButton>
                                     
+                                    </StyledGradientLabelsButton>
+                                    { centileLabels ? 
+                                        <div className='tooltip'>Hide Centile Labels</div>
+                                        :
+                                        <div className='tooltip'>Show Centile Labels</div>
+                                    }
                                 </StyledButtonTooltip>
                             </GradientLabelsButtonWrapper>
                         }
@@ -935,7 +953,15 @@ function CentileChart({
                         {/* Creates the Zoom to see whole lifespan button */}
                         { childMeasurements.length > 0 &&
                                 <FullScreenButtonWrapper>
-                                    <StyledButtonTooltip>
+                                    <StyledButtonTooltip 
+                                        $backgroundColor={styles.toggleTooltipStyle.backgroundColor}
+                                        $color={styles.toggleTooltipStyle.color}
+                                        $fontSize={styles.toggleTooltipStyle.fontSize}
+                                        $fontFamily={styles.toggleTooltipStyle.fontFamily}
+                                        $fontWeight={styles.toggleTooltipStyle.fontWeight}
+                                        $fontStyle={styles.toggleTooltipStyle.fontStyle}
+                                        $borderRadius={styles.toggleTooltipStyle.borderRadius}
+                                    >
                                         <StyledFullScreenButton
                                             onClick={()=> fullScreenPressed()}
                                             $color={styles.toggleStyle.activeColour}
@@ -956,7 +982,15 @@ function CentileChart({
                         {/* Creates the Copy button */}
                         { enableExport && (
                                 <ShareButtonWrapper>
-                                        <StyledButtonTooltip>
+                                        <StyledButtonTooltip
+                                            $backgroundColor={styles.toggleTooltipStyle.backgroundColor}
+                                            $color={styles.toggleTooltipStyle.color}
+                                            $fontSize={styles.toggleTooltipStyle.fontSize}
+                                            $fontFamily={styles.toggleTooltipStyle.fontFamily}
+                                            $fontWeight={styles.toggleTooltipStyle.fontWeight}
+                                            $fontStyle={styles.toggleTooltipStyle.fontStyle}
+                                            $borderRadius={styles.toggleTooltipStyle.borderRadius}
+                                        >
                                             <StyledShareButton
                                                 $color={styles.toggleStyle.activeColour}
                                                 size={5}

@@ -26,7 +26,7 @@ export const monochromeChartStyles: ChartStyle = {
         name: "Arial", 
         colour: "#000000",
         size: 14,
-        style: 'bold'
+        weight: '700'
     },
     subTitleStyle: {
         name: "Arial",
@@ -308,6 +308,22 @@ export const monochromeStyles = {
         "fontSize": 14,
         "fontWeight": "normal",
         "fontStyle": "normal"
+    },
+    "toggleTooltipStyle": {
+        "backgroundColor": "#333",
+        "color": "#fff",
+        "fontSize": 14,
+        "fontFamily": "'Montserrat', Helvetica, Arial, sans-serif;",
+        "fontWeight": 400,
+        "fontStyle": "regular",
+        "borderRadius": 4,
+    },
+    "referenceTextStyle": {
+        "fontSize": 8,
+        "fontFamily": "Arial",
+        "color": "#000000",
+        "fontWeight":200,
+        "fontStyle": "normal",
     }
   }
 
@@ -317,7 +333,7 @@ export const chartObject: ChartStyle =  {
         "name": "Arial",
         "colour": "#000000",
         "size": 14,
-        "style": "bold"
+        "weight": "700"
     },
     "subTitleStyle": {
         "name": "Arial",
@@ -342,7 +358,7 @@ export const chartObject: ChartStyle =  {
         "colour": "#000000",
         "size": 0.25,
         "style": "normal"
-    }
+    },
 }
 
 export const measurementObjects: MeasurementStyle = {

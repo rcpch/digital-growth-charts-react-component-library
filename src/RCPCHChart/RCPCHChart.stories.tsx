@@ -23,7 +23,7 @@ export default meta;
 type Story = StoryObj<typeof RCPCHChart>;
 
 const customChartStyle: ChartStyle = {
-  backgroundColour: "tomato"
+  backgroundColour: "tomato",
 }
 
 const customStyles = {
@@ -464,3 +464,120 @@ export const MultipleMeasurementSDSChart: Story = {
   },
 
 }
+
+export const CustomThemeStylesChart: Story = {
+  args: {
+      title: 'Patient Name - Hospital Number',
+      measurementMethod: 'height',
+      reference: 'uk-who',
+      sex: 'female',
+      measurements: {
+          height: twoToEight,
+      },
+      midParentalHeightData: {},
+      enableZoom: true,
+      chartType: 'centile',
+      enableExport: true,
+      exportChartCallback: (svg) => console.log(svg),
+      theme: 'custom',
+      customThemeStyles: {
+          chartStyle: {
+              backgroundColour: '#FAF8F5',
+              titleStyle: {
+                  weight: 800,
+                  colour: '#706A80',
+                  name: 'sans-serif',
+                  size: 16,
+              },
+              subTitleStyle: {
+                  weight: 400,
+                  colour: '#706A80',
+                  name: 'sans-serif',
+                  size: 13,
+              },
+              tooltipStroke: '#5a526b',
+              tooltipBorderRadius: 4,
+              tooltipBackgroundColour: '#5a526b',
+              tooltipTextStyle: {
+                  colour: '#fffdfd',
+                  name: 'sans-serif',
+                  size: 14,
+              },
+              toggleButtonActiveColour: '#B89F81',
+              toggleButtonInactiveColour: '#e8dbcc',
+              toggleButtonTextStyle: {
+                  colour: 'white',
+                  name: 'sans-serif',
+                  size: 16,
+                  weight: 400,
+              },
+              toggleButtonTooltipStyle: {
+                backgroundColour: '#5a526b',
+                borderRadius: 4,
+                colour: 'white',
+                size: 14,
+                name: 'sans-serif',
+                weight: 400,
+              }
+          },
+          axisStyle: {
+              axisStroke: '#EDE7DD',
+              tickLabelTextStyle: {
+                  colour: '#706A80',
+                  size: 12,
+                  weight: 400,
+                  name: 'sans-serif',
+              },
+              axisLabelTextStyle: {
+                  weight: 500,
+                  colour: '#706A80',
+                  name: 'sans-serif',
+                  size: 15,
+              },
+              axisThresholdLabelTextStyle: {
+                  weight: 500,
+                  colour: '#706A80',
+                  name: 'sans-serif',
+                  size: 12.5,
+              },
+              axisThresholdLineStyle: {
+                  colour: '#706A80',
+              },
+          },
+          gridlineStyle: {
+              dashed: true,
+              stroke: '#EDE7DD',
+              strokeWidth: 1,
+              gridlines: true,
+          },
+          centileStyle: {
+              centileTextStyle: {
+                name: 'sans-serif',
+                size: 12.5,
+                weight: 400,
+              },
+              centileStroke: '#B89F81',
+              midParentalAreaFill: '#B89F81',
+              midParentalCentileStroke: '#B89F81',
+              delayedPubertyAreaFill: '#B89F81',
+              sdsStroke: '#B89F81',
+          },
+          measurementStyle: {
+              eventTextStyle: {
+                  size: 14,
+                  name: 'sans-serif',
+                  weight: 400,
+                  colour: '#760050',
+              },
+              highlightedMeasurementFill: '#B89F81',
+              measurementFill: '#760050',
+          },
+          referenceStyle: {
+            weight: 500,
+            colour: '#706A80',
+            name: 'sans-serif',
+            size: 13,
+        },
+      },
+  },
+};
