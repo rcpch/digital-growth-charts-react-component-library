@@ -920,13 +920,13 @@ function CentileChart({
                         { 
                             <GradientLabelsButtonWrapper>
                                 <StyledButtonTooltip
-                                    backgroundColor={styles.toggleTooltipStyle.backgroundColor}
-                                    color={styles.toggleTooltipStyle.color}
-                                    fontSize={styles.toggleTooltipStyle.fontSize}
-                                    fontFamily={styles.toggleTooltipStyle.fontFamily}
-                                    fontWeight={styles.toggleTooltipStyle.fontWeight}
-                                    fontStyle={styles.toggleTooltipStyle.fontStyle}
-                                    borderRadius={styles.toggleTooltipStyle.borderRadius}
+                                    $backgroundColor={styles.toggleTooltipStyle.backgroundColor}
+                                    $color={styles.toggleTooltipStyle.color}
+                                    $fontSize={styles.toggleTooltipStyle.fontSize}
+                                    $fontFamily={styles.toggleTooltipStyle.fontFamily}
+                                    $fontWeight={styles.toggleTooltipStyle.fontWeight}
+                                    $fontStyle={styles.toggleTooltipStyle.fontStyle}
+                                    $borderRadius={styles.toggleTooltipStyle.borderRadius}
                                 >
                                     <StyledGradientLabelsButton
                                         $color={styles.toggleStyle.activeColour}
@@ -954,13 +954,13 @@ function CentileChart({
                         { childMeasurements.length > 0 &&
                                 <FullScreenButtonWrapper>
                                     <StyledButtonTooltip 
-                                        backgroundColor={styles.toggleTooltipStyle.backgroundColor}
-                                        color={styles.toggleTooltipStyle.color}
-                                        fontSize={styles.toggleTooltipStyle.fontSize}
-                                        fontFamily={styles.toggleTooltipStyle.fontFamily}
-                                        fontWeight={styles.toggleTooltipStyle.fontWeight}
-                                        fontStyle={styles.toggleTooltipStyle.fontStyle}
-                                        borderRadius={styles.toggleTooltipStyle.borderRadius}
+                                        $backgroundColor={styles.toggleTooltipStyle.backgroundColor}
+                                        $color={styles.toggleTooltipStyle.color}
+                                        $fontSize={styles.toggleTooltipStyle.fontSize}
+                                        $fontFamily={styles.toggleTooltipStyle.fontFamily}
+                                        $fontWeight={styles.toggleTooltipStyle.fontWeight}
+                                        $fontStyle={styles.toggleTooltipStyle.fontStyle}
+                                        $borderRadius={styles.toggleTooltipStyle.borderRadius}
                                     >
                                         <StyledFullScreenButton
                                             onClick={()=> fullScreenPressed()}
@@ -983,13 +983,13 @@ function CentileChart({
                         { enableExport && (
                                 <ShareButtonWrapper>
                                         <StyledButtonTooltip
-                                            backgroundColor={styles.toggleTooltipStyle.backgroundColor}
-                                            color={styles.toggleTooltipStyle.color}
-                                            fontSize={styles.toggleTooltipStyle.fontSize}
-                                            fontFamily={styles.toggleTooltipStyle.fontFamily}
-                                            fontWeight={styles.toggleTooltipStyle.fontWeight}
-                                            fontStyle={styles.toggleTooltipStyle.fontStyle}
-                                            borderRadius={styles.toggleTooltipStyle.borderRadius}
+                                            $backgroundColor={styles.toggleTooltipStyle.backgroundColor}
+                                            $color={styles.toggleTooltipStyle.color}
+                                            $fontSize={styles.toggleTooltipStyle.fontSize}
+                                            $fontFamily={styles.toggleTooltipStyle.fontFamily}
+                                            $fontWeight={styles.toggleTooltipStyle.fontWeight}
+                                            $fontStyle={styles.toggleTooltipStyle.fontStyle}
+                                            $borderRadius={styles.toggleTooltipStyle.borderRadius}
                                         >
                                             <StyledShareButton
                                                 $color={styles.toggleStyle.activeColour}

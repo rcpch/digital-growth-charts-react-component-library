@@ -575,13 +575,13 @@ const SDSChart: React.FC<SDSChartProps> = (
                     { enableExport ? (
                         <ShareButtonWrapper>
                                 <StyledButtonTooltip
-                                    backgroundColor={styles.toggleTooltipStyle.backgroundColor}
-                                    color={styles.toggleTooltipStyle.color}
-                                    fontSize={styles.toggleTooltipStyle.fontSize}
-                                    fontFamily={styles.toggleTooltipStyle.fontFamily}
-                                    fontWeight={styles.toggleTooltipStyle.fontWeight}
-                                    fontStyle={styles.toggleTooltipStyle.fontStyle}
-                                    borderRadius={styles.toggleTooltipStyle.borderRadius}
+                                    $backgroundColor={styles.toggleTooltipStyle.backgroundColor}
+                                    $color={styles.toggleTooltipStyle.color}
+                                    $fontSize={styles.toggleTooltipStyle.fontSize}
+                                    $fontFamily={styles.toggleTooltipStyle.fontFamily}
+                                    $fontWeight={styles.toggleTooltipStyle.fontWeight}
+                                    $fontStyle={styles.toggleTooltipStyle.fontStyle}
+                                    $borderRadius={styles.toggleTooltipStyle.borderRadius}
                                 >
                                     <StyledShareButton
                                         $color={styles.toggleStyle.activeColour}
