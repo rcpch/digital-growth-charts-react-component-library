@@ -17,4 +17,5 @@ export interface SDSChartProps {
     enableExport: boolean;
     exportChartCallback(svg: any): any;
     clinicianFocus?: boolean | undefined | null;
+    logoVariant?: 'top' | 'bottom' | 'legend';
 }
