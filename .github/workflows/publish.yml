@@ -3,27 +3,27 @@ name: NPM Publish
 
 # This action will publish to NPM on every new release
 on:
-  release:
-    types: [created]
+    release:
+        types: [created]
 
 # Job will run on a ubuntu instance
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      # Checkout the code
-      - uses: actions/checkout@v4
-      # Setup node with version 20.x and NPM registry url
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20.x"
-          registry-url: "https://registry.npmjs.org"
-      # Run npm install to install project packages
-      - run: npm install
-      # npm build to build the project
-      - run: npm run build
-      # publish the files to NPM
-      - run: npm publish --access public
-      # for publishing, npm need authorization. We add the NPM token to the environment which will take care of authorization to publish to the package
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            # Checkout the code
+            - uses: actions/checkout@v4
+            # Setup node with version 20.x and NPM registry url
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: '20.x'
+                  registry-url: 'https://registry.npmjs.org'
+            # Run npm install to install project packages
+            - run: npm install
+            # npm build to build the project
+            - run: npm run build
+            # publish the files to NPM
+            - run: npm publish --access public
+              # for publishing, npm need authorization. We add the NPM token to the environment which will take care of authorization to publish to the package
+              env:
+                  NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

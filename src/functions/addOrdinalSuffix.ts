@@ -8,7 +8,7 @@ const addOrdinalSuffix = (inputNumber: number | string): string => {
             throw Error('Only integers or numbers to 2 decimal places are supported');
         }
     } else {
-        answerNumber = answerNumber.split(".")[0]; // this is an integer - remove the decimal point
+        answerNumber = answerNumber.split('.')[0]; // this is an integer - remove the decimal point
     }
     const remainder10 = workingNumber % 10;
     const remainder100 = workingNumber % 100;

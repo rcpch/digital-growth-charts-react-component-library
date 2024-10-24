@@ -1,19 +1,19 @@
-export const symbolForMeasurementType=(measurementType: string)=>{
-    switch(measurementType){
-        case('height'):{
+export const symbolForMeasurementType = (measurementType: string) => {
+    switch (measurementType) {
+        case 'height': {
             return 'circle';
         }
-        case('weight'):{
+        case 'weight': {
             return 'triangleUp';
         }
-        case('ofc'):{
+        case 'ofc': {
             return 'square';
         }
-        case('bmi'):{
+        case 'bmi': {
             return 'diamond';
         }
-        default:{
+        default: {
             return 'circle';
         }
     }
-}
+};

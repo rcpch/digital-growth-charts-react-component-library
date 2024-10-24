@@ -1,1 +1,1 @@
-export { default } from './CentileChart'
+export { default } from './CentileChart';

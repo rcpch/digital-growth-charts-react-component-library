@@ -14,19 +14,27 @@ Most of the properties in each of the interfaces are optionals, as users may not
 This function therefore instantiates defaults where user values have not been provided.
 This creates a styles object that is passed to the chart.
 */
-import { AxisStyle, CentileStyle, SDSStyle, ChartStyle, GridlineStyle, MeasurementStyle, ReferenceStyle } from '../interfaces/StyleObjects';
+import {
+    AxisStyle,
+    CentileStyle,
+    SDSStyle,
+    ChartStyle,
+    GridlineStyle,
+    MeasurementStyle,
+    ReferenceStyle,
+} from '../interfaces/StyleObjects';
 
 const black = '#000000';
 const white = '#FFFFFF';
 const darkGrey = '#808080';
 const midGrey = '#b3b3b3';
 const lightGrey = '#d9d9d9';
-const lightLightGrey = "#f3f3f3";
-const charcoal = "#4d4d4d";
-const aquaGreen ='#00BDAA'
-const orange = '#FF8000'
-const purple = '#7159AA'
-const strongGreen = '#66CC33'
+const lightLightGrey = '#f3f3f3';
+const charcoal = '#4d4d4d';
+const aquaGreen = '#00BDAA';
+const orange = '#FF8000';
+const purple = '#7159AA';
+const strongGreen = '#66CC33';
 
 function makeAllStyles(
     chartStyle?: ChartStyle,
@@ -38,7 +46,6 @@ function makeAllStyles(
     textMultiplier?: number, // this is used to scale text size based on the aspect ratio of the chart using the height and width. Default is 1
     referenceStyle?: ReferenceStyle,
 ) {
-
     let newGridlineStyle = {
         stroke: lightGrey,
         strokeWidth: 0.25,
@@ -57,11 +64,11 @@ function makeAllStyles(
             strokeDasharray: '',
         };
     }
-    return { 
+    return {
         chartMisc: {
             background: {
                 fill: chartStyle?.backgroundColour ?? white,
-            }
+            },
         },
         toolTipBorderRadius: chartStyle?.tooltipBorderRadius ?? 0,
         toolTipFlyout: {
@@ -74,7 +81,7 @@ function makeAllStyles(
             fontFamily: chartStyle?.tooltipTextStyle?.name ?? 'Montserrat',
             fontWeight: chartStyle?.tooltipTextStyle?.weight ?? 400,
             fontStyle: chartStyle?.tooltipTextStyle?.style ?? 'normal',
-            textAnchor: "start"
+            textAnchor: 'start',
         },
         chartTitle: {
             fontFamily: chartStyle?.titleStyle?.name ?? 'Arial',
@@ -84,7 +91,7 @@ function makeAllStyles(
             fontStyle: chartStyle?.titleStyle?.style === 'italic' ? 'italic' : 'normal',
         },
         chartSubTitle: {
-            fontFamily: chartStyle?.subTitleStyle?.name ?? 'Arial', 
+            fontFamily: chartStyle?.subTitleStyle?.name ?? 'Arial',
             fontWeight: chartStyle?.subTitleStyle?.weight ?? 700,
             color: chartStyle?.subTitleStyle?.colour ?? black,
             fontSize: chartStyle?.subTitleStyle?.size ?? 14,
@@ -188,13 +195,14 @@ function makeAllStyles(
             fontWeight: axisStyle?.axisThresholdLabelTextStyle?.weight ?? 400,
             textAlign: 'start',
         },
-        sdsLine: {  // these are the sds lines on the BMI chart
+        sdsLine: {
+            // these are the sds lines on the BMI chart
             data: {
                 stroke: centileStyle?.sdsStroke ?? '#A9A9A9',
                 strokeWidth: 1.0,
                 strokeLinecap: 'round',
                 strokeDasharray: '5 5',
-            }
+            },
         },
         dashedCentile: {
             data: {
@@ -222,28 +230,28 @@ function makeAllStyles(
                 stroke: aquaGreen,
                 strokeWidth: 1.5,
                 strokeLinecap: 'round',
-            }
+            },
         },
         weightSDS: {
             data: {
                 stroke: orange,
                 strokeWidth: 1.5,
                 strokeLinecap: 'round',
-            }
+            },
         },
         ofcSDS: {
             data: {
                 stroke: purple,
                 strokeWidth: 1.5,
                 strokeLinecap: 'round',
-            }
+            },
         },
         bmiSDS: {
             data: {
                 stroke: strongGreen,
                 strokeWidth: 1.5,
                 strokeLinecap: 'round',
-            }
+            },
         },
         midParentalCentile: {
             data: {
@@ -251,7 +259,7 @@ function makeAllStyles(
                 strokeWidth: 1.5,
                 strokeLinecap: 'round',
                 strokeOpacity: 1.0,
-            }
+            },
         },
         midParentalSDS: {
             data: {
@@ -259,16 +267,17 @@ function makeAllStyles(
                 strokeWidth: 1.5,
                 strokeLinecap: 'round',
                 strokeOpacity: 1.0,
-                strokeDasharray: '2 5'
-            }
+                strokeDasharray: '2 5',
+            },
         },
         midParentalArea: {
             data: {
                 fill: centileStyle?.midParentalAreaFill ?? lightLightGrey,
-                opacity: 0.5
-            }
+                opacity: 0.5,
+            },
         },
-        measurementPoint: { // these are the points on the chart where measurements are plotted: note that the size is dynamically set based on the isCrowded function
+        measurementPoint: {
+            // these are the points on the chart where measurements are plotted: note that the size is dynamically set based on the isCrowded function
             data: {
                 fill: measurementStyle?.measurementFill ?? black,
             },
@@ -279,16 +288,17 @@ function makeAllStyles(
                 strokeWidth: 1.25,
             },
         },
-        highlightedMeasurementFill: { // these are the points on the chart where measurements are plotted: note that the size is dynamically set based on the isCrowded function
+        highlightedMeasurementFill: {
+            // these are the points on the chart where measurements are plotted: note that the size is dynamically set based on the isCrowded function
             data: {
                 fill: measurementStyle?.highlightedMeasurementFill ?? black,
-            }
+            },
         },
         eventTextStyle: {
             size: (measurementStyle?.eventTextStyle?.size ?? 14) * (textMultiplier ?? 1),
             name: measurementStyle?.eventTextStyle?.name ?? 'Montserrat',
             colour: measurementStyle?.eventTextStyle?.colour ?? black,
-            style: measurementStyle?.eventTextStyle?.style ?? 'normal'
+            style: measurementStyle?.eventTextStyle?.style ?? 'normal',
         },
         toggleStyle: {
             activeColour: chartStyle?.toggleButtonActiveColour ?? black,
@@ -298,7 +308,7 @@ function makeAllStyles(
             color: chartStyle?.toggleButtonTextStyle?.colour ?? white,
             fontSize: chartStyle?.toggleButtonTextStyle?.size ?? 14,
             fontStyle: chartStyle?.toggleButtonTextStyle?.style === 'italic' ? 'italic' : 'normal',
-            margin: 0
+            margin: 0,
         },
         toggleTooltipStyle: {
             backgroundColor: chartStyle?.toggleButtonTooltipStyle?.backgroundColour ?? '#333',

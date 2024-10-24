@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 
 export const StyledButtonTooltip = styled.div<{
-  $backgroundColor?: string,
-  $color?: string,
-  $fontSize?: number,
-  $fontFamily?: string,
-  $fontWeight?: string,
-  $fontStyle?: string,
-  $borderRadius?: string,
+    $backgroundColor?: string;
+    $color?: string;
+    $fontSize?: number;
+    $fontFamily?: string;
+    $fontWeight?: string;
+    $fontStyle?: string;
+    $borderRadius?: string;
 }>`
     position: relative;
 
@@ -25,9 +25,9 @@ export const StyledButtonTooltip = styled.div<{
         font-weight: ${(props) => props.$fontWeight};
         font-style: ${(props) => props.$fontStyle};
         font-family: ${(props) => props.$fontFamily};
-      }
-    
-      &:hover .tooltip {
+    }
+
+    &:hover .tooltip {
         display: block;
-      }
+    }
 `;

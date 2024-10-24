@@ -1,5 +1,5 @@
-export interface MonthsLabel{
-    x: number,
-    y: number,
-    label: string
+export interface MonthsLabel {
+    x: number;
+    y: number;
+    label: string;
 }

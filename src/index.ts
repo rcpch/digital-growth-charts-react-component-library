@@ -1,3 +1,3 @@
-import RCPCHChart from "./RCPCHChart";
+import RCPCHChart from './RCPCHChart';
 
 export { RCPCHChart };

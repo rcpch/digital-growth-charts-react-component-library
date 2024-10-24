@@ -2,7 +2,7 @@ import { ClientMeasurementObject } from '../interfaces/ClientMeasurementObject';
 import { MidParentalHeightObject } from '../interfaces/MidParentalHeightObject';
 export interface SDSChartProps {
     chartsVersion: string;
-    reference: 'uk-who' | 'turner' | 'trisomy-21'| 'cdc';
+    reference: 'uk-who' | 'turner' | 'trisomy-21' | 'cdc';
     title: string;
     subtitle: string;
     measurementMethod: 'height' | 'weight' | 'ofc' | 'bmi';

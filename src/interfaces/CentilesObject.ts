@@ -1,41 +1,41 @@
 export interface UKWHOReferences {
-    "uk90_preterm"?:  ISexChoice
-    "uk_who_infant"?:  ISexChoice
-    "uk_who_child"?:  ISexChoice
-    "uk90_child"?:  ISexChoice
+    uk90_preterm?: ISexChoice;
+    uk_who_infant?: ISexChoice;
+    uk_who_child?: ISexChoice;
+    uk90_child?: ISexChoice;
 }
 export interface CDCReferences {
-    "fenton"? : ISexChoice
-    "cdc_infant"?:  ISexChoice
-    "cdc_child"?:  ISexChoice
+    fenton?: ISexChoice;
+    cdc_infant?: ISexChoice;
+    cdc_child?: ISexChoice;
 }
 export interface ReferenceGroup {
-    centile_data?: Reference[]
+    centile_data?: Reference[];
 }
 export interface Reference {
-    [name: string]: ISexChoice
+    [name: string]: ISexChoice;
 }
 
 export interface ICentile {
-    centile?: number,
-    data?: IPlottedCentileMeasurement[],
-    sds?: number
+    centile?: number;
+    data?: IPlottedCentileMeasurement[];
+    sds?: number;
 }
 
 export interface IPlottedCentileMeasurement {
-    "l"?: string | number,
-    "x"?: number,
-    "y"?: number
+    l?: string | number;
+    x?: number;
+    y?: number;
 }
 
 export interface ISexChoice {
-    male?: IMeasurementMethod,
-    female?: IMeasurementMethod
+    male?: IMeasurementMethod;
+    female?: IMeasurementMethod;
 }
 
-export interface IMeasurementMethod{
-    height?: ICentile[],
-    weight?: ICentile[],
-    bmi?: ICentile[],
-    ofc?: ICentile[],
+export interface IMeasurementMethod {
+    height?: ICentile[];
+    weight?: ICentile[];
+    bmi?: ICentile[];
+    ofc?: ICentile[];
 }

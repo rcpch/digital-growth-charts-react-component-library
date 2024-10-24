@@ -11,7 +11,7 @@ export interface ChartStyle {
     toggleButtonInactiveColour?: string; // buttons - inactive colour
     toggleButtonActiveColour?: string; // buttons - active colour
     toggleButtonTextStyle?: TextStyle; // buttons text: includes fontFamily, fontSize, colour, style, weight
-    toggleButtonTooltipStyle?: ToggleButtonTooltipStyle; 
+    toggleButtonTooltipStyle?: ToggleButtonTooltipStyle;
 }
 export interface MeasurementStyle {
     measurementFill?: string; // measurement point fill colour - only apply to SDS charts
@@ -21,8 +21,8 @@ export interface MeasurementStyle {
 export interface CentileStyle {
     sdsStroke?: string; // sds line colour
     centileStroke?: string; // centile line colour
-    nondisjunctionThresholdLabel ?: string; // label for nondisjunctionThresholdLabel
-    nondisjunctionThresholdLine ?: string; // colour of nondisjunctionThresholdLine
+    nondisjunctionThresholdLabel?: string; // label for nondisjunctionThresholdLabel
+    nondisjunctionThresholdLine?: string; // colour of nondisjunctionThresholdLine
     delayedPubertyAreaFill?: string; // delayed puberty area colour
     midParentalCentileStroke?: string; // Midparental height centile line colour
     midParentalAreaFill?: string; // Midparental height area colour

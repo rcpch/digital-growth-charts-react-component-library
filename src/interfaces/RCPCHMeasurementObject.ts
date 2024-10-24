@@ -21,15 +21,15 @@ export interface Measurement {
             corrected_gestation_weeks?: number;
             corrected_gestation_days?: number;
         };
-        comments?:{
+        comments?: {
             clinician_corrected_decimal_age_comment?: string;
             lay_corrected_decimal_age_comment?: string;
             clinician_chronological_decimal_age_comment: string;
             lay_chronological_decimal_age_comment: string;
-        }
+        };
         observation_date: string;
-        corrected_decimal_age_error?: string; 
-        chronological_decimal_age_error?: string; 
+        corrected_decimal_age_error?: string;
+        chronological_decimal_age_error?: string;
     };
     measurement_calculated_values: {
         chronological_centile: number;
@@ -39,8 +39,8 @@ export interface Measurement {
         corrected_centile: number;
         corrected_centile_band: string;
         corrected_measurement_error?: string;
-        corrected_percentage_median_bmi?: number
-        chronological_percentage_median_bmi?: number
+        corrected_percentage_median_bmi?: number;
+        chronological_percentage_median_bmi?: number;
         corrected_sds: number;
     };
     plottable_data: {
@@ -62,8 +62,8 @@ export interface Measurement {
                 bone_age_label?: string;
                 events_text?: string[];
                 bone_age_type?: string;
-                bone_age_sds?: number; 
-                bone_age_centile?: number; 
+                bone_age_sds?: number;
+                bone_age_centile?: number;
             };
             corrected_decimal_age_data: {
                 age_error?: string;

@@ -1,4 +1,4 @@
-import { Measurement } from "./RCPCHMeasurementObject"
+import { Measurement } from './RCPCHMeasurementObject';
 
 export interface ClientMeasurementObject {
     height?: Measurement[];

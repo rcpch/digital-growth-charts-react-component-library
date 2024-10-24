@@ -9,14 +9,14 @@ export function tooltipText(
     datum: Datum,
     midParentalHeightData: MidParentalHeightObject,
     clinicianFocus: boolean, // flag passed in from user - defines if tooltip text aimed at clinicians or families
-    sex: 'male' | 'female'
-): string[]  {
+    sex: 'male' | 'female',
+): string[] {
     /*
     This function returns an array of strings that represent the tooltip text for a given data point.
     The strings in each array represent a new line in the tooltip.
     */
 
-    const { 
+    const {
         childName,
         x, // the decimal age
         l, // labels
@@ -41,71 +41,83 @@ export function tooltipText(
         bone_age_centile,
         bone_age_type,
         corrected_percentage_median_bmi,
-        chronological_percentage_median_bmi
+        chronological_percentage_median_bmi,
     } = datum;
 
     if (datum.y === null) {
-        return
+        return;
     }
-    
+
     let returnStringList = [];
 
-    // flag passed in from user - if clinician, show clinician age advice strings, else show child/family advice 
+    // flag passed in from user - if clinician, show clinician age advice strings, else show child/family advice
     const comment = clinicianFocus ? clinician_comment : lay_comment;
 
-    if (corrected_decimal_age_error && age_type === 'corrected_age'){
+    if (corrected_decimal_age_error && age_type === 'corrected_age') {
         returnStringList.push(`${corrected_decimal_age_error}`);
         return returnStringList;
         // return corrected_decimal_age_error
     }
-    if (corrected_measurement_error && age_type === 'corrected_age'){
-        let corrected_gestational_age=''
-        if (gestational_age){
-            corrected_gestational_age=`${gestational_age.corrected_gestation_weeks}+${gestational_age.corrected_gestation_days} weeks`
-            returnStringList.push(`${calendar_age}\nCorrected age: ${corrected_gestational_age} on ${observation_date}`)
-            returnStringList.push(`${comment}`)
-            returnStringList.push(`${y} ${measurementSuffix(measurementMethod)}`)
-            returnStringList.push(`${corrected_measurement_error}`)
+    if (corrected_measurement_error && age_type === 'corrected_age') {
+        let corrected_gestational_age = '';
+        if (gestational_age) {
+            corrected_gestational_age = `${gestational_age.corrected_gestation_weeks}+${gestational_age.corrected_gestation_days} weeks`;
+            returnStringList.push(
+                `${calendar_age}\nCorrected age: ${corrected_gestational_age} on ${observation_date}`,
+            );
+            returnStringList.push(`${comment}`);
+            returnStringList.push(`${y} ${measurementSuffix(measurementMethod)}`);
+            returnStringList.push(`${corrected_measurement_error}`);
         }
-        returnStringList.push(`Corrected age: ${calendar_age} on ${observation_date}`)
-        returnStringList.push(`${comment}`)
-        returnStringList.push(`${y} ${measurementSuffix(measurementMethod)}`)
-        returnStringList.push(`${corrected_measurement_error}`)
+        returnStringList.push(`Corrected age: ${calendar_age} on ${observation_date}`);
+        returnStringList.push(`${comment}`);
+        returnStringList.push(`${y} ${measurementSuffix(measurementMethod)}`);
+        returnStringList.push(`${corrected_measurement_error}`);
         return returnStringList;
     }
-    if (chronological_decimal_age_error && age_type === 'chronological_age'){
+    if (chronological_decimal_age_error && age_type === 'chronological_age') {
         returnStringList.push(`${chronological_decimal_age_error}`);
         return returnStringList;
     }
 
     // midparental height labels
-    if (midParentalHeightData){
+    if (midParentalHeightData) {
         const {
             mid_parental_height,
             mid_parental_height_sds,
             mid_parental_height_lower_value,
-            mid_parental_height_upper_value
+            mid_parental_height_upper_value,
         } = midParentalHeightData;
-    
-        if (['centileMPH', 'lowerCentileMPH', 'upperCentileMPH', 'areaMPH'].includes(childName) && datum._voronoiX < 20){
+
+        if (
+            ['centileMPH', 'lowerCentileMPH', 'upperCentileMPH', 'areaMPH'].includes(childName) &&
+            datum._voronoiX < 20
+        ) {
             let returnStringList = [];
-            if (childName==="lowerCentileMPH"){
-                returnStringList.push(`Midparental Height -2SD: ${Math.round(mid_parental_height_lower_value*10)/10} cm`);
+            if (childName === 'lowerCentileMPH') {
+                returnStringList.push(
+                    `Midparental Height -2SD: ${Math.round(mid_parental_height_lower_value * 10) / 10} cm`,
+                );
                 return returnStringList;
             }
-            if (childName==="centileMPH" || childName==="areaMPH"){
-                returnStringList.push(`Midparental Height: ${Math.round(mid_parental_height*10)/10} cm (${addOrdinalSuffix(Math.round(parseFloat(l)))}) centile, SDS: ${Math.round(mid_parental_height_sds*100)/100})`)
-                returnStringList.push(`Range(+/-2SD): ${Math.round(mid_parental_height_lower_value*10)/10} cm - ${Math.round(mid_parental_height_upper_value*10)/10} cm`);
-                
+            if (childName === 'centileMPH' || childName === 'areaMPH') {
+                returnStringList.push(
+                    `Midparental Height: ${Math.round(mid_parental_height * 10) / 10} cm (${addOrdinalSuffix(Math.round(parseFloat(l)))}) centile, SDS: ${Math.round(mid_parental_height_sds * 100) / 100})`,
+                );
+                returnStringList.push(
+                    `Range(+/-2SD): ${Math.round(mid_parental_height_lower_value * 10) / 10} cm - ${Math.round(mid_parental_height_upper_value * 10) / 10} cm`,
+                );
+
                 return returnStringList;
             }
-            if (childName==="upperCentileMPH"){
-                returnStringList.push(`Midparental Height +2SD: ${Math.round(mid_parental_height_upper_value*10)/10} cm`);
+            if (childName === 'upperCentileMPH') {
+                returnStringList.push(
+                    `Midparental Height +2SD: ${Math.round(mid_parental_height_upper_value * 10) / 10} cm`,
+                );
                 return returnStringList;
             }
             return;
         }
-
     }
 
     // l represent labels that represent reference transitions, puberty area or sds labels for the BMI SDS lines
@@ -134,7 +146,7 @@ export function tooltipText(
         if (l === 'For all Children plotted in this shaded area see instructions.' && reference == 'uk-who') {
             let returnStringList = [];
             // delayed puberty if plotted in this area
-            if (sex==='male'){
+            if (sex === 'male') {
                 returnStringList.push('If a plot falls here, pubertal assessment will be required');
                 returnStringList.push('and mid-parental centile should be assessed.');
                 returnStringList.push('If they are in puberty or completing puberty,');
@@ -158,7 +170,12 @@ export function tooltipText(
         }
 
         // Term shaded area text
-        if (x < 0.038329911019849415 && x > -0.057494866529774126 && reference ==='uk-who' && measurementMethod === 'weight'){
+        if (
+            x < 0.038329911019849415 &&
+            x > -0.057494866529774126 &&
+            reference === 'uk-who' &&
+            measurementMethod === 'weight'
+        ) {
             let returnStringList = [];
             // returnStringList.push(`${addOrdinalSuffix(l)} centile:`);
             returnStringList.push('Babies born in this shaded area');
@@ -172,21 +189,21 @@ export function tooltipText(
             returnStringList.push('three weeks after birth.');
             return returnStringList;
         }
-        
+
         // BMI SDS labels
-        if (childName.includes("sdsLine")){
+        if (childName.includes('sdsLine')) {
             let returnStringList = [];
             returnStringList.push(`${l} SDS`);
             return returnStringList;
         }
 
-        if (childName.includes("centileLine")){
+        if (childName.includes('centileLine')) {
             // these are the centile labels
-            
-            if (datum.x < 20 && y != null){
-                // fix for duplicate text if tooltip called from mouse point where x > chart area or 
+
+            if (datum.x < 20 && y != null) {
+                // fix for duplicate text if tooltip called from mouse point where x > chart area or
                 // y is null - situations when hovering below the chart in areas where centile data do not exist
-                
+
                 let returnStringList = [];
                 returnStringList.push(`${addOrdinalSuffix(l)} centile`);
                 return returnStringList;
@@ -194,12 +211,11 @@ export function tooltipText(
         }
     }
     if (centile_band) {
-
         // bone age text
-        if ((childName==="chronologicalboneage" || childName === "correctedboneage") && b){
+        if ((childName === 'chronologicalboneage' || childName === 'correctedboneage') && b) {
             let returnStringList = [];
-            returnStringList.push( `Bone Age: ${b.toString()} yrs`)
-            
+            returnStringList.push(`Bone Age: ${b.toString()} yrs`);
+
             if (bone_age_sds && !isNaN(bone_age_sds)) {
                 returnStringList.push(`SDS: ${bone_age_sds.toString()}`);
             }
@@ -207,26 +223,26 @@ export function tooltipText(
                 returnStringList.push(`Centile: ${bone_age_centile.toString()}`);
             }
             if (bone_age_type && bone_age_type.length > 0) {
-                if (bone_age_type==="greulich-pyle"){
-                    returnStringList.push("Greulich & Pyle");
+                if (bone_age_type === 'greulich-pyle') {
+                    returnStringList.push('Greulich & Pyle');
                 }
-                if (bone_age_type==='tanner-whitehouse-ii'){
-                    returnStringList.push("Tanner-Whitehouse II");
+                if (bone_age_type === 'tanner-whitehouse-ii') {
+                    returnStringList.push('Tanner-Whitehouse II');
                 }
-                if (bone_age_type==='tanner-whitehouse-iii'){
-                    returnStringList.push("Tanner-Whitehouse III");
+                if (bone_age_type === 'tanner-whitehouse-iii') {
+                    returnStringList.push('Tanner-Whitehouse III');
                 }
-                if (bone_age_type==='fels'){
-                    returnStringList.push("Fels");
+                if (bone_age_type === 'fels') {
+                    returnStringList.push('Fels');
                 }
-                if (bone_age_type==='bonexpert'){
-                    returnStringList.push("BoneXpert");
+                if (bone_age_type === 'bonexpert') {
+                    returnStringList.push('BoneXpert');
                 }
                 if (bone_age_label && bone_age_label.length > 0) {
                     returnStringList.push(bone_age_label);
                 }
             }
-            
+
             return returnStringList;
         }
 
@@ -245,78 +261,84 @@ export function tooltipText(
             splitCentile[wantedIndex] = 'is';
             finalCentile = splitCentile.join(' ').replace('is ', 'is');
         }
-        
-        const year=observation_date.split('/')[2]
-        const month=observation_date.split('/')[1]-1
-        const day=observation_date.split('/')[0]
-        const formatted_observation_date = new Date(year,month,day).toLocaleDateString("en-GB", {year: "numeric", month: "short", day: "numeric"});
-        
+
+        const year = observation_date.split('/')[2];
+        const month = observation_date.split('/')[1] - 1;
+        const day = observation_date.split('/')[0];
+        const formatted_observation_date = new Date(year, month, day).toLocaleDateString('en-GB', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+        });
+
         let returnStringList = [];
-        
+
         // measurement data points
         if (x <= 0.0383) {
             // <= 42 weeks
 
             /// plots
-            if (observation_value_error === null ) {
+            if (observation_value_error === null) {
                 // && age_error === null temporarily removed from if statement as error in api return object for EDD < observation_date
-                let corrected_gestational_age=''
-                if (gestational_age){
-                    corrected_gestational_age=`${gestational_age.corrected_gestation_weeks}+${gestational_age.corrected_gestation_days} weeks`
-                    returnStringList.push(`${calendar_age}`)
-                    returnStringList.push(`Corrected age: ${corrected_gestational_age} on ${formatted_observation_date} )`)
+                let corrected_gestational_age = '';
+                if (gestational_age) {
+                    corrected_gestational_age = `${gestational_age.corrected_gestation_weeks}+${gestational_age.corrected_gestation_days} weeks`;
+                    returnStringList.push(`${calendar_age}`);
+                    returnStringList.push(
+                        `Corrected age: ${corrected_gestational_age} on ${formatted_observation_date} )`,
+                    );
                 }
                 // sds in square brackets
-                const sds_string = `[SDS: ${sds > 0 ? '+' + Math.round(sds*1000)/1000 : Math.round(sds*1000)/1000 }]`;
+                const sds_string = `[SDS: ${sds > 0 ? '+' + Math.round(sds * 1000) / 1000 : Math.round(sds * 1000) / 1000}]`;
                 if (age_type === 'corrected_age') {
-                    returnStringList.push(`Corrected age: ${calendar_age} on ${formatted_observation_date} on ${formatted_observation_date}`)
-                    returnStringList.push(`${comment}`)
+                    returnStringList.push(
+                        `Corrected age: ${calendar_age} on ${formatted_observation_date} on ${formatted_observation_date}`,
+                    );
+                    returnStringList.push(`${comment}`);
                     returnStringList.push(`${y} ${measurementSuffix(measurementMethod)}`);
-                    returnStringList.push(`${ clinicianFocus ? sds_string : finalCentile}`);
+                    returnStringList.push(`${clinicianFocus ? sds_string : finalCentile}`);
                     return returnStringList;
                 }
                 if (age_type === 'chronological_age') {
-                    returnStringList.push(`Chronological age: ${calendar_age} on ${formatted_observation_date}`)
-                    returnStringList.push(`${comment}`)
+                    returnStringList.push(`Chronological age: ${calendar_age} on ${formatted_observation_date}`);
+                    returnStringList.push(`${comment}`);
                     returnStringList.push(`${y} ${measurementSuffix(measurementMethod)}`);
-                    returnStringList.push(`${ clinicianFocus ? sds_string : finalCentile}`);
+                    returnStringList.push(`${clinicianFocus ? sds_string : finalCentile}`);
                     return returnStringList;
                 }
             }
         } else {
-                
             // over 42 weeks
             // if no errors, return the ages, measurement and calculations
-            let correctedPercentageMedianBMI = ""
-            let chronologicalPercentageMedianBMI = ""
-            if (measurementMethod==="bmi"){
-                correctedPercentageMedianBMI = `Percentage median BMI: ${Math.round(corrected_percentage_median_bmi)}%`
-                chronologicalPercentageMedianBMI = `Percentage median BMI: ${Math.round(chronological_percentage_median_bmi)}%`
-                returnStringList.push(correctedPercentageMedianBMI)
-                returnStringList.push(chronologicalPercentageMedianBMI)
+            let correctedPercentageMedianBMI = '';
+            let chronologicalPercentageMedianBMI = '';
+            if (measurementMethod === 'bmi') {
+                correctedPercentageMedianBMI = `Percentage median BMI: ${Math.round(corrected_percentage_median_bmi)}%`;
+                chronologicalPercentageMedianBMI = `Percentage median BMI: ${Math.round(chronological_percentage_median_bmi)}%`;
+                returnStringList.push(correctedPercentageMedianBMI);
+                returnStringList.push(chronologicalPercentageMedianBMI);
             }
-            
+
             // sds in square brackets
-            const sds_string = `[SDS: ${sds > 0 ? '+' + Math.round(sds*1000)/1000 : Math.round(sds*1000)/1000 }]`;
-            
+            const sds_string = `[SDS: ${sds > 0 ? '+' + Math.round(sds * 1000) / 1000 : Math.round(sds * 1000) / 1000}]`;
+
             if (age_type === 'corrected_age' && x > 0.0383) {
                 returnStringList.push(`Corrected age: ${calendar_age} on ${formatted_observation_date}`);
-                returnStringList.push(`${comment}`)
+                returnStringList.push(`${comment}`);
                 returnStringList.push(`${y} ${measurementSuffix(measurementMethod)}`);
-                returnStringList.push(`${ clinicianFocus ? sds_string : finalCentile}`);
-                if (measurementMethod==="bmi"){
+                returnStringList.push(`${clinicianFocus ? sds_string : finalCentile}`);
+                if (measurementMethod === 'bmi') {
                     returnStringList.push(`${correctedPercentageMedianBMI}`);
                 }
                 return returnStringList;
-
             }
             if (age_type === 'chronological_age') {
-                let returnString =  `Chronological age: ${calendar_age} on ${formatted_observation_date}`;
+                let returnString = `Chronological age: ${calendar_age} on ${formatted_observation_date}`;
                 returnStringList.push(returnString);
-                returnStringList.push(`${comment}`)
+                returnStringList.push(`${comment}`);
                 returnStringList.push(`${y} ${measurementSuffix(measurementMethod)}`);
-                returnStringList.push(`${ clinicianFocus ? sds_string : finalCentile}`);
-                if (measurementMethod === "bmi"){
+                returnStringList.push(`${clinicianFocus ? sds_string : finalCentile}`);
+                if (measurementMethod === 'bmi') {
                     returnStringList.push(`${chronologicalPercentageMedianBMI}`);
                 }
                 return returnStringList;

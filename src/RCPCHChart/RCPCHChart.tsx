@@ -15,16 +15,15 @@ import makeAllStyles from '../functions/makeAllStyles';
 import ErrorBoundary from '../SubComponents/ErrorBoundary';
 import { ClientMeasurementObject } from '../interfaces/ClientMeasurementObject';
 import defineNonStylePropDefaults from '../functions/defineNonStylePropDefaults';
-import { nameForReference } from '../functions/nameForReference'
+import { nameForReference } from '../functions/nameForReference';
 import { nameForMeasurementMethod } from '../functions/nameForMeasurementMethod';
 import { stylesForTheme } from '../functions/stylesForTheme';
-
 
 import { montserratRegular } from '../fonts/montserrat-b64';
 import { montserratBold } from '../fonts/montserrat-bold-b64';
 import { montserratItalic } from '../fonts/montserrat-italic-b64';
 
-// const VERSION_LOG = '[VI]Version: {version} - built on {date}[/VI]'; 
+// const VERSION_LOG = '[VI]Version: {version} - built on {date}[/VI]';
 const VERSION = '[VI]v{version}[/VI]'; // uses version injector plugin to Rollup to report package.json version
 
 const GlobalStyle = styled.div`
@@ -72,60 +71,68 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     theme,
     customThemeStyles,
     height,
-    width
+    width,
 }) => {
-
     clinicianFocus = defineNonStylePropDefaults('clinicianFocus', clinicianFocus);
     enableExport = defineNonStylePropDefaults('enableExport', enableExport);
     chartType = defineNonStylePropDefaults('chartType', chartType);
 
     // get styles for each theme
-    let all_styles = stylesForTheme(theme=theme, sex=sex);
+    let all_styles = stylesForTheme((theme = theme), (sex = sex));
 
-    if(customThemeStyles != undefined){
+    if (customThemeStyles != undefined) {
         // replace any default theme styles with custom styles if provided by user
         // custom styles must be provided in the correct format
-        for (const theme_style in all_styles){
-            for (const property in customThemeStyles[theme_style]){
-                if(property != undefined){
+        for (const theme_style in all_styles) {
+            for (const property in customThemeStyles[theme_style]) {
+                if (property != undefined) {
                     all_styles[theme_style][property] = customThemeStyles[theme_style][property];
                 }
             }
         }
     }
 
-
     // spread styles into individual objects
-    const { chartStyle, axisStyle, gridlineStyle, centileStyle, sdsStyle, measurementStyle, referenceStyle } = all_styles
+    const { chartStyle, axisStyle, gridlineStyle, centileStyle, sdsStyle, measurementStyle, referenceStyle } =
+        all_styles;
 
     // use height and width if provided to set text size also - text in SVG does not scale with the chart so we need to adjust it
     const referenceWidth = 1000;
     const referenceHeight = 800;
     const referenceGeometricMean = Math.sqrt(referenceWidth * referenceHeight);
     let textScaleFactor = 1;
-    if (height != undefined && width != undefined){
+    if (height != undefined && width != undefined) {
         // Calculate the geometric mean of width and height
         const geometricMean = Math.sqrt(width * height);
         // Use the geometric mean to create a scaling factor
-        textScaleFactor = geometricMean / referenceGeometricMean; 
+        textScaleFactor = geometricMean / referenceGeometricMean;
     }
 
     // make granular styles to pass into charts
-    const styles = makeAllStyles(chartStyle, axisStyle, gridlineStyle, centileStyle, sdsStyle, measurementStyle, textScaleFactor, referenceStyle);
-    
-    
+    const styles = makeAllStyles(
+        chartStyle,
+        axisStyle,
+        gridlineStyle,
+        centileStyle,
+        sdsStyle,
+        measurementStyle,
+        textScaleFactor,
+        referenceStyle,
+    );
+
     // uncomment in development
     // console.log("loading from locally...");
-    
-
 
     // create subtitle from sex, reference and measurementMethod
-    const subtitleReferenceMeasurementMethod = `${nameForReference(reference)} - ${nameForMeasurementMethod(measurementMethod)}`
-    const subtitle = sex==="male" ? `Boys - ${subtitleReferenceMeasurementMethod}` : `Girls - ${subtitleReferenceMeasurementMethod}`
-    
-    let isCentile=(chartType === "centile" || chartType === undefined);
+    const subtitleReferenceMeasurementMethod = `${nameForReference(reference)} - ${nameForMeasurementMethod(measurementMethod)}`;
+    const subtitle =
+        sex === 'male'
+            ? `Boys - ${subtitleReferenceMeasurementMethod}`
+            : `Girls - ${subtitleReferenceMeasurementMethod}`;
 
-    if (isCentile){
+    let isCentile = chartType === 'centile' || chartType === undefined;
+
+    if (isCentile) {
         /* Centile charts as of 7.0.0 receive the measurements array as a different structure:
         {
             [measurementMethod]: [...],
@@ -135,24 +142,24 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
         return (
             <ErrorBoundary styles={styles}>
                 <GlobalStyle>
-                <CentileChart
-                    chartsVersion={VERSION}
-                    reference={reference}
-                    title={title}
-                    subtitle={subtitle}
-                    childMeasurements={ measurements[measurementMethod] }
-                    midParentalHeightData={midParentalHeightData || {}}
-                    measurementMethod={measurementMethod}
-                    sex={sex}
-                    enableZoom={enableZoom}
-                    styles={styles}
-                    height={height ?? 800}
-                    width={width ?? 1000}
-                    textScaleFactor={textScaleFactor}
-                    enableExport={enableExport}
-                    exportChartCallback={exportChartCallback}
-                    clinicianFocus={clinicianFocus}
-                />
+                    <CentileChart
+                        chartsVersion={VERSION}
+                        reference={reference}
+                        title={title}
+                        subtitle={subtitle}
+                        childMeasurements={measurements[measurementMethod]}
+                        midParentalHeightData={midParentalHeightData || {}}
+                        measurementMethod={measurementMethod}
+                        sex={sex}
+                        enableZoom={enableZoom}
+                        styles={styles}
+                        height={height ?? 800}
+                        width={width ?? 1000}
+                        textScaleFactor={textScaleFactor}
+                        enableExport={enableExport}
+                        exportChartCallback={exportChartCallback}
+                        clinicianFocus={clinicianFocus}
+                    />
                 </GlobalStyle>
             </ErrorBoundary>
         );
@@ -167,33 +174,31 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
         */
         const castArray = measurements as ClientMeasurementObject;
 
-        
         return (
             <ErrorBoundary styles={styles}>
                 <GlobalStyle>
-                <SDSChart
-                    chartsVersion={VERSION}
-                    reference={reference}
-                    title={title}
-                    subtitle={subtitle}
-                    measurementMethod={measurementMethod}
-                    childMeasurements={castArray}
-                    midParentalHeightData={midParentalHeightData}
-                    sex={sex}
-                    enableZoom={enableZoom}
-                    styles={styles}
-                    height={height ?? 800}
-                    width={width ?? 1000}
-                    textScaleFactor={textScaleFactor}
-                    enableExport={enableExport}
-                    exportChartCallback={exportChartCallback}
-                    clinicianFocus={clinicianFocus}
-                />
+                    <SDSChart
+                        chartsVersion={VERSION}
+                        reference={reference}
+                        title={title}
+                        subtitle={subtitle}
+                        measurementMethod={measurementMethod}
+                        childMeasurements={castArray}
+                        midParentalHeightData={midParentalHeightData}
+                        sex={sex}
+                        enableZoom={enableZoom}
+                        styles={styles}
+                        height={height ?? 800}
+                        width={width ?? 1000}
+                        textScaleFactor={textScaleFactor}
+                        enableExport={enableExport}
+                        exportChartCallback={exportChartCallback}
+                        clinicianFocus={clinicianFocus}
+                    />
                 </GlobalStyle>
             </ErrorBoundary>
         );
     }
-
 };
 
 export default RCPCHChart;
