@@ -10,7 +10,7 @@ const config: Config = {
         '<rootDir>/fileTransformer.js',
     },
     moduleNameMapper:{
-        "\\.(css|less|sass|scss)$": '<rootDir>/CSSStub.js'
+        '\\.(css|less|scss|sass)$': '<rootDir>/__mocks__/styleMock.ts',
     }
 };
 
