@@ -746,6 +746,9 @@ function CentileChart({
                     {/* If data points are close together, reduce the size of the point */}
 
                     {childMeasurements.map((childMeasurement: Measurement, index) => {
+                        const [observationYear, observationMonth, observationDay] = childMeasurement.measurement_dates.observation_date.split('-');
+                        const observationDate = `${observationDay}/${observationMonth}/${observationYear}`;
+                        
                         const chronData: any = {
                             age_type: 'chronological_age',
                             age_error: childMeasurement.measurement_dates.chronological_decimal_age_error,
@@ -762,9 +765,7 @@ function CentileChart({
                                 childMeasurement.measurement_dates.comments.clinician_chronological_decimal_age_comment,
                             lay_comment:
                                 childMeasurement.measurement_dates.comments.lay_chronological_decimal_age_comment,
-                            observation_date: new Date(
-                                childMeasurement.measurement_dates.observation_date,
-                            ).toLocaleDateString('en-UK'),
+                            observation_date: observationDate,
                             observation_value_error: childMeasurement.child_observation_value.observation_value_error,
                             chronological_measurement_error:
                                 childMeasurement.measurement_calculated_values.chronological_measurement_error,
@@ -794,9 +795,7 @@ function CentileChart({
                             clinician_comment:
                                 childMeasurement.measurement_dates.comments.clinician_corrected_decimal_age_comment,
                             lay_comment: childMeasurement.measurement_dates.comments.lay_corrected_decimal_age_comment,
-                            observation_date: new Date(
-                                childMeasurement.measurement_dates.observation_date,
-                            ).toLocaleDateString('en-UK'),
+                            observation_date: observationDate,
                             observation_value_error: childMeasurement.child_observation_value.observation_value_error,
                             corrected_measurement_error:
                                 childMeasurement.measurement_calculated_values.corrected_measurement_error,
