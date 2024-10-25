@@ -310,17 +310,8 @@ export function tooltipText(
         } else {
             // over 42 weeks
             // if no errors, return the ages, measurement and calculations
-            let correctedPercentageMedianBMI = '';
-            let chronologicalPercentageMedianBMI = '';
-            if (measurementMethod === 'bmi') {
-                correctedPercentageMedianBMI = `Percentage median BMI: ${Math.round(corrected_percentage_median_bmi)}%`;
-                chronologicalPercentageMedianBMI = `Percentage median BMI: ${Math.round(chronological_percentage_median_bmi)}%`;
-                returnStringList.push(correctedPercentageMedianBMI);
-                returnStringList.push(chronologicalPercentageMedianBMI);
-            }
 
-            // sds in square brackets
-            const sds_string = `[SDS: ${sds > 0 ? '+' + Math.round(sds * 1000) / 1000 : Math.round(sds * 1000) / 1000}]`;
+            const sds_string = `SDS: ${sds > 0 ? '+' + Math.round(sds * 1000) / 1000 : Math.round(sds * 1000) / 1000}`;
 
             if (age_type === 'corrected_age' && x > 0.0383) {
                 returnStringList.push(`Corrected age: ${calendar_age} on ${formatted_observation_date}`);
@@ -328,6 +319,7 @@ export function tooltipText(
                 returnStringList.push(`${y} ${measurementSuffix(measurementMethod)}`);
                 returnStringList.push(`${clinicianFocus ? sds_string : finalCentile}`);
                 if (measurementMethod === 'bmi') {
+                    const correctedPercentageMedianBMI = `Percentage median BMI: ${Math.round(corrected_percentage_median_bmi)}%`;
                     returnStringList.push(`${correctedPercentageMedianBMI}`);
                 }
                 return returnStringList;
@@ -339,6 +331,7 @@ export function tooltipText(
                 returnStringList.push(`${y} ${measurementSuffix(measurementMethod)}`);
                 returnStringList.push(`${clinicianFocus ? sds_string : finalCentile}`);
                 if (measurementMethod === 'bmi') {
+                    const chronologicalPercentageMedianBMI = `Percentage median BMI: ${Math.round(chronological_percentage_median_bmi)}%`;
                     returnStringList.push(`${chronologicalPercentageMedianBMI}`);
                 }
                 return returnStringList;

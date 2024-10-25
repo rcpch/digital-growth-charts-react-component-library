@@ -11,6 +11,7 @@ import { sdsTenYearGirlData } from '../testParameters/measurements/sdsTenYearGir
 import { smallChildJustOverTwo } from '../testParameters/measurements/smallChildJustOverTwo';
 import { girlMidparentalheightCDC } from '../testParameters/measurements/girlMidparentalheightCDC.ts';
 import { girlMidparentalHeightUKWHO } from '../testParameters/measurements/girlMidparentalheightUKWHO.ts';
+import { prematureGirlBMI } from '../testParameters/measurements/prematureGirlBMI.ts';
 // import { cdcFentonGirlLength } from '../testParameters/measurements/fenton/cdcFentonGirlLength';
 // import { cdcFentonGirlWeight } from '../testParameters/measurements/fenton/cdcFentonGirlWeight.ts';
 
@@ -157,6 +158,25 @@ export const CentileChartUKWHOGirlsBMI: Story = {
         sex: 'female',
         measurements: {
             bmi: [],
+        },
+        midParentalHeightData: {},
+        enableZoom: true,
+        chartType: 'centile',
+        enableExport: false,
+        exportChartCallback: () => {},
+        theme: 'tanner2',
+        customThemeStyles: {},
+    },
+};
+
+export const CentileChartUKWHOPrematureGirlsBMI: Story = {
+    args: {
+        title: 'Patient Name - Hospital Number',
+        measurementMethod: 'bmi',
+        reference: 'uk-who',
+        sex: 'female',
+        measurements: {
+            bmi: prematureGirlBMI,
         },
         midParentalHeightData: {},
         enableZoom: true,
