@@ -3,7 +3,7 @@ import { CommonButton } from './CommonButton';
 
 export const StyledGradientLabelsButton = styled(CommonButton)<{
     $color?: string;
-    size?: number;
+    $size?: number;
 }>`
     background-color: ${(props) => (props.$color ? props.$color : 'black')};
     height: 48px;

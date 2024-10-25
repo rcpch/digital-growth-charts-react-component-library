@@ -982,7 +982,7 @@ function CentileChart({
                                 >
                                     <StyledGradientLabelsButton
                                         $color={styles.toggleStyle.activeColour}
-                                        size={5}
+                                        $size={5}
                                         onClick={renderGradientLabels}
                                         data-testid="gradient-labels-button"
                                     >
