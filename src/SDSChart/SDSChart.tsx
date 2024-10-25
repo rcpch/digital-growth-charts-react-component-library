@@ -578,7 +578,7 @@ const SDSChart: React.FC<SDSChartProps> = (
                     color={'#000000'}
                     fontWeight={'200'}
                     fontStyle='normal'
-                >Powered by RCPCH. {chartsVersion}</ChartTitle>
+                >Powered by RCPCH Digital Growth Charts - {chartsVersion}</ChartTitle>
             )}
 
             {logoVariant === 'bottom' && (

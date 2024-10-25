@@ -921,7 +921,7 @@ function CentileChart({
                         color={styles.referenceTextStyle.color}
                         fontWeight={styles.referenceTextStyle.fontWeight}
                         fontStyle={styles.referenceTextStyle.fontStyle}
-                    >Powered by RCPCH. {chartsVersion}</ChartTitle>
+                    >Powered by RCPCH Digital Growth Charts - {chartsVersion}</ChartTitle>
                 )}
 
                 {logoVariant === 'bottom' && (
