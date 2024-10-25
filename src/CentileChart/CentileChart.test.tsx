@@ -479,6 +479,7 @@ describe('All tests relate to rendering the text in the height centile chart for
             enableExport: false,
             exportChartCallback: () => null,
             clinicianFocus: false,
+            logoVariant: 'top',
         };
     });
 
