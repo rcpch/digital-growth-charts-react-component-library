@@ -4,14 +4,23 @@ import { Tanner2AxisStyles, Tanner2ChartStyles, Tanner2GridlineStyles, Tanner2Ce
 import { Tanner3AxisStyles, Tanner3ChartStyles, Tanner3GridlineStyles, Tanner3CentileStyles, Tanner3MeasurementStyles, Tanner3SDSStyles } from '../testParameters/styles/tanner3Styles';
 import { traditionalBoyAxisStyles, traditionalBoyChartStyles, traditionalBoyGridlineStyles, traditionalBoyCentileStyles, traditionalBoyMeasurementStyles, traditionalBoySDSStyles } from '../testParameters/styles/traditionalBoysStyles';
 import { traditionalGirlAxisStyles, traditionalGirlChartStyles, traditionalGirlGridlineStyles, traditionalGirlCentileStyles, traditionalGirlMeasurementStyles, traditionalGirlSDSStyles } from '../testParameters/styles/traditionalGirlsStyles';
-import { ChartStyle, AxisStyle, GridlineStyle, CentileStyle, SDSStyle, MeasurementStyle } from '../interfaces/StyleObjects';
+import { ChartStyle, AxisStyle, GridlineStyle, CentileStyle, SDSStyle, MeasurementStyle, ReferenceStyle } from '../interfaces/StyleObjects';
+
+const defaultReferenceStyle: ReferenceStyle = {
+    colour: '#000000',
+    name: 'Arial',
+    size: 8,
+    style: 'normal',
+    weight: 200,
+};
 
 export const stylesForTheme = (theme: 'monochrome' | 'traditional' | 'tanner1' | 'tanner2' | 'tanner3' | 'custom', sex: 'male' | 'female')=>{
     // Returns the styles objects for a theme. If custom is selected, monochrome is selected to be customized later
-    let chartStyle:ChartStyle, axisStyle:AxisStyle, gridlineStyle:GridlineStyle, centileStyle:CentileStyle, sdsStyle:SDSStyle, measurementStyle:MeasurementStyle;
+    let chartStyle:ChartStyle, axisStyle:AxisStyle, gridlineStyle:GridlineStyle, centileStyle:CentileStyle, sdsStyle:SDSStyle, measurementStyle:MeasurementStyle, referenceStyle:ReferenceStyle = defaultReferenceStyle;
 
     switch (theme) {
-        case 'monochrome' || 'custom':
+        case 'monochrome':
+        case 'custom':
             chartStyle = monochromeChartStyles
             axisStyle = monochromeAxisStyles
             gridlineStyle = monochromeGridlineStyle
@@ -65,6 +74,6 @@ export const stylesForTheme = (theme: 'monochrome' | 'traditional' | 'tanner1' |
             throw new Error("Please select a valid theme or select custom.");
     }
     
-    return { chartStyle, axisStyle,gridlineStyle,centileStyle,sdsStyle,measurementStyle };
+    return { chartStyle, axisStyle,gridlineStyle,centileStyle,sdsStyle,measurementStyle,referenceStyle };
 
 }
