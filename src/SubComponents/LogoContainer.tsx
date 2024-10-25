@@ -5,4 +5,4 @@ export const LogoContainer = styled.div`
     flex-direction: row;
     justify-content: center;
     align-items: center;
-`
+`;

@@ -20,13 +20,13 @@ export const StyledRadioButtonGroup = styled(AgeRadioButtonGroup)<{
         font-style: ${({ $fontStyle }) => $fontStyle};
         color: ${({ $color }) => $color};
         cursor: pointer;
-        background-color: ${({$inactiveColour}) => $inactiveColour};
+        background-color: ${({ $inactiveColour }) => $inactiveColour};
         min-height: 30px;
         min-width: max-content;
     }
     input[type='radio']:checked + label {
         color: ${({ $color }) => $color};
-        background-color: ${({$activeColour}) => $activeColour};
+        background-color: ${({ $activeColour }) => $activeColour};
     }
     input[type='radio'] {
         display: none;

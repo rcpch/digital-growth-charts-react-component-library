@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 
-export const ResetZoomContainer = styled.div<{
+interface ResetZoomContainerProps {
     $isHidden: boolean;
-}>
-`
-visibility: ${(props) => (props.$isHidden ? 'hidden' : 'visible' )}
-`
+}
+
+export const ResetZoomContainer = styled.div<ResetZoomContainerProps>`
+    visibility: ${({ $isHidden }) => ($isHidden ? 'hidden' : 'visible')};
+`;

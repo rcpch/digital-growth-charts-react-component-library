@@ -1,4 +1,4 @@
-import { Reference } from "./CentilesObject";
+import { Reference } from './CentilesObject';
 export interface MidParentalHeightObject {
     mid_parental_height?: number;
     mid_parental_height_sds?: number;
