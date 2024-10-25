@@ -313,8 +313,10 @@ export const monochromeStyles = {
         fontFamily: 'Arial',
         color: '#FFFFFF',
         fontSize: 14,
-        fontWeight: 'normal',
+        fontWeight: 400,
         fontStyle: 'normal',
+        margin: 0,
+        enabled: true,
     },
     toggleTooltipStyle: {
         backgroundColor: '#333',
@@ -322,8 +324,10 @@ export const monochromeStyles = {
         fontSize: 14,
         fontFamily: "'Montserrat', Helvetica, Arial, sans-serif;",
         fontWeight: 400,
-        fontStyle: 'regular',
+        fontStyle: 400,
         borderRadius: 4,
+        margin: 0,
+        enabled: true,
     },
     referenceTextStyle: {
         fontSize: 8,

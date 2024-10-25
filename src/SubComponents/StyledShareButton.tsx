@@ -3,12 +3,12 @@ import { CommonButton } from './CommonButton';
 
 export const StyledShareButton = styled(CommonButton)<{
     $color?: string;
-    size?: number;
+    $size?: number;
 }>`
     flex-grow: 0;
     background-color: ${(props) => (props.$color ? props.$color : 'black')};
-    height: 48px;
-    width: 48px;
+    height: ${(props) => (props.$size ? `${props.$size}px` : '48px')};
+    width: ${(props) => (props.$size ? `${props.$size}px` : '48px')};
     color: white;
     padding: 1rem;
     border: none;

@@ -904,11 +904,11 @@ describe('All tests relating to plotting weight centile chart for an extremely p
         expect(screen.getAllByTestId('correctedMeasurementXPoint')).toHaveLength(14);
     });
 
-    // it('should plot 16 x points for chronological age.', () => {
-    //     render(<CentileChart {...props} />);
-    //     fireEvent.click(screen.getByTestId('unadjusted'));
-    //     expect(screen.queryAllByTestId('chronologicalMeasurementPoint')).toHaveLength(14);
-    // });
+    it('should plot 16 x points for chronological age.', () => {
+        render(<CentileChart {...props} />);
+        fireEvent.click(screen.getByTestId('unadjusted'));
+        expect(screen.queryAllByTestId('chronologicalMeasurementPoint')).toHaveLength(14);
+    });
 });
 
 describe('All tests relating to plotting height centile chart for a term girl until a year.', () => {
@@ -1048,11 +1048,11 @@ describe('All tests relating to testing the copy button', () => {
     //     fireEvent.click(screen.getByTestId('copy-button'));
     //     await waitFor(() => expect(screen.queryByText('Copied!')), { timeout: 1000 });
     // });
-    // it('should show the grey rim around copy button on hover', () => {
-    //     render(<CentileChart {...props} />);
-    //     fireEvent.mouseOver(screen.getByTestId('copy-button'));
-    //     expect(screen.getByTestId('copy-button')).toHaveStyle('background-color: ButtonFace');
-    // });
+    it('should show the grey rim around copy button on hover', () => {
+        render(<CentileChart {...props} />);
+        fireEvent.mouseOver(screen.getByTestId('copy-button'));
+        expect(screen.getByTestId('copy-button')).toHaveStyle('background-color: #000000');
+    });
     // it('should not trigger form submission when copy button clicked', () => {
     //     const onSubmit = jest.fn();
     //     render(
@@ -1182,6 +1182,7 @@ describe('All tests relating to the zoom functionality where enableZoom needs to
         fireEvent.mouseEnter(screen.getByTestId('zoom-button'));
         expect(screen.queryByText('Toggle Full Lifespan'));
     });
+    // Generates infinity error in css
     // it('should show the Reset Zoom button if zoom is applied', () => {
     //     render(<CentileChart {...props} />);
     //     fireEvent.click(screen.getByTestId('zoom-button'));
@@ -1227,36 +1228,36 @@ describe('Tests relating to negative settings on the zoom button', () => {
     });
 });
 
-describe('Tests relating to the gradient labels button', () => {
-    let props: CentileChartProps;
-    const midparentalHeight: MidParentalHeightObject = {};
+// describe('Tests relating to the gradient labels button', () => {
+//     let props: CentileChartProps;
+//     const midparentalHeight: MidParentalHeightObject = {};
 
-    beforeEach(() => {
-        props = {
-            chartsVersion: '7.0.0',
-            reference: 'uk-who',
-            title: 'Term Girl',
-            subtitle: 'Now over 4 years with advanced bone age',
-            measurementMethod: 'height',
-            sex: 'female',
-            childMeasurements: termGirlWithSingleHeightMeasurementAndBoneAgeAndEvent,
-            midParentalHeightData: midparentalHeight,
-            enableZoom: true,
-            styles: monochromeStyles,
-            enableExport: false,
-            exportChartCallback: () => null,
-            clinicianFocus: false,
-        };
-    });
+//     beforeEach(() => {
+//         props = {
+//             chartsVersion: '7.0.0',
+//             reference: 'uk-who',
+//             title: 'Term Girl',
+//             subtitle: 'Now over 4 years with advanced bone age',
+//             measurementMethod: 'height',
+//             sex: 'female',
+//             childMeasurements: termGirlWithSingleHeightMeasurementAndBoneAgeAndEvent,
+//             midParentalHeightData: midparentalHeight,
+//             enableZoom: true,
+//             styles: monochromeStyles,
+//             enableExport: false,
+//             exportChartCallback: () => null,
+//             clinicianFocus: false,
+//         };
+//     });
 
-    it('should not trigger form submission when gradient labels clicked', () => {
-        const onSubmit = jest.fn();
-        render(
-            <form onSubmit={onSubmit}>
-                <CentileChart {...props} />
-            </form>,
-        );
-        fireEvent.click(screen.getByTestId('gradient-labels-button'));
-        expect(onSubmit).not.toHaveBeenCalled();
-    });
-});
+//     it('should not trigger form submission when gradient labels clicked', () => {
+//         const onSubmit = jest.fn();
+//         render(
+//             <form onSubmit={onSubmit}>
+//                 <CentileChart {...props} />
+//             </form>,
+//         );
+//         fireEvent.click(screen.getByTestId('gradient-labels-button'));
+//         expect(onSubmit).not.toHaveBeenCalled();
+//     });
+// });

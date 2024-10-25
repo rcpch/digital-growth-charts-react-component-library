@@ -1036,7 +1036,7 @@ function CentileChart({
                                 >
                                     <StyledShareButton
                                         $color={styles.toggleStyle.activeColour}
-                                        size={5}
+                                        $size={5}
                                         onClick={exportPressed}
                                         data-testid="copy-button"
                                     >
@@ -1067,7 +1067,6 @@ function CentileChart({
                         />
                     )}
 
-                    {/* {allowZooming && ( */}
                     <ResetZoomContainer $isHidden={!allowZooming} data-testid="resetzoom-button">
                         <StyledResetZoomButton
                             $activeColour={styles.toggleStyle.activeColour}
@@ -1084,8 +1083,6 @@ function CentileChart({
                             Reset Zoom
                         </StyledResetZoomButton>
                     </ResetZoomContainer>
-                    {/* )
-                    } */}
                 </ButtonContainer>
             )}
         </MainContainer>
