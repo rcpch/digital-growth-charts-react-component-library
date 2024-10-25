@@ -1,14 +1,14 @@
 export function measurementSuffix(measurement: string) {
-    if (measurement === "height") {
-        return 'cm'
+    if (measurement === 'height') {
+        return 'cm';
     }
     if (measurement === 'weight') {
-        return 'kg'
+        return 'kg';
     }
     if (measurement === 'ofc') {
-        return 'cm'
+        return 'cm';
     }
     if (measurement === 'bmi') {
-        return 'kg/m²'
+        return 'kg/m²';
     }
 }

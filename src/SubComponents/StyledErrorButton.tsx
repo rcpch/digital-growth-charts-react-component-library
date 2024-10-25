@@ -13,8 +13,8 @@ export const StyledErrorButton = styled(CommonButton)<{
     $margin?: string;
 }>`
     align-self: flex-end;
-    background-color: ${({$inactiveColour, $activeColour, $enabled }) => ($enabled ? $activeColour : $inactiveColour)};
-    border: 2px solid ${({$enabled, $activeColour, $inactiveColour}) => ($enabled ? $activeColour : $inactiveColour)};
+    background-color: ${({ $inactiveColour, $activeColour, $enabled }) => ($enabled ? $activeColour : $inactiveColour)};
+    border: 2px solid ${({ $enabled, $activeColour, $inactiveColour }) => ($enabled ? $activeColour : $inactiveColour)};
     font-family: Arial;
     font-size: 14px;
     min-height: 30px;
@@ -24,10 +24,12 @@ export const StyledErrorButton = styled(CommonButton)<{
     font-style: ${({ fontStyle }) => fontStyle};
     color: ${({ color }) => color};
     &:hover {
-        background-color: ${({$enabled, $activeColour, $inactiveColour}) => ($enabled ? $activeColour : $inactiveColour)};
+        background-color: ${({ $enabled, $activeColour, $inactiveColour }) =>
+            $enabled ? $activeColour : $inactiveColour};
         color: ${({ color }) => color};
-        border: 2px solid ${({$enabled, $inactiveColour, $activeColour}) => ($enabled ? $activeColour : $inactiveColour)};
-        outline: ${({$enabled, $activeColour}) => ($enabled ? $activeColour : 'transparent')} solid 2px;
+        border: 2px solid
+            ${({ $enabled, $inactiveColour, $activeColour }) => ($enabled ? $activeColour : $inactiveColour)};
+        outline: ${({ $enabled, $activeColour }) => ($enabled ? $activeColour : 'transparent')} solid 2px;
     }
     &:focus {
         outline: ${(props) => (props.$enabled ? props.$activeColour : 'transparent')} solid 2px;

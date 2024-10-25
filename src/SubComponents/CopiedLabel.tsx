@@ -3,35 +3,32 @@ import { keyframes, css } from 'styled-components';
 
 export const CopiedLabel = styled.h6<{
     $active: boolean;
-}>
-`
-flex-grow:0;
-text-align: center;
-margin-left: 5px;
-opacity: 0;
-visibility: ${({$active}) => $active ? `visible` : `hidden`};
-animation: ${
-    ({$active}) => ($active ?
-        css`
-        ${fadeInAnimation}
-        fadeIn 5s;
-        -webkit-animation: fadeIn 3s;
-        -moz-animation: fadeIn 3s;
-        -o-animation: fadeIn 3s;
-        -ms-animation: fadeIn 3s;
-        ${fadeOutAnimation}
-        fadeOut 5s;
-        -webkit-animation: fadeOut 5s;
-        -moz-animation: fadeOut 5s;
-        -o-animation: fadeOut 5s;
-        -ms-animation: fadeOut 5s;
-        `  :
-        "none")
-};
+}>`
+    flex-grow: 0;
+    text-align: center;
+    margin-left: 5px;
+    opacity: 0;
+    visibility: ${({ $active }) => ($active ? `visible` : `hidden`)};
+    animation: ${({ $active }) =>
+        $active
+            ? css`
+                  ${fadeInAnimation}
+                  fadeIn 5s;
+                  -webkit-animation: fadeIn 3s;
+                  -moz-animation: fadeIn 3s;
+                  -o-animation: fadeIn 3s;
+                  -ms-animation: fadeIn 3s;
+                  ${fadeOutAnimation}
+                  fadeOut 5s;
+                  -webkit-animation: fadeOut 5s;
+                  -moz-animation: fadeOut 5s;
+                  -o-animation: fadeOut 5s;
+                  -ms-animation: fadeOut 5s;
+              `
+            : 'none'};
+`;
 
-`
-
-const fadeOutAnimation = keyframes `
+const fadeOutAnimation = keyframes`
   @keyframes fadeOut {
     100% {opacity:1;}
     0% {opacity:0;}
@@ -56,9 +53,9 @@ const fadeOutAnimation = keyframes `
     100% {opacity:1;}
     0% {opacity:0;}
   }
-`
+`;
 
-const fadeInAnimation = keyframes `
+const fadeInAnimation = keyframes`
   @keyframes fadeIn {
     0% {opacity:0;}
     100% {opacity:1;}
@@ -83,4 +80,4 @@ const fadeInAnimation = keyframes `
     0% {opacity:0;}
     100% {opacity:1;}
   }
-`
+`;

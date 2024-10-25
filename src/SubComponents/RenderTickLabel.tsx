@@ -9,7 +9,7 @@ function RenderTickLabel(props: any) {
     const lowerX = props.domains.x[0];
 
     const tickColour = style.fill === '000000' ? 'black' : style.fill;
-    
+
     // Creates a dashed tick to be used to increment the timespan along the x axis
     const Dash = () => {
         return (
@@ -24,7 +24,9 @@ function RenderTickLabel(props: any) {
             return (
                 <svg>
                     <g>
-                        <title>{textLabel} month{textLabel > 1 ? `s` : null} </title>
+                        <title>
+                            {textLabel} month{textLabel > 1 ? `s` : null}{' '}
+                        </title>
                         <text
                             x={x}
                             y={y - 18}

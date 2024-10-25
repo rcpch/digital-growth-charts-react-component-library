@@ -413,12 +413,12 @@ For example, if a user wished to override the background colour of the existing 
 
 ```tsx
 const customChartStyle: ChartStyle = {
-  backgroundColour: "tomato"
-}
+    backgroundColour: 'tomato',
+};
 
 const customStyles = {
-  chartStyle: customChartStyle
-}
+    chartStyle: customChartStyle,
+};
 ```
 
 And in the JSX:
@@ -480,13 +480,13 @@ const customStyles = {
             weight: 400,
         },
         toggleButtonTooltipStyle: {
-        backgroundColour: '#5a526b',
-        borderRadius: 4,
-        colour: 'white',
-        size: 14,
-        name: 'sans-serif',
-        weight: 400,
-        }
+            backgroundColour: '#5a526b',
+            borderRadius: 4,
+            colour: 'white',
+            size: 14,
+            name: 'sans-serif',
+            weight: 400,
+        },
     },
     axisStyle: {
         axisStroke: '#EDE7DD',
@@ -520,9 +520,9 @@ const customStyles = {
     },
     centileStyle: {
         centileTextStyle: {
-        name: 'sans-serif',
-        size: 12.5,
-        weight: 400,
+            name: 'sans-serif',
+            size: 12.5,
+            weight: 400,
         },
         centileStroke: '#B89F81',
         midParentalAreaFill: '#B89F81',
@@ -546,7 +546,7 @@ const customStyles = {
         name: 'sans-serif',
         size: 13,
     },
-},
+};
 ```
 
 yields:
