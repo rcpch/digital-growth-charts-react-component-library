@@ -1,13 +1,21 @@
 import styled from 'styled-components';
 import { CommonButton } from './CommonButton';
 
-export const StyledGradientLabelsButton = styled(CommonButton)<{
+interface StyledGradientLabelsButtonProps {
     $color?: string;
     $size?: number;
-}>`
-    background-color: ${(props) => (props.$color ? props.$color : 'black')};
-    height: 48px;
-    width: 48px;
+}
+
+export const StyledGradientLabelsButton = styled(CommonButton).attrs<StyledGradientLabelsButtonProps>(
+    ({ $color, $size }) => ({
+        style: {
+            backgroundColor: $color || 'black',
+            height: $size ? `${$size}px` : '48px',
+            width: $size ? `${$size}px` : '48px',
+        },
+    }),
+)<StyledGradientLabelsButtonProps>`
+    flex-grow: 0;
     color: white;
     padding: 1rem;
     border: none;
@@ -15,7 +23,6 @@ export const StyledGradientLabelsButton = styled(CommonButton)<{
     border: 5px solid white;
     border-radius: 50%;
     padding: 3px;
-    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;

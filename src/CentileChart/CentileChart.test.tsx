@@ -605,16 +605,15 @@ describe('All tests relate to rendering the text in the height centile chart for
         ).toBeInTheDocument();
     });
 
-    // it("centile labels should render.", () => {
-    //   render(<CentileChart {...props} />);
-    //   expect(screen.getAllByText("99.6th")[0]).toBeInTheDocument()
-    // });
+    it('centile labels should toggle on button click.', () => {
+        render(<CentileChart {...props} />);
 
-    // it("centile labels should not render.", () => {
-    //   props.showCentileLabels=false;
-    //   render(<CentileChart {...props} />);
-    //   expect(screen.queryAllByText("99.6th")[0]).toBeUndefined();
-    // });
+        //   the default is to not render centile labels
+        expect(screen.queryAllByText('99.6th')[0]).toBeUndefined();
+
+        // fireEvent.click(screen.getByTestId('gradient-labels-button'));
+        // expect(screen.getAllByText('99.6th')[0]).toBeInTheDocument();
+    });
 });
 
 describe('All tests relate to rendering the text in the height/length centile chart for a premature neonate.', () => {
@@ -1065,7 +1064,6 @@ describe('All tests relating to testing the copy button', () => {
     // });
 });
 
-// HERE
 // describe('Tests relating to exportChartCallback function', () => {
 //     const mockExportChartCallback = jest.fn();
 //     let props: CentileChartProps;
