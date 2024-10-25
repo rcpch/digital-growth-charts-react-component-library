@@ -53,13 +53,54 @@ export const SDSChartUKWHO: Story = {
     },
 };
 
-export const CentileChartUKWHOGirlsHeightWithMeasurements: Story = {
+export const CentileChartUKWHOGirlsHeightWithMeasurementsLegend: Story = {
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'height',
         reference: 'uk-who',
         sex: 'female',
+        logoVariant: 'legend',
         measurements: { height: twoToEight },
+        midParentalHeightData: {},
+        enableZoom: true,
+        chartType: 'centile',
+        enableExport: false,
+        exportChartCallback: () => {},
+        theme: 'tanner2',
+        height: 800,
+        width: 1000,
+        customThemeStyles: {},
+    },
+};
+
+export const CentileChartPrematureUKWHOGirlsHeightWithMeasurementsLegend: Story = {
+    args: {
+        title: 'Patient Name - Hospital Number',
+        measurementMethod: 'height',
+        reference: 'uk-who',
+        sex: 'female',
+        logoVariant: 'legend',
+        measurements: { height: prematureGirlOverThreeHeight },
+        midParentalHeightData: {},
+        enableZoom: true,
+        chartType: 'centile',
+        enableExport: false,
+        exportChartCallback: () => {},
+        theme: 'tanner2',
+        height: 800,
+        width: 1000,
+        customThemeStyles: {},
+    },
+};
+
+export const CentileChartPrematureUKWHOGirlsHeightWithMeasurementsBottom: Story = {
+    args: {
+        title: 'Patient Name - Hospital Number',
+        measurementMethod: 'height',
+        reference: 'uk-who',
+        sex: 'female',
+        logoVariant: 'bottom',
+        measurements: { height: prematureGirlOverThreeHeight },
         midParentalHeightData: {},
         enableZoom: true,
         chartType: 'centile',

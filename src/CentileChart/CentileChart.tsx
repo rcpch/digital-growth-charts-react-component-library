@@ -70,6 +70,8 @@ import { GradientLabelsButtonWrapper } from '../SubComponents/GradientLabelsButt
 // RCPCH Icon:
 import icon from '../images/icon.png';
 import ukca from '../images/ukca.png';
+import { BottomContainer } from '../SubComponents/BottomContainer';
+import { BottomLogoContainer } from '../SubComponents/BottomLogoContainer';
 
 // allows two top level containers: zoom and voronoi
 const VictoryZoomVoronoiContainer: any = createContainer('zoom', 'voronoi');
@@ -91,6 +93,7 @@ function CentileChart({
     enableExport,
     exportChartCallback,
     clinicianFocus,
+    logoVariant
 }: CentileChartProps) {
     const [userDomains, setUserDomains] = useState(null);
 
@@ -248,17 +251,23 @@ function CentileChart({
 
     return (
         <MainContainer>
-            <TopContainer>
-                <LogoContainer>
-                    <IndividualLogoContainer>
-                        <img src={icon} width={24} height={24} />
-                    </IndividualLogoContainer>
-                    <VersionLabel fontFamily={styles.chartTitle.fontFamily}>{chartsVersion}</VersionLabel>
-                    <IndividualLogoContainer>
-                        <img src={ukca} width={18} height={18} />
-                    </IndividualLogoContainer>
-                </LogoContainer>
-            </TopContainer>
+
+            {logoVariant === 'top' && (
+                <TopContainer>
+                    <LogoContainer>
+                        <IndividualLogoContainer>
+                            <img src={icon} width={24} height={24} />
+                        </IndividualLogoContainer>
+                        <VersionLabel
+                            fontFamily={styles.chartTitle.fontFamily}
+                        >{chartsVersion}</VersionLabel>
+                        <IndividualLogoContainer>
+                            <img src={ukca} width={18} height={18}/>
+                        </IndividualLogoContainer>
+                    </LogoContainer>
+                    
+                </TopContainer>
+            )}
 
             <ChartContainer>
                 <TitleContainer>
@@ -960,9 +969,32 @@ function CentileChart({
                     color={styles.referenceTextStyle.color}
                     fontWeight={styles.referenceTextStyle.fontWeight}
                     fontStyle={styles.referenceTextStyle.fontStyle}
-                >
-                    {referenceText(reference)}
-                </ChartTitle>
+                >{referenceText(reference)}</ChartTitle>
+
+                {logoVariant === 'legend' && (
+                    <ChartTitle
+                        fontSize={styles.referenceTextStyle.fontSize}
+                        fontFamily={styles.referenceTextStyle.fontFamily}
+                        color={styles.referenceTextStyle.color}
+                        fontWeight={styles.referenceTextStyle.fontWeight}
+                        fontStyle={styles.referenceTextStyle.fontStyle}
+                    >Powered by RCPCH Digital Growth Charts - {chartsVersion}</ChartTitle>
+                )}
+
+                {logoVariant === 'bottom' && (
+                    <BottomContainer>
+                        <BottomLogoContainer>
+                            <IndividualLogoContainer>
+                                <img src={icon} width={24} height={24} />
+                            </IndividualLogoContainer>
+                            <VersionLabel fontFamily={styles.chartTitle.fontFamily}>{chartsVersion}</VersionLabel>
+                            <IndividualLogoContainer>
+                                <img src={ukca} width={18} height={18}/>
+                            </IndividualLogoContainer>
+                        </BottomLogoContainer>
+                    </BottomContainer>
+                )}
+
             </ChartContainer>
 
             {(showToggle || allowZooming || enableExport || childMeasurements.length > 0) && (

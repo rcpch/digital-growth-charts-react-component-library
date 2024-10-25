@@ -72,6 +72,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     customThemeStyles,
     height,
     width,
+    logoVariant = 'top',
 }) => {
     clinicianFocus = defineNonStylePropDefaults('clinicianFocus', clinicianFocus);
     enableExport = defineNonStylePropDefaults('enableExport', enableExport);
@@ -142,24 +143,25 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
         return (
             <ErrorBoundary styles={styles}>
                 <GlobalStyle>
-                    <CentileChart
-                        chartsVersion={VERSION}
-                        reference={reference}
-                        title={title}
-                        subtitle={subtitle}
-                        childMeasurements={measurements[measurementMethod]}
-                        midParentalHeightData={midParentalHeightData || {}}
-                        measurementMethod={measurementMethod}
-                        sex={sex}
-                        enableZoom={enableZoom}
-                        styles={styles}
-                        height={height ?? 800}
-                        width={width ?? 1000}
-                        textScaleFactor={textScaleFactor}
-                        enableExport={enableExport}
-                        exportChartCallback={exportChartCallback}
-                        clinicianFocus={clinicianFocus}
-                    />
+                <CentileChart
+                    chartsVersion={VERSION}
+                    reference={reference}
+                    title={title}
+                    subtitle={subtitle}
+                    childMeasurements={ measurements[measurementMethod] }
+                    midParentalHeightData={midParentalHeightData || {}}
+                    measurementMethod={measurementMethod}
+                    sex={sex}
+                    enableZoom={enableZoom}
+                    styles={styles}
+                    height={height ?? 800}
+                    width={width ?? 1000}
+                    textScaleFactor={textScaleFactor}
+                    enableExport={enableExport}
+                    exportChartCallback={exportChartCallback}
+                    clinicianFocus={clinicianFocus}
+                    logoVariant={logoVariant}
+                />
                 </GlobalStyle>
             </ErrorBoundary>
         );
