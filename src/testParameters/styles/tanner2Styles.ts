@@ -314,6 +314,7 @@ export const Tanner2Styles = {
         fontSize: 14,
         fontWeight: 'normal',
         fontStyle: 'normal',
+        toggleButtonSize: 48,
     },
     eventTextStyle: {
         name: 'Montserrat',

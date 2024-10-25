@@ -315,8 +315,8 @@ export const monochromeStyles = {
         fontSize: 14,
         fontWeight: 400,
         fontStyle: 'normal',
-        margin: 0,
-        enabled: true,
+        borderRadius: 4,
+        toggleButtonSize: 48,
     },
     toggleTooltipStyle: {
         backgroundColor: '#333',

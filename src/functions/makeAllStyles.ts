@@ -309,6 +309,7 @@ function makeAllStyles(
             fontSize: chartStyle?.toggleButtonTextStyle?.size ?? 14,
             fontStyle: chartStyle?.toggleButtonTextStyle?.style === 'italic' ? 'italic' : 'normal',
             margin: 0,
+            buttonSize: chartStyle?.toggleButtonSize ?? 48,
         },
         toggleTooltipStyle: {
             backgroundColor: chartStyle?.toggleButtonTooltipStyle?.backgroundColour ?? '#333',

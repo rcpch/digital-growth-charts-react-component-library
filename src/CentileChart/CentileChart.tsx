@@ -1036,7 +1036,7 @@ function CentileChart({
                                 >
                                     <StyledShareButton
                                         $color={styles.toggleStyle.activeColour}
-                                        $size={5}
+                                        $size={styles.toggleStyle.buttonSize}
                                         onClick={exportPressed}
                                         data-testid="copy-button"
                                     >

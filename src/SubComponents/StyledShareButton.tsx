@@ -1,14 +1,19 @@
 import styled from 'styled-components';
 import { CommonButton } from './CommonButton';
 
-export const StyledShareButton = styled(CommonButton)<{
+interface StyledShareButtonProps {
     $color?: string;
     $size?: number;
-}>`
+}
+
+export const StyledShareButton = styled(CommonButton).attrs<StyledShareButtonProps>(({ $color, $size }) => ({
+    style: {
+        backgroundColor: $color || 'black',
+        height: $size ? `${$size}px` : '48px',
+        width: $size ? `${$size}px` : '48px',
+    },
+}))<StyledShareButtonProps>`
     flex-grow: 0;
-    background-color: ${(props) => (props.$color ? props.$color : 'black')};
-    height: ${(props) => (props.$size ? `${props.$size}px` : '48px')};
-    width: ${(props) => (props.$size ? `${props.$size}px` : '48px')};
     color: white;
     padding: 1rem;
     border: none;

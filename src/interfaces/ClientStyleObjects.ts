@@ -121,5 +121,6 @@ export interface ClientStyle {
         fontSize?: string;
         fontWeight?: string;
         fontStyle?: string;
+        toggleButtonSize?: number;
     };
 }

@@ -12,6 +12,7 @@ export interface ChartStyle {
     toggleButtonActiveColour?: string; // buttons - active colour
     toggleButtonTextStyle?: TextStyle; // buttons text: includes fontFamily, fontSize, colour, style, weight
     toggleButtonTooltipStyle?: ToggleButtonTooltipStyle;
+    toggleButtonSize?: number;
 }
 export interface MeasurementStyle {
     measurementFill?: string; // measurement point fill colour - only apply to SDS charts
