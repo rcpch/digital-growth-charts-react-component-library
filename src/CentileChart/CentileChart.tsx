@@ -364,6 +364,14 @@ function CentileChart({
                         <VictoryAxis
                             minDomain={0}
                             label={yAxisLabel(measurementMethod, false)}
+                            axisLabelComponent={
+                                <VictoryLabel
+                                    dx={0}
+                                    // adjust label margins relatively to font size of yAxis text to prevent overlapping
+                                    dy={(styles.yAxis.tickLabels.fontSize - 5) * -1}
+                                    style={styles.yAxis.axisLabel}
+                                />
+                            }
                             style={styles.yAxis}
                             dependentAxis
                         />
