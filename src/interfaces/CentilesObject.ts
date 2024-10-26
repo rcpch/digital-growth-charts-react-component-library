@@ -9,6 +9,10 @@ export interface CDCReferences {
     cdc_infant?: ISexChoice;
     cdc_child?: ISexChoice;
 }
+export interface Trisomy21AAPReferences {
+    trisomy_21_aap_infant?: ISexChoice;
+    trisomy_21_aap_child?: ISexChoice;
+}
 export interface ReferenceGroup {
     centile_data?: Reference[];
 }

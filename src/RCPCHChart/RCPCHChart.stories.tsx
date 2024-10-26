@@ -467,6 +467,111 @@ export const CentileChartUKWHOGirlMidparentalHeight: Story = {
     },
 };
 
+export const CentileChartTrisomy21AAPBoysHeight: Story = {
+    args: {
+        title: 'Patient Name - Hospital Number',
+        measurementMethod: 'height',
+        reference: 'trisomy-21-aap',
+        sex: 'male',
+        measurements: {
+            height: [],
+        },
+        midParentalHeightData: {},
+        enableZoom: true,
+        chartType: 'centile',
+        enableExport: false,
+        exportChartCallback: () => {},
+        theme: 'tanner3',
+        customThemeStyles: {},
+        clinicianFocus: true,
+        logoVariant: 'bottom',
+    },
+};
+
+export const CentileChartTrisomy21AAPGirlsHeight: Story = {
+    args: {
+        title: 'Patient Name - Hospital Number',
+        measurementMethod: 'height',
+        reference: 'trisomy-21-aap',
+        sex: 'female',
+        measurements: {
+            height: [],
+        },
+        midParentalHeightData: {},
+        enableZoom: true,
+        chartType: 'centile',
+        enableExport: false,
+        exportChartCallback: () => {},
+        theme: 'tanner3',
+        customThemeStyles: {},
+        clinicianFocus: true,
+        logoVariant: 'bottom',
+    },
+};
+
+export const CentileChartTrisomy21AAPGirlsWeight: Story = {
+    args: {
+        title: 'Patient Name - Hospital Number',
+        measurementMethod: 'weight',
+        reference: 'trisomy-21-aap',
+        sex: 'female',
+        measurements: {
+            weight: [],
+        },
+        midParentalHeightData: {},
+        enableZoom: true,
+        chartType: 'centile',
+        enableExport: false,
+        exportChartCallback: () => {},
+        theme: 'tanner3',
+        customThemeStyles: {},
+        clinicianFocus: true,
+        logoVariant: 'bottom',
+    },
+};
+
+export const CentileChartTrisomy21AAPGirlsBMI: Story = {
+    args: {
+        title: 'Patient Name - Hospital Number',
+        measurementMethod: 'bmi',
+        reference: 'trisomy-21-aap',
+        sex: 'female',
+        measurements: {
+            bmi: [],
+        },
+        midParentalHeightData: {},
+        enableZoom: true,
+        chartType: 'centile',
+        enableExport: false,
+        exportChartCallback: () => {},
+        theme: 'tanner3',
+        customThemeStyles: {},
+        clinicianFocus: true,
+        logoVariant: 'bottom',
+    },
+};
+
+export const CentileChartTrisomy21AAPGirlsHeadCircumference: Story = {
+    args: {
+        title: 'Patient Name - Hospital Number',
+        measurementMethod: 'ofc',
+        reference: 'trisomy-21-aap',
+        sex: 'female',
+        measurements: {
+            ofc: [],
+        },
+        midParentalHeightData: {},
+        enableZoom: true,
+        chartType: 'centile',
+        enableExport: false,
+        exportChartCallback: () => {},
+        theme: 'tanner3',
+        customThemeStyles: {},
+        clinicianFocus: true,
+        logoVariant: 'bottom',
+    },
+};
+
 export const TomatoCentileChart: Story = {
     args: {
         title: 'Patient Name - Hospital Number',

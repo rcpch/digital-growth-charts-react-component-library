@@ -12,7 +12,7 @@ function isCDCReferences(data: UKWHOReferences | CDCReferences): data is CDCRefe
 }
 
 export const getFilteredMidParentalHeightData = (
-    reference: 'uk-who' | 'cdc' | 'turner' | 'trisomy-21',
+    reference: 'uk-who' | 'cdc' | 'turner' | 'trisomy-21' | 'trisomy-21-aap',
     childMeasurements: Measurement[],
     midParentalHeightData: MidParentalHeightObject,
     sex: 'male' | 'female',

@@ -38,6 +38,15 @@ import { cdcOFCFemaleCentileData } from '../chartdata/cdc_ofc_female_centile_dat
 import { cdcBMIMaleCentileData } from '../chartdata/cdc_bmi_male_centile_data';
 import { cdcBMIFemaleCentileData } from '../chartdata/cdc_bmi_female_centile_data';
 
+import { trisomy21aapHeightMaleCentileData } from '../chartdata/trisomy21aap_height_male_centile_data';
+import { trisomy21aapHeightFemaleCentileData } from '../chartdata/trisomy21aap_height_female_centile_data';
+import { trisomy21aapWeightMaleCentileData } from '../chartdata/trisomy21aap_weight_male_centile_data';
+import { trisomy21aapWeightFemaleCentileData } from '../chartdata/trisomy21aap_weight_female_centile_data';
+import { trisomy21aapOFCMaleCentileData } from '../chartdata/trisomy21aap_ofc_male_centile_data';
+import { trisomy21aapOFCFemaleCentileData } from '../chartdata/trisomy21aap_ofc_female_centile_data';
+import { trisomy21aapBMIMaleCentileData } from '../chartdata/trisomy21aap_bmi_male_centile_data';
+import { trisomy21aapBMIFemaleCentileData } from '../chartdata/trisomy21aap_bmi_female_centile_data';
+
 type CentileLabelValues = {
     0.4: { value: number; workingX: number };
     2: { value: number; workingX: number };
@@ -168,9 +177,31 @@ const blankCDCDataset = [
     ],
 ];
 
+const blankFivePercentCentileDataset = [
+    //change SDS
+    [
+        { centile: 5, data: [] as ICentile[], sds: -1.64 },
+        { centile: 10, data: [] as ICentile[], sds: -1.28 },
+        { centile: 25, data: [] as ICentile[], sds: -0.67 },
+        { centile: 50, data: [] as ICentile[], sds: 0 },
+        { centile: 75, data: [] as ICentile[], sds: 0.67 },
+        { centile: 90, data: [] as ICentile[], sds: 1.28 },
+        { centile: 95, data: [] as ICentile[], sds: 1.64 },
+    ],
+    [
+        { centile: 3, data: [] as ICentile[], sds: -1.64 },
+        { centile: 10, data: [] as ICentile[], sds: -1.28 },
+        { centile: 25, data: [] as ICentile[], sds: -0.67 },
+        { centile: 50, data: [] as ICentile[], sds: 0 },
+        { centile: 75, data: [] as ICentile[], sds: 0.67 },
+        { centile: 90, data: [] as ICentile[], sds: 1.28 },
+        { centile: 97, data: [] as ICentile[], sds: 1.64 },
+    ],
+];
+
 function makeDefaultDomains(
     sex: 'male' | 'female',
-    reference: 'uk-who' | 'trisomy-21' | 'turner' | 'cdc',
+    reference: 'uk-who' | 'trisomy-21' | 'turner' | 'cdc' | 'trisomy-21-aap',
     measurementMethod: 'height' | 'weight' | 'bmi' | 'ofc',
 ) {
     const all: IDomainSex = {
@@ -208,6 +239,24 @@ function makeDefaultDomains(
                 },
                 ofc: {
                     x: [-0.01, 18.05],
+                    y: [28.033898999999998, 59.464058],
+                },
+            },
+            'trisomy-21-aap': {
+                height: {
+                    x: [0, 20.05],
+                    y: [33.456711999999996, 185.010504],
+                },
+                weight: {
+                    x: [-0.01, 20.05],
+                    y: [0, 113.55046],
+                },
+                bmi: {
+                    x: [2, 20.05],
+                    y: [0, 67.871482],
+                },
+                ofc: {
+                    x: [-0.01, 20.05],
                     y: [28.033898999999998, 59.464058],
                 },
             },
@@ -264,6 +313,24 @@ function makeDefaultDomains(
                 },
                 ofc: {
                     x: [-0.01, 18.05],
+                    y: [27.716357000000002, 56.751594],
+                },
+            },
+            'trisomy-21-aap': {
+                height: {
+                    x: [0.0, 20.05],
+                    y: [34.805428, 170.823076],
+                },
+                weight: {
+                    x: [-0.01, 20.05],
+                    y: [0, 110.50604799999999],
+                },
+                bmi: {
+                    x: [-0.0, 20.05],
+                    y: [0, 48.775794],
+                },
+                ofc: {
+                    x: [-0.0, 20.05],
                     y: [27.716357000000002, 56.751594],
                 },
             },
@@ -545,7 +612,7 @@ function truncate(rawDataSet: any[], lowerX: number, upperX: number, extremeValu
 function getRelevantDataSets(
     sex: 'male' | 'female',
     measurementMethod: 'height' | 'weight' | 'bmi' | 'ofc',
-    reference: 'uk-who' | 'trisomy-21' | 'turner' | 'cdc',
+    reference: 'uk-who' | 'trisomy-21' | 'turner' | 'cdc' | 'trisomy-21-aap',
     lowestChildX: number,
     highestChildX: number,
     isSDS: boolean,
@@ -607,7 +674,6 @@ function getRelevantDataSets(
         return returnArray;
     } else if (reference === 'trisomy-21') {
         let trisomy21Data: Reference[];
-        // let trisomy21SDSData: Reference[]
         if (measurementMethod === 'height') {
             trisomy21Data =
                 sex === 'male'
@@ -637,6 +703,74 @@ function getRelevantDataSets(
         }
         const blankSubSet = deepCopy(blankDataset[0]);
         return [trisomy21Data[0]['trisomy-21'][sex][measurementMethod], blankSubSet, blankSubSet, blankSubSet];
+    } else if (reference === 'trisomy-21-aap') {
+        let trisomy21aapData: Reference[];
+        if (measurementMethod === 'height') {
+            trisomy21aapData =
+                sex == 'male'
+                    ? trisomy21aapHeightMaleCentileData.centile_data
+                    : trisomy21aapHeightFemaleCentileData.centile_data;
+        } else if (measurementMethod === 'weight') {
+            trisomy21aapData =
+                sex == 'male'
+                    ? trisomy21aapWeightMaleCentileData.centile_data
+                    : trisomy21aapWeightFemaleCentileData.centile_data;
+        } else if (measurementMethod === 'ofc') {
+            trisomy21aapData =
+                sex == 'male'
+                    ? trisomy21aapOFCMaleCentileData.centile_data
+                    : trisomy21aapOFCFemaleCentileData.centile_data;
+        } else if (measurementMethod === 'bmi') {
+            trisomy21aapData =
+                sex == 'male'
+                    ? trisomy21aapBMIMaleCentileData.centile_data
+                    : trisomy21aapBMIFemaleCentileData.centile_data;
+        }
+
+        let dataSetRanges = [
+            [0, 3.0], // AAP data overlaps with itself, with 0-36mths  values present in the less granular 2-20yr child data
+            [3.0, 20],
+        ];
+        let startingGroup = 0;
+        let endingGroup = 1;
+        for (let i = 0; i < dataSetRanges.length; i++) {
+            const range = dataSetRanges[i];
+            if (lowestChildX >= range[0] && lowestChildX < range[1]) {
+                startingGroup = i;
+                break;
+            }
+        }
+        for (let i = 0; i < dataSetRanges.length; i++) {
+            const range = dataSetRanges[i];
+            if (highestChildX >= range[0] && highestChildX < range[1]) {
+                endingGroup = i;
+                break;
+            }
+        }
+
+        let filterData = trisomy21aapData[1]['trisomy_21_aap_child'][sex][measurementMethod];
+
+        // filter all data to only include >3y data
+        if (measurementMethod === 'ofc') {
+            // filter all data to only include >3y data
+            filterData.forEach((data_item) => {
+                return (data_item.data = data_item.data.filter((d: IPlottedCentileMeasurement) => d.x >= 3.0));
+            });
+        }
+
+        const allData: any = [
+            measurementMethod == 'bmi'
+                ? blankFivePercentCentileDataset[0]
+                : trisomy21aapData[0]['trisomy_21_aap_infant'][sex][measurementMethod],
+            filterData,
+        ];
+
+        let returnArray = deepCopy(blankFivePercentCentileDataset);
+        for (let i = startingGroup; i <= endingGroup; i++) {
+            returnArray.splice(i, 1, allData[i]);
+        }
+
+        return returnArray;
     } else if (reference === 'turner') {
         const turnerData: Reference[] = turnerHeightFemaleCentileData.centile_data;
         const blankSubSet = deepCopy(blankDataset[0]);
@@ -699,7 +833,7 @@ function getDomainsAndData(
     childMeasurements: Measurement[],
     sex: 'male' | 'female',
     measurementMethod: 'height' | 'weight' | 'bmi' | 'ofc',
-    reference: 'uk-who' | 'trisomy-21' | 'turner' | 'cdc',
+    reference: 'uk-who' | 'trisomy-21' | 'turner' | 'cdc' | 'trisomy-21-aap',
     showCorrected: boolean,
     showChronological: boolean,
 ) {
@@ -742,6 +876,11 @@ function getDomainsAndData(
             if (measurementMethod === 'bmi') {
                 absoluteHighX = 18.87;
             }
+        }
+
+        if (reference === 'trisomy-21-aap') {
+            absoluteBottomX = -0.01;
+            absoluteHighX = 20.05;
         }
 
         if (reference === 'turner') {
@@ -979,7 +1118,7 @@ function getDomainsAndData(
 function getVisibleData(
     sex: 'male' | 'female',
     measurementMethod: 'height' | 'weight' | 'bmi' | 'ofc',
-    reference: 'uk-who' | 'trisomy-21' | 'turner' | 'cdc',
+    reference: 'uk-who' | 'trisomy-21' | 'turner' | 'cdc' | 'trisomy-21-aap',
     domains: any,
 ) {
     if (!domains) {

@@ -8,7 +8,6 @@ import { Tanner3Styles } from '../testParameters/styles/tanner3Styles';
 import { traditionalBoysStyles } from '../testParameters/styles/traditionalBoysStyles';
 import { traditionalGirlsStyles } from '../testParameters/styles/traditionalGirlsStyles';
 import { termGirlWithSingleHeightMeasurementAndBoneAgeAndEvent } from '../testParameters/measurements/termGirlWithSingleHeightMeasurementAndBoneAgeAndEvent';
-import { twoWeightMeasurements } from '../testParameters/measurements/twoWeightMeasurements';
 import { twoToEight } from '../testParameters/measurements/twoToEight';
 import { twoToEightWeight } from '../testParameters/measurements/twoToEightWeight';
 import { twoToEightOFC } from '../testParameters/measurements/twoToEightOFC';
