@@ -252,12 +252,12 @@ function makeDefaultDomains(
                     y: [0, 113.55046],
                 },
                 bmi: {
-                    x: [2, 20.05],
-                    y: [0, 67.871482],
+                    x: [1.95, 20.05],
+                    y: [10, 50],
                 },
                 ofc: {
                     x: [-0.01, 20.05],
-                    y: [28.033898999999998, 59.464058],
+                    y: [30, 59.464058],
                 },
             },
             cdc: {
@@ -326,12 +326,12 @@ function makeDefaultDomains(
                     y: [0, 110.50604799999999],
                 },
                 bmi: {
-                    x: [-0.0, 20.05],
-                    y: [0, 48.775794],
+                    x: [1.95, 20.05],
+                    y: [10, 48.775794],
                 },
                 ofc: {
-                    x: [-0.0, 20.05],
-                    y: [27.716357000000002, 56.751594],
+                    x: [-0.01, 20.05],
+                    y: [30, 56.751594],
                 },
             },
             turner: {
@@ -751,7 +751,7 @@ function getRelevantDataSets(
         let filterData = trisomy21aapData[1]['trisomy_21_aap_child'][sex][measurementMethod];
 
         // filter all data to only include >3y data
-        if (measurementMethod === 'ofc') {
+        if (measurementMethod === 'ofc' || measurementMethod === 'height' || measurementMethod == 'weight') {
             // filter all data to only include >3y data
             filterData.forEach((data_item) => {
                 return (data_item.data = data_item.data.filter((d: IPlottedCentileMeasurement) => d.x >= 3.0));

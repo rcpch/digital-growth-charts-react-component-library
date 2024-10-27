@@ -530,6 +530,27 @@ export const CentileChartTrisomy21AAPGirlsWeight: Story = {
     },
 };
 
+export const CentileChartTrisomy21AAPBoysWeight: Story = {
+    args: {
+        title: 'Patient Name - Hospital Number',
+        measurementMethod: 'weight',
+        reference: 'trisomy-21-aap',
+        sex: 'female',
+        measurements: {
+            weight: [],
+        },
+        midParentalHeightData: {},
+        enableZoom: true,
+        chartType: 'centile',
+        enableExport: false,
+        exportChartCallback: () => {},
+        theme: 'tanner1',
+        customThemeStyles: {},
+        clinicianFocus: true,
+        logoVariant: 'bottom',
+    },
+};
+
 export const CentileChartTrisomy21AAPGirlsBMI: Story = {
     args: {
         title: 'Patient Name - Hospital Number',
@@ -551,6 +572,27 @@ export const CentileChartTrisomy21AAPGirlsBMI: Story = {
     },
 };
 
+export const CentileChartTrisomy21AAPGBoysBMI: Story = {
+    args: {
+        title: 'Patient Name - Hospital Number',
+        measurementMethod: 'bmi',
+        reference: 'trisomy-21-aap',
+        sex: 'male',
+        measurements: {
+            bmi: [],
+        },
+        midParentalHeightData: {},
+        enableZoom: true,
+        chartType: 'centile',
+        enableExport: false,
+        exportChartCallback: () => {},
+        theme: 'tanner1',
+        customThemeStyles: {},
+        clinicianFocus: true,
+        logoVariant: 'bottom',
+    },
+};
+
 export const CentileChartTrisomy21AAPGirlsHeadCircumference: Story = {
     args: {
         title: 'Patient Name - Hospital Number',
@@ -566,6 +608,27 @@ export const CentileChartTrisomy21AAPGirlsHeadCircumference: Story = {
         enableExport: false,
         exportChartCallback: () => {},
         theme: 'tanner3',
+        customThemeStyles: {},
+        clinicianFocus: true,
+        logoVariant: 'bottom',
+    },
+};
+
+export const CentileChartTrisomy21AAPBoysHeadCircumference: Story = {
+    args: {
+        title: 'Patient Name - Hospital Number',
+        measurementMethod: 'ofc',
+        reference: 'trisomy-21-aap',
+        sex: 'male',
+        measurements: {
+            ofc: [],
+        },
+        midParentalHeightData: {},
+        enableZoom: true,
+        chartType: 'centile',
+        enableExport: false,
+        exportChartCallback: () => {},
+        theme: 'tanner1',
         customThemeStyles: {},
         clinicianFocus: true,
         logoVariant: 'bottom',
