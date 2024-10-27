@@ -31,12 +31,23 @@ export const nondisjunctionThresholds = {
     ],
 };
 
-export function makeNonDisjunctionThresholds(domains: Domains | null, sex: 'male' | 'female') {
+export function makeNonDisjunctionThresholds(
+    domains: Domains | null,
+    sex: 'male' | 'female',
+    reference: 'cdc' | 'uk-who' | 'trisomy-21' | 'turner' | 'trisomy-21-aap',
+): any[] {
     if (!domains) {
         return [];
     }
     const newNonDisjunctionThresholds: any[] = [];
-    for (const element of nondisjunctionThresholds[sex]) {
+    let selectedNondisjunctionThresholds;
+    if (reference === 'cdc') {
+        selectedNondisjunctionThresholds = nondisjunctionThresholdsCDC;
+    } else {
+        selectedNondisjunctionThresholds = nondisjunctionThresholds;
+    }
+
+    for (const element of selectedNondisjunctionThresholds[sex]) {
         const dataSubArray = [];
         dataSubArray.push({ x: element.x, y: domains.y[0], label: element.label });
         dataSubArray.push({ x: element.x, y: domains.y[1], label: element.label });
@@ -44,3 +55,18 @@ export function makeNonDisjunctionThresholds(domains: Domains | null, sex: 'male
     }
     return newNonDisjunctionThresholds;
 }
+
+export const nondisjunctionThresholdsCDC = {
+    male: [
+        {
+            x: 2,
+            label: 'Transition point from WHO to CDC reference',
+        },
+    ],
+    female: [
+        {
+            x: 2,
+            label: 'Transition point from WHO to CDC reference',
+        },
+    ],
+};

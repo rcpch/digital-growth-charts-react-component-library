@@ -14,7 +14,7 @@ import { ClientMeasurementObject } from '../interfaces/ClientMeasurementObject';
 export interface RCPCHChartProps {
     title: string;
     measurementMethod: 'height' | 'weight' | 'ofc' | 'bmi';
-    reference: 'uk-who' | 'turner' | 'trisomy-21' | 'cdc';
+    reference: 'uk-who' | 'turner' | 'trisomy-21' | 'cdc' | 'trisomy-21-aap';
     sex: 'male' | 'female';
     measurements: ClientMeasurementObject;
     midParentalHeightData?: MidParentalHeightObject | undefined;

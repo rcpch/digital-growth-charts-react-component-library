@@ -93,7 +93,7 @@ function CentileChart({
     enableExport,
     exportChartCallback,
     clinicianFocus,
-    logoVariant
+    logoVariant,
 }: CentileChartProps) {
     const [userDomains, setUserDomains] = useState(null);
 
@@ -160,8 +160,8 @@ function CentileChart({
     if (reference === 'uk-who' && measurementMethod === 'height') {
         pubertyThresholds = makePubertyThresholds(domains, sex);
     }
-    if (reference === 'uk-who') {
-        nondisjunctionThresholds = makeNonDisjunctionThresholds(domains, sex);
+    if (reference === 'uk-who' || reference === 'cdc') {
+        nondisjunctionThresholds = makeNonDisjunctionThresholds(domains, sex, reference);
     }
 
     const filteredMidParentalHeightData = useMemo(
@@ -251,21 +251,17 @@ function CentileChart({
 
     return (
         <MainContainer>
-
             {logoVariant === 'top' && (
                 <TopContainer>
                     <LogoContainer>
                         <IndividualLogoContainer>
                             <img src={icon} width={24} height={24} />
                         </IndividualLogoContainer>
-                        <VersionLabel
-                            fontFamily={styles.chartTitle.fontFamily}
-                        >{chartsVersion}</VersionLabel>
+                        <VersionLabel fontFamily={styles.chartTitle.fontFamily}>{chartsVersion}</VersionLabel>
                         <IndividualLogoContainer>
-                            <img src={ukca} width={18} height={18}/>
+                            <img src={ukca} width={18} height={18} />
                         </IndividualLogoContainer>
                     </LogoContainer>
-                    
                 </TopContainer>
             )}
 
@@ -754,9 +750,10 @@ function CentileChart({
                     {/* If data points are close together, reduce the size of the point */}
 
                     {childMeasurements.map((childMeasurement: Measurement, index) => {
-                        const [observationYear, observationMonth, observationDay] = childMeasurement.measurement_dates.observation_date.split('-');
+                        const [observationYear, observationMonth, observationDay] =
+                            childMeasurement.measurement_dates.observation_date.split('-');
                         const observationDate = `${observationDay}/${observationMonth}/${observationYear}`;
-                        
+
                         const chronData: any = {
                             age_type: 'chronological_age',
                             age_error: childMeasurement.measurement_dates.chronological_decimal_age_error,
@@ -976,7 +973,9 @@ function CentileChart({
                     color={styles.referenceTextStyle.color}
                     fontWeight={styles.referenceTextStyle.fontWeight}
                     fontStyle={styles.referenceTextStyle.fontStyle}
-                >{referenceText(reference)}</ChartTitle>
+                >
+                    {referenceText(reference)}
+                </ChartTitle>
 
                 {logoVariant === 'legend' && (
                     <ChartTitle
@@ -985,7 +984,9 @@ function CentileChart({
                         color={styles.referenceTextStyle.color}
                         fontWeight={styles.referenceTextStyle.fontWeight}
                         fontStyle={styles.referenceTextStyle.fontStyle}
-                    >Powered by RCPCH Digital Growth Charts - {chartsVersion}</ChartTitle>
+                    >
+                        Powered by RCPCH Digital Growth Charts - {chartsVersion}
+                    </ChartTitle>
                 )}
 
                 {logoVariant === 'bottom' && (
@@ -996,12 +997,11 @@ function CentileChart({
                             </IndividualLogoContainer>
                             <VersionLabel fontFamily={styles.chartTitle.fontFamily}>{chartsVersion}</VersionLabel>
                             <IndividualLogoContainer>
-                                <img src={ukca} width={18} height={18}/>
+                                <img src={ukca} width={18} height={18} />
                             </IndividualLogoContainer>
                         </BottomLogoContainer>
                     </BottomContainer>
                 )}
-
             </ChartContainer>
 
             {(showToggle || allowZooming || enableExport || childMeasurements.length > 0) && (
