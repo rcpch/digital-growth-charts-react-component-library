@@ -160,8 +160,8 @@ function CentileChart({
     if (reference === 'uk-who' && measurementMethod === 'height') {
         pubertyThresholds = makePubertyThresholds(domains, sex);
     }
-    if (reference === 'uk-who') {
-        nondisjunctionThresholds = makeNonDisjunctionThresholds(domains, sex);
+    if (reference === 'uk-who' || reference === 'cdc') {
+        nondisjunctionThresholds = makeNonDisjunctionThresholds(domains, sex, reference);
     }
 
     const filteredMidParentalHeightData = useMemo(
