@@ -83,6 +83,9 @@ export function labelAngle(
     }
     if (measurementMethod === 'ofc') {
         ageDiff = xDiff * 2.5;
+        if (chartScaleType === 'infant' || chartScaleType === 'smallChild') {
+            ageDiff = xDiff * 25;
+        }
         if (chartScaleType === 'prem') {
             ageDiff = xDiff * 200;
         }
@@ -91,6 +94,8 @@ export function labelAngle(
     let angle = 0;
     const radians = Math.atan2(measurementDiff, ageDiff);
     angle = radians * (180 / Math.PI);
-    // console.log(`angle: ${angle}, centile: ${lastItem.l} x0: ${x0} x1: ${x1} x-diff: ${x1-x0} y0: ${y0} y1:${y1} y-diff:${y1-y0} gradient: ${(y1-y0)/(x1-x0)}`);
+    // console.log(
+    //     `angle: ${angle}, centile: ${lastItem.l} x0: ${x0} x1: ${x1} x-diff: ${x1 - x0} y0: ${y0} y1:${y1} y-diff:${y1 - y0} gradient: ${(y1 - y0) / (x1 - x0)}`,
+    // );
     return Math.round(-angle);
 }

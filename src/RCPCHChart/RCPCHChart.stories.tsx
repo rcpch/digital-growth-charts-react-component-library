@@ -12,6 +12,7 @@ import { smallChildJustOverTwo } from '../testParameters/measurements/smallChild
 import { girlMidparentalheightCDC } from '../testParameters/measurements/girlMidparentalheightCDC.ts';
 import { girlMidparentalHeightUKWHO } from '../testParameters/measurements/girlMidparentalheightUKWHO.ts';
 import { prematureGirlBMI } from '../testParameters/measurements/prematureGirlBMI.ts';
+import { cdcOFCGirl } from '../testParameters/measurements/cdcOFCGirls.ts';
 // import { cdcFentonGirlLength } from '../testParameters/measurements/fenton/cdcFentonGirlLength';
 // import { cdcFentonGirlWeight } from '../testParameters/measurements/fenton/cdcFentonGirlWeight.ts';
 
@@ -395,6 +396,26 @@ export const CentileChartCDCGirlsHeadCircumference: Story = {
         sex: 'female',
         measurements: {
             ofc: [],
+        },
+        midParentalHeightData: {},
+        enableZoom: true,
+        chartType: 'centile',
+        enableExport: false,
+        exportChartCallback: () => {},
+        theme: 'tanner2',
+        customThemeStyles: {},
+        clinicianFocus: true,
+    },
+};
+
+export const CentileChartCDCGirlsDataHeadCircumference: Story = {
+    args: {
+        title: 'Patient Name - Hospital Number',
+        measurementMethod: 'ofc',
+        reference: 'cdc',
+        sex: 'female',
+        measurements: {
+            ofc: cdcOFCGirl,
         },
         midParentalHeightData: {},
         enableZoom: true,
