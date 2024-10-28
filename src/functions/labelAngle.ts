@@ -16,7 +16,7 @@ export function labelAngle(
     Also accepts chart domains as parameter, as x magnification depends on visible extremes of chart (eg a 3 year old seen close up, or 3 year old in life course view)
     */
 
-    if (data.length < 1) {
+    if (data === null || data.length < 1) {
         return;
     }
 
@@ -79,10 +79,20 @@ export function labelAngle(
         }
     }
     if (measurementMethod === 'bmi') {
-        ageDiff = xDiff * 2;
+        if (chartScaleType === 'smallChild' || chartScaleType === 'biggerChild') {
+            ageDiff = xDiff * 5;
+        } else {
+            ageDiff = xDiff * 9;
+        }
     }
     if (measurementMethod === 'ofc') {
-        ageDiff = xDiff * 2.5;
+        ageDiff = xDiff * 10;
+        if (chartScaleType === 'smallChild') {
+            ageDiff = xDiff * 5;
+        }
+        if (chartScaleType === 'infant') {
+            ageDiff = xDiff * 25;
+        }
         if (chartScaleType === 'prem') {
             ageDiff = xDiff * 200;
         }
@@ -91,6 +101,8 @@ export function labelAngle(
     let angle = 0;
     const radians = Math.atan2(measurementDiff, ageDiff);
     angle = radians * (180 / Math.PI);
-    // console.log(`angle: ${angle}, centile: ${lastItem.l} x0: ${x0} x1: ${x1} x-diff: ${x1-x0} y0: ${y0} y1:${y1} y-diff:${y1-y0} gradient: ${(y1-y0)/(x1-x0)}`);
+    // console.log(
+    //     `angle: ${angle}, centile: ${lastItem.l} x0: ${x0} x1: ${x1} x-diff: ${x1 - x0} y0: ${y0} y1:${y1} y-diff:${y1 - y0} gradient: ${(y1 - y0) / (x1 - x0)}`,
+    // );
     return Math.round(-angle);
 }
