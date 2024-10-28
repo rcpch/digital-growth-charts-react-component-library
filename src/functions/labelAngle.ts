@@ -16,7 +16,7 @@ export function labelAngle(
     Also accepts chart domains as parameter, as x magnification depends on visible extremes of chart (eg a 3 year old seen close up, or 3 year old in life course view)
     */
 
-    if (data.length < 1) {
+    if (data === null || data.length < 1) {
         return;
     }
 
@@ -79,11 +79,18 @@ export function labelAngle(
         }
     }
     if (measurementMethod === 'bmi') {
-        ageDiff = xDiff * 2;
+        if (chartScaleType === 'smallChild' || chartScaleType === 'biggerChild') {
+            ageDiff = xDiff * 5;
+        } else {
+            ageDiff = xDiff * 9;
+        }
     }
     if (measurementMethod === 'ofc') {
-        ageDiff = xDiff * 2.5;
-        if (chartScaleType === 'infant' || chartScaleType === 'smallChild') {
+        ageDiff = xDiff * 10;
+        if (chartScaleType === 'smallChild') {
+            ageDiff = xDiff * 5;
+        }
+        if (chartScaleType === 'infant') {
             ageDiff = xDiff * 25;
         }
         if (chartScaleType === 'prem') {

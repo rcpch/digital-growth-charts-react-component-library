@@ -161,7 +161,12 @@ function CentileChart({
         pubertyThresholds = makePubertyThresholds(domains, sex);
     }
     if (reference === 'uk-who' || reference === 'cdc') {
-        nondisjunctionThresholds = makeNonDisjunctionThresholds(domains, sex, reference);
+        if (reference === 'cdc' && measurementMethod === 'ofc') {
+            // no nondisjunction lines for CDC OFC
+            nondisjunctionThresholds = null;
+        } else {
+            nondisjunctionThresholds = makeNonDisjunctionThresholds(domains, sex, reference);
+        }
     }
 
     const filteredMidParentalHeightData = useMemo(
@@ -537,7 +542,12 @@ function CentileChart({
                                                     style={{ ...styles.dashedCentile }}
                                                     labels={(props: { index: number }) =>
                                                         centileLabels &&
-                                                        labelIndexInterval(chartScaleType, props.index) &&
+                                                        labelIndexInterval(
+                                                            chartScaleType,
+                                                            props.index,
+                                                            reference,
+                                                            measurementMethod,
+                                                        ) &&
                                                         props.index > 0
                                                             ? [addOrdinalSuffix(centile.centile)]
                                                             : null
@@ -583,7 +593,12 @@ function CentileChart({
                                                     style={{ ...styles.continuousCentile }}
                                                     labels={(props: { index: number }) =>
                                                         centileLabels &&
-                                                        labelIndexInterval(chartScaleType, props.index) &&
+                                                        labelIndexInterval(
+                                                            chartScaleType,
+                                                            props.index,
+                                                            reference,
+                                                            measurementMethod,
+                                                        ) &&
                                                         props.index > 0
                                                             ? [addOrdinalSuffix(centile.centile)]
                                                             : null
@@ -650,7 +665,12 @@ function CentileChart({
                                                     style={styles.sdsLine}
                                                     labels={(props: { index: number }) =>
                                                         centileLabels &&
-                                                        labelIndexInterval(chartScaleType, props.index) &&
+                                                        labelIndexInterval(
+                                                            chartScaleType,
+                                                            props.index,
+                                                            reference,
+                                                            measurementMethod,
+                                                        ) &&
                                                         props.index > 0
                                                             ? [sdsLine.sds]
                                                             : null
