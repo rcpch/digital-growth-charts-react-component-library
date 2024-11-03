@@ -96,23 +96,23 @@ export function tooltipText(
             let returnStringList = [];
             if (childName === 'lowerCentileMPH') {
                 returnStringList.push(
-                    `Midparental Height -2SD: ${Math.round(mid_parental_height_lower_value * 10) / 10} cm`,
+                    `Mid-Parental Height (2 centiles below): ${Math.round(mid_parental_height_lower_value * 10) / 10} cm`,
                 );
                 return returnStringList;
             }
             if (childName === 'centileMPH' || childName === 'areaMPH') {
                 returnStringList.push(
-                    `Midparental Height: ${Math.round(mid_parental_height * 10) / 10} cm (${addOrdinalSuffix(Math.round(parseFloat(l)))}) centile, SDS: ${Math.round(mid_parental_height_sds * 100) / 100})`,
+                    `Mid-Parental Height: ${Math.round(mid_parental_height * 10) / 10} cm (${addOrdinalSuffix(Math.round(parseFloat(l)))} centile, SDS: ${Math.round(mid_parental_height_sds * 1000) / 1000})`,
                 );
                 returnStringList.push(
-                    `Range(+/-2SD): ${Math.round(mid_parental_height_lower_value * 10) / 10} cm - ${Math.round(mid_parental_height_upper_value * 10) / 10} cm`,
+                    `Range(+/-2 centiles): ${Math.round(mid_parental_height_lower_value * 10) / 10} cm - ${Math.round(mid_parental_height_upper_value * 10) / 10} cm`,
                 );
 
                 return returnStringList;
             }
             if (childName === 'upperCentileMPH') {
                 returnStringList.push(
-                    `Midparental Height +2SD: ${Math.round(mid_parental_height_upper_value * 10) / 10} cm`,
+                    `Mid-Parental Height (2 centiles above): ${Math.round(mid_parental_height_upper_value * 10) / 10} cm`,
                 );
                 return returnStringList;
             }
