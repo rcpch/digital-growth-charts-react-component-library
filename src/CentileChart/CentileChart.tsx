@@ -407,10 +407,6 @@ function CentileChart({
                             // this function filters the midparental height centile data to only those values
                             // one month either side of the most recent measurement, or 20 y if no measurements
                             // supplied.
-                            if (index === 0) {
-                                // neonates - remove
-                                return;
-                            }
 
                             const lowerData = reference.lowerParentalCentile;
                             const midData = reference.midParentalCentile;
@@ -444,6 +440,7 @@ function CentileChart({
                                             // prevents a css `width` infinity error if no data presented to centile line
                                             return;
                                         }
+
                                         return (
                                             <VictoryLine
                                                 name="lowerCentileMPH"
