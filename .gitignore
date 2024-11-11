@@ -7,3 +7,5 @@ storybook-static/
 
 src/chartdata/fenton/*.*
 src/testParameters/measurements/fenton/*.*
+
+build-storybook.log
