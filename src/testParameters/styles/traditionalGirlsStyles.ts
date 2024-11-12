@@ -321,4 +321,20 @@ export const traditionalGirlsStyles = {
         size: 14,
         weight: 'normal',
     },
+    toggleTooltipStyle: {
+        backgroundColor: '#333',
+        color: '#fff',
+        fontSize: 14,
+        fontFamily: 'Montserrat',
+        fontWeight: 400,
+        fontStyle: 'regular',
+        borderRadius: 4
+    },
+    referenceTextStyle: {
+        fontSize: 8,
+        fontFamily: 'Arial',
+        color: '#000000',
+        fontWeight: 200,
+        fontStyle: 'normal',
+    }
 };
