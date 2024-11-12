@@ -9,7 +9,6 @@
         "test": "jest --env=jsdom",
         "build": "ROLLUP_WATCH=false rollup -c --bundleConfigAsCjs",
         "storybook": "storybook dev -p 6006",
-        "chromatic": "chromatic --exit-zero-on-changes",
         "build-storybook": "storybook build",
         "prettier:check": "prettier --check .",
         "prettier:write": "prettier --write ."
