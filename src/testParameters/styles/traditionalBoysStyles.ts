@@ -331,7 +331,7 @@ export const traditionalBoysStyles = {
         borderRadius: 4
     },
     referenceTextStyle: {
-        fontSize: 8,
+        fontSize: 72,
         fontFamily: 'Arial',
         color: '#000000',
         fontWeight: 200,
