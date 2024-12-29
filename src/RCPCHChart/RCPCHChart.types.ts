@@ -14,7 +14,7 @@ import { ClientMeasurementObject } from '../interfaces/ClientMeasurementObject';
 export interface RCPCHChartProps {
     title: string;
     measurementMethod: 'height' | 'weight' | 'ofc' | 'bmi';
-    reference: 'uk-who' | 'turner' | 'trisomy-21' | 'cdc' | 'trisomy-21-aap';
+    reference: 'uk-who' | 'turner' | 'trisomy-21' | 'cdc' | 'trisomy-21-aap' | 'who';
     sex: 'male' | 'female';
     measurements: ClientMeasurementObject;
     midParentalHeightData?: MidParentalHeightObject | undefined;
@@ -24,8 +24,8 @@ export interface RCPCHChartProps {
     exportChartCallback(svg?: any): any;
     clinicianFocus?: boolean | undefined | null;
     theme?: 'monochrome' | 'traditional' | 'tanner1' | 'tanner2' | 'tanner3' | 'custom';
-    height?: number
-    width?: number
+    height?: number;
+    width?: number;
     logoVariant?: 'top' | 'bottom' | 'legend';
     customThemeStyles?: {
         chartStyle?: ChartStyle;
