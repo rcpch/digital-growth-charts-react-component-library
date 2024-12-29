@@ -199,7 +199,7 @@ export const whoHeightFemaleCentileData: ReferenceGroup = {
                                 {
                                     l: 1.0,
                                     x: 2.0,
-                                    y: 78.2099,
+                                    y: 78.9089,
                                 },
                             ],
                         },
@@ -395,7 +395,7 @@ export const whoHeightFemaleCentileData: ReferenceGroup = {
                                 {
                                     l: 3.0,
                                     x: 2.0,
-                                    y: 79.6472,
+                                    y: 80.3464,
                                 },
                             ],
                         },
@@ -591,7 +591,7 @@ export const whoHeightFemaleCentileData: ReferenceGroup = {
                                 {
                                     l: 5.0,
                                     x: 2.0,
-                                    y: 80.4083,
+                                    y: 81.1076,
                                 },
                             ],
                         },
@@ -787,7 +787,7 @@ export const whoHeightFemaleCentileData: ReferenceGroup = {
                                 {
                                     l: 10.0,
                                     x: 2.0,
-                                    y: 81.5804,
+                                    y: 82.2799,
                                 },
                             ],
                         },
@@ -983,7 +983,7 @@ export const whoHeightFemaleCentileData: ReferenceGroup = {
                                 {
                                     l: 15.0,
                                     x: 2.0,
-                                    y: 82.3715,
+                                    y: 83.0711,
                                 },
                             ],
                         },
@@ -1179,7 +1179,7 @@ export const whoHeightFemaleCentileData: ReferenceGroup = {
                                 {
                                     l: 50.0,
                                     x: 2.0,
-                                    y: 85.7153,
+                                    y: 86.4153,
                                 },
                             ],
                         },
@@ -1375,7 +1375,7 @@ export const whoHeightFemaleCentileData: ReferenceGroup = {
                                 {
                                     l: 85.0,
                                     x: 2.0,
-                                    y: 89.0591,
+                                    y: 89.7595,
                                 },
                             ],
                         },
@@ -1571,7 +1571,7 @@ export const whoHeightFemaleCentileData: ReferenceGroup = {
                                 {
                                     l: 90.0,
                                     x: 2.0,
-                                    y: 89.8502,
+                                    y: 90.5507,
                                 },
                             ],
                         },
@@ -1767,7 +1767,7 @@ export const whoHeightFemaleCentileData: ReferenceGroup = {
                                 {
                                     l: 95.0,
                                     x: 2.0,
-                                    y: 91.0223,
+                                    y: 91.723,
                                 },
                             ],
                         },
@@ -1963,7 +1963,7 @@ export const whoHeightFemaleCentileData: ReferenceGroup = {
                                 {
                                     l: 97.0,
                                     x: 2.0,
-                                    y: 91.7834,
+                                    y: 92.4842,
                                 },
                             ],
                         },
@@ -2159,7 +2159,7 @@ export const whoHeightFemaleCentileData: ReferenceGroup = {
                                 {
                                     l: 99.0,
                                     x: 2.0,
-                                    y: 93.2207,
+                                    y: 93.9217,
                                 },
                             ],
                         },
@@ -2182,7 +2182,7 @@ export const whoHeightFemaleCentileData: ReferenceGroup = {
                                 {
                                     l: 1.0,
                                     x: 2.0,
-                                    y: 78.9089,
+                                    y: 78.2099,
                                 },
                                 {
                                     l: 1.0,
@@ -2373,7 +2373,7 @@ export const whoHeightFemaleCentileData: ReferenceGroup = {
                                 {
                                     l: 3.0,
                                     x: 2.0,
-                                    y: 80.3464,
+                                    y: 79.6472,
                                 },
                                 {
                                     l: 3.0,
@@ -2564,7 +2564,7 @@ export const whoHeightFemaleCentileData: ReferenceGroup = {
                                 {
                                     l: 5.0,
                                     x: 2.0,
-                                    y: 81.1076,
+                                    y: 80.4083,
                                 },
                                 {
                                     l: 5.0,
@@ -2755,7 +2755,7 @@ export const whoHeightFemaleCentileData: ReferenceGroup = {
                                 {
                                     l: 10.0,
                                     x: 2.0,
-                                    y: 82.2799,
+                                    y: 81.5804,
                                 },
                                 {
                                     l: 10.0,
@@ -2946,7 +2946,7 @@ export const whoHeightFemaleCentileData: ReferenceGroup = {
                                 {
                                     l: 15.0,
                                     x: 2.0,
-                                    y: 83.0711,
+                                    y: 82.3715,
                                 },
                                 {
                                     l: 15.0,
@@ -3137,7 +3137,7 @@ export const whoHeightFemaleCentileData: ReferenceGroup = {
                                 {
                                     l: 50.0,
                                     x: 2.0,
-                                    y: 86.4153,
+                                    y: 85.7153,
                                 },
                                 {
                                     l: 50.0,
@@ -3328,7 +3328,7 @@ export const whoHeightFemaleCentileData: ReferenceGroup = {
                                 {
                                     l: 85.0,
                                     x: 2.0,
-                                    y: 89.7595,
+                                    y: 89.0591,
                                 },
                                 {
                                     l: 85.0,
@@ -3519,7 +3519,7 @@ export const whoHeightFemaleCentileData: ReferenceGroup = {
                                 {
                                     l: 90.0,
                                     x: 2.0,
-                                    y: 90.5507,
+                                    y: 89.8502,
                                 },
                                 {
                                     l: 90.0,
@@ -3710,7 +3710,7 @@ export const whoHeightFemaleCentileData: ReferenceGroup = {
                                 {
                                     l: 95.0,
                                     x: 2.0,
-                                    y: 91.723,
+                                    y: 91.0223,
                                 },
                                 {
                                     l: 95.0,
@@ -3901,7 +3901,7 @@ export const whoHeightFemaleCentileData: ReferenceGroup = {
                                 {
                                     l: 97.0,
                                     x: 2.0,
-                                    y: 92.4842,
+                                    y: 91.7834,
                                 },
                                 {
                                     l: 97.0,
@@ -4092,7 +4092,7 @@ export const whoHeightFemaleCentileData: ReferenceGroup = {
                                 {
                                     l: 99.0,
                                     x: 2.0,
-                                    y: 93.9217,
+                                    y: 93.2207,
                                 },
                                 {
                                     l: 99.0,

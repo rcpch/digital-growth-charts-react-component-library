@@ -16,6 +16,7 @@ import { cdcOFCGirl } from '../testParameters/measurements/cdcOFCGirls.ts';
 import { maleCDCBMIExcess } from '../testParameters/measurements/maleCDCBMIExcess.ts';
 import { childTrisomyAAPData } from '../testParameters/measurements/childTrisomyAAPData.ts';
 import { maleWeightT21AAPData } from '../testParameters/measurements/maleWeightT21AAP.ts';
+import { whoToNineteenGirlHeight } from '../testParameters/measurements/whoHeightToNineteenGirl.ts';
 // import { cdcFentonGirlLength } from '../testParameters/measurements/fenton/cdcFentonGirlLength';
 // import { cdcFentonGirlWeight } from '../testParameters/measurements/fenton/cdcFentonGirlWeight.ts';
 
@@ -708,6 +709,27 @@ export const CentileChartTrisomy21AAPBoysHeadCircumference: Story = {
         sex: 'male',
         measurements: {
             ofc: [],
+        },
+        midParentalHeightData: {},
+        enableZoom: true,
+        chartType: 'centile',
+        enableExport: false,
+        exportChartCallback: () => {},
+        theme: 'tanner1',
+        customThemeStyles: {},
+        clinicianFocus: true,
+        logoVariant: 'bottom',
+    },
+};
+
+export const CentileChartWHOGirlsHeight: Story = {
+    args: {
+        title: 'Patient Name - Hospital Number',
+        measurementMethod: 'height',
+        reference: 'who',
+        sex: 'female',
+        measurements: {
+            height: whoToNineteenGirlHeight,
         },
         midParentalHeightData: {},
         enableZoom: true,
