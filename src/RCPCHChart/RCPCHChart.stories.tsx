@@ -886,6 +886,166 @@ export const CentileChartWHOBoysHeadCircumference: Story = {
     },
 };
 
+export const CentileChartTrisomy21BoysHeight: Story = {
+    args: {
+        title: 'Patient Name - Hospital Number',
+        measurementMethod: 'height',
+        reference: 'trisomy-21',
+        sex: 'male',
+        measurements: {
+            height: [],
+        },
+        midParentalHeightData: {},
+        enableZoom: true,
+        chartType: 'centile',
+        enableExport: false,
+        exportChartCallback: () => {},
+        theme: 'tanner2',
+        customThemeStyles: {},
+        clinicianFocus: true,
+    },
+};
+
+export const CentileChartTrisomy21BoysWeight: Story = {
+    args: {
+        title: 'Patient Name - Hospital Number',
+        measurementMethod: 'weight',
+        reference: 'trisomy-21',
+        sex: 'male',
+        measurements: {
+            weight: [],
+        },
+        midParentalHeightData: {},
+        enableZoom: true,
+        chartType: 'centile',
+        enableExport: false,
+        exportChartCallback: () => {},
+        theme: 'tanner2',
+        customThemeStyles: {},
+        clinicianFocus: true,
+    },
+};
+
+export const CentileChartTrisomy21BoysBMI: Story = {
+    args: {
+        title: 'Patient Name - Hospital Number',
+        measurementMethod: 'bmi',
+        reference: 'trisomy-21',
+        sex: 'male',
+        measurements: {
+            bmi: [],
+        },
+        midParentalHeightData: {},
+        enableZoom: true,
+        chartType: 'centile',
+        enableExport: false,
+        exportChartCallback: () => {},
+        theme: 'tanner2',
+        customThemeStyles: {},
+        clinicianFocus: true,
+    },
+};
+
+export const CentileChartTrisomy21BoysHeadCircumference: Story = {
+    args: {
+        title: 'Patient Name - Hospital Number',
+        measurementMethod: 'ofc',
+        reference: 'trisomy-21',
+        sex: 'male',
+        measurements: {
+            ofc: [],
+        },
+        midParentalHeightData: {},
+        enableZoom: true,
+        chartType: 'centile',
+        enableExport: false,
+        exportChartCallback: () => {},
+        theme: 'tanner2',
+        customThemeStyles: {},
+        clinicianFocus: true,
+    },
+};
+
+export const CentileChartTrisomy21GirlsHeight: Story = {
+    args: {
+        title: 'Patient Name - Hospital Number',
+        measurementMethod: 'height',
+        reference: 'trisomy-21',
+        sex: 'female',
+        measurements: {
+            height: [],
+        },
+        midParentalHeightData: {},
+        enableZoom: true,
+        chartType: 'centile',
+        enableExport: false,
+        exportChartCallback: () => {},
+        theme: 'tanner3',
+        customThemeStyles: {},
+        clinicianFocus: true,
+    },
+};
+
+export const CentileChartTrisomy21GirlsWeight: Story = {
+    args: {
+        title: 'Patient Name - Hospital Number',
+        measurementMethod: 'weight',
+        reference: 'trisomy-21',
+        sex: 'female',
+        measurements: {
+            weight: [],
+        },
+        midParentalHeightData: {},
+        enableZoom: true,
+        chartType: 'centile',
+        enableExport: false,
+        exportChartCallback: () => {},
+        theme: 'tanner3',
+        customThemeStyles: {},
+        clinicianFocus: true,
+    },
+};
+
+export const CentileChartTrisomy21GirlsBMI: Story = {
+    args: {
+        title: 'Patient Name - Hospital Number',
+        measurementMethod: 'bmi',
+        reference: 'trisomy-21',
+        sex: 'female',
+        measurements: {
+            bmi: [],
+        },
+        midParentalHeightData: {},
+        enableZoom: true,
+        chartType: 'centile',
+        enableExport: false,
+        exportChartCallback: () => {},
+        theme: 'tanner3',
+        customThemeStyles: {},
+        clinicianFocus: true,
+    },
+};
+
+export const CentileChartTrisomy21GirlsHeadCircumference: Story = {
+    args: {
+        title: 'Patient Name - Hospital Number',
+        measurementMethod: 'ofc',
+        reference: 'trisomy-21',
+        sex: 'female',
+        measurements: {
+            ofc: [],
+        },
+        midParentalHeightData: {},
+        enableZoom: true,
+        chartType: 'centile',
+        enableExport: false,
+        exportChartCallback: () => {},
+        theme: 'tanner3',
+        customThemeStyles: {},
+        clinicianFocus: true,
+    },
+};
+
 export const TomatoCentileChart: Story = {
     args: {
         title: 'Patient Name - Hospital Number',
