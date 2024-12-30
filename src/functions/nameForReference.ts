@@ -1,4 +1,6 @@
-export const nameForReference = (reference: 'uk-who' | 'trisomy-21' | 'turner' | 'cdc' | 'trisomy-21-aap'): string => {
+export const nameForReference = (
+    reference: 'uk-who' | 'trisomy-21' | 'turner' | 'cdc' | 'trisomy-21-aap' | 'who',
+): string => {
     /*
     Returns reference name against supplied reference prop
     */
