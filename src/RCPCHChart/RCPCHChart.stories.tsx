@@ -79,6 +79,26 @@ export const CentileChartUKWHOGirlsHeightWithMeasurementsLegend: Story = {
     },
 };
 
+export const CentileChartUKWHOBoysHeightWithMeasurementsLegend: Story = {
+    args: {
+        title: 'Patient Name - Hospital Number',
+        measurementMethod: 'height',
+        reference: 'uk-who',
+        sex: 'male',
+        logoVariant: 'legend',
+        measurements: { height: [] },
+        midParentalHeightData: {},
+        enableZoom: true,
+        chartType: 'centile',
+        enableExport: false,
+        exportChartCallback: () => {},
+        theme: 'tanner1',
+        height: 800,
+        width: 1000,
+        customThemeStyles: {},
+    },
+};
+
 export const CentileChartPrematureUKWHOGirlsHeightWithMeasurementsLegend: Story = {
     args: {
         title: 'Patient Name - Hospital Number',
