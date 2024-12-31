@@ -1,4 +1,6 @@
-export const referenceText = (reference: 'uk-who' | 'trisomy-21' | 'turner' | 'cdc' | 'trisomy-21-aap'): string => {
+export const referenceText = (
+    reference: 'uk-who' | 'trisomy-21' | 'turner' | 'cdc' | 'trisomy-21-aap' | 'who',
+): string => {
     /*
     Returns attribution text against supplied reference prop
     */
@@ -13,6 +15,8 @@ export const referenceText = (reference: 'uk-who' | 'trisomy-21' | 'turner' | 'c
     const trisomy21AAP =
         'American Academy of Pediatrics (AAP) Trisomy 21 reference. Zemel BS, Pipan M, Stallings VA, Hall W, Schgadt K, Freedman DS, Thorpe P. Growth Charts for Children with Down Syndrome in the U.S. Pediatrics, 2015';
 
+    const whoText = 'World Health Organisation Multicentre Growth Reference Standards (WHO MGRS) (2006/2007)';
+
     if (reference === 'trisomy-21') return trisomy;
     else if (reference === 'turner') return turnerSyndrome;
     else if (reference === 'uk-who') {
@@ -21,5 +25,7 @@ export const referenceText = (reference: 'uk-who' | 'trisomy-21' | 'turner' | 'c
         return cdcText;
     } else if (reference === 'trisomy-21-aap') {
         return trisomy21AAP;
+    } else if (reference === 'who') {
+        return whoText;
     } else throw new Error('No reference supplied');
 };
