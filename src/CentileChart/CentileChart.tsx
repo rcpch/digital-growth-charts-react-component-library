@@ -104,7 +104,7 @@ function CentileChart({
     const chartRef = useRef<any>();
     const [active, setActive] = useState(false);
     const [fullScreen, setFullScreen] = useState(true);
-    const [centileLabels, setCentileLabels] = useState(false);
+    const [centileLabels, setCentileLabels] = useState(true);
 
     // save & destruct domains and data on initial render and when dependencies change
 
