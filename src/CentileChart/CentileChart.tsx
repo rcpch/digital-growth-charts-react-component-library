@@ -22,7 +22,7 @@ import tailoredXTickValues from '../functions/tailoredXTickValues';
 import defaultToggles from '../functions/defaultToggles';
 import { tooltipText } from '../functions/tooltips';
 import { delayedPubertyThreshold, makePubertyThresholds, lowerPubertyBorder } from '../functions/DelayedPuberty';
-import { nondisjunctionThresholds, makeNonDisjunctionThresholds } from '../functions/nondisjunctionLines';
+import { makeNonDisjunctionThresholds } from '../functions/nondisjunctionLines';
 import { getFilteredMidParentalHeightData } from '../functions/getFilteredMidParentalHeightData';
 import { isCrowded } from '../functions/isCrowded';
 import { labelAngle } from '../functions/labelAngle';
@@ -160,8 +160,8 @@ function CentileChart({
     if (reference === 'uk-who' && measurementMethod === 'height') {
         pubertyThresholds = makePubertyThresholds(domains, sex);
     }
-    if (reference === 'uk-who' || reference === 'cdc') {
-        if (reference === 'cdc' && measurementMethod === 'ofc') {
+    if (reference === 'uk-who' || reference === 'cdc' || reference === 'who') {
+        if ((reference === 'cdc' || reference === 'who') && measurementMethod === 'ofc') {
             // no nondisjunction lines for CDC OFC
             nondisjunctionThresholds = null;
         } else {

@@ -961,6 +961,7 @@ export const whoHeightFemaleCentileData: ReferenceGroup = {
                             sds: -2.33,
                             centile: 1,
                             data: [
+                                { l: 1, x: 5.0, y: 98.0763 },
                                 { l: 1, x: 5.08, y: 98.4978 },
                                 { l: 1, x: 5.17, y: 98.9459 },
                                 { l: 1, x: 5.25, y: 99.3893 },
@@ -1135,6 +1136,7 @@ export const whoHeightFemaleCentileData: ReferenceGroup = {
                             sds: -1.88,
                             centile: 3,
                             data: [
+                                { l: 3, x: 5.0, y: 100.1893 },
                                 { l: 3, x: 5.08, y: 100.6243 },
                                 { l: 3, x: 5.17, y: 101.0869 },
                                 { l: 3, x: 5.25, y: 101.5448 },
@@ -1309,6 +1311,7 @@ export const whoHeightFemaleCentileData: ReferenceGroup = {
                             sds: -1.64,
                             centile: 5,
                             data: [
+                                { l: 5, x: 5.0, y: 101.3082 },
                                 { l: 5, x: 5.08, y: 101.7502 },
                                 { l: 5, x: 5.17, y: 102.2206 },
                                 { l: 5, x: 5.25, y: 102.6862 },
@@ -1483,6 +1486,7 @@ export const whoHeightFemaleCentileData: ReferenceGroup = {
                             sds: -1.28,
                             centile: 10,
                             data: [
+                                { l: 10, x: 5.0, y: 103.0314 },
                                 { l: 10, x: 5.08, y: 103.4843 },
                                 { l: 10, x: 5.17, y: 103.9666 },
                                 { l: 10, x: 5.25, y: 104.4441 },
@@ -1657,6 +1661,7 @@ export const whoHeightFemaleCentileData: ReferenceGroup = {
                             sds: -1.04,
                             centile: 15,
                             data: [
+                                { l: 15, x: 5.0, y: 104.1943 },
                                 { l: 15, x: 5.08, y: 104.6547 },
                                 { l: 15, x: 5.17, y: 105.145 },
                                 { l: 15, x: 5.25, y: 105.6305 },
@@ -1831,6 +1836,7 @@ export const whoHeightFemaleCentileData: ReferenceGroup = {
                             sds: 0.0,
                             centile: 50,
                             data: [
+                                { l: 50, x: 5.0, y: 109.11 },
                                 { l: 50, x: 5.08, y: 109.6016 },
                                 { l: 50, x: 5.17, y: 110.1258 },
                                 { l: 50, x: 5.25, y: 110.6451 },
@@ -2005,6 +2011,7 @@ export const whoHeightFemaleCentileData: ReferenceGroup = {
                             sds: 1.04,
                             centile: 85,
                             data: [
+                                { l: 85, x: 5.0, y: 114.0257 },
                                 { l: 85, x: 5.08, y: 114.5485 },
                                 { l: 85, x: 5.17, y: 115.1066 },
                                 { l: 85, x: 5.25, y: 115.6597 },
@@ -2179,6 +2186,7 @@ export const whoHeightFemaleCentileData: ReferenceGroup = {
                             sds: 1.28,
                             centile: 90,
                             data: [
+                                { l: 90, x: 5.0, y: 115.1886 },
                                 { l: 90, x: 5.08, y: 115.7189 },
                                 { l: 90, x: 5.17, y: 116.285 },
                                 { l: 90, x: 5.25, y: 116.8461 },
@@ -2353,6 +2361,7 @@ export const whoHeightFemaleCentileData: ReferenceGroup = {
                             sds: 1.64,
                             centile: 95,
                             data: [
+                                { l: 95, x: 5.0, y: 116.9118 },
                                 { l: 95, x: 5.08, y: 117.453 },
                                 { l: 95, x: 5.17, y: 118.031 },
                                 { l: 95, x: 5.25, y: 118.604 },
@@ -2527,6 +2536,7 @@ export const whoHeightFemaleCentileData: ReferenceGroup = {
                             sds: 1.88,
                             centile: 97,
                             data: [
+                                { l: 97, x: 5.0, y: 118.0307 },
                                 { l: 97, x: 5.08, y: 118.5789 },
                                 { l: 97, x: 5.17, y: 119.1647 },
                                 { l: 97, x: 5.25, y: 119.7454 },
@@ -2701,6 +2711,7 @@ export const whoHeightFemaleCentileData: ReferenceGroup = {
                             sds: 2.33,
                             centile: 99,
                             data: [
+                                { l: 99, x: 5.0, y: 120.1437 },
                                 { l: 99, x: 5.08, y: 120.7054 },
                                 { l: 99, x: 5.17, y: 121.3057 },
                                 { l: 99, x: 5.25, y: 121.9009 },
