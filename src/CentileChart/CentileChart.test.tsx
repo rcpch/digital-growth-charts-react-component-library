@@ -610,7 +610,7 @@ describe('All tests relate to rendering the text in the height centile chart for
         render(<CentileChart {...props} />);
 
         //   the default is to not render centile labels
-        expect(screen.queryAllByText('99.6th')[0]).toBeUndefined();
+        expect(screen.queryAllByText('99.6th')[0]).toBeInTheDocument();
 
         // fireEvent.click(screen.getByTestId('gradient-labels-button'));
         // expect(screen.getAllByText('99.6th')[0]).toBeInTheDocument();

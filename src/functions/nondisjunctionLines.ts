@@ -1,6 +1,6 @@
 import { Domains } from '../interfaces/Domains';
 
-export const nondisjunctionThresholds = {
+const nondisjunctionThresholds = {
     male: [
         {
             x: 0.038,
@@ -34,7 +34,7 @@ export const nondisjunctionThresholds = {
 export function makeNonDisjunctionThresholds(
     domains: Domains | null,
     sex: 'male' | 'female',
-    reference: 'cdc' | 'uk-who' | 'trisomy-21' | 'turner' | 'trisomy-21-aap',
+    reference: 'cdc' | 'uk-who' | 'trisomy-21' | 'turner' | 'trisomy-21-aap' | 'who',
 ): any[] {
     if (!domains) {
         return [];
@@ -43,6 +43,8 @@ export function makeNonDisjunctionThresholds(
     let selectedNondisjunctionThresholds;
     if (reference === 'cdc') {
         selectedNondisjunctionThresholds = nondisjunctionThresholdsCDC;
+    } else if (reference === 'who') {
+        selectedNondisjunctionThresholds = nondisjunctionThresholdsWHO;
     } else {
         selectedNondisjunctionThresholds = nondisjunctionThresholds;
     }
@@ -56,7 +58,7 @@ export function makeNonDisjunctionThresholds(
     return newNonDisjunctionThresholds;
 }
 
-export const nondisjunctionThresholdsCDC = {
+const nondisjunctionThresholdsCDC = {
     male: [
         {
             x: 2,
@@ -67,6 +69,29 @@ export const nondisjunctionThresholdsCDC = {
         {
             x: 2,
             label: 'Transition point from WHO to CDC reference',
+        },
+    ],
+};
+
+const nondisjunctionThresholdsWHO = {
+    male: [
+        {
+            x: 2,
+            label: 'Transition point from WHO reference lying to standing',
+        },
+        {
+            x: 5,
+            label: 'Transition point from WHO reference 2006 to 2007',
+        },
+    ],
+    female: [
+        {
+            x: 2,
+            label: 'Transition point from WHO reference lying to standing',
+        },
+        {
+            x: 5,
+            label: 'Transition point from WHO reference 2006 to 2007',
         },
     ],
 };
