@@ -72,6 +72,7 @@ import icon from '../images/icon.png';
 import ukca from '../images/ukca.png';
 import { BottomContainer } from '../SubComponents/BottomContainer';
 import { BottomLogoContainer } from '../SubComponents/BottomLogoContainer';
+import { Domains } from '../interfaces/Domains';
 
 // allows two top level containers: zoom and voronoi
 const VictoryZoomVoronoiContainer: any = createContainer('zoom', 'voronoi');
@@ -537,14 +538,9 @@ function CentileChart({
                                                     padding={{ top: 20, bottom: 20 }}
                                                     data={centile.data}
                                                     style={{ ...styles.dashedCentile }}
-                                                    labels={(props: { index: number }) =>
+                                                    labels={(props: { index: number; data: any }) =>
                                                         centileLabels &&
-                                                        labelIndexInterval(
-                                                            chartScaleType,
-                                                            props.index,
-                                                            reference,
-                                                            measurementMethod,
-                                                        ) &&
+                                                        labelIndexInterval(props.index, props.data, domains) &&
                                                         props.index > 0
                                                             ? [addOrdinalSuffix(centile.centile)]
                                                             : null
@@ -588,14 +584,9 @@ function CentileChart({
                                                     padding={{ top: 20, bottom: 20 }}
                                                     data={centile.data}
                                                     style={{ ...styles.continuousCentile }}
-                                                    labels={(props: { index: number }) =>
+                                                    labels={(props: { index: number; data: [] }) =>
                                                         centileLabels &&
-                                                        labelIndexInterval(
-                                                            chartScaleType,
-                                                            props.index,
-                                                            reference,
-                                                            measurementMethod,
-                                                        ) &&
+                                                        labelIndexInterval(props.index, props.data, domains) &&
                                                         props.index > 0
                                                             ? [addOrdinalSuffix(centile.centile)]
                                                             : null
@@ -660,14 +651,9 @@ function CentileChart({
                                                     padding={{ top: 20, bottom: 20 }}
                                                     data={sdsLine.data}
                                                     style={styles.sdsLine}
-                                                    labels={(props: { index: number }) =>
+                                                    labels={(props: { index: number; data: [] }) =>
                                                         centileLabels &&
-                                                        labelIndexInterval(
-                                                            chartScaleType,
-                                                            props.index,
-                                                            reference,
-                                                            measurementMethod,
-                                                        ) &&
+                                                        labelIndexInterval(props.index, props.data, domains) &&
                                                         props.index > 0
                                                             ? [sdsLine.sds]
                                                             : null

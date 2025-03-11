@@ -16,6 +16,28 @@ export function labelAngle(
     Also accepts chart domains as parameter, as x magnification depends on visible extremes of chart (eg a 3 year old seen close up, or 3 year old in life course view)
     */
 
+    // const bill = data.filter((d: any) => {
+    //     if (d.x > domains.x[0] && d.x < domains.x[1]) {
+    //         return d;
+    //     }
+    // });
+    // const numberOfItemsBetweenLabels = Math.floor(bill.length / 4); // 3 labels per line - this will serve as an index to split the data into 4 sections
+    // const dataBefore = bill.slice(0, numberOfItemsBetweenLabels);
+    // const dataBetween = bill.slice(numberOfItemsBetweenLabels, numberOfItemsBetweenLabels * 2);
+    // const dataAfter = bill.slice(numberOfItemsBetweenLabels * 2, numberOfItemsBetweenLabels * 3);
+    // const dataAfterAfter = bill.slice(numberOfItemsBetweenLabels * 3, bill.length);
+    // console.log('dataBefore', dataBefore);
+    // console.log('dataBetween', dataBetween);
+    // console.log('dataAfter', dataAfter);
+    // console.log('dataAfterAfter', dataAfterAfter);
+
+    /*
+    We want to be able to see at least 3 labels per line irrespective of the scale of the chart
+    of the degree of magnification of the x axis.
+    To do this we will break the llist of date into 4 sections - before, between and after each label
+
+    */
+
     if (data === null || data.length < 1) {
         return;
     }

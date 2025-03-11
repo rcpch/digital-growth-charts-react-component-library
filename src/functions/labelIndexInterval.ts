@@ -1,27 +1,17 @@
-export function labelIndexInterval(
-    chartScaleType: 'prem' | 'infant' | 'smallChild' | 'biggerChild' = 'biggerChild',
-    index: number,
-    reference: 'uk-who' | 'cdc' | 'trisomy-21' | 'trisomy-21-aap' | 'turner' | 'who',
-    measurementMethod: 'height' | 'weight' | 'bmi' | 'ofc',
-): boolean {
-    // returns true if index of data point in centile data array should be rendered
-
-    switch (chartScaleType) {
-        case 'prem':
-            return index % 5 == 0;
-        case 'infant':
-            return index % 5 == 0;
-        case 'smallChild':
-            return index % 30 == 0;
-        case 'biggerChild':
-            if (reference === 'trisomy-21-aap') {
-                if (measurementMethod === 'height' || measurementMethod === 'ofc') {
-                    return index % 5 == 0;
-                }
-                return index % 20 == 0;
-            }
-            return index % 40 == 0;
-        default:
-            return index % 50 == 0;
+export function labelIndexInterval(index: number, data: any[], domains: { x: number[]; y: number[] }): boolean {
+    // return true if the index is a multiple of the number of items between labels
+    // this will be used to determine if a label should be displayed
+    // the number of items between labels will be determined by the number of items in the data array
+    // and the number of labels to be displayed - this will be 3
+    if (data == undefined) {
+        return false;
     }
+    const bill = data.filter((d: any) => {
+        if (d.x > domains.x[0] && d.x < domains.x[1]) {
+            return d;
+        }
+    });
+    let numberOfItemsBetweenLabels = Math.floor(bill.length / 3); // 3 labels per line - this will serve as an index to split the data into 4 sections
+
+    return index % numberOfItemsBetweenLabels == 0;
 }
