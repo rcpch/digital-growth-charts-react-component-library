@@ -550,7 +550,7 @@ function CentileChart({
                                                             angle={({ index }) => {
                                                                 return labelAngle(
                                                                     centile.data,
-                                                                    index,
+                                                                    parseInt(index.toString()),
                                                                     chartScaleType,
                                                                     measurementMethod,
                                                                     domains,
@@ -558,10 +558,11 @@ function CentileChart({
                                                             }}
                                                             style={styles.centileLabel}
                                                             backgroundStyle={{ fill: 'white' }}
-                                                            backgroundPadding={{ top: 1, bottom: 1, left: 3, right: 3 }}
+                                                            backgroundPadding={{ top: 1, bottom: 1, left: 1, right: 1 }}
                                                             textAnchor={'middle'}
                                                             verticalAnchor={'middle'}
                                                             dy={0}
+                                                            dx={0}
                                                         />
                                                     }
                                                 />
@@ -596,7 +597,7 @@ function CentileChart({
                                                             angle={({ index }) => {
                                                                 return labelAngle(
                                                                     centile.data,
-                                                                    index,
+                                                                    parseInt(index.toString()),
                                                                     chartScaleType,
                                                                     measurementMethod,
                                                                     domains,
@@ -610,9 +611,10 @@ function CentileChart({
                                                                 },
                                                             ]}
                                                             backgroundStyle={{ fill: 'white' }}
-                                                            backgroundPadding={{ top: 0, bottom: 0, left: 3, right: 3 }}
+                                                            backgroundPadding={{ top: 0, bottom: 0, left: 0, right: 0 }}
                                                             textAnchor={'middle'}
                                                             verticalAnchor={'middle'}
+                                                            dx={0}
                                                             dy={0}
                                                         />
                                                     }
@@ -655,7 +657,7 @@ function CentileChart({
                                                         centileLabels &&
                                                         labelIndexInterval(props.index, props.data, domains) &&
                                                         props.index > 0
-                                                            ? [sdsLine.sds]
+                                                            ? [addOrdinalSuffix(sdsLine.sds)]
                                                             : null
                                                     }
                                                     labelComponent={
@@ -663,7 +665,7 @@ function CentileChart({
                                                             angle={({ index }) => {
                                                                 return labelAngle(
                                                                     sdsLine.data,
-                                                                    index,
+                                                                    parseInt(index.toString()),
                                                                     chartScaleType,
                                                                     measurementMethod,
                                                                     domains,
@@ -671,8 +673,10 @@ function CentileChart({
                                                             }}
                                                             style={{ fill: styles.sdsLine.data.stroke, fontSize: 10.0 }}
                                                             backgroundStyle={{ fill: 'white' }}
-                                                            textAnchor={'end'}
-                                                            dy={5}
+                                                            textAnchor={'middle'}
+                                                            verticalAnchor={'middle'}
+                                                            dy={0}
+                                                            dx={0}
                                                         />
                                                     }
                                                 />

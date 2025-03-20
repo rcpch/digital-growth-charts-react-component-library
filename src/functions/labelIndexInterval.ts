@@ -6,12 +6,15 @@ export function labelIndexInterval(index: number, data: any[], domains: { x: num
     if (data == undefined) {
         return false;
     }
+    if (index <= 0 || index >= data.length - 2) {
+        return undefined; // Cannot calculate angle at the edges.
+    }
     const bill = data.filter((d: any) => {
         if (d.x > domains.x[0] && d.x < domains.x[1]) {
             return d;
         }
     });
-    let numberOfItemsBetweenLabels = Math.floor(bill.length / 3); // 3 labels per line - this will serve as an index to split the data into 4 sections
+    let numberOfItemsBetweenLabels = Math.floor(bill.length / 2); // 2 labels per line - this will serve as an index to split the data into 4 sections
 
     return index % numberOfItemsBetweenLabels == 0;
 }
