@@ -2,12 +2,12 @@
 <html>
     <head>
         <title>Growth Chart Example</title>
-        <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-        <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
     </head>
     <body>
         <div id="growth-chart-container"></div>
-        <script src="./build/umd/rcpch-digital-growth-charts.umd.js" defer></script>
+        <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+        <script src="build/umd/rcpch-digital-growth-charts.umd.js" defer></script>
         <script>
             window.onload = function () {
                 const demoMeasurements = [
@@ -12428,16 +12428,16 @@
                     measurementMethod: 'height',
                     reference: 'uk-who',
                     sex: 'female',
-                    measurements: demoMeasurements,
+                    measurements: { height: demoMeasurements },
                     midParentalHeightData: {},
                     enableZoom: false,
                     chartType: 'centile',
                     enableExport: false,
                     exportChartCallback: {},
                     clinicianFocus: false,
-                    theme: 'monochrome',
-                    height: 700,
-                    width: 1200,
+                    theme: 'tanner3',
+                    height: 800,
+                    width: 800,
                 });
             };
         </script>
