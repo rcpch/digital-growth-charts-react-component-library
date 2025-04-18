@@ -22,6 +22,24 @@ jobs:
             - run: npm install
             # npm build to build the project
             - run: npm run build
+            # Generate SRI hash for the UMD build
+            - name: Generate SRI hash
+              run: |
+                  echo "Generating SRI hash for UMD build..."
+                  SRI_HASH="sha384-$(npm run generate-sri --silent)"
+                  echo "SRI_HASH=$SRI_HASH" >> $GITHUB_ENV
+
+                  # Create a file with the hash that will be published with the package
+                  echo "$SRI_HASH" > build/umd/sri-hash.txt
+
+                  # Also add to release notes
+                  echo "## SRI Hash" >> $GITHUB_STEP_SUMMARY
+                  echo "For secure CDN usage with this release:" >> $GITHUB_STEP_SUMMARY
+                  echo "\`\`\`html" >> $GITHUB_STEP_SUMMARY
+                  echo "<script src=\"https://cdn.jsdelivr.net/npm/@rcpch/digital-growth-charts-react-component-library@${{ github.event.release.tag_name }}/build/umd/rcpch-digital-growth-charts.umd.js\"" >> $GITHUB_STEP_SUMMARY
+                  echo "        integrity=\"$SRI_HASH\"" >> $GITHUB_STEP_SUMMARY
+                  echo "        crossorigin=\"anonymous\"></script>" >> $GITHUB_STEP_SUMMARY
+                  echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
             # publish the files to NPM
             - run: npm publish --access public
               # for publishing, npm need authorization. We add the NPM token to the environment which will take care of authorization to publish to the package
