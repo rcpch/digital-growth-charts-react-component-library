@@ -1,13 +1,15 @@
 {
     "name": "@rcpch/digital-growth-charts-react-component-library",
-    "version": "7.3.2",
+    "version": "7.3.3",
     "description": "A React component library for the RCPCH digital growth charts using Rollup, TypeScript and Styled-Components",
     "main": "build/index.js",
     "module": "build/esm.index.js",
     "types": "build/index.d.ts",
+    "unpkg": "build/umd/rcpch-digital-growth-charts.umd.js",
     "scripts": {
         "test": "jest --env=jsdom",
         "build": "ROLLUP_WATCH=false rollup -c --bundleConfigAsCjs",
+        "build:umd": "rollup -c --environment UMD",
         "storybook": "storybook dev -p 6006",
         "build-storybook": "storybook build",
         "prettier:check": "prettier --check .",
@@ -23,7 +25,8 @@
         "Typescript",
         "Styled-Components",
         "Jest",
-        "Storybook"
+        "Storybook",
+        "CDN"
     ],
     "author": "eatyourpeas",
     "license": "AGPL-3.0-or-later",
@@ -40,6 +43,7 @@
         "@babel/preset-env": "7.26.0",
         "@babel/preset-react": "7.23.3",
         "@babel/preset-typescript": "7.23.3",
+        "@rollup/plugin-babel": "6.0.4",
         "@rollup/plugin-commonjs": "25.0.7",
         "@rollup/plugin-image": "3.0.3",
         "@rollup/plugin-json": "6.1.0",
