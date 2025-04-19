@@ -1,11 +1,12 @@
 {
     "name": "@rcpch/digital-growth-charts-react-component-library",
-    "version": "7.3.3",
+    "version": "7.3.4",
     "description": "A React component library for the RCPCH digital growth charts using Rollup, TypeScript and Styled-Components",
     "main": "build/index.js",
     "module": "build/esm.index.js",
     "types": "build/index.d.ts",
     "unpkg": "build/umd/rcpch-digital-growth-charts.umd.js",
+    "jsdelivr": "build/umd/rcpch-digital-growth-charts.umd.js",
     "files": [
         "build"
     ],

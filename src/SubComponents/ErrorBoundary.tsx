@@ -49,7 +49,7 @@ class ErrorBoundary extends React.Component {
                             {...this.props.styles.toggleStyle}
                             onClick={this.handleClick}
                             margin="20px 20px"
-                            enabled
+                            enabled={true}
                         >
                             {!this.state.showError ? 'Show Details' : 'Hide Details'}
                         </StyledErrorButton>
@@ -74,7 +74,8 @@ const ErrorContainer = styled.div<{ height: number; width: number }>`
 
 const TextContainer = styled.div`
     position: relative;
-    top: 50%;
+    margin-top: 50px;
+    top: 75%;
     transform: translateY(-50%);
 `;
 
