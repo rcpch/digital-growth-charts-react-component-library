@@ -469,9 +469,20 @@ function childMeasurementRanges(
     let internalMeasurementMethod: null | 'height' | 'weight' | 'bmi' | 'ofc' = null;
     let workingMeasurement: null | string = null;
     for (const measurement of childMeasurements) {
-        if (workingMeasurement === JSON.stringify(measurement)) {
-            throw new Error('Duplicate measurement entries detected.');
+        if (workingMeasurement !== null) {
+            const prev = JSON.parse(workingMeasurement) as Measurement;
+            if (
+                prev.measurement_dates.observation_date === measurement.measurement_dates.observation_date &&
+                prev.child_observation_value.measurement_method ===
+                    measurement.child_observation_value.measurement_method
+            ) {
+                throw new Error(
+                    `Duplicate measurement detected for date ${measurement.measurement_dates.observation_date} ` +
+                        `and method ${measurement.child_observation_value.measurement_method}.`,
+                );
+            }
         }
+
         workingMeasurement = JSON.stringify(measurement);
         if (!measurement.plottable_data) {
             throw new Error('No plottable data found. Are you using the correct server version?');
