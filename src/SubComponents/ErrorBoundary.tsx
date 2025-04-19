@@ -40,8 +40,6 @@ class ErrorBoundary extends React.Component {
     }
 
     render() {
-        console.log(this.props.styles.toggleStyle);
-
         if (this.state.hasError) {
             return (
                 <ErrorContainer height={this.props.styles.chartHeight} width={this.props.styles.chartWidth}>
