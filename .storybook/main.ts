@@ -8,6 +8,7 @@ const config: StorybookConfig = {
         '@storybook/addon-essentials',
         '@storybook/addon-onboarding',
         '@storybook/addon-interactions',
+        '@storybook/addon-docs',
         '@storybook/addon-mdx-gfm',
         '@storybook/addon-webpack5-compiler-babel',
         // {
@@ -24,8 +25,6 @@ const config: StorybookConfig = {
         name: '@storybook/react-webpack5',
         options: {},
     },
-    docs: {
-        autodocs: 'tag',
-    },
+    docs: {},
 };
 export default config;
