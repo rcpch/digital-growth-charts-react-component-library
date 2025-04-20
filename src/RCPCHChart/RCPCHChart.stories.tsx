@@ -234,6 +234,7 @@ ThemeBuilder.argTypes = {
 ThemeBuilder.storyName = 'Theme Builder 🎨 ';
 
 export const SDSChartUKWHO: Story = {
+    name: 'UK-WHO: SDS Chart - Girls',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'height',
@@ -257,6 +258,7 @@ export const SDSChartUKWHO: Story = {
 };
 
 export const CentileChartUKWHOGirlsHeightWithMeasurementsLegend: Story = {
+    name: 'UK-WHO: Centile Chart - Height - Girls (with measurements) [Legend]',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'height',
@@ -277,6 +279,7 @@ export const CentileChartUKWHOGirlsHeightWithMeasurementsLegend: Story = {
 };
 
 export const CentileChartUKWHOBoysHeightWithMeasurementsLegend: Story = {
+    name: 'UK-WHO: Centile Chart - Height - Boys (with measurements) [Legend]',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'height',
@@ -297,6 +300,7 @@ export const CentileChartUKWHOBoysHeightWithMeasurementsLegend: Story = {
 };
 
 export const CentileChartPrematureUKWHOGirlsHeightWithMeasurementsLegend: Story = {
+    name: 'UK-WHO: Centile Chart - Height - Girls - Premature (with measurements) [Legend]',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'height',
@@ -317,6 +321,7 @@ export const CentileChartPrematureUKWHOGirlsHeightWithMeasurementsLegend: Story 
 };
 
 export const CentileChartPrematureUKWHOGirlsHeightWithMeasurementsBottom: Story = {
+    name: 'UK-WHO: Centile Chart - Height - Girls - Premature (with measurements) [Legend - Bottom]',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'height',
@@ -337,6 +342,7 @@ export const CentileChartPrematureUKWHOGirlsHeightWithMeasurementsBottom: Story 
 };
 
 export const CentileChartUKWHOGirlsHeight: Story = {
+    name: 'UK-WHO: Centile Chart - Height - Girls',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'height',
@@ -354,6 +360,7 @@ export const CentileChartUKWHOGirlsHeight: Story = {
 };
 
 export const CentileChartUKWHOGirlsWeight: Story = {
+    name: 'UK-WHO: Centile Chart - Weight - Girls',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'weight',
@@ -373,6 +380,7 @@ export const CentileChartUKWHOGirlsWeight: Story = {
 };
 
 export const CentileChartUKWHOGirlsBMI: Story = {
+    name: 'UK-WHO: Centile Chart - BMI - Girls',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'bmi',
@@ -392,6 +400,7 @@ export const CentileChartUKWHOGirlsBMI: Story = {
 };
 
 export const CentileChartUKWHOPrematureGirlsBMI: Story = {
+    name: 'UK-WHO: Centile Chart - BMI - Girls - Premature',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'bmi',
@@ -411,6 +420,7 @@ export const CentileChartUKWHOPrematureGirlsBMI: Story = {
 };
 
 export const CentileChartUKWHOGirlsHeadCircumference: Story = {
+    name: 'UK-WHO: Centile Chart - Head Circumference - Girls',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'ofc',
@@ -429,7 +439,69 @@ export const CentileChartUKWHOGirlsHeadCircumference: Story = {
     },
 };
 
+export const TomatoCentileChart: Story = {
+    name: 'UK-WHO: Centile Chart - Height - Girls (Custom Theme)',
+    args: {
+        title: 'Patient Name - Hospital Number',
+        measurementMethod: 'height',
+        reference: 'uk-who',
+        sex: 'female',
+        measurements: {
+            height: twoToEight,
+        },
+        midParentalHeightData: {},
+        enableZoom: true,
+        chartType: 'centile',
+        enableExport: false,
+        exportChartCallback: () => {},
+        theme: 'monochrome',
+        customThemeStyles: customStyles,
+    },
+};
+
+export const PrematureSDSChart: Story = {
+    name: 'UK-WHO: SDS Chart - Girls - Premature',
+    args: {
+        title: 'Patient Name - Hospital Number',
+        measurementMethod: 'height',
+        reference: 'uk-who',
+        sex: 'female',
+        measurements: {
+            height: prematureGirlOverThreeHeight,
+            weight: [],
+            bmi: [],
+            ofc: [],
+        },
+        midParentalHeightData: {},
+        enableZoom: true,
+        chartType: 'sds',
+        enableExport: false,
+        exportChartCallback: () => {},
+        theme: 'tanner2',
+        customThemeStyles: {},
+    },
+};
+
+export const MultipleMeasurementSDSChart: Story = {
+    name: 'UK-WHO: SDS Chart - Girls (with data)',
+    args: {
+        title: 'Patient Name - Hospital Number',
+        measurementMethod: 'height',
+        reference: 'uk-who',
+        sex: 'female',
+        measurements: sdsTenYearGirlData,
+        midParentalHeightData: {},
+        enableZoom: true,
+        chartType: 'sds',
+        enableExport: false,
+        exportChartCallback: () => {},
+        theme: 'monochrome',
+        customThemeStyles: {},
+    },
+};
+
 export const CentileChartCDCGirlsHeightWithMeasurements: Story = {
+    name: 'CDC: Centile Chart - Height - Girls (with measurements)',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'height',
@@ -450,6 +522,7 @@ export const CentileChartCDCGirlsHeightWithMeasurements: Story = {
 };
 
 export const CentileChartCDCGirlsHeight: Story = {
+    name: 'CDC: Centile Chart - Height - Girls',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'height',
@@ -510,6 +583,7 @@ export const CentileChartCDCGirlsHeight: Story = {
 // };
 
 export const CentileChartCDCBoysHeight: Story = {
+    name: 'CDC: Centile Chart - Height - Boys',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'height',
@@ -530,6 +604,7 @@ export const CentileChartCDCBoysHeight: Story = {
 };
 
 export const CentileChartCDCGirlsWeight: Story = {
+    name: 'CDC: Centile Chart - Weight - Girls',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'weight',
@@ -550,6 +625,7 @@ export const CentileChartCDCGirlsWeight: Story = {
 };
 
 export const CentileChartCDCBoysWeight: Story = {
+    name: 'CDC: Centile Chart - Height - Boys',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'weight',
@@ -570,6 +646,7 @@ export const CentileChartCDCBoysWeight: Story = {
 };
 
 export const CentileChartCDCGirlsBMI: Story = {
+    name: 'CDC: Centile Chart - BMI - Girls',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'bmi',
@@ -590,6 +667,7 @@ export const CentileChartCDCGirlsBMI: Story = {
 };
 
 export const CentileChartCDCBoysBMI: Story = {
+    name: 'CDC: Centile Chart - BMI - BMI',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'bmi',
@@ -610,6 +688,7 @@ export const CentileChartCDCBoysBMI: Story = {
 };
 
 export const CentileChartCDCBoysBMIExcess: Story = {
+    name: 'CDC: Centile Chart - BMI - Boys - Excess',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'bmi',
@@ -629,27 +708,8 @@ export const CentileChartCDCBoysBMIExcess: Story = {
     },
 };
 
-export const CentileChartCDCGirlsHeadCircumference: Story = {
-    args: {
-        title: 'Patient Name - Hospital Number',
-        measurementMethod: 'ofc',
-        reference: 'cdc',
-        sex: 'female',
-        measurements: {
-            ofc: [],
-        },
-        midParentalHeightData: {},
-        enableZoom: true,
-        chartType: 'centile',
-        enableExport: false,
-        exportChartCallback: () => {},
-        theme: 'tanner2',
-        customThemeStyles: {},
-        clinicianFocus: true,
-    },
-};
-
 export const CentileChartCDCGirlsDataHeadCircumference: Story = {
+    name: 'CDC: Centile Chart - Head Circumference - Girls',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'ofc',
@@ -670,6 +730,7 @@ export const CentileChartCDCGirlsDataHeadCircumference: Story = {
 };
 
 export const CentileChartCDCBoysHeadCircumference: Story = {
+    name: 'CDC: Centile Chart - Head Circumference - Boys',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'ofc',
@@ -690,6 +751,7 @@ export const CentileChartCDCBoysHeadCircumference: Story = {
 };
 
 export const CentileChartCDCGirlMidparentalHeight: Story = {
+    name: 'CDC: Centile Chart - Midparental Height - Boys',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'height',
@@ -710,6 +772,7 @@ export const CentileChartCDCGirlMidparentalHeight: Story = {
 };
 
 export const CentileChartUKWHOGirlMidparentalHeight: Story = {
+    name: 'UK-WHO: Centile Chart - Midparental Height',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'height',
@@ -730,6 +793,7 @@ export const CentileChartUKWHOGirlMidparentalHeight: Story = {
 };
 
 export const CentileChartTrisomy21AAPBoysHeight: Story = {
+    name: 'Trisomy 21 AAP: Centile Chart - Height - Boys',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'height',
@@ -751,6 +815,7 @@ export const CentileChartTrisomy21AAPBoysHeight: Story = {
 };
 
 export const CentileChartTrisomy21AAPGirlsHeight: Story = {
+    name: 'Trisomy 21 AAP: Centile Chart - Height - Girls',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'height',
@@ -772,6 +837,7 @@ export const CentileChartTrisomy21AAPGirlsHeight: Story = {
 };
 
 export const CentileChartTrisomy21AAPBoysHeightData: Story = {
+    name: 'Trisomy 21 AAP: Centile Chart - Height - Boys (with data)',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'height',
@@ -793,6 +859,7 @@ export const CentileChartTrisomy21AAPBoysHeightData: Story = {
 };
 
 export const CentileChartTrisomy21AAPBoysWeightData: Story = {
+    name: 'Trisomy 21 AAP: Centile Chart - Weight - Boys (with data)',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'weight',
@@ -814,6 +881,7 @@ export const CentileChartTrisomy21AAPBoysWeightData: Story = {
 };
 
 export const CentileChartTrisomy21AAPGirlsWeight: Story = {
+    name: 'Trisomy 21 AAP: Centile Chart - Weight - Girls',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'weight',
@@ -835,6 +903,7 @@ export const CentileChartTrisomy21AAPGirlsWeight: Story = {
 };
 
 export const CentileChartTrisomy21AAPBoysWeight: Story = {
+    name: 'Trisomy 21 AAP: Centile Chart - Weight - Boys',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'weight',
@@ -856,6 +925,7 @@ export const CentileChartTrisomy21AAPBoysWeight: Story = {
 };
 
 export const CentileChartTrisomy21AAPGirlsBMI: Story = {
+    name: 'Trisomy 21 AAP: Centile Chart - BMI - Girls',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'bmi',
@@ -877,6 +947,7 @@ export const CentileChartTrisomy21AAPGirlsBMI: Story = {
 };
 
 export const CentileChartTrisomy21AAPGBoysBMI: Story = {
+    name: 'Trisomy 21 AAP: Centile Chart - BMI - Boys',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'bmi',
@@ -898,6 +969,7 @@ export const CentileChartTrisomy21AAPGBoysBMI: Story = {
 };
 
 export const CentileChartTrisomy21AAPGirlsHeadCircumference: Story = {
+    name: 'Trisomy 21 AAP: Centile Chart - Head Circumference - Girls',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'ofc',
@@ -919,6 +991,7 @@ export const CentileChartTrisomy21AAPGirlsHeadCircumference: Story = {
 };
 
 export const CentileChartTrisomy21AAPBoysHeadCircumference: Story = {
+    name: 'Trisomy 21 AAP: Centile Chart - Head Circumference - Boys',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'ofc',
@@ -940,6 +1013,7 @@ export const CentileChartTrisomy21AAPBoysHeadCircumference: Story = {
 };
 
 export const CentileChartWHOBoysHeight: Story = {
+    name: 'WHO: Centile Chart - Height - Boys',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'height',
@@ -961,6 +1035,7 @@ export const CentileChartWHOBoysHeight: Story = {
 };
 
 export const CentileChartWHOGirlsHeight: Story = {
+    name: 'WHO: Centile Chart - Height - Girls',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'height',
@@ -982,6 +1057,7 @@ export const CentileChartWHOGirlsHeight: Story = {
 };
 
 export const CentileChartWHOGirlsWeight: Story = {
+    name: 'WHO: Centile Chart - Weight - Girls',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'weight',
@@ -1003,6 +1079,7 @@ export const CentileChartWHOGirlsWeight: Story = {
 };
 
 export const CentileChartWHOGirlsHeadCircumference: Story = {
+    name: 'WHO: Centile Chart - Head Circumference - Girls',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'ofc',
@@ -1024,6 +1101,7 @@ export const CentileChartWHOGirlsHeadCircumference: Story = {
 };
 
 export const CentileChartWHOGirlsBMI: Story = {
+    name: 'WHO: Centile Chart - BMI - Girls',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'bmi',
@@ -1045,6 +1123,7 @@ export const CentileChartWHOGirlsBMI: Story = {
 };
 
 export const CentileChartWHOBoysWeight: Story = {
+    name: 'WHO: Centile Chart - Weight - Boys',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'weight',
@@ -1065,6 +1144,7 @@ export const CentileChartWHOBoysWeight: Story = {
 };
 
 export const CentileChartWHOBoysBMI: Story = {
+    name: 'WHO: Centile Chart - BMI - Boys',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'bmi',
@@ -1085,6 +1165,7 @@ export const CentileChartWHOBoysBMI: Story = {
 };
 
 export const CentileChartWHOBoysHeadCircumference: Story = {
+    name: 'WHO: Centile Chart - Head Circumference - Boys',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'ofc',
@@ -1105,6 +1186,7 @@ export const CentileChartWHOBoysHeadCircumference: Story = {
 };
 
 export const CentileChartTrisomy21BoysHeight: Story = {
+    name: 'Trisomy 21 (UK): Centile Chart - Height - Boys',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'height',
@@ -1125,6 +1207,7 @@ export const CentileChartTrisomy21BoysHeight: Story = {
 };
 
 export const CentileChartTrisomy21BoysWeight: Story = {
+    name: 'Trisomy 21 (UK): Centile Chart - Weight - Boys',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'weight',
@@ -1145,6 +1228,7 @@ export const CentileChartTrisomy21BoysWeight: Story = {
 };
 
 export const CentileChartTrisomy21BoysBMI: Story = {
+    name: 'Trisomy 21 (UK): Centile Chart - BMI - Boys',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'bmi',
@@ -1165,6 +1249,7 @@ export const CentileChartTrisomy21BoysBMI: Story = {
 };
 
 export const CentileChartTrisomy21BoysHeadCircumference: Story = {
+    name: 'Trisomy 21 (UK): Centile Chart - Head Circumference - Boys',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'ofc',
@@ -1185,6 +1270,7 @@ export const CentileChartTrisomy21BoysHeadCircumference: Story = {
 };
 
 export const CentileChartTrisomy21GirlsHeight: Story = {
+    name: 'Trisomy 21 (UK): Centile Chart - Height - Girls',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'height',
@@ -1205,6 +1291,7 @@ export const CentileChartTrisomy21GirlsHeight: Story = {
 };
 
 export const CentileChartTrisomy21GirlsWeight: Story = {
+    name: 'Trisomy 21 (UK): Centile Chart - Weight - Girls',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'weight',
@@ -1225,6 +1312,7 @@ export const CentileChartTrisomy21GirlsWeight: Story = {
 };
 
 export const CentileChartTrisomy21GirlsBMI: Story = {
+    name: 'Trisomy 21 (UK): Centile Chart - BMI - Girls',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'bmi',
@@ -1245,6 +1333,7 @@ export const CentileChartTrisomy21GirlsBMI: Story = {
 };
 
 export const CentileChartTrisomy21GirlsHeadCircumference: Story = {
+    name: 'Trisomy 21 (UK): Centile Chart - Head Circumference - Girls',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'ofc',
@@ -1264,65 +1353,8 @@ export const CentileChartTrisomy21GirlsHeadCircumference: Story = {
     },
 };
 
-export const TomatoCentileChart: Story = {
-    args: {
-        title: 'Patient Name - Hospital Number',
-        measurementMethod: 'height',
-        reference: 'uk-who',
-        sex: 'female',
-        measurements: {
-            height: twoToEight,
-        },
-        midParentalHeightData: {},
-        enableZoom: true,
-        chartType: 'centile',
-        enableExport: false,
-        exportChartCallback: () => {},
-        theme: 'monochrome',
-        customThemeStyles: customStyles,
-    },
-};
-
-export const PrematureSDSChart: Story = {
-    args: {
-        title: 'Patient Name - Hospital Number',
-        measurementMethod: 'height',
-        reference: 'uk-who',
-        sex: 'female',
-        measurements: {
-            height: prematureGirlOverThreeHeight,
-            weight: [],
-            bmi: [],
-            ofc: [],
-        },
-        midParentalHeightData: {},
-        enableZoom: true,
-        chartType: 'sds',
-        enableExport: false,
-        exportChartCallback: () => {},
-        theme: 'tanner2',
-        customThemeStyles: {},
-    },
-};
-
-export const MultipleMeasurementSDSChart: Story = {
-    args: {
-        title: 'Patient Name - Hospital Number',
-        measurementMethod: 'height',
-        reference: 'uk-who',
-        sex: 'female',
-        measurements: sdsTenYearGirlData,
-        midParentalHeightData: {},
-        enableZoom: true,
-        chartType: 'sds',
-        enableExport: false,
-        exportChartCallback: () => {},
-        theme: 'monochrome',
-        customThemeStyles: {},
-    },
-};
-
 export const CustomThemeStylesChart: Story = {
+    name: 'Custom Theme Styles Chart - UK-WHO: Centile Chart',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'height',
@@ -1437,92 +1469,6 @@ export const CustomThemeStylesChart: Story = {
             },
         },
     },
-    argTypes: {
-        measurements: { control: false },
-        midParentalHeightData: { control: false },
-        theme: { control: false },
-        // customThemeStyles
-        'customThemeStyles.chartStyle.backgroundColour': { control: 'color' },
-        'customThemeStyles.chartStyle.titleStyle.name': { control: 'text' },
-        'customThemeStyles.chartStyle.titleStyle.colour': { control: 'color' },
-        'customThemeStyles.chartStyle.titleStyle.size': { control: 'number' },
-        'customThemeStyles.chartStyle.titleStyle.weight': { control: 'number' },
-        'customThemeStyles.chartStyle.subTitleStyle.name': { control: 'text' },
-        'customThemeStyles.chartStyle.subTitleStyle.colour': { control: 'color' },
-        'customThemeStyles.chartStyle.subTitleStyle.size': { control: 'number' },
-        'customThemeStyles.chartStyle.subTitleStyle.weight': { control: 'number' },
-        'customThemeStyles.chartStyle.tooltipBackgroundColour': { control: 'color' },
-        'customThemeStyles.chartStyle.tooltipStroke': { control: 'color' },
-        'customThemeStyles.chartStyle.tooltipBorderRadius': { control: 'number' },
-        'customThemeStyles.chartStyle.tooltipTextStyle.name': { control: 'text' },
-        'customThemeStyles.chartStyle.tooltipTextStyle.colour': { control: 'color' },
-        'customThemeStyles.chartStyle.tooltipTextStyle.size': { control: 'number' },
-        'customThemeStyles.chartStyle.tooltipTextStyle.weight': { control: 'number' },
-        'customThemeStyles.chartStyle.termFill': { control: 'color' },
-        'customThemeStyles.chartStyle.termStroke': { control: 'color' },
-        'customThemeStyles.chartStyle.toggleButtonInactiveColour': { control: 'color' },
-        'customThemeStyles.chartStyle.toggleButtonActiveColour': { control: 'color' },
-        'customThemeStyles.chartStyle.toggleButtonTextStyle.name': { control: 'text' },
-        'customThemeStyles.chartStyle.toggleButtonTextStyle.colour': { control: 'color' },
-        'customThemeStyles.chartStyle.toggleButtonTextStyle.size': { control: 'number' },
-        'customThemeStyles.chartStyle.toggleButtonTextStyle.weight': { control: 'number' },
-        'customThemeStyles.chartStyle.toggleButtonTooltipStyle.backgroundColour': { control: 'color' },
-        'customThemeStyles.chartStyle.toggleButtonTooltipStyle.borderRadius': { control: 'number' },
-        'customThemeStyles.chartStyle.toggleButtonTooltipStyle.name': { control: 'text' },
-        'customThemeStyles.chartStyle.toggleButtonTooltipStyle.colour': { control: 'color' },
-        'customThemeStyles.chartStyle.toggleButtonTooltipStyle.size': { control: 'number' },
-        'customThemeStyles.chartStyle.toggleButtonTooltipStyle.weight': { control: 'number' },
-        'customThemeStyles.chartStyle.toggleButtonSize': { control: 'number' },
-
-        // MeasurementStyle
-        'customThemeStyles.measurementStyle.measurementFill': { control: 'color' },
-        'customThemeStyles.measurementStyle.highlightedMeasurementFill': { control: 'color' },
-        'customThemeStyles.measurementStyle.eventTextStyle.name': { control: 'text' },
-        'customThemeStyles.measurementStyle.eventTextStyle.colour': { control: 'color' },
-        'customThemeStyles.measurementStyle.eventTextStyle.size': { control: 'number' },
-        'customThemeStyles.measurementStyle.eventTextStyle.weight': { control: 'number' },
-
-        // CentileStyle
-        'customThemeStyles.centileStyle.sdsStroke': { control: 'color' },
-        'customThemeStyles.centileStyle.centileStroke': { control: 'color' },
-        'customThemeStyles.centileStyle.nondisjunctionThresholdLabel': { control: 'text' },
-        'customThemeStyles.centileStyle.nondisjunctionThresholdLine': { control: 'color' },
-        'customThemeStyles.centileStyle.delayedPubertyAreaFill': { control: 'color' },
-        'customThemeStyles.centileStyle.midParentalAreaFill': { control: 'color' },
-        'customThemeStyles.centileStyle.midParentalCentileStroke': { control: 'color' },
-        'customThemeStyles.centileStyle.centileTextStyle.name': { control: 'text' },
-        'customThemeStyles.centileStyle.centileTextStyle.size': { control: 'number' },
-        'customThemeStyles.centileStyle.centileTextStyle.weight': { control: 'number' },
-
-        // GridlineStyle
-        'customThemeStyles.gridlineStyle.gridlines': { control: 'boolean' },
-        'customThemeStyles.gridlineStyle.stroke': { control: 'color' },
-        'customThemeStyles.gridlineStyle.strokeWidth': { control: 'number' },
-        'customThemeStyles.gridlineStyle.dashed': { control: 'boolean' },
-
-        // AxisStyle
-        'customThemeStyles.axisStyle.axisStroke': { control: 'color' },
-        'customThemeStyles.axisStyle.axisLabelTextStyle.name': { control: 'text' },
-        'customThemeStyles.axisStyle.axisLabelTextStyle.colour': { control: 'color' },
-        'customThemeStyles.axisStyle.axisLabelTextStyle.size': { control: 'number' },
-        'customThemeStyles.axisStyle.axisLabelTextStyle.weight': { control: 'number' },
-        'customThemeStyles.axisStyle.tickLabelTextStyle.name': { control: 'text' },
-        'customThemeStyles.axisStyle.tickLabelTextStyle.colour': { control: 'color' },
-        'customThemeStyles.axisStyle.tickLabelTextStyle.size': { control: 'number' },
-        'customThemeStyles.axisStyle.tickLabelTextStyle.weight': { control: 'number' },
-        'customThemeStyles.axisStyle.tickLabelTextStyle.padding': { control: 'number' },
-        'customThemeStyles.axisStyle.axisThresholdLabelTextStyle.name': { control: 'text' },
-        'customThemeStyles.axisStyle.axisThresholdLabelTextStyle.colour': { control: 'color' },
-        'customThemeStyles.axisStyle.axisThresholdLabelTextStyle.size': { control: 'number' },
-        'customThemeStyles.axisStyle.axisThresholdLabelTextStyle.weight': { control: 'number' },
-        'customThemeStyles.axisStyle.axisThresholdLineStyle.colour': { control: 'color' },
-
-        // ReferenceStyle
-        'customThemeStyles.referenceStyle.name': { control: 'text' },
-        'customThemeStyles.referenceStyle.colour': { control: 'color' },
-        'customThemeStyles.referenceStyle.size': { control: 'number' },
-        'customThemeStyles.referenceStyle.weight': { control: 'number' },
-    } as ArgTypes<RCPCHChartProps>,
 };
 
 const meta: Meta<typeof RCPCHChart> = {
@@ -1531,7 +1477,7 @@ const meta: Meta<typeof RCPCHChart> = {
     parameters: {
         options: {
             storySort: {
-                order: ['Theme Builder 🎨 ', '*'],
+                order: ['Theme Builder 🎨', 'UK-WHO', 'CDC'],
             },
         },
     },
