@@ -84,6 +84,7 @@ export function tooltipText(
     if (midParentalHeightData) {
         const {
             mid_parental_height,
+            mid_parental_height_centile,
             mid_parental_height_sds,
             mid_parental_height_lower_value,
             mid_parental_height_upper_value,
@@ -102,7 +103,7 @@ export function tooltipText(
             }
             if (childName === 'centileMPH' || childName === 'areaMPH') {
                 returnStringList.push(
-                    `Mid-Parental Height: ${Math.round(mid_parental_height * 10) / 10} cm (${addOrdinalSuffix(Math.round(parseFloat(l)))} centile, SDS: ${Math.round(mid_parental_height_sds * 1000) / 1000})`,
+                    `Mid-Parental Height: ${Math.round(mid_parental_height * 10) / 10} cm (${addOrdinalSuffix(Math.round(mid_parental_height_centile * 100) / 100)} centile, SDS: ${Math.round(mid_parental_height_sds * 1000) / 1000})`,
                 );
                 returnStringList.push(
                     `Range(+/-2 centiles): ${Math.round(mid_parental_height_lower_value * 10) / 10} cm - ${Math.round(mid_parental_height_upper_value * 10) / 10} cm`,
