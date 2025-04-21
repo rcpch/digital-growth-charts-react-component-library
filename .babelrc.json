@@ -12,5 +12,6 @@
         "@babel/preset-typescript",
         "@babel/preset-react"
     ],
-    "plugins": []
+    "plugins": [],
+    "compact": true
 }
