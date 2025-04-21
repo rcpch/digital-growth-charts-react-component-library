@@ -81,7 +81,7 @@ export default [
         external: ['react', 'react-dom', 'react-dom/client'],
         output: [
             {
-                file: 'build/umd/rcpch-digital-growth-charts.umd.js',
+                file: 'build/umd/rcpch-digital-growth-charts.umd.min.js',
                 format: 'umd',
                 name: 'RCPCHGrowthCharts',
                 exports: 'default',
@@ -94,6 +94,9 @@ export default [
             },
         ],
         plugins: [
+            // this replaces all instances of process (eg process.env.NODE_ENV) which prevents the build from failing
+            // this is done by creating a stub file that exports an empty object
+            // and replacing all instances of process with the stub file
             alias({
                 entries: [
                     {
@@ -124,7 +127,19 @@ export default [
                 extensions: ['.ts', '.tsx'],
             }),
             typescript(),
-            terser(),
+            terser({
+                // some of the references are pretty big and chunking them would be difficult. This suppresses the warnings
+                compress: {
+                    pure_getters: true,
+                    dead_code: true,
+                    toplevel: true,
+                },
+                mangle: true,
+                output: {
+                    comments: false,
+                    max_line_len: 1000000,
+                },
+            }),
             json(),
             versionInjector(),
             image(),

@@ -36,7 +36,7 @@ jobs:
                   echo "## SRI Hash" >> $GITHUB_STEP_SUMMARY
                   echo "For secure CDN usage with this release:" >> $GITHUB_STEP_SUMMARY
                   echo "\`\`\`html" >> $GITHUB_STEP_SUMMARY
-                  echo "<script src=\"https://cdn.jsdelivr.net/npm/@rcpch/digital-growth-charts-react-component-library@${{ github.event.release.tag_name }}/build/umd/rcpch-digital-growth-charts.umd.js\"" >> $GITHUB_STEP_SUMMARY
+                  echo "<script src=\"https://cdn.jsdelivr.net/npm/@rcpch/digital-growth-charts-react-component-library@${{ github.event.release.tag_name }}/build/umd/rcpch-digital-growth-charts.umd.min.js\"" >> $GITHUB_STEP_SUMMARY
                   echo "        integrity=\"$SRI_HASH\"" >> $GITHUB_STEP_SUMMARY
                   echo "        crossorigin=\"anonymous\"></script>" >> $GITHUB_STEP_SUMMARY
                   echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
