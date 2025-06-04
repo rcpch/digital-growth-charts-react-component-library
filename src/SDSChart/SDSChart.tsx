@@ -39,6 +39,9 @@ import { StyledShareButton } from '../SubComponents/StyledShareButton';
 import { ChartContainer } from '../SubComponents/ChartContainer';
 import { TopContainer } from '../SubComponents/TopContainer';
 import { IndividualLogoContainer } from '../SubComponents/IndividualLogoContainer';
+import { LegendToggleButton } from '../SubComponents/LegendToggleButton';
+import { EyeSlashIcon } from '../SubComponents/ShowHideIcon';
+import { EyeIcon } from '../SubComponents/ShowHideIcon';
 import icon from '../images/icon.png';
 import ukca from '../images/ukca.png';
 
@@ -59,26 +62,24 @@ import { StyledButtonTooltip } from '../SubComponents/StyledButtonTooltip';
 import { BottomContainer } from '../SubComponents/BottomContainer';
 import { BottomLogoContainer } from '../SubComponents/BottomLogoContainer';
 
-const SDSChart: React.FC<SDSChartProps> = (
-    { 
-        chartsVersion,
-        reference,
-        title,
-        subtitle,
-        measurementMethod,
-        childMeasurements,
-        midParentalHeightData,
-        sex,
-        enableZoom,
-        styles,
-        height,
-        width,
-        textScaleFactor,
-        enableExport,
-        exportChartCallback,
-        logoVariant = 'top'
-    }
-) => {
+const SDSChart: React.FC<SDSChartProps> = ({
+    chartsVersion,
+    reference,
+    title,
+    subtitle,
+    measurementMethod,
+    childMeasurements,
+    midParentalHeightData,
+    sex,
+    enableZoom,
+    styles,
+    height,
+    width,
+    textScaleFactor,
+    enableExport,
+    exportChartCallback,
+    logoVariant = 'top',
+}) => {
     const [userDomains, setUserDomains] = useState(null);
 
     let measurements: Measurement[] = [];
@@ -105,6 +106,8 @@ const SDSChart: React.FC<SDSChartProps> = (
     const [showWeight, setShowWeight] = useState(true);
     const [showBMI, setShowBMI] = useState(true);
     const [showOFC, setShowOFC] = useState(true);
+
+    const [hideLegend, setHideLegend] = useState(false);
 
     const childMeasurementsByType = [
         {
@@ -236,21 +239,17 @@ const SDSChart: React.FC<SDSChartProps> = (
 
     return (
         <MainContainer>
-
             {logoVariant === 'top' && (
                 <TopContainer>
                     <LogoContainer>
                         <IndividualLogoContainer>
                             <img src={icon} width={24} height={24} />
                         </IndividualLogoContainer>
-                        <VersionLabel
-                            fontFamily={styles.chartTitle.fontFamily}
-                        >{chartsVersion}</VersionLabel>
+                        <VersionLabel fontFamily={styles.chartTitle.fontFamily}>{chartsVersion}</VersionLabel>
                         <IndividualLogoContainer>
-                            <img src={ukca} width={18} height={18}/>
+                            <img src={ukca} width={18} height={18} />
                         </IndividualLogoContainer>
                     </LogoContainer>
-                    
                 </TopContainer>
             )}
 
@@ -259,6 +258,24 @@ const SDSChart: React.FC<SDSChartProps> = (
                     <ChartTitle {...styles.chartTitle}>{title}</ChartTitle>
                     <ChartTitle {...styles.chartSubTitle}>{subtitle}</ChartTitle>
                 </TitleContainer>
+
+                <LegendToggleButton
+                    onClick={() => setHideLegend(!hideLegend)}
+                    title={hideLegend ? 'Show Legend' : 'Hide Legend'}
+                    aria-label={hideLegend ? 'Show Legend' : 'Hide Legend'}
+                    $backgroundColor={styles.toggleStyle.inactiveColour}
+                    $borderColor={styles.toggleStyle.inactiveColour}
+                    $iconColor={styles.toggleStyle.color}
+                    $hoverBackgroundColor={styles.toggleStyle.activeColour}
+                    $hoverBorderColor={styles.toggleStyle.activeColour}
+                    $top={110 + 'px'}
+                    $right={logoVariant === 'legend' ? '10px' : '250px'}
+                    $size={28}
+                    $left="auto"
+                    $bottom="auto"
+                >
+                    {hideLegend ? <EyeIcon /> : <EyeSlashIcon />}
+                </LegendToggleButton>
 
                 {/* The VictoryChart is the parent component. It contains a Voronoi container, which groups data sets together for the purposes of tooltips */}
                 {/* It has an animation object and the domains are the thresholds of ages rendered. This is calculated from the child data supplied by the user. */}
@@ -305,7 +322,6 @@ const SDSChart: React.FC<SDSChartProps> = (
                         /* Term child shaded area: */
                         termAreaData !== null && <VictoryArea style={styles.termArea} data={termAreaData} />
                     }
-
                     {/* X axis: */}
                     <VictoryAxis
                         domain={{ x: [domains.x[0], domains.x[1]] }}
@@ -321,7 +337,6 @@ const SDSChart: React.FC<SDSChartProps> = (
                         }
                         gridComponent={<CustomGridComponent chartScaleType={chartScaleType} />}
                     />
-
                     {
                         /* render the y axis */
                         <VictoryAxis
@@ -343,12 +358,10 @@ const SDSChart: React.FC<SDSChartProps> = (
                             dependentAxis
                         />
                     }
-
                     {/* 
                         Measurements by type - loops through the measurement data provided by the API, first by measurement type,
                         then by data point.
                     */}
-
                     {childMeasurementsByType.map((measurementTypeItem, itemIndex) => {
                         /*
                         Set the SDS line style and line colour. Note if not supplied from the client, the centile line colour is used,
@@ -482,7 +495,6 @@ const SDSChart: React.FC<SDSChartProps> = (
                             </VictoryGroup>
                         );
                     })}
-
                     {midParentalHeightData?.mid_parental_height_sds &&
                         (reference === 'uk-who' || reference === 'cdc') &&
                         measurementMethod === 'height' && (
@@ -493,87 +505,88 @@ const SDSChart: React.FC<SDSChartProps> = (
                                 style={styles.midParentalSDS}
                             />
                         )}
-
                     {/* 
                             legend - comes last to allow it to sit atop the axes and lines
                         */}
-                    <VictoryLegend
-                        orientation="vertical"
-                        x={800}
-                        y={0}
-                        style={{
-                            border: {
-                                stroke: '#FFFFFF',
-                                fill: '#FFFFFF',
-                            },
-                            title: {
-                                fontSize: 12 * textScaleFactor,
-                                fontFamily: 'Montserrat',
-                                fontStyle: 'italic',
-                            },
-                            labels: {
-                                fontSize: 10 * textScaleFactor,
-                                fontFamily: 'Montserrat',
-                                fontStyle: 'italic',
-                            },
-                        }}
-                        borderPadding={{ top: 10, bottom: 10, left: 15, right: 15 }}
-                        data={legendSelections}
-                        dataComponent={<Point />}
-                        name="legend"
-                        title={['(Show/Hide series by', 'clicking on the shape', 'in the legend)']}
-                        events={[
-                            {
-                                target: 'data',
-                                eventHandlers: {
-                                    onClick: () => {
-                                        return [
-                                            {
-                                                target: 'data',
-                                                mutation: (props) => {
-                                                    const fill = props.style && props.style.fill;
-                                                    const name = measurementMethodForName(props.datum.name);
-                                                    if (name === 'height') {
-                                                        setShowHeight(!showHeight);
-                                                    }
-                                                    if (name === 'weight') {
-                                                        setShowWeight(!showWeight);
-                                                    }
-                                                    if (name === 'bmi') {
-                                                        setShowBMI(!showBMI);
-                                                    }
-                                                    if (name === 'ofc') {
-                                                        setShowOFC(!showOFC);
-                                                    }
-                                                    return fill === 'grey' ? null : { style: { fill: 'grey' } };
+                    {!hideLegend && (
+                        <VictoryLegend
+                            orientation="vertical"
+                            x={800}
+                            y={0}
+                            style={{
+                                border: {
+                                    stroke: '#FFFFFF',
+                                    fill: '#FFFFFF',
+                                },
+                                title: {
+                                    fontSize: 12 * textScaleFactor,
+                                    fontFamily: 'Montserrat',
+                                    fontStyle: 'italic',
+                                },
+                                labels: {
+                                    fontSize: 10 * textScaleFactor,
+                                    fontFamily: 'Montserrat',
+                                    fontStyle: 'italic',
+                                },
+                            }}
+                            borderPadding={{ top: 10, bottom: 10, left: 15, right: 15 }}
+                            data={legendSelections}
+                            dataComponent={<Point />}
+                            name="legend"
+                            title={['(Show/Hide series by', 'clicking on the shape', 'in the legend)']}
+                            events={[
+                                {
+                                    target: 'data',
+                                    eventHandlers: {
+                                        onClick: () => {
+                                            return [
+                                                {
+                                                    target: 'data',
+                                                    mutation: (props) => {
+                                                        const fill = props.style && props.style.fill;
+                                                        const name = measurementMethodForName(props.datum.name);
+                                                        if (name === 'height') {
+                                                            setShowHeight(!showHeight);
+                                                        }
+                                                        if (name === 'weight') {
+                                                            setShowWeight(!showWeight);
+                                                        }
+                                                        if (name === 'bmi') {
+                                                            setShowBMI(!showBMI);
+                                                        }
+                                                        if (name === 'ofc') {
+                                                            setShowOFC(!showOFC);
+                                                        }
+                                                        return fill === 'grey' ? null : { style: { fill: 'grey' } };
+                                                    },
                                                 },
-                                            },
-                                            {
-                                                target: 'labels',
-                                                mutation: (props) => {
-                                                    const fill = props.style && props.style.fill;
-                                                    const name = measurementMethodForName(props.datum.name);
-                                                    if (name === 'height') {
-                                                        setShowHeight(!showHeight);
-                                                    }
-                                                    if (name === 'weight') {
-                                                        setShowWeight(!showWeight);
-                                                    }
-                                                    if (name === 'bmi') {
-                                                        setShowBMI(!showBMI);
-                                                    }
-                                                    if (name === 'ofc') {
-                                                        setShowOFC(!showOFC);
-                                                    }
-                                                    return fill === 'grey' ? null : { style: { fill: 'grey' } };
+                                                {
+                                                    target: 'labels',
+                                                    mutation: (props) => {
+                                                        const fill = props.style && props.style.fill;
+                                                        const name = measurementMethodForName(props.datum.name);
+                                                        if (name === 'height') {
+                                                            setShowHeight(!showHeight);
+                                                        }
+                                                        if (name === 'weight') {
+                                                            setShowWeight(!showWeight);
+                                                        }
+                                                        if (name === 'bmi') {
+                                                            setShowBMI(!showBMI);
+                                                        }
+                                                        if (name === 'ofc') {
+                                                            setShowOFC(!showOFC);
+                                                        }
+                                                        return fill === 'grey' ? null : { style: { fill: 'grey' } };
+                                                    },
                                                 },
-                                            },
-                                        ];
+                                            ];
+                                        },
                                     },
                                 },
-                            },
-                        ]}
-                    />
+                            ]}
+                        />
+                    )}
                 </VictoryChart>
 
                 <ChartTitle
@@ -582,40 +595,41 @@ const SDSChart: React.FC<SDSChartProps> = (
                     color={styles.referenceTextStyle.color}
                     fontWeight={styles.referenceTextStyle.fontWeight}
                     fontStyle={styles.referenceTextStyle.fontStyle}
-                >{referenceText(reference)}</ChartTitle>
+                >
+                    {referenceText(reference)}
+                </ChartTitle>
 
-            {logoVariant === 'legend' && (
-                <ChartTitle
-                    fontSize={8}
-                    fontFamily={'Arial'}
-                    color={'#000000'}
-                    fontWeight={'200'}
-                    fontStyle='normal'
-                >Powered by RCPCH Digital Growth Charts - {chartsVersion}</ChartTitle>
-            )}
+                {logoVariant === 'legend' && (
+                    <ChartTitle
+                        fontSize={8}
+                        fontFamily={'Arial'}
+                        color={'#000000'}
+                        fontWeight={'200'}
+                        fontStyle="normal"
+                    >
+                        Powered by RCPCH Digital Growth Charts - {chartsVersion}
+                    </ChartTitle>
+                )}
 
-            {logoVariant === 'bottom' && (
-                <BottomContainer>
-                    <BottomLogoContainer>
-                        <IndividualLogoContainer>
-                            <img src={icon} width={24} height={24} />
-                        </IndividualLogoContainer>
-                        <VersionLabel fontFamily={styles.chartTitle.fontFamily}>{chartsVersion}</VersionLabel>
-                        <IndividualLogoContainer>
-                            <img src={ukca} width={18} height={18}/>
-                        </IndividualLogoContainer>
-                    </BottomLogoContainer>
-                </BottomContainer>
-            )}
-                
-        </ChartContainer>
+                {logoVariant === 'bottom' && (
+                    <BottomContainer>
+                        <BottomLogoContainer>
+                            <IndividualLogoContainer>
+                                <img src={icon} width={24} height={24} />
+                            </IndividualLogoContainer>
+                            <VersionLabel fontFamily={styles.chartTitle.fontFamily}>{chartsVersion}</VersionLabel>
+                            <IndividualLogoContainer>
+                                <img src={ukca} width={18} height={18} />
+                            </IndividualLogoContainer>
+                        </BottomLogoContainer>
+                    </BottomContainer>
+                )}
+            </ChartContainer>
 
-        {(showToggle || enableExport) && (
-            <ButtonContainer>
-            
-                {/* Creates the Copy button - note if user has disabled this, must have an empty div to allow the toggle buttons to remain in the center */}
-                    { enableExport ? (
-
+            {(showToggle || enableExport) && (
+                <ButtonContainer>
+                    {/* Creates the Copy button - note if user has disabled this, must have an empty div to allow the toggle buttons to remain in the center */}
+                    {enableExport ? (
                         <ShareButtonWrapper>
                             <StyledButtonTooltip
                                 $backgroundColor={styles.toggleTooltipStyle.backgroundColor}
