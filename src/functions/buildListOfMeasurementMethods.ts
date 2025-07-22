@@ -8,7 +8,8 @@ export const selectedMeasurementMethods = (
     styles: { [key: string]: any },
 ) => {
     const finalList: VictoryLegendDatum[] = [];
-    if (childMeasurements.height.length > 0) {
+
+    if (childMeasurements.height?.length > 0) {
         const symbol = symbolForMeasurementType('height');
         const name = nameForMeasurementMethod('height');
 
@@ -23,7 +24,7 @@ export const selectedMeasurementMethods = (
             },
         });
     }
-    if (childMeasurements.weight.length > 0) {
+    if (childMeasurements.weight?.length > 0) {
         const symbol = symbolForMeasurementType('weight');
         const name = nameForMeasurementMethod('weight');
         finalList.push({
@@ -37,7 +38,7 @@ export const selectedMeasurementMethods = (
             },
         });
     }
-    if (childMeasurements.bmi.length > 0) {
+    if (childMeasurements.bmi?.length > 0) {
         const symbol = symbolForMeasurementType('bmi');
         const name = nameForMeasurementMethod('bmi');
         finalList.push({
@@ -51,7 +52,7 @@ export const selectedMeasurementMethods = (
             },
         });
     }
-    if (childMeasurements.ofc.length > 0) {
+    if (childMeasurements.ofc?.length > 0) {
         const symbol = symbolForMeasurementType('ofc');
         const name = nameForMeasurementMethod('ofc');
         finalList.push({
