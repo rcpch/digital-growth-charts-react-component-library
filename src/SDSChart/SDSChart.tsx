@@ -180,10 +180,10 @@ const SDSChart: React.FC<SDSChartProps> = ({
     }
 
     if (
-        (childMeasurements.height[0]?.birth_data.gestation_weeks >= 37 ||
-            childMeasurements.weight[0]?.birth_data.gestation_weeks >= 37 ||
-            childMeasurements.bmi[0]?.birth_data.gestation_weeks >= 37 ||
-            childMeasurements.ofc[0]?.birth_data.gestation_weeks >= 37) &&
+        (childMeasurements.height?.[0]?.birth_data.gestation_weeks >= 37 ||
+            childMeasurements.weight?.[0]?.birth_data.gestation_weeks >= 37 ||
+            childMeasurements.bmi?.[0]?.birth_data.gestation_weeks >= 37 ||
+            childMeasurements.ofc?.[0]?.birth_data.gestation_weeks >= 37) &&
         measurementMethod === 'weight' &&
         reference === 'uk-who' &&
         domains?.x[0] < 0.038329911019849415 && // 2 weeks postnatal
@@ -394,8 +394,8 @@ const SDSChart: React.FC<SDSChartProps> = ({
                             linkLineStyles = styles?.ofcSDS;
                             showData = showOFC;
                         }
-
-                        if (measurementTypeItem.measurementTypeData.length == 0 || !showData) {
+                        
+                        if (!measurementTypeItem.measurementTypeData || measurementTypeItem.measurementTypeData.length == 0 || !showData) {
                             // if there is no data for this measurement, do not run this code as leads to css errors
                             return;
                         }
