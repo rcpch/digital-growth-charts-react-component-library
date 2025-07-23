@@ -100,7 +100,7 @@ const SDSChart: React.FC<SDSChartProps> = ({
 
     const [showChronologicalAge, setShowChronologicalAge] = useState(defaultShowChronological);
     const [showCorrectedAge, setShowCorrectedAge] = useState(defaultShowCorrected);
-    const chartRef = useRef<any>();
+    const chartRef = useRef<any>(undefined);
     const [active, setActive] = useState(false);
     const [showHeight, setShowHeight] = useState(true);
     const [showWeight, setShowWeight] = useState(true);

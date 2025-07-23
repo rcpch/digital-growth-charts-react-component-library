@@ -1,5 +1,5 @@
 // Replace your-renderer with the renderer you are using (e.g., react, vue3, etc.)
-import type { Meta, StoryObj, StoryFn, ArgTypes } from '@storybook/react';
+import type { Meta, StoryObj, StoryFn, ArgTypes } from '@storybook/react-webpack5';
 
 import RCPCHChart from './RCPCHChart';
 import { RCPCHChartProps } from './RCPCHChart.types.ts';
