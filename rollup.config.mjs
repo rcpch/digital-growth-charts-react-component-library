@@ -81,7 +81,7 @@ export default [
         external: ['react', 'react-dom', 'react-dom/client'],
         output: [
             {
-                file: 'build/umd/rcpch-digital-growth-charts.umd.min.js',
+                file: 'build/rcpch-digital-growth-charts.umd.min.js',
                 format: 'umd',
                 name: 'RCPCHGrowthCharts',
                 exports: 'default',
