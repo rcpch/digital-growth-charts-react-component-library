@@ -42,7 +42,7 @@
     "dependencies": {
         "sass": "1.70.0",
         "styled-components": "6.1.8",
-        "victory": "36.9.1"
+        "victory": "37.3.6"
     },
     "devDependencies": {
         "@babel/preset-env": "7.26.0",
