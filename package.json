@@ -35,8 +35,8 @@
   "author": "eatyourpeas",
   "license": "AGPL-3.0-or-later",
   "peerDependencies": {
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react": "^19.1.0 || ^18.3.1",
+    "react-dom": "^19.1.0 || ^18.3.1"
   },
   "dependencies": {
     "styled-components": "6.1.19",
