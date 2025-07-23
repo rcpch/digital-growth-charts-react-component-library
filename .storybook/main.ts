@@ -5,12 +5,8 @@ const config: StorybookConfig = {
     staticDirs: ['../src/images'],
     addons: [
         '@storybook/addon-links',
-        '@storybook/addon-essentials',
         '@storybook/addon-onboarding',
-        '@storybook/addon-interactions',
         '@storybook/addon-docs',
-        '@storybook/addon-mdx-gfm',
-        '@storybook/addon-webpack5-compiler-babel',
         // {
         //     name: '@storybook/addon-styling-webpack',
         //     options: {
@@ -20,6 +16,7 @@ const config: StorybookConfig = {
         //       ]
         //     }
         //   }
+        '@storybook/addon-webpack5-compiler-babel'
     ],
     framework: {
         name: '@storybook/react-webpack5',
