@@ -3,7 +3,7 @@ function defineNonStylePropDefaults(propName: string, propValue: any) {
     //  sets default values if not already specified by the user
 
     if (propName === 'clinicianFocus' || propName === 'enableExport') {
-        return propValue === undefined ? false : propValue;
+        return propValue === undefined ? true : propValue;
     }
     if (propName === 'chartType') {
         return propValue === undefined ? 'centile' : propValue;

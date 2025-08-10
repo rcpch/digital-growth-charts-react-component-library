@@ -290,21 +290,25 @@ export function tooltipText(
                     );
                 }
                 // sds in square brackets
-                const sds_string = `[SDS: ${sds > 0 ? '+' + Math.round(sds * 1000) / 1000 : Math.round(sds * 1000) / 1000}]`;
+                const sds_string = `[SDS: ${sds > 0 ? '+' + Math.round(sds * 1000) / 1000 : Math.round(sds * 1000) / 1000}, `;
+                const roundedCentile =
+                    centile < 1 || centile > 99 ? Math.round(centile * 10) / 10 : Math.round(centile);
+
+                const centile_string = ` Centile: ${roundedCentile > 99.6 ? '>99.6' : roundedCentile < 0.4 ? '<0.4' : roundedCentile}]`;
                 if (age_type === 'corrected_age') {
                     returnStringList.push(
                         `Corrected age: ${calendar_age} on ${formatted_observation_date} on ${formatted_observation_date}`,
                     );
                     returnStringList.push(`${comment}`);
                     returnStringList.push(`${y} ${measurementSuffix(measurementMethod)}`);
-                    returnStringList.push(`${clinicianFocus ? sds_string : finalCentile}`);
+                    returnStringList.push(`${clinicianFocus ? sds_string + centile_string : finalCentile}`);
                     return returnStringList;
                 }
                 if (age_type === 'chronological_age') {
                     returnStringList.push(`Chronological age: ${calendar_age} on ${formatted_observation_date}`);
                     returnStringList.push(`${comment}`);
                     returnStringList.push(`${y} ${measurementSuffix(measurementMethod)}`);
-                    returnStringList.push(`${clinicianFocus ? sds_string : finalCentile}`);
+                    returnStringList.push(`${clinicianFocus ? sds_string + centile_string : finalCentile}`);
                     return returnStringList;
                 }
             }
@@ -312,13 +316,14 @@ export function tooltipText(
             // over 42 weeks
             // if no errors, return the ages, measurement and calculations
 
-            const sds_string = `SDS: ${sds > 0 ? '+' + Math.round(sds * 1000) / 1000 : Math.round(sds * 1000) / 1000}`;
-
+            const sds_string = `SDS: ${sds > 0 ? '+' + Math.round(sds * 1000) / 1000 : Math.round(sds * 1000) / 1000}, `;
+            const roundedCentile = centile < 1 || centile > 99 ? Math.round(centile * 10) / 10 : Math.round(centile);
+            const centile_string = ` Centile: ${roundedCentile > 99.6 ? '>99.6' : roundedCentile < 0.4 ? '<0.4' : roundedCentile}`;
             if (age_type === 'corrected_age' && x > 0.0383) {
                 returnStringList.push(`Corrected age: ${calendar_age} on ${formatted_observation_date}`);
                 returnStringList.push(`${comment}`);
                 returnStringList.push(`${y} ${measurementSuffix(measurementMethod)}`);
-                returnStringList.push(`${clinicianFocus ? sds_string : finalCentile}`);
+                returnStringList.push(`${clinicianFocus ? sds_string + centile_string : finalCentile}`);
                 if (measurementMethod === 'bmi') {
                     const correctedPercentageMedianBMI = `Percentage median BMI: ${Math.round(corrected_percentage_median_bmi)}%`;
                     returnStringList.push(`${correctedPercentageMedianBMI}`);
@@ -330,7 +335,7 @@ export function tooltipText(
                 returnStringList.push(returnString);
                 returnStringList.push(`${comment}`);
                 returnStringList.push(`${y} ${measurementSuffix(measurementMethod)}`);
-                returnStringList.push(`${clinicianFocus ? sds_string : finalCentile}`);
+                returnStringList.push(`${clinicianFocus ? sds_string + centile_string : finalCentile}`);
                 if (measurementMethod === 'bmi') {
                     const chronologicalPercentageMedianBMI = `Percentage median BMI: ${Math.round(chronological_percentage_median_bmi)}%`;
                     returnStringList.push(`${chronologicalPercentageMedianBMI}`);
