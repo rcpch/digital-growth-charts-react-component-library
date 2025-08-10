@@ -220,7 +220,7 @@ function makeAllStyles(
             },
         },
         centileLabel: {
-            fontSize: (centileStyle.centileTextStyle?.size ?? 6) * (textMultiplier ?? 1),
+            fontSize: (centileStyle.centileTextStyle?.size ?? 10) * (textMultiplier ?? 1),
             fontFamily: centileStyle.centileTextStyle?.name ?? 'Montserrat',
             fontWeight: centileStyle.centileTextStyle?.weight ?? 400,
             fill: centileStyle?.centileStroke ?? black,
