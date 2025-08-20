@@ -19,6 +19,7 @@ import { childTrisomyAAPData } from '../testParameters/measurements/childTrisomy
 import { maleWeightT21AAPData } from '../testParameters/measurements/maleWeightT21AAP.ts';
 import { whoToNineteenGirlHeight } from '../testParameters/measurements/whoHeightToNineteenGirl.ts';
 import { whoOneToFiveBoysHeight } from '../testParameters/measurements/whoHeightBoysOneToFive.ts';
+import { midparentalHeightBoy } from '../testParameters/measurements/midparentalHeight.ts';
 import React from 'react';
 // import { cdcFentonGirlLength } from '../testParameters/measurements/fenton/cdcFentonGirlLength';
 // import { cdcFentonGirlWeight } from '../testParameters/measurements/fenton/cdcFentonGirlWeight.ts';
@@ -279,7 +280,7 @@ export const CentileChartUKWHOGirlsHeightWithMeasurementsLegend: Story = {
 };
 
 export const CentileChartUKWHOBoysHeightWithMeasurementsLegend: Story = {
-    name: 'UK-WHO: Centile Chart - Height - Boys (with measurements) [Legend]',
+    name: 'UK-WHO: Centile Chart - Height - Boys (with measurements and mid-parental height) [Legend]',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'height',
@@ -287,7 +288,7 @@ export const CentileChartUKWHOBoysHeightWithMeasurementsLegend: Story = {
         sex: 'male',
         logoVariant: 'legend',
         measurements: { height: [] },
-        midParentalHeightData: {},
+        midParentalHeightData: midparentalHeightBoy,
         enableZoom: true,
         chartType: 'centile',
         enableExport: false,
