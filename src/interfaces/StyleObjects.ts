@@ -1,4 +1,11 @@
 export interface ChartStyle {
+    errorTitleStyle?: TextStyle; // style of text in error title: includes fontFamily, fontSize, colour, style, weight
+    errorSubtitleStyle?: TextStyle; // style of text in error subtitle: includes fontFamily, fontSize, colour, style, weight
+    errorToggleButtonInactiveColour?: string; // buttons - inactive colour
+    errorToggleButtonActiveColour?: string; // buttons - active colour
+    errorToggleButtonTextStyle?: TextStyle; // buttons text: includes fontFamily, fontSize, colour, style, weight
+    // errorToggleButtonTooltipStyle?: ToggleButtonTooltipStyle;
+    errorToggleButtonSize?: number;
     backgroundColour?: string; //background colour of chart
     titleStyle?: TextStyle; // style of text in title: includes fontFamily, fontSize, colour, style, weight
     subTitleStyle?: TextStyle; // style of text in subtitle: includes fontFamily, fontSize, colour, style, weight

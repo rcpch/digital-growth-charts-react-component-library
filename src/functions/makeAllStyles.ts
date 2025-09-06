@@ -97,6 +97,31 @@ function makeAllStyles(
             fontSize: chartStyle?.subTitleStyle?.size ?? 14,
             fontStyle: chartStyle?.subTitleStyle?.style === 'italic' ? 'italic' : 'normal',
         },
+        errorTitle: {
+            fontFamily: chartStyle?.errorTitleStyle?.name ?? 'Arial',
+            fontWeight: chartStyle?.errorTitleStyle?.weight ?? 700,
+            color: chartStyle?.errorTitleStyle?.colour ?? black,
+            fontSize: chartStyle?.errorTitleStyle?.size ?? 14,
+            fontStyle: chartStyle?.errorTitleStyle?.style === 'italic' ? 'italic' : 'normal',
+        },
+        errorSubtitle: {
+            fontFamily: chartStyle?.errorSubtitleStyle?.name ?? 'Arial',
+            fontWeight: chartStyle?.errorSubtitleStyle?.weight ?? 700,
+            color: chartStyle?.errorSubtitleStyle?.colour ?? black,
+            fontSize: chartStyle?.errorSubtitleStyle?.size ?? 14,
+            fontStyle: chartStyle?.errorSubtitleStyle?.style === 'italic' ? 'italic' : 'normal',
+        },
+        errorToggleButtonStyle: {
+            activeColour: chartStyle?.errorToggleButtonActiveColour ?? black,
+            inactiveColour: chartStyle?.errorToggleButtonInactiveColour ?? midGrey,
+            fontFamily: chartStyle?.errorToggleButtonTextStyle?.name ?? 'Arial',
+            fontWeight: chartStyle?.errorToggleButtonTextStyle?.weight ?? 400,
+            color: chartStyle?.errorToggleButtonTextStyle?.colour ?? white,
+            fontSize: chartStyle?.errorToggleButtonTextStyle?.size ?? 14,
+            fontStyle: chartStyle?.errorToggleButtonTextStyle?.style === 'italic' ? 'italic' : 'normal',
+            margin: 0,
+            buttonSize: chartStyle?.toggleButtonSize ?? 48,
+        },
         termArea: { data: { fill: chartStyle?.termFill ?? midGrey, stroke: chartStyle?.termStroke ?? midGrey } },
         xAxis: {
             axis: {

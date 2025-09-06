@@ -141,7 +141,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
         */
 
         return (
-            <ErrorBoundary styles={styles}>
+            <ErrorBoundary styles={styles} chartType={`${chartType}-${measurementMethod}`}>
                 <GlobalStyle>
                     <CentileChart
                         chartsVersion={VERSION}
@@ -177,7 +177,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
         const castArray = measurements as ClientMeasurementObject;
 
         return (
-            <ErrorBoundary styles={styles}>
+            <ErrorBoundary styles={styles} chartType={`${chartType}-${measurementMethod}`}>
                 <GlobalStyle>
                     <SDSChart
                         chartsVersion={VERSION}

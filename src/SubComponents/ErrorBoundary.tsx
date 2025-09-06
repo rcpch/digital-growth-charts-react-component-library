@@ -15,6 +15,7 @@ type TitleType = {
 type PropTypes = {
     children: React.ReactNode;
     styles: { [key: string]: any };
+    chartType: string;
 };
 
 class ErrorBoundary extends React.Component {
@@ -44,9 +45,11 @@ class ErrorBoundary extends React.Component {
             return (
                 <ErrorContainer height={this.props.styles.chartHeight} width={this.props.styles.chartWidth}>
                     <TextContainer>
-                        <ChartTitle {...this.props.styles.chartTitle}>The chart could not be displayed</ChartTitle>
+                        <ChartTitle key={this.props.chartType} {...this.props.styles.errorTitle}>
+                            The chart could not be displayed
+                        </ChartTitle>
                         <StyledErrorButton
-                            {...this.props.styles.toggleStyle}
+                            {...this.props.styles.errorToggleButtonStyle}
                             onClick={this.handleClick}
                             margin="20px 20px"
                             enabled={true}
@@ -54,7 +57,7 @@ class ErrorBoundary extends React.Component {
                             {!this.state.showError ? 'Show Details' : 'Hide Details'}
                         </StyledErrorButton>
                         {this.state.showError && (
-                            <ChartTitle {...this.props.styles.chartSubTitle}>{this.state.errorMessage}</ChartTitle>
+                            <ChartTitle {...this.props.styles.errorSubtitle}>{this.state.errorMessage}</ChartTitle>
                         )}
                     </TextContainer>
                 </ErrorContainer>
