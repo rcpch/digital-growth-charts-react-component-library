@@ -394,8 +394,12 @@ const SDSChart: React.FC<SDSChartProps> = ({
                             linkLineStyles = styles?.ofcSDS;
                             showData = showOFC;
                         }
-                        
-                        if (!measurementTypeItem.measurementTypeData || measurementTypeItem.measurementTypeData.length == 0 || !showData) {
+
+                        if (
+                            !measurementTypeItem.measurementTypeData ||
+                            measurementTypeItem.measurementTypeData.length == 0 ||
+                            !showData
+                        ) {
                             // if there is no data for this measurement, do not run this code as leads to css errors
                             return;
                         }
@@ -642,7 +646,7 @@ const SDSChart: React.FC<SDSChartProps> = ({
                             >
                                 <StyledShareButton
                                     $color={styles.toggleStyle.activeColour}
-                                    size={5}
+                                    $size={styles.toggleStyle.buttonSize}
                                     onClick={exportPressed}
                                     data-testid="copy-button"
                                 >
