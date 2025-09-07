@@ -25,7 +25,7 @@ function normaliseDate(raw: any, field: string, idx: number): string | undefined
     const isoMatch = raw.match(DATE_REGEX_ISO_WITH_TIME);
     if (isoMatch) {
         const datePart = isoMatch[1];
-        console.error(
+        console.warn(
             `${BASE_ERROR_PREFIX} Non-date ISO datetime for ${field} at measurement[${idx}]: "${raw}" -> truncated to "${datePart}"`,
         );
         return datePart;
@@ -36,7 +36,7 @@ function normaliseDate(raw: any, field: string, idx: number): string | undefined
     if (sepMatch) {
         const [, y, m, d] = sepMatch;
         const normalised = `${y}-${m}-${d}`;
-        console.error(
+        console.warn(
             `${BASE_ERROR_PREFIX} Non-standard date separators for ${field} at measurement[${idx}]: "${raw}" -> normalised to "${normalised}"`,
         );
         return normalised;
@@ -47,7 +47,7 @@ function normaliseDate(raw: any, field: string, idx: number): string | undefined
     if (!isNaN(parsed.getTime())) {
         // Use original interpreted UTC date portion
         const coerced = parsed.toISOString().slice(0, 10);
-        console.error(
+        console.warn(
             `${BASE_ERROR_PREFIX} Invalid date format for ${field} at measurement[${idx}]: "${raw}" -> coerced to "${coerced}"`,
         );
         return coerced;

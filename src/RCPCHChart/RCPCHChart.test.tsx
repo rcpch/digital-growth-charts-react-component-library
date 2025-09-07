@@ -55,13 +55,16 @@ describe('RCPCHChart', () => {
 
 describe('validateMeasurementsObject - date and type normalisation', () => {
     let errorSpy: jest.SpyInstance;
+    let warnSpy: jest.SpyInstance; // For console.warn
 
     beforeEach(() => {
         errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
     });
 
     afterEach(() => {
         errorSpy.mockRestore();
+        warnSpy.mockRestore();
     });
 
     function buildMeasurement(overrides: any = {}) {
@@ -110,8 +113,11 @@ describe('validateMeasurementsObject - date and type normalisation', () => {
         expect(cleaned?.birth_data?.estimated_date_delivery).toBe('1759-04-11');
         expect(cleaned?.measurement_dates?.observation_date).toBe('1761-04-10');
 
-        const messages = errorSpy.mock.calls.map((c) => c[0]);
-        expect(messages.some((msg) => msg.includes('truncated'))).toBeTruthy();
+        const warnMessages = warnSpy.mock.calls.map((c) => c[0]);
+        expect(warnMessages.some((msg) => msg.includes('truncated'))).toBeTruthy();
+
+        const errorMessages = errorSpy.mock.calls.map((c) => c[0]);
+        expect(errorMessages.some((msg) => msg.includes('truncated'))).toBeFalsy();
     });
 
     test('normalises variant separators and logs error', () => {
@@ -132,8 +138,11 @@ describe('validateMeasurementsObject - date and type normalisation', () => {
         expect(cleaned?.birth_data?.birth_date).toBe('1759-04-11');
         expect(cleaned?.birth_data?.estimated_date_delivery).toBe('1759-04-11');
 
-        const messages = errorSpy.mock.calls.map((c) => c[0]);
-        expect(messages.filter((m) => m.includes('Non-standard date separators')).length).toBeGreaterThanOrEqual(3);
+        const warnMessages = warnSpy.mock.calls.map((c) => c[0]);
+        expect(warnMessages.filter((m) => m.includes('Non-standard date separators')).length).toBeGreaterThanOrEqual(3);
+
+        const errorMessages = errorSpy.mock.calls.map((c) => c[0]);
+        expect(errorMessages.some((m) => m.includes('Non-standard date separators'))).toBeFalsy();
     });
 
     test('unparseable date is left unchanged and logs error', () => {
@@ -152,20 +161,20 @@ describe('validateMeasurementsObject - date and type normalisation', () => {
         expect(messages.some((m) => m.includes('Unparseable date'))).toBeTruthy();
     });
 
-    test('coercible but non-standard date (e.g. natural language) is parsed & coerced', () => {
+    test('coercible natural language date logs warning (not error) and coerces', () => {
         const m = buildMeasurement({
-            birth_data: {
-                birth_date: '11 Apr 1759',
-            },
+            birth_data: { birth_date: '11 Apr 1759' },
         });
 
         const result = validateMeasurementsObject({ height: [m] });
         const cleaned = result.height?.[0];
 
-        // Parsed then toISOString().slice(0,10)
-        expect(cleaned?.birth_data?.birth_date).toMatch(/1759-04-1[0-2]/); // allow for potential TZ shift
-        const messages = errorSpy.mock.calls.map((c) => c[0]);
-        expect(messages.some((m) => m.includes('Invalid date format'))).toBeTruthy();
+        expect(cleaned?.birth_data?.birth_date).toMatch(/^1759-04-\d{2}$/);
+        const warnMessages = warnSpy.mock.calls.map((c) => c[0]);
+        expect(warnMessages.some((m) => m.includes('Invalid date format'))).toBeTruthy();
+
+        const errorMessages = errorSpy.mock.calls.map((c) => c[0]);
+        expect(errorMessages.some((m) => m.includes('Invalid date format'))).toBeFalsy();
     });
 
     test('logs type warnings for invalid numeric types', () => {
