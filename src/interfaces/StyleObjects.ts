@@ -4,7 +4,6 @@ export interface ChartStyle {
     errorToggleButtonInactiveColour?: string; // buttons - inactive colour
     errorToggleButtonActiveColour?: string; // buttons - active colour
     errorToggleButtonTextStyle?: TextStyle; // buttons text: includes fontFamily, fontSize, colour, style, weight
-    // errorToggleButtonTooltipStyle?: ToggleButtonTooltipStyle;
     errorToggleButtonSize?: number;
     backgroundColour?: string; //background colour of chart
     titleStyle?: TextStyle; // style of text in title: includes fontFamily, fontSize, colour, style, weight

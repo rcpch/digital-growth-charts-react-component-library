@@ -16,23 +16,23 @@ The prop to define which chart type is rendered is: `chartType?: 'centile' | 'sd
 
 Other props are:
 
--   `title: string;` the title of the chart : could include patient name and identifiers
--   `measurementMethod: 'height' | 'weight' | 'ofc' | 'bmi';` _must_ be one of the options provided
--   `reference: 'uk-who' | 'turner' | 'trisomy-21' | 'cdc';` _must_ be one of the options provided
--   `sex: 'male' | 'female';` _must_ be one of the options provided
--   `logoVariant?: 'top' | 'bottom' | 'legend';` Where to place the logo. Top is the default
--   `measurements: { measurementMethod: Measurement[]};` array of measurements returned from RCPCH Growth API. This should not be edited or manipulated. **NOTE this has changed in v7.0.0**
--   `midParentalHeightData?: MidParentalHeightObject | undefined;` an RCPCH object returned from the RCPCH Growth API. Should not be edited or manipulated
--   `enableZoom?: boolean;` Allows the user to zoom and pan the charts if set to true. If disabled, hides the buttons associated with this.
--   `chartType?: 'centile' | 'sds';` These are addressed below
--   `enableExport?: boolean | undefined;` Cut/Paste button. Returns an SVG snapshot of the chart (without title) if set to true. If false, the buttons associated with this are hidden.
--   `exportChartCallback(svg?: any): any;` Names the function within the client to return the exported SVG to.
--   `clinicianFocus?: boolean | undefined | null;` Toggles tooltip advice between those aimed at clinicians and those more appropriate for patients/lay people.
--   `theme?: 'monochrome' | 'traditional' | 'tanner1' | 'tanner2' | 'tanner3' | 'custom'`
--   `height?: number` : defaults to 800px
--   `width?:  number`: defaults to 1000px
--   `customThemeStyles?`: discussed below
--   `logoVariant?: 'top' | 'bottom' | 'legend';`: allows the RCPCH logo to be de-emphasised in favour of a less prominent `powered by RCPCH` statement at the foot of the chart.
+- `title: string;` the title of the chart : could include patient name and identifiers
+- `measurementMethod: 'height' | 'weight' | 'ofc' | 'bmi';` _must_ be one of the options provided
+- `reference: 'uk-who' | 'turner' | 'trisomy-21' | 'cdc';` _must_ be one of the options provided
+- `sex: 'male' | 'female';` _must_ be one of the options provided
+- `logoVariant?: 'top' | 'bottom' | 'legend';` Where to place the logo. Top is the default
+- `measurements: { measurementMethod: Measurement[]};` array of measurements returned from RCPCH Growth API. This should not be edited or manipulated. **NOTE this has changed in v7.0.0**
+- `midParentalHeightData?: MidParentalHeightObject | undefined;` an RCPCH object returned from the RCPCH Growth API. Should not be edited or manipulated
+- `enableZoom?: boolean;` Allows the user to zoom and pan the charts if set to true. If disabled, hides the buttons associated with this.
+- `chartType?: 'centile' | 'sds';` These are addressed below
+- `enableExport?: boolean | undefined;` Cut/Paste button. Returns an SVG snapshot of the chart (without title) if set to true. If false, the buttons associated with this are hidden.
+- `exportChartCallback(svg?: any): any;` Names the function within the client to return the exported SVG to.
+- `clinicianFocus?: boolean | undefined | null;` Toggles tooltip advice between those aimed at clinicians and those more appropriate for patients/lay people.
+- `theme?: 'monochrome' | 'traditional' | 'tanner1' | 'tanner2' | 'tanner3' | 'custom'`
+- `height?: number` : defaults to 800px
+- `width?:  number`: defaults to 1000px
+- `customThemeStyles?`: discussed below
+- `logoVariant?: 'top' | 'bottom' | 'legend';`: allows the RCPCH logo to be de-emphasised in favour of a less prominent `powered by RCPCH` statement at the foot of the chart.
 
 ### `measurements`
 
@@ -340,76 +340,82 @@ or override styles within an existing theme, this can be done by passing in cust
 
 All attributes are optional, therefore only those attributes where changes are requested need be passed in. The keys for the `customThemeStyles` object are as follows:
 
--   `chartStyle?: ChartStyle;`
--   `axisStyle?: AxisStyle;`
--   `gridlineStyle?: GridlineStyle;`
--   `centileStyle?: CentileStyle;`
--   `sdsStyle?: SDSStyle;`
--   `measurementStyle?: MeasurementStyle;`
--   `referenceStyle?: ReferenceStyle;`
+- `chartStyle?: ChartStyle;`
+- `axisStyle?: AxisStyle;`
+- `gridlineStyle?: GridlineStyle;`
+- `centileStyle?: CentileStyle;`
+- `sdsStyle?: SDSStyle;`
+- `measurementStyle?: MeasurementStyle;`
+- `referenceStyle?: ReferenceStyle;`
 
 The attributes of each of these are below:
 
 #### `ChartStyle`
 
--   `backgroundColour?: string;` //background colour of chart
--   `titleStyle?: TextStyle`; // style of text in title: includes fontFamily, fontSize, colour, style, weight
--   `subTitleStyle?: TextStyle`; // style of text in subtitle: includes fontFamily, fontSize, colour, style, weight
--   `tooltipBackgroundColour?: string;` //background colour of tooltip
--   `tooltipStroke?: string;` //border colour of tooltip
--   `tooltipTextStyle?: TextStyle`; // tooltip text: includes fontFamily, fontSize, colour, style, weight
--   `termFill?: string;` // background colour of weight term area
--   `termStroke?: string;` // border colour of weight term area
--   `toggleButtonInactiveColour?: string;` // buttons - inactive colour
--   `toggleButtonActiveColour?: string;` // buttons - active colour
--   `toggleButtonTextStyle?: TextStyle | undefined;` // buttons text: includes fontFamily, fontSize, colour, style, weight
+- `errorTitleStyle?`: TextStyle; // style of text in error title: includes fontFamily, fontSize, colour, style, weight
+- `errorSubtitleStyle?`: TextStyle; // style of text in error subtitle: includes fontFamily, fontSize, colour, style, weight
+- `errorToggleButtonInactiveColour?`: string; // buttons - inactive colour
+- `errorToggleButtonActiveColour?`: string; // buttons - active colour
+- `errorToggleButtonTextStyle?`: TextStyle; // buttons text: includes fontFamily, fontSize, colour, style, weight
+- `errorToggleButtonSize?`: number;
+- `backgroundColour?: string;` //background colour of chart
+- `titleStyle?: TextStyle`; // style of text in title: includes fontFamily, fontSize, colour, style, weight
+- `subTitleStyle?: TextStyle`; // style of text in subtitle: includes fontFamily, fontSize, colour, style, weight
+- `tooltipBackgroundColour?: string;` //background colour of tooltip
+- `tooltipStroke?: string;` //border colour of tooltip
+- `tooltipTextStyle?: TextStyle`; // tooltip text: includes fontFamily, fontSize, colour, style, weight
+- `termFill?: string;` // background colour of weight term area
+- `termStroke?: string;` // border colour of weight term area
+- `toggleButtonInactiveColour?: string;` // buttons - inactive colour
+- `toggleButtonActiveColour?: string;` // buttons - active colour
+- `toggleButtonTextStyle?: TextStyle | undefined;` // buttons text: includes fontFamily, fontSize, colour, style, weight
 
 #### `MeasurementStyle`
 
--   `measurementFill?: string;` // measurement point fill colour - only apply to SDS charts
--   `highlightedMeasurementFill?: string;` // measurement point fill colour when hightlighted (SDS charts)
--   `eventTextStyle?: TextStyle;` // styles for text of events: includes fontFamily, fontSize, colour, style, weight
+- `measurementFill?: string;` // measurement point fill colour - only apply to SDS charts
+- `highlightedMeasurementFill?: string;` // measurement point fill colour when hightlighted (SDS charts)
+- `eventTextStyle?: TextStyle;` // styles for text of events: includes fontFamily, fontSize, colour, style, weight
 
 #### `CentileStyle`
 
--   `sdsStroke?: string;` // sds line colour
--   `centileStroke?: string;` // centile line colour
--   `nondisjunctionThresholdLabel ?: string;` // label for nondisjunctionThresholdLabel
--   `nondisjunctionThresholdLine ?: string;` // colour of nondisjunctionThresholdLine
--   `delayedPubertyAreaFill?: string;` // delayed puberty area colour
--   `midParentalCentileStroke?: string;` // Midparental height centile line colour
--   `midParentalAreaFill?: string;` // Midparental height area colour
--   `centileTextStyle?: Pick<TextStyle, 'name' | 'size' | 'weight'>;` // centile text style : includes name, size, weight
+- `sdsStroke?: string;` // sds line colour
+- `centileStroke?: string;` // centile line colour
+- `nondisjunctionThresholdLabel ?: string;` // label for nondisjunctionThresholdLabel
+- `nondisjunctionThresholdLine ?: string;` // colour of nondisjunctionThresholdLine
+- `delayedPubertyAreaFill?: string;` // delayed puberty area colour
+- `midParentalCentileStroke?: string;` // Midparental height centile line colour
+- `midParentalAreaFill?: string;` // Midparental height area colour
+- `centileTextStyle?: Pick<TextStyle, 'name' | 'size' | 'weight'>;` // centile text style : includes name, size, weight
 
 #### `SDSStyle`
 
--   `heightStroke?: string;` // sds line colour
--   `weightStroke?: string;` // sds line colour
--   `ofcStroke?: string;` // sds line colour
--   `bmiStroke?: string;` // sds line colour
+- `heightStroke?: string;` // sds line colour
+- `weightStroke?: string;` // sds line colour
+- `ofcStroke?: string;` // sds line colour
+- `bmiStroke?: string;` // sds line colour
 
 #### `GridlineStyle`
 
--   `gridlines?: boolean;` // show or hide gridlines
--   `stroke?: string;` // gridline colour
--   `strokeWidth?: number;` // gridline width
--   `dashed?: boolean;` // dashed vs continuous gridlines
+- `gridlines?: boolean;` // show or hide gridlines
+- `stroke?: string;` // gridline colour
+- `strokeWidth?: number;` // gridline width
+- `dashed?: boolean;` // dashed vs continuous gridlines
 
 #### `AxisStyle`
 
--   `axisStroke?: string;` // Axis colour
--   `axisThresholdLabelTextStyle?: TextStyle;` // Axis label text: : includes fontFamily, fontSize, colour, style, weight
--   `axisThresholdLineStyle?: AxisThresholdLineStyle;` // Axis line: includes colour
--   `axisLabelTextStyle?: TextStyle;` // Axis label text: : includes fontFamily, fontSize, colour, style, weight
--   `tickLabelTextStyle?: TickLabelTextStyle;` // Tick label text : includes fontFamily, fontSize, colour, style, weight and padding
+- `axisStroke?: string;` // Axis colour
+- `axisThresholdLabelTextStyle?: TextStyle;` // Axis label text: : includes fontFamily, fontSize, colour, style, weight
+- `axisThresholdLineStyle?: AxisThresholdLineStyle;` // Axis line: includes colour
+- `axisLabelTextStyle?: TextStyle;` // Axis label text: : includes fontFamily, fontSize, colour, style, weight
+- `tickLabelTextStyle?: TickLabelTextStyle;` // Tick label text : includes fontFamily, fontSize, colour, style, weight and padding
 
 #### `TextStyle`
 
--   `name?: string;`
--   `colour?: string;`
--   `size?: number;`
--   `style?: 'italic' | 'normal';`
--   `weight?: number | string;`
+- `name?: string;`
+- `colour?: string;`
+- `size?: number;`
+- `style?: 'italic' | 'normal';`
+- `weight?: number | string;`
 
 For example, if a user wished to override the background colour of the existing 'monochrome' theme:
 
