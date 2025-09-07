@@ -12,6 +12,7 @@ import SDSChart from '../SDSChart/SDSChart';
 
 // helper functions
 import makeAllStyles from '../functions/makeAllStyles';
+import { validateMeasurementsObject } from '../functions/validateClientMeasurementsArrayNormalizeDates';
 import ErrorBoundary from '../SubComponents/ErrorBoundary';
 import { ClientMeasurementObject } from '../interfaces/ClientMeasurementObject';
 import defineNonStylePropDefaults from '../functions/defineNonStylePropDefaults';
@@ -130,6 +131,9 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
         sex === 'male'
             ? `Boys - ${subtitleReferenceMeasurementMethod}`
             : `Girls - ${subtitleReferenceMeasurementMethod}`;
+
+    // Validate & sanitise incoming measurement collections
+    const validatedMeasurements = validateMeasurementsObject(measurements);
 
     let isCentile = chartType === 'centile' || chartType === undefined;
 
