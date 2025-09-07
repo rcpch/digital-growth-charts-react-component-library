@@ -1614,12 +1614,5 @@ export const CustomThemeErrorStylesChart: Story = {
 const meta: Meta<typeof RCPCHChart> = {
     component: RCPCHChart, // Reference the named export here
     title: 'RCPCHChart',
-    parameters: {
-        options: {
-            storySort: {
-                order: ['Theme Builder 🎨', 'UK-WHO', 'CDC'],
-            },
-        },
-    },
 };
 export default meta;

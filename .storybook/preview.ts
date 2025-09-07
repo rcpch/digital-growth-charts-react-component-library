@@ -9,6 +9,11 @@ const preview: Preview = {
                 date: /Date$/,
             },
         },
+        options: {
+            storySort: {
+                order: ['Theme Builder 🎨', 'UK-WHO', 'CDC'],
+            },
+        },
     },
 };
 
