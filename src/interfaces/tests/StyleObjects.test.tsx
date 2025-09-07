@@ -2,9 +2,6 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
 
-// Adjust mock paths to match the real location of these components.
-// Assuming ErrorBoundary lives at: src/RCPCHChart/SubComponents/ErrorBoundary.tsx
-// which imports: './ChartTitle' and './StyledErrorButton'
 jest.mock('../../SubComponents/ChartTitle', () => ({
     ChartTitle: (props: any) => {
         const { fontFamily, color, fontSize, fontWeight, fontStyle, children } = props;
@@ -49,7 +46,6 @@ jest.mock('../../SubComponents/StyledErrorButton', () => ({
 
 import ErrorBoundary from '../../SubComponents/ErrorBoundary';
 
-// Component that always throws
 const ThrowingChild: React.FC = () => {
     throw new Error('Boom test error');
 };
@@ -65,31 +61,60 @@ describe('ErrorBoundary custom error styles', () => {
         consoleErrorSpy.mockRestore();
     });
 
-    test('applies custom error styles and reveals subtitle on toggle', () => {
+    test('applies all custom error styles (title, subtitle, toggle button) and preserves them after toggle', () => {
+        // Simulate theme->ErrorBoundary style mapping (new error* style keys)
+        const customThemeChartStyle = {
+            errorTitleStyle: {
+                fontFamily: 'Arial',
+                colour: '#aa0000',
+                size: 26,
+                weight: 800,
+                style: 'italic',
+            },
+            errorSubtitleStyle: {
+                fontFamily: 'Courier New',
+                colour: '#005500',
+                size: 16,
+                weight: 400,
+                style: 'normal',
+            },
+            errorToggleButtonTextStyle: {
+                fontFamily: 'Verdana',
+                colour: '#ffffff',
+                size: 14,
+                weight: 600,
+                style: 'normal',
+            },
+            errorToggleButtonActiveColour: '#333399',
+            errorToggleButtonInactiveColour: '#999999',
+            errorToggleButtonSize: 14,
+        };
+
+        // What the real component would pass down to ErrorBoundary (flattened / transformed)
         const styles = {
             chartHeight: 500,
             chartWidth: 700,
             errorTitle: {
-                fontFamily: 'Arial',
-                color: '#aa0000',
-                fontSize: 26,
-                fontWeight: '800',
-                fontStyle: 'italic',
+                fontFamily: customThemeChartStyle.errorTitleStyle.fontFamily,
+                color: customThemeChartStyle.errorTitleStyle.colour,
+                fontSize: customThemeChartStyle.errorTitleStyle.size,
+                fontWeight: String(customThemeChartStyle.errorTitleStyle.weight),
+                fontStyle: customThemeChartStyle.errorTitleStyle.style,
             },
             errorSubtitle: {
-                fontFamily: 'Courier New',
-                color: '#005500',
-                fontSize: 16,
-                fontWeight: '400',
-                fontStyle: 'normal',
+                fontFamily: customThemeChartStyle.errorSubtitleStyle.fontFamily,
+                color: customThemeChartStyle.errorSubtitleStyle.colour,
+                fontSize: customThemeChartStyle.errorSubtitleStyle.size,
+                fontWeight: String(customThemeChartStyle.errorSubtitleStyle.weight),
+                fontStyle: customThemeChartStyle.errorSubtitleStyle.style,
             },
             errorToggleButtonStyle: {
-                fontFamily: 'Verdana',
-                color: '#ffffff',
-                fontSize: 14,
-                fontWeight: '600',
-                fontStyle: 'normal',
-                backgroundColor: '#333399',
+                fontFamily: customThemeChartStyle.errorToggleButtonTextStyle.fontFamily,
+                color: customThemeChartStyle.errorToggleButtonTextStyle.colour,
+                fontSize: customThemeChartStyle.errorToggleButtonTextStyle.size,
+                fontWeight: String(customThemeChartStyle.errorToggleButtonTextStyle.weight),
+                fontStyle: customThemeChartStyle.errorToggleButtonTextStyle.style,
+                backgroundColor: customThemeChartStyle.errorToggleButtonActiveColour,
             },
         };
 
@@ -99,6 +124,7 @@ describe('ErrorBoundary custom error styles', () => {
             </ErrorBoundary>,
         );
 
+        // Title styles
         const title = screen.getByText('The chart could not be displayed');
         expect(title).toHaveStyle({
             fontFamily: 'Arial',
@@ -108,6 +134,7 @@ describe('ErrorBoundary custom error styles', () => {
             fontStyle: 'italic',
         });
 
+        // Toggle button initial styles
         const toggleBtn = screen.getByTestId('error-toggle-button');
         expect(toggleBtn).toHaveTextContent('Show Details');
         expect(toggleBtn).toHaveStyle({
@@ -119,8 +146,10 @@ describe('ErrorBoundary custom error styles', () => {
             backgroundColor: '#333399',
         });
 
+        // Subtitle not yet visible
         expect(screen.queryByText('Boom test error')).not.toBeInTheDocument();
 
+        // Toggle to show details
         fireEvent.click(toggleBtn);
         expect(toggleBtn).toHaveTextContent('Hide Details');
 
@@ -132,9 +161,15 @@ describe('ErrorBoundary custom error styles', () => {
             fontWeight: '400',
             fontStyle: 'normal',
         });
+
+        // Ensure button styling unchanged after click
+        expect(toggleBtn).toHaveStyle({
+            backgroundColor: '#333399',
+            fontFamily: 'Verdana',
+        });
     });
 
-    test('works with partial error styles (only errorTitle)', () => {
+    test('gracefully handles partial custom styles (only errorTitleStyle supplied)', () => {
         const styles = {
             chartHeight: 400,
             chartWidth: 600,
@@ -143,6 +178,7 @@ describe('ErrorBoundary custom error styles', () => {
                 color: '#123456',
                 fontSize: 20,
             },
+            // No errorSubtitle / errorToggleButtonStyle
         };
 
         render(
