@@ -12,6 +12,7 @@ import SDSChart from '../SDSChart/SDSChart';
 
 // helper functions
 import makeAllStyles from '../functions/makeAllStyles';
+import { validateMeasurementsObject } from '../functions/validateClientMeasurementsArrayNormalizeDates';
 import ErrorBoundary from '../SubComponents/ErrorBoundary';
 import { ClientMeasurementObject } from '../interfaces/ClientMeasurementObject';
 import defineNonStylePropDefaults from '../functions/defineNonStylePropDefaults';
@@ -131,6 +132,9 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
             ? `Boys - ${subtitleReferenceMeasurementMethod}`
             : `Girls - ${subtitleReferenceMeasurementMethod}`;
 
+    // Validate & sanitise incoming measurement collections
+    const validatedMeasurements = validateMeasurementsObject(measurements);
+
     let isCentile = chartType === 'centile' || chartType === undefined;
 
     if (isCentile) {
@@ -148,7 +152,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
                         reference={reference}
                         title={title}
                         subtitle={subtitle}
-                        childMeasurements={measurements[measurementMethod]}
+                        childMeasurements={validatedMeasurements[measurementMethod] || []}
                         midParentalHeightData={midParentalHeightData || {}}
                         measurementMethod={measurementMethod}
                         sex={sex}
@@ -174,7 +178,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
             ofc?: [],
         }
         */
-        const castArray = measurements as ClientMeasurementObject;
+        // const castArray = measurements as ClientMeasurementObject;
 
         return (
             <ErrorBoundary styles={styles} chartType={`${chartType}-${measurementMethod}`}>
@@ -185,7 +189,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
                         title={title}
                         subtitle={subtitle}
                         measurementMethod={measurementMethod}
-                        childMeasurements={castArray}
+                        childMeasurements={validatedMeasurements}
                         midParentalHeightData={midParentalHeightData}
                         sex={sex}
                         enableZoom={enableZoom}
