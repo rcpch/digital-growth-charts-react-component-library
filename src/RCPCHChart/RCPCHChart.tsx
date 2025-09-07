@@ -152,7 +152,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
                         reference={reference}
                         title={title}
                         subtitle={subtitle}
-                        childMeasurements={measurements[measurementMethod]}
+                        childMeasurements={validatedMeasurements[measurementMethod] || []}
                         midParentalHeightData={midParentalHeightData || {}}
                         measurementMethod={measurementMethod}
                         sex={sex}
@@ -178,7 +178,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
             ofc?: [],
         }
         */
-        const castArray = measurements as ClientMeasurementObject;
+        // const castArray = measurements as ClientMeasurementObject;
 
         return (
             <ErrorBoundary styles={styles} chartType={`${chartType}-${measurementMethod}`}>
@@ -189,7 +189,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
                         title={title}
                         subtitle={subtitle}
                         measurementMethod={measurementMethod}
-                        childMeasurements={castArray}
+                        childMeasurements={validatedMeasurements}
                         midParentalHeightData={midParentalHeightData}
                         sex={sex}
                         enableZoom={enableZoom}

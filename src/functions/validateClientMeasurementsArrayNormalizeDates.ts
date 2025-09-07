@@ -2,6 +2,11 @@ import { ClientMeasurementObject } from '../interfaces/ClientMeasurementObject';
 import { Measurement } from '../interfaces/RCPCHMeasurementObject';
 // Simple date validator / normaliser
 const DATE_REGEX_PLAIN = /^\d{4}-\d{2}-\d{2}$/;
+const DATE_REGEX_ISO_WITH_TIME = /^(\d{4}-\d{2}-\d{2})T.+$/; // capture date part only and ignore time
+const DATE_REGEX_SEPARATORS = /^(\d{4})[\/_. ](\d{2})[\/_. ](\d{2})$/; // capture y/m/d with variant separators
+
+const BASE_ERROR_PREFIX =
+    '[RCPCHChart]  Note RCPCHChart expects dates in YYYY-MM-DD format. The dates have been reformatted. Please check the dates are correct.';
 
 type MeasurementKey = keyof ClientMeasurementObject;
 const MEASUREMENT_KEYS: MeasurementKey[] = ['height', 'weight', 'bmi', 'ofc'];
@@ -12,16 +17,45 @@ function normaliseDate(raw: any, field: string, idx: number): string | undefined
         console.error(`[RCPCHChart] Expected string for ${field} at measurement[${idx}], got ${typeof raw}`);
         return raw;
     }
+
+    // Already correct
     if (DATE_REGEX_PLAIN.test(raw)) return raw;
+
+    // ISO datetime with time / offset -> trim without timezone-induced day shift
+    const isoMatch = raw.match(DATE_REGEX_ISO_WITH_TIME);
+    if (isoMatch) {
+        const datePart = isoMatch[1];
+        console.error(
+            `${BASE_ERROR_PREFIX} Non-date ISO datetime for ${field} at measurement[${idx}]: "${raw}" -> truncated to "${datePart}"`,
+        );
+        return datePart;
+    }
+
+    // Variant separators -> normalise
+    const sepMatch = raw.match(DATE_REGEX_SEPARATORS);
+    if (sepMatch) {
+        const [, y, m, d] = sepMatch;
+        const normalised = `${y}-${m}-${d}`;
+        console.error(
+            `${BASE_ERROR_PREFIX} Non-standard date separators for ${field} at measurement[${idx}]: "${raw}" -> normalised to "${normalised}"`,
+        );
+        return normalised;
+    }
+
+    // Fallback: try Date parsing (may coerce things like '2025 Sept 4')
     const parsed = new Date(raw);
     if (!isNaN(parsed.getTime())) {
+        // Use original interpreted UTC date portion
         const coerced = parsed.toISOString().slice(0, 10);
         console.error(
-            `[RCPCHChart] Invalid date format for ${field} at measurement[${idx}]: "${raw}" -> coerced to "${coerced}"`,
+            `${BASE_ERROR_PREFIX} Invalid date format for ${field} at measurement[${idx}]: "${raw}" -> coerced to "${coerced}"`,
         );
         return coerced;
     }
-    console.error(`[RCPCHChart] Unparseable date for ${field} at measurement[${idx}]: "${raw}" (left unchanged)`);
+
+    console.error(
+        `${BASE_ERROR_PREFIX} Unparseable date for ${field} at measurement[${idx}]: "${raw}" (left unchanged). This will appear as Invalid Date in the chart tooltips.`,
+    );
     return raw;
 }
 
