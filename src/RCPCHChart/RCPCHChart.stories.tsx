@@ -8,6 +8,7 @@ import { ChartStyle } from '../interfaces/StyleObjects.ts';
 // data
 import { twoToEight } from '../testParameters/measurements/twoToEight';
 import { prematureGirlOverThreeHeight } from '../testParameters/measurements/prematureGirlOverThreeHeight.ts';
+import { prematureTwentyTwoWeeksWeight } from '../testParameters/measurements/prematureTwentyTwoWeeks.ts';
 import { sdsTenYearGirlData } from '../testParameters/measurements/sdsTenYearGirlData';
 import { smallChildJustOverTwo } from '../testParameters/measurements/smallChildJustOverTwo';
 import { girlMidparentalheightCDC } from '../testParameters/measurements/girlMidparentalheightCDC.ts';
@@ -330,6 +331,27 @@ export const CentileChartPrematureUKWHOGirlsHeightWithMeasurementsBottom: Story 
         sex: 'female',
         logoVariant: 'bottom',
         measurements: { height: prematureGirlOverThreeHeight },
+        midParentalHeightData: {},
+        enableZoom: true,
+        chartType: 'centile',
+        enableExport: false,
+        exportChartCallback: () => {},
+        theme: 'tanner2',
+        height: 800,
+        width: 1000,
+        customThemeStyles: {},
+    },
+};
+
+export const CentileChartPrematureUKWHOGirlsHeight22Weeks: Story = {
+    name: 'UK-WHO: Centile Chart - Weight - Girls - 22 weeks premature',
+    args: {
+        title: 'Patient Name - Hospital Number',
+        measurementMethod: 'weight',
+        reference: 'uk-who',
+        sex: 'female',
+        logoVariant: 'bottom',
+        measurements: { weight: prematureTwentyTwoWeeksWeight },
         midParentalHeightData: {},
         enableZoom: true,
         chartType: 'centile',
