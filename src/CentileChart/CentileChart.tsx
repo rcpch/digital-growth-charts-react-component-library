@@ -242,6 +242,7 @@ function CentileChart({
     // full screen button action
     const fullScreenPressed = () => {
         setFullScreen(!fullScreen);
+        setUserDomains(null);
         fullScreen ? setStoredChildMeasurements([]) : setStoredChildMeasurements(childMeasurements);
     };
 
@@ -282,8 +283,8 @@ function CentileChart({
         setUserDomains(null);
     }, [storedChildMeasurements]);
 
-    const inLifeCourseMode = storedChildMeasurements.length === 0;
-    const chartDomain: Domains = inLifeCourseMode ? { x: domains.x, y: extendedDomains.y } : domains;
+    // const inLifeCourseMode = storedChildMeasurements.length === 0;
+    // const chartDomain: Domains = inLifeCourseMode ? { x: domains.x, y: extendedDomains.y } : domains;
 
     return (
         <MainContainer>
@@ -312,10 +313,11 @@ function CentileChart({
                 {/* Tooltips are here as it is the parent component. More information of tooltips in centiles below. */}
 
                 <VictoryChart
+                    key={storedChildMeasurements.length > 0 ? 'zoomed' : 'lifecourse'} // Add this
                     width={width}
                     height={height}
                     style={styles.chartMisc}
-                    domain={computedDomains}
+                    domain={storedChildMeasurements.length > 0 ? computedDomains : extendedDomains}
                     containerComponent={
                         <VictoryZoomVoronoiContainer
                             data-testid="label-container"
@@ -325,7 +327,7 @@ function CentileChart({
                             allowZoom={allowZooming}
                             allowPan={allowZooming}
                             onZoomDomainChange={handleZoomChange}
-                            zoomDomain={extendedDomains}
+                            zoomDomain={allowZooming ? extendedDomains : undefined}
                             labels={({ datum }) => {
                                 // This the tool tip text, and accepts a large number of arguments
                                 // tool tips return contextual information for each datapoint, as well as the centile
@@ -444,6 +446,10 @@ function CentileChart({
                             return (
                                 <VictoryGroup key={'midparentalCentileDataBlock' + index}>
                                     {upperData.map((centile: ICentile, centileIndex: number) => {
+                                        if (!centile.data || centile.data.length < 1) {
+                                            // prevents a css `width` infinity error if no data presented to centile line;
+                                            return null;
+                                        }
                                         // area lower and and upper boundaries
                                         const newData: any = centile.data.map((data, index) => {
                                             let o: any = Object.assign({}, data);
@@ -452,7 +458,7 @@ function CentileChart({
                                         });
                                         if (newData.length < 1) {
                                             // prevents a css `width` infinity error if no data presented to centile line;
-                                            return;
+                                            return null;
                                         }
 
                                         return (
@@ -465,9 +471,9 @@ function CentileChart({
                                         );
                                     })}
                                     {lowerData.map((lowercentile: ICentile, centileIndex: number) => {
-                                        if (lowercentile.data.length < 1) {
+                                        if (!lowercentile.data || lowercentile.data.length < 1) {
                                             // prevents a css `width` infinity error if no data presented to centile line
-                                            return;
+                                            return null;
                                         }
 
                                         return (
@@ -481,9 +487,9 @@ function CentileChart({
                                         );
                                     })}
                                     {midData.map((centile: ICentile, centileIndex: number) => {
-                                        if (centile.data.length < 1) {
+                                        if (!centile.data || centile.data.length < 1) {
                                             // prevents a css `width` infinity error if no data presented to centile line
-                                            return;
+                                            return null;
                                         }
                                         return (
                                             <VictoryLine
@@ -496,9 +502,9 @@ function CentileChart({
                                         );
                                     })}
                                     {upperData.map((uppercentile: ICentile, centileIndex: number) => {
-                                        if (uppercentile.data.length < 1) {
+                                        if (!uppercentile.data || uppercentile.data.length < 1) {
                                             // prevents a css `width` infinity error if no data presented to centile line
-                                            return;
+                                            return null;
                                         }
                                         return (
                                             <VictoryLine
@@ -534,7 +540,7 @@ function CentileChart({
                                 if (referenceIndex === 0 || (measurementMethod === 'ofc' && referenceIndex > 1)) {
                                     // this is a hack that needs fixing in future. It arrises because of the null data in the CDC neonate dataset (Fenton). Once the data is fixed, this can be removed. Only for weight is renders a line in the under ones.
                                     // it also removes the duplicate tooltips in the head circumference chart
-                                    return;
+                                    return null;
                                 }
                             }
 
@@ -543,14 +549,13 @@ function CentileChart({
                                     {referenceData.map((centile: ICentile, centileIndex: number) => {
                                         // BMI charts also have SDS lines at -5, -4, -3, -2, 2, 3, 4, 5
 
-                                        if (centile.data !== null && centile.data.length < 1) {
+                                        if (!centile.data || centile.data.length < 2) {
                                             // prevents a css `width` infinity error if no data presented to centile line
-                                            return;
+                                            return null;
                                         }
 
                                         if (centileIndex % 2) {
                                             // even index - centile is dashed
-
                                             return (
                                                 <VictoryLine
                                                     data-testid={
@@ -597,7 +602,6 @@ function CentileChart({
                                             );
                                         } else {
                                             // uneven index - centile is continuous
-
                                             return (
                                                 <VictoryLine
                                                     data-testid={
@@ -663,13 +667,11 @@ function CentileChart({
                                 return (
                                     <VictoryGroup key={'sdsDataBlock' + index} name="sdsLineGroup">
                                         {sdsReferenceData.map((sdsLine: ICentile, sdsIndex: number) => {
-                                            // BMI charts have SDS lines at -5, -4, -3, 3, 3.33, 3.67, 4
-
-                                            if (sdsLine.data.length < 1) {
+                                            //                     // BMI charts have SDS lines at -5, -4, -3, 3, 3.33, 3.67, 4
+                                            if (!sdsLine.data || sdsLine.data.length < 1) {
                                                 // prevents a css `width` infinity error if no data presented to sds line
-                                                return;
+                                                return null;
                                             }
-
                                             // sds line is dashed
                                             return (
                                                 <VictoryLine
