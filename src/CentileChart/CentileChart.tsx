@@ -151,34 +151,33 @@ function CentileChart({
 
     const allowZooming = storedChildMeasurements.length > 0 && enableZoom ? true : false;
 
+    // This is the domain actually controlled by zoom/reset
     const domains = userDomains || computedDomains;
 
-    // Extend y-domain when in full-lifespan mode but we have child data
+    // Extend y-domain only for life-course mode displays (not for zoom state)
     const extendedDomains: Domains = useMemo(() => {
-        // If we are showing the cropped view (child data in storedChildMeasurements),
-        // just use whatever domains already are (possibly zoomed).
-        if (storedChildMeasurements.length > 0) {
-            return domains;
-        }
+        const inLifeCourseMode = storedChildMeasurements.length === 0;
 
-        // Full-lifespan mode (storedChildMeasurements is empty),
-        // but we may still have real childMeasurements to respect.
-        if (!childMeasurements || childMeasurements.length === 0) {
+        if (!inLifeCourseMode || !childMeasurements || childMeasurements.length === 0) {
             return domains;
         }
 
         let [yMin, yMax] = domains.y;
-
         childMeasurements.forEach((m) => {
             const y = m.child_observation_value.observation_value;
             if (y < yMin) yMin = y;
             if (y > yMax) yMax = y;
         });
 
-        return {
-            x: domains.x,
-            y: [yMin - 5, yMax + 5] as [number, number], // add some padding
-        };
+        if (!Number.isFinite(yMin) || !Number.isFinite(yMax)) {
+            return domains;
+        }
+        if (yMin === yMax) {
+            yMin -= 1;
+            yMax += 1;
+        }
+
+        return { x: domains.x, y: [yMin - 5, yMax + 5] as [number, number] };
     }, [domains, storedChildMeasurements.length, childMeasurements]);
 
     const isChartCrowded = isCrowded(extendedDomains, childMeasurements);
@@ -282,6 +281,9 @@ function CentileChart({
     useLayoutEffect(() => {
         setUserDomains(null);
     }, [storedChildMeasurements]);
+
+    const inLifeCourseMode = storedChildMeasurements.length === 0;
+    const chartDomain: Domains = inLifeCourseMode ? { x: domains.x, y: extendedDomains.y } : domains;
 
     return (
         <MainContainer>
@@ -389,23 +391,21 @@ function CentileChart({
                         gridComponent={<CustomGridComponent chartScaleType={chartScaleType} />}
                     />
 
-                    {
-                        /* render the y axis */
-                        <VictoryAxis
-                            minDomain={0}
-                            label={yAxisLabel(measurementMethod, false)}
-                            axisLabelComponent={
-                                <VictoryLabel
-                                    dx={0}
-                                    // adjust label margins relatively to font size of yAxis text to prevent overlapping
-                                    dy={(styles.yAxis.tickLabels.fontSize - 5) * -1}
-                                    style={styles.yAxis.axisLabel}
-                                />
-                            }
-                            style={styles.yAxis}
-                            dependentAxis
-                        />
-                    }
+                    {/* render the y axis */}
+                    <VictoryAxis
+                        minDomain={0}
+                        label={yAxisLabel(measurementMethod, false)}
+                        axisLabelComponent={
+                            <VictoryLabel
+                                dx={0}
+                                // adjust label margins relatively to font size of yAxis text to prevent overlapping
+                                dy={(styles.yAxis.tickLabels.fontSize - 5) * -1}
+                                style={styles.yAxis.axisLabel}
+                            />
+                        }
+                        style={styles.yAxis}
+                        dependentAxis
+                    />
 
                     {/* This is the shaded area below the 0.4th centile in late childhood/early adolescence */}
                     {/* Any measurements plotting here are likely due to delayed puberty */}
