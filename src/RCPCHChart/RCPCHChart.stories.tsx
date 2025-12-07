@@ -22,7 +22,7 @@ import { whoToNineteenGirlHeight } from '../testParameters/measurements/whoHeigh
 import { whoOneToFiveBoysHeight } from '../testParameters/measurements/whoHeightBoysOneToFive.ts';
 import { midparentalHeightBoy } from '../testParameters/measurements/midparentalHeight.ts';
 import { ukwhoBMIBoyHigh } from '../testParameters/measurements/ukwhoBMIBoyHigh.ts';
-
+import React from 'react'; // Ensure React is imported
 // import { cdcFentonGirlLength } from '../testParameters/measurements/fenton/cdcFentonGirlLength';
 // import { cdcFentonGirlWeight } from '../testParameters/measurements/fenton/cdcFentonGirlWeight.ts';
 

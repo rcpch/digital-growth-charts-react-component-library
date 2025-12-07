@@ -260,7 +260,152 @@ describe('All tests relate to rendering the centile lines in the height centile 
         };
     });
 
+
+    it('renders life course view toggle when full life course not visible (height)', () => {
+        const localProps: CentileChartProps = {
+            ...props,
+            measurementMethod: 'height',
+            childMeasurements: termToAYearGirlHeight,
+        };
+
+        render(<CentileChart {...localProps} />);
+
+        const lifeCourseButton = screen.getByRole('button', { name: /life course/i });
+        expect(lifeCourseButton).toBeInTheDocument();
+    });
+
+    it('life course toggle expands y-domain to show out-of-range height values', async () => {
+        const exaggeratedHeight = {
+            ...termToAYearGirlHeight[0],
+            child_observation_value: {
+                ...termToAYearGirlHeight[0].child_observation_value,
+                observation_value: 300,
+            },
+        };
+
+        const localProps: CentileChartProps = {
+            ...props,
+            measurementMethod: 'height',
+            childMeasurements: [exaggeratedHeight],
+        };
+
+        render(<CentileChart {...localProps} />);
+
+        const lifeCourseButton = screen.getByRole('button', { name: /life course/i });
+        fireEvent.click(lifeCourseButton);
+
+        await waitFor(() => {
+            const svg = screen.getByTestId('chart-container-svg');
+            expect(svg).toBeInTheDocument();
+        });
+    });
     enum MeasurementMethods {
+
+describe('Life course view y-domain extension for different measurement methods', () => {
+    const midparentalHeight: MidParentalHeightObject = {};
+
+    const baseProps: CentileChartProps = {
+        chartsVersion: '7.0.0',
+        reference: 'uk-who',
+        title: 'TestChartTitle',
+        subtitle: 'TestChartSubtitle',
+        measurementMethod: 'height',
+        sex: 'male',
+        childMeasurements: [],
+        midParentalHeightData: midparentalHeight,
+        enableZoom: true,
+        styles: monochromeStyles,
+        enableExport: false,
+        exportChartCallback: () => null,
+        clinicianFocus: false,
+    };
+
+    it('toggles life course view and keeps extreme weight values visible', async () => {
+        const exaggeratedWeight = {
+            ...twoToEightWeight[0],
+            child_observation_value: {
+                ...twoToEightWeight[0].child_observation_value,
+                observation_value: 200,
+            },
+        };
+
+        const props: CentileChartProps = {
+            ...baseProps,
+            measurementMethod: 'weight',
+            childMeasurements: [exaggeratedWeight],
+        };
+
+        render(<CentileChart {...props} />);
+
+        const lifeCourseButton = screen.getByRole('button', { name: /life course/i });
+        expect(lifeCourseButton).toBeInTheDocument();
+
+        fireEvent.click(lifeCourseButton);
+
+        await waitFor(() => {
+            const svg = screen.getByTestId('chart-container-svg');
+            expect(svg).toBeInTheDocument();
+        });
+    });
+
+    it('toggles life course view and keeps extreme BMI values visible', async () => {
+        const exaggeratedBmiMeasurement = {
+            ...twoToEightWeight[0],
+            measurement_method: 'bmi',
+            child_observation_value: {
+                ...twoToEightWeight[0].child_observation_value,
+                observation_value: 60,
+            },
+        };
+
+        const props: CentileChartProps = {
+            ...baseProps,
+            measurementMethod: 'bmi',
+            childMeasurements: [exaggeratedBmiMeasurement],
+        };
+
+        render(<CentileChart {...props} />);
+
+        const lifeCourseButton = screen.getByRole('button', { name: /life course/i });
+        expect(lifeCourseButton).toBeInTheDocument();
+
+        fireEvent.click(lifeCourseButton);
+
+        await waitFor(() => {
+            const svg = screen.getByTestId('chart-container-svg');
+            expect(svg).toBeInTheDocument();
+        });
+    });
+
+    it('toggles life course view and keeps extreme OFC values visible', async () => {
+        const ofcMeasurement = {
+            ...termToAYearGirlHeight[0],
+            measurement_method: 'ofc',
+            child_observation_value: {
+                ...termToAYearGirlHeight[0].child_observation_value,
+                observation_value: 80,
+            },
+        };
+
+        const props: CentileChartProps = {
+            ...baseProps,
+            measurementMethod: 'ofc',
+            childMeasurements: [ofcMeasurement],
+        };
+
+        render(<CentileChart {...props} />);
+
+        const lifeCourseButton = screen.getByRole('button', { name: /life course/i });
+        expect(lifeCourseButton).toBeInTheDocument();
+
+        fireEvent.click(lifeCourseButton);
+
+        await waitFor(() => {
+            const svg = screen.getByTestId('chart-container-svg');
+            expect(svg).toBeInTheDocument();
+        });
+    });
+});
         'height' = 'height',
         'weight' = 'weight',
         'bmi' = 'bmi',

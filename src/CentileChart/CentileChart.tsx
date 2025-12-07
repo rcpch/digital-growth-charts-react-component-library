@@ -719,6 +719,9 @@ function CentileChart({
                         // puberty threshold lines uk90:
                         pubertyThresholds !== null &&
                             pubertyThresholds.map((dataArray) => {
+                                if (!dataArray || dataArray.length < 2) {
+                                    return null;
+                                }
                                 if (dataArray[0].x > extendedDomains.x[0] && dataArray[1].x < domains.x[1]) {
                                     return (
                                         <VictoryLine
@@ -752,6 +755,9 @@ function CentileChart({
                         //  nondisjunction lines uk90->uk-who->uk-who
                         nondisjunctionThresholds !== null &&
                             nondisjunctionThresholds.map((dataArray) => {
+                                if (!dataArray || dataArray.length < 2) {
+                                    return null;
+                                }
                                 if (dataArray[0].x > extendedDomains.x[0] && dataArray[1].x < extendedDomains.x[1]) {
                                     return (
                                         <VictoryLine
@@ -1086,7 +1092,7 @@ function CentileChart({
                                     <StyledFullScreenButton
                                         onClick={() => fullScreenPressed()}
                                         $color={styles.toggleStyle.activeColour}
-                                        size={5}
+                                        $size={5}
                                         data-testid="zoom-button"
                                     >
                                         {fullScreen ? <FullScreenIcon /> : <CloseFullScreenIcon />}
