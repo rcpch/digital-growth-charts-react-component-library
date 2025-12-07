@@ -7,7 +7,7 @@ export function labelIndexInterval(index: number, data: any[], domains: { x: num
         return false;
     }
     if (index <= 0 || index >= data.length - 2) {
-        return undefined; // Cannot calculate angle at the edges.
+        return false; // Cannot calculate angle at the edges.
     }
     const bill = data.filter((d: any) => {
         if (d.x > domains.x[0] && d.x < domains.x[1]) {

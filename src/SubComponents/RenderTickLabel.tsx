@@ -13,47 +13,22 @@ function RenderTickLabel(props: any) {
     // Creates a dashed tick to be used to increment the timespan along the x axis
     const Dash = () => {
         return (
-            <svg>
+            <g>
                 <line x1={x} x2={x} y1={y - 6} y2={y - 3} stroke={tickColour} />
-            </svg>
+            </g>
         );
     };
     // Creates a lollipop to display the number of months along the x axis
     const LolliPop = ({ textLabel }: { textLabel: number }) => {
         if (text !== lowerX) {
             return (
-                <svg>
-                    <g>
-                        <title>
-                            {textLabel} month{textLabel > 1 ? `s` : null}{' '}
-                        </title>
-                        <text
-                            x={x}
-                            y={y - 18}
-                            textAnchor="middle"
-                            fill={tickColour}
-                            fontSize={style.fontSize}
-                            fontFamily={style.fontFamily}
-                        >
-                            {textLabel}
-                        </text>
-                        <circle cx={x} cy={y - 21} r={7} stroke={tickColour} fill="transparent" />
-                        <line x1={x} x2={x} y1={y - 3} y2={y - 14} stroke={tickColour} />
-                    </g>
-                </svg>
-            );
-        } else {
-            return null;
-        }
-    };
-    const PlainAxisLabel = ({ textLabel }: { textLabel: number }) => {
-        return (
-            <svg>
                 <g>
-                    <line x1={x} x2={x} y1={y - 6} y2={y - 3} stroke={tickColour} />
+                    <title>
+                        {textLabel} month{textLabel > 1 ? `s` : null}{' '}
+                    </title>
                     <text
                         x={x}
-                        y={y + 8}
+                        y={y - 18}
                         textAnchor="middle"
                         fill={tickColour}
                         fontSize={style.fontSize}
@@ -61,8 +36,29 @@ function RenderTickLabel(props: any) {
                     >
                         {textLabel}
                     </text>
+                    <circle cx={x} cy={y - 21} r={7} stroke={tickColour} fill="transparent" />
+                    <line x1={x} x2={x} y1={y - 3} y2={y - 14} stroke={tickColour} />
                 </g>
-            </svg>
+            );
+        } else {
+            return null;
+        }
+    };
+    const PlainAxisLabel = ({ textLabel }: { textLabel: number }) => {
+        return (
+            <g>
+                <line x1={x} x2={x} y1={y - 6} y2={y - 3} stroke={tickColour} />
+                <text
+                    x={x}
+                    y={y + 8}
+                    textAnchor="middle"
+                    fill={tickColour}
+                    fontSize={style.fontSize}
+                    fontFamily={style.fontFamily}
+                >
+                    {textLabel}
+                </text>
+            </g>
         );
     };
 

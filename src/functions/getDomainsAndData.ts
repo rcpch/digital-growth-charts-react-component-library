@@ -351,37 +351,37 @@ function makeDefaultDomains(
         female: {
             'uk-who': {
                 height: {
-                    x: [-0.01, 20.05],
+                    x: [0.038329911019849415, 20.05],
                     y: [37.106385, 187.74047],
                 },
                 weight: {
-                    x: [-0.01, 20.05],
+                    x: [0.038329911019849415, 20.05],
                     y: [0, 94.233692],
                 },
                 bmi: {
-                    x: [-0.01, 20.05],
+                    x: [0.038329911019849415, 20.05],
                     y: [8.569247, 34.568174],
                 },
                 ofc: {
-                    x: [-0.01, 3.05],
+                    x: [0.038329911019849415, 18.05],
                     y: [30.280771, 60.829982],
                 },
             },
             who: {
                 height: {
-                    x: [-0.01, 19.05],
+                    x: [0.038329911019849415, 19.05],
                     y: [37.106385, 187.74047],
                 },
                 weight: {
-                    x: [-0.01, 10.05],
+                    x: [0.038329911019849415, 10.05],
                     y: [0, 50],
                 },
                 bmi: {
-                    x: [-0.01, 19.05],
+                    x: [0.038329911019849415, 19.05],
                     y: [8.569247, 34.568174],
                 },
                 ofc: {
-                    x: [-0.01, 5.05],
+                    x: [0.038329911019849415, 5.05],
                     y: [30.280771, 60.829982],
                 },
             },
@@ -737,9 +737,10 @@ function getRelevantDataSets(
             }
         }
 
+        const twoWeeksPostnatal = 0.038329911019849415;
         const dataSetRanges = [
-            [-0.345, 0.0383],
-            [0.0383, 2],
+            [-0.345, twoWeeksPostnatal],
+            [twoWeeksPostnatal, 2],
             [2, 4],
             [4, 21],
         ];
@@ -979,6 +980,7 @@ function getDomainsAndData(
     reference: 'uk-who' | 'trisomy-21' | 'turner' | 'cdc' | 'trisomy-21-aap' | 'who',
     showCorrected: boolean,
     showChronological: boolean,
+    originalMeasurements?: Measurement[],
 ) {
     // variables initialised to chart for bigger child:
     let internalChartScaleType: 'prem' | 'infant' | 'smallChild' | 'biggerChild' = 'biggerChild';
@@ -1241,7 +1243,29 @@ function getDomainsAndData(
             y: [finalLowestY, finalHighestY],
         };
     } else {
+        // no measurements provided or life course view - default to bigger child:
+        // in life course view, centile lines always shown for bigger child scale. The orginal measurements are only used to plot points.
         internalDomains = makeDefaultDomains(sex, reference, measurementMethod);
+
+        // Check if any original measurements are in the preterm range (negative corrected age)
+        // If so, extend the x domain to include them, otherwise cutoff at 2 weeks postnatal
+        let lowestOriginalX = internalDomains.x[0];
+        if (originalMeasurements && originalMeasurements.length > 0 && reference === 'uk-who') {
+            for (const measurement of originalMeasurements) {
+                const correctedAge = measurement.measurement_dates.corrected_decimal_age;
+                const chronologicalAge = measurement.measurement_dates.chronological_decimal_age;
+                const ageToCheck = showCorrected ? correctedAge : chronologicalAge;
+                if (ageToCheck < lowestOriginalX) {
+                    lowestOriginalX = ageToCheck;
+                }
+            }
+            // Only extend domain for true preterm measurements (negative corrected age)
+            // A negative corrected age means the child was born preterm and the measurement
+            // was taken before their due date
+            if (lowestOriginalX < 0) {
+                internalDomains.x[0] = Math.max(-0.345, lowestOriginalX - 0.01); // gestWeeks22
+            }
+        }
 
         finalCentileData = getRelevantDataSets(
             sex,

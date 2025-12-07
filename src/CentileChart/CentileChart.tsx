@@ -118,8 +118,17 @@ function CentileChart({
                 reference,
                 showCorrectedAge,
                 showChronologicalAge,
+                childMeasurements,
             ),
-        [storedChildMeasurements, sex, measurementMethod, reference, showCorrectedAge, showChronologicalAge],
+        [
+            storedChildMeasurements,
+            sex,
+            measurementMethod,
+            reference,
+            showCorrectedAge,
+            showChronologicalAge,
+            childMeasurements,
+        ],
     );
 
     // get the highest reference index of visible centile data
@@ -151,22 +160,49 @@ function CentileChart({
 
     const allowZooming = storedChildMeasurements.length > 0 && enableZoom ? true : false;
 
+    // This is the domain actually controlled by zoom/reset
     const domains = userDomains || computedDomains;
 
-    const isChartCrowded = isCrowded(domains, childMeasurements);
+    // Extend y-domain only for life-course mode displays (not for zoom state)
+    const extendedDomains: Domains = useMemo(() => {
+        const inLifeCourseMode = storedChildMeasurements.length === 0;
+
+        if (!inLifeCourseMode || !childMeasurements || childMeasurements.length === 0) {
+            return domains;
+        }
+
+        let [yMin, yMax] = domains.y;
+        childMeasurements.forEach((m) => {
+            const y = m.child_observation_value.observation_value;
+            if (y < yMin) yMin = y;
+            if (y > yMax) yMax = y;
+        });
+
+        if (!Number.isFinite(yMin) || !Number.isFinite(yMax)) {
+            return domains;
+        }
+        if (yMin === yMax) {
+            yMin -= 1;
+            yMax += 1;
+        }
+
+        return { x: domains.x, y: [yMin - 5, yMax + 5] as [number, number] };
+    }, [domains, storedChildMeasurements.length, childMeasurements]);
+
+    const isChartCrowded = isCrowded(extendedDomains, childMeasurements);
 
     let pubertyThresholds: null | any[] = null;
     let nondisjunctionThresholds: null | any[] = null;
 
     if (reference === 'uk-who' && measurementMethod === 'height') {
-        pubertyThresholds = makePubertyThresholds(domains, sex);
+        pubertyThresholds = makePubertyThresholds(extendedDomains, sex);
     }
     if (reference === 'uk-who' || reference === 'cdc' || reference === 'who') {
         if ((reference === 'cdc' || reference === 'who') && measurementMethod === 'ofc') {
             // no nondisjunction lines for CDC OFC
             nondisjunctionThresholds = null;
         } else {
-            nondisjunctionThresholds = makeNonDisjunctionThresholds(domains, sex, reference);
+            nondisjunctionThresholds = makeNonDisjunctionThresholds(extendedDomains, sex, reference);
         }
     }
 
@@ -182,19 +218,19 @@ function CentileChart({
         childMeasurements[0]?.birth_data.gestation_weeks >= 37 &&
         measurementMethod === 'weight' &&
         reference === 'uk-who' &&
-        domains?.x[0] < 0.038329911019849415 && // 2 weeks postnatal
-        domains?.x[1] >= -0.057494866529774126 // 37 weeks gest
+        extendedDomains?.x[0] < 0.038329911019849415 && // 2 weeks postnatal
+        extendedDomains?.x[1] >= -0.057494866529774126 // 37 weeks gest
     ) {
         termAreaData = [
             {
                 x: -0.057494866529774126,
-                y: domains.y[1],
-                y0: domains.y[0],
+                y: extendedDomains.y[1],
+                y0: extendedDomains.y[0],
             },
             {
                 x: 0.038329911019849415,
-                y: domains.y[1],
-                y0: domains.y[0],
+                y: extendedDomains.y[1],
+                y0: extendedDomains.y[0],
             },
         ];
     }
@@ -215,6 +251,7 @@ function CentileChart({
     // full screen button action
     const fullScreenPressed = () => {
         setFullScreen(!fullScreen);
+        setUserDomains(null);
         fullScreen ? setStoredChildMeasurements([]) : setStoredChildMeasurements(childMeasurements);
     };
 
@@ -255,6 +292,9 @@ function CentileChart({
         setUserDomains(null);
     }, [storedChildMeasurements]);
 
+    // const inLifeCourseMode = storedChildMeasurements.length === 0;
+    // const chartDomain: Domains = inLifeCourseMode ? { x: domains.x, y: extendedDomains.y } : domains;
+
     return (
         <MainContainer>
             {logoVariant === 'top' && (
@@ -271,7 +311,7 @@ function CentileChart({
                 </TopContainer>
             )}
 
-            <ChartContainer>
+            <ChartContainer data-testid="chart-container-svg">
                 <TitleContainer>
                     <ChartTitle {...styles.chartTitle}>{title}</ChartTitle>
                     <ChartTitle {...styles.chartSubTitle}>{subtitle}</ChartTitle>
@@ -282,10 +322,11 @@ function CentileChart({
                 {/* Tooltips are here as it is the parent component. More information of tooltips in centiles below. */}
 
                 <VictoryChart
+                    key={storedChildMeasurements.length > 0 ? 'zoomed' : 'lifecourse'} // Add this
                     width={width}
                     height={height}
                     style={styles.chartMisc}
-                    domain={computedDomains}
+                    domain={storedChildMeasurements.length > 0 ? computedDomains : extendedDomains}
                     containerComponent={
                         <VictoryZoomVoronoiContainer
                             data-testid="label-container"
@@ -295,7 +336,7 @@ function CentileChart({
                             allowZoom={allowZooming}
                             allowPan={allowZooming}
                             onZoomDomainChange={handleZoomChange}
-                            zoomDomain={domains}
+                            zoomDomain={allowZooming ? extendedDomains : undefined}
                             labels={({ datum }) => {
                                 // This the tool tip text, and accepts a large number of arguments
                                 // tool tips return contextual information for each datapoint, as well as the centile
@@ -348,36 +389,34 @@ function CentileChart({
 
                     {/* X axis: */}
                     <VictoryAxis
-                        label={xAxisLabel(chartScaleType, domains)}
+                        label={xAxisLabel(chartScaleType, extendedDomains)}
                         style={styles.xAxis}
                         tickValues={tailoredXTickValues[chartScaleType]}
                         tickLabelComponent={
                             <RenderTickLabel
                                 specificStyle={styles.xTicklabel}
                                 chartScaleType={chartScaleType}
-                                domains={domains}
+                                domains={extendedDomains}
                             />
                         }
                         gridComponent={<CustomGridComponent chartScaleType={chartScaleType} />}
                     />
 
-                    {
-                        /* render the y axis */
-                        <VictoryAxis
-                            minDomain={0}
-                            label={yAxisLabel(measurementMethod, false)}
-                            axisLabelComponent={
-                                <VictoryLabel
-                                    dx={0}
-                                    // adjust label margins relatively to font size of yAxis text to prevent overlapping
-                                    dy={(styles.yAxis.tickLabels.fontSize - 5) * -1}
-                                    style={styles.yAxis.axisLabel}
-                                />
-                            }
-                            style={styles.yAxis}
-                            dependentAxis
-                        />
-                    }
+                    {/* render the y axis */}
+                    <VictoryAxis
+                        minDomain={0}
+                        label={yAxisLabel(measurementMethod, false)}
+                        axisLabelComponent={
+                            <VictoryLabel
+                                dx={0}
+                                // adjust label margins relatively to font size of yAxis text to prevent overlapping
+                                dy={(styles.yAxis.tickLabels.fontSize - 5) * -1}
+                                style={styles.yAxis.axisLabel}
+                            />
+                        }
+                        style={styles.yAxis}
+                        dependentAxis
+                    />
 
                     {/* This is the shaded area below the 0.4th centile in late childhood/early adolescence */}
                     {/* Any measurements plotting here are likely due to delayed puberty */}
@@ -416,6 +455,10 @@ function CentileChart({
                             return (
                                 <VictoryGroup key={'midparentalCentileDataBlock' + index}>
                                     {upperData.map((centile: ICentile, centileIndex: number) => {
+                                        if (!centile.data || centile.data.length < 1) {
+                                            // prevents a css `width` infinity error if no data presented to centile line;
+                                            return null;
+                                        }
                                         // area lower and and upper boundaries
                                         const newData: any = centile.data.map((data, index) => {
                                             let o: any = Object.assign({}, data);
@@ -424,7 +467,7 @@ function CentileChart({
                                         });
                                         if (newData.length < 1) {
                                             // prevents a css `width` infinity error if no data presented to centile line;
-                                            return;
+                                            return null;
                                         }
 
                                         return (
@@ -437,9 +480,9 @@ function CentileChart({
                                         );
                                     })}
                                     {lowerData.map((lowercentile: ICentile, centileIndex: number) => {
-                                        if (lowercentile.data.length < 1) {
+                                        if (!lowercentile.data || lowercentile.data.length < 1) {
                                             // prevents a css `width` infinity error if no data presented to centile line
-                                            return;
+                                            return null;
                                         }
 
                                         return (
@@ -453,9 +496,9 @@ function CentileChart({
                                         );
                                     })}
                                     {midData.map((centile: ICentile, centileIndex: number) => {
-                                        if (centile.data.length < 1) {
+                                        if (!centile.data || centile.data.length < 1) {
                                             // prevents a css `width` infinity error if no data presented to centile line
-                                            return;
+                                            return null;
                                         }
                                         return (
                                             <VictoryLine
@@ -468,9 +511,9 @@ function CentileChart({
                                         );
                                     })}
                                     {upperData.map((uppercentile: ICentile, centileIndex: number) => {
-                                        if (uppercentile.data.length < 1) {
+                                        if (!uppercentile.data || uppercentile.data.length < 1) {
                                             // prevents a css `width` infinity error if no data presented to centile line
-                                            return;
+                                            return null;
                                         }
                                         return (
                                             <VictoryLine
@@ -506,23 +549,20 @@ function CentileChart({
                                 if (referenceIndex === 0 || (measurementMethod === 'ofc' && referenceIndex > 1)) {
                                     // this is a hack that needs fixing in future. It arrises because of the null data in the CDC neonate dataset (Fenton). Once the data is fixed, this can be removed. Only for weight is renders a line in the under ones.
                                     // it also removes the duplicate tooltips in the head circumference chart
-                                    return;
+                                    return null;
                                 }
                             }
 
                             return (
                                 <VictoryGroup key={'centileDataBlock' + referenceIndex} name="centileLineGroup">
                                     {referenceData.map((centile: ICentile, centileIndex: number) => {
-                                        // BMI charts also have SDS lines at -5, -4, -3, -2, 2, 3, 4, 5
-
-                                        if (centile.data !== null && centile.data.length < 1) {
+                                        if (!centile.data || centile.data.length < 2) {
                                             // prevents a css `width` infinity error if no data presented to centile line
-                                            return;
+                                            return null;
                                         }
 
                                         if (centileIndex % 2) {
                                             // even index - centile is dashed
-
                                             return (
                                                 <VictoryLine
                                                     data-testid={
@@ -540,7 +580,7 @@ function CentileChart({
                                                     style={{ ...styles.dashedCentile }}
                                                     labels={(props: { index: number; data: any }) =>
                                                         centileLabels &&
-                                                        labelIndexInterval(props.index, props.data, domains) &&
+                                                        labelIndexInterval(props.index, props.data, extendedDomains) &&
                                                         props.index > 0
                                                             ? [addOrdinalSuffix(centile.centile)]
                                                             : null
@@ -553,7 +593,7 @@ function CentileChart({
                                                                     parseInt(index.toString()),
                                                                     chartScaleType,
                                                                     measurementMethod,
-                                                                    domains,
+                                                                    extendedDomains,
                                                                 );
                                                             }}
                                                             style={styles.centileLabel}
@@ -569,7 +609,6 @@ function CentileChart({
                                             );
                                         } else {
                                             // uneven index - centile is continuous
-
                                             return (
                                                 <VictoryLine
                                                     data-testid={
@@ -587,7 +626,7 @@ function CentileChart({
                                                     style={{ ...styles.continuousCentile }}
                                                     labels={(props: { index: number; data: [] }) =>
                                                         centileLabels &&
-                                                        labelIndexInterval(props.index, props.data, domains) &&
+                                                        labelIndexInterval(props.index, props.data, extendedDomains) &&
                                                         props.index > 0
                                                             ? [addOrdinalSuffix(centile.centile)]
                                                             : null
@@ -600,7 +639,7 @@ function CentileChart({
                                                                     parseInt(index.toString()),
                                                                     chartScaleType,
                                                                     measurementMethod,
-                                                                    domains,
+                                                                    extendedDomains,
                                                                 );
                                                             }}
                                                             style={[
@@ -628,6 +667,7 @@ function CentileChart({
 
                     {
                         /* BMI SDS lines */
+                        // BMI charts also have SDS lines at -5, -4, -3, -2, 2, 3, 4, 5
                         measurementMethod === 'bmi' &&
                             bmiSDSData &&
                             reference === 'uk-who' && // only render for UK-WHO BMI charts since other references do not have SDS lines
@@ -635,13 +675,11 @@ function CentileChart({
                                 return (
                                     <VictoryGroup key={'sdsDataBlock' + index} name="sdsLineGroup">
                                         {sdsReferenceData.map((sdsLine: ICentile, sdsIndex: number) => {
-                                            // BMI charts have SDS lines at -5, -4, -3, 3, 3.33, 3.67, 4
-
-                                            if (sdsLine.data.length < 1) {
+                                            //                     // BMI charts have SDS lines at -5, -4, -3, 3, 3.33, 3.67, 4
+                                            if (!sdsLine.data || sdsLine.data.length < 1) {
                                                 // prevents a css `width` infinity error if no data presented to sds line
-                                                return;
+                                                return null;
                                             }
-
                                             // sds line is dashed
                                             return (
                                                 <VictoryLine
@@ -655,7 +693,7 @@ function CentileChart({
                                                     style={styles.sdsLine}
                                                     labels={(props: { index: number; data: [] }) =>
                                                         centileLabels &&
-                                                        labelIndexInterval(props.index, props.data, domains) &&
+                                                        labelIndexInterval(props.index, props.data, extendedDomains) &&
                                                         props.index > 0
                                                             ? [addOrdinalSuffix(sdsLine.sds)]
                                                             : null
@@ -668,7 +706,7 @@ function CentileChart({
                                                                     parseInt(index.toString()),
                                                                     chartScaleType,
                                                                     measurementMethod,
-                                                                    domains,
+                                                                    extendedDomains,
                                                                 );
                                                             }}
                                                             style={{ fill: styles.sdsLine.data.stroke, fontSize: 10.0 }}
@@ -691,7 +729,10 @@ function CentileChart({
                         // puberty threshold lines uk90:
                         pubertyThresholds !== null &&
                             pubertyThresholds.map((dataArray) => {
-                                if (dataArray[0].x > domains.x[0] && dataArray[1].x < domains.x[1]) {
+                                if (!dataArray || dataArray.length < 2) {
+                                    return null;
+                                }
+                                if (dataArray[0].x > extendedDomains.x[0] && dataArray[1].x < domains.x[1]) {
                                     return (
                                         <VictoryLine
                                             key={dataArray[0].x}
@@ -724,7 +765,10 @@ function CentileChart({
                         //  nondisjunction lines uk90->uk-who->uk-who
                         nondisjunctionThresholds !== null &&
                             nondisjunctionThresholds.map((dataArray) => {
-                                if (dataArray[0].x > domains.x[0] && dataArray[1].x < domains.x[1]) {
+                                if (!dataArray || dataArray.length < 2) {
+                                    return null;
+                                }
+                                if (dataArray[0].x > extendedDomains.x[0] && dataArray[1].x < extendedDomains.x[1]) {
                                     return (
                                         <VictoryLine
                                             key={dataArray[0].x}
@@ -1058,7 +1102,7 @@ function CentileChart({
                                     <StyledFullScreenButton
                                         onClick={() => fullScreenPressed()}
                                         $color={styles.toggleStyle.activeColour}
-                                        size={5}
+                                        $size={5}
                                         data-testid="zoom-button"
                                     >
                                         {fullScreen ? <FullScreenIcon /> : <CloseFullScreenIcon />}

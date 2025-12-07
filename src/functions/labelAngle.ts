@@ -39,7 +39,7 @@ export function labelAngle(
     */
 
     if (data === null || data.length < 1) {
-        return;
+        return 0;
     }
 
     const lastItem = data[index]; // item in array
@@ -51,7 +51,7 @@ export function labelAngle(
     }
 
     if (earlierBack == undefined || lastItem == undefined) {
-        return;
+        return 0;
     }
 
     const x0 = earlierBack.x;
