@@ -21,7 +21,8 @@ import { maleWeightT21AAPData } from '../testParameters/measurements/maleWeightT
 import { whoToNineteenGirlHeight } from '../testParameters/measurements/whoHeightToNineteenGirl.ts';
 import { whoOneToFiveBoysHeight } from '../testParameters/measurements/whoHeightBoysOneToFive.ts';
 import { midparentalHeightBoy } from '../testParameters/measurements/midparentalHeight.ts';
-import React from 'react';
+import { ukwhoBMIBoyHigh } from '../testParameters/measurements/ukwhoBMIBoyHigh.ts';
+
 // import { cdcFentonGirlLength } from '../testParameters/measurements/fenton/cdcFentonGirlLength';
 // import { cdcFentonGirlWeight } from '../testParameters/measurements/fenton/cdcFentonGirlWeight.ts';
 
@@ -398,6 +399,26 @@ export const CentileChartUKWHOGirlsWeight: Story = {
         enableExport: false,
         exportChartCallback: () => {},
         theme: 'tanner3',
+        customThemeStyles: {},
+    },
+};
+
+export const CentileChartUKWHOBoyBMIHigh: Story = {
+    name: 'UK-WHO: Centile Chart - BMI - Boys - High BMI',
+    args: {
+        title: 'Patient Name - Hospital Number',
+        measurementMethod: 'bmi',
+        reference: 'uk-who',
+        sex: 'male',
+        measurements: {
+            bmi: ukwhoBMIBoyHigh,
+        },
+        midParentalHeightData: {},
+        enableZoom: true,
+        chartType: 'centile',
+        enableExport: false,
+        exportChartCallback: () => {},
+        theme: 'tanner2',
         customThemeStyles: {},
     },
 };

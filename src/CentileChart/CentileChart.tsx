@@ -153,20 +153,48 @@ function CentileChart({
 
     const domains = userDomains || computedDomains;
 
-    const isChartCrowded = isCrowded(domains, childMeasurements);
+    // Extend y-domain when in full-lifespan mode but we have child data
+    const extendedDomains: Domains = useMemo(() => {
+        // If we are showing the cropped view (child data in storedChildMeasurements),
+        // just use whatever domains already are (possibly zoomed).
+        if (storedChildMeasurements.length > 0) {
+            return domains;
+        }
+
+        // Full-lifespan mode (storedChildMeasurements is empty),
+        // but we may still have real childMeasurements to respect.
+        if (!childMeasurements || childMeasurements.length === 0) {
+            return domains;
+        }
+
+        let [yMin, yMax] = domains.y;
+
+        childMeasurements.forEach((m) => {
+            const y = m.child_observation_value.observation_value;
+            if (y < yMin) yMin = y;
+            if (y > yMax) yMax = y;
+        });
+
+        return {
+            x: domains.x,
+            y: [yMin - 5, yMax + 5] as [number, number], // add some padding
+        };
+    }, [domains, storedChildMeasurements.length, childMeasurements]);
+
+    const isChartCrowded = isCrowded(extendedDomains, childMeasurements);
 
     let pubertyThresholds: null | any[] = null;
     let nondisjunctionThresholds: null | any[] = null;
 
     if (reference === 'uk-who' && measurementMethod === 'height') {
-        pubertyThresholds = makePubertyThresholds(domains, sex);
+        pubertyThresholds = makePubertyThresholds(extendedDomains, sex);
     }
     if (reference === 'uk-who' || reference === 'cdc' || reference === 'who') {
         if ((reference === 'cdc' || reference === 'who') && measurementMethod === 'ofc') {
             // no nondisjunction lines for CDC OFC
             nondisjunctionThresholds = null;
         } else {
-            nondisjunctionThresholds = makeNonDisjunctionThresholds(domains, sex, reference);
+            nondisjunctionThresholds = makeNonDisjunctionThresholds(extendedDomains, sex, reference);
         }
     }
 
@@ -182,19 +210,19 @@ function CentileChart({
         childMeasurements[0]?.birth_data.gestation_weeks >= 37 &&
         measurementMethod === 'weight' &&
         reference === 'uk-who' &&
-        domains?.x[0] < 0.038329911019849415 && // 2 weeks postnatal
-        domains?.x[1] >= -0.057494866529774126 // 37 weeks gest
+        extendedDomains?.x[0] < 0.038329911019849415 && // 2 weeks postnatal
+        extendedDomains?.x[1] >= -0.057494866529774126 // 37 weeks gest
     ) {
         termAreaData = [
             {
                 x: -0.057494866529774126,
-                y: domains.y[1],
-                y0: domains.y[0],
+                y: extendedDomains.y[1],
+                y0: extendedDomains.y[0],
             },
             {
                 x: 0.038329911019849415,
-                y: domains.y[1],
-                y0: domains.y[0],
+                y: extendedDomains.y[1],
+                y0: extendedDomains.y[0],
             },
         ];
     }
@@ -295,7 +323,7 @@ function CentileChart({
                             allowZoom={allowZooming}
                             allowPan={allowZooming}
                             onZoomDomainChange={handleZoomChange}
-                            zoomDomain={domains}
+                            zoomDomain={extendedDomains}
                             labels={({ datum }) => {
                                 // This the tool tip text, and accepts a large number of arguments
                                 // tool tips return contextual information for each datapoint, as well as the centile
@@ -348,14 +376,14 @@ function CentileChart({
 
                     {/* X axis: */}
                     <VictoryAxis
-                        label={xAxisLabel(chartScaleType, domains)}
+                        label={xAxisLabel(chartScaleType, extendedDomains)}
                         style={styles.xAxis}
                         tickValues={tailoredXTickValues[chartScaleType]}
                         tickLabelComponent={
                             <RenderTickLabel
                                 specificStyle={styles.xTicklabel}
                                 chartScaleType={chartScaleType}
-                                domains={domains}
+                                domains={extendedDomains}
                             />
                         }
                         gridComponent={<CustomGridComponent chartScaleType={chartScaleType} />}
@@ -540,7 +568,7 @@ function CentileChart({
                                                     style={{ ...styles.dashedCentile }}
                                                     labels={(props: { index: number; data: any }) =>
                                                         centileLabels &&
-                                                        labelIndexInterval(props.index, props.data, domains) &&
+                                                        labelIndexInterval(props.index, props.data, extendedDomains) &&
                                                         props.index > 0
                                                             ? [addOrdinalSuffix(centile.centile)]
                                                             : null
@@ -553,7 +581,7 @@ function CentileChart({
                                                                     parseInt(index.toString()),
                                                                     chartScaleType,
                                                                     measurementMethod,
-                                                                    domains,
+                                                                    extendedDomains,
                                                                 );
                                                             }}
                                                             style={styles.centileLabel}
@@ -587,7 +615,7 @@ function CentileChart({
                                                     style={{ ...styles.continuousCentile }}
                                                     labels={(props: { index: number; data: [] }) =>
                                                         centileLabels &&
-                                                        labelIndexInterval(props.index, props.data, domains) &&
+                                                        labelIndexInterval(props.index, props.data, extendedDomains) &&
                                                         props.index > 0
                                                             ? [addOrdinalSuffix(centile.centile)]
                                                             : null
@@ -600,7 +628,7 @@ function CentileChart({
                                                                     parseInt(index.toString()),
                                                                     chartScaleType,
                                                                     measurementMethod,
-                                                                    domains,
+                                                                    extendedDomains,
                                                                 );
                                                             }}
                                                             style={[
@@ -655,7 +683,7 @@ function CentileChart({
                                                     style={styles.sdsLine}
                                                     labels={(props: { index: number; data: [] }) =>
                                                         centileLabels &&
-                                                        labelIndexInterval(props.index, props.data, domains) &&
+                                                        labelIndexInterval(props.index, props.data, extendedDomains) &&
                                                         props.index > 0
                                                             ? [addOrdinalSuffix(sdsLine.sds)]
                                                             : null
@@ -668,7 +696,7 @@ function CentileChart({
                                                                     parseInt(index.toString()),
                                                                     chartScaleType,
                                                                     measurementMethod,
-                                                                    domains,
+                                                                    extendedDomains,
                                                                 );
                                                             }}
                                                             style={{ fill: styles.sdsLine.data.stroke, fontSize: 10.0 }}
@@ -691,7 +719,7 @@ function CentileChart({
                         // puberty threshold lines uk90:
                         pubertyThresholds !== null &&
                             pubertyThresholds.map((dataArray) => {
-                                if (dataArray[0].x > domains.x[0] && dataArray[1].x < domains.x[1]) {
+                                if (dataArray[0].x > extendedDomains.x[0] && dataArray[1].x < domains.x[1]) {
                                     return (
                                         <VictoryLine
                                             key={dataArray[0].x}
@@ -724,7 +752,7 @@ function CentileChart({
                         //  nondisjunction lines uk90->uk-who->uk-who
                         nondisjunctionThresholds !== null &&
                             nondisjunctionThresholds.map((dataArray) => {
-                                if (dataArray[0].x > domains.x[0] && dataArray[1].x < domains.x[1]) {
+                                if (dataArray[0].x > extendedDomains.x[0] && dataArray[1].x < extendedDomains.x[1]) {
                                     return (
                                         <VictoryLine
                                             key={dataArray[0].x}
