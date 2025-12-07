@@ -299,7 +299,7 @@ function CentileChart({
                 </TopContainer>
             )}
 
-            <ChartContainer>
+            <ChartContainer data-testid="chart-container-svg">
                 <TitleContainer>
                     <ChartTitle {...styles.chartTitle}>{title}</ChartTitle>
                     <ChartTitle {...styles.chartSubTitle}>{subtitle}</ChartTitle>
