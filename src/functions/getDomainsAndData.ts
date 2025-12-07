@@ -979,6 +979,7 @@ function getDomainsAndData(
     reference: 'uk-who' | 'trisomy-21' | 'turner' | 'cdc' | 'trisomy-21-aap' | 'who',
     showCorrected: boolean,
     showChronological: boolean,
+    originalMeasurements?: Measurement[],
 ) {
     // variables initialised to chart for bigger child:
     let internalChartScaleType: 'prem' | 'infant' | 'smallChild' | 'biggerChild' = 'biggerChild';
@@ -1241,7 +1242,27 @@ function getDomainsAndData(
             y: [finalLowestY, finalHighestY],
         };
     } else {
+        // no measurements provided or life course view - default to bigger child:
+        // in life course view, centile lines always shown for bigger child scale. The orginal measurements are only used to plot points.
         internalDomains = makeDefaultDomains(sex, reference, measurementMethod);
+
+        // Check if any original measurements are in preterm range
+        // If so, extend the x domain to include them, otherwise cutoff at 2 weeks
+        let lowestOriginalX = internalDomains.x[0];
+        if (originalMeasurements && originalMeasurements.length > 0 && reference === 'uk-who') {
+            for (const measurement of originalMeasurements) {
+                const correctedAge = measurement.measurement_dates.corrected_decimal_age;
+                const chronologicalAge = measurement.measurement_dates.chronological_decimal_age;
+                const ageToCheck = showCorrected ? correctedAge : chronologicalAge;
+                if (ageToCheck < lowestOriginalX) {
+                    lowestOriginalX = ageToCheck;
+                }
+            }
+            // If we have preterm measurements, extend domain to include them
+            if (lowestOriginalX < 0.038329911019849415) {
+                internalDomains.x[0] = Math.max(-0.345, lowestOriginalX - 0.01); // gestWeeks22
+            }
+        }
 
         finalCentileData = getRelevantDataSets(
             sex,

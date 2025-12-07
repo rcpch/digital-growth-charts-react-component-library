@@ -118,8 +118,17 @@ function CentileChart({
                 reference,
                 showCorrectedAge,
                 showChronologicalAge,
+                childMeasurements,
             ),
-        [storedChildMeasurements, sex, measurementMethod, reference, showCorrectedAge, showChronologicalAge],
+        [
+            storedChildMeasurements,
+            sex,
+            measurementMethod,
+            reference,
+            showCorrectedAge,
+            showChronologicalAge,
+            childMeasurements,
+        ],
     );
 
     // get the highest reference index of visible centile data
@@ -547,8 +556,6 @@ function CentileChart({
                             return (
                                 <VictoryGroup key={'centileDataBlock' + referenceIndex} name="centileLineGroup">
                                     {referenceData.map((centile: ICentile, centileIndex: number) => {
-                                        // BMI charts also have SDS lines at -5, -4, -3, -2, 2, 3, 4, 5
-
                                         if (!centile.data || centile.data.length < 2) {
                                             // prevents a css `width` infinity error if no data presented to centile line
                                             return null;
@@ -660,6 +667,7 @@ function CentileChart({
 
                     {
                         /* BMI SDS lines */
+                        // BMI charts also have SDS lines at -5, -4, -3, -2, 2, 3, 4, 5
                         measurementMethod === 'bmi' &&
                             bmiSDSData &&
                             reference === 'uk-who' && // only render for UK-WHO BMI charts since other references do not have SDS lines
