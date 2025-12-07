@@ -1403,3 +1403,105 @@ describe('Life course view button and y-domain behaviour', () => {
         });
     });
 });
+
+describe('Preterm centile data visibility in life course view', () => {
+    const midparentalHeight: MidParentalHeightObject = {};
+
+    const baseProps: CentileChartProps = {
+        chartsVersion: '7.0.0',
+        reference: 'uk-who',
+        title: 'TestChartTitle',
+        subtitle: 'TestChartSubtitle',
+        measurementMethod: 'height',
+        sex: 'female',
+        childMeasurements: [],
+        midParentalHeightData: midparentalHeight,
+        enableZoom: true,
+        styles: monochromeStyles,
+        enableExport: false,
+        exportChartCallback: () => null,
+        clinicianFocus: false,
+    };
+
+    it('shows preterm centile data (reference-0) in life course view when preterm child is plotted', async () => {
+        // prematureThreeMonths is a girl born at 30+2 weeks with measurements starting in preterm period
+        const localProps: CentileChartProps = {
+            ...baseProps,
+            measurementMethod: 'height',
+            childMeasurements: prematureThreeMonths,
+        };
+
+        render(<CentileChart {...localProps} />);
+
+        // Click the life course view button to switch to life course view
+        const lifeCourseButton = screen.getByTestId('zoom-button');
+        fireEvent.click(lifeCourseButton);
+
+        await waitFor(() => {
+            // In life course view, preterm centile data (reference-0) should be visible for preterm child
+            // The preterm reference is index 0 in the UK-WHO reference
+            expect(screen.queryByTestId('reference-0-centile-50-measurement-height')).toBeInTheDocument();
+        });
+    });
+
+    it('does not show preterm centile data (reference-0) in life course view when term child is plotted', async () => {
+        // termToAYearGirlHeight is a term girl (40+0 weeks) with no preterm measurements
+        const localProps: CentileChartProps = {
+            ...baseProps,
+            measurementMethod: 'height',
+            childMeasurements: termToAYearGirlHeight,
+        };
+
+        render(<CentileChart {...localProps} />);
+
+        // Click the life course view button to switch to life course view
+        const lifeCourseButton = screen.getByTestId('zoom-button');
+        fireEvent.click(lifeCourseButton);
+
+        await waitFor(() => {
+            // In life course view, preterm centile data (reference-0) should NOT be visible for term child
+            // Only reference-1 (infant), reference-2 (preschool), reference-3 (child) should be shown
+            expect(screen.queryByTestId('reference-0-centile-50-measurement-height')).not.toBeInTheDocument();
+        });
+    });
+
+    it('shows preterm centile data for weight when preterm child is plotted in life course view', async () => {
+        // prematureTwentyTwoWeeksWeight is an extremely preterm girl (22 weeks) with weight measurements
+        const localProps: CentileChartProps = {
+            ...baseProps,
+            measurementMethod: 'weight',
+            childMeasurements: prematureTwentyTwoWeeksWeight,
+        };
+
+        render(<CentileChart {...localProps} />);
+
+        // Click the life course view button to switch to life course view
+        const lifeCourseButton = screen.getByTestId('zoom-button');
+        fireEvent.click(lifeCourseButton);
+
+        await waitFor(() => {
+            // Preterm centile data should be visible for preterm child's weight
+            expect(screen.queryByTestId('reference-0-centile-50-measurement-weight')).toBeInTheDocument();
+        });
+    });
+
+    it('shows preterm centile data for OFC when preterm child is plotted in life course view', async () => {
+        // prematureTwentyTwoWeeksOFC is an extremely preterm girl with OFC measurements
+        const localProps: CentileChartProps = {
+            ...baseProps,
+            measurementMethod: 'ofc',
+            childMeasurements: prematureTwentyTwoWeeksOFC,
+        };
+
+        render(<CentileChart {...localProps} />);
+
+        // Click the life course view button to switch to life course view
+        const lifeCourseButton = screen.getByTestId('zoom-button');
+        fireEvent.click(lifeCourseButton);
+
+        await waitFor(() => {
+            // Preterm centile data should be visible for preterm child's OFC
+            expect(screen.queryByTestId('reference-0-centile-50-measurement-ofc')).toBeInTheDocument();
+        });
+    });
+});
