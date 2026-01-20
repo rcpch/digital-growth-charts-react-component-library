@@ -6,6 +6,7 @@ import SDSChart from './SDSChart';
 import { SDSChartProps } from './SDSChart.types';
 import { monochromeStyles } from '../testParameters/styles/monochromeStyles';
 import { ClientMeasurementObject } from '../interfaces/ClientMeasurementObject';
+// duplicate measurement fixtures are tested in RCPCHChart.test.tsx
 
 describe('SDSChart', () => {
     let props: SDSChartProps;
@@ -24,7 +25,7 @@ describe('SDSChart', () => {
             title: 'TestChartTitle',
             subtitle: 'TestChartSubtitle',
             measurementMethod: 'height',
-            sex: 'male',
+            sex: 'female',
             childMeasurements: blank,
             midParentalHeightData: {},
             enableZoom: false,
@@ -32,6 +33,7 @@ describe('SDSChart', () => {
             enableExport: false,
             exportChartCallback: () => null,
             clinicianFocus: false,
+            allowDuplicates: true,
         };
     });
 

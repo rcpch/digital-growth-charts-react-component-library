@@ -30,6 +30,13 @@ export function sdsTooltipText(datum: Datum) {
     // concatenate to form final string
     let finalLabel = '';
 
+    let duplicationMeasurementNote = '';
+    if (datum.datum.child_observation_value && datum.datum.child_observation_value.duplicate_measurement) {
+        duplicationMeasurementNote = 'This is a duplicate measurement.\n';
+    }
+
+    finalLabel += duplicationMeasurementNote;
+
     // set the ages
     let correctedChronologicalText = 'Chronological Age: ';
     if (array[0] === 'corrected') {

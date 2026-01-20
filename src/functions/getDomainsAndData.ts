@@ -477,6 +477,7 @@ function childMeasurementRanges(
                 prev.child_observation_value.measurement_method ===
                     measurement.child_observation_value.measurement_method
             ) {
+                // allowDuplicates flag controls duplicate-measurement validation
                 if (!allowDuplicates) {
                     throw new Error(
                         `Duplicate measurement detected for date ${measurement.measurement_dates.observation_date} ` +
@@ -989,6 +990,7 @@ function getDomainsAndData(
     originalMeasurements?: Measurement[],
     allowDuplicates: boolean = false,
 ) {
+    // allowDuplicates flag controls duplicate-measurement validation
     // variables initialised to chart for bigger child:
     let internalChartScaleType: 'prem' | 'infant' | 'smallChild' | 'biggerChild' = 'biggerChild';
     let finalCentileData: any[] = [];
