@@ -7,6 +7,7 @@ export interface SDSChartProps {
     subtitle: string;
     measurementMethod: 'height' | 'weight' | 'ofc' | 'bmi';
     childMeasurements: ClientMeasurementObject | undefined;
+    allowDuplicates?: boolean;
     midParentalHeightData?: MidParentalHeightObject | undefined;
     sex: 'male' | 'female';
     enableZoom: boolean;

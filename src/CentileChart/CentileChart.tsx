@@ -85,6 +85,7 @@ function CentileChart({
     measurementMethod,
     sex,
     childMeasurements,
+    allowDuplicates,
     midParentalHeightData,
     enableZoom,
     styles,
@@ -119,6 +120,7 @@ function CentileChart({
                 showCorrectedAge,
                 showChronologicalAge,
                 childMeasurements,
+                allowDuplicates,
             ),
         [
             storedChildMeasurements,
@@ -801,6 +803,21 @@ function CentileChart({
                     {/* If data points are close together, reduce the size of the point */}
 
                     {childMeasurements.map((childMeasurement: Measurement, index) => {
+                        // Skip rendering second (and subsequent) of consecutive duplicate measurements.
+                        // If the current measurement is flagged duplicate and the previous measurement
+                        // has the same observation date and observation value, don't render it here
+                        // so the tooltip only shows the representative measurement.
+                        if (childMeasurement.child_observation_value?.duplicate_measurement && index > 0) {
+                            const prev = childMeasurements[index - 1];
+                            if (
+                                prev?.measurement_dates?.observation_date ===
+                                    childMeasurement.measurement_dates?.observation_date &&
+                                prev?.child_observation_value?.observation_value ===
+                                    childMeasurement.child_observation_value?.observation_value
+                            ) {
+                                return null;
+                            }
+                        }
                         const [observationYear, observationMonth, observationDay] =
                             childMeasurement.measurement_dates.observation_date.split('-');
                         const observationDate = `${observationDay}/${observationMonth}/${observationYear}`;
@@ -832,6 +849,7 @@ function CentileChart({
                             sds: childMeasurement.measurement_calculated_values.chronological_sds,
                             chronological_percentage_median_bmi:
                                 childMeasurement.measurement_calculated_values.chronological_percentage_median_bmi,
+                            child_observation_value: childMeasurement.child_observation_value,
                         };
                         const correctData: any = {
                             age_type: 'corrected_age',
@@ -861,6 +879,7 @@ function CentileChart({
                             sds: childMeasurement.measurement_calculated_values.corrected_sds,
                             corrected_percentage_median_bmi:
                                 childMeasurement.measurement_calculated_values.corrected_percentage_median_bmi,
+                            child_observation_value: childMeasurement.child_observation_value,
                         };
 
                         if (isChartCrowded) {
