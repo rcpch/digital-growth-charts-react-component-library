@@ -22,6 +22,8 @@ import { whoToNineteenGirlHeight } from '../testParameters/measurements/whoHeigh
 import { whoOneToFiveBoysHeight } from '../testParameters/measurements/whoHeightBoysOneToFive.ts';
 import { midparentalHeightBoy } from '../testParameters/measurements/midparentalHeight.ts';
 import { ukwhoBMIBoyHigh } from '../testParameters/measurements/ukwhoBMIBoyHigh.ts';
+import { duplicateMeasurementSameValue } from '../testParameters/measurements/duplicateMeasurementSameValue.ts';
+import { duplicateMeasurementDifferentValue } from '../testParameters/measurements/duplicateMeasurementDifferentValue.ts';
 import React from 'react'; // Ensure React is imported
 // import { cdcFentonGirlLength } from '../testParameters/measurements/fenton/cdcFentonGirlLength';
 // import { cdcFentonGirlWeight } from '../testParameters/measurements/fenton/cdcFentonGirlWeight.ts';
@@ -1394,6 +1396,50 @@ export const CentileChartTrisomy21GirlsHeadCircumference: Story = {
         theme: 'tanner3',
         customThemeStyles: {},
         clinicianFocus: true,
+    },
+};
+
+export const DuplicateMeasurementSameValue: Story = {
+    name: 'Duplicate Measurement - UK-WHO: Centile Chart - Height',
+    args: {
+        title: 'Patient Name - Hospital Number',
+        measurementMethod: 'height',
+        reference: 'uk-who',
+        sex: 'female',
+        measurements: {
+            height: duplicateMeasurementSameValue,
+        },
+        midParentalHeightData: {},
+        enableZoom: true,
+        chartType: 'centile',
+        enableExport: false,
+        exportChartCallback: () => {},
+        theme: 'tanner3',
+        customThemeStyles: {},
+        clinicianFocus: true,
+        allowDuplicates: true,
+    },
+};
+
+export const DuplicateMeasurementDifferentValue: Story = {
+    name: 'Duplicate Measurement - UK-WHO: Centile Chart - Height',
+    args: {
+        title: 'Patient Name - Hospital Number',
+        measurementMethod: 'height',
+        reference: 'uk-who',
+        sex: 'female',
+        measurements: {
+            height: duplicateMeasurementDifferentValue,
+        },
+        midParentalHeightData: {},
+        enableZoom: true,
+        chartType: 'centile',
+        enableExport: false,
+        exportChartCallback: () => {},
+        theme: 'tanner3',
+        customThemeStyles: {},
+        clinicianFocus: true,
+        allowDuplicates: true,
     },
 };
 

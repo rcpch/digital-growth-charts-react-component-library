@@ -11,6 +11,7 @@ export interface Measurement {
         measurement_method: 'height' | 'weight' | 'bmi' | 'ofc';
         observation_value: number;
         observation_value_error?: string;
+        duplicate_measurement?: boolean;
     };
     measurement_dates: {
         chronological_calendar_age: string;

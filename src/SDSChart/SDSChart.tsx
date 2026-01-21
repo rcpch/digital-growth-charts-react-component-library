@@ -69,6 +69,7 @@ const SDSChart: React.FC<SDSChartProps> = ({
     subtitle,
     measurementMethod,
     childMeasurements,
+    allowDuplicates = false,
     midParentalHeightData,
     sex,
     enableZoom,
@@ -143,8 +144,17 @@ const SDSChart: React.FC<SDSChartProps> = ({
 
     let { computedDomains, chartScaleType } = useMemo(
         () =>
-            getDomainsAndData(measurements, sex, measurementMethod, reference, showCorrectedAge, showChronologicalAge),
-        [childMeasurements, sex, measurementMethod, reference, showCorrectedAge, showChronologicalAge],
+            getDomainsAndData(
+                measurements,
+                sex,
+                measurementMethod,
+                reference,
+                showCorrectedAge,
+                showChronologicalAge,
+                undefined,
+                allowDuplicates,
+            ),
+        [childMeasurements, sex, measurementMethod, reference, showCorrectedAge, showChronologicalAge, allowDuplicates],
     );
 
     const domains = userDomains || computedDomains;
@@ -404,6 +414,25 @@ const SDSChart: React.FC<SDSChartProps> = ({
                             return;
                         }
 
+                        // filter out duplicate measurements (where the observation_value and observation_date are the same) if they exist
+                        if (allowDuplicates) {
+                            measurementTypeItem.measurementTypeData = measurementTypeItem.measurementTypeData.filter(
+                                (measurement, idx, arr) => {
+                                    if (idx === 0) return true; // always keep first element
+                                    if (
+                                        arr[idx - 1].child_observation_value.observation_value ===
+                                            measurement.child_observation_value.observation_value &&
+                                        arr[idx - 1].measurement_dates.observation_date ===
+                                            measurement.measurement_dates.observation_date
+                                    ) {
+                                        // duplicate found
+                                        return false; // filter out this element
+                                    }
+                                    return true; // keep this element
+                                },
+                            );
+                        }
+
                         return (
                             <VictoryGroup key={measurementTypeItem.measurementType + '-' + itemIndex}>
                                 {showChronologicalAge &&
@@ -440,6 +469,7 @@ const SDSChart: React.FC<SDSChartProps> = ({
                                                     },
                                                 }}
                                                 name={`chronological-${measurementTypeItem.measurementType}-scatter`}
+                                                data-testid="chronologicalMeasurementPoint"
                                             />
                                         </VictoryGroup>
                                     )}
@@ -472,6 +502,7 @@ const SDSChart: React.FC<SDSChartProps> = ({
                                                 },
                                             }}
                                             name={`corrected-${measurementTypeItem.measurementType}-scatter`}
+                                            data-testid="correctedMeasurementXPoint"
                                         />
                                     </VictoryGroup>
                                 )}

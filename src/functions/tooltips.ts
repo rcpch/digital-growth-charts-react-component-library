@@ -26,6 +26,7 @@ export function tooltipText(
         calendar_age,
         gestational_age,
         y,
+        child_observation_value,
         observation_value_error,
         corrected_measurement_error,
         corrected_decimal_age_error,
@@ -53,6 +54,11 @@ export function tooltipText(
     // flag passed in from user - if clinician, show clinician age advice strings, else show child/family advice
     const comment = clinicianFocus ? clinician_comment : lay_comment;
 
+    let duplicate_measurement_note = '';
+    if (child_observation_value && child_observation_value.duplicate_measurement) {
+        duplicate_measurement_note = 'This is a duplicate measurement.';
+    }
+
     if (corrected_decimal_age_error && age_type === 'corrected_age') {
         returnStringList.push(`${corrected_decimal_age_error}`);
         return returnStringList;
@@ -73,6 +79,9 @@ export function tooltipText(
         returnStringList.push(`${comment}`);
         returnStringList.push(`${y} ${measurementSuffix(measurementMethod)}`);
         returnStringList.push(`${corrected_measurement_error}`);
+        if (duplicate_measurement_note.length > 0) {
+            returnStringList.push(`${duplicate_measurement_note}`);
+        }
         return returnStringList;
     }
     if (chronological_decimal_age_error && age_type === 'chronological_age') {
@@ -273,6 +282,10 @@ export function tooltipText(
         });
 
         let returnStringList = [];
+        // duplicate measurement note at top of tooltip
+        if (duplicate_measurement_note.length > 0) {
+            returnStringList.push(`${duplicate_measurement_note}`);
+        }
 
         // measurement data points
         if (x <= 0.0383) {
@@ -283,7 +296,7 @@ export function tooltipText(
                 // && age_error === null temporarily removed from if statement as error in api return object for EDD < observation_date
                 let corrected_gestational_age = '';
                 if (gestational_age) {
-                    corrected_gestational_age = `${gestational_age.corrected_gestation_weeks}+${gestational_age.corrected_gestation_days} weeks`;
+                    corrected_gestational_age = `${gestational_age.corrected_gestationn_weeks}+${gestational_age.corrected_gestation_days} weeks`;
                     returnStringList.push(`${calendar_age}`);
                     returnStringList.push(
                         `Corrected age: ${corrected_gestational_age} on ${formatted_observation_date} )`,

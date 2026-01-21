@@ -458,6 +458,7 @@ function childMeasurementRanges(
     showChronological: boolean,
     sex: 'male' | 'female',
     measurementMethod: 'height' | 'weight' | 'bmi' | 'ofc',
+    allowDuplicates: boolean,
 ) {
     let highestChildX = -500;
     let lowestChildX = 500;
@@ -467,23 +468,29 @@ function childMeasurementRanges(
     let dateOfBirth: null | string = null;
     let internalSex: null | 'male' | 'female' = null;
     let internalMeasurementMethod: null | 'height' | 'weight' | 'bmi' | 'ofc' = null;
-    let workingMeasurement: null | string = null;
+    let workingMeasurement: null | Measurement = null;
     for (const measurement of childMeasurements) {
         if (workingMeasurement !== null) {
-            const prev = JSON.parse(workingMeasurement) as Measurement;
+            const prev = workingMeasurement as Measurement;
             if (
                 prev.measurement_dates.observation_date === measurement.measurement_dates.observation_date &&
                 prev.child_observation_value.measurement_method ===
                     measurement.child_observation_value.measurement_method
             ) {
-                throw new Error(
-                    `Duplicate measurement detected for date ${measurement.measurement_dates.observation_date} ` +
-                        `and method ${measurement.child_observation_value.measurement_method}.`,
-                );
+                // allowDuplicates flag controls duplicate-measurement validation
+                if (!allowDuplicates) {
+                    throw new Error(
+                        `Duplicate measurement detected for date ${measurement.measurement_dates.observation_date} ` +
+                            `and method ${measurement.child_observation_value.measurement_method}.`,
+                    );
+                } else {
+                    prev.child_observation_value['duplicate_measurement'] = true;
+                    measurement.child_observation_value['duplicate_measurement'] = true;
+                }
             }
         }
 
-        workingMeasurement = JSON.stringify(measurement);
+        workingMeasurement = measurement;
         if (!measurement.plottable_data) {
             throw new Error('No plottable data found. Are you using the correct server version?');
         }
@@ -981,7 +988,9 @@ function getDomainsAndData(
     showCorrected: boolean,
     showChronological: boolean,
     originalMeasurements?: Measurement[],
+    allowDuplicates: boolean = false,
 ) {
+    // allowDuplicates flag controls duplicate-measurement validation
     // variables initialised to chart for bigger child:
     let internalChartScaleType: 'prem' | 'infant' | 'smallChild' | 'biggerChild' = 'biggerChild';
     let finalCentileData: any[] = [];
@@ -1063,6 +1072,7 @@ function getDomainsAndData(
             showChronological,
             sex,
             measurementMethod,
+            allowDuplicates,
         );
         let errorFree = true;
         for (const value of Object.values(childCoordinates)) {

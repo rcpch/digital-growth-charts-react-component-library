@@ -63,6 +63,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     reference,
     sex,
     measurements,
+    allowDuplicates,
     midParentalHeightData,
     enableZoom = true,
     chartType,
@@ -122,6 +123,10 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
         referenceStyle,
     );
 
+    if (allowDuplicates === undefined) {
+        allowDuplicates = false; // default to false
+    }
+
     // uncomment in development
     // console.log('loading from locally...');
 
@@ -153,6 +158,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
                         title={title}
                         subtitle={subtitle}
                         childMeasurements={validatedMeasurements[measurementMethod] || []}
+                        allowDuplicates={allowDuplicates || false}
                         midParentalHeightData={midParentalHeightData || {}}
                         measurementMethod={measurementMethod}
                         sex={sex}
@@ -191,6 +197,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
                         measurementMethod={measurementMethod}
                         childMeasurements={validatedMeasurements}
                         midParentalHeightData={midParentalHeightData}
+                        allowDuplicates={allowDuplicates || false}
                         sex={sex}
                         enableZoom={enableZoom}
                         styles={styles}

@@ -17,6 +17,7 @@ export interface RCPCHChartProps {
     reference: 'uk-who' | 'turner' | 'trisomy-21' | 'cdc' | 'trisomy-21-aap' | 'who';
     sex: 'male' | 'female';
     measurements: ClientMeasurementObject;
+    allowDuplicates?: boolean | undefined;
     midParentalHeightData?: MidParentalHeightObject | undefined;
     enableZoom?: boolean;
     chartType?: 'centile' | 'sds';

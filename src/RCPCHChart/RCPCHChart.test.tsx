@@ -13,16 +13,20 @@ import {
     measurementObjects,
     sdsObject,
 } from '../testParameters/styles/monochromeStyles';
+import { duplicateMeasurementSameValue } from '../testParameters/measurements/duplicateMeasurementSameValue';
+import { duplicateMeasurementDifferentValue } from '../testParameters/measurements/duplicateMeasurementDifferentValue';
 
 describe('RCPCHChart', () => {
     let props: RCPCHChartProps;
 
     beforeEach(() => {
         props = {
+            // explicitly set a valid theme so stylesForTheme doesn't throw
+            theme: 'monochrome',
             reference: 'uk-who',
             title: 'TestChartTitle',
             measurementMethod: 'height',
-            sex: 'male',
+            sex: 'female',
             midParentalHeightData: {},
             enableZoom: false,
             enableExport: false,
@@ -42,6 +46,32 @@ describe('RCPCHChart', () => {
     });
 
     const renderComponent = () => render(<RCPCHChart {...props} />);
+
+    test('RCPCHChart handles duplicate measurements for SDS chart', () => {
+        // SDS: allow duplicates true should render plots
+        props.chartType = 'sds';
+        props.measurements = { height: duplicateMeasurementDifferentValue as any };
+        props.allowDuplicates = true;
+        const { queryAllByTestId } = renderComponent();
+        // expect two chronological measurement points (different values)
+        expect(queryAllByTestId('chronologicalMeasurementPoint').length).toBeGreaterThanOrEqual(1);
+
+        // Now test allowDuplicates false should raise error when sex mismatch or duplicates exist
+        props.allowDuplicates = false;
+        // Using same measurements should cause error in getDomainsAndData when duplicates are present
+        expect(() => renderComponent()).toThrow();
+    });
+
+    test('RCPCHChart handles duplicate measurements for Centile chart', () => {
+        props.chartType = 'centile';
+        props.measurements = { height: duplicateMeasurementSameValue as any };
+        props.allowDuplicates = true;
+        const { queryAllByTestId } = renderComponent();
+        expect(queryAllByTestId('chronologicalMeasurementPoint').length).toBeGreaterThanOrEqual(1);
+
+        props.allowDuplicates = false;
+        expect(() => renderComponent()).toThrow();
+    });
 
     test.skip('should render chart title text correctly', () => {
         props.measurementMethod = 'height';

@@ -25,6 +25,7 @@ export interface CentileChartProps {
     measurementMethod: 'height' | 'weight' | 'ofc' | 'bmi';
     sex: 'male' | 'female';
     childMeasurements: Measurement[];
+    allowDuplicates?: boolean;
     midParentalHeightData?: MidParentalHeightObject | null;
     enableZoom?: boolean;
     styles: { [key: string]: any };
