@@ -8,7 +8,7 @@ export const MonthsLabel = (props: any) => {
             <text
                 x={x + 110}
                 y={y + 2.5}
-                textAnchor="left"
+                textAnchor="start"
                 fontSize={style.fontSize}
                 fill={style.fill}
                 fontFamily={style.fontFamily}
