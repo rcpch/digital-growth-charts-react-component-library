@@ -1,28 +1,30 @@
-# NPM Publish is the name for this action
-name: NPM Publish
-
-# This action will publish to NPM on every new release
+name: Publish Package to NPM
 on:
     release:
         types: [created]
 
-# Job will run on a ubuntu instance
 jobs:
     build:
         runs-on: ubuntu-latest
+        permissions:
+            id-token: write
+            contents: read
         steps:
-            # Checkout the code
-            - uses: actions/checkout@v4
-            # Setup node with version 20.x and NPM registry url
-            - uses: actions/setup-node@v4
+            - uses: actions/checkout@v6
+            - uses: actions/setup-node@v6
               with:
-                  node-version: '22.x'
-                  registry-url: 'https://registry.npmjs.org'
-            # Run npm install to install project packages
-            - run: npm install
-            # npm build to build the project
-            - run: npm run build
-            # Generate SRI hash for the UMD build
+                  node-version: "22.x"
+                  registry-url: "https://registry.npmjs.org"
+
+            - name: Ensure npm CLI >= 11.5.1
+              run: npm install -g npm@^11.5.1
+
+            - name: Install dependencies
+              run: npm install
+
+            - name: Build
+              run: npm run build
+
             - name: Generate SRI hash
               run: |
                   echo "Generating SRI hash for UMD build..."
@@ -40,8 +42,6 @@ jobs:
                   echo "        integrity=\"$SRI_HASH\"" >> $GITHUB_STEP_SUMMARY
                   echo "        crossorigin=\"anonymous\"></script>" >> $GITHUB_STEP_SUMMARY
                   echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
-            # publish the files to NPM
-            - run: npm publish --access public
-              # for publishing, npm need authorization. We add the NPM token to the environment which will take care of authorization to publish to the package
-              env:
-                  NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+
+            - name: Publish to npm (uses OIDC trusted publishing)
+              run: npm publish --access public
