@@ -43,7 +43,7 @@
         "react-dom": "^19.1.0 || ^18.3.1"
     },
     "dependencies": {
-        "styled-components": "6.1.19",
+        "styled-components": "^6.4.1",
         "victory": "37.3.6"
     },
     "devDependencies": {
