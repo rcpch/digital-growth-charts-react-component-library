@@ -3,8 +3,7 @@
         "source.fixAll": "explicit"
     },
     "git.enableCommitSigning": true,
-    {
-        "editor.formatOnSave": true,
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
-      }
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "jest.enable": true
 }
