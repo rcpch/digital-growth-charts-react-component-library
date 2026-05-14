@@ -296,7 +296,7 @@ export function tooltipText(
                 // && age_error === null temporarily removed from if statement as error in api return object for EDD < observation_date
                 let corrected_gestational_age = '';
                 if (gestational_age) {
-                    corrected_gestational_age = `${gestational_age.corrected_gestationn_weeks}+${gestational_age.corrected_gestation_days} weeks`;
+                    corrected_gestational_age = `${gestational_age.corrected_gestation_weeks}+${gestational_age.corrected_gestation_days} weeks`;
                     returnStringList.push(`${calendar_age}`);
                     returnStringList.push(
                         `Corrected age: ${corrected_gestational_age} on ${formatted_observation_date} )`,
