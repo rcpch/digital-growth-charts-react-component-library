@@ -1,28 +1,36 @@
-import { twoToEight } from './twoToEight';
-import { Measurement } from '../../interfaces/RCPCHMeasurementObject';
+import { ukWhoFemaleHeight } from './generated/ukWhoFemaleHeight';
+import type { Measurement } from '../../interfaces/RCPCHMeasurementObject';
 
-const withProvenance = (measurement: Measurement, growth_reference?: string): Measurement =>
-    growth_reference === undefined ? measurement : { ...measurement, provenance: { growth_reference } };
+const withoutProvenance = ({ provenance: _provenance, ...measurement }: Measurement): Measurement => measurement;
+
+const withGrowthReference = (measurement: Measurement, growth_reference: string): Measurement => ({
+    ...measurement,
+    provenance: { ...measurement.provenance, growth_reference },
+});
+
+const currentMeasurements = ukWhoFemaleHeight.slice(0, 3);
 
 /**
  * Dedicated fixtures for demonstrating each growth-reference provenance
  * outcome from the contract at
  * digital-growth-charts-documentation/spec/growth-reference-provenance-contract.md.
- * Reuses twoToEight's calculated values so the plotted points are realistic;
- * only `provenance` differs between them.
+ * Reuses a current API-generated series so the plotted points and matching
+ * provenance are realistic; only `provenance` differs between variants.
  */
-export const provenanceMatchHeight: Measurement[] = twoToEight.slice(0, 3).map((m) => withProvenance(m, 'uk-who'));
+export const provenanceMatchHeight: Measurement[] = currentMeasurements;
 
-export const provenanceLegacyHeight: Measurement[] = twoToEight.slice(0, 3);
+export const provenanceLegacyHeight: Measurement[] = currentMeasurements.map(withoutProvenance);
 
-export const provenanceUnknownHeight: Measurement[] = twoToEight
-    .slice(0, 3)
-    .map((m) => withProvenance(m, 'uk-who-2027'));
+export const provenanceUnknownHeight: Measurement[] = currentMeasurements.map((measurement) =>
+    withGrowthReference(measurement, 'uk-who-2027'),
+);
 
-export const provenanceMismatchHeight: Measurement[] = twoToEight.slice(0, 3).map((m) => withProvenance(m, 'cdc'));
+export const provenanceMismatchHeight: Measurement[] = currentMeasurements.map((measurement) =>
+    withGrowthReference(measurement, 'cdc'),
+);
 
 export const provenanceMixedHeight: Measurement[] = [
-    withProvenance(twoToEight[0], 'uk-who'), // match
-    twoToEight[1], // legacy
-    withProvenance(twoToEight[2], 'cdc'), // mismatch - suppressed from the chart
+    currentMeasurements[0], // match
+    withoutProvenance(currentMeasurements[1]), // legacy
+    withGrowthReference(currentMeasurements[2], 'cdc'), // mismatch - suppressed from the chart
 ];
