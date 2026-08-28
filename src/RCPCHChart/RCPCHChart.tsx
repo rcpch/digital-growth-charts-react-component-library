@@ -13,7 +13,9 @@ import SDSChart from '../SDSChart/SDSChart';
 // helper functions
 import makeAllStyles from '../functions/makeAllStyles';
 import { validateMeasurementsObject } from '../functions/validateClientMeasurementsArrayNormalizeDates';
+import { filterMeasurementsByProvenance } from '../functions/filterMeasurementsByProvenance';
 import ErrorBoundary from '../SubComponents/ErrorBoundary';
+import ProvenanceWarningBanner from '../SubComponents/ProvenanceWarningBanner';
 import { ClientMeasurementObject } from '../interfaces/ClientMeasurementObject';
 import defineNonStylePropDefaults from '../functions/defineNonStylePropDefaults';
 import { nameForReference } from '../functions/nameForReference';
@@ -140,6 +142,15 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
     // Validate & sanitise incoming measurement collections
     const validatedMeasurements = validateMeasurementsObject(measurements);
 
+    // Reject measurements whose provenance is present but does not match the
+    // displayed reference (hazard rcpch/digital-growth-charts-documentation#174).
+    // Legacy measurements with no provenance are not suppressed - see
+    // checkMeasurementProvenance.ts for the rationale.
+    const { measurements: provenanceCheckedMeasurements, issues: provenanceIssues } = filterMeasurementsByProvenance(
+        validatedMeasurements,
+        reference,
+    );
+
     let isCentile = chartType === 'centile' || chartType === undefined;
 
     if (isCentile) {
@@ -152,12 +163,13 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
         return (
             <ErrorBoundary styles={styles} chartType={`${chartType}-${measurementMethod}`}>
                 <GlobalStyle>
+                    <ProvenanceWarningBanner issues={provenanceIssues} componentVersion={VERSION} />
                     <CentileChart
                         chartsVersion={VERSION}
                         reference={reference}
                         title={title}
                         subtitle={subtitle}
-                        childMeasurements={validatedMeasurements[measurementMethod] || []}
+                        childMeasurements={provenanceCheckedMeasurements[measurementMethod] || []}
                         allowDuplicates={allowDuplicates || false}
                         midParentalHeightData={midParentalHeightData || {}}
                         measurementMethod={measurementMethod}
@@ -189,13 +201,14 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
         return (
             <ErrorBoundary styles={styles} chartType={`${chartType}-${measurementMethod}`}>
                 <GlobalStyle>
+                    <ProvenanceWarningBanner issues={provenanceIssues} componentVersion={VERSION} />
                     <SDSChart
                         chartsVersion={VERSION}
                         reference={reference}
                         title={title}
                         subtitle={subtitle}
                         measurementMethod={measurementMethod}
-                        childMeasurements={validatedMeasurements}
+                        childMeasurements={provenanceCheckedMeasurements}
                         midParentalHeightData={midParentalHeightData}
                         allowDuplicates={allowDuplicates || false}
                         sex={sex}

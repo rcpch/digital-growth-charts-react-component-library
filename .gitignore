@@ -9,3 +9,5 @@ src/chartdata/fenton/*.*
 src/testParameters/measurements/fenton/*.*
 
 build-storybook.log
+
+.private/

@@ -1,4 +1,23 @@
 export interface Measurement {
+    /**
+     * Present on measurements calculated by a provenance-aware release of
+     * rcpchgrowth/the API. Absent on legacy/persisted measurements
+     * calculated before that change - this is expected and must be
+     * tolerated, not treated as an error. See checkMeasurementProvenance.ts.
+     */
+    provenance?: {
+        growth_reference: string;
+        calculation_engine?: {
+            name: string;
+            version: string;
+            commit: string;
+        };
+        api_server?: {
+            name: string;
+            version: string;
+            commit: string;
+        };
+    };
     birth_data: {
         birth_date: string;
         estimated_date_delivery: string;
