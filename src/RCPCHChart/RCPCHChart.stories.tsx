@@ -1,4 +1,3 @@
-// Replace your-renderer with the renderer you are using (e.g., react, vue3, etc.)
 import type { Meta, StoryObj, StoryFn, ArgTypes } from '@storybook/react-webpack5';
 
 import RCPCHChart from './RCPCHChart';
@@ -24,9 +23,7 @@ import { midparentalHeightBoy } from '../testParameters/measurements/midparental
 import { ukwhoBMIBoyHigh } from '../testParameters/measurements/ukwhoBMIBoyHigh.ts';
 import { duplicateMeasurementSameValue } from '../testParameters/measurements/duplicateMeasurementSameValue.ts';
 import { duplicateMeasurementDifferentValue } from '../testParameters/measurements/duplicateMeasurementDifferentValue.ts';
-import React from 'react'; // Ensure React is imported
-// import { cdcFentonGirlLength } from '../testParameters/measurements/fenton/cdcFentonGirlLength';
-// import { cdcFentonGirlWeight } from '../testParameters/measurements/fenton/cdcFentonGirlWeight.ts';
+import React from 'react';
 
 type Story = StoryObj<typeof RCPCHChart>;
 
@@ -587,46 +584,6 @@ export const CentileChartCDCGirlsHeight: Story = {
         clinicianFocus: true,
     },
 };
-
-// export const CentileChartCDCFentonGirlsLength: Story = {
-//   args: {
-//     title: 'Patient Name - Hospital Number',
-//     measurementMethod: 'height',
-//     reference: 'cdc',
-//     sex: 'female',
-//     measurements: {
-//       height: cdcFentonGirlLength
-//     },
-//     midParentalHeightData: {},
-//     enableZoom: true,
-//     chartType: 'centile',
-//     enableExport: false,
-//     exportChartCallback: ()=>{},
-//     theme: 'tanner1',
-//     customThemeStyles: {},
-//     clinicianFocus: true
-//   },
-// };
-
-// export const CentileChartCDCFentonGirlsWeight: Story = {
-//   args: {
-//     title: 'Patient Name - Hospital Number',
-//     measurementMethod: 'weight',
-//     reference: 'cdc',
-//     sex: 'female',
-//     measurements: {
-//       weight: cdcFentonGirlWeight
-//     },
-//     midParentalHeightData: {},
-//     enableZoom: true,
-//     chartType: 'centile',
-//     enableExport: false,
-//     exportChartCallback: ()=>{},
-//     theme: 'tanner1',
-//     customThemeStyles: {},
-//     clinicianFocus: true
-//   },
-// };
 
 export const CentileChartCDCBoysHeight: Story = {
     name: 'CDC: Centile Chart - Height - Boys',
@@ -1701,7 +1658,7 @@ export const CustomThemeErrorStylesChart: Story = {
 };
 
 const meta: Meta<typeof RCPCHChart> = {
-    component: RCPCHChart, // Reference the named export here
+    component: RCPCHChart,
     title: 'RCPCHChart',
 };
 export default meta;
