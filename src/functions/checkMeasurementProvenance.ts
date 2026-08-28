@@ -33,11 +33,13 @@ export function checkMeasurementProvenance(
     chartReference: string,
 ): ProvenanceCheckResult {
     const expectedReference = normalizeGrowthReference(chartReference);
-    const received = measurement?.provenance?.growth_reference;
+    const provenance = measurement?.provenance;
 
-    if (received == null || received === '') {
+    if (provenance === undefined) {
         return { status: 'legacy', expectedReference };
     }
+
+    const received = provenance?.growth_reference;
 
     if (typeof received !== 'string' || !GROWTH_REFERENCE_IDS.includes(received as GrowthReferenceId)) {
         return { status: 'unknown', expectedReference, receivedReference: String(received) };

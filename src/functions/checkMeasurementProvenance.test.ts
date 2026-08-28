@@ -34,11 +34,6 @@ describe('checkMeasurementProvenance', () => {
         expect(result).toEqual({ status: 'legacy', expectedReference: 'uk-who' });
     });
 
-    it('returns legacy when provenance.growth_reference is an empty string', () => {
-        const result = checkMeasurementProvenance(makeMeasurement(''), 'uk-who');
-        expect(result).toEqual({ status: 'legacy', expectedReference: 'uk-who' });
-    });
-
     it('returns unknown when provenance is present but not a canonical value', () => {
         const result = checkMeasurementProvenance(makeMeasurement('made-up-reference'), 'uk-who');
         expect(result).toEqual({
@@ -60,5 +55,19 @@ describe('checkMeasurementProvenance', () => {
     it('never throws when measurement is null or undefined', () => {
         expect(() => checkMeasurementProvenance(null as unknown as Measurement, 'uk-who')).not.toThrow();
         expect(() => checkMeasurementProvenance(undefined as unknown as Measurement, 'uk-who')).not.toThrow();
+    });
+
+    it.each([
+        ['null provenance', { provenance: null }, 'undefined'],
+        ['missing growth reference', { provenance: {} }, 'undefined'],
+        ['null growth reference', { provenance: { growth_reference: null } }, 'null'],
+        ['numeric growth reference', { provenance: { growth_reference: 42 } }, '42'],
+        ['empty growth reference', { provenance: { growth_reference: '' } }, ''],
+    ])('returns unknown for malformed runtime data with %s', (_name, measurement, receivedReference) => {
+        expect(checkMeasurementProvenance(measurement as unknown as Measurement, 'uk-who')).toEqual({
+            status: 'unknown',
+            expectedReference: 'uk-who',
+            receivedReference,
+        });
     });
 });
