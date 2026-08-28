@@ -2,7 +2,10 @@ import { createHash } from 'node:crypto';
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 
-const EXPECTED_FIXTURE_COUNT = 45;
+interface MeasurementScenarios {
+    series: { matrices: Array<{ sexes: string[]; methods: string[] }> };
+    special: unknown[];
+}
 
 interface FixtureManifest {
     server: { revision: string };
@@ -18,12 +21,18 @@ interface FixtureManifest {
 
 const generatedDirectory = join(__dirname, 'generated');
 const manifest: FixtureManifest = JSON.parse(readFileSync(join(generatedDirectory, 'manifest.json'), 'utf8'));
+const scenarios: MeasurementScenarios = JSON.parse(
+    readFileSync(join(__dirname, '../../../fixture-generation/measurement-scenarios.json'), 'utf8'),
+);
+const expectedFixtureCount =
+    scenarios.series.matrices.reduce((count, matrix) => count + matrix.sexes.length * matrix.methods.length, 0) +
+    scenarios.special.length;
 
 describe('API-generated measurement fixtures', () => {
     it('contains every declared scenario', () => {
-        expect(manifest.fixtureCount).toBe(EXPECTED_FIXTURE_COUNT);
-        expect(manifest.fixtures).toHaveLength(EXPECTED_FIXTURE_COUNT);
-        expect(new Set(manifest.fixtures.map(({ name }) => name)).size).toBe(EXPECTED_FIXTURE_COUNT);
+        expect(manifest.fixtureCount).toBe(expectedFixtureCount);
+        expect(manifest.fixtures).toHaveLength(expectedFixtureCount);
+        expect(new Set(manifest.fixtures.map(({ name }) => name)).size).toBe(expectedFixtureCount);
     });
 
     it('records a complete request and non-empty response for every fixture', () => {
@@ -42,6 +51,32 @@ describe('API-generated measurement fixtures', () => {
         const manifestFiles = manifest.fixtures.map(({ name }) => `${name}.ts`).sort();
 
         expect(fixtureFiles).toEqual(manifestFiles);
+    });
+
+    it('exports every generated fixture recorded by the manifest', () => {
+        const indexSource = readFileSync(join(generatedDirectory, 'index.ts'), 'utf8');
+        const exportedFixtures = Array.from(
+            indexSource.matchAll(/export \{ (\w+) \} from/g),
+            (match) => match[1],
+        ).sort();
+        const manifestFixtures = manifest.fixtures.map(({ name }) => name).sort();
+
+        expect(exportedFixtures).toEqual(manifestFixtures);
+    });
+
+    it('embeds the requested canonical provenance in every measurement', () => {
+        for (const fixture of manifest.fixtures) {
+            const source = readFileSync(join(generatedDirectory, `${fixture.name}.ts`), 'utf8');
+            const provenanceReferences = Array.from(
+                source.matchAll(/growth_reference: '([^']+)'/g),
+                (match) => match[1],
+            );
+            const expectedReference =
+                fixture.request.reference === 'turner' ? 'turners-syndrome' : fixture.request.reference;
+
+            expect(provenanceReferences).toHaveLength(fixture.measurementCount);
+            expect(new Set(provenanceReferences)).toEqual(new Set([expectedReference]));
+        }
     });
 
     it('matches the recorded content hash for every generated fixture', () => {

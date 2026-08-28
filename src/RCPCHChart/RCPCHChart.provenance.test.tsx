@@ -19,6 +19,13 @@ import {
     provenanceMixedHeight,
     provenanceUnknownHeight,
 } from '../testParameters/measurements/provenanceDemo';
+import {
+    turnerFemaleHeight,
+    ukWhoFemaleBmi,
+    ukWhoFemaleHeight,
+    ukWhoFemaleOfc,
+    ukWhoFemaleWeight,
+} from '../testParameters/measurements/generated';
 import type { Measurement } from '../interfaces/RCPCHMeasurementObject';
 
 const baseProps: RCPCHChartProps = {
@@ -120,5 +127,60 @@ describe('RCPCHChart provenance warning details', () => {
         expect(details).toHaveTextContent('height[2]');
         expect(details).toHaveTextContent('PROVENANCE_MISMATCH');
         expect(details).toHaveTextContent('expected "uk-who", received "cdc"');
+    });
+});
+
+describe('RCPCHChart provenance integration', () => {
+    it('accepts canonical Turner provenance through the legacy chart prop', () => {
+        const chart = render(
+            <RCPCHChart
+                {...baseProps}
+                reference="turner"
+                title="Turner provenance chart"
+                measurements={{ height: turnerFemaleHeight.slice(0, 3) }}
+            />,
+        );
+
+        expect(chart.queryAllByTestId('chronologicalMeasurementPoint')).toHaveLength(3);
+        expect(chart.queryByTestId('provenance-warning-banner')).not.toBeInTheDocument();
+        expect(chart.queryByText('The chart could not be displayed')).not.toBeInTheDocument();
+        expect(chart.getByText(/UK Turner reference data/i)).toBeInTheDocument();
+    });
+
+    it('filters each measurement method independently on an SDS chart', () => {
+        const mismatchedWeight = {
+            ...ukWhoFemaleWeight[0],
+            provenance: { ...ukWhoFemaleWeight[0].provenance!, growth_reference: 'cdc' },
+        } as Measurement;
+        const unknownBmi = {
+            ...ukWhoFemaleBmi[0],
+            provenance: { ...ukWhoFemaleBmi[0].provenance!, growth_reference: 'uk-who-next' },
+        } as Measurement;
+        const { provenance: _provenance, ...legacyOfc } = ukWhoFemaleOfc[0];
+
+        const chart = render(
+            <RCPCHChart
+                {...baseProps}
+                chartType="sds"
+                measurements={{
+                    height: [ukWhoFemaleHeight[0]],
+                    weight: [mismatchedWeight],
+                    bmi: [unknownBmi],
+                    ofc: [legacyOfc as Measurement],
+                }}
+            />,
+        );
+
+        const plottedPointCount = chart
+            .queryAllByTestId('chronologicalMeasurementPoint')
+            .reduce((count, group) => count + group.querySelectorAll('path').length, 0);
+        expect(plottedPointCount).toBe(3);
+        expect(chart.getByTestId('provenance-warning-banner')).toHaveTextContent(/1 measurement.*has been hidden/i);
+
+        fireEvent.click(chart.getByTestId('provenance-warning-toggle'));
+        const details = chart.getByTestId('provenance-warning-details');
+        expect(details).toHaveTextContent('weight[0] Error code: PROVENANCE_MISMATCH');
+        expect(details).toHaveTextContent('bmi[0] Error code: PROVENANCE_UNKNOWN');
+        expect(details).toHaveTextContent('ofc[0] Error code: PROVENANCE_LEGACY');
     });
 });

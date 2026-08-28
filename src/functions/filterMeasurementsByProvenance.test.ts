@@ -91,4 +91,20 @@ describe('filterMeasurementsByProvenance', () => {
         expect(filtered.height).toHaveLength(1);
         expect(issues).toHaveLength(0);
     });
+
+    it('does not mutate the input object, arrays, or measurements', () => {
+        const matching = Object.freeze(makeMeasurement('uk-who'));
+        const mismatched = Object.freeze(makeMeasurement('cdc'));
+        const height = Object.freeze([matching, mismatched]);
+        const measurements = Object.freeze({ height }) as unknown as ClientMeasurementObject;
+
+        const result = filterMeasurementsByProvenance(measurements, 'uk-who');
+
+        expect(measurements.height).toBe(height);
+        expect(measurements.height).toEqual([matching, mismatched]);
+        expect(result.measurements).not.toBe(measurements);
+        expect(result.measurements.height).not.toBe(height);
+        expect(result.measurements.height).toEqual([matching]);
+        expect(result.measurements.height?.[0]).toBe(matching);
+    });
 });
