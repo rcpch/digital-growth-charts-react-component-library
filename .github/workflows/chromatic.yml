@@ -9,6 +9,11 @@ jobs:
   chromatic:
     name: Run Chromatic
     runs-on: ubuntu-latest
+    # Dependabot-triggered runs cannot access repository secrets, so
+    # CHROMATIC_PROJECT_TOKEN is empty and the action fails with
+    # "Missing project token". These failures are noise unrelated to any
+    # visual change, so skip Chromatic on Dependabot runs.
+    if: github.actor != 'dependabot[bot]'
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
