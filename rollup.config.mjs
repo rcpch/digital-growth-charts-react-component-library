@@ -7,7 +7,6 @@ import json from '@rollup/plugin-json';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import replace from '@rollup/plugin-replace';
 import path from 'path';
-import postcss from 'rollup-plugin-postcss';
 import resolve from '@rollup/plugin-node-resolve';
 import terser from '@rollup/plugin-terser';
 import typescript from '@rollup/plugin-typescript';
@@ -46,10 +45,6 @@ export default [
             },
         ],
         plugins: [
-            postcss({
-                extensions: ['.css'],
-                inject: true,
-            }),
             peerDepsExternal(),
             resolve(),
             commonjs({
@@ -110,10 +105,6 @@ export default [
                 values: {
                     'process.env.NODE_ENV': JSON.stringify('production'),
                 },
-            }),
-            postcss({
-                extensions: ['.css'],
-                inject: true,
             }),
             resolve(),
             commonjs({
