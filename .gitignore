@@ -11,3 +11,5 @@ src/testParameters/measurements/fenton/*.*
 build-storybook.log
 
 .private/
+.playwright/
+.playwright-mcp/
