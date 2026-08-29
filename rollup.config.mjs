@@ -51,7 +51,7 @@ export default [
                 ignoreGlobal: true,
                 include: /\/node_modules\//,
             }),
-            typescript(),
+            typescript({ noEmitOnError: true }),
             terser({
                 compress: {
                     pure_getters: true, // assume obj.prop has no side effects
@@ -117,7 +117,7 @@ export default [
                 presets: ['@babel/preset-react', '@babel/preset-typescript'],
                 extensions: ['.ts', '.tsx'],
             }),
-            typescript(),
+            typescript({ noEmitOnError: true }),
             terser({
                 // some of the references are pretty big and chunking them would be difficult. This suppresses the warnings
                 compress: {
