@@ -1,6 +1,7 @@
 // Generated with util/create-component.js
 import React from 'react';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import { validateMeasurementsObject } from '../functions/validateClientMeasurementsArrayNormalizeDates';
 
 import RCPCHChart from './RCPCHChart';
@@ -47,39 +48,53 @@ describe('RCPCHChart', () => {
 
     const renderComponent = () => render(<RCPCHChart {...props} />);
 
+    const renderExpectedDuplicateError = () => {
+        const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        try {
+            return renderComponent();
+        } finally {
+            consoleErrorSpy.mockRestore();
+        }
+    };
+
     test('RCPCHChart handles duplicate measurements for SDS chart', () => {
         // SDS: allow duplicates true should render plots
         props.chartType = 'sds';
         props.measurements = { height: duplicateMeasurementDifferentValue as any };
         props.allowDuplicates = true;
-        const { queryAllByTestId } = renderComponent();
+        const { queryAllByTestId, unmount } = renderComponent();
         // expect two chronological measurement points (different values)
         expect(queryAllByTestId('chronologicalMeasurementPoint').length).toBeGreaterThanOrEqual(1);
+        unmount();
 
-        // Now test allowDuplicates false should raise error when sex mismatch or duplicates exist
+        // With duplicates disabled, the chart should show its production error fallback.
         props.allowDuplicates = false;
-        // Using same measurements should cause error in getDomainsAndData when duplicates are present
-        expect(() => renderComponent()).toThrow();
+        const chart = renderExpectedDuplicateError();
+        expect(chart.getByText('The chart could not be displayed')).toBeInTheDocument();
+        fireEvent.click(chart.getByRole('button', { name: 'Show Details' }));
+        expect(chart.getByText(/Duplicate measurement detected/)).toBeInTheDocument();
     });
 
     test('RCPCHChart handles duplicate measurements for Centile chart', () => {
         props.chartType = 'centile';
         props.measurements = { height: duplicateMeasurementSameValue as any };
         props.allowDuplicates = true;
-        const { queryAllByTestId } = renderComponent();
+        const { queryAllByTestId, unmount } = renderComponent();
         expect(queryAllByTestId('chronologicalMeasurementPoint').length).toBeGreaterThanOrEqual(1);
+        unmount();
 
         props.allowDuplicates = false;
-        expect(() => renderComponent()).toThrow();
+        const chart = renderExpectedDuplicateError();
+        expect(chart.getByText('The chart could not be displayed')).toBeInTheDocument();
+        fireEvent.click(chart.getByRole('button', { name: 'Show Details' }));
+        expect(chart.getByText(/Duplicate measurement detected/)).toBeInTheDocument();
     });
 
-    test.skip('should render chart title text correctly', () => {
+    test('renders the chart title', () => {
         props.measurementMethod = 'height';
-        const { getByTestId } = renderComponent();
+        const chart = renderComponent();
 
-        const component = getByTestId('RCPCHChart');
-
-        expect(component.textContent?.match(/TestChartTitle/));
+        expect(chart.getByText('TestChartTitle')).toBeInTheDocument();
     });
 });
 

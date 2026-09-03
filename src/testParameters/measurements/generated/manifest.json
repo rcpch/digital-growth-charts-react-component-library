@@ -1,0 +1,1046 @@
+{
+    "server": { "revision": "3b4d5bdb25cbdadbfbfd707adaafba00c362339c" },
+    "calculationEngine": {
+        "name": "rcpchgrowth",
+        "version": "4.6.0",
+        "commit": "722eb3b9facf8b49e8e6d3e14c90b0e54dc4942a"
+    },
+    "fixtureCount": 45,
+    "fixtures": [
+        {
+            "name": "ukWhoFemaleHeight",
+            "description": "uk-who female height, age 0-20",
+            "measurementCount": 9,
+            "sourceSha256": "82b215c3039a74cf807e70ce919bd6f2e53a74ed8af1fab10792941c37d8ca02",
+            "request": {
+                "reference": "uk-who",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "height",
+                    "sex": "female"
+                }
+            }
+        },
+        {
+            "name": "ukWhoFemaleWeight",
+            "description": "uk-who female weight, age 0-20",
+            "measurementCount": 9,
+            "sourceSha256": "fc1ad981f56b2b4a6a4442ba2203a99ad050dd5d847aadfc2a138cfe0af10423",
+            "request": {
+                "reference": "uk-who",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "weight",
+                    "sex": "female"
+                }
+            }
+        },
+        {
+            "name": "ukWhoFemaleBmi",
+            "description": "uk-who female bmi, age 0-20",
+            "measurementCount": 8,
+            "sourceSha256": "c24cc31bb0a8228cccb2ab1d7d7e62dba43d2c36ef7a891f8078cfaaebdd4b5e",
+            "request": {
+                "reference": "uk-who",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "bmi",
+                    "sex": "female"
+                }
+            }
+        },
+        {
+            "name": "ukWhoFemaleOfc",
+            "description": "uk-who female ofc, age 0-20",
+            "measurementCount": 8,
+            "sourceSha256": "830513238d8ab993d79adfde1ddb13c6596c9f7b2e4f3fd7b5449afd1065c89c",
+            "request": {
+                "reference": "uk-who",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "ofc",
+                    "sex": "female"
+                }
+            }
+        },
+        {
+            "name": "ukWhoMaleHeight",
+            "description": "uk-who male height, age 0-20",
+            "measurementCount": 9,
+            "sourceSha256": "52beec79ed78a647e1e5cbb82898203edfbc54119df9229ad1a7ffadc1b0b078",
+            "request": {
+                "reference": "uk-who",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "height",
+                    "sex": "male"
+                }
+            }
+        },
+        {
+            "name": "ukWhoMaleWeight",
+            "description": "uk-who male weight, age 0-20",
+            "measurementCount": 9,
+            "sourceSha256": "2b8240db0342f808b4163c8eb4ca2572b9076fb0bad8ac2a015dd60b91ea23c5",
+            "request": {
+                "reference": "uk-who",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "weight",
+                    "sex": "male"
+                }
+            }
+        },
+        {
+            "name": "ukWhoMaleBmi",
+            "description": "uk-who male bmi, age 0-20",
+            "measurementCount": 8,
+            "sourceSha256": "6a2c013c7610e4a14fd00d6686c9dc53b52b433df6db962f44c929c74f5b6358",
+            "request": {
+                "reference": "uk-who",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "bmi",
+                    "sex": "male"
+                }
+            }
+        },
+        {
+            "name": "ukWhoMaleOfc",
+            "description": "uk-who male ofc, age 0-20",
+            "measurementCount": 9,
+            "sourceSha256": "c71a4cd4c81f52e174bc545c967f2bd53d12dedb5a363566d2296892c7d0b617",
+            "request": {
+                "reference": "uk-who",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "ofc",
+                    "sex": "male"
+                }
+            }
+        },
+        {
+            "name": "whoFemaleHeight",
+            "description": "who female height, age 0-20",
+            "measurementCount": 9,
+            "sourceSha256": "9de8ee1c6052e8ec5be524a319089d401033660d3230f5b48fca0fe2b31d3027",
+            "request": {
+                "reference": "who",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "height",
+                    "sex": "female"
+                }
+            }
+        },
+        {
+            "name": "whoFemaleWeight",
+            "description": "who female weight, age 0-20",
+            "measurementCount": 5,
+            "sourceSha256": "212a3558038616231d7d46904f9557cd303da3b525bbb75203478f3fb8626425",
+            "request": {
+                "reference": "who",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "weight",
+                    "sex": "female"
+                }
+            }
+        },
+        {
+            "name": "whoFemaleBmi",
+            "description": "who female bmi, age 0-20",
+            "measurementCount": 9,
+            "sourceSha256": "c0ea34bb3cfc7f7c212ba1ee7b8b1796eacb469c536bacc0b2c813af88fb2b56",
+            "request": {
+                "reference": "who",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "bmi",
+                    "sex": "female"
+                }
+            }
+        },
+        {
+            "name": "whoFemaleOfc",
+            "description": "who female ofc, age 0-20",
+            "measurementCount": 2,
+            "sourceSha256": "3137e8d91074ec2fbcc2f6844966b0fb075afa19b9c31bc5364b8276b98df320",
+            "request": {
+                "reference": "who",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "ofc",
+                    "sex": "female"
+                }
+            }
+        },
+        {
+            "name": "whoMaleHeight",
+            "description": "who male height, age 0-20",
+            "measurementCount": 9,
+            "sourceSha256": "2381f89c94d5476a062f0c83ad0b0e0608fc62d12d1e728969c11bb430c03568",
+            "request": {
+                "reference": "who",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "height",
+                    "sex": "male"
+                }
+            }
+        },
+        {
+            "name": "whoMaleWeight",
+            "description": "who male weight, age 0-20",
+            "measurementCount": 5,
+            "sourceSha256": "bc2bd32cccba9f658b60cdeeb0412b849f166299e9c10c01cce8d8f108669db1",
+            "request": {
+                "reference": "who",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "weight",
+                    "sex": "male"
+                }
+            }
+        },
+        {
+            "name": "whoMaleBmi",
+            "description": "who male bmi, age 0-20",
+            "measurementCount": 9,
+            "sourceSha256": "befea4d24935601703029b6a25ea5012fcd40a70bab2cc0b2cd95c72633f0b6f",
+            "request": {
+                "reference": "who",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "bmi",
+                    "sex": "male"
+                }
+            }
+        },
+        {
+            "name": "whoMaleOfc",
+            "description": "who male ofc, age 0-20",
+            "measurementCount": 2,
+            "sourceSha256": "8baf1346ba7b8a770ae227734581d275fde7f61471e22596c67bfeb29fba6f6c",
+            "request": {
+                "reference": "who",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "ofc",
+                    "sex": "male"
+                }
+            }
+        },
+        {
+            "name": "cdcFemaleHeight",
+            "description": "cdc female height, age 0-20",
+            "measurementCount": 10,
+            "sourceSha256": "9e8cf4ab3b6c89dfe99bd3b78cf330713629f88ec8e73a377a4708a905ada993",
+            "request": {
+                "reference": "cdc",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "height",
+                    "sex": "female"
+                }
+            }
+        },
+        {
+            "name": "cdcFemaleWeight",
+            "description": "cdc female weight, age 0-20",
+            "measurementCount": 10,
+            "sourceSha256": "75f27716dad96acfd04c8a863fe66194d54385ac8cbeb5012d39b2ac1ea34466",
+            "request": {
+                "reference": "cdc",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "weight",
+                    "sex": "female"
+                }
+            }
+        },
+        {
+            "name": "cdcFemaleBmi",
+            "description": "cdc female bmi, age 0-20",
+            "measurementCount": 9,
+            "sourceSha256": "1983a4a08b05ef7168eeedcb5a2a643745836bff5c9b6353bc165939049f4d31",
+            "request": {
+                "reference": "cdc",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "bmi",
+                    "sex": "female"
+                }
+            }
+        },
+        {
+            "name": "cdcFemaleOfc",
+            "description": "cdc female ofc, age 0-20",
+            "measurementCount": 2,
+            "sourceSha256": "bcaf2ccfbac28b779957acb0750347118b78c47c2be450fee817bc23682d7b69",
+            "request": {
+                "reference": "cdc",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "ofc",
+                    "sex": "female"
+                }
+            }
+        },
+        {
+            "name": "cdcMaleHeight",
+            "description": "cdc male height, age 0-20",
+            "measurementCount": 10,
+            "sourceSha256": "a1bede86f93a389a2fd37e569c211d28395547945c59b827cea4cc808eb00770",
+            "request": {
+                "reference": "cdc",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "height",
+                    "sex": "male"
+                }
+            }
+        },
+        {
+            "name": "cdcMaleWeight",
+            "description": "cdc male weight, age 0-20",
+            "measurementCount": 10,
+            "sourceSha256": "c6b25e785a0e8014e204f8ffac0db95f2fe8c808bbe50d887cda582a3fa73453",
+            "request": {
+                "reference": "cdc",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "weight",
+                    "sex": "male"
+                }
+            }
+        },
+        {
+            "name": "cdcMaleBmi",
+            "description": "cdc male bmi, age 0-20",
+            "measurementCount": 9,
+            "sourceSha256": "92583fff0bd14a45eb43d72ad7a33b728955543a5ac49c086ed9fa8a33f95227",
+            "request": {
+                "reference": "cdc",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "bmi",
+                    "sex": "male"
+                }
+            }
+        },
+        {
+            "name": "cdcMaleOfc",
+            "description": "cdc male ofc, age 0-20",
+            "measurementCount": 2,
+            "sourceSha256": "88fdf5c1c0b886e6dc58bef80ab5a80f35eb82e431dc58c4cce304f3e6312b54",
+            "request": {
+                "reference": "cdc",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "ofc",
+                    "sex": "male"
+                }
+            }
+        },
+        {
+            "name": "trisomy21FemaleHeight",
+            "description": "trisomy-21 female height, age 0-20",
+            "measurementCount": 10,
+            "sourceSha256": "f1990357369168b0931648769986d352974e5358b84658e4ca3c39015da63fbc",
+            "request": {
+                "reference": "trisomy-21",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "height",
+                    "sex": "female"
+                }
+            }
+        },
+        {
+            "name": "trisomy21FemaleWeight",
+            "description": "trisomy-21 female weight, age 0-20",
+            "measurementCount": 10,
+            "sourceSha256": "6601baee35fe5b93f1babb472b76d7ecb16ad87bd7536106c4f568d750d1490c",
+            "request": {
+                "reference": "trisomy-21",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "weight",
+                    "sex": "female"
+                }
+            }
+        },
+        {
+            "name": "trisomy21FemaleBmi",
+            "description": "trisomy-21 female bmi, age 0-20",
+            "measurementCount": 10,
+            "sourceSha256": "a5b6f3ffa909f3fa835d5cfdb58420a0d209a46d13c598f90593f82052e9bb9b",
+            "request": {
+                "reference": "trisomy-21",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "bmi",
+                    "sex": "female"
+                }
+            }
+        },
+        {
+            "name": "trisomy21FemaleOfc",
+            "description": "trisomy-21 female ofc, age 0-20",
+            "measurementCount": 10,
+            "sourceSha256": "38df6f85bd1b1bc68772adad01a68241846fce86d8af2e38c26f0f4815c9d662",
+            "request": {
+                "reference": "trisomy-21",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "ofc",
+                    "sex": "female"
+                }
+            }
+        },
+        {
+            "name": "trisomy21MaleHeight",
+            "description": "trisomy-21 male height, age 0-20",
+            "measurementCount": 10,
+            "sourceSha256": "66ce28b300182dd60b8f0f490d9948a953f0ea15e011cc3af32ac44e2ae7daa4",
+            "request": {
+                "reference": "trisomy-21",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "height",
+                    "sex": "male"
+                }
+            }
+        },
+        {
+            "name": "trisomy21MaleWeight",
+            "description": "trisomy-21 male weight, age 0-20",
+            "measurementCount": 10,
+            "sourceSha256": "c046d6ea776ea4694bfa3a144022618256f73dab051714bf05e34e91b443ed31",
+            "request": {
+                "reference": "trisomy-21",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "weight",
+                    "sex": "male"
+                }
+            }
+        },
+        {
+            "name": "trisomy21MaleBmi",
+            "description": "trisomy-21 male bmi, age 0-20",
+            "measurementCount": 10,
+            "sourceSha256": "bfc999b308460e18f768b83ce6783129a03ee0066c2a681757feac14da94b8f1",
+            "request": {
+                "reference": "trisomy-21",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "bmi",
+                    "sex": "male"
+                }
+            }
+        },
+        {
+            "name": "trisomy21MaleOfc",
+            "description": "trisomy-21 male ofc, age 0-20",
+            "measurementCount": 10,
+            "sourceSha256": "3c4b36f4d1b2489f9936e064709b296dd0dfe4b56d5b9dbecb6331cd71005d5e",
+            "request": {
+                "reference": "trisomy-21",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "ofc",
+                    "sex": "male"
+                }
+            }
+        },
+        {
+            "name": "trisomy21AapFemaleHeight",
+            "description": "trisomy-21-aap female height, age 0-20",
+            "measurementCount": 9,
+            "sourceSha256": "ea1f85478121d8077ccbd01cd4809683b6dd13dea8d986f3b1195b6c96f068ae",
+            "request": {
+                "reference": "trisomy-21-aap",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "height",
+                    "sex": "female"
+                }
+            }
+        },
+        {
+            "name": "trisomy21AapFemaleWeight",
+            "description": "trisomy-21-aap female weight, age 0-20",
+            "measurementCount": 10,
+            "sourceSha256": "e78bbfd1becc2356531f7bea31d98618d234063cb9df683aa883ac28a36e317d",
+            "request": {
+                "reference": "trisomy-21-aap",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "weight",
+                    "sex": "female"
+                }
+            }
+        },
+        {
+            "name": "trisomy21AapFemaleBmi",
+            "description": "trisomy-21-aap female bmi, age 0-20",
+            "measurementCount": 9,
+            "sourceSha256": "03bbf08823494772fe848e9d986f7da9de7813a6a92d0059a211eb52330d0274",
+            "request": {
+                "reference": "trisomy-21-aap",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "bmi",
+                    "sex": "female"
+                }
+            }
+        },
+        {
+            "name": "trisomy21AapFemaleOfc",
+            "description": "trisomy-21-aap female ofc, age 0-20",
+            "measurementCount": 9,
+            "sourceSha256": "92c5099f2fb3da89a183dd67e57e889b219121931f57049ac379f51ec7b2355e",
+            "request": {
+                "reference": "trisomy-21-aap",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "ofc",
+                    "sex": "female"
+                }
+            }
+        },
+        {
+            "name": "trisomy21AapMaleHeight",
+            "description": "trisomy-21-aap male height, age 0-20",
+            "measurementCount": 9,
+            "sourceSha256": "871520435d8b601f7941d35aca92ec4d1bdcb54593858350ede6bfb4a1ee6504",
+            "request": {
+                "reference": "trisomy-21-aap",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "height",
+                    "sex": "male"
+                }
+            }
+        },
+        {
+            "name": "trisomy21AapMaleWeight",
+            "description": "trisomy-21-aap male weight, age 0-20",
+            "measurementCount": 10,
+            "sourceSha256": "c36215f4b7934aad25d07c581f283bacaf56ef92b561210c4203d73109155db8",
+            "request": {
+                "reference": "trisomy-21-aap",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "weight",
+                    "sex": "male"
+                }
+            }
+        },
+        {
+            "name": "trisomy21AapMaleBmi",
+            "description": "trisomy-21-aap male bmi, age 0-20",
+            "measurementCount": 9,
+            "sourceSha256": "dee2bcd74cc5c810d54c2244e3d83492c7e32278eb9cf493d46abe35a4622649",
+            "request": {
+                "reference": "trisomy-21-aap",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "bmi",
+                    "sex": "male"
+                }
+            }
+        },
+        {
+            "name": "trisomy21AapMaleOfc",
+            "description": "trisomy-21-aap male ofc, age 0-20",
+            "measurementCount": 9,
+            "sourceSha256": "d22c3dd7f383cdfa6b239df5c2298c81f5c9342ffff3bfe4482d5d58eef57576",
+            "request": {
+                "reference": "trisomy-21-aap",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "ofc",
+                    "sex": "male"
+                }
+            }
+        },
+        {
+            "name": "turnerFemaleHeight",
+            "description": "turner female height, age 0-20",
+            "measurementCount": 9,
+            "sourceSha256": "1cb495ab63a05136227116a5001983b3979c8379c12656dee4fde974fbe6c696",
+            "request": {
+                "reference": "turner",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "start_chronological_age": 0,
+                    "end_age": 20,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 24,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "measurement_method": "height",
+                    "sex": "female"
+                }
+            }
+        },
+        {
+            "name": "ukWhoFemaleWeightPreterm22",
+            "description": "22-week preterm girl, weight, first year (gestational correction and lollipops)",
+            "measurementCount": 12,
+            "sourceSha256": "e57b1fb7dd24ce0319029655be30f76fc6ac1931be44a4359293b915f9cf2a11",
+            "request": {
+                "reference": "uk-who",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "measurement_method": "weight",
+                    "sex": "female",
+                    "start_chronological_age": 0,
+                    "end_age": 1,
+                    "measurement_interval_type": "weeks",
+                    "measurement_interval_number": 4,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 22,
+                    "gestation_days": 0
+                }
+            }
+        },
+        {
+            "name": "ukWhoMaleHeightPreterm30",
+            "description": "30-week preterm boy, height, first two years",
+            "measurementCount": 12,
+            "sourceSha256": "50ef6f3f6bc0622f3bfba3305fb5045beb373b75b99c93e702d84185f0609f7e",
+            "request": {
+                "reference": "uk-who",
+                "endpoint": "fictional-child-data",
+                "body": {
+                    "measurement_method": "height",
+                    "sex": "male",
+                    "start_chronological_age": 0,
+                    "end_age": 2,
+                    "measurement_interval_type": "months",
+                    "measurement_interval_number": 2,
+                    "start_sds": 0,
+                    "drift": false,
+                    "noise": false,
+                    "gestation_weeks": 30,
+                    "gestation_days": 0
+                }
+            }
+        },
+        {
+            "name": "ukWhoFemaleHeightBoneAgeEvent",
+            "description": "Single measurement carrying bone age and an event annotation",
+            "measurementCount": 1,
+            "sourceSha256": "abc9eb726d8aa7e01dc6c958357d67f811f78b1ffb5dd8f8deecb350d773222d",
+            "request": {
+                "reference": "uk-who",
+                "endpoint": "calculation",
+                "body": {
+                    "birth_date": "2012-01-01",
+                    "observation_date": "2022-01-01",
+                    "measurement_method": "height",
+                    "observation_value": 135,
+                    "sex": "female",
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "bone_age": 9.5,
+                    "bone_age_type": "greulich-pyle",
+                    "bone_age_centile": 50,
+                    "bone_age_sds": 0,
+                    "bone_age_text": "Bone age approximately 9.5 years",
+                    "events_text": ["Started growth hormone"]
+                }
+            }
+        },
+        {
+            "name": "ukWhoFemaleHeightDuplicates",
+            "description": "Two identical observations for the allowDuplicates rendering path",
+            "measurementCount": 2,
+            "sourceSha256": "4b368badef01899c6566daa71989f6d13fb955e712595a62e8100780e809896a",
+            "request": {
+                "reference": "uk-who",
+                "endpoint": "bulk-calculation",
+                "body": {
+                    "birth_date": "2018-01-01",
+                    "sex": "female",
+                    "measurement_method": "height",
+                    "gestation_weeks": 40,
+                    "gestation_days": 0,
+                    "observations": [
+                        { "observation_date": "2022-01-01", "observation_value": 100 },
+                        { "observation_date": "2022-01-01", "observation_value": 100 }
+                    ]
+                }
+            }
+        }
+    ]
+}

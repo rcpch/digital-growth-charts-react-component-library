@@ -1,6 +1,7 @@
 // Generated with util/create-component.js
 import * as React from 'react';
 import { render } from '@testing-library/react';
+import '@testing-library/jest-dom';
 
 import SDSChart from './SDSChart';
 import { SDSChartProps } from './SDSChart.types';
@@ -34,17 +35,18 @@ describe('SDSChart', () => {
             exportChartCallback: () => null,
             clinicianFocus: false,
             allowDuplicates: true,
+            height: 800,
+            width: 1000,
+            textScaleFactor: 1,
         };
     });
 
     const renderComponent = () => render(<SDSChart {...props} />);
 
-    test.skip('should render foo text correctly', () => {
+    test('renders the chart title', () => {
         props.title = 'TestChartTitle';
-        const { getByTestId } = renderComponent();
+        const chart = renderComponent();
 
-        const component = getByTestId('SDSChart');
-
-        expect(component.textContent?.match(/TestChartTitle/));
+        expect(chart.getByText('TestChartTitle')).toBeInTheDocument();
     });
 });
