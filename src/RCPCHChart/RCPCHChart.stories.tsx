@@ -229,7 +229,7 @@ ThemeBuilder.argTypes = {
     height: { control: 'number' }, // Explicit control type
     width: { control: 'number' }, // Explicit control type
     clinicianFocus: { control: 'boolean' }, // Explicit control type
-    logoVariant: { control: 'select', options: ['rcpch', 'nhs'] }, // Explicit control type
+    logoVariant: { control: 'select', options: ['top', 'bottom', 'legend'] }, // Explicit control type
     // customThemeStyles
 } as ArgTypes<RCPCHChartProps>;
 
@@ -350,7 +350,6 @@ export const CentileChartPrematureUKWHOGirlsHeight22Weeks: Story = {
         measurementMethod: 'weight',
         reference: 'uk-who',
         sex: 'female',
-        logoVariant: 'bottom',
         measurements: { weight: prematureTwentyTwoWeeksWeight },
         midParentalHeightData: {},
         enableZoom: true,
@@ -628,7 +627,7 @@ export const CentileChartCDCGirlsWeight: Story = {
 };
 
 export const CentileChartCDCBoysWeight: Story = {
-    name: 'CDC: Centile Chart - Height - Boys',
+    name: 'CDC: Centile Chart - Weight - Boys',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'weight',
@@ -670,7 +669,7 @@ export const CentileChartCDCGirlsBMI: Story = {
 };
 
 export const CentileChartCDCBoysBMI: Story = {
-    name: 'CDC: Centile Chart - BMI - BMI',
+    name: 'CDC: Centile Chart - BMI - Boys',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'bmi',
@@ -754,7 +753,7 @@ export const CentileChartCDCBoysHeadCircumference: Story = {
 };
 
 export const CentileChartCDCGirlMidparentalHeight: Story = {
-    name: 'CDC: Centile Chart - Midparental Height - Boys',
+    name: 'CDC: Centile Chart - Midparental Height - Girls',
     args: {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'height',
@@ -813,7 +812,6 @@ export const CentileChartTrisomy21AAPBoysHeight: Story = {
         theme: 'tanner3',
         customThemeStyles: {},
         clinicianFocus: true,
-        logoVariant: 'bottom',
     },
 };
 
@@ -835,7 +833,6 @@ export const CentileChartTrisomy21AAPGirlsHeight: Story = {
         theme: 'tanner3',
         customThemeStyles: {},
         clinicianFocus: true,
-        logoVariant: 'bottom',
     },
 };
 
@@ -857,7 +854,6 @@ export const CentileChartTrisomy21AAPBoysHeightData: Story = {
         theme: 'tanner3',
         customThemeStyles: {},
         clinicianFocus: true,
-        logoVariant: 'bottom',
     },
 };
 
@@ -879,7 +875,6 @@ export const CentileChartTrisomy21AAPBoysWeightData: Story = {
         theme: 'tanner3',
         customThemeStyles: {},
         clinicianFocus: true,
-        logoVariant: 'bottom',
     },
 };
 
@@ -901,7 +896,6 @@ export const CentileChartTrisomy21AAPGirlsWeight: Story = {
         theme: 'tanner3',
         customThemeStyles: {},
         clinicianFocus: true,
-        logoVariant: 'bottom',
     },
 };
 
@@ -911,7 +905,7 @@ export const CentileChartTrisomy21AAPBoysWeight: Story = {
         title: 'Patient Name - Hospital Number',
         measurementMethod: 'weight',
         reference: 'trisomy-21-aap',
-        sex: 'female',
+        sex: 'male',
         measurements: {
             weight: [],
         },
@@ -923,7 +917,6 @@ export const CentileChartTrisomy21AAPBoysWeight: Story = {
         theme: 'tanner1',
         customThemeStyles: {},
         clinicianFocus: true,
-        logoVariant: 'bottom',
     },
 };
 
@@ -945,7 +938,6 @@ export const CentileChartTrisomy21AAPGirlsBMI: Story = {
         theme: 'tanner3',
         customThemeStyles: {},
         clinicianFocus: true,
-        logoVariant: 'bottom',
     },
 };
 
@@ -967,7 +959,6 @@ export const CentileChartTrisomy21AAPGBoysBMI: Story = {
         theme: 'tanner1',
         customThemeStyles: {},
         clinicianFocus: true,
-        logoVariant: 'bottom',
     },
 };
 
@@ -989,7 +980,6 @@ export const CentileChartTrisomy21AAPGirlsHeadCircumference: Story = {
         theme: 'tanner3',
         customThemeStyles: {},
         clinicianFocus: true,
-        logoVariant: 'bottom',
     },
 };
 
@@ -1011,7 +1001,6 @@ export const CentileChartTrisomy21AAPBoysHeadCircumference: Story = {
         theme: 'tanner1',
         customThemeStyles: {},
         clinicianFocus: true,
-        logoVariant: 'bottom',
     },
 };
 
@@ -1033,7 +1022,6 @@ export const CentileChartWHOBoysHeight: Story = {
         theme: 'tanner3',
         customThemeStyles: {},
         clinicianFocus: true,
-        logoVariant: 'bottom',
     },
 };
 
@@ -1055,7 +1043,6 @@ export const CentileChartWHOGirlsHeight: Story = {
         theme: 'tanner1',
         customThemeStyles: {},
         clinicianFocus: true,
-        logoVariant: 'bottom',
     },
 };
 
@@ -1077,7 +1064,6 @@ export const CentileChartWHOGirlsWeight: Story = {
         theme: 'tanner1',
         customThemeStyles: {},
         clinicianFocus: true,
-        logoVariant: 'bottom',
     },
 };
 
@@ -1099,7 +1085,6 @@ export const CentileChartWHOGirlsHeadCircumference: Story = {
         theme: 'tanner1',
         customThemeStyles: {},
         clinicianFocus: true,
-        logoVariant: 'bottom',
     },
 };
 
@@ -1121,7 +1106,6 @@ export const CentileChartWHOGirlsBMI: Story = {
         theme: 'tanner1',
         customThemeStyles: {},
         clinicianFocus: true,
-        logoVariant: 'bottom',
     },
 };
 

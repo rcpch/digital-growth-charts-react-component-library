@@ -250,7 +250,7 @@ const SDSChart: React.FC<SDSChartProps> = ({
     return (
         <MainContainer>
             {logoVariant === 'top' && (
-                <TopContainer>
+                <TopContainer data-testid="chart-identity-top">
                     <LogoContainer>
                         <IndividualLogoContainer>
                             <img src={icon} width={24} height={24} />
@@ -647,7 +647,7 @@ const SDSChart: React.FC<SDSChartProps> = ({
                 )}
 
                 {logoVariant === 'bottom' && (
-                    <BottomContainer>
+                    <BottomContainer data-testid="chart-identity-bottom">
                         <BottomLogoContainer>
                             <IndividualLogoContainer>
                                 <img src={icon} width={24} height={24} />

@@ -300,7 +300,7 @@ function CentileChart({
     return (
         <MainContainer>
             {logoVariant === 'top' && (
-                <TopContainer>
+                <TopContainer data-testid="chart-identity-top">
                     <LogoContainer>
                         <IndividualLogoContainer>
                             <img src={icon} width={24} height={24} />
@@ -1060,7 +1060,7 @@ function CentileChart({
                 )}
 
                 {logoVariant === 'bottom' && (
-                    <BottomContainer>
+                    <BottomContainer data-testid="chart-identity-bottom">
                         <BottomLogoContainer>
                             <IndividualLogoContainer>
                                 <img src={icon} width={24} height={24} />
