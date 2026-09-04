@@ -56,6 +56,7 @@ import { symbolForMeasurementType } from '../functions/symbolForMeasurementType'
 import { selectedMeasurementMethods } from '../functions/buildListOfMeasurementMethods';
 import { measurementMethodForName } from '../functions/measurementMethodForName';
 import { referenceText } from '../functions/referenceText';
+import { embedAttributionInSvg } from '../functions/embedAttributionInSvg';
 
 // style sheets
 import { StyledButtonTooltip } from '../SubComponents/StyledButtonTooltip';
@@ -238,7 +239,14 @@ const SDSChart: React.FC<SDSChartProps> = ({
     const exportPressed = () => {
         if (enableExport) {
             setActive(true);
-            exportChartCallback(chartRef.current.firstChild); // this passes the raw SVG back to the client for converting
+            // Embed the reference attribution in the exported SVG so it
+            // survives outside the surrounding page (see spec/queries.md Q3).
+            const exportedSvg = embedAttributionInSvg(
+                chartRef.current.firstChild,
+                referenceText(reference),
+                styles.referenceTextStyle,
+            );
+            exportChartCallback(exportedSvg);
         }
     };
 
