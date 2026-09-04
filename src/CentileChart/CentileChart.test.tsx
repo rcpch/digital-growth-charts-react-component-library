@@ -47,8 +47,8 @@ Labels
 -[X] Y axis lable text renders correctly - bmi
 -[X] Y axis lable text renders correctly - OFC
 -[X] X axis lable text renders correctly - premature infant (Gestation weeks)
--[X] X axis lable text renders correctly - premature infant after term (Gestation or postnatal weeks / months (shown as lollipops))
--[X] X axis lable text renders correctly - infant (Age (in years and months (shown as lollipops)))
+-[X] X axis lable text renders correctly - premature infant after term (Gestation or postnatal age (weeks; months shown as lollipops))
+-[X] X axis lable text renders correctly - infant (Age (years; months shown as lollipops))
 -[X] X axis lable text renders correctly - child (age in years)
 -[X] reference attribution text renders correctly - UK-WHO
 -[X] reference attribution text renders correctly - Trisomy 21
@@ -204,7 +204,7 @@ One each of these needed for every measurement method and every sex
 -[x] 'copied' text appears and fades on click
 -[-] Grey rim animates round button edge on hover over button
 -[x] exportChartCallback triggered on click
--[ ] correct SVG of chart present when exportChartCallback triggered on click
+-[x] correct SVG of chart present when exportChartCallback triggered on click
 
 *Zoom*
 -[x] Zoom function enabled if enableZoom prop is true
@@ -526,7 +526,7 @@ describe('All tests relate to rendering the text in the height centile chart for
 
     it('should render age x axis label text correctly.', () => {
         render(<CentileChart {...props} />);
-        expect(screen.queryByText('Age (in years)')).toBeInTheDocument();
+        expect(screen.queryByText('Age (years)')).toBeInTheDocument();
     });
 
     it('should render UK-WHO reference attribution label text correctly.', () => {
@@ -660,7 +660,7 @@ describe('All tests relate to rendering the text in the height/length centile ch
 
     it('should render age x axis label text correctly for premature infant.', () => {
         render(<CentileChart {...props} />);
-        expect(screen.queryByText('Gestation or postnatal weeks / months (shown as lollipops)')).toBeInTheDocument();
+        expect(screen.queryByText('Gestation or postnatal age (weeks; months shown as lollipops)')).toBeInTheDocument();
     });
 });
 
@@ -751,7 +751,7 @@ describe('All tests relating to rendering the text in the weight centile chart f
 
     it('should render age x axis label correctly', () => {
         render(<CentileChart {...props} />);
-        expect(screen.queryByText('Age (in years)'));
+        expect(screen.queryByText('Age (years)')).toBeInTheDocument();
     });
 });
 
@@ -807,7 +807,7 @@ describe('All tests relating to plotting in the height centile chart for a prema
 
     it('should plot x axis correctly in the first year of life.', () => {
         render(<CentileChart {...props} />);
-        expect(screen.getByText('Gestation or postnatal weeks / months (shown as lollipops)')).toBeInTheDocument();
+        expect(screen.getByText('Gestation or postnatal age (weeks; months shown as lollipops)')).toBeInTheDocument();
     });
 });
 
@@ -1068,35 +1068,45 @@ describe('All tests relating to testing the copy button', () => {
     // });
 });
 
-// describe('Tests relating to exportChartCallback function', () => {
-//     const mockExportChartCallback = jest.fn();
-//     let props: CentileChartProps;
-//     const midparentalHeight: MidParentalHeightObject = {};
+describe('Tests relating to exportChartCallback function', () => {
+    const mockExportChartCallback = jest.fn();
+    let props: CentileChartProps;
+    const midparentalHeight: MidParentalHeightObject = {};
 
-//     beforeEach(() => {
-//         props = {
-//             chartsVersion: '7.0.0',
-//             reference: 'uk-who',
-//             title: 'TestChartTitle',
-//             subtitle: 'TestChartSubtitle',
-//             measurementMethod: 'height',
-//             sex: 'male',
-//             childMeasurements: [],
-//             midParentalHeightData: midparentalHeight,
-//             enableZoom: false,
-//             styles: monochromeStyles,
-//             enableExport: true,
-//             exportChartCallback: mockExportChartCallback,
-//             clinicianFocus: false,
-//         };
-//     });
+    beforeEach(() => {
+        mockExportChartCallback.mockClear();
+        props = {
+            chartsVersion: '7.0.0',
+            reference: 'uk-who',
+            title: 'TestChartTitle',
+            subtitle: 'TestChartSubtitle',
+            measurementMethod: 'height',
+            sex: 'male',
+            childMeasurements: [],
+            midParentalHeightData: midparentalHeight,
+            enableZoom: false,
+            styles: monochromeStyles,
+            enableExport: true,
+            exportChartCallback: mockExportChartCallback,
+            clinicianFocus: false,
+        };
+    });
 
-//     it('should trigger exportChartCallback function onclick', () => {
-//         render(<CentileChart {...props} />);
-//         fireEvent.click(screen.getByTestId('copy-button'));
-//         expect(mockExportChartCallback).toHaveBeenCalled();
-//     });
-// });
+    it('should trigger exportChartCallback function onclick', () => {
+        render(<CentileChart {...props} />);
+        fireEvent.click(screen.getByTestId('copy-button'));
+        expect(mockExportChartCallback).toHaveBeenCalledTimes(1);
+    });
+
+    it('should pass an SVG containing the reference attribution to exportChartCallback', () => {
+        render(<CentileChart {...props} />);
+        fireEvent.click(screen.getByTestId('copy-button'));
+
+        const exportedSvg = mockExportChartCallback.mock.calls[0][0] as SVGSVGElement;
+        const attribution = exportedSvg.querySelector('[data-testid="exported-chart-attribution"]');
+        expect(attribution?.textContent).toBe('WHO Child Growth Standards, UK 1990 reference data, reanalysed 2009');
+    });
+});
 
 describe('Tests relating to negative settings on the copy button', () => {
     let props: CentileChartProps;
