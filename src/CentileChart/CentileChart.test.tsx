@@ -47,8 +47,8 @@ Labels
 -[X] Y axis lable text renders correctly - bmi
 -[X] Y axis lable text renders correctly - OFC
 -[X] X axis lable text renders correctly - premature infant (Gestation weeks)
--[X] X axis lable text renders correctly - premature infant after term (Gestation or postnatal weeks / months (shown as lollipops))
--[X] X axis lable text renders correctly - infant (Age (in years and months (shown as lollipops)))
+-[X] X axis lable text renders correctly - premature infant after term (Gestation or postnatal age (weeks; months shown as lollipops))
+-[X] X axis lable text renders correctly - infant (Age (years; months shown as lollipops))
 -[X] X axis lable text renders correctly - child (age in years)
 -[X] reference attribution text renders correctly - UK-WHO
 -[X] reference attribution text renders correctly - Trisomy 21
@@ -526,7 +526,7 @@ describe('All tests relate to rendering the text in the height centile chart for
 
     it('should render age x axis label text correctly.', () => {
         render(<CentileChart {...props} />);
-        expect(screen.queryByText('Age (in years)')).toBeInTheDocument();
+        expect(screen.queryByText('Age (years)')).toBeInTheDocument();
     });
 
     it('should render UK-WHO reference attribution label text correctly.', () => {
@@ -660,7 +660,7 @@ describe('All tests relate to rendering the text in the height/length centile ch
 
     it('should render age x axis label text correctly for premature infant.', () => {
         render(<CentileChart {...props} />);
-        expect(screen.queryByText('Gestation or postnatal weeks / months (shown as lollipops)')).toBeInTheDocument();
+        expect(screen.queryByText('Gestation or postnatal age (weeks; months shown as lollipops)')).toBeInTheDocument();
     });
 });
 
@@ -751,7 +751,7 @@ describe('All tests relating to rendering the text in the weight centile chart f
 
     it('should render age x axis label correctly', () => {
         render(<CentileChart {...props} />);
-        expect(screen.queryByText('Age (in years)'));
+        expect(screen.queryByText('Age (years)')).toBeInTheDocument();
     });
 });
 
@@ -807,7 +807,7 @@ describe('All tests relating to plotting in the height centile chart for a prema
 
     it('should plot x axis correctly in the first year of life.', () => {
         render(<CentileChart {...props} />);
-        expect(screen.getByText('Gestation or postnatal weeks / months (shown as lollipops)')).toBeInTheDocument();
+        expect(screen.getByText('Gestation or postnatal age (weeks; months shown as lollipops)')).toBeInTheDocument();
     });
 });
 

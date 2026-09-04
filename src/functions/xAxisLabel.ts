@@ -12,16 +12,16 @@ function xAxislabel(chartScaleType: 'prem' | 'infant' | 'smallChild' | 'biggerCh
             }
         case 'infant':
             if (lowerX < 0 && upperX >= 0) {
-                return 'Gestation or postnatal weeks / months (shown as lollipops)';
+                return 'Gestation or postnatal age (weeks; months shown as lollipops)';
             } else if (upperX < 0) {
                 return 'Gestation';
             } else {
-                return 'Age (in weeks and months (shown as lollipops))';
+                return 'Age (weeks; months shown as lollipops)';
             }
         case 'smallChild':
-            return 'Age (in years and months (shown as lollipops))';
+            return 'Age (years; months shown as lollipops)';
         case 'biggerChild':
-            return 'Age (in years)';
+            return 'Age (years)';
         default:
             throw new Error('Invalid chartScaleStyle given to xAxisLabel function');
     }
