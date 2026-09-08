@@ -904,12 +904,11 @@ function getRelevantDataSets(
             cdcData = sex == 'male' ? cdcBMIMaleCentileData.centile_data : cdcBMIFemaleCentileData.centile_data;
         }
         const dataSetRanges = [
-            [(22 * 7 - 40 * 7) / 365.25, (50 * 7 - 40 * 7) / 365.25], // 22 weeks to 50 weeks
             [0, 2.0],
             [2.0, 20],
         ];
         let startingGroup = 0;
-        let endingGroup = 2;
+        let endingGroup = 1;
         for (let i = 0; i < dataSetRanges.length; i++) {
             const range = dataSetRanges[i];
             if (lowestChildX >= range[0] && lowestChildX < range[1]) {
@@ -926,12 +925,11 @@ function getRelevantDataSets(
         }
 
         const allData: any = [
-            cdcData[0]['fenton'][sex][measurementMethod],
-            cdcData[1]['cdc_infant'][sex][measurementMethod],
-            cdcData[2]['cdc_child'][sex][measurementMethod],
+            cdcData[0]['cdc_infant'][sex][measurementMethod],
+            cdcData[1]['cdc_child'][sex][measurementMethod],
         ];
 
-        let returnArray = deepCopy(blankCDCDataset);
+        let returnArray = deepCopy(blankCDCDataset.slice(0, 2));
         for (let i = startingGroup; i <= endingGroup; i++) {
             returnArray.splice(i, 1, allData[i]);
         }
