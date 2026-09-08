@@ -7,7 +7,13 @@ export interface AttributionTextStyle {
 }
 
 const SVG_NAMESPACE = 'http://www.w3.org/2000/svg';
-const HORIZONTAL_PADDING = 8;
+// Left/right inset for the attribution text within the SVG's width.
+const TEXT_INSET = 8;
+// Vertical gap between the chart content and the attribution block, and
+// between the block and the SVG's new bottom edge. Deliberately the same
+// value as TEXT_INSET today, but kept as a separate constant because the two
+// paddings are conceptually independent and may need to diverge later.
+const BLOCK_PADDING = 8;
 const LINE_HEIGHT_MULTIPLIER = 1.4;
 // jsdom (and headless SVG export generally) has no layout engine, so we cannot
 // measure real glyph widths. This is a deliberately rough estimate of average
@@ -29,16 +35,20 @@ export function embedAttributionInSvg(
     attributionText: string,
     style: AttributionTextStyle,
 ): SVGSVGElement {
+    if (attributionText.trim().length === 0) {
+        return svg.cloneNode(true) as SVGSVGElement;
+    }
+
     const svgWidth = Number(svg.getAttribute('width')) || 0;
     const svgHeight = Number(svg.getAttribute('height')) || 0;
 
     const lineHeight = style.fontSize * LINE_HEIGHT_MULTIPLIER;
-    const availableWidth = Math.max(svgWidth - HORIZONTAL_PADDING * 2, 1);
+    const availableWidth = Math.max(svgWidth - TEXT_INSET * 2, 1);
     const averageCharWidth = style.fontSize * AVERAGE_CHAR_WIDTH_FACTOR;
     const maxCharsPerLine = Math.max(Math.floor(availableWidth / averageCharWidth), 1);
 
     const lines = wrapText(attributionText, maxCharsPerLine);
-    const attributionBlockHeight = lines.length * lineHeight + HORIZONTAL_PADDING;
+    const attributionBlockHeight = lines.length * lineHeight + BLOCK_PADDING;
     const newHeight = svgHeight + attributionBlockHeight;
 
     const clone = svg.cloneNode(true) as SVGSVGElement;
@@ -60,8 +70,8 @@ export function embedAttributionInSvg(
 
     lines.forEach((line, index) => {
         const tspan = document.createElementNS(SVG_NAMESPACE, 'tspan');
-        tspan.setAttribute('x', String(HORIZONTAL_PADDING));
-        tspan.setAttribute('y', String(svgHeight + HORIZONTAL_PADDING + (index + 1) * lineHeight - lineHeight * 0.25));
+        tspan.setAttribute('x', String(TEXT_INSET));
+        tspan.setAttribute('y', String(svgHeight + BLOCK_PADDING + (index + 1) * lineHeight - lineHeight * 0.25));
         tspan.textContent = line;
         text.appendChild(tspan);
     });

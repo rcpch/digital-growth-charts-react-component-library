@@ -93,4 +93,14 @@ describe('embedAttributionInSvg', () => {
         expect(tspans.length).toBe(1);
         expect(tspans[0].textContent).toBe('Supercalifragilisticexpialidocious');
     });
+
+    test('leaves the SVG dimensions unchanged and adds no text element for blank attribution text', () => {
+        const svg = buildSvg(450, 300);
+        const result = embedAttributionInSvg(svg, '   ', style);
+
+        expect(result.getAttribute('height')).toBe('300');
+        expect(result.getAttribute('viewBox')).toBe('0 0 450 300');
+        expect(result.querySelector('[data-testid="exported-chart-attribution"]')).toBeNull();
+        expect(result.querySelector('rect')).not.toBeNull();
+    });
 });
