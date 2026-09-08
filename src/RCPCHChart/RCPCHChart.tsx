@@ -220,6 +220,7 @@ const RCPCHChart: React.FC<RCPCHChartProps> = ({
                         enableExport={enableExport}
                         exportChartCallback={exportChartCallback}
                         clinicianFocus={clinicianFocus}
+                        logoVariant={logoVariant}
                     />
                 </GlobalStyle>
             </ErrorBoundary>

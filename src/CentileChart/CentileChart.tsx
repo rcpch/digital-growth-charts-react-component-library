@@ -29,6 +29,7 @@ import { labelAngle } from '../functions/labelAngle';
 import addOrdinalSuffix from '../functions/addOrdinalSuffix';
 import { labelIndexInterval } from '../functions/labelIndexInterval';
 import { referenceText } from '../functions/referenceText';
+import { embedAttributionInSvg } from '../functions/embedAttributionInSvg';
 
 // interfaces & props
 import { CentileChartProps } from './CentileChart.types';
@@ -241,7 +242,14 @@ function CentileChart({
     const exportPressed = () => {
         if (enableExport) {
             setActive(true);
-            exportChartCallback(chartRef.current.firstChild); // this passes the raw SVG back to the client for converting
+            // Embed the reference attribution in the exported SVG so it
+            // survives outside the surrounding page (see spec/queries.md Q3).
+            const exportedSvg = embedAttributionInSvg(
+                chartRef.current.firstChild,
+                referenceText(reference),
+                styles.referenceTextStyle,
+            );
+            exportChartCallback(exportedSvg);
         }
     };
 
@@ -300,7 +308,7 @@ function CentileChart({
     return (
         <MainContainer>
             {logoVariant === 'top' && (
-                <TopContainer>
+                <TopContainer data-testid="chart-identity-top">
                     <LogoContainer>
                         <IndividualLogoContainer>
                             <img src={icon} width={24} height={24} />
@@ -1060,7 +1068,7 @@ function CentileChart({
                 )}
 
                 {logoVariant === 'bottom' && (
-                    <BottomContainer>
+                    <BottomContainer data-testid="chart-identity-bottom">
                         <BottomLogoContainer>
                             <IndividualLogoContainer>
                                 <img src={icon} width={24} height={24} />

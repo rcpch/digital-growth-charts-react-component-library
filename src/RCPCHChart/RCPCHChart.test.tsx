@@ -96,6 +96,17 @@ describe('RCPCHChart', () => {
 
         expect(chart.getByText('TestChartTitle')).toBeInTheDocument();
     });
+
+    test('forwards bottom identity placement to an SDS chart', () => {
+        props.chartType = 'sds';
+        props.logoVariant = 'bottom';
+        props.measurements = { height: duplicateMeasurementDifferentValue as any };
+        props.allowDuplicates = true;
+        const chart = renderComponent();
+
+        expect(chart.queryByTestId('chart-identity-top')).not.toBeInTheDocument();
+        expect(chart.getByTestId('chart-identity-bottom')).toBeInTheDocument();
+    });
 });
 
 describe('validateMeasurementsObject - date and type normalisation', () => {

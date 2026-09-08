@@ -1,15 +1,26 @@
+# Dependencies
 node_modules/
+
+# Build output
 build/
 dist/
 storybook-static/
-.DS_Store
-.vscode
 
+# Testing
+coverage/
+test-results/
+build-storybook.log
+
+# Licensed data - not for sharing
 src/chartdata/fenton/*.*
 src/testParameters/measurements/fenton/*.*
 
-build-storybook.log
+# Editor / OS
+.vscode/
+.DS_Store
 
+# Agent tooling (Claude Code, etc.)
+.claude/
 .private/
 .playwright/
 .playwright-mcp/
