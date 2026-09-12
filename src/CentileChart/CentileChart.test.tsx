@@ -264,10 +264,10 @@ describe('All tests relate to rendering the centile lines in the height centile 
     });
 
     enum MeasurementMethods {
-        'height' = 'height',
-        'weight' = 'weight',
-        'bmi' = 'bmi',
-        'ofc' = 'ofc',
+        height = 'height',
+        weight = 'weight',
+        bmi = 'bmi',
+        ofc = 'ofc',
     }
 
     const measurementMethods = [
