@@ -2,21 +2,6 @@ import { ReferenceGroup } from '../interfaces/CentilesObject';
 export const cdcHeightMaleCentileData: ReferenceGroup = {
     centile_data: [
         {
-            fenton: {
-                male: {
-                    height: [
-                        { sds: -1.88, centile: 3.0, data: null },
-                        { sds: -1.28, centile: 10.0, data: null },
-                        { sds: -0.67, centile: 25.0, data: null },
-                        { sds: 0.0, centile: 50.0, data: null },
-                        { sds: 0.67, centile: 75.0, data: null },
-                        { sds: 1.28, centile: 90.0, data: null },
-                        { sds: 1.88, centile: 97.0, data: null },
-                    ],
-                },
-            },
-        },
-        {
             cdc_infant: {
                 male: {
                     height: [

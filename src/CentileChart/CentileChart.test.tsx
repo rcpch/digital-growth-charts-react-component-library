@@ -239,6 +239,8 @@ import { prematureTwentyTwoWeeksOFC } from '../testParameters/measurements/prema
 import { termGirlWithSingleHeightMeasurementAndBoneAgeAndEvent } from '../testParameters/measurements/termGirlWithSingleHeightMeasurementAndBoneAgeAndEvent';
 import { sixToEightGirlWeight } from '../testParameters/measurements/sixToEightGirlWeight';
 import { twoToEightGirlBMI } from '../testParameters/measurements/twoToEightYearsGirlBMI';
+import { cdcFemaleHeight } from '../testParameters/measurements/generated/cdcFemaleHeight';
+import { cdcFemaleOfc } from '../testParameters/measurements/generated/cdcFemaleOfc';
 
 describe('All tests relate to rendering the centile lines in the height centile chart with no data.', () => {
     let props: CentileChartProps;
@@ -1513,5 +1515,72 @@ describe('Preterm centile data visibility in life course view', () => {
             // Preterm centile data should be visible for preterm child's OFC
             expect(screen.queryByTestId('reference-0-centile-50-measurement-ofc')).toBeInTheDocument();
         });
+    });
+});
+
+describe('CDC reference rendering (no licensed Fenton preterm segment)', () => {
+    // The Fenton preterm reference could not be licensed for open-source
+    // distribution (see spec/queries.md) and its scaffolding has been removed
+    // entirely, rather than left as an always-empty placeholder segment. The
+    // CDC reference now has exactly two segments: cdc_infant (age 0-2y, index
+    // 0) and cdc_child (age 2-20y, index 1).
+    const midparentalHeight: MidParentalHeightObject = {};
+
+    const baseProps: CentileChartProps = {
+        chartsVersion: '7.0.0',
+        reference: 'cdc',
+        title: 'TestChartTitle',
+        subtitle: 'TestChartSubtitle',
+        measurementMethod: 'height',
+        sex: 'female',
+        childMeasurements: [],
+        midParentalHeightData: midparentalHeight,
+        enableZoom: false,
+        styles: monochromeStyles,
+        enableExport: false,
+        exportChartCallback: () => null,
+        clinicianFocus: false,
+    };
+
+    it('renders the cdc_infant reference segment at index 0, not a fenton placeholder', () => {
+        const props: CentileChartProps = { ...baseProps, childMeasurements: cdcFemaleHeight };
+        render(<CentileChart {...props} />);
+
+        expect(screen.queryByTestId('reference-0-centile-50-measurement-height')).toBeInTheDocument();
+    });
+
+    it('renders the cdc_child reference segment at index 1 for a child spanning both age bands', () => {
+        // cdcFemaleHeight spans birth to ~18 years, crossing the 2-year cdc_infant/cdc_child boundary.
+        const props: CentileChartProps = { ...baseProps, childMeasurements: cdcFemaleHeight };
+        render(<CentileChart {...props} />);
+
+        expect(screen.queryByTestId('reference-1-centile-50-measurement-height')).toBeInTheDocument();
+    });
+
+    it('does not render a third reference segment', () => {
+        const props: CentileChartProps = { ...baseProps, childMeasurements: cdcFemaleHeight };
+        render(<CentileChart {...props} />);
+
+        expect(screen.queryByTestId('reference-2-centile-50-measurement-height')).not.toBeInTheDocument();
+    });
+
+    it('renders real measurement points without falling back to the error boundary', () => {
+        const props: CentileChartProps = { ...baseProps, childMeasurements: cdcFemaleHeight };
+        render(<CentileChart {...props} />);
+
+        expect(screen.queryByText('The chart could not be displayed')).not.toBeInTheDocument();
+        expect(screen.queryAllByTestId('chronologicalMeasurementPoint').length).toBeGreaterThan(0);
+    });
+
+    it('suppresses the duplicate cdc_child segment for head circumference, which only supports age 0-3', () => {
+        const props: CentileChartProps = {
+            ...baseProps,
+            measurementMethod: 'ofc',
+            childMeasurements: cdcFemaleOfc,
+        };
+        render(<CentileChart {...props} />);
+
+        expect(screen.queryByTestId('reference-0-centile-50-measurement-ofc')).toBeInTheDocument();
+        expect(screen.queryByTestId('reference-1-centile-50-measurement-ofc')).not.toBeInTheDocument();
     });
 });

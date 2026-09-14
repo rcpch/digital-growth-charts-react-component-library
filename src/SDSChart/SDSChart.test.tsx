@@ -7,6 +7,7 @@ import SDSChart from './SDSChart';
 import { SDSChartProps } from './SDSChart.types';
 import { monochromeStyles } from '../testParameters/styles/monochromeStyles';
 import { ClientMeasurementObject } from '../interfaces/ClientMeasurementObject';
+import { cdcFemaleHeight } from '../testParameters/measurements/generated/cdcFemaleHeight';
 // duplicate measurement fixtures are tested in RCPCHChart.test.tsx
 
 describe('SDSChart', () => {
@@ -100,5 +101,36 @@ describe('SDSChart exportChartCallback', () => {
         expect(attribution?.textContent).toBe(
             'American Academy of Pediatrics (AAP) Trisomy 21 reference. Zemel BS, Pipan M, Stallings VA, Hall W, Schgadt K, Freedman DS, Thorpe P. Growth Charts for Children with Down Syndrome in the U.S. Pediatrics, 2015',
         );
+    });
+});
+
+describe('SDSChart CDC reference (no licensed Fenton preterm segment)', () => {
+    // See the equivalent CentileChart.test.tsx describe block: the Fenton
+    // preterm reference could not be licensed and its scaffolding has been
+    // removed entirely rather than left as an always-empty placeholder.
+    test('renders a child spanning both CDC age bands without falling back to the error boundary', () => {
+        const props: SDSChartProps = {
+            chartsVersion: 'testVersion',
+            reference: 'cdc',
+            title: 'TestChartTitle',
+            subtitle: 'TestChartSubtitle',
+            measurementMethod: 'height',
+            sex: 'female',
+            childMeasurements: { height: cdcFemaleHeight, weight: [], bmi: [], ofc: [] },
+            midParentalHeightData: {},
+            enableZoom: false,
+            styles: monochromeStyles,
+            enableExport: false,
+            exportChartCallback: () => null,
+            clinicianFocus: false,
+            allowDuplicates: true,
+            height: 800,
+            width: 1000,
+            textScaleFactor: 1,
+        };
+
+        const chart = render(<SDSChart {...props} />);
+
+        expect(chart.queryByText('The chart could not be displayed')).not.toBeInTheDocument();
     });
 });
