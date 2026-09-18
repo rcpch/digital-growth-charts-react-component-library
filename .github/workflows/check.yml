@@ -10,6 +10,8 @@ on:
 
 jobs:
     build:
+        permissions:
+            contents: read
         strategy:
             matrix:
                 node-version: ['22.11.0', '22.x']
