@@ -12,7 +12,7 @@ Read this file before changing anything.
 - [fixture-generation/README.md](fixture-generation/README.md) - how the generated measurement fixtures are produced.
 - [digital-growth-charts-server `agent-instructions.md`](https://github.com/rcpch/digital-growth-charts-server/blob/live/agent-instructions.md) - the API contract this library consumes.
 - [Upgrading the dGC Platform](https://growth.rcpch.ac.uk/developer/five-repository-upgrade-runbook/) - the cross-repository runbook governing version bumps, dependency upgrades and coordinated releases.
-- [pacharanero/house-style](https://github.com/pacharanero/house-style) - adopted cross-repository engineering standards.
+- [`rcpch-house-style`](https://github.com/rcpch/rcpch-house-style) - RCPCH engineering standards. The local checkout is normally at `~/code/rcpch/rcpch-house-style/AGENTS.md`.
 
 ## Package Structure
 
@@ -80,7 +80,7 @@ jsdom tests cannot prove that a chart looks right. Anything that changes renderi
 
 ## Assurance
 
-- Follow the house-style [class-wide fix directive](https://github.com/pacharanero/house-style/blob/main/agents.md#fix-the-class-not-just-the-instance): when fixing a rendering bug, identify the violated invariant and check the same failure mode across the other references, measurement methods, sexes and both chart types before claiming it is fixed.
+- Follow the house-style directive to fix the class of defect, not just the reported instance: when fixing a rendering bug, identify the violated invariant and check the same failure mode across the other references, measurement methods, sexes and both chart types before claiming it is fixed.
 - A passing Jest run is not evidence that a chart renders correctly. For anything that changes how clinical data is plotted, verify visually and state what you checked.
 - Record safety-relevant changes, hazards and review decisions in the same pull request as the implementation.
 
@@ -100,6 +100,8 @@ Do not hand-edit another repository's dependency files and do not rely on `npm l
 - **API responses in this component**: `s/compatibility-test` in `digital-growth-charts-server` replays deterministic API responses through every pinned component profile in `compatibility/profiles.json`. It prefers a read-only sibling checkout of this repository when it contains the pinned revision, and otherwise clones the revision from GitHub, so a newly pinned revision must be pushed before the server change lands.
 
 Because the client aliases this repository's raw source rather than its Rollup build, the injected version string does not resolve in that local stack - see [#230](https://github.com/rcpch/digital-growth-charts-react-component-library/issues/230). Do not treat that as a regression introduced by your change.
+
+Run `s/e2e-local` from the client checkout, not from this one: it resolves its own repository root from the working directory, and starting it elsewhere silently points it at the wrong repository. The client checkout needs its dependencies installed (`npm ci`) and the Playwright browser downloaded (`npx playwright install chromium`) before the first run.
 
 Version bumps, dependency upgrades and releases follow [Upgrading the dGC Platform](https://growth.rcpch.ac.uk/developer/five-repository-upgrade-runbook/). Do not bump this package's version or publish in isolation.
 
