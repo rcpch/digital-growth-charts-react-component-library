@@ -250,6 +250,14 @@ const blankExtendedWHOCentileDataset = [
     ],
 ];
 
+/*
+Age landmarks in decimal years, shared by the measurement-scoped and life-course
+domain calculations so both views agree on where term and prematurity begin.
+*/
+const TWO_WEEKS_POSTNATAL = 0.038329911019849415;
+const GEST_WEEKS_37 = -0.057494866529774126;
+const GEST_WEEKS_22 = -0.345;
+
 function makeDefaultDomains(
     sex: 'male' | 'female',
     reference: 'uk-who' | 'trisomy-21' | 'turner' | 'cdc' | 'trisomy-21-aap' | 'who',
@@ -1004,12 +1012,12 @@ function getDomainsAndData(
     }
 
     if (childMeasurements.length > 0) {
-        const twoWeeksPostnatal = 0.038329911019849415;
-        const gestWeeks37 = -0.057494866529774126;
+        const twoWeeksPostnatal = TWO_WEEKS_POSTNATAL;
+        const gestWeeks37 = GEST_WEEKS_37;
         const gestWeeks24 = -0.306639288158795;
         let absoluteBottomX = twoWeeksPostnatal;
         const gestWeeks23 = -0.33;
-        const gestWeeks22 = -0.345;
+        const gestWeeks22 = GEST_WEEKS_22;
         let absoluteHighX = 20.05;
         let agePadding = totalMinPadding.biggerChild;
         if (reference === 'uk-who') {
@@ -1257,10 +1265,18 @@ function getDomainsAndData(
         // in life course view, centile lines always shown for bigger child scale. The orginal measurements are only used to plot points.
         internalDomains = makeDefaultDomains(sex, reference, measurementMethod);
 
-        // Check if any original measurements are in the preterm range (negative corrected age)
-        // If so, extend the x domain to include them, otherwise cutoff at 2 weeks postnatal
-        let lowestOriginalX = internalDomains.x[0];
-        if (originalMeasurements && originalMeasurements.length > 0 && reference === 'uk-who') {
+        // The uk-who and who life course domains start at two weeks postnatal, so any
+        // measurement taken before then - a term birth weight as well as a preterm
+        // measurement - falls outside the domain and is silently not plotted. Extend the
+        // lower bound to the earliest age the selected reference supports whenever a
+        // measurement sits below it.
+        const defaultLowestX = internalDomains.x[0];
+        let lowestOriginalX = defaultLowestX;
+        if (
+            originalMeasurements &&
+            originalMeasurements.length > 0 &&
+            (reference === 'uk-who' || reference === 'who')
+        ) {
             for (const measurement of originalMeasurements) {
                 const correctedAge = measurement.measurement_dates.corrected_decimal_age;
                 const chronologicalAge = measurement.measurement_dates.chronological_decimal_age;
@@ -1269,11 +1285,20 @@ function getDomainsAndData(
                     lowestOriginalX = ageToCheck;
                 }
             }
-            // Only extend domain for true preterm measurements (negative corrected age)
-            // A negative corrected age means the child was born preterm and the measurement
-            // was taken before their due date
-            if (lowestOriginalX < 0) {
-                internalDomains.x[0] = Math.max(-0.345, lowestOriginalX - 0.01); // gestWeeks22
+            if (lowestOriginalX < defaultLowestX) {
+                if (reference === 'who') {
+                    // who reference data begins at birth, so there is nothing to show below it
+                    internalDomains.x[0] = -0.01;
+                } else if (lowestOriginalX < GEST_WEEKS_37) {
+                    // born preterm and measured before the due date: extend to the
+                    // measurement, clamped at the earliest gestation uk90 supports
+                    internalDomains.x[0] = Math.max(GEST_WEEKS_22, lowestOriginalX - 0.01);
+                } else {
+                    // born at term and measured in the first two weeks: extend to 37 weeks
+                    // gestation so the whole shaded term area is in view, matching the
+                    // measurement-scoped domain for the same data
+                    internalDomains.x[0] = GEST_WEEKS_37;
+                }
             }
         }
 

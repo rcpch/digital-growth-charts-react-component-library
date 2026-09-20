@@ -23,6 +23,7 @@ import { midparentalHeightBoy } from '../testParameters/measurements/midparental
 import { ukwhoBMIBoyHigh } from '../testParameters/measurements/ukwhoBMIBoyHigh.ts';
 import { duplicateMeasurementSameValue } from '../testParameters/measurements/duplicateMeasurementSameValue.ts';
 import { duplicateMeasurementDifferentValue } from '../testParameters/measurements/duplicateMeasurementDifferentValue.ts';
+import { ukWhoMaleWeight } from '../testParameters/measurements/generated/ukWhoMaleWeight.ts';
 import React from 'react';
 
 type Story = StoryObj<typeof RCPCHChart>;
@@ -397,6 +398,33 @@ export const CentileChartUKWHOGirlsWeight: Story = {
         enableExport: false,
         exportChartCallback: () => {},
         theme: 'tanner3',
+        customThemeStyles: {},
+    },
+};
+
+export const CentileChartUKWHOBoysBirthWeightAtTerm: Story = {
+    name: 'UK-WHO: Centile Chart - Weight - Boys - Term birth weight only',
+    parameters: {
+        docs: {
+            description: {
+                story: 'A single weight recorded on the birth date of a boy born at 40+0. The chart scales to the neonatal period, plots the point and shows the shaded term area between 37 weeks gestation and two weeks postnatal. Toggling the life course view must keep the point and the shaded term area in view.',
+            },
+        },
+    },
+    args: {
+        title: 'Patient Name - Hospital Number',
+        measurementMethod: 'weight',
+        reference: 'uk-who',
+        sex: 'male',
+        measurements: {
+            weight: [ukWhoMaleWeight[0]],
+        },
+        midParentalHeightData: {},
+        enableZoom: true,
+        chartType: 'centile',
+        enableExport: false,
+        exportChartCallback: () => {},
+        theme: 'tanner1',
         customThemeStyles: {},
     },
 };
