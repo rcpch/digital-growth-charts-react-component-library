@@ -92,6 +92,15 @@ Ask a maintainer before editing `src/chartdata/`, regenerating committed fixture
 
 `rcpchgrowth-python` (calculations) → `digital-growth-charts-server` (HTTP API and provenance) → **this library** (plotting) → `digital-growth-charts-react-client` (demo client and E2E harness) → `digital-growth-charts-documentation` (integration, safety and release documentation). A change that affects the API response shape must be validated across that chain, not just here.
 
+### Testing a change against the API and the client
+
+Do not hand-edit another repository's dependency files and do not rely on `npm link`. Both directions have a harness, and each is owned by the repository that consumes this one:
+
+- **Component in the client**: `s/e2e-local` in `digital-growth-charts-react-client` runs the `local-everything` preset - a local API built from the sibling server and engine checkouts, and the client dev server aliased to the sibling checkout of this repository - then drives Chromium. `s/e2e-local --serve` keeps that stack up so a human can use the real local stack in a browser. It prints the resolved branch, commit and dirty state of all four checkouts before starting, so check those match what you intend to test. Requires Docker. The spec is [spec/e2e.md](https://github.com/rcpch/digital-growth-charts-react-client/blob/live/spec/e2e.md).
+- **API responses in this component**: `s/compatibility-test` in `digital-growth-charts-server` replays deterministic API responses through every pinned component profile in `compatibility/profiles.json`. It prefers a read-only sibling checkout of this repository when it contains the pinned revision, and otherwise clones the revision from GitHub, so a newly pinned revision must be pushed before the server change lands.
+
+Because the client aliases this repository's raw source rather than its Rollup build, the injected version string does not resolve in that local stack - see [#230](https://github.com/rcpch/digital-growth-charts-react-component-library/issues/230). Do not treat that as a regression introduced by your change.
+
 Version bumps, dependency upgrades and releases follow [Upgrading the dGC Platform](https://growth.rcpch.ac.uk/developer/five-repository-upgrade-runbook/). Do not bump this package's version or publish in isolation.
 
 - Open or join an upgrade record first, capturing the known-good baseline versions, the candidate versions, what may change, what must not change, and the rollback stack.
