@@ -42,7 +42,7 @@ const meta = {
         docs: {
             description: {
                 component:
-                    'Issue #258: black, transparent curve labels in two aligned columns near the visible x-ends. Each column uses one font size, fitted to the available spacing and recalculated on zoom. No staggering or selective collision suppression. Prefer at least 8 SVG units; if neither complete column fits, allow a smaller right column (down to 3 units) rather than leaving the chart unlabelled. This fallback is important for the closely spaced WHO/CDC extremes. Curves outside the viewport at that x do not receive an off-curve label. On populated stories, exercise zoom, pan, Reset Zoom, Toggle Full Lifespan and Hide/Show Centile Labels. Check that reference joins do not acquire extra labels, and that measurements and curves are unchanged.',
+                    'Issue #258: curve labels with transparent backgrounds in two aligned columns near the visible x-ends. Label colour defaults to the axis tick-label colour and can be overridden through centileStyle.centileTextStyle.colour. Each column uses one font size, fitted to the available spacing and recalculated on zoom. No staggering or selective collision suppression. Prefer at least 8 SVG units; if neither complete column fits, allow a smaller right column (down to 3 units) rather than leaving the chart unlabelled. This fallback is important for the closely spaced WHO/CDC extremes. Curves outside the viewport at that x do not receive an off-curve label. On populated stories, exercise zoom, pan, Reset Zoom, Toggle Full Lifespan and Hide/Show Centile Labels. Check that reference joins do not acquire extra labels, and that measurements and curves are unchanged.',
             },
         },
     },
@@ -71,6 +71,29 @@ export const UkWhoMaleBmiWithSds: Story = {
         measurementMethod: 'bmi',
         sex: 'male',
         measurements: { bmi: ukWhoMaleBmi },
+    },
+};
+
+export const UkWhoMaleBmiLabelsFollowTicks: Story = {
+    name: 'UK-WHO / Male / BMI / Labels inherit tick colour',
+    args: {
+        ...UkWhoMaleBmiWithSds.args,
+        title: 'Centile and SDS labels inherit the axis tick colour',
+        customThemeStyles: {
+            axisStyle: { tickLabelTextStyle: { colour: '#334155' } },
+        },
+    },
+};
+
+export const UkWhoMaleBmiLabelColourOverride: Story = {
+    name: 'UK-WHO / Male / BMI / Custom label colour',
+    args: {
+        ...UkWhoMaleBmiLabelsFollowTicks.args,
+        title: 'Custom centile and SDS label colour',
+        customThemeStyles: {
+            ...UkWhoMaleBmiLabelsFollowTicks.args.customThemeStyles,
+            centileStyle: { centileTextStyle: { colour: '#6b21a8' } },
+        },
     },
 };
 

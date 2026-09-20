@@ -693,7 +693,6 @@ function CentileChart({
                             lineHeight={1}
                             style={{
                                 ...styles.centileLabel,
-                                fill: 'black',
                                 fontSize: label.fontSize,
                                 pointerEvents: 'none',
                             }}

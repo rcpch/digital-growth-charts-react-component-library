@@ -2,7 +2,7 @@
 
 ## Rendering decision
 
-Centile labels and the SDS reference labels on UK-WHO BMI charts are black, with no background. Rotation follows the rendered tangent. Labels sit slightly above their curves, rather than masking them.
+Centile labels and the SDS reference labels on UK-WHO BMI charts have no background. Their colour defaults to `axisStyle.tickLabelTextStyle.colour`, or black if unset. Consumers can override both through `customThemeStyles.centileStyle.centileTextStyle.colour`, without changing curve strokes. Rotation follows the rendered tangent. Labels sit slightly above their curves, rather than masking them.
 
 After reviewing selective suppression and staggered placement, the requested design is **two aligned columns with dynamically fitted text**:
 
@@ -17,7 +17,7 @@ SDS labels use explicit values such as `+3.33 SDS`, not ordinal suffixes.
 
 ## Safety and compatibility
 
-This changes annotation layout only. Reference data, measurement values, clinical calculations, curve geometry, provenance behaviour, public props, attribution and identity are unchanged. Hidden labels do not hide curves or measurements. Labels remain in the exported SVG and retain the existing hide/show control.
+This changes annotation layout only. Reference data, measurement values, clinical calculations, curve geometry, provenance behaviour, existing public props, attribution and identity are unchanged. The optional `centileTextStyle.colour` setting is an additive extension to the existing theme API; overrides are isolated per chart rather than mutating shared theme defaults. Hidden labels do not hide curves or measurements. Labels remain in the exported SVG and retain the existing hide/show control.
 
 The separate SDS chart uses labelled y-axis ticks rather than this curve-label layout and is unchanged.
 

@@ -248,7 +248,7 @@ function makeAllStyles(
             fontSize: (centileStyle.centileTextStyle?.size ?? 10) * (textMultiplier ?? 1),
             fontFamily: centileStyle.centileTextStyle?.name ?? 'Montserrat',
             fontWeight: centileStyle.centileTextStyle?.weight ?? 400,
-            fill: centileStyle?.centileStroke ?? black,
+            fill: centileStyle?.centileTextStyle?.colour ?? axisStyle?.tickLabelTextStyle?.colour ?? black,
         },
         heightSDS: {
             data: {

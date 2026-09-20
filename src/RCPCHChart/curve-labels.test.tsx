@@ -137,7 +137,7 @@ it('renders readable life-course labels in the chart SVG, with at most one at ei
     for (const label of labels) {
         expect(label.closest('svg')).not.toBeNull();
         expect(label.tagName).toBe('text');
-        expect(label.querySelector('tspan')).toHaveStyle({ fill: 'black' });
+        expect(label.querySelector('tspan')).toHaveStyle({ fill: '#000000' });
         expect(Number(label.getAttribute('x'))).toBeGreaterThan(50);
         expect(Number(label.getAttribute('x'))).toBeLessThan(950);
     }
@@ -172,6 +172,51 @@ it('keeps labels transparent over the term strip, toggles them without removing 
     expect(container.querySelectorAll('[data-testid^="reference-"]').length).toBe(curveCount);
     fireEvent.click(screen.getByTestId('gradient-labels-button'));
     expect(screen.getAllByTestId(/^curve-label-/)).toHaveLength(labels.length);
+});
+
+it('inherits the tick-label colour, supports an override, and keeps each chart and export independent', () => {
+    const exportChartCallback = jest.fn();
+    const bmiProps: RCPCHChartProps = {
+        ...props,
+        measurementMethod: 'bmi',
+        measurements: { bmi: ukWhoFemaleBmi },
+        exportChartCallback,
+    };
+    const customThemeStyles: RCPCHChartProps['customThemeStyles'] = {
+        axisStyle: {
+            tickLabelTextStyle: { colour: '#334455' },
+            axisLabelTextStyle: { colour: '#887766' },
+        },
+        centileStyle: { centileStroke: '#ff0000', sdsStroke: '#7159aa' },
+    };
+    const chart = render(<RCPCHChart {...bmiProps} customThemeStyles={customThemeStyles} />);
+    const expectLabelColour = (container: Element, colour: string) => {
+        const labels = container.querySelectorAll('[data-testid^="curve-label-"] tspan');
+        expect(labels.length).toBeGreaterThan(0);
+        expect(container.querySelector('[data-testid^="curve-label-centile-"]')).not.toBeNull();
+        expect(container.querySelector('[data-testid^="curve-label-sds-"]')).not.toBeNull();
+        labels.forEach((label) => expect(label).toHaveStyle({ fill: colour }));
+    };
+    expectLabelColour(chart.container, '#334455');
+
+    chart.rerender(
+        <RCPCHChart
+            {...bmiProps}
+            customThemeStyles={{
+                ...customThemeStyles,
+                centileStyle: { ...customThemeStyles.centileStyle, centileTextStyle: { colour: '#006699' } },
+            }}
+        />,
+    );
+    expectLabelColour(chart.container, '#006699');
+    fireEvent.click(chart.getByTestId('copy-button'));
+    expectLabelColour(exportChartCallback.mock.calls[0][0], '#006699');
+
+    const defaultChart = render(<RCPCHChart {...bmiProps} />);
+    expectLabelColour(defaultChart.container, '#000000');
+    expectLabelColour(chart.container, '#006699');
+    chart.rerender(<RCPCHChart {...bmiProps} />);
+    expectLabelColour(chart.container, '#000000');
 });
 
 it('uses explicit SDS values rather than ordinal suffixes on BMI reference curves', () => {
