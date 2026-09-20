@@ -240,6 +240,7 @@ import { termGirlWithSingleHeightMeasurementAndBoneAgeAndEvent } from '../testPa
 import { sixToEightGirlWeight } from '../testParameters/measurements/sixToEightGirlWeight';
 import { twoToEightGirlBMI } from '../testParameters/measurements/twoToEightYearsGirlBMI';
 import { ukWhoMaleWeight } from '../testParameters/measurements/generated/ukWhoMaleWeight';
+import { ukWhoMaleHeightPreterm30 } from '../testParameters/measurements/generated/ukWhoMaleHeightPreterm30';
 
 describe('All tests relate to rendering the centile lines in the height centile chart with no data.', () => {
     let props: CentileChartProps;
@@ -1590,5 +1591,39 @@ describe('All tests relating to plotting a term birth weight on the weight centi
         await waitFor(() => {
             expect(screen.queryAllByTestId('termArea').length).toBeGreaterThan(0);
         });
+    });
+});
+
+describe('All tests relating to the corrected age defaults following the measurements supplied.', () => {
+    const midparentalHeight: MidParentalHeightObject = {};
+
+    const makeProps = (childMeasurements: typeof ukWhoMaleHeightPreterm30): CentileChartProps =>
+        ({
+            chartsVersion: '7.0.0',
+            reference: 'uk-who',
+            title: 'Preterm Boy',
+            subtitle: 'Born at 30+0',
+            measurementMethod: 'height',
+            sex: 'male',
+            childMeasurements,
+            midParentalHeightData: midparentalHeight,
+            enableZoom: true,
+            styles: monochromeStyles,
+            enableExport: false,
+            exportChartCallback: () => null,
+            clinicianFocus: false,
+        }) as CentileChartProps;
+
+    it('should plot corrected age points for a preterm child supplied at mount.', () => {
+        render(<CentileChart {...makeProps(ukWhoMaleHeightPreterm30)} />);
+        expect(screen.queryAllByTestId('correctedMeasurementXPoint').length).toBeGreaterThan(0);
+    });
+
+    it('should plot corrected age points for a preterm child added after the chart has mounted.', () => {
+        // the corrected/chronological defaults depend on gestation, so they have to be
+        // recalculated when the measurements arrive rather than fixed at mount
+        const { rerender } = render(<CentileChart {...makeProps([])} />);
+        rerender(<CentileChart {...makeProps(ukWhoMaleHeightPreterm30)} />);
+        expect(screen.queryAllByTestId('correctedMeasurementXPoint').length).toBeGreaterThan(0);
     });
 });

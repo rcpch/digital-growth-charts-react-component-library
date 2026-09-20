@@ -324,6 +324,15 @@ function CentileChart({
         setUserDomains(null);
     }, [measurementsSignature]);
 
+    // the corrected/chronological defaults depend on the gestation of the child being
+    // plotted, so they have to follow the measurements rather than stay on whatever was
+    // supplied when the chart mounted
+    useLayoutEffect(() => {
+        setShowChronologicalAge(defaultShowChronological);
+        setShowCorrectedAge(defaultShowCorrected);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [measurementsSignature]);
+
     // const inLifeCourseMode = storedChildMeasurements.length === 0;
     // const chartDomain: Domains = inLifeCourseMode ? { x: domains.x, y: extendedDomains.y } : domains;
 

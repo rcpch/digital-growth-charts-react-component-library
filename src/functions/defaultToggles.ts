@@ -14,10 +14,10 @@ function defaultToggles(childMeasurements: Measurement[]): returnObject {
     if (!childMeasurements[0].plottable_data) {
         throw new Error('No plottable data found. Are you using the correct server version?');
     }
-    // if == 40+0 weeks, only show chronological:
+    // no age correction is applied at or beyond 40+0, so the toggle is not required.
+    // every other gestation needs some form of age correction, so the toggle is offered
     const gestWeeks = childMeasurements[0].birth_data.gestation_weeks;
-    const gestDays = childMeasurements[0].birth_data.gestation_days;
-    if (gestWeeks == 40 && gestDays == 0) {
+    if (gestWeeks >= 40) {
         return { defaultShowCorrected: false, defaultShowChronological: true, showToggle: false };
     }
     // get max corrected age from  data:
