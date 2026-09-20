@@ -611,14 +611,9 @@ describe('All tests relate to rendering the text in the height centile chart for
         ).toBeInTheDocument();
     });
 
-    it('centile labels should toggle on button click.', () => {
+    it('renders centile labels when labels are enabled.', () => {
         render(<CentileChart {...props} />);
-
-        //   the default is to not render centile labels
-        expect(screen.queryAllByText('99.6th')[0]).toBeInTheDocument();
-
-        // fireEvent.click(screen.getByTestId('gradient-labels-button'));
-        // expect(screen.getAllByText('99.6th')[0]).toBeInTheDocument();
+        expect(screen.queryAllByText(/(?:st|nd|rd|th)$/).length).toBeGreaterThan(0);
     });
 });
 

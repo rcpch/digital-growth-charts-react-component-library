@@ -28,6 +28,7 @@ import { isCrowded } from '../functions/isCrowded';
 import { labelAngle } from '../functions/labelAngle';
 import addOrdinalSuffix from '../functions/addOrdinalSuffix';
 import { labelIndexInterval } from '../functions/labelIndexInterval';
+import { curveLabelFontSize } from '../functions/curveLabelFontSize';
 import { referenceText } from '../functions/referenceText';
 import { embedAttributionInSvg } from '../functions/embedAttributionInSvg';
 
@@ -143,33 +144,6 @@ function CentileChart({
         ],
     );
 
-    // get the highest reference index of visible centile data
-    let maxVisibleReferenceIndex: number = null;
-    let minimumArrayLength;
-    centileData.forEach((item, index) => {
-        switch (index) {
-            case 0:
-                minimumArrayLength = 3; // neonates label gap
-                break;
-            case 1:
-                minimumArrayLength = 4; // infants label gap
-                break;
-            case 2:
-                minimumArrayLength = 6; // small child label gap
-                break;
-            case 3:
-                minimumArrayLength = 15; // large child label gap
-                break;
-            default:
-                minimumArrayLength = 6;
-                break;
-        }
-
-        if (item[0].data !== null && item[0].data.length > minimumArrayLength) {
-            maxVisibleReferenceIndex = index;
-        }
-    });
-
     const allowZooming = storedChildMeasurements.length > 0 && enableZoom ? true : false;
 
     // This is the domain actually controlled by zoom/reset
@@ -202,6 +176,33 @@ function CentileChart({
     }, [domains, storedChildMeasurements.length, childMeasurements]);
 
     const isChartCrowded = isCrowded(extendedDomains, childMeasurements);
+    const curveLabelFontSizePx = curveLabelFontSize(styles.centileLabel.fontSize, extendedDomains.x);
+    const visibleReferenceWindows = (referenceDataSets: any[]) =>
+        referenceDataSets.reduce<number[]>((indexes, referenceData, referenceIndex) => {
+            const hasVisiblePoint = referenceData.some((curve: ICentile) =>
+                curve.data?.some((point) => point.x >= extendedDomains.x[0] && point.x <= extendedDomains.x[1]),
+            );
+            if (hasVisiblePoint) {
+                indexes.push(referenceIndex);
+            }
+            return indexes;
+        }, []);
+    const centileLabelWindows = visibleReferenceWindows(centileData);
+    const sdsLabelWindows = visibleReferenceWindows(bmiSDSData || []);
+    const labelPositionForReference = (referenceIndex: number, referenceWindows: number[]) => {
+        const firstReferenceIndex = referenceWindows[0];
+        const lastReferenceIndex = referenceWindows[referenceWindows.length - 1];
+        if (referenceIndex === firstReferenceIndex && referenceIndex === lastReferenceIndex) {
+            return 'both' as const;
+        }
+        if (referenceIndex === firstReferenceIndex) {
+            return 'left' as const;
+        }
+        if (referenceIndex === lastReferenceIndex) {
+            return 'right' as const;
+        }
+        return null;
+    };
 
     let pubertyThresholds: null | any[] = null;
     let nondisjunctionThresholds: null | any[] = null;
@@ -602,6 +603,11 @@ function CentileChart({
                                             return null;
                                         }
 
+                                        const labelPosition = labelPositionForReference(
+                                            referenceIndex,
+                                            centileLabelWindows,
+                                        );
+
                                         if (centileIndex % 2) {
                                             // even index - centile is dashed
                                             return (
@@ -621,28 +627,30 @@ function CentileChart({
                                                     style={{ ...styles.dashedCentile }}
                                                     labels={(props: { index: number; data: any }) =>
                                                         centileLabels &&
-                                                        labelIndexInterval(props.index, props.data, extendedDomains) &&
-                                                        props.index > 0
+                                                        labelPosition !== null &&
+                                                        labelIndexInterval(props.index, props.data, extendedDomains)
                                                             ? [addOrdinalSuffix(centile.centile)]
                                                             : null
                                                     }
                                                     labelComponent={
                                                         <VictoryLabel
-                                                            angle={({ index }) => {
-                                                                return labelAngle(
+                                                            angle={({ index }) =>
+                                                                labelAngle(
                                                                     centile.data,
                                                                     parseInt(index.toString()),
-                                                                    chartScaleType,
-                                                                    measurementMethod,
                                                                     extendedDomains,
-                                                                );
+                                                                    width,
+                                                                    height,
+                                                                )
+                                                            }
+                                                            style={{
+                                                                ...styles.centileLabel,
+                                                                fill: 'black',
+                                                                fontSize: curveLabelFontSizePx,
                                                             }}
-                                                            style={styles.centileLabel}
-                                                            backgroundStyle={{ fill: 'white' }}
-                                                            backgroundPadding={{ top: 1, bottom: 1, left: 1, right: 1 }}
                                                             textAnchor={'middle'}
                                                             verticalAnchor={'middle'}
-                                                            dy={0}
+                                                            dy={-2}
                                                             dx={0}
                                                         />
                                                     }
@@ -667,35 +675,31 @@ function CentileChart({
                                                     style={{ ...styles.continuousCentile }}
                                                     labels={(props: { index: number; data: [] }) =>
                                                         centileLabels &&
-                                                        labelIndexInterval(props.index, props.data, extendedDomains) &&
-                                                        props.index > 0
+                                                        labelPosition !== null &&
+                                                        labelIndexInterval(props.index, props.data, extendedDomains)
                                                             ? [addOrdinalSuffix(centile.centile)]
                                                             : null
                                                     }
                                                     labelComponent={
                                                         <VictoryLabel
-                                                            angle={({ index }) => {
-                                                                return labelAngle(
+                                                            angle={({ index }) =>
+                                                                labelAngle(
                                                                     centile.data,
                                                                     parseInt(index.toString()),
-                                                                    chartScaleType,
-                                                                    measurementMethod,
                                                                     extendedDomains,
-                                                                );
+                                                                    width,
+                                                                    height,
+                                                                )
+                                                            }
+                                                            style={{
+                                                                ...styles.centileLabel,
+                                                                fill: 'black',
+                                                                fontSize: curveLabelFontSizePx,
                                                             }}
-                                                            style={[
-                                                                {
-                                                                    fill: styles.centileLabel.fill,
-                                                                    fontFamily: styles.centileLabel.fontFamily,
-                                                                    fontSize: styles.centileLabel.fontSize,
-                                                                },
-                                                            ]}
-                                                            backgroundStyle={{ fill: 'white' }}
-                                                            backgroundPadding={{ top: 0, bottom: 0, left: 0, right: 0 }}
                                                             textAnchor={'middle'}
                                                             verticalAnchor={'middle'}
                                                             dx={0}
-                                                            dy={0}
+                                                            dy={-2}
                                                         />
                                                     }
                                                 />
@@ -721,6 +725,7 @@ function CentileChart({
                                                 // prevents a css `width` infinity error if no data presented to sds line
                                                 return null;
                                             }
+                                            const labelPosition = labelPositionForReference(index, sdsLabelWindows);
                                             // sds line is dashed
                                             return (
                                                 <VictoryLine
@@ -734,27 +739,30 @@ function CentileChart({
                                                     style={styles.sdsLine}
                                                     labels={(props: { index: number; data: [] }) =>
                                                         centileLabels &&
-                                                        labelIndexInterval(props.index, props.data, extendedDomains) &&
-                                                        props.index > 0
+                                                        labelPosition !== null &&
+                                                        labelIndexInterval(props.index, props.data, extendedDomains)
                                                             ? [addOrdinalSuffix(sdsLine.sds)]
                                                             : null
                                                     }
                                                     labelComponent={
                                                         <VictoryLabel
-                                                            angle={({ index }) => {
-                                                                return labelAngle(
+                                                            angle={({ index }) =>
+                                                                labelAngle(
                                                                     sdsLine.data,
                                                                     parseInt(index.toString()),
-                                                                    chartScaleType,
-                                                                    measurementMethod,
                                                                     extendedDomains,
-                                                                );
+                                                                    width,
+                                                                    height,
+                                                                )
+                                                            }
+                                                            style={{
+                                                                ...styles.centileLabel,
+                                                                fill: 'black',
+                                                                fontSize: curveLabelFontSizePx,
                                                             }}
-                                                            style={{ fill: styles.sdsLine.data.stroke, fontSize: 10.0 }}
-                                                            backgroundStyle={{ fill: 'white' }}
                                                             textAnchor={'middle'}
                                                             verticalAnchor={'middle'}
-                                                            dy={0}
+                                                            dy={-2}
                                                             dx={0}
                                                         />
                                                     }

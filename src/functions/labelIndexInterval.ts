@@ -1,20 +1,21 @@
-export function labelIndexInterval(index: number, data: any[], domains: { x: number[]; y: number[] }): boolean {
-    // return true if the index is a multiple of the number of items between labels
-    // this will be used to determine if a label should be displayed
-    // the number of items between labels will be determined by the number of items in the data array
-    // and the number of labels to be displayed - this will be 3
-    if (data == undefined) {
+type Point = { x: number };
+
+/**
+ * Returns the established label positions for one reference-data window.
+ * The chart chooses which windows own the left and right labels; this helper
+ * keeps the existing reliable in-window placement for Victory rendering.
+ */
+export function labelIndexInterval(
+    index: number,
+    data: Point[] | undefined,
+    domains: { x: number[]; y: number[] },
+): boolean {
+    if (!data || index <= 0 || index >= data.length - 2) {
         return false;
     }
-    if (index <= 0 || index >= data.length - 2) {
-        return false; // Cannot calculate angle at the edges.
-    }
-    const bill = data.filter((d: any) => {
-        if (d.x > domains.x[0] && d.x < domains.x[1]) {
-            return d;
-        }
-    });
-    let numberOfItemsBetweenLabels = Math.floor(bill.length / 2); // 2 labels per line - this will serve as an index to split the data into 4 sections
 
-    return index % numberOfItemsBetweenLabels == 0;
+    const visiblePointCount = data.filter((point) => point.x > domains.x[0] && point.x < domains.x[1]).length;
+    const interval = Math.floor(visiblePointCount / 2);
+
+    return interval > 0 && index % interval === 0;
 }
