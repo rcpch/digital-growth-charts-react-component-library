@@ -78,6 +78,9 @@ import { Domains } from '../interfaces/Domains';
 // allows two top level containers: zoom and voronoi
 const VictoryZoomVoronoiContainer: any = createContainer('zoom', 'voronoi');
 
+// stable identity so the life course view does not invalidate the memoised domains on every render
+const NO_MEASUREMENTS: Measurement[] = [];
+
 function CentileChart({
     chartsVersion,
     reference,
@@ -100,13 +103,19 @@ function CentileChart({
 }: CentileChartProps) {
     const [userDomains, setUserDomains] = useState(null);
 
-    const [storedChildMeasurements, setStoredChildMeasurements] = useState(childMeasurements);
+    // The life course view deliberately widens the domain to the whole reference range by
+    // withholding the measurements from the domain calculation; the measurements themselves
+    // are still plotted from the childMeasurements prop. This must stay derived from the
+    // prop: holding a copy in state left the chart scoped to whatever was passed at mount,
+    // so a measurement added afterwards was plotted outside the visible domain.
+    const [fullScreen, setFullScreen] = useState(true);
+    const storedChildMeasurements = fullScreen ? childMeasurements : NO_MEASUREMENTS;
+
     const { defaultShowCorrected, defaultShowChronological, showToggle } = defaultToggles(childMeasurements);
     const [showChronologicalAge, setShowChronologicalAge] = useState(defaultShowChronological);
     const [showCorrectedAge, setShowCorrectedAge] = useState(defaultShowCorrected);
     const chartRef = useRef<any>(undefined);
     const [active, setActive] = useState(false);
-    const [fullScreen, setFullScreen] = useState(true);
     const [centileLabels, setCentileLabels] = useState(true);
 
     // save & destruct domains and data on initial render and when dependencies change
@@ -262,7 +271,6 @@ function CentileChart({
     const fullScreenPressed = () => {
         setFullScreen(!fullScreen);
         setUserDomains(null);
-        fullScreen ? setStoredChildMeasurements([]) : setStoredChildMeasurements(childMeasurements);
     };
 
     // toggle between corrected/uncorrected/both
@@ -298,9 +306,32 @@ function CentileChart({
     };
 
     // always reset zoom to default when measurements array changes
+    // the prop is a new array on every parent render, so compare content rather than identity
+    const measurementsSignature = useMemo(
+        () =>
+            childMeasurements
+                .map(
+                    (measurement) =>
+                        `${measurement.child_observation_value?.measurement_method}:` +
+                        `${measurement.child_observation_value?.observation_value}@` +
+                        `${measurement.measurement_dates?.observation_date}`,
+                )
+                .join('|'),
+        [childMeasurements],
+    );
+
     useLayoutEffect(() => {
         setUserDomains(null);
-    }, [storedChildMeasurements]);
+    }, [measurementsSignature]);
+
+    // the corrected/chronological defaults depend on the gestation of the child being
+    // plotted, so they have to follow the measurements rather than stay on whatever was
+    // supplied when the chart mounted
+    useLayoutEffect(() => {
+        setShowChronologicalAge(defaultShowChronological);
+        setShowCorrectedAge(defaultShowCorrected);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [measurementsSignature]);
 
     // const inLifeCourseMode = storedChildMeasurements.length === 0;
     // const chartDomain: Domains = inLifeCourseMode ? { x: domains.x, y: extendedDomains.y } : domains;
@@ -393,7 +424,7 @@ function CentileChart({
                     {
                         /* Term child shaded area: */
                         termAreaData !== null && reference == 'uk-who' && (
-                            <VictoryArea style={styles.termArea} data={termAreaData} />
+                            <VictoryArea data-testid="termArea" style={styles.termArea} data={termAreaData} />
                         )
                     }
 

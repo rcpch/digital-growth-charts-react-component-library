@@ -239,6 +239,8 @@ import { prematureTwentyTwoWeeksOFC } from '../testParameters/measurements/prema
 import { termGirlWithSingleHeightMeasurementAndBoneAgeAndEvent } from '../testParameters/measurements/termGirlWithSingleHeightMeasurementAndBoneAgeAndEvent';
 import { sixToEightGirlWeight } from '../testParameters/measurements/sixToEightGirlWeight';
 import { twoToEightGirlBMI } from '../testParameters/measurements/twoToEightYearsGirlBMI';
+import { ukWhoMaleWeight } from '../testParameters/measurements/generated/ukWhoMaleWeight';
+import { ukWhoMaleHeightPreterm30 } from '../testParameters/measurements/generated/ukWhoMaleHeightPreterm30';
 
 describe('All tests relate to rendering the centile lines in the height centile chart with no data.', () => {
     let props: CentileChartProps;
@@ -1455,11 +1457,15 @@ describe('Preterm centile data visibility in life course view', () => {
     });
 
     it('does not show preterm centile data (reference-0) in life course view when term child is plotted', async () => {
-        // termToAYearGirlHeight is a term girl (40+0 weeks) with no preterm measurements
+        // termToAYearGirlHeight is a term girl (40+0 weeks) with no preterm measurements.
+        // Her first measurement is on her birth date, which legitimately extends the life
+        // course domain back to 37 weeks gestation, so it is dropped here to test the case
+        // this assertion is about: a term child whose measurements all sit inside the
+        // default life course domain.
         const localProps: CentileChartProps = {
             ...baseProps,
             measurementMethod: 'height',
-            childMeasurements: termToAYearGirlHeight,
+            childMeasurements: termToAYearGirlHeight.slice(1),
         };
 
         render(<CentileChart {...localProps} />);
@@ -1472,6 +1478,26 @@ describe('Preterm centile data visibility in life course view', () => {
             // In life course view, preterm centile data (reference-0) should NOT be visible for term child
             // Only reference-1 (infant), reference-2 (preschool), reference-3 (child) should be shown
             expect(screen.queryByTestId('reference-0-centile-50-measurement-height')).not.toBeInTheDocument();
+        });
+    });
+
+    it('shows neonatal centile data (reference-0) in life course view when a term child is measured at birth', async () => {
+        // the uk90 neonatal reference is the only dataset covering 37 weeks gestation to two
+        // weeks postnatal, so a measurement taken at birth needs it or it is plotted against
+        // no centile lines at all
+        const localProps: CentileChartProps = {
+            ...baseProps,
+            measurementMethod: 'height',
+            childMeasurements: termToAYearGirlHeight,
+        };
+
+        render(<CentileChart {...localProps} />);
+
+        const lifeCourseButton = screen.getByTestId('zoom-button');
+        fireEvent.click(lifeCourseButton);
+
+        await waitFor(() => {
+            expect(screen.queryByTestId('reference-0-centile-50-measurement-height')).toBeInTheDocument();
         });
     });
 
@@ -1513,5 +1539,91 @@ describe('Preterm centile data visibility in life course view', () => {
             // Preterm centile data should be visible for preterm child's OFC
             expect(screen.queryByTestId('reference-0-centile-50-measurement-ofc')).toBeInTheDocument();
         });
+    });
+});
+
+describe('All tests relating to plotting a term birth weight on the weight centile chart.', () => {
+    // the first measurement of the generated uk-who fixture is a term male born at 40+0
+    // whose weight was recorded on his birth date
+    const termBirthWeight = [ukWhoMaleWeight[0]];
+    const midparentalHeight: MidParentalHeightObject = {};
+
+    const makeProps = (childMeasurements: typeof termBirthWeight): CentileChartProps =>
+        ({
+            chartsVersion: '7.0.0',
+            reference: 'uk-who',
+            title: 'Term Boy',
+            subtitle: 'Birth weight',
+            measurementMethod: 'weight',
+            sex: 'male',
+            childMeasurements,
+            midParentalHeightData: midparentalHeight,
+            enableZoom: true,
+            styles: monochromeStyles,
+            enableExport: false,
+            exportChartCallback: () => null,
+            clinicianFocus: false,
+        }) as CentileChartProps;
+
+    it('should render the shaded term area when the birth weight is supplied at mount.', () => {
+        render(<CentileChart {...makeProps(termBirthWeight)} />);
+        expect(screen.queryAllByTestId('termArea').length).toBeGreaterThan(0);
+    });
+
+    it('should plot the birth weight point when the birth weight is supplied at mount.', () => {
+        render(<CentileChart {...makeProps(termBirthWeight)} />);
+        expect(screen.queryAllByTestId('chronologicalMeasurementPoint')).toHaveLength(1);
+    });
+
+    it('should rescale to the birth weight when it is added after the chart has mounted.', () => {
+        // the chart used to keep a copy of the measurements taken at mount, so a birth
+        // weight entered afterwards was plotted outside the visible domain
+        const { rerender } = render(<CentileChart {...makeProps([])} />);
+        rerender(<CentileChart {...makeProps(termBirthWeight)} />);
+        expect(screen.queryAllByTestId('termArea').length).toBeGreaterThan(0);
+        expect(screen.queryAllByTestId('chronologicalMeasurementPoint')).toHaveLength(1);
+    });
+
+    it('should keep the shaded term area in view in the life course view.', async () => {
+        render(<CentileChart {...makeProps(termBirthWeight)} />);
+        fireEvent.click(screen.getByTestId('zoom-button'));
+
+        await waitFor(() => {
+            expect(screen.queryAllByTestId('termArea').length).toBeGreaterThan(0);
+        });
+    });
+});
+
+describe('All tests relating to the corrected age defaults following the measurements supplied.', () => {
+    const midparentalHeight: MidParentalHeightObject = {};
+
+    const makeProps = (childMeasurements: typeof ukWhoMaleHeightPreterm30): CentileChartProps =>
+        ({
+            chartsVersion: '7.0.0',
+            reference: 'uk-who',
+            title: 'Preterm Boy',
+            subtitle: 'Born at 30+0',
+            measurementMethod: 'height',
+            sex: 'male',
+            childMeasurements,
+            midParentalHeightData: midparentalHeight,
+            enableZoom: true,
+            styles: monochromeStyles,
+            enableExport: false,
+            exportChartCallback: () => null,
+            clinicianFocus: false,
+        }) as CentileChartProps;
+
+    it('should plot corrected age points for a preterm child supplied at mount.', () => {
+        render(<CentileChart {...makeProps(ukWhoMaleHeightPreterm30)} />);
+        expect(screen.queryAllByTestId('correctedMeasurementXPoint').length).toBeGreaterThan(0);
+    });
+
+    it('should plot corrected age points for a preterm child added after the chart has mounted.', () => {
+        // the corrected/chronological defaults depend on gestation, so they have to be
+        // recalculated when the measurements arrive rather than fixed at mount
+        const { rerender } = render(<CentileChart {...makeProps([])} />);
+        rerender(<CentileChart {...makeProps(ukWhoMaleHeightPreterm30)} />);
+        expect(screen.queryAllByTestId('correctedMeasurementXPoint').length).toBeGreaterThan(0);
     });
 });
