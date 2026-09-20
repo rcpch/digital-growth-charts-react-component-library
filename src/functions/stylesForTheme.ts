@@ -46,6 +46,7 @@ import {
     traditionalGirlMeasurementStyles,
     traditionalGirlSDSStyles,
 } from '../testParameters/styles/traditionalGirlsStyles';
+import deepCopy from './deepCopy';
 import {
     ChartStyle,
     AxisStyle,
@@ -133,5 +134,7 @@ export const stylesForTheme = (
             throw new Error('Please select a valid theme or select custom.');
     }
 
-    return { chartStyle, axisStyle, gridlineStyle, centileStyle, sdsStyle, measurementStyle, referenceStyle };
+    const styles = { chartStyle, axisStyle, gridlineStyle, centileStyle, sdsStyle, measurementStyle, referenceStyle };
+    // RCPCHChart applies overrides in place; each chart needs its own theme objects.
+    return deepCopy(styles) as typeof styles;
 };

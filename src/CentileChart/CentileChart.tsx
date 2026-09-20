@@ -25,9 +25,9 @@ import { delayedPubertyThreshold, makePubertyThresholds, lowerPubertyBorder } fr
 import { makeNonDisjunctionThresholds } from '../functions/nondisjunctionLines';
 import { getFilteredMidParentalHeightData } from '../functions/getFilteredMidParentalHeightData';
 import { isCrowded } from '../functions/isCrowded';
-import { labelAngle } from '../functions/labelAngle';
 import addOrdinalSuffix from '../functions/addOrdinalSuffix';
-import { labelIndexInterval } from '../functions/labelIndexInterval';
+import { CURVE_CHART_PADDING, LabelledCurve, layoutCurveLabels } from '../functions/layoutCurveLabels';
+import { curveLabelFontSize } from '../functions/curveLabelFontSize';
 import { referenceText } from '../functions/referenceText';
 import { embedAttributionInSvg } from '../functions/embedAttributionInSvg';
 
@@ -93,8 +93,8 @@ function CentileChart({
     midParentalHeightData,
     enableZoom,
     styles,
-    height,
-    width,
+    height = 300,
+    width = 450,
     textScaleFactor,
     enableExport,
     exportChartCallback,
@@ -143,33 +143,6 @@ function CentileChart({
         ],
     );
 
-    // get the highest reference index of visible centile data
-    let maxVisibleReferenceIndex: number = null;
-    let minimumArrayLength;
-    centileData.forEach((item, index) => {
-        switch (index) {
-            case 0:
-                minimumArrayLength = 3; // neonates label gap
-                break;
-            case 1:
-                minimumArrayLength = 4; // infants label gap
-                break;
-            case 2:
-                minimumArrayLength = 6; // small child label gap
-                break;
-            case 3:
-                minimumArrayLength = 15; // large child label gap
-                break;
-            default:
-                minimumArrayLength = 6;
-                break;
-        }
-
-        if (item[0].data !== null && item[0].data.length > minimumArrayLength) {
-            maxVisibleReferenceIndex = index;
-        }
-    });
-
     const allowZooming = storedChildMeasurements.length > 0 && enableZoom ? true : false;
 
     // This is the domain actually controlled by zoom/reset
@@ -202,6 +175,51 @@ function CentileChart({
     }, [domains, storedChildMeasurements.length, childMeasurements]);
 
     const isChartCrowded = isCrowded(extendedDomains, childMeasurements);
+    const curveLabelFontSizePx = curveLabelFontSize(styles.centileLabel.fontSize, extendedDomains.x);
+    const curveLabels = useMemo(() => {
+        if (!centileLabels) return [];
+        const curves = new Map<string, LabelledCurve>();
+        const addCurves = (windows: ICentile[][], kind: 'centile' | 'sds') => {
+            windows.forEach((window, index) => {
+                // Match the reference windows actually rendered below.
+                if (
+                    kind === 'centile' &&
+                    reference === 'cdc' &&
+                    (index === 0 || (measurementMethod === 'ofc' && index > 1))
+                ) {
+                    return;
+                }
+                window.forEach((curve) => {
+                    const value = kind === 'centile' ? curve.centile : curve.sds;
+                    if (!Number.isFinite(value) || !curve.data || curve.data.length < 2) return;
+                    const id = `${kind}-${value}`;
+                    if (!curves.has(id)) {
+                        curves.set(id, {
+                            id,
+                            text: kind === 'centile' ? addOrdinalSuffix(value) : `${value > 0 ? '+' : ''}${value} SDS`,
+                            segments: [],
+                        });
+                    }
+                    curves.get(id).segments.push(curve.data);
+                });
+            });
+        };
+        addCurves(centileData || [], 'centile');
+        if (measurementMethod === 'bmi' && reference === 'uk-who') {
+            addCurves(bmiSDSData || [], 'sds');
+        }
+        return layoutCurveLabels(Array.from(curves.values()), extendedDomains, width, height, curveLabelFontSizePx);
+    }, [
+        centileLabels,
+        centileData,
+        bmiSDSData,
+        reference,
+        measurementMethod,
+        extendedDomains,
+        width,
+        height,
+        curveLabelFontSizePx,
+    ]);
 
     let pubertyThresholds: null | any[] = null;
     let nondisjunctionThresholds: null | any[] = null;
@@ -366,6 +384,7 @@ function CentileChart({
                     key={storedChildMeasurements.length > 0 ? 'zoomed' : 'lifecourse'} // Add this
                     width={width}
                     height={height}
+                    padding={CURVE_CHART_PADDING}
                     style={styles.chartMisc}
                     domain={storedChildMeasurements.length > 0 ? computedDomains : extendedDomains}
                     containerComponent={
@@ -602,105 +621,25 @@ function CentileChart({
                                             return null;
                                         }
 
-                                        if (centileIndex % 2) {
-                                            // even index - centile is dashed
-                                            return (
-                                                <VictoryLine
-                                                    data-testid={
-                                                        'reference-' +
-                                                        referenceIndex +
-                                                        '-centile-' +
-                                                        centile.centile +
-                                                        '-measurement-' +
-                                                        measurementMethod
-                                                    }
-                                                    name={'centileLine-' + centileIndex}
-                                                    key={centile.centile + '-' + centileIndex}
-                                                    padding={{ top: 20, bottom: 20 }}
-                                                    data={centile.data}
-                                                    style={{ ...styles.dashedCentile }}
-                                                    labels={(props: { index: number; data: any }) =>
-                                                        centileLabels &&
-                                                        labelIndexInterval(props.index, props.data, extendedDomains) &&
-                                                        props.index > 0
-                                                            ? [addOrdinalSuffix(centile.centile)]
-                                                            : null
-                                                    }
-                                                    labelComponent={
-                                                        <VictoryLabel
-                                                            angle={({ index }) => {
-                                                                return labelAngle(
-                                                                    centile.data,
-                                                                    parseInt(index.toString()),
-                                                                    chartScaleType,
-                                                                    measurementMethod,
-                                                                    extendedDomains,
-                                                                );
-                                                            }}
-                                                            style={styles.centileLabel}
-                                                            backgroundStyle={{ fill: 'white' }}
-                                                            backgroundPadding={{ top: 1, bottom: 1, left: 1, right: 1 }}
-                                                            textAnchor={'middle'}
-                                                            verticalAnchor={'middle'}
-                                                            dy={0}
-                                                            dx={0}
-                                                        />
-                                                    }
-                                                />
-                                            );
-                                        } else {
-                                            // uneven index - centile is continuous
-                                            return (
-                                                <VictoryLine
-                                                    data-testid={
-                                                        'reference-' +
-                                                        referenceIndex +
-                                                        '-centile-' +
-                                                        centile.centile +
-                                                        '-measurement-' +
-                                                        measurementMethod
-                                                    }
-                                                    name={'centileLine-' + centileIndex}
-                                                    key={centile.centile + '-' + centileIndex}
-                                                    padding={{ top: 20, bottom: 20 }}
-                                                    data={centile.data}
-                                                    style={{ ...styles.continuousCentile }}
-                                                    labels={(props: { index: number; data: [] }) =>
-                                                        centileLabels &&
-                                                        labelIndexInterval(props.index, props.data, extendedDomains) &&
-                                                        props.index > 0
-                                                            ? [addOrdinalSuffix(centile.centile)]
-                                                            : null
-                                                    }
-                                                    labelComponent={
-                                                        <VictoryLabel
-                                                            angle={({ index }) => {
-                                                                return labelAngle(
-                                                                    centile.data,
-                                                                    parseInt(index.toString()),
-                                                                    chartScaleType,
-                                                                    measurementMethod,
-                                                                    extendedDomains,
-                                                                );
-                                                            }}
-                                                            style={[
-                                                                {
-                                                                    fill: styles.centileLabel.fill,
-                                                                    fontFamily: styles.centileLabel.fontFamily,
-                                                                    fontSize: styles.centileLabel.fontSize,
-                                                                },
-                                                            ]}
-                                                            backgroundStyle={{ fill: 'white' }}
-                                                            backgroundPadding={{ top: 0, bottom: 0, left: 0, right: 0 }}
-                                                            textAnchor={'middle'}
-                                                            verticalAnchor={'middle'}
-                                                            dx={0}
-                                                            dy={0}
-                                                        />
-                                                    }
-                                                />
-                                            );
-                                        }
+                                        return (
+                                            <VictoryLine
+                                                data-testid={
+                                                    'reference-' +
+                                                    referenceIndex +
+                                                    '-centile-' +
+                                                    centile.centile +
+                                                    '-measurement-' +
+                                                    measurementMethod
+                                                }
+                                                name={'centileLine-' + centileIndex}
+                                                key={centile.centile + '-' + centileIndex}
+                                                padding={{ top: 20, bottom: 20 }}
+                                                data={centile.data}
+                                                style={
+                                                    centileIndex % 2 ? styles.dashedCentile : styles.continuousCentile
+                                                }
+                                            />
+                                        );
                                     })}
                                 </VictoryGroup>
                             );
@@ -721,6 +660,7 @@ function CentileChart({
                                                 // prevents a css `width` infinity error if no data presented to sds line
                                                 return null;
                                             }
+
                                             // sds line is dashed
                                             return (
                                                 <VictoryLine
@@ -732,32 +672,6 @@ function CentileChart({
                                                     padding={{ top: 20, bottom: 20 }}
                                                     data={sdsLine.data}
                                                     style={styles.sdsLine}
-                                                    labels={(props: { index: number; data: [] }) =>
-                                                        centileLabels &&
-                                                        labelIndexInterval(props.index, props.data, extendedDomains) &&
-                                                        props.index > 0
-                                                            ? [addOrdinalSuffix(sdsLine.sds)]
-                                                            : null
-                                                    }
-                                                    labelComponent={
-                                                        <VictoryLabel
-                                                            angle={({ index }) => {
-                                                                return labelAngle(
-                                                                    sdsLine.data,
-                                                                    parseInt(index.toString()),
-                                                                    chartScaleType,
-                                                                    measurementMethod,
-                                                                    extendedDomains,
-                                                                );
-                                                            }}
-                                                            style={{ fill: styles.sdsLine.data.stroke, fontSize: 10.0 }}
-                                                            backgroundStyle={{ fill: 'white' }}
-                                                            textAnchor={'middle'}
-                                                            verticalAnchor={'middle'}
-                                                            dy={0}
-                                                            dx={0}
-                                                        />
-                                                    }
                                                 />
                                             );
                                         })}
@@ -765,6 +679,25 @@ function CentileChart({
                                 );
                             })
                     }
+
+                    {curveLabels.map((label) => (
+                        <VictoryLabel
+                            key={`${label.id}-${label.side}`}
+                            data-testid={`curve-label-${label.id}-${label.side}`}
+                            x={label.x}
+                            y={label.y}
+                            angle={label.angle}
+                            text={label.text}
+                            textAnchor="middle"
+                            verticalAnchor="middle"
+                            lineHeight={1}
+                            style={{
+                                ...styles.centileLabel,
+                                fontSize: label.fontSize,
+                                pointerEvents: 'none',
+                            }}
+                        />
+                    ))}
 
                     {
                         // puberty threshold lines uk90:

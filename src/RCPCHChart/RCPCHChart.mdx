@@ -386,7 +386,19 @@ The attributes of each of these are below:
 - `delayedPubertyAreaFill?: string;` // delayed puberty area colour
 - `midParentalCentileStroke?: string;` // Midparental height centile line colour
 - `midParentalAreaFill?: string;` // Midparental height area colour
-- `centileTextStyle?: Pick<TextStyle, 'name' | 'size' | 'weight'>;` // centile text style : includes name, size, weight
+- `centileTextStyle?: Pick<TextStyle, 'name' | 'size' | 'weight' | 'colour'>;` // centile and BMI SDS label text style
+
+Curve labels default to `axisStyle.tickLabelTextStyle.colour` (black if unset), independently of the curve stroke colours. Override their colour with `customThemeStyles.centileStyle.centileTextStyle.colour`:
+
+```tsx
+const customThemeStyles = {
+    centileStyle: {
+        centileTextStyle: { colour: '#006699' },
+    },
+};
+```
+
+This applies to both centile labels and the SDS reference labels on UK-WHO BMI charts, including SVG exports. Omit `colour` to follow the axis tick-label colour.
 
 #### `SDSStyle`
 
