@@ -14,6 +14,7 @@
         "check:dev-runtime": "node -e \"const [major, minor, patch] = process.versions.node.split('.').map(Number); const supported = major > 20 || (major === 20 && (minor > 19 || (minor === 19 && patch >= 0))); if (!supported) { console.error('Local development requires Node.js 20.19.0 or newer.'); process.exit(1); }\"",
         "pretest": "npm run check:dev-runtime",
         "prebuild": "npm run check:dev-runtime",
+        "prestorybook": "npm run check:dev-runtime",
         "prebuild-storybook": "npm run check:dev-runtime",
         "test": "jest --env=jsdom",
         "build": "cross-env NODE_OPTIONS=--max-old-space-size=5120 ROLLUP_WATCH=false rollup -c",
