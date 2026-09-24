@@ -6,6 +6,6 @@
 
 Please go to <https://growth.rcpch.ac.uk/products/react-component/> for all documentation
 
-Local development for this repository requires Node.js 20.19.0 or newer; CI runs on Node.js 22.
+Local development for this repository requires Node.js 22 or newer; CI runs on Node.js 22.
 
 Issues can be raised here <https://github.com/rcpch/digital-growth-charts-react-component-library/issues>
