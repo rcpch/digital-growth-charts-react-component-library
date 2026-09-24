@@ -34,6 +34,9 @@
     ],
     "author": "eatyourpeas",
     "license": "AGPL-3.0-or-later",
+    "engines": {
+        "node": ">=22.0.0"
+    },
     "devEngines": {
         "runtime": {
             "name": "node",
