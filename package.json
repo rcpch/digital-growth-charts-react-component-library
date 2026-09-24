@@ -12,7 +12,7 @@
     ],
     "scripts": {
         "test": "jest --env=jsdom",
-        "build": "cross-env NODE_OPTIONS=--max-old-space-size=5120 ROLLUP_WATCH=false rollup -c",
+        "build": "cross-env NODE_OPTIONS=--max-old-space-size=5120 ROLLUP_WATCH=false rollup -c --bundleConfigAsCjs",
         "generate-sri": "cat build/rcpch-digital-growth-charts.umd.min.js | openssl dgst -sha384 -binary | openssl base64 -A",
         "storybook": "storybook dev -p 6006",
         "build-storybook": "storybook build",
