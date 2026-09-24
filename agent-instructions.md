@@ -90,7 +90,9 @@ Ask a maintainer before editing `src/chartdata/`, regenerating committed fixture
 
 ## Cross-Repository Context
 
-`rcpchgrowth-python` (calculations) → `digital-growth-charts-server` (HTTP API and provenance) → **this library** (plotting) → `digital-growth-charts-react-client` (demo client and E2E harness) → `digital-growth-charts-documentation` (integration, safety and release documentation). A change that affects the API response shape must be validated across that chain, not just here.
+`rcpchgrowth-python` (calculations) → `digital-growth-charts-server` (HTTP API and provenance) → **this library** (plotting) → `digital-growth-charts-react-client` (demo client and E2E harness) → `digital-growth-charts-documentation` (integration, safety and release documentation). Use the [Five-Repository Upgrade Runbook](https://growth.rcpch.ac.uk/developer/five-repository-upgrade-runbook/) when work crosses repository boundaries or changes a public contract. A change originating upstream may need validation here even when this repository's source code is unchanged.
+
+Before moving an upstream change downstream, classify its observable effects: `Measurement` fields and values, age/series ownership, reference identifiers, component props/types, rendering, accessibility, exports, npm/CDN output, or persisted fixtures. Record affected and unaffected repositories in the PR or upgrade record. Do not infer that a Python or API pass proves the component renders the intended result.
 
 ### Testing a change against the API and the client
 
@@ -98,6 +100,8 @@ Do not hand-edit another repository's dependency files and do not rely on `npm l
 
 - **Component in the client**: `s/e2e-local` in `digital-growth-charts-react-client` runs the `local-everything` preset - a local API built from the sibling server and engine checkouts, and the client dev server aliased to the sibling checkout of this repository - then drives Chromium. `s/e2e-local --serve` keeps that stack up so a human can use the real local stack in a browser at <http://127.0.0.1:58680>, against the local API on 58600, until Ctrl+C. It prints the resolved branch, commit and dirty state of all four checkouts before starting, so check those match what you intend to test. Requires Docker. The spec is [spec/e2e.md](https://github.com/rcpch/digital-growth-charts-react-client/blob/live/spec/e2e.md).
 - **API responses in this component**: `s/compatibility-test` in `digital-growth-charts-server` replays deterministic API responses through every pinned component profile in `compatibility/profiles.json`. It prefers a read-only sibling checkout of this repository when it contains the pinned revision, and otherwise clones the revision from GitHub, so a newly pinned revision must be pushed before the server change lands.
+
+For a Python calculation or API response change, first confirm the exact candidate response and the server compatibility result, then run this repository's tests/build and visually review affected stories. If the integrated demo experience could change, the client-owned `s/e2e-local` harness exercises the candidate engine, API, component and client together. Update this repository's generated measurement fixtures only through `s/generate-fixtures` against the intended pinned API; never hand-edit them.
 
 Use `--serve` to look at a change by hand. Plain `s/e2e-local` runs its checks and tears the stack down as soon as they finish, so there is nothing left to browse. The harness needs no `npm link` and no edit to the client's `.env`: the client aliases this repository's `src/` directly whenever `NODE_ENV=development` and the sibling checkout exists, and the harness passes `VITE_APP_GROWTH_API_BASEURL` inline, which Vite prioritises over the production URL committed in the client's `.env`. If in doubt, confirm in the browser's network tab that calculation requests go to port 58600.
 
