@@ -6,4 +6,6 @@
 
 Please go to <https://growth.rcpch.ac.uk/products/react-component/> for all documentation
 
+Development and release workflows for this repository currently require Node.js 22.18 or newer.
+
 Issues can be raised here <https://github.com/rcpch/digital-growth-charts-react-component-library/issues>
