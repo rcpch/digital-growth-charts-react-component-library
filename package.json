@@ -34,9 +34,6 @@
     ],
     "author": "eatyourpeas",
     "license": "AGPL-3.0-or-later",
-    "engines": {
-        "node": ">=22.18.0"
-    },
     "repository": {
         "type": "git",
         "url": "https://github.com/rcpch/digital-growth-charts-react-component-library"
@@ -50,10 +47,10 @@
         "victory": "37.3.6"
     },
     "devDependencies": {
-        "@babel/core": "^8.0.6",
-        "@babel/preset-env": "^8.0.6",
-        "@babel/preset-react": "^8.0.1",
-        "@babel/preset-typescript": "^8.0.1",
+        "@babel/core": "^7.29.7",
+        "@babel/preset-env": "^7.29.7",
+        "@babel/preset-react": "^7.29.7",
+        "@babel/preset-typescript": "^7.29.7",
         "@rollup/plugin-alias": "^6.0.0",
         "@rollup/plugin-babel": "^7.1.0",
         "@rollup/plugin-commonjs": "^29.0.3",
