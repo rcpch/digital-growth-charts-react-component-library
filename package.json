@@ -12,7 +12,7 @@
     ],
     "scripts": {
         "test": "jest --env=jsdom",
-        "build": "cross-env NODE_OPTIONS=--max-old-space-size=5120 ROLLUP_WATCH=false rollup -c --bundleConfigAsCjs",
+        "build": "cross-env NODE_OPTIONS=--max-old-space-size=5120 ROLLUP_WATCH=false rollup -c",
         "generate-sri": "cat build/rcpch-digital-growth-charts.umd.min.js | openssl dgst -sha384 -binary | openssl base64 -A",
         "storybook": "storybook dev -p 6006",
         "build-storybook": "storybook build",
@@ -50,7 +50,7 @@
         "@babel/preset-env": "^7.28.0",
         "@babel/preset-react": "^7.27.1",
         "@babel/preset-typescript": "^7.27.1",
-        "@rollup/plugin-alias": "^5.1.1",
+        "@rollup/plugin-alias": "^6.0.0",
         "@rollup/plugin-babel": "^7.1.0",
         "@rollup/plugin-commonjs": "^29.0.3",
         "@rollup/plugin-image": "^3.0.3",
