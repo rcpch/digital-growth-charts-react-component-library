@@ -9,11 +9,12 @@ import replace from '@rollup/plugin-replace';
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import resolve from '@rollup/plugin-node-resolve';
-import terser from '@rollup/plugin-terser';
+import * as terserPlugin from '@rollup/plugin-terser';
 import typescript from '@rollup/plugin-typescript';
 import versionInjector from 'rollup-plugin-version-injector';
 
 const packageJson = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'));
+const terser = terserPlugin.default ?? terserPlugin;
 const production = !process.env.ROLLUP_WATCH;
 
 let external = ['styled-components'];
