@@ -16,9 +16,12 @@ export interface ProvenanceCheckResult {
  * its arguments.
  *
  * - 'legacy': no provenance present. Data calculated before provenance
- *   existed. Renders normally with a non-blocking warning - it cannot be
- *   distinguished from safe legacy data, and sites will likely carry a
- *   permanent mixture of legacy and provenance-bearing measurements.
+ *   existed. Renders normally with no warning of its own - it cannot be
+ *   distinguished from safe legacy data, sites will likely carry a
+ *   permanent mixture of legacy and provenance-bearing measurements, and a
+ *   chart viewer cannot act on a permanent warning about it. Still reported
+ *   to the caller (see filterMeasurementsByProvenance.ts) and included in
+ *   the technical details of a warning banner shown for another reason.
  * - 'unknown': provenance present but not a recognised canonical value.
  *   Renders with a warning - reserved for a confirmed mismatch, not
  *   suppression, because an unrecognised value could itself be a new
