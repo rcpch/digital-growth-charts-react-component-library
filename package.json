@@ -34,6 +34,13 @@
     ],
     "author": "eatyourpeas",
     "license": "AGPL-3.0-or-later",
+    "devEngines": {
+        "runtime": {
+            "name": "node",
+            "version": ">=20.19.0",
+            "onFail": "error"
+        }
+    },
     "repository": {
         "type": "git",
         "url": "https://github.com/rcpch/digital-growth-charts-react-component-library"
