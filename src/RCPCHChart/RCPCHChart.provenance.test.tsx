@@ -66,7 +66,6 @@ const provenanceCases: Array<{
         name: 'legacy response without provenance',
         measurements: provenanceLegacyHeight,
         expectedPoints: 3,
-        warningText: /calculated before growth-reference verification was available/i,
     },
     {
         name: 'unknown future provenance',

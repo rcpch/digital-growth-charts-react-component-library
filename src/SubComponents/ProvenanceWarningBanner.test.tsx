@@ -56,6 +56,17 @@ describe('ProvenanceWarningBanner', () => {
         expect(details).toHaveTextContent('expected "uk-who", received "cdc"');
     });
 
+    it('renders nothing when every issue is legacy - a chart viewer cannot act on it', () => {
+        const legacyOnlyIssues: ProvenanceIssue[] = [
+            { method: 'height', index: 0, status: 'legacy', expectedReference: 'uk-who' },
+            { method: 'weight', index: 1, status: 'legacy', expectedReference: 'uk-who' },
+        ];
+
+        const { container } = render(<ProvenanceWarningBanner issues={legacyOnlyIssues} componentVersion="7.5.2" />);
+
+        expect(container).toBeEmptyDOMElement();
+    });
+
     it('copies the exact technical details and resets its success state', async () => {
         jest.useFakeTimers();
         const writeText = jest.fn().mockResolvedValue(undefined);
