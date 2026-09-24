@@ -11,6 +11,7 @@
         "build"
     ],
     "scripts": {
+        "preinstall": "node -e \"const { existsSync } = require('fs'); if (!existsSync('rollup.config.mjs')) process.exit(0); const [major, minor, patch] = process.versions.node.split('.').map(Number); const supported = major > 20 || (major === 20 && (minor > 19 || (minor === 19 && patch >= 0))); if (!supported) { console.error('Local development requires Node.js 20.19.0 or newer.'); process.exit(1); }\"",
         "test": "jest --env=jsdom",
         "build": "cross-env NODE_OPTIONS=--max-old-space-size=5120 ROLLUP_WATCH=false rollup -c",
         "generate-sri": "cat build/rcpch-digital-growth-charts.umd.min.js | openssl dgst -sha384 -binary | openssl base64 -A",
