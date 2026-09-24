@@ -6,23 +6,6 @@ export const girlMidparentalheightCDC: MidParentalHeightObject = {
     mid_parental_height_centile: 49.044,
     mid_parental_height_centile_data: [
         {
-            fenton: {
-                male: null,
-                female: {
-                    height: [
-                        {
-                            sds: -0.02,
-                            centile: 49.044,
-                            data: [],
-                        },
-                    ],
-                    weight: null,
-                    ofc: null,
-                    bmi: null,
-                },
-            },
-        },
-        {
             cdc_infant: {
                 male: null,
                 female: {
@@ -1281,23 +1264,6 @@ export const girlMidparentalheightCDC: MidParentalHeightObject = {
     ],
     mid_parental_height_lower_centile_data: [
         {
-            fenton: {
-                male: null,
-                female: {
-                    height: [
-                        {
-                            sds: -1.42,
-                            centile: 7.723,
-                            data: [],
-                        },
-                    ],
-                    weight: null,
-                    ofc: null,
-                    bmi: null,
-                },
-            },
-        },
-        {
             cdc_infant: {
                 male: null,
                 female: {
@@ -2555,23 +2521,6 @@ export const girlMidparentalheightCDC: MidParentalHeightObject = {
         },
     ],
     mid_parental_height_upper_centile_data: [
-        {
-            fenton: {
-                male: null,
-                female: {
-                    height: [
-                        {
-                            sds: 1.38,
-                            centile: 91.559,
-                            data: [],
-                        },
-                    ],
-                    weight: null,
-                    ofc: null,
-                    bmi: null,
-                },
-            },
-        },
         {
             cdc_infant: {
                 male: null,
