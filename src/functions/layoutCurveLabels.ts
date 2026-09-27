@@ -168,7 +168,7 @@ export function layoutCurveLabels(
                 const halfWidth = (anchor.text.length * fontSize * 0.7) / 2 + gap;
                 // Keep x identical for the column; the vertical offset gives the
                 // same small perpendicular clearance above each rotated line.
-                const y = anchor.y - (fontSize * 0.6 + gap) / Math.max(Math.cos(radians), 0.1);
+                const y = anchor.y - (fontSize * 0.4 + gap) / Math.max(Math.cos(radians), 0.1);
                 const dx = Math.abs(Math.cos(radians)) * halfWidth + Math.abs(Math.sin(radians)) * halfHeight;
                 const dy = Math.abs(Math.sin(radians)) * halfWidth + Math.abs(Math.cos(radians)) * halfHeight;
                 return {
