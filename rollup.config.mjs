@@ -11,7 +11,11 @@ import resolve from '@rollup/plugin-node-resolve';
 import terser from '@rollup/plugin-terser';
 import typescript from '@rollup/plugin-typescript';
 import versionInjector from 'rollup-plugin-version-injector';
+import { fileURLToPath } from 'url';
+import { createRequire } from 'module';
 
+const require = createRequire(import.meta.url);
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const packageJson = require('./package.json');
 const production = !process.env.ROLLUP_WATCH;
 
@@ -69,7 +73,7 @@ export default [
         input: 'src/index.ts',
         external: [],
         output: [{ file: 'build/types.d.ts', format: 'es' }],
-        plugins: [dts.default()],
+        plugins: [dts()],
     },
     {
         input: 'src/umd.ts',

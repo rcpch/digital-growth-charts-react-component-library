@@ -99,16 +99,27 @@ const ToggleButton = styled.button`
 `;
 
 /**
- * Permanently visible (not dismissible) - see the growth-reference
- * provenance contract decision record for why: legacy/unverified data is
- * expected to persist indefinitely at already-integrated sites, so the
- * warning must not be something a user can lose track of.
+ * Rendered only for an actionable issue (unknown or mismatch); see the
+ * hasActionableIssue check below. When rendered, it is permanently visible
+ * (not dismissible) - see the growth-reference provenance contract decision
+ * record for why: this data is expected to persist indefinitely at
+ * already-integrated sites, so the warning must not be something a user can
+ * lose track of.
  */
 const ProvenanceWarningBanner: React.FC<Props> = ({ issues, componentVersion }) => {
     const [showDetails, setShowDetails] = React.useState(false);
     const [copied, setCopied] = React.useState(false);
 
-    if (!issues || issues.length === 0) return null;
+    // A chart viewer cannot act on a "legacy" issue - it just means the
+    // measurement predates provenance and is expected to persist
+    // indefinitely at already-integrated sites (see
+    // checkMeasurementProvenance.ts). Showing a permanent, non-dismissible
+    // warning with no available action trains viewers to ignore it. Only
+    // render the banner when at least one issue is something a site can
+    // actually investigate (unknown or mismatch); legacy-only issues still
+    // appear in the technical details of a banner shown for another reason.
+    const hasActionableIssue = issues?.some((issue) => issue.status !== 'legacy') ?? false;
+    if (!hasActionableIssue) return null;
 
     const details = technicalDetailsText(issues, componentVersion);
 

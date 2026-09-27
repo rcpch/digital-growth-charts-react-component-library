@@ -11,10 +11,6 @@ coverage/
 test-results/
 build-storybook.log
 
-# Licensed data - not for sharing
-src/chartdata/fenton/*.*
-src/testParameters/measurements/fenton/*.*
-
 # Editor / OS
 .vscode/
 .DS_Store
