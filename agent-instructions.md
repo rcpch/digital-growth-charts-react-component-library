@@ -1,6 +1,6 @@
 # Agent Instructions
 
-This repository is a React component library that **plots** children's growth measurements on RCPCH digital growth charts using Victory. It does not calculate anything clinical: every SDS, centile and corrected-age value is produced by `rcpchgrowth` via `digital-growth-charts-server` and passed in as a `Measurement` object. The static centile curves in `src/chartdata/` are hand-curated reference data, not computed here. The library is consumed by `digital-growth-charts-react-client` and by third-party integrators via npm and CDN.
+This repository is a React component library that **plots** children's growth measurements on RCPCH digital growth charts using Victory. It does not calculate anything clinical: every SDS, centile and corrected-age value is produced by `rcpchgrowth` via `digital-growth-charts-server` and passed in as a `Measurement` object. The static centile curves in `src/chartdata/` are generated output from `rcpchgrowth`, not computed here. The library is consumed by `digital-growth-charts-react-client` and by third-party integrators via npm and CDN.
 
 Read this file before changing anything.
 
@@ -24,13 +24,13 @@ Read this file before changing anything.
 | `src/SDSChart/`                    | SDS chart showing several measurement methods on one set of axes.                                                                                                          |
 | `src/SubComponents/`               | Victory and styled-components chrome: buttons, logos, tooltips, axis ticks, attribution and provenance banners.                                                            |
 | `src/functions/`                   | Pure helpers: domain and tick calculation, axis labels, styles, provenance checks, SVG export, tooltip text.                                                               |
-| `src/chartdata/`                   | Static centile and SDS reference curves per reference, measurement method and sex. Hand-curated clinical data (~22 MB).                                                    |
+| `src/chartdata/`                   | Static centile and SDS reference curves per reference, measurement method and sex. Generated clinical data (~22 MB); see `s/generate-chart-data`.                          |
 | `src/interfaces/`                  | TypeScript contracts, including `Measurement` (the API response shape) and the internal `Reference` curve-data types.                                                      |
 | `src/testParameters/measurements/` | Hand-written measurement scenarios, plus `generated/` fixtures captured from a pinned API server.                                                                          |
 | `src/testParameters/styles/`       | Theme fixtures used by tests and stories.                                                                                                                                  |
 | `src/fonts/`, `src/images/`        | Base64 Montserrat faces and the RCPCH/UKCA assets embedded in the bundle.                                                                                                  |
 | `fixture-generation/`              | Fixture generator and the scenario matrix it replays against the API.                                                                                                      |
-| `s/`                               | Repeated-process scripts (`s/test`, `s/storybook`, `s/generate-fixtures`).                                                                                                 |
+| `s/`                               | Repeated-process scripts (`s/test`, `s/storybook`, `s/generate-fixtures`, `s/generate-chart-data`).                                                                        |
 | `spec/`                            | Roadmap and open queries.                                                                                                                                                  |
 
 Rendering flow: consumer props → `RCPCHChart` (styles, validation, provenance filtering, error boundary) → `CentileChart` or `SDSChart` → `getDomainsAndData` merges the static curves from `src/chartdata/` with the supplied measurement points and derives axis domains → Victory renders → `SubComponents` supply the surrounding chrome and attribution.
@@ -38,7 +38,7 @@ Rendering flow: consumer props → `RCPCHChart` (styles, validation, provenance 
 ## Core Invariants
 
 - **This library plots, it does not calculate.** Do not add SDS, centile, percentage-of-median or age-correction arithmetic. If a value is missing from the chart, the fix is either a rendering fix here or a contract change in the API, never a local calculation.
-- **Everything under `src/chartdata/` is hand-curated clinical reference data.** Do not edit, reformat, regenerate, deduplicate or "tidy" it, and do not delete the retained `_old` variants. If you believe you have found an error or a vulnerability in the data, stop and report it to a maintainer. Change it only with explicit maintainer permission recorded in the pull request.
+- **Everything under `src/chartdata/` is generated clinical reference data**, produced from a pinned `rcpchgrowth` release by `s/generate-chart-data` (see [spec/roadmap.md](spec/roadmap.md)). Never hand-edit the data files. Regenerate only with `s/generate-chart-data` against an explicitly chosen `rcpchgrowth` version, then review the diff (magnitude, affected references/ages, and why) before committing - a large or unexplained diff is a signal to stop and check with a maintainer, not to commit it. Do not delete the retained `_old` variants without maintainer sign-off.
 - **Everything under `src/testParameters/measurements/generated/`, including `manifest.json`, is a generated artefact.** Never hand-edit it. Regenerate only with `s/generate-fixtures` against a pinned provenance-aware server, then review the manifest and fixture diff before committing.
 - **`Measurement` in `src/interfaces/RCPCHMeasurementObject.ts` mirrors the API response.** Changing it is a cross-repository contract change: coordinate with `digital-growth-charts-server` and re-run its compatibility tests.
 - **Preserve provenance behaviour.** Measurements whose provenance does not match the displayed reference are suppressed; measurements with no provenance are legacy and must continue to render. Do not "fix" this by requiring provenance or by silently suppressing more data. See `src/functions/checkMeasurementProvenance.ts` and hazard `rcpch/digital-growth-charts-documentation#174`.
@@ -51,6 +51,8 @@ Rendering flow: consumer props → `RCPCHChart` (styles, validation, provenance 
 - `s/test` - run the full Jest suite. Accepts Jest options, for example `s/test --runInBand CentileChart.test.tsx`.
 - `s/storybook` - run Storybook locally for visual review.
 - `s/generate-fixtures` - regenerate measurement fixtures from a locally running, pinned API server.
+- `s/generate-chart-data` - regenerate `src/chartdata/` from a pinned `rcpchgrowth` release. Review the diff before committing.
+- `s/generate-chart-data` - regenerate `src/chartdata/` from a pinned `rcpchgrowth` release.
 - `npm run build` - full Rollup build; run it for anything that could affect bundling, types or the public entry point.
 - `npm run prettier:write` - apply formatting.
 
@@ -86,7 +88,7 @@ jsdom tests cannot prove that a chart looks right. Anything that changes renderi
 
 ## Approval Required
 
-Ask a maintainer before editing `src/chartdata/`, regenerating committed fixtures, changing the `Measurement` contract, bumping this package's version, publishing a GitHub release (which publishes to npm), deleting branches, force-pushing, changing secrets, or bypassing branch protection.
+Ask a maintainer before hand-editing `src/chartdata/` (regeneration via `s/generate-chart-data` is expected, not exceptional, but review the diff before committing), regenerating committed fixtures, changing the `Measurement` contract, bumping this package's version, publishing a GitHub release (which publishes to npm), deleting branches, force-pushing, changing secrets, or bypassing branch protection.
 
 ## Cross-Repository Context
 
