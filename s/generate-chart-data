@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+#
+# Regenerate src/chartdata/ from a pinned rcpchgrowth release (see
+# chart-data-generation/requirements.txt). Review the diff before
+# committing - a large or unexplained change is a stop-and-check signal,
+# not a routine update. See spec/roadmap.md R12.
+
+set -euo pipefail
+cd "$(git rev-parse --show-toplevel)"
+
+if ! command -v python3 >/dev/null 2>&1; then
+    echo "python3 is required; install it first." >&2
+    exit 1
+fi
+
+venv_dir="chart-data-generation/.venv"
+if [[ ! -d "$venv_dir" ]]; then
+    python3 -m venv "$venv_dir"
+fi
+
+"$venv_dir/bin/pip" install --quiet --upgrade pip
+"$venv_dir/bin/pip" install --quiet -r chart-data-generation/requirements.txt
+
+exec "$venv_dir/bin/python" chart-data-generation/generate.py "$@"
