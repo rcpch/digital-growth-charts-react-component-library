@@ -33,7 +33,8 @@ export interface CentileStyle {
     delayedPubertyAreaFill?: string; // delayed puberty area colour
     midParentalCentileStroke?: string; // Midparental height centile line colour
     midParentalAreaFill?: string; // Midparental height area colour
-    centileTextStyle?: Pick<TextStyle, 'name' | 'size' | 'weight'>; // centile text style : includes name, size, weight
+    /** Centile and BMI SDS label text; colour defaults to the axis tick-label colour. */
+    centileTextStyle?: Pick<TextStyle, 'name' | 'size' | 'weight' | 'colour'>;
 }
 
 export interface SDSStyle {
