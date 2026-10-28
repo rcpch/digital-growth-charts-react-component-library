@@ -25,7 +25,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Run Chromatic
-        uses: chromaui/action@18599f2ae5010524d496b86099c9b69a37f5d8d2 # latest
+        uses: chromaui/action@882b4728513a3720bfcd27bd9ad1260c603c6090 # latest
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           exitZeroOnChanges: true
