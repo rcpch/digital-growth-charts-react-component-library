@@ -44,7 +44,7 @@
     },
     "dependencies": {
         "styled-components": "^6.4.1",
-        "victory": "37.4.1"
+        "victory": "38.0.0"
     },
     "devDependencies": {
         "@babel/preset-env": "^7.28.0",
