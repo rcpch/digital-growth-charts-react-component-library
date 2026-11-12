@@ -20,3 +20,4 @@ build-storybook.log
 .private/
 .playwright/
 .playwright-mcp/
+chart-data-generation/.venv/
